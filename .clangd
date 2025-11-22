@@ -1,0 +1,50 @@
+CompileFlags:
+  Add:
+    # Unreal Engine paths
+    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source"
+    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/Core/Public"
+    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/CoreUObject/Public"
+    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/Engine/Classes"
+    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/Engine/Public"
+    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/InputCore/Classes"
+    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/EnhancedInput/Public"
+    # Project paths
+    - -I"F:/UNREAL GAME/MyProject2/Source"
+    - -I"F:/UNREAL GAME/MyProject2/Source/MyProject2"
+    - -I"F:/UNREAL GAME/MyProject2/Source/MyProject2/Public"
+    - -I"F:/UNREAL GAME/MyProject2/Source/MyProject2/Private"
+    # Unreal Engine defines
+    - -DUE_EDITOR=1
+    - -DUE_BUILD_DEVELOPMENT=1
+    - -DUE_ENGINE_DIRECTORY="C:/Program Files/Epic Games/UE_5.7/Engine"
+    - -DPLATFORM_WINDOWS=1
+    - -DPLATFORM_MICROSOFT=1
+    - -DWITH_EDITOR=1
+    - -DUNICODE
+    - -D_UNICODE
+    # C++ standard
+    - -std=c++17
+    # Warnings
+    - -Wno-unused-variable
+    - -Wno-unused-function
+    - -Wno-missing-field-initializers
+    - -Wno-deprecated-declarations
+    # Unreal Engine specific
+    - -fms-extensions
+    - -fms-compatibility
+    - -fdelayed-template-parsing
+
+Diagnostics:
+  UnusedIncludes: None
+  MissingIncludes: None
+  ClangTidy:
+    Add:
+      - modernize-*
+      - performance-*
+      - readability-*
+    Remove:
+      - modernize-use-trailing-return-type
+      - readability-identifier-length
+
+Index:
+  Background: Build
