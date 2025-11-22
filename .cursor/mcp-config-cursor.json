@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "unreal": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@runreal/unreal-mcp"
+      ],
+      "description": "Unreal Engine MCP - Controla o Unreal Engine via Python Remote Execution"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "F:/UNREAL GAME/MyProject2"
+      ],
+      "description": "File System MCP - Navegação e manipulação de arquivos do projeto"
+    },
+    "git": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-git",
+        "F:/UNREAL GAME/MyProject2"
+      ],
+      "description": "Git MCP - Operações Git integradas"
+    }
+  }
+}
+
