@@ -1,0 +1,71 @@
+# Arquivos gerados pelo Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.db
+*.VC.VC.opendb
+
+# Arquivos gerados pelo Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Binários do Unreal Engine
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+
+# Arquivos de build
+*.sdf
+*.opensdf
+*.db
+*.opendb
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+*~
+
+# Arquivos específicos do Unreal (gerados)
+*.uasset
+*.umap
+!*_BuiltData.uasset
+!*_BuiltData.umap
+
+# Arquivos de cache
+*.cache
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos de backup
+*_Backup/
+*_backup/
+
+# Arquivos de crash report
+CrashReportClient/
+
+# Arquivos de shader
+Saved/ShaderDebugInfo/
+
+# Arquivos de web cache (gerados pelo editor)
+Saved/webcache_*/
+
+# Arquivos de autosave
+Saved/Autosaves/
+
+# Arquivos de logs
+Saved/Logs/
+
+# Arquivos de build do UnrealBuildTool
+Saved/UnrealBuildTool/
+

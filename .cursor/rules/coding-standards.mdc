@@ -1,0 +1,31 @@
+---
+description: Padrões de código e formatação
+globs: ["*.cpp", "*.h", "*.cs"]
+alwaysApply: false
+---
+
+# Padrões de Código
+
+## Formatação
+- Use indentação de tabs (padrão Unreal)
+- Máximo de 120 caracteres por linha
+- Espaços ao redor de operadores
+- Chaves na mesma linha para funções e classes
+
+## Comentários
+- Use `//` para comentários de linha única
+- Use `/* */` para comentários multi-linha
+- Documente funções públicas com comentários descritivos
+- Explique "por quê" não "o quê" em comentários complexos
+
+## Organização de Código
+- Declare variáveis no início do escopo
+- Agrupe funções relacionadas
+- Mantenha funções focadas e pequenas (idealmente < 50 linhas)
+- Use const quando apropriado
+
+## Tratamento de Erros
+- Use `check()` para asserções de debug
+- Use `ensure()` para verificações que não devem quebrar o jogo
+- Retorne valores booleanos ou códigos de erro quando apropriado
+- Log erros usando `UE_LOG()` com níveis apropriados (Error, Warning, Log)

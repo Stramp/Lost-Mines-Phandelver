@@ -1,0 +1,38 @@
+---
+description: Estrutura e organização do projeto Unreal Engine
+alwaysApply: true
+---
+
+# Estrutura do Projeto Unreal Engine
+
+## Contexto do Projeto
+- **Engine**: Unreal Engine 5.7
+- **Plataforma**: Windows (Win64)
+- **Linguagens**: C++, Blueprints
+- **Editor**: Cursor/VS Code
+
+## Estrutura de Diretórios
+- `Source/MyProject2/` - Código fonte C++
+- `Content/` - Assets do jogo (Blueprints, Texturas, Modelos, etc.)
+- `Config/` - Arquivos de configuração (.ini)
+- `Binaries/` - Executáveis compilados (não versionar)
+- `Intermediate/` - Arquivos temporários de build (não versionar)
+- `Saved/` - Arquivos gerados pelo editor (não versionar)
+- `DerivedDataCache/` - Cache de dados derivados (não versionar)
+
+## Build e Compilação
+- Use UnrealBuildTool (UBT) para compilar
+- Configurações disponíveis: Debug, DebugGame, Development, Test, Shipping
+- Sempre verifique se o projeto compila antes de sugerir mudanças
+- Use as tasks do workspace para builds (Ctrl+Shift+P > Tasks: Run Task)
+
+## Boas Práticas
+- Sempre considere compatibilidade com Blueprints ao criar classes C++
+- Documente código complexo com comentários
+- Use Blueprints para prototipagem rápida, C++ para performance crítica
+- Teste mudanças em diferentes configurações de build quando relevante
+
+## Comunicação
+- Responda sempre em Português do Brasil quando o usuário falar em português
+- Explique o motivo das mudanças sugeridas
+- Considere impacto em Blueprints existentes ao modificar código C++

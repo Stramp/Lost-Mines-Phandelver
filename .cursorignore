@@ -1,0 +1,41 @@
+# Arquivos que não devem ser indexados pelo Cursor
+
+# Binários e executáveis
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# Arquivos de build
+*.sdf
+*.opensdf
+*.db
+*.opendb
+*.pdb
+
+# Arquivos temporários e logs
+*.tmp
+*.temp
+*.log
+*.bak
+
+# Cache e dados derivados
+DerivedDataCache/
+Saved/ShaderDebugInfo/
+Saved/webcache_*/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos grandes que não são código
+*.uasset
+*.umap
+*.png
+*.jpg
+*.jpeg
+*.fbx
+*.obj
+*.dae
+

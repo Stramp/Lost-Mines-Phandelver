@@ -1,0 +1,43 @@
+---
+description: Convenções de código C++ para Unreal Engine 5.7
+globs: ["*.cpp", "*.h", "*.hpp"]
+alwaysApply: false
+---
+
+# Convenções de Código C++ - Unreal Engine 5.7
+
+## Nomenclatura
+- **Classes**: PascalCase (ex: `MyProject2Character`, `APlayerController`)
+- **Funções**: PascalCase (ex: `BeginPlay()`, `Tick()`)
+- **Variáveis**: PascalCase com prefixos apropriados:
+  - Booleanos: prefixo `b` (ex: `bIsRunning`, `bIsActive`)
+  - Floats: prefixo opcional (ex: `Health`, `MaxHealth`)
+  - Enums: prefixo `E` (ex: `EPlayerState`)
+  - Interfaces: prefixo `I` (ex: `IInteractable`)
+- **Tipos**: prefixo `T` para templates (ex: `TArray`, `TMap`)
+
+## Macros e Anotações
+- Sempre use `UPROPERTY()`, `UFUNCTION()`, `UCLASS()`, `USTRUCT()` quando apropriado
+- Use `UPROPERTY(BlueprintReadWrite)` para expor variáveis ao Blueprint
+- Use `UFUNCTION(BlueprintCallable)` para funções acessíveis via Blueprint
+- Use `UPROPERTY(VisibleAnywhere)` para variáveis apenas de leitura no editor
+
+## Headers
+- Sempre inclua `#include "CoreMinimal.h"` no topo dos arquivos .cpp
+- Use forward declarations quando possível nos headers
+- Organize includes: Engine headers primeiro, depois projeto, depois std
+
+## Containers
+- Prefira containers do Unreal: `TArray`, `TMap`, `TSet` ao invés de STL
+- Use `FString`, `FText`, `FName` ao invés de `std::string`
+- Use `FVector`, `FRotator`, `FTransform` para matemática 3D
+
+## Garbage Collection
+- Classes que herdam de `UObject` são gerenciadas pelo GC
+- Use `UPROPERTY()` para manter referências válidas
+- Evite ponteiros raw para UObjects sem `UPROPERTY()`
+
+## Estrutura de Arquivos
+- Um arquivo .h e .cpp por classe
+- Nome do arquivo deve corresponder ao nome da classe
+- Coloque código fonte em `Source/MyProject2/`
