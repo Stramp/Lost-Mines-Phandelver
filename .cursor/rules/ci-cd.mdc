@@ -1,50 +1,50 @@
 ---
-description: Regras e configuração de CI/CD para o projeto
+description: Rules and configuration for CI/CD in the project
 globs: []
 alwaysApply: true
 ---
 
-# Regras de CI/CD (Continuous Integration/Continuous Deployment)
+# CI/CD Rules (Continuous Integration/Continuous Deployment)
 
-## Conceito
+## Concept
 
-CI/CD automatiza processos de build, teste e deploy, garantindo que código sempre compila e funciona corretamente.
+CI/CD automates build, test and deploy processes, ensuring code always compiles and works correctly.
 
-## Pipeline Recomendado
+## Recommended Pipeline
 
-### 1. Build (Compilação)
+### 1. Build (Compilation)
 
-**SEMPRE** compile o projeto em cada commit/pull request.
+**ALWAYS** compile the project on each commit/pull request.
 
-**Objetivo:** Detectar erros de compilação imediatamente.
+**Objective:** Detect compilation errors immediately.
 
-### 2. Testes
+### 2. Tests
 
-**SEMPRE** rode testes automaticamente após build bem-sucedido.
+**ALWAYS** run tests automatically after successful build.
 
-**Objetivo:** Detectar regressões e bugs.
+**Objective:** Detect regressions and bugs.
 
-### 3. Validação de Código
+### 3. Code Validation
 
-**SEMPRE** valide:
-- Formatação (clang-format)
-- Linting (clang-tidy, se configurado)
-- Análise estática (se configurada)
+**ALWAYS** validate:
+- Formatting (clang-format)
+- Linting (clang-tidy, if configured)
+- Static analysis (if configured)
 
-**Objetivo:** Manter qualidade e consistência do código.
+**Objective:** Maintain code quality and consistency.
 
-### 4. Validação de Documentação
+### 4. Documentation Validation
 
-**SEMPRE** verifique:
-- README.md existe e está atualizado
-- ARCHITECTURE.md está atualizado (se houver mudanças arquiteturais)
-- Comentários em código novo
+**ALWAYS** verify:
+- README.md exists and is updated
+- ARCHITECTURE.md is updated (if there are architectural changes)
+- Comments in new code
 
-**Objetivo:** Garantir documentação sempre atualizada.
+**Objective:** Ensure documentation is always updated.
 
-## Configuração GitHub Actions
+## GitHub Actions Configuration
 
-### Exemplo: `.github/workflows/build.yml`
+### Example: `.github/workflows/build.yml`
 
 ```yaml
 name: Build and Test
@@ -63,7 +63,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Setup Unreal Engine
-      # Configurar caminho do Unreal Engine
+      # Configure Unreal Engine path
 
     - name: Generate Project Files
       run: |
@@ -75,86 +75,86 @@ jobs:
 
     - name: Run Tests
       run: |
-        # Executar testes automatizados
-        # (quando implementados)
+        # Run automated tests
+        # (when implemented)
 
     - name: Validate Code Format
       run: |
-        # Verificar formatação com clang-format
-        # (quando configurado)
+        # Check formatting with clang-format
+        # (when configured)
 ```
 
-## Regras de CI/CD
+## CI/CD Rules
 
-### 1. Build Deve Sempre Passar
+### 1. Build Must Always Pass
 
-- **NUNCA** commite código que não compila
-- Se build falhar, corrija antes de continuar
-- Use CI para validar antes de merge
+- **NEVER** commit code that doesn't compile
+- If build fails, fix before continuing
+- Use CI to validate before merge
 
-### 2. Testes Devem Passar
+### 2. Tests Must Pass
 
-- Todos os testes devem passar
-- Se teste falhar, corrija código ou teste
-- Não desabilite testes para fazer build passar
+- All tests must pass
+- If test fails, fix code or test
+- Don't disable tests to make build pass
 
-### 3. Validações Devem Passar
+### 3. Validations Must Pass
 
-- Código deve seguir formatação
-- Linting não deve ter erros críticos
-- Documentação deve estar atualizada
+- Code must follow formatting
+- Linting must not have critical errors
+- Documentation must be updated
 
-### 4. Notificações
+### 4. Notifications
 
-- Configure notificações quando build falhar
-- Use badges no README para mostrar status
-- Notifique em PRs quando build falhar
+- Configure notifications when build fails
+- Use badges in README to show status
+- Notify in PRs when build fails
 
-## Badges no README
+## Badges in README
 
-Adicione badges para mostrar status:
+Add badges to show status:
 
 ```markdown
-![Build Status](https://github.com/seu-usuario/MyProject2/workflows/Build%20and%20Test/badge.svg)
-![Tests](https://github.com/seu-usuario/MyProject2/workflows/Tests/badge.svg)
+![Build Status](https://github.com/your-user/MyProject2/workflows/Build%20and%20Test/badge.svg)
+![Tests](https://github.com/your-user/MyProject2/workflows/Tests/badge.svg)
 ```
 
-## Checklist de CI/CD
+## CI/CD Checklist
 
-Antes de configurar CI/CD:
+Before configuring CI/CD:
 
-- [ ] Build funciona localmente?
-- [ ] Testes existem e passam?
-- [ ] Formatação está configurada?
-- [ ] Documentação está atualizada?
-- [ ] Notificações estão configuradas?
+- [ ] Build works locally?
+- [ ] Tests exist and pass?
+- [ ] Formatting is configured?
+- [ ] Documentation is updated?
+- [ ] Notifications are configured?
 
-## Benefícios
+## Benefits
 
-- ✅ Detecta problemas imediatamente
-- ✅ Garante que código sempre compila
-- ✅ Previne bugs de chegar em produção
-- ✅ Facilita code review (PRs com build verde)
-- ✅ Automatiza processos repetitivos
-- ✅ Melhora qualidade geral do projeto
+- ✅ Detects problems immediately
+- ✅ Ensures code always compiles
+- ✅ Prevents bugs from reaching production
+- ✅ Facilitates code review (PRs with green build)
+- ✅ Automates repetitive processes
+- ✅ Improves overall project quality
 
-## Quando Implementar
+## When to Implement
 
-**Implemente CI/CD quando:**
-- Projeto tem múltiplos desenvolvedores
-- Commits frequentes
-- Quer garantir qualidade automática
-- Quer automatizar deploy
+**Implement CI/CD when:**
+- Project has multiple developers
+- Frequent commits
+- Want to ensure automatic quality
+- Want to automate deploy
 
-**Pode adiar se:**
-- Projeto solo e muito inicial
-- Commits raros
-- Não tem testes ainda
+**Can postpone if:**
+- Solo project and very initial
+- Rare commits
+- Don't have tests yet
 
-## Próximos Passos
+## Next Steps
 
-1. Configure GitHub Actions (ou similar)
-2. Adicione build automático
-3. Adicione testes quando implementar
-4. Configure validações de código
-5. Adicione badges ao README
+1. Configure GitHub Actions (or similar)
+2. Add automatic build
+3. Add tests when implementing
+4. Configure code validations
+5. Add badges to README

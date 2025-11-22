@@ -1,50 +1,50 @@
 ---
-description: REGRA CRÍTICA - Clean Code e Design Patterns são OBRIGATÓRIOS em TODAS as situações
+description: CRITICAL RULE - Clean Code and Design Patterns are MANDATORY in ALL situations
 globs: ["*.cpp", "*.h", "*.hpp", "*.cs"]
 alwaysApply: true
 ---
 
-# ⚠️ REGRA CRÍTICA - CLEAN CODE E DESIGN PATTERNS OBRIGATÓRIOS ⚠️
+# ⚠️ CRITICAL RULE - CLEAN CODE AND DESIGN PATTERNS MANDATORY ⚠️
 
-## 🚨 REGRA ABSOLUTA - SEM EXCEÇÕES 🚨
+## 🚨 ABSOLUTE RULE - NO EXCEPTIONS 🚨
 
-**SEMPRE, SEMPRE, SEMPRE** aplicar Clean Code e C++ Design Patterns em **TODAS** as situações:
+**ALWAYS, ALWAYS, ALWAYS** apply Clean Code and C++ Design Patterns in **ALL** situations:
 
-- ✅ Código de produção
-- ✅ Testes rápidos
-- ✅ Protótipos
-- ✅ Correções de bug
-- ✅ Refatorações
-- ✅ Novas features
-- ✅ Qualquer linha de código escrita
+- ✅ Production code
+- ✅ Quick tests
+- ✅ Prototypes
+- ✅ Bug fixes
+- ✅ Refactoring
+- ✅ New features
+- ✅ Any line of code written
 
-**NUNCA, NUNCA, NUNCA** criar código que viole Clean Code ou Design Patterns, mesmo que seja:
+**NEVER, NEVER, NEVER** create code that violates Clean Code or Design Patterns, even if it's:
 
-- ❌ "Só um teste rápido"
-- ❌ "Depois eu arrumo"
-- ❌ "É temporário"
-- ❌ "Funciona assim mesmo"
+- ❌ "Just a quick test"
+- ❌ "I'll fix it later"
+- ❌ "It's temporary"
+- ❌ "It works like this"
 
-## Princípios OBRIGATÓRIOS
+## MANDATORY Principles
 
-### 1. Funções Helper/Utilitárias
+### 1. Helper/Utility Functions
 
-**REGRA CRÍTICA:** Qualquer função que possa ser reutilizada DEVE estar em arquivo separado de helpers/utilities.
+**CRITICAL RULE:** Any function that can be reused MUST be in a separate helpers/utilities file.
 
-**SEMPRE:**
+**ALWAYS:**
 
-- ✅ Funções helper em `Utils/` ou `Helpers/`
-- ✅ Funções parametrizadas (sem dependência de estado interno)
-- ✅ Funções puras quando possível
-- ✅ Funções testáveis isoladamente
+- ✅ Helper functions in `Utils/` or `Helpers/`
+- ✅ Parameterized functions (without internal state dependency)
+- ✅ Pure functions when possible
+- ✅ Functions testable in isolation
 
-**NUNCA:**
+**NEVER:**
 
-- ❌ Funções helper dentro de classes quando podem ser reutilizadas
-- ❌ Funções acopladas a estado interno quando podem ser parametrizadas
-- ❌ Duplicação de código de busca/verificação
+- ❌ Helper functions inside classes when they can be reused
+- ❌ Functions coupled to internal state when they can be parameterized
+- ❌ Duplication of search/verification code
 
-**Exemplo CORRETO:**
+**CORRECT Example:**
 
 ```cpp
 // Utils/ComponentHelpers.h
@@ -58,10 +58,10 @@ UCharacterDataComponent* FindCharacterDataComponent(AActor* Owner)
 }
 ```
 
-**Exemplo ERRADO:**
+**WRONG Example:**
 
 ```cpp
-// ❌ NUNCA fazer isso - função privada acoplada
+// ❌ NEVER do this - private function coupled
 private:
     UCharacterDataComponent* FindOrGetCharacterDataComponent()
     {
@@ -75,79 +75,79 @@ private:
 
 ### 2. DRY (Don't Repeat Yourself)
 
-**REGRA CRÍTICA:** Se você vai usar a mesma lógica em mais de um lugar, crie uma função helper.
+**CRITICAL RULE:** If you're going to use the same logic in more than one place, create a helper function.
 
-**SEMPRE:**
+**ALWAYS:**
 
-- ✅ Identificar código duplicado
-- ✅ Extrair para função helper
-- ✅ Parametrizar adequadamente
+- ✅ Identify duplicated code
+- ✅ Extract to helper function
+- ✅ Parameterize appropriately
 
-**NUNCA:**
+**NEVER:**
 
-- ❌ Copiar e colar código
-- ❌ "Só dessa vez vou duplicar"
+- ❌ Copy and paste code
+- ❌ "Just this once I'll duplicate"
 
 ### 3. Single Responsibility Principle (SRP)
 
-**REGRA CRÍTICA:** Cada função/classe deve ter uma única responsabilidade.
+**CRITICAL RULE:** Each function/class must have a single responsibility.
 
-**SEMPRE:**
+**ALWAYS:**
 
-- ✅ Funções pequenas e focadas
-- ✅ Uma função = uma ação
-- ✅ Classes com responsabilidade única
+- ✅ Small, focused functions
+- ✅ One function = one action
+- ✅ Classes with single responsibility
 
-**NUNCA:**
+**NEVER:**
 
-- ❌ Funções que fazem múltiplas coisas
-- ❌ Classes que fazem tudo
+- ❌ Functions that do multiple things
+- ❌ Classes that do everything
 
 ### 4. Separation of Concerns
 
-**REGRA CRÍTICA:** Separe lógica de negócio de lógica auxiliar.
+**CRITICAL RULE:** Separate business logic from auxiliary logic.
 
-**SEMPRE:**
+**ALWAYS:**
 
-- ✅ Helpers em arquivos separados
-- ✅ Utilitários em `Utils/`
-- ✅ Funções puras quando possível
+- ✅ Helpers in separate files
+- ✅ Utilities in `Utils/`
+- ✅ Pure functions when possible
 
-**NUNCA:**
+**NEVER:**
 
-- ❌ Misturar helpers com lógica de negócio
-- ❌ Acoplar funções utilitárias a classes específicas
+- ❌ Mix helpers with business logic
+- ❌ Couple utility functions to specific classes
 
-### 5. Testabilidade
+### 5. Testability
 
-**REGRA CRÍTICA:** Código deve ser testável.
+**CRITICAL RULE:** Code must be testable.
 
-**SEMPRE:**
+**ALWAYS:**
 
-- ✅ Funções parametrizadas
-- ✅ Sem dependências ocultas
-- ✅ Funções puras quando possível
+- ✅ Parameterized functions
+- ✅ No hidden dependencies
+- ✅ Pure functions when possible
 
-**NUNCA:**
+**NEVER:**
 
-- ❌ Funções acopladas a estado global
-- ❌ Dependências hardcoded
+- ❌ Functions coupled to global state
+- ❌ Hardcoded dependencies
 
-## Checklist OBRIGATÓRIO
+## MANDATORY Checklist
 
-Antes de escrever QUALQUER código, pergunte:
+Before writing ANY code, ask:
 
-- [ ] Esta função pode ser reutilizada? → Vai para `Utils/`
-- [ ] Esta função depende de estado interno? → Pode ser parametrizada?
-- [ ] Estou duplicando código? → Extrair para helper
-- [ ] Esta função tem responsabilidade única?
-- [ ] Esta função é testável isoladamente?
-- [ ] Estou seguindo Clean Code?
-- [ ] Estou seguindo Design Patterns apropriados?
+- [ ] Can this function be reused? → Goes to `Utils/`
+- [ ] Does this function depend on internal state? → Can it be parameterized?
+- [ ] Am I duplicating code? → Extract to helper
+- [ ] Does this function have single responsibility?
+- [ ] Is this function testable in isolation?
+- [ ] Am I following Clean Code?
+- [ ] Am I following appropriate Design Patterns?
 
-## Estrutura de Helpers/Utils
+## Helpers/Utils Structure
 
-**SEMPRE** organize helpers em:
+**ALWAYS** organize helpers in:
 
 ```text
 Source/MyProject2/
@@ -159,28 +159,28 @@ Source/MyProject2/
 │   └── ...
 ```
 
-## Quando Criar Helper
+## When to Create Helper
 
-**SEMPRE** crie helper quando:
+**ALWAYS** create helper when:
 
-1. ✅ Função pode ser usada em mais de um lugar
-2. ✅ Função é pura (sem efeitos colaterais)
-3. ✅ Função faz busca/verificação genérica
-4. ✅ Função faz cálculo/transformação
-5. ✅ Função pode ser testada isoladamente
+1. ✅ Function can be used in more than one place
+2. ✅ Function is pure (no side effects)
+3. ✅ Function does generic search/verification
+4. ✅ Function does calculation/transformation
+5. ✅ Function can be tested in isolation
 
-## Exceções
+## Exceptions
 
-**NÃO HÁ EXCEÇÕES.** Esta regra é absoluta.
+**THERE ARE NO EXCEPTIONS.** This rule is absolute.
 
-## Lembrete Final
+## Final Reminder
 
-**TODA** linha de código deve seguir Clean Code e Design Patterns.
+**EVERY** line of code must follow Clean Code and Design Patterns.
 
-**NUNCA** crie código "temporário" ou "só para testar" que viole essas regras.
+**NEVER** create "temporary" or "just for testing" code that violates these rules.
 
-**SEMPRE** pense em reutilização, testabilidade e manutenibilidade.
+**ALWAYS** think about reusability, testability, and maintainability.
 
 ---
 
-**Esta regra tem prioridade MÁXIMA sobre todas as outras regras.**
+**This rule has MAXIMUM priority over all other rules.**

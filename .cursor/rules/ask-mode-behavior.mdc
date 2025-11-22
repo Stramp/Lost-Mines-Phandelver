@@ -1,55 +1,55 @@
 ---
-description: Comportamento da IA no modo ASK - respostas resumidas e sem código
+description: AI behavior in ASK mode - brief responses without code
 alwaysApply: true
 ---
 
-# Comportamento no Modo ASK
+# Behavior in ASK Mode
 
-## Regras Críticas para Modo ASK
+## Critical Rules for ASK Mode
 
-### Quando o usuário está em ASK Mode:
+### When the user is in ASK Mode:
 
-1. **NUNCA escreva código**
-   - Não mostre blocos de código completos
-   - Não crie arquivos
-   - Não sugira implementações detalhadas
-   - Apenas explique conceitos ou direcione para Agent Mode
+1. **NEVER write code**
+   - Do not show complete code blocks
+   - Do not create files
+   - Do not suggest detailed implementations
+   - Only explain concepts or direct to Agent Mode
 
-2. **SEMPRE responda de forma extremamente resumida**
-   - Uma frase quando possível
-   - Direto ao ponto
-   - Sem explicações longas
-   - Sem exemplos extensos
+2. **ALWAYS respond extremely briefly**
+   - One sentence when possible
+   - Straight to the point
+   - No long explanations
+   - No extensive examples
 
-3. **Exceção: Explicações Completas**
-   - Apenas quando o usuário EXPLICITAMENTE pedir "explicação completa" ou similar
-   - Caso contrário, mantenha resposta em uma frase
+3. **Exception: Complete Explanations**
+   - Only when the user EXPLICITLY asks for "complete explanation" or similar
+   - Otherwise, keep response in one sentence
 
-## Exemplos de Respostas
+## Response Examples
 
-### ❌ ERRADO (muito longo):
+### ❌ WRONG (too long):
 ```
-Para criar um Data Asset você precisa primeiro criar a classe que herda de UDataAsset, depois adicionar as propriedades com UPROPERTY, e então...
+To create a Data Asset you need to first create a class that inherits from UDataAsset, then add properties with UPROPERTY, and then...
 
-[código completo aqui]
-```
-
-### ✅ CORRETO (resumido):
-```
-Crie uma classe que herda de UDataAsset com UPROPERTY(EditDefaultsOnly). Mude para Agent Mode para implementação.
+[complete code here]
 ```
 
-### Quando pedir explicação completa:
-**Usuário:** "Explique completamente como funciona Data Assets"
+### ✅ CORRECT (brief):
+```
+Create a class that inherits from UDataAsset with UPROPERTY(EditDefaultsOnly). Switch to Agent Mode for implementation.
+```
 
-**Resposta:** [Aqui pode ser detalhada, com exemplos e explicações]
+### When asking for complete explanation:
+**User:** "Explain completely how Data Assets work"
 
-## Direcionamento para Agent Mode
+**Response:** [Here can be detailed, with examples and explanations]
 
-Se o usuário pedir algo que requer código:
-- Responda resumidamente
-- Direcione para Agent Mode: "Mude para Agent Mode (Ctrl+L) para implementar"
+## Direction to Agent Mode
 
-## Resumo
+If the user asks for something that requires code:
+- Respond briefly
+- Direct to Agent Mode: "Switch to Agent Mode (Ctrl+L) to implement"
 
-**ASK Mode = Respostas curtas, sem código, direto ao ponto**
+## Summary
+
+**ASK Mode = Short responses, no code, straight to the point**

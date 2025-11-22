@@ -1,21 +1,21 @@
 ---
-description: Delegates e eventos no Unreal Engine
+description: Delegates and events in Unreal Engine
 globs: ["*.cpp", "*.h"]
 alwaysApply: false
 ---
 
-# Delegates e Eventos - Unreal Engine 5.7
+# Delegates and Events - Unreal Engine 5.7
 
-## Tipos de Delegates
-- **DECLARE_DELEGATE** - Delegate simples sem parâmetros
-- **DECLARE_DELEGATE_OneParam** - Delegate com um parâmetro
-- **DECLARE_DELEGATE_Multicast** - Multicast delegate (múltiplos listeners)
-- **DECLARE_DYNAMIC_DELEGATE** - Delegate exposto ao Blueprint
-- **DECLARE_DYNAMIC_MULTICAST_DELEGATE** - Multicast exposto ao Blueprint
+## Delegate Types
+- **DECLARE_DELEGATE** - Simple delegate without parameters
+- **DECLARE_DELEGATE_OneParam** - Delegate with one parameter
+- **DECLARE_DELEGATE_Multicast** - Multicast delegate (multiple listeners)
+- **DECLARE_DYNAMIC_DELEGATE** - Delegate exposed to Blueprint
+- **DECLARE_DYNAMIC_MULTICAST_DELEGATE** - Multicast exposed to Blueprint
 
-## Declaração de Delegates
+## Delegate Declaration
 ```cpp
-// No header
+// In header
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, NewHealth);
 
 UCLASS()
@@ -29,9 +29,9 @@ public:
 };
 ```
 
-## Usando Delegates
+## Using Delegates
 ```cpp
-// Broadcast do evento
+// Broadcast event
 OnHealthChanged.Broadcast(NewHealth);
 
 // Binding (C++)
@@ -41,14 +41,14 @@ OnHealthChanged.AddDynamic(this, &AMyActor::HandleHealthChanged);
 OnHealthChanged.RemoveDynamic(this, &AMyActor::HandleHealthChanged);
 ```
 
-## Eventos do Blueprint
-- Use `BlueprintAssignable` para eventos que podem ser atribuídos no Blueprint
-- Use `BlueprintCallable` para funções que disparam eventos
-- Eventos dinâmicos são mais lentos mas funcionam com Blueprints
+## Blueprint Events
+- Use `BlueprintAssignable` for events that can be assigned in Blueprint
+- Use `BlueprintCallable` for functions that trigger events
+- Dynamic events are slower but work with Blueprints
 
-## Boas Práticas
-- Use delegates para desacoplar sistemas
-- Prefira multicast delegates para eventos que múltiplos sistemas precisam ouvir
-- **SEMPRE** faça unbind de delegates quando objetos são destruídos
-- Use delegates dinâmicos apenas quando necessário expor ao Blueprint
-- Delegates estáticos são mais rápidos que dinâmicos
+## Best Practices
+- Use delegates to decouple systems
+- Prefer multicast delegates for events that multiple systems need to listen to
+- **ALWAYS** unbind delegates when objects are destroyed
+- Use dynamic delegates only when necessary to expose to Blueprint
+- Static delegates are faster than dynamic ones

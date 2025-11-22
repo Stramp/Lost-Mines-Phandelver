@@ -1,138 +1,138 @@
 ---
-description: Padrões de commits Git para o projeto
+description: Git commit patterns for the project
 globs: []
 alwaysApply: true
 ---
 
-# Regras de Git e Commits
+# Git and Commit Rules
 
-## Formato de Commits (Conventional Commits)
+## Commit Format (Conventional Commits)
 
-**SEMPRE** use o formato Conventional Commits para facilitar histórico, changelog automático e integração com ferramentas.
+**ALWAYS** use Conventional Commits format to facilitate history, automatic changelog and tool integration.
 
-### Estrutura
+### Structure
 
 ```
-<type>(<scope>): <descrição curta>
+<type>(<scope>): <short description>
 
-[corpo opcional]
+[optional body]
 
-[footer opcional]
+[optional footer]
 ```
 
-### Tipos de Commit
+### Commit Types
 
-- **feat**: Nova feature/funcionalidade
-- **fix**: Correção de bug
-- **refactor**: Refatoração (sem mudança de comportamento)
-- **docs**: Apenas documentação
-- **style**: Formatação, espaços, etc (não afeta código)
-- **test**: Adição ou correção de testes
-- **chore**: Tarefas de manutenção (build, dependências, etc)
-- **perf**: Melhoria de performance
-- **ci**: Mudanças em CI/CD
+- **feat**: New feature/functionality
+- **fix**: Bug fix
+- **refactor**: Refactoring (no behavior change)
+- **docs**: Documentation only
+- **style**: Formatting, spaces, etc (doesn't affect code)
+- **test**: Test addition or fix
+- **chore**: Maintenance tasks (build, dependencies, etc)
+- **perf**: Performance improvement
+- **ci**: CI/CD changes
 
-### Scope (Opcional mas Recomendado)
+### Scope (Optional but Recommended)
 
-Use o módulo/área afetada:
+Use the affected module/area:
 
-- `Characters` - Personagens e componentes relacionados
-- `Components` - Componentes genéricos
-- `Data` - Data Assets e Data Tables
-- `Utils` - Utilitários e helpers
-- `Gameplay` - Mecânicas de jogo
-- `Architecture` - Mudanças arquiteturais
-- `Docs` - Documentação
-- `Build` - Sistema de build
+- `Characters` - Characters and related components
+- `Components` - Generic components
+- `Data` - Data Assets and Data Tables
+- `Utils` - Utilities and helpers
+- `Gameplay` - Game mechanics
+- `Architecture` - Architectural changes
+- `Docs` - Documentation
+- `Build` - Build system
 
-### Exemplos Corretos
+### Correct Examples
 
 ```bash
-feat(Characters): adiciona CharacterTotalLvl ao Data Asset
-fix(Components): corrige busca de CharacterDataComponent quando Owner é nullptr
-refactor(Utils): move FindCharacterDataComponent para ComponentHelpers
-docs(Architecture): adiciona diagramas Mermaid ao ARCHITECTURE.md
-test(Utils): adiciona testes para ComponentHelpers::FindCharacterDataComponent
-perf(Characters): otimiza cálculo de atributos finais
-chore(Build): atualiza dependências do projeto
-ci(GitHub): adiciona workflow de build automático
+feat(Characters): add CharacterTotalLvl to Data Asset
+fix(Components): fix CharacterDataComponent search when Owner is nullptr
+refactor(Utils): move FindCharacterDataComponent to ComponentHelpers
+docs(Architecture): add Mermaid diagrams to ARCHITECTURE.md
+test(Utils): add tests for ComponentHelpers::FindCharacterDataComponent
+perf(Characters): optimize final attributes calculation
+chore(Build): update project dependencies
+ci(GitHub): add automatic build workflow
 ```
 
-### Exemplos Incorretos
+### Incorrect Examples
 
 ```bash
 ❌ "fix"
 ❌ "update"
-❌ "mudanças"
-❌ "arrumei o bug"
-❌ "feat: coisa nova"
-❌ "fix: bug no componente"
+❌ "changes"
+❌ "fixed the bug"
+❌ "feat: new thing"
+❌ "fix: component bug"
 ```
 
-## Regras de Mensagem
+## Message Rules
 
-### Descrição Curta
+### Short Description
 
-- **Máximo 50 caracteres** (ideal)
-- **Primeira letra minúscula** (exceto nomes próprios)
-- **Sem ponto final**
-- **Verbo no imperativo**: "adiciona", "corrige", "remove" (não "adicionou", "corrigiu")
+- **Maximum 50 characters** (ideal)
+- **First letter lowercase** (except proper nouns)
+- **No period**
+- **Imperative verb**: "add", "fix", "remove" (not "added", "fixed")
 
-### Corpo (Opcional)
+### Body (Optional)
 
-- Use para explicar **o quê** e **por quê** (não **como**)
-- Separe do título com linha em branco
-- Máximo 72 caracteres por linha
+- Use to explain **what** and **why** (not **how**)
+- Separate from title with blank line
+- Maximum 72 characters per line
 
-### Footer (Opcional)
+### Footer (Optional)
 
-- Use para referenciar issues: `Closes #123`
-- Use para breaking changes: `BREAKING CHANGE: descrição`
+- Use to reference issues: `Closes #123`
+- Use for breaking changes: `BREAKING CHANGE: description`
 
-## Exemplos Completos
+## Complete Examples
 
-### Commit Simples
+### Simple Commit
 
 ```bash
-feat(Characters): adiciona campo CharacterTotalLvl
+feat(Characters): add CharacterTotalLvl field
 ```
 
-### Commit com Corpo
+### Commit with Body
 
 ```bash
-refactor(Utils): move FindCharacterDataComponent para helper
+refactor(Utils): move FindCharacterDataComponent to helper
 
-Move função de busca de componente para ComponentHelpers namespace
-seguindo princípios de Clean Code. Função agora é reutilizável e
-testável isoladamente.
+Move component search function to ComponentHelpers namespace
+following Clean Code principles. Function is now reusable and
+testable in isolation.
 
-Antes: Função privada acoplada ao CharacterSheetComponent
-Depois: Função pública em ComponentHelpers namespace
+Before: Private function coupled to CharacterSheetComponent
+After: Public function in ComponentHelpers namespace
 ```
 
-### Commit com Breaking Change
+### Commit with Breaking Change
 
 ```bash
-refactor(Characters): renomeia CharacterSheetComponent para CharacterBuilderComponent
+refactor(Characters): rename CharacterSheetComponent to CharacterBuilderComponent
 
-BREAKING CHANGE: CharacterSheetComponent foi renomeado para CharacterBuilderComponent.
-Atualize todas as referências no código e Blueprints.
+BREAKING CHANGE: CharacterSheetComponent was renamed to CharacterBuilderComponent.
+Update all references in code and Blueprints.
 ```
 
-## Checklist Antes de Commitar
+## Pre-Commit Checklist
 
-- [ ] Mensagem segue formato Conventional Commits?
-- [ ] Scope está correto?
-- [ ] Descrição é clara e concisa?
-- [ ] Código compila sem erros?
-- [ ] Testes passam (se houver)?
-- [ ] Documentação atualizada (se necessário)?
+- [ ] Message follows Conventional Commits format?
+- [ ] Scope is correct?
+- [ ] Description is clear and concise?
+- [ ] Code compiles without errors?
+- [ ] Tests pass (if any)?
+- [ ] Documentation updated (if necessary)?
 
-## Benefícios
+## Benefits
 
-- ✅ Histórico claro e navegável
-- ✅ Geração automática de changelog
-- ✅ Facilita rollback seletivo
-- ✅ Melhora code review
-- ✅ Integração com ferramentas (semantic-release, etc)
-- ✅ Filtragem fácil de commits por tipo/scope
+- ✅ Clear and navigable history
+- ✅ Automatic changelog generation
+- ✅ Facilitates selective rollback
+- ✅ Improves code review
+- ✅ Tool integration (semantic-release, etc)
+- ✅ Easy filtering of commits by type/scope

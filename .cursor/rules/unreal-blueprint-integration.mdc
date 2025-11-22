@@ -1,51 +1,51 @@
 ---
-description: Integração entre C++ e Blueprints no Unreal Engine
+description: Integration between C++ and Blueprints in Unreal Engine
 globs: ["*.cpp", "*.h"]
 alwaysApply: false
 ---
 
-# Integração C++ e Blueprints - Unreal Engine 5.7
+# C++ and Blueprint Integration - Unreal Engine 5.7
 
-## Expondo Variáveis ao Blueprint
-- Use `UPROPERTY(BlueprintReadWrite)` para variáveis editáveis
-- Use `UPROPERTY(BlueprintReadOnly)` para variáveis apenas leitura
-- Use `Category = "NomeDaCategoria"` para organizar no editor
-- Use `meta = (AllowPrivateAccess = "true")` para expor variáveis privadas
+## Exposing Variables to Blueprint
+- Use `UPROPERTY(BlueprintReadWrite)` for editable variables
+- Use `UPROPERTY(BlueprintReadOnly)` for read-only variables
+- Use `Category = "CategoryName"` to organize in editor
+- Use `meta = (AllowPrivateAccess = "true")` to expose private variables
 
-## Expondo Funções ao Blueprint
-- `UFUNCTION(BlueprintCallable)` - Função chamável do Blueprint
-- `UFUNCTION(BlueprintImplementableEvent)` - Implementação apenas no Blueprint
-- `UFUNCTION(BlueprintNativeEvent)` - Implementação padrão em C++, pode ser sobrescrito
+## Exposing Functions to Blueprint
+- `UFUNCTION(BlueprintCallable)` - Function callable from Blueprint
+- `UFUNCTION(BlueprintImplementableEvent)` - Implementation only in Blueprint
+- `UFUNCTION(BlueprintNativeEvent)` - Default implementation in C++, can be overridden
 
-## Padrão BlueprintNativeEvent
+## BlueprintNativeEvent Pattern
 ```cpp
 // Header
 UFUNCTION(BlueprintNativeEvent, Category = "Gameplay")
 void OnPlayerHit(float DamageAmount);
 
-// Cpp - Implementação padrão
+// Cpp - Default implementation
 void AMyActor::OnPlayerHit_Implementation(float DamageAmount)
 {
-    // Implementação padrão em C++
+    // Default implementation in C++
     Health -= DamageAmount;
 }
 ```
 
-## Eventos do Blueprint
-- Use `BlueprintImplementableEvent` quando a lógica deve ser apenas no Blueprint
-- Use `BlueprintNativeEvent` quando há lógica padrão em C++ que pode ser estendida
+## Blueprint Events
+- Use `BlueprintImplementableEvent` when logic should be only in Blueprint
+- Use `BlueprintNativeEvent` when there's default logic in C++ that can be extended
 
-## Boas Práticas
-- **SEMPRE** teste mudanças em classes C++ que são usadas em Blueprints
-- Documente funções expostas ao Blueprint
-- Use categorias para organizar propriedades no editor
-- Considere performance: funções chamadas frequentemente devem ser C++ puro
-- Use `BlueprintCallable` para funções que precisam ser chamadas do Blueprint
-- Use `BlueprintImplementableEvent` para eventos que só fazem sentido no Blueprint
+## Best Practices
+- **ALWAYS** test changes in C++ classes that are used in Blueprints
+- Document functions exposed to Blueprint
+- Use categories to organize properties in editor
+- Consider performance: frequently called functions should be pure C++
+- Use `BlueprintCallable` for functions that need to be called from Blueprint
+- Use `BlueprintImplementableEvent` for events that only make sense in Blueprint
 
-## Compatibilidade
-- Ao modificar classes C++ usadas em Blueprints, verifique:
-  - Propriedades removidas quebrarão Blueprints
-  - Mudanças de tipo podem quebrar conexões
-  - Funções removidas quebrarão chamadas no Blueprint
-  - **SEMPRE** teste após mudanças
+## Compatibility
+- When modifying C++ classes used in Blueprints, verify:
+  - Removed properties will break Blueprints
+  - Type changes can break connections
+  - Removed functions will break Blueprint calls
+  - **ALWAYS** test after changes

@@ -1,53 +1,53 @@
 ---
-description: Padrões específicos para Actors e Components no Unreal Engine
+description: Specific patterns for Actors and Components in Unreal Engine
 globs: ["**/Actor*.h", "**/Actor*.cpp", "**/Component*.h", "**/Component*.cpp"]
 alwaysApply: false
 ---
 
-# Actors e Components - Unreal Engine 5.7
+# Actors and Components - Unreal Engine 5.7
 
 ## Actors (AActor)
-- **SEMPRE** herde de `AActor` para objetos no mundo
-- Use `GENERATED_BODY()` no início da classe
-- Implemente `BeginPlay()` para inicialização
-- Implemente `Tick()` apenas se necessário (desative se não usar)
-- Use `UPROPERTY(VisibleAnywhere)` para componentes
-- Use `UPROPERTY(EditAnywhere)` para propriedades editáveis no editor
+- **ALWAYS** inherit from `AActor` for objects in the world
+- Use `GENERATED_BODY()` at the beginning of the class
+- Implement `BeginPlay()` for initialization
+- Implement `Tick()` only if necessary (disable if not using)
+- Use `UPROPERTY(VisibleAnywhere)` for components
+- Use `UPROPERTY(EditAnywhere)` for editable properties in editor
 
-## Componentes (UActorComponent / USceneComponent)
-- **SEMPRE** herde de `UActorComponent` ou `USceneComponent`
-- Use `UActorComponent` para lógica sem posição
-- Use `USceneComponent` para componentes com transformação
-- Use `USceneComponent` como root component quando apropriado
-- Componentes devem ser criados no construtor com `CreateDefaultSubobject<>()`
-- Use `SetupAttachment()` para hierarquia de componentes
+## Components (UActorComponent / USceneComponent)
+- **ALWAYS** inherit from `UActorComponent` or `USceneComponent`
+- Use `UActorComponent` for logic without position
+- Use `USceneComponent` for components with transformation
+- Use `USceneComponent` as root component when appropriate
+- Components must be created in constructor with `CreateDefaultSubobject<>()`
+- Use `SetupAttachment()` for component hierarchy
 
-## Padrão de Criação de Componentes
+## Component Creation Pattern
 ```cpp
-// No construtor (.cpp)
+// In constructor (.cpp)
 AMyActor::AMyActor()
 {
-    PrimaryActorTick.bCanEverTick = false; // Desative se não usar Tick
-    
-    // Criar componente de mesh
+    PrimaryActorTick.bCanEverTick = false; // Disable if not using Tick
+
+    // Create mesh component
     MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
-    RootComponent = MeshComponent; // Definir como root
-    
-    // Criar componente filho
+    RootComponent = MeshComponent; // Set as root
+
+    // Create child component
     CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
     CollisionComponent->SetupAttachment(RootComponent);
 }
 ```
 
-## Lifecycle de Actors
-1. **Constructor** - Criar componentes e valores padrão
-2. **BeginPlay()** - Inicialização após spawn no mundo
-3. **Tick()** - Atualização a cada frame (desative se não usar)
-4. **EndPlay()** - Limpeza quando removido do mundo
+## Actor Lifecycle
+1. **Constructor** - Create components and default values
+2. **BeginPlay()** - Initialization after spawn in world
+3. **Tick()** - Update every frame (disable if not using)
+4. **EndPlay()** - Cleanup when removed from world
 
-## Boas Práticas
-- Desative `Tick` se não for necessário: `PrimaryActorTick.bCanEverTick = false;`
-- Use eventos ao invés de Tick quando possível
-- Componentes devem ser autocontidos e reutilizáveis
-- Use `GetWorld()` para acessar o mundo, não armazene referência
-- Use `GetOwner()` em componentes para acessar o Actor dono
+## Best Practices
+- Disable `Tick` if not necessary: `PrimaryActorTick.bCanEverTick = false;`
+- Use events instead of Tick when possible
+- Components should be self-contained and reusable
+- Use `GetWorld()` to access the world, don't store reference
+- Use `GetOwner()` in components to access the owner Actor

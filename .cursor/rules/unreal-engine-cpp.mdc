@@ -1,96 +1,96 @@
 ---
-description: Convenções de código C++ para Unreal Engine 5.7
+description: C++ code conventions for Unreal Engine 5.7
 globs: ["*.cpp", "*.h", "*.hpp"]
 alwaysApply: false
 ---
 
-# Convenções de Código C++ - Unreal Engine 5.7
+# C++ Code Conventions - Unreal Engine 5.7
 
-## Nomenclatura (CRÍTICO)
-- **Classes**: PascalCase com prefixo apropriado:
-  - `A` para Actors (ex: `AMyProject2Character`, `APlayerController`)
-  - `U` para UObjects (ex: `UMyGameInstance`, `UMyComponent`)
-  - `F` para Structs (ex: `FPlayerStats`, `FWeaponData`)
-  - `E` para Enums (ex: `EPlayerState`, `EWeaponType`)
-  - `I` para Interfaces (ex: `IInteractable`, `IDamageable`)
-  - `T` para Templates (ex: `TArray`, `TMap`, `TSet`)
-- **Funções**: PascalCase (ex: `BeginPlay()`, `Tick()`, `OnHit()`)
-- **Variáveis**: PascalCase com prefixos:
-  - Booleanos: `b` (ex: `bIsRunning`, `bIsActive`, `bHasWeapon`)
-  - Floats: sem prefixo (ex: `Health`, `MaxHealth`, `Speed`)
-  - Inteiros: sem prefixo (ex: `AmmoCount`, `Level`)
+## Naming (CRITICAL)
+- **Classes**: PascalCase with appropriate prefix:
+  - `A` for Actors (ex: `AMyProject2Character`, `APlayerController`)
+  - `U` for UObjects (ex: `UMyGameInstance`, `UMyComponent`)
+  - `F` for Structs (ex: `FPlayerStats`, `FWeaponData`)
+  - `E` for Enums (ex: `EPlayerState`, `EWeaponType`)
+  - `I` for Interfaces (ex: `IInteractable`, `IDamageable`)
+  - `T` for Templates (ex: `TArray`, `TMap`, `TSet`)
+- **Functions**: PascalCase (ex: `BeginPlay()`, `Tick()`, `OnHit()`)
+- **Variables**: PascalCase with prefixes:
+  - Booleans: `b` (ex: `bIsRunning`, `bIsActive`, `bHasWeapon`)
+  - Floats: no prefix (ex: `Health`, `MaxHealth`, `Speed`)
+  - Integers: no prefix (ex: `AmmoCount`, `Level`)
   - Enums: `E` (ex: `EPlayerState CurrentState`)
   - Interfaces: `I` (ex: `IInteractable* InteractableObject`)
-- **Constantes**: `const` com PascalCase (ex: `const float MaxSpeed = 1000.0f;`)
+- **Constants**: `const` with PascalCase (ex: `const float MaxSpeed = 1000.0f;`)
 
-## Macros e Anotações (ESSENCIAL)
-- **SEMPRE** use macros do Unreal para classes:
-  - `UCLASS()` para classes que herdam de `UObject`
-  - `USTRUCT()` para structs
-  - `UENUM()` para enums
-  - `UINTERFACE()` para interfaces
-- **UPROPERTY()** - Use para:
-  - `UPROPERTY(BlueprintReadWrite)` - Leitura/escrita no Blueprint
-  - `UPROPERTY(BlueprintReadOnly)` - Apenas leitura no Blueprint
-  - `UPROPERTY(VisibleAnywhere)` - Visível no editor, não editável
-  - `UPROPERTY(EditAnywhere)` - Editável no editor
-  - `UPROPERTY(EditDefaultsOnly)` - Editável apenas em defaults
-  - `UPROPERTY(EditInstanceOnly)` - Editável apenas em instâncias
-  - `UPROPERTY(Replicated)` - Replicação de rede
-- **UFUNCTION()** - Use para:
-  - `UFUNCTION(BlueprintCallable)` - Chamável do Blueprint
-  - `UFUNCTION(BlueprintImplementableEvent)` - Implementado no Blueprint
-  - `UFUNCTION(BlueprintNativeEvent)` - Implementação padrão em C++, pode ser sobrescrito no Blueprint
-  - `UFUNCTION(Server, Reliable)` - RPC do servidor
-  - `UFUNCTION(Client, Reliable)` - RPC do cliente
+## Macros and Annotations (ESSENTIAL)
+- **ALWAYS** use Unreal macros for classes:
+  - `UCLASS()` for classes that inherit from `UObject`
+  - `USTRUCT()` for structs
+  - `UENUM()` for enums
+  - `UINTERFACE()` for interfaces
+- **UPROPERTY()** - Use for:
+  - `UPROPERTY(BlueprintReadWrite)` - Read/write in Blueprint
+  - `UPROPERTY(BlueprintReadOnly)` - Read-only in Blueprint
+  - `UPROPERTY(VisibleAnywhere)` - Visible in editor, not editable
+  - `UPROPERTY(EditAnywhere)` - Editable in editor
+  - `UPROPERTY(EditDefaultsOnly)` - Editable only in defaults
+  - `UPROPERTY(EditInstanceOnly)` - Editable only in instances
+  - `UPROPERTY(Replicated)` - Network replication
+- **UFUNCTION()** - Use for:
+  - `UFUNCTION(BlueprintCallable)` - Callable from Blueprint
+  - `UFUNCTION(BlueprintImplementableEvent)` - Implemented in Blueprint
+  - `UFUNCTION(BlueprintNativeEvent)` - Default implementation in C++, can be overridden in Blueprint
+  - `UFUNCTION(Server, Reliable)` - Server RPC
+  - `UFUNCTION(Client, Reliable)` - Client RPC
 
-## Headers e Includes
-- **SEMPRE** use `#include "CoreMinimal.h"` no topo dos arquivos .cpp
-- Use `#pragma once` em todos os headers (não use include guards)
-- Use forward declarations nos headers quando possível:
+## Headers and Includes
+- **ALWAYS** use `#include "CoreMinimal.h"` at the top of .cpp files
+- Use `#pragma once` in all headers (don't use include guards)
+- Use forward declarations in headers when possible:
   ```cpp
-  // No header (.h)
+  // In header (.h)
   class APlayerController;
   class UWidget;
-  
-  // No cpp
+
+  // In cpp
   #include "PlayerController.h"
   #include "Components/Widget.h"
   ```
-- Organize includes nesta ordem:
-  1. Header correspondente (ex: `#include "MyClass.h"`)
+- Organize includes in this order:
+  1. Corresponding header (ex: `#include "MyClass.h"`)
   2. Engine headers (ex: `#include "Engine/Engine.h"`)
-  3. Headers do projeto
-  4. Headers de plugins
-  5. STL (evite quando possível)
+  3. Project headers
+  4. Plugin headers
+  5. STL (avoid when possible)
 
-## Containers e Tipos
-- **SEMPRE** prefira containers do Unreal:
-  - `TArray<T>` ao invés de `std::vector<T>`
-  - `TMap<Key, Value>` ao invés de `std::map<Key, Value>`
-  - `TSet<T>` ao invés de `std::set<T>`
-- **SEMPRE** use tipos do Unreal:
-  - `FString` ao invés de `std::string` (para strings mutáveis)
-  - `FText` para texto localizável (UI)
-  - `FName` para nomes internos (rápido, case-insensitive)
-  - `FVector`, `FRotator`, `FTransform` para matemática 3D
-  - `FLinearColor`, `FColor` para cores
+## Containers and Types
+- **ALWAYS** prefer Unreal containers:
+  - `TArray<T>` instead of `std::vector<T>`
+  - `TMap<Key, Value>` instead of `std::map<Key, Value>`
+  - `TSet<T>` instead of `std::set<T>`
+- **ALWAYS** use Unreal types:
+  - `FString` instead of `std::string` (for mutable strings)
+  - `FText` for localizable text (UI)
+  - `FName` for internal names (fast, case-insensitive)
+  - `FVector`, `FRotator`, `FTransform` for 3D math
+  - `FLinearColor`, `FColor` for colors
 
-## Garbage Collection (CRÍTICO)
-- Classes que herdam de `UObject` são gerenciadas pelo GC
-- **SEMPRE** use `UPROPERTY()` para manter referências válidas a UObjects
-- **NUNCA** use ponteiros raw para UObjects sem `UPROPERTY()` (serão coletados pelo GC)
-- Use `TWeakObjectPtr<UObject>` para referências fracas
-- Use `TSoftObjectPtr<UObject>` para lazy loading
-- Structs e tipos primitivos não precisam de `UPROPERTY()` (mas podem ter para expor ao editor)
+## Garbage Collection (CRITICAL)
+- Classes that inherit from `UObject` are managed by GC
+- **ALWAYS** use `UPROPERTY()` to keep valid references to UObjects
+- **NEVER** use raw pointers to UObjects without `UPROPERTY()` (will be collected by GC)
+- Use `TWeakObjectPtr<UObject>` for weak references
+- Use `TSoftObjectPtr<UObject>` for lazy loading
+- Structs and primitive types don't need `UPROPERTY()` (but can have to expose to editor)
 
-## Estrutura de Arquivos
-- Um arquivo .h e .cpp por classe
-- Nome do arquivo deve corresponder exatamente ao nome da classe
-- Coloque código fonte em `Source/MyProject2/`
-- Organize em subdiretórios por funcionalidade (ex: `Characters/`, `Components/`, `UI/`)
+## File Structure
+- One .h and .cpp file per class
+- File name must exactly match class name
+- Place source code in `Source/MyProject2/`
+- Organize in subdirectories by functionality (ex: `Characters/`, `Components/`, `UI/`)
 
-## Exemplo de Classe Completa
+## Complete Class Example
 ```cpp
 // MyActor.h
 #pragma once

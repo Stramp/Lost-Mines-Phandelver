@@ -1,53 +1,55 @@
 ---
-description: Regras para dar melhor contexto à IA sobre o projeto
+description: Rules to provide better context to AI about the project
 alwaysApply: true
 ---
 
-# Contexto para IA
+# AI Context
 
-## Informações do Projeto
-- **Nome**: MyProject2
+## Project Information
+- **Name**: MyProject2
 - **Engine**: Unreal Engine 5.7
-- **Plataforma**: Windows (Win64)
-- **Linguagem**: C++ e Blueprints
-- **Estrutura**: Projeto padrão do Unreal Engine
+- **Platform**: Windows (Win64)
+- **Language**: C++ and Blueprints
+- **Structure**: Standard Unreal Engine project
 
-## Estrutura de Diretórios Importante
-- `Source/MyProject2/` - Código C++ principal
-- `Content/` - Assets (Blueprints, Texturas, Modelos)
-- `Config/` - Configurações (.ini)
-- `.cursor/rules/` - Regras do Cursor para o projeto
+## Important Directory Structure
+- `Source/MyProject2/` - Main C++ code
+- `Content/` - Assets (Blueprints, Textures, Models)
+- `Config/` - Configuration files (.ini)
+- `.cursor/rules/` - Cursor rules for the project
 
-## Convenções do Projeto
-- Use as regras em `.cursor/rules/` como referência
-- **CRÍTICO:** SEMPRE siga Clean Code e Design Patterns (ver `clean-code-mandatory.mdc`)
-- **SEMPRE** use formato Conventional Commits (ver `git-commits.mdc`)
-- **SEMPRE** escreva testes para funções helper (ver `testing.mdc`)
-- Sempre siga padrões do Unreal Engine
-- Documente código complexo
-- Mantenha código limpo e organizado
+## Project Conventions
+- Use rules in `.cursor/rules/` as reference
+- **CRITICAL:** ALWAYS follow Clean Code and Design Patterns (see `clean-code-mandatory.mdc`)
+- **CRITICAL:** ALWAYS stop execution if request conflicts with architecture or code quality (see `execution-guard.mdc`)
+- **ALWAYS** use Conventional Commits format (see `git-commits.mdc`)
+- **ALWAYS** write tests for helper functions (see `testing.mdc`)
+- **ALWAYS** maintain expert/teacher posture in C++/Unreal (see `teaching-role.mdc`)
+- Always follow Unreal Engine standards
+- Document complex code
+- Keep code clean and organized
 
-## ⚠️ REGRA CRÍTICA - PRIORIDADE MÁXIMA ⚠️
-- **SEMPRE** aplicar Clean Code e Design Patterns em TODAS as situações
-- **NUNCA** criar código "temporário" ou "só para testar" que viole essas regras
-- **SEMPRE** colocar funções helper reutilizáveis em `Utils/` ou `Helpers/`
-- Ver regra completa em: `.cursor/rules/clean-code-mandatory.mdc`
+## ⚠️ CRITICAL RULE - MAXIMUM PRIORITY ⚠️
+- **ALWAYS** apply Clean Code and Design Patterns in ALL situations
+- **NEVER** create "temporary" or "just for testing" code that violates these rules
+- **ALWAYS** place reusable helper functions in `Utils/` or `Helpers/`
+- See complete rule at: `.cursor/rules/clean-code-mandatory.mdc`
 
-## Quando Sugerir Mudanças
-- **SEMPRE** explique o motivo
-- **SEMPRE** considere impacto em Blueprints
-- **SEMPRE** verifique se compila antes de sugerir
-- **SEMPRE** mencione se requer rebuild
+## When Suggesting Changes
+- **ALWAYS** explain the reason
+- **ALWAYS** consider impact on Blueprints
+- **ALWAYS** verify it compiles before suggesting
+- **ALWAYS** mention if rebuild is required
 
-## Contexto de Arquivos
-- Ao trabalhar com arquivos, considere:
-  - Estrutura do projeto
-  - Padrões estabelecidos
-  - Compatibilidade com Blueprints
-  - Performance (especialmente em hot paths)
+## File Context
+- When working with files, consider:
+  - Project structure
+  - Established patterns
+  - Blueprint compatibility
+  - Performance (especially in hot paths)
 
-## Comunicação
-- Responda sempre em Português do Brasil
-- Seja claro e direto
-- Forneça exemplos quando útil
-- Explique conceitos complexos
+## Communication
+- Always respond in Brazilian Portuguese
+- Be clear and direct
+- Provide examples when useful
+- Explain complex concepts

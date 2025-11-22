@@ -1,50 +1,50 @@
 ---
-description: Regras para manter código limpo, organizado e de qualidade
+description: Rules to keep code clean, organized and of quality
 alwaysApply: true
 ---
 
-# Qualidade e Organização de Código
+# Code Quality and Organization
 
-## Princípios Gerais
-- **SEMPRE** escreva código limpo e legível
-- **SEMPRE** siga os padrões do Unreal Engine
-- **SEMPRE** documente código complexo
-- **SEMPRE** mantenha funções pequenas e focadas
-- **SEMPRE** use nomes descritivos
+## General Principles
+- **ALWAYS** write clean and readable code
+- **ALWAYS** follow Unreal Engine standards
+- **ALWAYS** document complex code
+- **ALWAYS** keep functions small and focused
+- **ALWAYS** use descriptive names
 
-## Organização de Código
+## Code Organization
 
-### Estrutura de Arquivos
-- Um arquivo .h e .cpp por classe
-- Nome do arquivo = nome da classe
-- Organize em subdiretórios por funcionalidade:
-  - `Characters/` - Personagens
-  - `Components/` - Componentes
-  - `UI/` - Interface do usuário
-  - `Gameplay/` - Mecânicas de jogo
-  - `Utils/` - Utilitários
+### File Structure
+- One .h and .cpp file per class
+- File name = class name
+- Organize in subdirectories by functionality:
+  - `Characters/` - Characters
+  - `Components/` - Components
+  - `UI/` - User interface
+  - `Gameplay/` - Game mechanics
+  - `Utils/` - Utilities
 
-### Organização dentro de Arquivos
+### Organization within Files
 1. **Header (.h):**
    - Copyright
    - #pragma once
    - Includes
    - Forward declarations
    - UCLASS/USTRUCT/UENUM
-   - Classe com:
-     - Public: construtor, funções públicas, UPROPERTY/UFUNCTION públicos
-     - Protected: funções protegidas, UPROPERTY/UFUNCTION protegidos
-     - Private: membros privados
+   - Class with:
+     - Public: constructor, public functions, public UPROPERTY/UFUNCTION
+     - Protected: protected functions, protected UPROPERTY/UFUNCTION
+     - Private: private members
 
 2. **Implementation (.cpp):**
    - Copyright
-   - Include do header correspondente
-   - Includes do projeto
-   - Includes do Engine
-   - Includes STL (se necessário)
-   - Implementações
+   - Include corresponding header
+   - Project includes
+   - Engine includes
+   - STL includes (if necessary)
+   - Implementations
 
-## Nomenclatura Consistente
+## Consistent Naming
 
 ### Classes
 - Actors: `A` prefix (ex: `AMyCharacter`)
@@ -53,97 +53,97 @@ alwaysApply: true
 - Enums: `E` prefix (ex: `EPlayerState`)
 - Interfaces: `I` prefix (ex: `IInteractable`)
 
-### Variáveis
-- Booleanos: `b` prefix (ex: `bIsRunning`)
+### Variables
+- Booleans: `b` prefix (ex: `bIsRunning`)
 - Floats/Ints: PascalCase (ex: `Health`, `MaxHealth`)
-- Constantes: `const` + PascalCase (ex: `const float MaxSpeed = 1000.0f`)
+- Constants: `const` + PascalCase (ex: `const float MaxSpeed = 1000.0f`)
 
-### Funções
+### Functions
 - PascalCase (ex: `BeginPlay()`, `TakeDamage()`)
-- Verbos para ações (ex: `CalculateDamage()`, `SpawnEnemy()`)
-- Get/Set para propriedades (ex: `GetHealth()`, `SetHealth()`)
+- Verbs for actions (ex: `CalculateDamage()`, `SpawnEnemy()`)
+- Get/Set for properties (ex: `GetHealth()`, `SetHealth()`)
 
-## Comentários e Documentação
+## Comments and Documentation
 
-### Quando Comentar
-- **SEMPRE** documente funções públicas
-- **SEMPRE** explique "por quê" não "o quê"
-- **SEMPRE** documente código complexo ou não óbvio
-- **NUNCA** comente código óbvio
+### When to Comment
+- **ALWAYS** document public functions
+- **ALWAYS** explain "why" not "what"
+- **ALWAYS** document complex or non-obvious code
+- **NEVER** comment obvious code
 
-### Formato de Comentários
+### Comment Format
 ```cpp
 /**
- * Calcula o dano baseado no tipo de arma e defesa do alvo.
+ * Calculates damage based on weapon type and target defense.
  *
- * @param WeaponType Tipo da arma atacante
- * @param TargetDefense Valor de defesa do alvo
- * @return Dano calculado (sempre >= 0)
+ * @param WeaponType Attacking weapon type
+ * @param TargetDefense Target defense value
+ * @return Calculated damage (always >= 0)
  */
 float CalculateDamage(EWeaponType WeaponType, float TargetDefense);
 ```
 
-## Refatoração e Limpeza
+## Refactoring and Cleanup
 
-### Quando Refatorar
-- Funções com mais de 50 linhas
-- Código duplicado (DRY - Don't Repeat Yourself)
-- Nomes confusos ou não descritivos
-- Complexidade ciclomática alta
-- Muitos parâmetros (> 4)
+### When to Refactor
+- Functions with more than 50 lines
+- Duplicated code (DRY - Don't Repeat Yourself)
+- Confusing or non-descriptive names
+- High cyclomatic complexity
+- Too many parameters (> 4)
 
-### Boas Práticas
-- **SEMPRE** remova código comentado (use Git para histórico)
-- **SEMPRE** remova includes não usados
-- **SEMPRE** remova variáveis não usadas
-- **SEMPRE** use const quando apropriado
-- **SEMPRE** prefira referências const a cópias
+### Best Practices
+- **ALWAYS** remove commented code (use Git for history)
+- **ALWAYS** remove unused includes
+- **ALWAYS** remove unused variables
+- **ALWAYS** use const when appropriate
+- **ALWAYS** prefer const references over copies
 
-## Validação e Erros
+## Validation and Errors
 
-### Tratamento de Erros
-- Use `check()` para asserções críticas (debug)
-- Use `ensure()` para verificações importantes
-- Use `UE_LOG()` para logging apropriado
-- Retorne valores booleanos ou códigos de erro quando apropriado
+### Error Handling
+- Use `check()` for critical assertions (debug)
+- Use `ensure()` for important checks
+- Use `UE_LOG()` for appropriate logging
+- Return boolean values or error codes when appropriate
 
-### Validação de Entrada
-- **SEMPRE** valide parâmetros de funções públicas
-- **SEMPRE** valide dados de rede (RPCs)
-- **SEMPRE** valide dados de Blueprint
+### Input Validation
+- **ALWAYS** validate public function parameters
+- **ALWAYS** validate network data (RPCs)
+- **ALWAYS** validate Blueprint data
 
 ## Performance
 
-### Otimizações
-- Desative `Tick` se não usar
-- Use object pooling para objetos frequentes
-- Prefira `TArray::Reserve()` quando tamanho conhecido
-- Use `FName` para comparações frequentes
-- Cache resultados de cálculos caros
+### Optimizations
+- Disable `Tick` if not using
+- Use object pooling for frequent objects
+- Prefer `TArray::Reserve()` when size is known
+- Use `FName` for frequent comparisons
+- Cache results of expensive calculations
 
-### Quando NÃO Otimizar
-- Não otimize prematuramente
-- Profile antes de otimizar
-- Legibilidade > Performance (exceto hot paths)
+### When NOT to Optimize
+- Don't optimize prematurely
+- Profile before optimizing
+- Readability > Performance (except hot paths)
 
-## Testes e Validação
+## Testing and Validation
 
-### Antes de Commitar
-- **SEMPRE** verifique se compila
-- **SEMPRE** teste funcionalidades básicas
-- **SEMPRE** verifique se não quebra Blueprints existentes
-- **SEMPRE** remova logs de debug temporários
+### Before Committing
+- **ALWAYS** verify it compiles
+- **ALWAYS** test basic functionalities
+- **ALWAYS** verify it doesn't break existing Blueprints
+- **ALWAYS** remove temporary debug logs
 
-## Checklist de Código Limpo
+## Clean Code Checklist
 
-Antes de considerar código "pronto":
-- [ ] Compila sem erros ou warnings
-- [ ] Segue padrões de nomenclatura
-- [ ] Está organizado e legível
-- [ ] Funções são pequenas e focadas
-- [ ] Código complexo está documentado
-- [ ] Não há código duplicado
-- [ ] Não há código comentado
-- [ ] Includes não usados foram removidos
-- [ ] Const usado quando apropriado
-- [ ] Tratamento de erros adequado
+Before considering code "ready":
+- [ ] Compiles without errors or warnings
+- [ ] Follows naming standards
+- [ ] Is organized and readable
+- [ ] Functions are small and focused
+- [ ] Complex code is documented
+- [ ] No duplicated code
+- [ ] No commented code
+- [ ] Unused includes removed
+- [ ] Const used when appropriate
+- [ ] Adequate error handling

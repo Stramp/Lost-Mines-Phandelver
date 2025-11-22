@@ -1,44 +1,44 @@
 ---
-description: Estrutura e organização do projeto Unreal Engine 5.7
+description: Structure and organization of Unreal Engine 5.7 project
 alwaysApply: true
 ---
 
-# Estrutura do Projeto Unreal Engine 5.7
+# Unreal Engine 5.7 Project Structure
 
-## Contexto do Projeto
+## Project Context
 - **Engine**: Unreal Engine 5.7
-- **Plataforma**: Windows (Win64)
-- **Linguagens**: C++, Blueprints
+- **Platform**: Windows (Win64)
+- **Languages**: C++, Blueprints
 - **Editor**: Cursor/VS Code
 - **Build System**: UnrealBuildTool (UBT)
 
-## Estrutura de Diretórios
-- `Source/MyProject2/` - Código fonte C++ do módulo principal
-- `Source/MyProject2.Target.cs` - Configuração de build do jogo
-- `Source/MyProject2Editor.Target.cs` - Configuração de build do editor
-- `Content/` - Assets do jogo (Blueprints, Texturas, Modelos, etc.)
-- `Config/` - Arquivos de configuração (.ini)
-- `Binaries/` - Executáveis compilados (não versionar)
-- `Intermediate/` - Arquivos temporários de build (não versionar)
-- `Saved/` - Arquivos gerados pelo editor (não versionar)
-- `DerivedDataCache/` - Cache de dados derivados (não versionar)
+## Directory Structure
+- `Source/MyProject2/` - Main C++ source code module
+- `Source/MyProject2.Target.cs` - Game build configuration
+- `Source/MyProject2Editor.Target.cs` - Editor build configuration
+- `Content/` - Game assets (Blueprints, Textures, Models, etc.)
+- `Config/` - Configuration files (.ini)
+- `Binaries/` - Compiled executables (don't version)
+- `Intermediate/` - Temporary build files (don't version)
+- `Saved/` - Editor generated files (don't version)
+- `DerivedDataCache/` - Derived data cache (don't version)
 
-## Build e Compilação
-- Use UnrealBuildTool (UBT) para compilar
-- Configurações disponíveis: Debug, DebugGame, Development, Test, Shipping
-- **SEMPRE** verifique se o projeto compila antes de sugerir mudanças
-- Use as tasks do workspace para builds (Ctrl+Shift+P > Tasks: Run Task)
-- Após modificar `.Build.cs`, regenere os arquivos do projeto
+## Build and Compilation
+- Use UnrealBuildTool (UBT) to compile
+- Available configurations: Debug, DebugGame, Development, Test, Shipping
+- **ALWAYS** verify project compiles before suggesting changes
+- Use workspace tasks for builds (Ctrl+Shift+P > Tasks: Run Task)
+- After modifying `.Build.cs`, regenerate project files
 
-## Boas Práticas
-- Sempre considere compatibilidade com Blueprints ao criar classes C++
-- Documente código complexo com comentários
-- Use Blueprints para prototipagem rápida, C++ para performance crítica
-- Teste mudanças em diferentes configurações de build quando relevante
-- Mantenha dependências mínimas no `.Build.cs` para builds mais rápidos
+## Best Practices
+- Always consider Blueprint compatibility when creating C++ classes
+- Document complex code with comments
+- Use Blueprints for rapid prototyping, C++ for critical performance
+- Test changes in different build configurations when relevant
+- Keep minimal dependencies in `.Build.cs` for faster builds
 
-## Comunicação
-- Responda sempre em Português do Brasil quando o usuário falar em português
-- Explique o motivo das mudanças sugeridas
-- Considere impacto em Blueprints existentes ao modificar código C++
-- Quando sugerir mudanças, sempre mencione se requer rebuild do projeto
+## Communication
+- Always respond in Brazilian Portuguese when user speaks in Portuguese
+- Explain the reason for suggested changes
+- Consider impact on existing Blueprints when modifying C++ code
+- When suggesting changes, always mention if rebuild is required

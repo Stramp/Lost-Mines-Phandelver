@@ -1,32 +1,32 @@
 ---
-description: Regras e padrões para testes no projeto
+description: Rules and patterns for testing in the project
 globs: ["*.cpp", "*.h"]
 alwaysApply: true
 ---
 
-# Regras de Testes
+# Testing Rules
 
-## Princípios de Testes
+## Testing Principles
 
-### O Que Testar
+### What to Test
 
-**SEMPRE teste:**
-- ✅ Funções helper/utilitárias (em `Utils/`)
-- ✅ Funções puras (sem efeitos colaterais)
-- ✅ Lógica de cálculo complexa
-- ✅ Validações e edge cases
-- ✅ Funções críticas para gameplay
+**ALWAYS test:**
+- ✅ Helper/utility functions (in `Utils/`)
+- ✅ Pure functions (no side effects)
+- ✅ Complex calculation logic
+- ✅ Validations and edge cases
+- ✅ Critical gameplay functions
 
-**NÃO precisa testar:**
-- ❌ Getters/Setters simples
-- ❌ Wrappers simples de API do Unreal
-- ❌ Código gerado automaticamente
+**Don't need to test:**
+- ❌ Simple Getters/Setters
+- ❌ Simple wrappers of Unreal API
+- ❌ Automatically generated code
 
-### Estrutura de Testes (AAA Pattern)
+### Test Structure (AAA Pattern)
 
-**Arrange** - Preparar dados e contexto
-**Act** - Executar a função sendo testada
-**Assert** - Verificar o resultado
+**Arrange** - Prepare data and context
+**Act** - Execute the function being tested
+**Assert** - Verify the result
 
 ```cpp
 TEST(ComponentHelpers, FindCharacterDataComponent_WithValidOwner_ReturnsComponent)
@@ -45,9 +45,9 @@ TEST(ComponentHelpers, FindCharacterDataComponent_WithValidOwner_ReturnsComponen
 }
 ```
 
-## Nomenclatura de Testes
+## Test Naming
 
-### Formato
+### Format
 
 ```
 TEST(<TestSuite>, <TestName>)
@@ -55,28 +55,28 @@ TEST(<TestSuite>, <TestName>)
 
 ### TestSuite
 
-Nome da classe/função sendo testada:
-- `ComponentHelpers` - Para funções do namespace ComponentHelpers
-- `CharacterSheetComponent` - Para métodos da classe
-- `CharacterDataComponent` - Para métodos da classe
+Name of the class/function being tested:
+- `ComponentHelpers` - For ComponentHelpers namespace functions
+- `CharacterSheetComponent` - For class methods
+- `CharacterDataComponent` - For class methods
 
 ### TestName
 
-Formato: `<Cenário>_<Condição>_<ResultadoEsperado>`
+Format: `<Scenario>_<Condition>_<ExpectedResult>`
 
-Exemplos:
+Examples:
 - `FindCharacterDataComponent_WithValidOwner_ReturnsComponent`
 - `FindCharacterDataComponent_WithNullOwner_ReturnsNullptr`
 - `FindCharacterDataComponent_WithoutComponent_ReturnsNullptr`
 - `CalculateFinalAttributes_WithBaseAttributes_CalculatesCorrectly`
 
-## Casos de Teste Obrigatórios
+## Mandatory Test Cases
 
-### Para Funções Helper
+### For Helper Functions
 
-**SEMPRE teste:**
+**ALWAYS test:**
 
-1. **Caso válido/happy path**
+1. **Valid case/happy path**
    ```cpp
    TEST(ComponentHelpers, FindCharacterDataComponent_WithValidOwner_ReturnsComponent)
    ```
@@ -86,22 +86,22 @@ Exemplos:
    TEST(ComponentHelpers, FindCharacterDataComponent_WithNullOwner_ReturnsNullptr)
    ```
 
-3. **Caso não encontrado**
+3. **Not found case**
    ```cpp
    TEST(ComponentHelpers, FindCharacterDataComponent_WithoutComponent_ReturnsNullptr)
    ```
 
-### Para Funções de Cálculo
+### For Calculation Functions
 
-**SEMPRE teste:**
+**ALWAYS test:**
 
-1. **Valores normais**
-2. **Valores extremos** (0, máximo, negativo se aplicável)
-3. **Valores inválidos** (nullptr, valores fora de range)
+1. **Normal values**
+2. **Extreme values** (0, maximum, negative if applicable)
+3. **Invalid values** (nullptr, values out of range)
 
-## Organização de Testes
+## Test Organization
 
-### Estrutura de Diretórios
+### Directory Structure
 
 ```
 Source/MyProject2/
@@ -112,7 +112,7 @@ Source/MyProject2/
 │       └── ComponentHelpersTests.cpp
 ```
 
-### Arquivo de Teste
+### Test File
 
 ```cpp
 // ComponentHelpersTests.cpp
@@ -142,60 +142,60 @@ void ComponentHelpersSpec::Define()
 }
 ```
 
-## Regras de Implementação
+## Implementation Rules
 
-### 1. Testes Devem Ser Independentes
+### 1. Tests Must Be Independent
 
-- Cada teste deve poder rodar isoladamente
-- Não dependa de ordem de execução
-- Limpe estado entre testes
+- Each test must be able to run in isolation
+- Don't depend on execution order
+- Clean state between tests
 
-### 2. Testes Devem Ser Rápidos
+### 2. Tests Must Be Fast
 
-- Evite operações lentas (I/O, rede)
-- Use mocks quando necessário
-- Mantenha testes unitários rápidos (< 1 segundo cada)
+- Avoid slow operations (I/O, network)
+- Use mocks when necessary
+- Keep unit tests fast (< 1 second each)
 
-### 3. Testes Devem Ser Determinísticos
+### 3. Tests Must Be Deterministic
 
-- Sempre produzem o mesmo resultado
-- Não use valores aleatórios sem seed fixo
-- Evite dependências de tempo/data
+- Always produce the same result
+- Don't use random values without fixed seed
+- Avoid time/date dependencies
 
-### 4. Um Teste = Uma Coisa
+### 4. One Test = One Thing
 
-- Teste uma funcionalidade por vez
-- Nome do teste deve deixar claro o que está testando
-- Se precisa testar múltiplas coisas, crie múltiplos testes
+- Test one functionality at a time
+- Test name must make clear what is being tested
+- If need to test multiple things, create multiple tests
 
-## Checklist de Testes
+## Testing Checklist
 
-Antes de considerar código "pronto":
+Before considering code "ready":
 
-- [ ] Funções helper têm testes?
-- [ ] Casos edge estão cobertos (nullptr, valores inválidos)?
-- [ ] Testes passam localmente?
-- [ ] Testes são independentes?
-- [ ] Testes são rápidos (< 1 segundo cada)?
-- [ ] Nomes dos testes são descritivos?
+- [ ] Helper functions have tests?
+- [ ] Edge cases are covered (nullptr, invalid values)?
+- [ ] Tests pass locally?
+- [ ] Tests are independent?
+- [ ] Tests are fast (< 1 second each)?
+- [ ] Test names are descriptive?
 
-## Quando Escrever Testes
+## When to Write Tests
 
-**SEMPRE escreva testes quando:**
-- Criar nova função helper em `Utils/`
-- Implementar lógica de cálculo complexa
-- Refatorar código crítico
-- Corrigir bug (adicione teste que reproduz o bug)
+**ALWAYS write tests when:**
+- Create new helper function in `Utils/`
+- Implement complex calculation logic
+- Refactor critical code
+- Fix bug (add test that reproduces the bug)
 
-**Pode pular testes quando:**
-- Código é muito simples (getter/setter)
-- É wrapper direto de API do Unreal
-- É código temporário (mas lembre-se: não deve ter código temporário!)
+**Can skip tests when:**
+- Code is very simple (getter/setter)
+- It's direct wrapper of Unreal API
+- It's temporary code (but remember: shouldn't have temporary code!)
 
-## Benefícios
+## Benefits
 
-- ✅ Detecta bugs antes de commitar
-- ✅ Confiança ao refatorar
-- ✅ Documentação viva (testes mostram como usar)
-- ✅ Facilita integração contínua (CI/CD)
-- ✅ Melhora qualidade do código
+- ✅ Detects bugs before committing
+- ✅ Confidence when refactoring
+- ✅ Living documentation (tests show how to use)
+- ✅ Facilitates continuous integration (CI/CD)
+- ✅ Improves code quality

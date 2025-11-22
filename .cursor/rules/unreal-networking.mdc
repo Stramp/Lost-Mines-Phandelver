@@ -1,17 +1,17 @@
 ---
-description: Networking e multiplayer no Unreal Engine
+description: Networking and multiplayer in Unreal Engine
 globs: ["*.cpp", "*.h"]
 alwaysApply: false
 ---
 
 # Networking - Unreal Engine 5.7
 
-## Replicação de Propriedades
-- Use `UPROPERTY(Replicated)` para propriedades que precisam sincronizar
-- Use `ReplicatedUsing = FunctionName` para callback quando valor muda
-- Implemente `GetLifetimeReplicatedProps()` para configurar replicação
+## Property Replication
+- Use `UPROPERTY(Replicated)` for properties that need to synchronize
+- Use `ReplicatedUsing = FunctionName` for callback when value changes
+- Implement `GetLifetimeReplicatedProps()` to configure replication
 
-## Exemplo de Replicação
+## Replication Example
 ```cpp
 // Header
 UPROPERTY(Replicated, ReplicatedUsing = OnRep_Health)
@@ -29,41 +29,41 @@ void AMyActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetime
 
 void AMyActor::OnRep_Health()
 {
-    // Chamado quando Health é replicado
+    // Called when Health is replicated
 }
 ```
 
 ## RPCs (Remote Procedure Calls)
-- **Server RPC** - Cliente chama no servidor
+- **Server RPC** - Client calls server
   ```cpp
   UFUNCTION(Server, Reliable)
   void ServerFireWeapon();
   ```
-- **Client RPC** - Servidor chama no cliente
+- **Client RPC** - Server calls client
   ```cpp
   UFUNCTION(Client, Reliable)
   void ClientShowDamage(float DamageAmount);
   ```
-- **NetMulticast** - Servidor chama em todos os clientes
+- **NetMulticast** - Server calls all clients
   ```cpp
   UFUNCTION(NetMulticast, Reliable)
   void MulticastExplode();
   ```
 
-## Validação de RPCs
-- Use `WithValidation` para validar RPCs:
+## RPC Validation
+- Use `WithValidation` to validate RPCs:
   ```cpp
   UFUNCTION(Server, Reliable, WithValidation)
   void ServerFireWeapon();
-  
+
   bool ServerFireWeapon_Validate() { return true; }
-  void ServerFireWeapon_Implementation() { /* código */ }
+  void ServerFireWeapon_Implementation() { /* code */ }
   ```
 
-## Boas Práticas
-- Minimize dados replicados (apenas o necessário)
-- Use `ReplicatedUsing` para atualizar UI/local quando valores mudam
-- RPCs confiáveis são garantidos, não confiáveis podem ser perdidos
-- Use `NetPriority` para controlar ordem de replicação
-- Considere `NetUpdateFrequency` para controlar frequência de updates
-- **SEMPRE** valide RPCs do servidor para prevenir cheating
+## Best Practices
+- Minimize replicated data (only what is necessary)
+- Use `ReplicatedUsing` to update UI/local when values change
+- Reliable RPCs are guaranteed, unreliable ones can be lost
+- Use `NetPriority` to control replication order
+- Consider `NetUpdateFrequency` to control update frequency
+- **ALWAYS** validate server RPCs to prevent cheating
