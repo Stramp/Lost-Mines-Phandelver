@@ -6,12 +6,12 @@
 |---------------|------|
 | 8             | 0    |
 | 9             | 1    |
-| 10            | 1    |
-| 11            | 1    |
-| 12            | 1    |
-| 13            | 1    |
-| 14            | 2    |
-| 15            | 3    |
+| 10            | 2    |
+| 11            | 3    |
+| 12            | 4    |
+| 13            | 5    |
+| 14            | 7    |
+| 15            | 9    |
 
 ## Rules
 
@@ -23,17 +23,17 @@
 
 ## Validation
 
-```
+```pseudocode
 AvailablePoints = 27 - sum(cost for each ability)
 Valid if: AvailablePoints == 0 AND all scores >= 8 AND all scores <= 15
 ```
 
 ## Calculation Function
 
-```
+```pseudocode
 function CalculateCost(score):
     if score == 8: return 0
-    if score >= 9 && score <= 13: return 1
-    if score == 14: return 2
-    if score == 15: return 3
+    if score >= 9 && score <= 13: return score - 8
+    if score == 14: return 7
+    if score == 15: return 9
 ```
