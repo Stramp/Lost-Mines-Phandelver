@@ -110,3 +110,6 @@ __pycache__/
 .env
 .env.local
 .env.*.local
+
+# Documentação pessoal (não versionada)
+memorias/

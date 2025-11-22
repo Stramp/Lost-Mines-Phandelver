@@ -65,7 +65,7 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     // Copia dados do Data Asset para o CharacterDataComponent
     CharacterDataComponent->CharacterName = DataAsset->CharacterName;
     CharacterDataComponent->CharacterDescription = DataAsset->CharacterDescription;
-    CharacterDataComponent->CharacterTotalLvl = DataAsset->CharacterTotalLvl;
+    CharacterDataComponent->CharacterTotalLvl = DataAsset->TotalLevel;
 
     // Salva referência ao Data Asset
     SourceDataAsset = DataAsset;

@@ -5,6 +5,7 @@
 #include "../Data/Tables/ClassDataTable.h"
 #include "../Data/Tables/BackgroundDataTable.h"
 #include "../Data/Tables/FeatDataTable.h"
+#include "../Characters/Data/CharacterSheetDataAsset.h"
 
 // ============================================================================
 // Race Data Table Helpers
@@ -151,7 +152,9 @@ TArray<FClassFeature> CharacterSheetHelpers::GetFeaturesAtLevel(FName ClassName,
             {
                 for (const FClassFeature &Feature : Row->Features)
                 {
-                    if (Feature.LevelUnlocked == Level)
+                    // Features persistem uma vez desbloqueadas (comportamento D&D 5e)
+                    // Retorna todas as features desbloqueadas até o nível especificado
+                    if (Feature.LevelUnlocked <= Level)
                     {
                         Features.Add(Feature);
                     }
@@ -206,6 +209,62 @@ namespace
         return FeatLevels.Contains(TotalLevel);
     }
 
+    /**
+     * Parseia e valida um pré-requisito de ability score.
+     * Formato esperado: "AbilityName Score" (ex: "Strength 13", "Dexterity 15")
+     *
+     * @param Prerequisite String do pré-requisito
+     * @param AbilityScores Map com ability scores do personagem
+     * @return true se o pré-requisito é atendido, false caso contrário
+     */
+    bool ValidateAbilityScorePrerequisite(const FName &Prerequisite, const TMap<FName, int32> &AbilityScores)
+    {
+        if (Prerequisite == NAME_None)
+        {
+            return true; // Pré-requisito vazio é considerado válido
+        }
+
+        // Converte FName para FString para parsing
+        FString PrerequisiteStr = Prerequisite.ToString();
+
+        // Lista de ability scores válidos
+        TArray<FName> AbilityNames = {TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
+                                      TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+
+        // Tenta parsear formato "AbilityName Score"
+        for (const FName &AbilityName : AbilityNames)
+        {
+            FString AbilityNameStr = AbilityName.ToString();
+            if (PrerequisiteStr.StartsWith(AbilityNameStr))
+            {
+                // Remove o nome do ability e espaços
+                FString ScoreStr = PrerequisiteStr.RightChop(AbilityNameStr.Len()).TrimStart();
+
+                // Tenta converter para número
+                int32 RequiredScore = 0;
+                if (LexTryParseString(RequiredScore, *ScoreStr))
+                {
+                    // Pré-requisito foi parseado com sucesso: ability name encontrado e score parseado
+                    // Se o ability não está no map, retorna false (dados faltando ou não inicializados)
+                    if (const int32 *CurrentScore = AbilityScores.Find(AbilityName))
+                    {
+                        return *CurrentScore >= RequiredScore;
+                    }
+                    else
+                    {
+                        // Ability score não encontrado no map - pré-requisito não pode ser atendido
+                        return false;
+                    }
+                }
+            }
+        }
+
+        // Se não for um pré-requisito de ability score reconhecido,
+        // assume que é outro tipo (proficiência, etc.) e retorna true
+        // TODO: Implementar validação de outros tipos de pré-requisitos quando necessário
+        return true;
+    }
+
     bool MeetsFeatPrerequisites(const FFeatDataRow *Row, const TMap<FName, int32> &AbilityScores)
     {
         if (!Row)
@@ -213,19 +272,23 @@ namespace
             return false;
         }
 
-        // Validação básica: verifica se o pré-requisito está nos ability scores
-        // Implementação simplificada - pode ser expandida para validação mais complexa
+        // Se não há pré-requisitos, o feat está disponível
+        if (Row->Prerequisites.Num() == 0)
+        {
+            return true;
+        }
+
+        // Valida cada pré-requisito
+        // Todos os pré-requisitos devem ser atendidos (AND lógico)
         for (const FName &Prerequisite : Row->Prerequisites)
         {
-            if (Prerequisite != NAME_None)
+            if (!ValidateAbilityScorePrerequisite(Prerequisite, AbilityScores))
             {
-                // Por enquanto, apenas verifica se o pré-requisito não é um ability score requerido
-                // Validação completa será implementada quando necessário
-                return true;
+                return false; // Se qualquer pré-requisito falhar, o feat não está disponível
             }
         }
 
-        return true;
+        return true; // Todos os pré-requisitos foram atendidos
     }
 } // namespace
 

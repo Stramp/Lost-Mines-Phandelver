@@ -4,29 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
-#include "CharacterSheetHelpers.generated.h"
 
 // Forward declarations
 class UDataTable;
 
-// Struct temporária para FClassLevelEntry (será movida para local apropriado no Plano 4)
-USTRUCT(BlueprintType)
-struct MYPROJECT2_API FClassLevelEntry
-{
-    GENERATED_BODY()
-
-    /** Nome da classe */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class Level")
-    FName ClassName;
-
-    /** Nível nesta classe */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class Level")
-    int32 Level;
-
-    FClassLevelEntry() : ClassName(NAME_None), Level(0) {}
-
-    FClassLevelEntry(const FName &InClassName, int32 InLevel) : ClassName(InClassName), Level(InLevel) {}
-};
+// Forward declaration para FClassLevelEntry (definida em CharacterSheetDataAsset.h)
+struct FClassLevelEntry;
 
 // Forward declarations para structs dos Data Tables
 struct FRaceDataRow;

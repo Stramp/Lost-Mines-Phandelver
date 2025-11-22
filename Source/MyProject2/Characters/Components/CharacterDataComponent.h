@@ -36,9 +36,9 @@ public:
     UPROPERTY(BlueprintReadWrite, Category = "Character Data")
     FName CharacterName = NAME_None;
 
-    /** Descrição do personagem */
+    /** Descrição do personagem (localizável) */
     UPROPERTY(BlueprintReadWrite, Category = "Character Data")
-    FName CharacterDescription = NAME_None;
+    FText CharacterDescription = FText::GetEmpty();
 
     /** Nível total do personagem */
     UPROPERTY(BlueprintReadOnly, Category = "Character Data")
