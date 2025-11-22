@@ -1,0 +1,54 @@
+---
+description: Delegates e eventos no Unreal Engine
+globs: ["*.cpp", "*.h"]
+alwaysApply: false
+---
+
+# Delegates e Eventos - Unreal Engine 5.7
+
+## Tipos de Delegates
+- **DECLARE_DELEGATE** - Delegate simples sem parâmetros
+- **DECLARE_DELEGATE_OneParam** - Delegate com um parâmetro
+- **DECLARE_DELEGATE_Multicast** - Multicast delegate (múltiplos listeners)
+- **DECLARE_DYNAMIC_DELEGATE** - Delegate exposto ao Blueprint
+- **DECLARE_DYNAMIC_MULTICAST_DELEGATE** - Multicast exposto ao Blueprint
+
+## Declaração de Delegates
+```cpp
+// No header
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, NewHealth);
+
+UCLASS()
+class MYPROJECT2_API AMyActor : public AActor
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(BlueprintAssignable, Category = "Events")
+    FOnHealthChanged OnHealthChanged;
+};
+```
+
+## Usando Delegates
+```cpp
+// Broadcast do evento
+OnHealthChanged.Broadcast(NewHealth);
+
+// Binding (C++)
+OnHealthChanged.AddDynamic(this, &AMyActor::HandleHealthChanged);
+
+// Unbinding
+OnHealthChanged.RemoveDynamic(this, &AMyActor::HandleHealthChanged);
+```
+
+## Eventos do Blueprint
+- Use `BlueprintAssignable` para eventos que podem ser atribuídos no Blueprint
+- Use `BlueprintCallable` para funções que disparam eventos
+- Eventos dinâmicos são mais lentos mas funcionam com Blueprints
+
+## Boas Práticas
+- Use delegates para desacoplar sistemas
+- Prefira multicast delegates para eventos que múltiplos sistemas precisam ouvir
+- **SEMPRE** faça unbind de delegates quando objetos são destruídos
+- Use delegates dinâmicos apenas quando necessário expor ao Blueprint
+- Delegates estáticos são mais rápidos que dinâmicos

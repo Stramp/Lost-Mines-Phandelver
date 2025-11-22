@@ -1,18 +1,21 @@
 ---
-description: Estrutura e organização do projeto Unreal Engine
+description: Estrutura e organização do projeto Unreal Engine 5.7
 alwaysApply: true
 ---
 
-# Estrutura do Projeto Unreal Engine
+# Estrutura do Projeto Unreal Engine 5.7
 
 ## Contexto do Projeto
 - **Engine**: Unreal Engine 5.7
 - **Plataforma**: Windows (Win64)
 - **Linguagens**: C++, Blueprints
 - **Editor**: Cursor/VS Code
+- **Build System**: UnrealBuildTool (UBT)
 
 ## Estrutura de Diretórios
-- `Source/MyProject2/` - Código fonte C++
+- `Source/MyProject2/` - Código fonte C++ do módulo principal
+- `Source/MyProject2.Target.cs` - Configuração de build do jogo
+- `Source/MyProject2Editor.Target.cs` - Configuração de build do editor
 - `Content/` - Assets do jogo (Blueprints, Texturas, Modelos, etc.)
 - `Config/` - Arquivos de configuração (.ini)
 - `Binaries/` - Executáveis compilados (não versionar)
@@ -23,16 +26,19 @@ alwaysApply: true
 ## Build e Compilação
 - Use UnrealBuildTool (UBT) para compilar
 - Configurações disponíveis: Debug, DebugGame, Development, Test, Shipping
-- Sempre verifique se o projeto compila antes de sugerir mudanças
+- **SEMPRE** verifique se o projeto compila antes de sugerir mudanças
 - Use as tasks do workspace para builds (Ctrl+Shift+P > Tasks: Run Task)
+- Após modificar `.Build.cs`, regenere os arquivos do projeto
 
 ## Boas Práticas
 - Sempre considere compatibilidade com Blueprints ao criar classes C++
 - Documente código complexo com comentários
 - Use Blueprints para prototipagem rápida, C++ para performance crítica
 - Teste mudanças em diferentes configurações de build quando relevante
+- Mantenha dependências mínimas no `.Build.cs` para builds mais rápidos
 
 ## Comunicação
 - Responda sempre em Português do Brasil quando o usuário falar em português
 - Explique o motivo das mudanças sugeridas
 - Considere impacto em Blueprints existentes ao modificar código C++
+- Quando sugerir mudanças, sempre mencione se requer rebuild do projeto

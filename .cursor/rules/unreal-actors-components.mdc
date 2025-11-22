@@ -1,0 +1,53 @@
+---
+description: Padrões específicos para Actors e Components no Unreal Engine
+globs: ["**/Actor*.h", "**/Actor*.cpp", "**/Component*.h", "**/Component*.cpp"]
+alwaysApply: false
+---
+
+# Actors e Components - Unreal Engine 5.7
+
+## Actors (AActor)
+- **SEMPRE** herde de `AActor` para objetos no mundo
+- Use `GENERATED_BODY()` no início da classe
+- Implemente `BeginPlay()` para inicialização
+- Implemente `Tick()` apenas se necessário (desative se não usar)
+- Use `UPROPERTY(VisibleAnywhere)` para componentes
+- Use `UPROPERTY(EditAnywhere)` para propriedades editáveis no editor
+
+## Componentes (UActorComponent / USceneComponent)
+- **SEMPRE** herde de `UActorComponent` ou `USceneComponent`
+- Use `UActorComponent` para lógica sem posição
+- Use `USceneComponent` para componentes com transformação
+- Use `USceneComponent` como root component quando apropriado
+- Componentes devem ser criados no construtor com `CreateDefaultSubobject<>()`
+- Use `SetupAttachment()` para hierarquia de componentes
+
+## Padrão de Criação de Componentes
+```cpp
+// No construtor (.cpp)
+AMyActor::AMyActor()
+{
+    PrimaryActorTick.bCanEverTick = false; // Desative se não usar Tick
+    
+    // Criar componente de mesh
+    MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
+    RootComponent = MeshComponent; // Definir como root
+    
+    // Criar componente filho
+    CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
+    CollisionComponent->SetupAttachment(RootComponent);
+}
+```
+
+## Lifecycle de Actors
+1. **Constructor** - Criar componentes e valores padrão
+2. **BeginPlay()** - Inicialização após spawn no mundo
+3. **Tick()** - Atualização a cada frame (desative se não usar)
+4. **EndPlay()** - Limpeza quando removido do mundo
+
+## Boas Práticas
+- Desative `Tick` se não for necessário: `PrimaryActorTick.bCanEverTick = false;`
+- Use eventos ao invés de Tick quando possível
+- Componentes devem ser autocontidos e reutilizáveis
+- Use `GetWorld()` para acessar o mundo, não armazene referência
+- Use `GetOwner()` em componentes para acessar o Actor dono

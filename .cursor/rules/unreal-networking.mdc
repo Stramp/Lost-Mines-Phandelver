@@ -1,0 +1,69 @@
+---
+description: Networking e multiplayer no Unreal Engine
+globs: ["*.cpp", "*.h"]
+alwaysApply: false
+---
+
+# Networking - Unreal Engine 5.7
+
+## Replicação de Propriedades
+- Use `UPROPERTY(Replicated)` para propriedades que precisam sincronizar
+- Use `ReplicatedUsing = FunctionName` para callback quando valor muda
+- Implemente `GetLifetimeReplicatedProps()` para configurar replicação
+
+## Exemplo de Replicação
+```cpp
+// Header
+UPROPERTY(Replicated, ReplicatedUsing = OnRep_Health)
+float Health;
+
+UFUNCTION()
+void OnRep_Health();
+
+// Cpp
+void AMyActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+    DOREPLIFETIME(AMyActor, Health);
+}
+
+void AMyActor::OnRep_Health()
+{
+    // Chamado quando Health é replicado
+}
+```
+
+## RPCs (Remote Procedure Calls)
+- **Server RPC** - Cliente chama no servidor
+  ```cpp
+  UFUNCTION(Server, Reliable)
+  void ServerFireWeapon();
+  ```
+- **Client RPC** - Servidor chama no cliente
+  ```cpp
+  UFUNCTION(Client, Reliable)
+  void ClientShowDamage(float DamageAmount);
+  ```
+- **NetMulticast** - Servidor chama em todos os clientes
+  ```cpp
+  UFUNCTION(NetMulticast, Reliable)
+  void MulticastExplode();
+  ```
+
+## Validação de RPCs
+- Use `WithValidation` para validar RPCs:
+  ```cpp
+  UFUNCTION(Server, Reliable, WithValidation)
+  void ServerFireWeapon();
+  
+  bool ServerFireWeapon_Validate() { return true; }
+  void ServerFireWeapon_Implementation() { /* código */ }
+  ```
+
+## Boas Práticas
+- Minimize dados replicados (apenas o necessário)
+- Use `ReplicatedUsing` para atualizar UI/local quando valores mudam
+- RPCs confiáveis são garantidos, não confiáveis podem ser perdidos
+- Use `NetPriority` para controlar ordem de replicação
+- Considere `NetUpdateFrequency` para controlar frequência de updates
+- **SEMPRE** valide RPCs do servidor para prevenir cheating

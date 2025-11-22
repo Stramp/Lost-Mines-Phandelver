@@ -1,0 +1,62 @@
+---
+description: Otimizações e boas práticas de performance no Unreal Engine
+globs: ["*.cpp", "*.h"]
+alwaysApply: false
+---
+
+# Performance e Otimização - Unreal Engine 5.7
+
+## Tick e Updates
+- **SEMPRE** desative `Tick` se não for necessário: `PrimaryActorTick.bCanEverTick = false;`
+- Use `FTimerHandle` para updates periódicos ao invés de Tick
+- Use eventos e delegates ao invés de polling
+- Considere `SetActorTickInterval()` para reduzir frequência de Tick
+
+## Garbage Collection
+- Minimize alocações de UObjects durante gameplay
+- Use object pooling para objetos frequentemente criados/destruídos
+- Evite criar UObjects em loops
+- Use structs ao invés de UObjects quando possível
+
+## Containers
+- Use `TArray` com `Reserve()` quando o tamanho é conhecido
+- Use `TMap` para lookups O(1), `TArray` para iterações
+- Evite `TArray::Find()` em loops - use `TMap` ou `TSet`
+- Use `TArray::RemoveAll()` ao invés de loops com `Remove()`
+
+## Strings
+- Use `FName` para comparações frequentes (case-insensitive, hashed)
+- Use `FString` apenas quando necessário (mutável, lento)
+- Use `FText` para UI (localizável)
+- Evite concatenação de strings em loops
+
+## Matemática
+- Use `FVector`, `FRotator`, `FTransform` (otimizados)
+- Use `FMath` para funções matemáticas
+- Evite conversões desnecessárias
+- Use `Squared` versions quando possível (ex: `FVector::DistSquared()`)
+
+## Logging
+- Use `UE_LOG()` com níveis apropriados
+- Desative logs em Shipping builds
+- Evite logs em loops ou funções chamadas frequentemente
+- Use `UE_LOG` com `LogTemp` para debug temporário
+
+## Networking
+- Use `Replicated` apenas para propriedades que precisam sincronizar
+- Minimize dados replicados
+- Use `ReplicatedUsing` para callbacks quando valores mudam
+- Considere `NetMulticast` vs `Server` vs `Client` RPCs
+
+## Profiling
+- Use Unreal Insights para profiling
+- Use `SCOPE_CYCLE_COUNTER()` para medir performance
+- Use `STAT()` macros para estatísticas
+- Profile antes de otimizar - meça, não adivinhe
+
+## Boas Práticas Gerais
+- Prefira stack allocation ao invés de heap quando possível
+- Use `const` e `constexpr` quando apropriado
+- Evite virtual functions em código performance-critical
+- Use `inline` para funções pequenas e frequentes
+- Cache resultados de cálculos caros

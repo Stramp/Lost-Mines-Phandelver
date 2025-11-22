@@ -6,38 +6,123 @@ alwaysApply: false
 
 # Convenções de Código C++ - Unreal Engine 5.7
 
-## Nomenclatura
-- **Classes**: PascalCase (ex: `MyProject2Character`, `APlayerController`)
-- **Funções**: PascalCase (ex: `BeginPlay()`, `Tick()`)
-- **Variáveis**: PascalCase com prefixos apropriados:
-  - Booleanos: prefixo `b` (ex: `bIsRunning`, `bIsActive`)
-  - Floats: prefixo opcional (ex: `Health`, `MaxHealth`)
-  - Enums: prefixo `E` (ex: `EPlayerState`)
-  - Interfaces: prefixo `I` (ex: `IInteractable`)
-- **Tipos**: prefixo `T` para templates (ex: `TArray`, `TMap`)
+## Nomenclatura (CRÍTICO)
+- **Classes**: PascalCase com prefixo apropriado:
+  - `A` para Actors (ex: `AMyProject2Character`, `APlayerController`)
+  - `U` para UObjects (ex: `UMyGameInstance`, `UMyComponent`)
+  - `F` para Structs (ex: `FPlayerStats`, `FWeaponData`)
+  - `E` para Enums (ex: `EPlayerState`, `EWeaponType`)
+  - `I` para Interfaces (ex: `IInteractable`, `IDamageable`)
+  - `T` para Templates (ex: `TArray`, `TMap`, `TSet`)
+- **Funções**: PascalCase (ex: `BeginPlay()`, `Tick()`, `OnHit()`)
+- **Variáveis**: PascalCase com prefixos:
+  - Booleanos: `b` (ex: `bIsRunning`, `bIsActive`, `bHasWeapon`)
+  - Floats: sem prefixo (ex: `Health`, `MaxHealth`, `Speed`)
+  - Inteiros: sem prefixo (ex: `AmmoCount`, `Level`)
+  - Enums: `E` (ex: `EPlayerState CurrentState`)
+  - Interfaces: `I` (ex: `IInteractable* InteractableObject`)
+- **Constantes**: `const` com PascalCase (ex: `const float MaxSpeed = 1000.0f;`)
 
-## Macros e Anotações
-- Sempre use `UPROPERTY()`, `UFUNCTION()`, `UCLASS()`, `USTRUCT()` quando apropriado
-- Use `UPROPERTY(BlueprintReadWrite)` para expor variáveis ao Blueprint
-- Use `UFUNCTION(BlueprintCallable)` para funções acessíveis via Blueprint
-- Use `UPROPERTY(VisibleAnywhere)` para variáveis apenas de leitura no editor
+## Macros e Anotações (ESSENCIAL)
+- **SEMPRE** use macros do Unreal para classes:
+  - `UCLASS()` para classes que herdam de `UObject`
+  - `USTRUCT()` para structs
+  - `UENUM()` para enums
+  - `UINTERFACE()` para interfaces
+- **UPROPERTY()** - Use para:
+  - `UPROPERTY(BlueprintReadWrite)` - Leitura/escrita no Blueprint
+  - `UPROPERTY(BlueprintReadOnly)` - Apenas leitura no Blueprint
+  - `UPROPERTY(VisibleAnywhere)` - Visível no editor, não editável
+  - `UPROPERTY(EditAnywhere)` - Editável no editor
+  - `UPROPERTY(EditDefaultsOnly)` - Editável apenas em defaults
+  - `UPROPERTY(EditInstanceOnly)` - Editável apenas em instâncias
+  - `UPROPERTY(Replicated)` - Replicação de rede
+- **UFUNCTION()** - Use para:
+  - `UFUNCTION(BlueprintCallable)` - Chamável do Blueprint
+  - `UFUNCTION(BlueprintImplementableEvent)` - Implementado no Blueprint
+  - `UFUNCTION(BlueprintNativeEvent)` - Implementação padrão em C++, pode ser sobrescrito no Blueprint
+  - `UFUNCTION(Server, Reliable)` - RPC do servidor
+  - `UFUNCTION(Client, Reliable)` - RPC do cliente
 
-## Headers
-- Sempre inclua `#include "CoreMinimal.h"` no topo dos arquivos .cpp
-- Use forward declarations quando possível nos headers
-- Organize includes: Engine headers primeiro, depois projeto, depois std
+## Headers e Includes
+- **SEMPRE** use `#include "CoreMinimal.h"` no topo dos arquivos .cpp
+- Use `#pragma once` em todos os headers (não use include guards)
+- Use forward declarations nos headers quando possível:
+  ```cpp
+  // No header (.h)
+  class APlayerController;
+  class UWidget;
+  
+  // No cpp
+  #include "PlayerController.h"
+  #include "Components/Widget.h"
+  ```
+- Organize includes nesta ordem:
+  1. Header correspondente (ex: `#include "MyClass.h"`)
+  2. Engine headers (ex: `#include "Engine/Engine.h"`)
+  3. Headers do projeto
+  4. Headers de plugins
+  5. STL (evite quando possível)
 
-## Containers
-- Prefira containers do Unreal: `TArray`, `TMap`, `TSet` ao invés de STL
-- Use `FString`, `FText`, `FName` ao invés de `std::string`
-- Use `FVector`, `FRotator`, `FTransform` para matemática 3D
+## Containers e Tipos
+- **SEMPRE** prefira containers do Unreal:
+  - `TArray<T>` ao invés de `std::vector<T>`
+  - `TMap<Key, Value>` ao invés de `std::map<Key, Value>`
+  - `TSet<T>` ao invés de `std::set<T>`
+- **SEMPRE** use tipos do Unreal:
+  - `FString` ao invés de `std::string` (para strings mutáveis)
+  - `FText` para texto localizável (UI)
+  - `FName` para nomes internos (rápido, case-insensitive)
+  - `FVector`, `FRotator`, `FTransform` para matemática 3D
+  - `FLinearColor`, `FColor` para cores
 
-## Garbage Collection
+## Garbage Collection (CRÍTICO)
 - Classes que herdam de `UObject` são gerenciadas pelo GC
-- Use `UPROPERTY()` para manter referências válidas
-- Evite ponteiros raw para UObjects sem `UPROPERTY()`
+- **SEMPRE** use `UPROPERTY()` para manter referências válidas a UObjects
+- **NUNCA** use ponteiros raw para UObjects sem `UPROPERTY()` (serão coletados pelo GC)
+- Use `TWeakObjectPtr<UObject>` para referências fracas
+- Use `TSoftObjectPtr<UObject>` para lazy loading
+- Structs e tipos primitivos não precisam de `UPROPERTY()` (mas podem ter para expor ao editor)
 
 ## Estrutura de Arquivos
 - Um arquivo .h e .cpp por classe
-- Nome do arquivo deve corresponder ao nome da classe
+- Nome do arquivo deve corresponder exatamente ao nome da classe
 - Coloque código fonte em `Source/MyProject2/`
+- Organize em subdiretórios por funcionalidade (ex: `Characters/`, `Components/`, `UI/`)
+
+## Exemplo de Classe Completa
+```cpp
+// MyActor.h
+#pragma once
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "MyActor.generated.h"
+
+UCLASS(BlueprintType, Blueprintable)
+class MYPROJECT2_API AMyActor : public AActor
+{
+    GENERATED_BODY()
+
+public:
+    AMyActor();
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+    class UStaticMeshComponent* MeshComponent;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+    float Health;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+    bool bIsActive;
+
+    UFUNCTION(BlueprintCallable, Category = "Gameplay")
+    void TakeDamage(float DamageAmount);
+
+protected:
+    virtual void BeginPlay() override;
+
+private:
+    UPROPERTY()
+    class UMyComponent* MyComponent;
+};
+```

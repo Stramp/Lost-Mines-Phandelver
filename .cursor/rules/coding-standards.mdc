@@ -1,31 +1,71 @@
 ---
-description: Padrões de código e formatação
+description: Padrões de código e formatação para Unreal Engine
 globs: ["*.cpp", "*.h", "*.cs"]
 alwaysApply: false
 ---
 
-# Padrões de Código
+# Padrões de Código - Unreal Engine 5.7
 
 ## Formatação
-- Use indentação de tabs (padrão Unreal)
+- **SEMPRE** use indentação de tabs (padrão Unreal, não espaços)
 - Máximo de 120 caracteres por linha
-- Espaços ao redor de operadores
-- Chaves na mesma linha para funções e classes
+- Espaços ao redor de operadores: `if (bIsActive && Health > 0)`
+- Chaves na mesma linha para funções e classes:
+  ```cpp
+  void MyFunction()
+  {
+      // código
+  }
+  ```
+- Use espaços após vírgulas: `TArray<int32> Array = {1, 2, 3};`
 
 ## Comentários
 - Use `//` para comentários de linha única
 - Use `/* */` para comentários multi-linha
-- Documente funções públicas com comentários descritivos
+- **SEMPRE** documente funções públicas com comentários descritivos
 - Explique "por quê" não "o quê" em comentários complexos
+- Use `// TODO:` para tarefas futuras
+- Use `// FIXME:` para bugs conhecidos
 
 ## Organização de Código
 - Declare variáveis no início do escopo
 - Agrupe funções relacionadas
 - Mantenha funções focadas e pequenas (idealmente < 50 linhas)
-- Use const quando apropriado
+- **SEMPRE** use `const` quando apropriado:
+  - `const` em parâmetros que não são modificados
+  - `const` em métodos que não modificam o objeto
+  - `const` em variáveis que não mudam
 
-## Tratamento de Erros
-- Use `check()` para asserções de debug
-- Use `ensure()` para verificações que não devem quebrar o jogo
+## Tratamento de Erros e Asserções
+- **check()** - Asserção que quebra o jogo em debug (remove em Shipping)
+  ```cpp
+  check(PlayerController != nullptr);
+  ```
+- **ensure()** - Verificação que loga mas não quebra o jogo
+  ```cpp
+  ensureMsgf(Health > 0, TEXT("Health should be positive"));
+  ```
+- **verify()** - Similar a check mas executa em todas as builds
+- **ensureAlways()** - Similar a ensure mas executa em todas as builds
 - Retorne valores booleanos ou códigos de erro quando apropriado
-- Log erros usando `UE_LOG()` com níveis apropriados (Error, Warning, Log)
+- **SEMPRE** log erros usando `UE_LOG()` com níveis apropriados:
+  ```cpp
+  UE_LOG(LogTemp, Error, TEXT("Failed to initialize: %s"), *ErrorMessage);
+  UE_LOG(LogTemp, Warning, TEXT("Health is low: %f"), Health);
+  UE_LOG(LogTemp, Log, TEXT("Player spawned"));
+  ```
+
+## Níveis de Log
+- `Error` - Erros críticos que impedem funcionamento
+- `Warning` - Avisos sobre problemas potenciais
+- `Log` - Informações gerais
+- `Verbose` - Informações detalhadas (desativado por padrão)
+- `VeryVerbose` - Informações muito detalhadas (desativado por padrão)
+
+## Copyright Header
+- **SEMPRE** inclua copyright header no topo dos arquivos:
+  ```cpp
+  // Copyright Epic Games, Inc. All Rights Reserved.
+  // ou
+  // Copyright [Seu Nome/Companhia], All Rights Reserved.
+  ```

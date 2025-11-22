@@ -1,0 +1,51 @@
+---
+description: Integração entre C++ e Blueprints no Unreal Engine
+globs: ["*.cpp", "*.h"]
+alwaysApply: false
+---
+
+# Integração C++ e Blueprints - Unreal Engine 5.7
+
+## Expondo Variáveis ao Blueprint
+- Use `UPROPERTY(BlueprintReadWrite)` para variáveis editáveis
+- Use `UPROPERTY(BlueprintReadOnly)` para variáveis apenas leitura
+- Use `Category = "NomeDaCategoria"` para organizar no editor
+- Use `meta = (AllowPrivateAccess = "true")` para expor variáveis privadas
+
+## Expondo Funções ao Blueprint
+- `UFUNCTION(BlueprintCallable)` - Função chamável do Blueprint
+- `UFUNCTION(BlueprintImplementableEvent)` - Implementação apenas no Blueprint
+- `UFUNCTION(BlueprintNativeEvent)` - Implementação padrão em C++, pode ser sobrescrito
+
+## Padrão BlueprintNativeEvent
+```cpp
+// Header
+UFUNCTION(BlueprintNativeEvent, Category = "Gameplay")
+void OnPlayerHit(float DamageAmount);
+
+// Cpp - Implementação padrão
+void AMyActor::OnPlayerHit_Implementation(float DamageAmount)
+{
+    // Implementação padrão em C++
+    Health -= DamageAmount;
+}
+```
+
+## Eventos do Blueprint
+- Use `BlueprintImplementableEvent` quando a lógica deve ser apenas no Blueprint
+- Use `BlueprintNativeEvent` quando há lógica padrão em C++ que pode ser estendida
+
+## Boas Práticas
+- **SEMPRE** teste mudanças em classes C++ que são usadas em Blueprints
+- Documente funções expostas ao Blueprint
+- Use categorias para organizar propriedades no editor
+- Considere performance: funções chamadas frequentemente devem ser C++ puro
+- Use `BlueprintCallable` para funções que precisam ser chamadas do Blueprint
+- Use `BlueprintImplementableEvent` para eventos que só fazem sentido no Blueprint
+
+## Compatibilidade
+- Ao modificar classes C++ usadas em Blueprints, verifique:
+  - Propriedades removidas quebrarão Blueprints
+  - Mudanças de tipo podem quebrar conexões
+  - Funções removidas quebrarão chamadas no Blueprint
+  - **SEMPRE** teste após mudanças

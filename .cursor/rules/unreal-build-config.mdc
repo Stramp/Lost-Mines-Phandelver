@@ -1,0 +1,60 @@
+---
+description: Configuração de build e módulos do Unreal Engine
+globs: ["*.Build.cs", "*.Target.cs"]
+alwaysApply: false
+---
+
+# Build Configuration - Unreal Engine 5.7
+
+## Arquivos Build.cs
+- Define dependências de módulos do projeto
+- Use `PublicDependencyModuleNames` para módulos usados em headers públicos
+- Use `PrivateDependencyModuleNames` para módulos usados apenas em .cpp
+- Mantenha dependências mínimas para builds mais rápidos
+- Adicione apenas o que é necessário
+
+## Módulos Comuns
+- **Core, CoreUObject, Engine** - Sempre incluídos (básicos)
+- **InputCore, EnhancedInput** - Para input
+- **UMG, Slate, SlateCore** - Para UI
+- **GameplayTasks** - Para tasks assíncronas
+- **AIModule** - Para IA
+- **OnlineSubsystem** - Para funcionalidades online
+
+## Exemplo de Build.cs Otimizado
+```csharp
+public class MyProject2 : ModuleRules
+{
+    public MyProject2(ReadOnlyTargetRules Target) : base(Target)
+    {
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+    
+        // Dependências públicas (usadas em headers)
+        PublicDependencyModuleNames.AddRange(new string[] { 
+            "Core", 
+            "CoreUObject", 
+            "Engine", 
+            "InputCore",
+            "EnhancedInput"
+        });
+
+        // Dependências privadas (usadas apenas em .cpp)
+        PrivateDependencyModuleNames.AddRange(new string[] { 
+            // Adicione apenas o necessário
+        });
+    }
+}
+```
+
+## Arquivos Target.cs
+- Define configurações de build para diferentes targets
+- `MyProject2.Target.cs` - Build do jogo
+- `MyProject2Editor.Target.cs` - Build do editor
+- Use `ExtraModuleNames` para incluir módulos customizados
+
+## Boas Práticas
+- **SEMPRE** regenere arquivos do projeto após modificar `.Build.cs`
+- Adicione dependências apenas quando necessário
+- Use `PrivateDependencyModuleNames` quando possível (mais eficiente)
+- Evite dependências circulares entre módulos
+- Documente dependências não óbvias
