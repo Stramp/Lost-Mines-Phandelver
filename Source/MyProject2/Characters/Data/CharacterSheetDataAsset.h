@@ -37,5 +37,5 @@ public:
 
     /** Nível total do personagem */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Sheet")
-    int16 CharacterTotalLvl = 0;
+    int32 CharacterTotalLvl = 0;
 };

@@ -42,7 +42,7 @@ public:
 
     /** Nível total do personagem */
     UPROPERTY(BlueprintReadOnly, Category = "Character Data")
-    int16 CharacterTotalLvl = 0;
+    int32 CharacterTotalLvl = 0;
 
     /**
      * Faz log da ficha do personagem no console.

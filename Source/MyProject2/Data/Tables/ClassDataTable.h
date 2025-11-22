@@ -13,27 +13,22 @@
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FClassProficiency
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	/** Tipo de proficiência (ex: "Weapon", "Armor", "SavingThrow", "Skill") */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiency")
-	FName ProficiencyType;
+    /** Tipo de proficiência (ex: "Weapon", "Armor", "SavingThrow", "Skill") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiency")
+    FName ProficiencyType;
 
-	/** Nome da proficiência específica (ex: "Longsword", "Light Armor", "Strength", "Athletics") */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiency")
-	FName ProficiencyName;
+    /** Nome da proficiência específica (ex: "Longsword", "Light Armor", "Strength", "Athletics") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiency")
+    FName ProficiencyName;
 
-	FClassProficiency()
-		: ProficiencyType(NAME_None)
-		, ProficiencyName(NAME_None)
-	{
-	}
+    FClassProficiency() : ProficiencyType(NAME_None), ProficiencyName(NAME_None) {}
 
-	FClassProficiency(const FName& InProficiencyType, const FName& InProficiencyName)
-		: ProficiencyType(InProficiencyType)
-		, ProficiencyName(InProficiencyName)
-	{
-	}
+    FClassProficiency(const FName &InProficiencyType, const FName &InProficiencyName)
+        : ProficiencyType(InProficiencyType), ProficiencyName(InProficiencyName)
+    {
+    }
 };
 
 /**
@@ -44,41 +39,50 @@ struct MYPROJECT2_API FClassProficiency
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FClassFeature
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	/** Nome da feature (ex: "Second Wind", "Action Surge", "Spellcasting") */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
-	FName FeatureName;
+    /** Nome da feature (ex: "Second Wind", "Action Surge", "Spellcasting") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
+    FName FeatureName;
 
-	/** Descrição textual da feature (localizável, para exibição na UI) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
-	FText Description;
+    /** Descrição textual da feature (localizável, para exibição na UI) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
+    FText Description;
 
-	/** Nível em que a feature é desbloqueada */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
-	int32 LevelUnlocked;
+    /** Nível em que a feature é desbloqueada */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
+    int32 LevelUnlocked;
 
-	/**
-	 * Dados estruturados opcionais da feature.
-	 * Permite armazenar informações programáticas além da descrição.
-	 * Exemplo: {"UsesPerRest": "1", "Type": "BonusAction"} para Second Wind
-	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
-	TMap<FName, FString> FeatureData;
+    /**
+     * Tipo da feature: determina como a feature é aplicada.
+     * Valores possíveis:
+     * - "Automatic": Feature aplicada automaticamente (ex: Second Wind, Action Surge)
+     * - "SubclassSelection": Jogador escolhe subclasse (ex: Archetype no nível 3)
+     * - "ASI": Ability Score Improvement (níveis 4, 8, 12, 16, 19)
+     * - "Choice": Escolha entre opções (ex: Fighting Style)
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
+    FName FeatureType;
 
-	FClassFeature()
-		: FeatureName(NAME_None)
-		, Description(FText::GetEmpty())
-		, LevelUnlocked(1)
-	{
-	}
+    /**
+     * Dados estruturados opcionais da feature.
+     * Permite armazenar informações programáticas além da descrição.
+     * Exemplo: {"UsesPerRest": "1", "Type": "BonusAction"} para Second Wind
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
+    TMap<FName, FString> FeatureData;
 
-	FClassFeature(const FName& InFeatureName, const FText& InDescription, int32 InLevelUnlocked)
-		: FeatureName(InFeatureName)
-		, Description(InDescription)
-		, LevelUnlocked(InLevelUnlocked)
-	{
-	}
+    FClassFeature()
+        : FeatureName(NAME_None), Description(FText::GetEmpty()), LevelUnlocked(1), FeatureType(TEXT("Automatic"))
+    {
+    }
+
+    FClassFeature(const FName &InFeatureName, const FText &InDescription, int32 InLevelUnlocked,
+                  const FName &InFeatureType = TEXT("Automatic"))
+        : FeatureName(InFeatureName), Description(InDescription), LevelUnlocked(InLevelUnlocked),
+          FeatureType(InFeatureType)
+    {
+    }
 };
 
 /**
@@ -88,29 +92,25 @@ struct MYPROJECT2_API FClassFeature
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FSpellcastingInfo
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	/** Se a classe possui spellcasting */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spellcasting")
-	bool bHasSpellcasting;
+    /** Se a classe possui spellcasting */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spellcasting")
+    bool bHasSpellcasting;
 
-	/** Nome do atributo usado para spellcasting (ex: "Intelligence", "Wisdom", "Charisma") */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spellcasting", meta = (EditCondition = "bHasSpellcasting"))
-	FName SpellcastingAbility;
+    /** Nome do atributo usado para spellcasting (ex: "Intelligence", "Wisdom", "Charisma") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spellcasting", meta = (EditCondition = "bHasSpellcasting"))
+    FName SpellcastingAbility;
 
-	/**
-	 * Número de spell slots por nível.
-	 * Array indexado por nível (índice 0 = nível 1, índice 1 = nível 2, etc.).
-	 * Cada elemento representa quantos spell slots daquele nível a classe ganha.
-	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spellcasting", meta = (EditCondition = "bHasSpellcasting"))
-	TArray<int32> SpellSlotsPerLevel;
+    /**
+     * Número de spell slots por nível.
+     * Array indexado por nível (índice 0 = nível 1, índice 1 = nível 2, etc.).
+     * Cada elemento representa quantos spell slots daquele nível a classe ganha.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spellcasting", meta = (EditCondition = "bHasSpellcasting"))
+    TArray<int32> SpellSlotsPerLevel;
 
-	FSpellcastingInfo()
-		: bHasSpellcasting(false)
-		, SpellcastingAbility(NAME_None)
-	{
-	}
+    FSpellcastingInfo() : bHasSpellcasting(false), SpellcastingAbility(NAME_None) {}
 };
 
 /**
@@ -121,45 +121,53 @@ struct MYPROJECT2_API FSpellcastingInfo
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FClassDataRow : public FTableRowBase
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	/** Nome da classe (ex: "Fighter", "Wizard", "Cleric", "Rogue") */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-	FName ClassName;
+    /** Nome da classe (ex: "Fighter", "Wizard", "Cleric", "Rogue") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    FName ClassName;
 
-	/** Descrição textual da classe (localizável) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-	FText Description;
+    /** Descrição textual da classe (localizável) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    FText Description;
 
-	/** Dado de vida da classe (4, 6, 8, 10 ou 12) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-	int32 HitDie;
+    /** Dado de vida da classe (4, 6, 8, 10 ou 12) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    int32 HitDie;
 
-	/** Proficiências com armas */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-	TArray<FClassProficiency> WeaponProficiencies;
+    /**
+     * Nomes das subclasses disponíveis para esta classe.
+     * Exemplo: "Champion", "Battle Master", "Eldritch Knight" para Fighter.
+     * Pode ser array vazio para classes sem subclasses.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FName> SubclassNames;
 
-	/** Proficiências com armaduras */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-	TArray<FClassProficiency> ArmorProficiencies;
+    /** Proficiências com armas */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FClassProficiency> WeaponProficiencies;
 
-	/** Proficiências em saving throws */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-	TArray<FClassProficiency> SavingThrowProficiencies;
+    /** Proficiências com armaduras */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FClassProficiency> ArmorProficiencies;
 
-	/** Proficiências em skills (o jogador escolhe algumas delas) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-	TArray<FClassProficiency> SkillProficiencies;
+    /** Proficiências em saving throws */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FClassProficiency> SavingThrowProficiencies;
 
-	/** Equipamento inicial da classe (FNames de itens) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-	TArray<FName> StartingEquipment;
+    /** Proficiências em skills (o jogador escolhe algumas delas) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FClassProficiency> SkillProficiencies;
 
-	/** Informações de spellcasting (se a classe possui spellcasting) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-	FSpellcastingInfo SpellcastingInfo;
+    /** Equipamento inicial da classe (FNames de itens) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FName> StartingEquipment;
 
-	/** Features da classe por nível */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-	TArray<FClassFeature> Features;
+    /** Informações de spellcasting (se a classe possui spellcasting) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    FSpellcastingInfo SpellcastingInfo;
+
+    /** Features da classe por nível */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FClassFeature> Features;
 };
