@@ -19,4 +19,4 @@
 2. Subrace belongs to selected Race
 3. Subclass belongs to selected Class
 4. Total Level <= 20
-5. All ability scores 8-20 (after bonuses)
+5. All ability scores 8-17 (after bonuses, max 20 only with ASIs during level up)
