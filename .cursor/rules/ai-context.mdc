@@ -20,9 +20,18 @@ alwaysApply: true
 
 ## Convenções do Projeto
 - Use as regras em `.cursor/rules/` como referência
+- **CRÍTICO:** SEMPRE siga Clean Code e Design Patterns (ver `clean-code-mandatory.mdc`)
+- **SEMPRE** use formato Conventional Commits (ver `git-commits.mdc`)
+- **SEMPRE** escreva testes para funções helper (ver `testing.mdc`)
 - Sempre siga padrões do Unreal Engine
 - Documente código complexo
 - Mantenha código limpo e organizado
+
+## ⚠️ REGRA CRÍTICA - PRIORIDADE MÁXIMA ⚠️
+- **SEMPRE** aplicar Clean Code e Design Patterns em TODAS as situações
+- **NUNCA** criar código "temporário" ou "só para testar" que viole essas regras
+- **SEMPRE** colocar funções helper reutilizáveis em `Utils/` ou `Helpers/`
+- Ver regra completa em: `.cursor/rules/clean-code-mandatory.mdc`
 
 ## Quando Sugerir Mudanças
 - **SEMPRE** explique o motivo
