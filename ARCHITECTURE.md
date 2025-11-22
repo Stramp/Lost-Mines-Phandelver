@@ -157,6 +157,8 @@ void ServerTakeDamage_Implementation(float DamageAmount)
 
 ## Arquitetura em Camadas
 
+> **💡 Dica:** Veja o diagrama visual abaixo para entender melhor a arquitetura em camadas.
+
 ### Camada 1: Data Assets (Editor/Configuração)
 
 **Responsabilidade:** Armazenar configuração estática, não contém lógica.
@@ -313,56 +315,80 @@ public:
 
 ## Fluxo de Dados
 
+```mermaid
+graph TB
+    subgraph Editor["📝 EDITOR"]
+        DA[CharacterSheetDataAsset<br/>- Raça, Classe<br/>- Habilidades<br/>- Dados Estáticos]
+    end
+
+    subgraph Server["🖥️ RUNTIME - SERVIDOR"]
+        SC[CharacterSheetComponent<br/>- Aplica regras de raça<br/>- Aplica regras de classe<br/>- Carrega dados]
+        DC[CharacterDataComponent<br/>- Armazena dados replicáveis<br/>- Calcula atributos finais<br/>- Calcula HP, proficiência]
+
+        SC -->|InitializeFromDataAsset| DA
+        SC -->|SetData| DC
+    end
+
+    subgraph Client["💻 RUNTIME - CLIENTE"]
+        DCC[CharacterDataComponent<br/>- Recebe dados replicados<br/>- Atualiza UI]
+        FC1[SpellcastingComponent]
+        FC2[SecondWindComponent]
+        FC3[ActionSurgeComponent]
+        FC4[Outros Feature Components]
+
+        DCC -->|Usa dados| FC1
+        DCC -->|Usa dados| FC2
+        DCC -->|Usa dados| FC3
+        DCC -->|Usa dados| FC4
+    end
+
+    DC -->|DOREPLIFETIME<br/>Replicação| DCC
+
+    style Editor fill:#e1f5ff
+    style Server fill:#fff4e1
+    style Client fill:#e8f5e9
+    style DA fill:#bbdefb
+    style SC fill:#ffe0b2
+    style DC fill:#ffe0b2
+    style DCC fill:#c8e6c9
+    style FC1 fill:#c8e6c9
+    style FC2 fill:#c8e6c9
+    style FC3 fill:#c8e6c9
+    style FC4 fill:#c8e6c9
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    [EDITOR]                              │
-│                                                          │
-│  CharacterSheetDataAsset                                │
-│  - Configuração de raça, classe                         │
-│  - Escolhas de habilidades                              │
-│  - Dados estáticos                                       │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-                   │ InitializeFromDataAsset()
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│              [RUNTIME - SERVIDOR]                        │
-│                                                          │
-│  CharacterSheetComponent                                 │
-│  - Aplica regras de raça (ApplyRaceBonuses)             │
-│  - Aplica regras de classe (ApplyClassFeatures)         │
-│  - Carrega dados para Runtime Component                 │
-│                                                          │
-│                   │                                      │
-│                   │ SetData()                            │
-│                   ▼                                      │
-│                                                          │
-│  CharacterDataComponent                                  │
-│  - Armazena dados replicáveis                           │
-│  - Calcula atributos finais                             │
-│  - Calcula HP, proficiência                             │
-│  - Replica para clientes                                │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-                   │ Replicação (DOREPLIFETIME)
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│              [RUNTIME - CLIENTE]                         │
-│                                                          │
-│  CharacterDataComponent                                  │
-│  - Recebe dados replicados                              │
-│  - Atualiza UI quando dados mudam                       │
-│                                                          │
-│                   │                                      │
-│                   │ Usa dados                            │
-│                   ▼                                      │
-│                                                          │
-│  Feature Components                                     │
-│  - SpellcastingComponent                                 │
-│  - SecondWindComponent                                   │
-│  - ActionSurgeComponent                                  │
-│  - etc.                                                  │
-└─────────────────────────────────────────────────────────┘
+
+## Arquitetura em Camadas (Diagrama)
+
+```mermaid
+graph LR
+    subgraph Layer1["Camada 1: Data Assets"]
+        DA1[UCharacterSheetDataAsset<br/>📝 Editor Only<br/>⚙️ Configuração Estática]
+    end
+
+    subgraph Layer2["Camada 2: Bridge Components"]
+        BC1[UCharacterSheetComponent<br/>🔗 Ponte Data → Runtime<br/>📋 Aplica Regras]
+    end
+
+    subgraph Layer3["Camada 3: Runtime Data"]
+        RD1[UCharacterDataComponent<br/>💾 Dados Replicáveis<br/>📊 Atributos Finais]
+    end
+
+    subgraph Layer4["Camada 4: Features"]
+        F1[USpellcastingComponent]
+        F2[USecondWindComponent]
+        F3[UActionSurgeComponent]
+    end
+
+    DA1 -->|InitializeFromDataAsset| BC1
+    BC1 -->|SetData| RD1
+    RD1 -->|Usa dados| F1
+    RD1 -->|Usa dados| F2
+    RD1 -->|Usa dados| F3
+
+    style Layer1 fill:#e3f2fd
+    style Layer2 fill:#fff3e0
+    style Layer3 fill:#f3e5f5
+    style Layer4 fill:#e8f5e9
 ```
 
 ## Preparação para GAS (Gameplay Ability System)
@@ -431,6 +457,38 @@ Antes de criar novo código, verifique:
 
 ## Estrutura de Arquivos Recomendada
 
+```mermaid
+graph TD
+    Root[Source/MyProject2/] --> Chars[Characters/]
+    Root --> Comp[Components/]
+    Root --> Data[Data/]
+    Root --> Gameplay[Gameplay/]
+    Root --> Utils[Utils/]
+
+    Chars --> CharsData[Data/<br/>CharacterSheetDataAsset]
+    Chars --> CharsComp[Components/<br/>CharacterSheetComponent<br/>CharacterDataComponent]
+
+    Comp --> CompFeat[Features/<br/>SpellcastingComponent<br/>SecondWindComponent]
+    Comp --> CompData[Data/]
+
+    Data --> DataTab[Tables/<br/>RaceDataTable<br/>ClassDataTable]
+    Data --> DataAssets[Assets/]
+
+    Gameplay --> GameplayAbil[Abilities/]
+    Gameplay --> GameplaySys[Systems/]
+
+    Utils --> UtilsHelpers[ComponentHelpers<br/>MathHelpers]
+
+    style Root fill:#2196f3,color:#fff
+    style Chars fill:#4caf50,color:#fff
+    style Comp fill:#ff9800,color:#fff
+    style Data fill:#9c27b0,color:#fff
+    style Gameplay fill:#f44336,color:#fff
+    style Utils fill:#00bcd4,color:#fff
+```
+
+### Estrutura Detalhada
+
 ```
 Source/MyProject2/
 ├── Characters/
@@ -456,8 +514,13 @@ Source/MyProject2/
 │   │   └── ClassDataTable.h
 │   └── Assets/
 │       └── (data assets)
-└── Gameplay/
-    └── (mecânicas de jogo)
+├── Gameplay/
+│   ├── Abilities/
+│   └── Systems/
+└── Utils/
+    ├── ComponentHelpers.h
+    ├── ComponentHelpers.cpp
+    └── (outros helpers)
 ```
 
 ## Referências

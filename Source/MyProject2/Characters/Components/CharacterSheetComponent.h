@@ -1,0 +1,51 @@
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Components/ActorComponent.h"
+#include "CharacterSheetComponent.generated.h"
+
+class UCharacterSheetDataAsset;
+class UCharacterDataComponent;
+
+/**
+ * Bridge Component - Camada 2
+ * Faz ponte entre Data Asset e Runtime Component, aplica regras de raça e classe.
+ *
+ * Responsabilidade: Carregar dados do Data Asset para Runtime Component.
+ */
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class MYPROJECT2_API UCharacterSheetComponent : public UActorComponent
+{
+    GENERATED_BODY()
+
+public:
+    UCharacterSheetComponent();
+
+    /**
+     * Inicializa o componente a partir de um Data Asset.
+     * Lê os dados do Data Asset e copia para o CharacterDataComponent.
+     */
+    UFUNCTION(BlueprintCallable, Category = "Character")
+    void InitializeFromDataAsset(UCharacterSheetDataAsset *DataAsset);
+
+protected:
+    virtual void BeginPlay() override;
+
+private:
+    /**
+     * Busca e cacheia o CharacterDataComponent no Actor.
+     * Usa helper reutilizável de ComponentHelpers.
+     * @return CharacterDataComponent encontrado ou nullptr
+     */
+    UCharacterDataComponent *FindOrGetCharacterDataComponent();
+
+    /** Data Asset fonte (template) */
+    UPROPERTY(EditAnywhere, Category = "Character Sheet")
+    UCharacterSheetDataAsset *SourceDataAsset;
+
+    /** Referência ao componente de dados em runtime */
+    UPROPERTY()
+    UCharacterDataComponent *CharacterDataComponent;
+};
