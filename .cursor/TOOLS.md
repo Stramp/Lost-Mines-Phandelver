@@ -163,3 +163,4 @@ showdebug collision  # Debug de colisão
 7. Use **static analysis** regularmente
 8. **Profile** antes de otimizar
 
+

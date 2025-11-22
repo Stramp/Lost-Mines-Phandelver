@@ -1,50 +1,91 @@
+---
+If:
+  PathMatch:
+    - .vscode/unreal-clangd/completionHelper.cpp
+    - Source/.*\.(cpp|h)
 CompileFlags:
+  CompilationDatabase: .vscode/unreal-clangd
+  Compiler: c:/Program Files/LLVM/bin/clang-cl.exe
   Add:
-    # Unreal Engine paths
-    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source"
-    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/Core/Public"
-    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/CoreUObject/Public"
-    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/Engine/Classes"
-    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/Engine/Public"
-    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/InputCore/Classes"
-    - -I"C:/Program Files/Epic Games/UE_5.7/Engine/Source/Runtime/EnhancedInput/Public"
-    # Project paths
-    - -I"F:/UNREAL GAME/MyProject2/Source"
-    - -I"F:/UNREAL GAME/MyProject2/Source/MyProject2"
-    - -I"F:/UNREAL GAME/MyProject2/Source/MyProject2/Public"
-    - -I"F:/UNREAL GAME/MyProject2/Source/MyProject2/Private"
-    # Unreal Engine defines
-    - -DUE_EDITOR=1
-    - -DUE_BUILD_DEVELOPMENT=1
-    - -DUE_ENGINE_DIRECTORY="C:/Program Files/Epic Games/UE_5.7/Engine"
-    - -DPLATFORM_WINDOWS=1
-    - -DPLATFORM_MICROSOFT=1
-    - -DWITH_EDITOR=1
-    - -DUNICODE
-    - -D_UNICODE
-    # C++ standard
-    - -std=c++17
-    # Warnings
-    - -Wno-unused-variable
+    - /X
+    - /imsvcC:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\cppwinrt
+    - /imsvcC:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared
+    - /imsvcC:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt
+    - /imsvcC:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um
+    - /imsvcC:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\winrt
+    - /imsvcC:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.50.35717\include
+    - -fms-compatibility-version=19.50.35717
+    - /std:c++20
+    - /FIF:\UNREAL GAME\MyProject2\.vscode\unreal-clangd\macroCompletionHelper.h
+    - /TP
+    - -mwaitpkg
+    - /we4668
+    - /wd4244
+    - /wd4838
+    - /W4
+    - /wd5054
+    - -Werror
+    - -Wdelete-non-virtual-dtor
+    - -Wenum-conversion
+    - -Wbitfield-enum-conversion
+    - -Wno-enum-enum-conversion
+    - -Wno-enum-float-conversion
+    - -Wno-ambiguous-reversed-operator
+    - -Wno-deprecated-anon-enum-enum-conversion
+    - -Wno-deprecated-volatile
+    - -Wno-unused-but-set-variable
+    - -Wno-unused-but-set-parameter
+    - -Wno-ordered-compare-function-pointers
+    - -Wno-bitwise-instead-of-logical
+    - -Wno-gnu-string-literal-operator-template
+    - -Wno-inconsistent-missing-override
+    - -Wno-invalid-offsetof
+    - -Wno-switch
+    - -Wno-tautological-compare
+    - -Wno-unknown-pragmas
     - -Wno-unused-function
-    - -Wno-missing-field-initializers
+    - -Wno-unused-lambda-capture
+    - -Wno-unused-local-typedef
+    - -Wno-unused-private-field
+    - -Wno-unused-variable
+    - -Wno-undefined-var-template
+    - -Wshadow
+    - -Wundef
+    - -Wno-float-conversion
+    - -Wno-implicit-float-conversion
+    - -Wno-implicit-int-conversion
+    - -Wno-c++11-narrowing
+    - -Wno-microsoft
+    - -Wno-msvc-include
+    - -Wno-pragma-pack
+    - -Wno-inline-new-delete
+    - -Wno-implicit-exception-spec-mismatch
+    - -Wno-undefined-bool-conversion
+    - -Wno-deprecated-writable-strings
+    - -Wno-deprecated-register
+    - -Wno-switch-enum
+    - -Wno-logical-op-parentheses
+    - -Wno-null-arithmetic
     - -Wno-deprecated-declarations
-    # Unreal Engine specific
-    - -fms-extensions
-    - -fms-compatibility
-    - -fdelayed-template-parsing
-
+    - -Wno-return-type-c-linkage
+    - -Wno-ignored-attributes
+    - -Wno-uninitialized
+    - -Wno-return-type
+    - -Wno-unused-parameter
+    - -Wno-ignored-qualifiers
+    - -Wno-expansion-to-defined
+    - -Wno-sign-compare
+    - -Wno-missing-field-initializers
+    - -Wno-nonportable-include-path
+    - -Wno-invalid-token-paste
+    - -Wno-null-pointer-arithmetic
+    - -Wno-constant-logical-operand
+    - -Wno-unused-value
+    - -Wno-bitfield-enum-conversion
+InlayHints:
+  Enabled: Yes
+  DeducedTypes: Yes
+  ParameterNames: Yes
+  Designators: Yes
 Diagnostics:
   UnusedIncludes: None
-  MissingIncludes: None
-  ClangTidy:
-    Add:
-      - modernize-*
-      - performance-*
-      - readability-*
-    Remove:
-      - modernize-use-trailing-return-type
-      - readability-identifier-length
-
-Index:
-  Background: Build

@@ -49,3 +49,4 @@ O problema pode ser que o Cursor está priorizando configurações da UI sobre o
 3. Reinicie o Cursor
 4. O Cursor deve ler automaticamente o `.cursor/mcp.json`
 
+

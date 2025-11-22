@@ -102,4 +102,3 @@
 - Use `Ctrl+K Ctrl+F` para formatar seleção
 - Os snippets funcionam em qualquer arquivo .cpp ou .h
 - A IA automaticamente segue as regras ao sugerir código
-

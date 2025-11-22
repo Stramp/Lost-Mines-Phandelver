@@ -75,7 +75,7 @@ alwaysApply: true
 ```cpp
 /**
  * Calcula o dano baseado no tipo de arma e defesa do alvo.
- * 
+ *
  * @param WeaponType Tipo da arma atacante
  * @param TargetDefense Valor de defesa do alvo
  * @return Dano calculado (sempre >= 0)

@@ -95,3 +95,4 @@ O MCP oferece estas ferramentas:
 - ✅ Este MCP não requer plugins C++ adicionais
 - ✅ Usa o Python Remote Execution nativo do Unreal
 
+

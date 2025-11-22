@@ -1,0 +1,361 @@
+[
+  {
+    "Name": "Dwarf",
+    "RaceName": "Dwarf",
+    "Description": "Bold and hardy dwarves are known as skilled warriors miners and workers of stone and metal",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Constitution",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 25,
+    "Traits": [],
+    "SubraceNames": [
+      "Hill Dwarf",
+      "Mountain Dwarf"
+    ],
+    "Languages": [
+      "Common",
+      "Dwarvish"
+    ]
+  },
+  {
+    "Name": "Hill Dwarf",
+    "RaceName": "Hill Dwarf",
+    "Description": "As a hill dwarf you have keen senses deep intuition and remarkable resilience",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Wisdom",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 25,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": []
+  },
+  {
+    "Name": "Mountain Dwarf",
+    "RaceName": "Mountain Dwarf",
+    "Description": "As a mountain dwarf you are strong and hardy accustomed to a difficult life in rugged terrain",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Strength",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 25,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": []
+  },
+  {
+    "Name": "Elf",
+    "RaceName": "Elf",
+    "Description": "Elves are a magical people of otherworldly grace living in the world but not entirely part of it",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Dexterity",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "Traits": [],
+    "SubraceNames": [
+      "High Elf",
+      "Wood Elf",
+      "Drow"
+    ],
+    "Languages": [
+      "Common",
+      "Elvish"
+    ]
+  },
+  {
+    "Name": "High Elf",
+    "RaceName": "High Elf",
+    "Description": "As a high elf you have a keen mind and a mastery of at least the basics of magic",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Intelligence",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": []
+  },
+  {
+    "Name": "Wood Elf",
+    "RaceName": "Wood Elf",
+    "Description": "As a wood elf you have keen senses and intuition and your fleet feet carry you quickly through your native forests",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Wisdom",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 35,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": []
+  },
+  {
+    "Name": "Drow",
+    "RaceName": "Drow",
+    "Description": "Descended from an earlier subrace of dark-skinned elves the drow have a reputation for skill in combat magic and stealth",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Charisma",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": []
+  },
+  {
+    "Name": "Halfling",
+    "RaceName": "Halfling",
+    "Description": "The diminutive halflings survive in a world full of larger creatures by avoiding notice or barring that avoiding offense",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Dexterity",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "Traits": [],
+    "SubraceNames": [
+      "Lightfoot",
+      "Stout"
+    ],
+    "Languages": [
+      "Common",
+      "Halfling"
+    ]
+  },
+  {
+    "Name": "Lightfoot",
+    "RaceName": "Lightfoot",
+    "Description": "As a lightfoot halfling you can easily hide from notice even using other people as cover",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Charisma",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": []
+  },
+  {
+    "Name": "Stout",
+    "RaceName": "Stout",
+    "Description": "As a stout halfling you are hardier than average and have some resistance to poison",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Constitution",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": []
+  },
+  {
+    "Name": "Human",
+    "RaceName": "Human",
+    "Description": "Humans are the most adaptable and ambitious people among the common races Whatever drives them humans are the innovators the achievers and the pioneers of the worlds",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Strength",
+        "Bonus": 1
+      },
+      {
+        "AbilityName": "Dexterity",
+        "Bonus": 1
+      },
+      {
+        "AbilityName": "Constitution",
+        "Bonus": 1
+      },
+      {
+        "AbilityName": "Intelligence",
+        "Bonus": 1
+      },
+      {
+        "AbilityName": "Wisdom",
+        "Bonus": 1
+      },
+      {
+        "AbilityName": "Charisma",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": [
+      "Common"
+    ]
+  },
+  {
+    "Name": "Dragonborn",
+    "RaceName": "Dragonborn",
+    "Description": "Born of dragons as their name proclaims the dragonborn walk proudly through a world that greets them with fearful incomprehension",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Strength",
+        "Bonus": 2
+      },
+      {
+        "AbilityName": "Charisma",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": [
+      "Common",
+      "Draconic"
+    ]
+  },
+  {
+    "Name": "Gnome",
+    "RaceName": "Gnome",
+    "Description": "A gnomes energy and enthusiasm for living shines through every inch of his or her tiny body",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Intelligence",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "Traits": [],
+    "SubraceNames": [
+      "Forest Gnome",
+      "Rock Gnome"
+    ],
+    "Languages": [
+      "Common",
+      "Gnomish"
+    ]
+  },
+  {
+    "Name": "Forest Gnome",
+    "RaceName": "Forest Gnome",
+    "Description": "As a forest gnome you have a natural knack for illusion and inherent quickness and stealth",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Dexterity",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": []
+  },
+  {
+    "Name": "Rock Gnome",
+    "RaceName": "Rock Gnome",
+    "Description": "As a rock gnome you have a natural inventiveness and hardiness beyond that of other gnomes",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Constitution",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": []
+  },
+  {
+    "Name": "Half-Elf",
+    "RaceName": "Half-Elf",
+    "Description": "Walking in two worlds but truly belonging to neither half-elves combine what some say are the best qualities of their elf and human parents",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Charisma",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": [
+      "Common",
+      "Elvish"
+    ]
+  },
+  {
+    "Name": "Half-Orc",
+    "RaceName": "Half-Orc",
+    "Description": "Half-orcs grayish pigmentation sloping foreheads jutting jaws prominent teeth and towering builds make their orcish heritage plain for all to see",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Strength",
+        "Bonus": 2
+      },
+      {
+        "AbilityName": "Constitution",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": [
+      "Common",
+      "Orc"
+    ]
+  },
+  {
+    "Name": "Tiefling",
+    "RaceName": "Tiefling",
+    "Description": "To be greeted with stares and whispers to suffer violence and insult on the street to see mistrust and fear in every eye this is the lot of the tiefling",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Intelligence",
+        "Bonus": 1
+      },
+      {
+        "AbilityName": "Charisma",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "Traits": [],
+    "SubraceNames": [],
+    "Languages": [
+      "Common",
+      "Infernal"
+    ]
+  }
+]
