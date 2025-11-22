@@ -1,0 +1,305 @@
+---
+description: Arquitetura do projeto - Princípios de design e estrutura
+alwaysApply: true
+---
+
+# Arquitetura do Projeto - MyProject2
+
+## Princípios Fundamentais
+
+### 1. Data-Driven
+
+**REGRA CRÍTICA:** Todas as regras vêm de Data Tables ou Data Assets, NUNCA hardcoded no código.
+
+**Implementação:**
+
+- Use `UDataTable` para dados tabulares (raças, classes, itens)
+- Use `UDataAsset` para configurações complexas (fichas de personagem)
+- Valide dados no editor com `UDataAsset::PostEditChangeProperty()`
+- Use `FTableRowBase` para estruturas de dados
+
+**Exemplo:**
+
+```cpp
+// ✅ CORRETO - Data-Driven
+UPROPERTY(EditDefaultsOnly, Category = "Data")
+UDataTable* RaceDataTable;
+
+// ❌ ERRADO - Hardcoded
+const float DwarfConstitutionBonus = 2.0f;
+```
+
+### 2. Modularidade
+
+**REGRA CRÍTICA:** Código organizado por domínio, cada parte com responsabilidade única e clara.
+
+**Estrutura de Diretórios:**
+
+```
+Source/MyProject2/
+├── Characters/          # Personagens e raças
+├── Components/          # Componentes reutilizáveis
+│   ├── Data/           # Componentes de dados
+│   ├── Features/        # Componentes de features
+│   └── UI/             # Componentes de UI
+├── Data/               # Data Assets e Data Tables
+├── Gameplay/           # Mecânicas de jogo
+└── Utils/              # Utilitários
+```
+
+**Regras:**
+
+- Cada módulo deve ser independente
+- Use interfaces para comunicação entre módulos
+- Evite dependências circulares
+- Um arquivo .h e .cpp por classe
+
+### 3. Editor-Friendly
+
+**REGRA CRÍTICA:** Sistema deve funcionar perfeitamente no editor, permitindo configuração sem rodar o jogo.
+
+**Implementação:**
+
+- Use `WITH_EDITOR` para código específico do editor
+- Valide dados em `PostEditChangeProperty()`
+- Use `UPROPERTY(EditAnywhere)` para propriedades editáveis
+- Forneça feedback visual no editor quando possível
+
+**Exemplo:**
+
+```cpp
+#if WITH_EDITOR
+void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+    Super::PostEditChangeProperty(PropertyChangedEvent);
+    ValidateData();
+}
+#endif
+```
+
+### 4. Preparação para Multiplayer
+
+**REGRA CRÍTICA:** Sistema preparado para multiplayer desde o início, não refatorar depois.
+
+**Implementação:**
+
+- **SEMPRE** use `DOREPLIFETIME` para propriedades replicáveis
+- **SEMPRE** valide RPCs com `WithValidation`
+- **SEMPRE** execute lógica autoritária no servidor
+- **SEMPRE** use `GetLocalRole()` para verificar autoridade
+- **NUNCA** confie em dados do cliente sem validação
+
+**Exemplo:**
+
+```cpp
+// ✅ CORRETO - Replicação
+void AMyCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+    DOREPLIFETIME(AMyCharacter, CharacterData);
+}
+
+// ✅ CORRETO - RPC com validação
+UFUNCTION(Server, Reliable, WithValidation)
+void ServerTakeDamage(float DamageAmount);
+
+bool ServerTakeDamage_Validate(float DamageAmount) { return DamageAmount >= 0.0f; }
+void ServerTakeDamage_Implementation(float DamageAmount) { /* lógica autoritária */ }
+```
+
+### 5. Separação de Responsabilidades (Component-Based Architecture)
+
+**REGRA CRÍTICA:** Cada camada tem responsabilidade única e bem definida.
+
+#### Camada 1: Data Assets (Editor/Configuração)
+
+**Responsabilidade:** Armazenar configuração estática, não contém lógica.
+
+**Características:**
+
+- Herda de `UDataAsset`
+- `UPROPERTY(EditDefaultsOnly)` - editável apenas em defaults
+- Não é replicável (não precisa em runtime)
+- Funciona apenas no editor para designers
+- Exemplo: `UCharacterSheetDataAsset`
+
+**Padrão:**
+
+```cpp
+UCLASS(BlueprintType)
+class MYPROJECT2_API UCharacterSheetDataAsset : public UDataAsset
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditDefaultsOnly, Category = "Character")
+    ERace Race;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Character")
+    EClass Class;
+
+    // NUNCA lógica aqui, apenas dados
+};
+```
+
+#### Camada 2: Bridge Components (Aplicação de Regras)
+
+**Responsabilidade:** Fazer ponte entre Data Asset e Runtime Component, aplicar regras.
+
+**Características:**
+
+- Herda de `UActorComponent`
+- Executa apenas no servidor/local (não replicável)
+- Aplica regras de raça e classe
+- Carrega dados do Data Asset para Runtime Component
+- Exemplo: `UCharacterSheetComponent`
+
+**Padrão:**
+
+```cpp
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+class MYPROJECT2_API UCharacterSheetComponent : public UActorComponent
+{
+    GENERATED_BODY()
+
+public:
+    UFUNCTION(BlueprintCallable, Category = "Character")
+    void InitializeFromDataAsset(UCharacterSheetDataAsset* DataAsset);
+
+    UFUNCTION(BlueprintCallable, Category = "Character")
+    void ApplyRaceBonuses();
+
+    UFUNCTION(BlueprintCallable, Category = "Character")
+    void ApplyClassFeatures();
+
+private:
+    UPROPERTY()
+    UCharacterSheetDataAsset* SourceDataAsset;
+};
+```
+
+#### Camada 3: Runtime Data Components (Dados Replicáveis)
+
+**Responsabilidade:** Armazenar dados do personagem em runtime, todas as propriedades replicáveis.
+
+**Características:**
+
+- Herda de `UActorComponent`
+- Todas as propriedades são replicáveis (`DOREPLIFETIME`)
+- Calcula atributos finais, HP, proficiência
+- Preparado para migração futura para GAS Attributes
+- Exemplo: `UCharacterDataComponent`
+
+**Padrão:**
+
+```cpp
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+class MYPROJECT2_API UCharacterDataComponent : public UActorComponent
+{
+    GENERATED_BODY()
+
+public:
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+    UPROPERTY(Replicated, ReplicatedUsing = OnRep_Health)
+    float Health;
+
+    UPROPERTY(Replicated)
+    float MaxHealth;
+
+    UFUNCTION()
+    void OnRep_Health();
+
+    UFUNCTION(BlueprintCallable, Category = "Character")
+    void CalculateFinalAttributes();
+};
+```
+
+#### Camada 4: Feature Components (Lógica Específica)
+
+**Responsabilidade:** Gerenciar features específicas de classes (spells, abilities, etc.).
+
+**Características:**
+
+- Herda de `UActorComponent`
+- Cada um gerencia uma feature específica
+- Podem ser migrados para GAS Abilities no futuro
+- Exemplos: `USpellcastingComponent`, `USecondWindComponent`, `UActionSurgeComponent`
+
+**Padrão:**
+
+```cpp
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+class MYPROJECT2_API USpellcastingComponent : public UActorComponent
+{
+    GENERATED_BODY()
+
+public:
+    UFUNCTION(BlueprintCallable, Category = "Spellcasting")
+    void CastSpell(int32 SpellSlot);
+
+    UPROPERTY(Replicated)
+    TArray<FSpellSlot> SpellSlots;
+};
+```
+
+## Fluxo de Dados
+
+```
+[Editor]
+CharacterSheetDataAsset (Configuração)
+    ↓
+[Runtime - Servidor]
+CharacterSheetComponent (Aplica regras)
+    ↓
+CharacterDataComponent (Dados replicáveis)
+    ↓
+[Runtime - Cliente]
+CharacterDataComponent (Recebe dados replicados)
+    ↓
+Feature Components (Usam dados)
+```
+
+## Regras de Implementação
+
+### Ao Criar Novos Componentes
+
+1. **SEMPRE** defina responsabilidade única
+2. **SEMPRE** use `UPROPERTY()` apropriado (EditAnywhere, Replicated, etc.)
+3. **SEMPRE** implemente `GetLifetimeReplicatedProps()` se tiver dados replicáveis
+4. **SEMPRE** valide dados no editor quando possível
+5. **NUNCA** misture lógica de diferentes camadas
+
+### Ao Criar Data Assets
+
+1. **SEMPRE** herde de `UDataAsset`
+2. **SEMPRE** use `UPROPERTY(EditDefaultsOnly)`
+3. **NUNCA** adicione lógica, apenas dados
+4. **SEMPRE** valide dados no editor
+
+### Ao Criar Features
+
+1. **SEMPRE** crie componente separado para cada feature
+2. **SEMPRE** use interfaces para comunicação
+3. **SEMPRE** prepare para migração futura para GAS
+4. **NUNCA** acople features diretamente
+
+## Preparação para GAS (Gameplay Ability System)
+
+**Futuro:** Migrar dados para GAS Attributes e lógica para GAS Abilities.
+
+**Preparação:**
+
+- Dados em Components (fácil migrar para Attributes)
+- Lógica em Components separados (fácil migrar para Abilities)
+- Interfaces bem definidas (fácil refatorar)
+
+## Checklist de Arquitetura
+
+Antes de criar novo código:
+
+- [ ] É Data-Driven? (usa Data Tables/Assets?)
+- [ ] É Modular? (responsabilidade única?)
+- [ ] Funciona no Editor? (pode configurar sem rodar?)
+- [ ] É Multiplayer-Ready? (replicação correta?)
+- [ ] Separação de Responsabilidades? (camada correta?)
