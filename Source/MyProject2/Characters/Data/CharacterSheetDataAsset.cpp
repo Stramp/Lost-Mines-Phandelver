@@ -52,14 +52,24 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
         PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace))
     {
         // Resetar sub-raça se raça mudou
+        // Seta flag antes de modificar para evitar re-disparar PostEditChangeProperty
+        // e causar validação redundante
         if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace))
         {
+            bIsValidatingProperties = true;
             SelectedSubrace = NAME_None;
+            // Flag será limpa após ValidateAndUpdate() para proteger toda a operação
         }
 
         // ValidateAndUpdate() já chama UpdateRacialBonuses() e UpdateCalculatedFields()
         // Não precisa chamar separadamente para evitar redundância
         ValidateAndUpdate();
+
+        // Limpa flag após validação completa
+        if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace))
+        {
+            bIsValidatingProperties = false;
+        }
     }
     else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, AbilityScores))
     {
