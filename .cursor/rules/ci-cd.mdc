@@ -1,0 +1,160 @@
+---
+description: Regras e configuração de CI/CD para o projeto
+globs: []
+alwaysApply: true
+---
+
+# Regras de CI/CD (Continuous Integration/Continuous Deployment)
+
+## Conceito
+
+CI/CD automatiza processos de build, teste e deploy, garantindo que código sempre compila e funciona corretamente.
+
+## Pipeline Recomendado
+
+### 1. Build (Compilação)
+
+**SEMPRE** compile o projeto em cada commit/pull request.
+
+**Objetivo:** Detectar erros de compilação imediatamente.
+
+### 2. Testes
+
+**SEMPRE** rode testes automaticamente após build bem-sucedido.
+
+**Objetivo:** Detectar regressões e bugs.
+
+### 3. Validação de Código
+
+**SEMPRE** valide:
+- Formatação (clang-format)
+- Linting (clang-tidy, se configurado)
+- Análise estática (se configurada)
+
+**Objetivo:** Manter qualidade e consistência do código.
+
+### 4. Validação de Documentação
+
+**SEMPRE** verifique:
+- README.md existe e está atualizado
+- ARCHITECTURE.md está atualizado (se houver mudanças arquiteturais)
+- Comentários em código novo
+
+**Objetivo:** Garantir documentação sempre atualizada.
+
+## Configuração GitHub Actions
+
+### Exemplo: `.github/workflows/build.yml`
+
+```yaml
+name: Build and Test
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Unreal Engine
+      # Configurar caminho do Unreal Engine
+
+    - name: Generate Project Files
+      run: |
+        "C:\Program Files\Epic Games\UE_5.7\Engine\Build\BatchFiles\RunUBT.bat" -projectfiles -project="${{ github.workspace }}\MyProject2.uproject" -game -engine
+
+    - name: Build Project
+      run: |
+        "C:\Program Files\Epic Games\UE_5.7\Engine\Build\BatchFiles\Build.bat" MyProject2Editor Win64 Development "${{ github.workspace }}\MyProject2.uproject" -waitmutex
+
+    - name: Run Tests
+      run: |
+        # Executar testes automatizados
+        # (quando implementados)
+
+    - name: Validate Code Format
+      run: |
+        # Verificar formatação com clang-format
+        # (quando configurado)
+```
+
+## Regras de CI/CD
+
+### 1. Build Deve Sempre Passar
+
+- **NUNCA** commite código que não compila
+- Se build falhar, corrija antes de continuar
+- Use CI para validar antes de merge
+
+### 2. Testes Devem Passar
+
+- Todos os testes devem passar
+- Se teste falhar, corrija código ou teste
+- Não desabilite testes para fazer build passar
+
+### 3. Validações Devem Passar
+
+- Código deve seguir formatação
+- Linting não deve ter erros críticos
+- Documentação deve estar atualizada
+
+### 4. Notificações
+
+- Configure notificações quando build falhar
+- Use badges no README para mostrar status
+- Notifique em PRs quando build falhar
+
+## Badges no README
+
+Adicione badges para mostrar status:
+
+```markdown
+![Build Status](https://github.com/seu-usuario/MyProject2/workflows/Build%20and%20Test/badge.svg)
+![Tests](https://github.com/seu-usuario/MyProject2/workflows/Tests/badge.svg)
+```
+
+## Checklist de CI/CD
+
+Antes de configurar CI/CD:
+
+- [ ] Build funciona localmente?
+- [ ] Testes existem e passam?
+- [ ] Formatação está configurada?
+- [ ] Documentação está atualizada?
+- [ ] Notificações estão configuradas?
+
+## Benefícios
+
+- ✅ Detecta problemas imediatamente
+- ✅ Garante que código sempre compila
+- ✅ Previne bugs de chegar em produção
+- ✅ Facilita code review (PRs com build verde)
+- ✅ Automatiza processos repetitivos
+- ✅ Melhora qualidade geral do projeto
+
+## Quando Implementar
+
+**Implemente CI/CD quando:**
+- Projeto tem múltiplos desenvolvedores
+- Commits frequentes
+- Quer garantir qualidade automática
+- Quer automatizar deploy
+
+**Pode adiar se:**
+- Projeto solo e muito inicial
+- Commits raros
+- Não tem testes ainda
+
+## Próximos Passos
+
+1. Configure GitHub Actions (ou similar)
+2. Adicione build automático
+3. Adicione testes quando implementar
+4. Configure validações de código
+5. Adicione badges ao README

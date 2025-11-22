@@ -1,0 +1,201 @@
+---
+description: Regras e padrões para testes no projeto
+globs: ["*.cpp", "*.h"]
+alwaysApply: true
+---
+
+# Regras de Testes
+
+## Princípios de Testes
+
+### O Que Testar
+
+**SEMPRE teste:**
+- ✅ Funções helper/utilitárias (em `Utils/`)
+- ✅ Funções puras (sem efeitos colaterais)
+- ✅ Lógica de cálculo complexa
+- ✅ Validações e edge cases
+- ✅ Funções críticas para gameplay
+
+**NÃO precisa testar:**
+- ❌ Getters/Setters simples
+- ❌ Wrappers simples de API do Unreal
+- ❌ Código gerado automaticamente
+
+### Estrutura de Testes (AAA Pattern)
+
+**Arrange** - Preparar dados e contexto
+**Act** - Executar a função sendo testada
+**Assert** - Verificar o resultado
+
+```cpp
+TEST(ComponentHelpers, FindCharacterDataComponent_WithValidOwner_ReturnsComponent)
+{
+    // Arrange
+    AActor* TestActor = NewObject<AActor>();
+    UCharacterDataComponent* ExpectedComponent = NewObject<UCharacterDataComponent>(TestActor);
+    TestActor->AddComponent(ExpectedComponent);
+
+    // Act
+    UCharacterDataComponent* Result = ComponentHelpers::FindCharacterDataComponent(TestActor);
+
+    // Assert
+    EXPECT_NE(Result, nullptr);
+    EXPECT_EQ(Result, ExpectedComponent);
+}
+```
+
+## Nomenclatura de Testes
+
+### Formato
+
+```
+TEST(<TestSuite>, <TestName>)
+```
+
+### TestSuite
+
+Nome da classe/função sendo testada:
+- `ComponentHelpers` - Para funções do namespace ComponentHelpers
+- `CharacterSheetComponent` - Para métodos da classe
+- `CharacterDataComponent` - Para métodos da classe
+
+### TestName
+
+Formato: `<Cenário>_<Condição>_<ResultadoEsperado>`
+
+Exemplos:
+- `FindCharacterDataComponent_WithValidOwner_ReturnsComponent`
+- `FindCharacterDataComponent_WithNullOwner_ReturnsNullptr`
+- `FindCharacterDataComponent_WithoutComponent_ReturnsNullptr`
+- `CalculateFinalAttributes_WithBaseAttributes_CalculatesCorrectly`
+
+## Casos de Teste Obrigatórios
+
+### Para Funções Helper
+
+**SEMPRE teste:**
+
+1. **Caso válido/happy path**
+   ```cpp
+   TEST(ComponentHelpers, FindCharacterDataComponent_WithValidOwner_ReturnsComponent)
+   ```
+
+2. **Nullptr/null input**
+   ```cpp
+   TEST(ComponentHelpers, FindCharacterDataComponent_WithNullOwner_ReturnsNullptr)
+   ```
+
+3. **Caso não encontrado**
+   ```cpp
+   TEST(ComponentHelpers, FindCharacterDataComponent_WithoutComponent_ReturnsNullptr)
+   ```
+
+### Para Funções de Cálculo
+
+**SEMPRE teste:**
+
+1. **Valores normais**
+2. **Valores extremos** (0, máximo, negativo se aplicável)
+3. **Valores inválidos** (nullptr, valores fora de range)
+
+## Organização de Testes
+
+### Estrutura de Diretórios
+
+```
+Source/MyProject2/
+├── Utils/
+│   ├── ComponentHelpers.h
+│   ├── ComponentHelpers.cpp
+│   └── Tests/
+│       └── ComponentHelpersTests.cpp
+```
+
+### Arquivo de Teste
+
+```cpp
+// ComponentHelpersTests.cpp
+#include "Misc/AutomationTest.h"
+#include "Utils/ComponentHelpers.h"
+#include "Characters/Components/CharacterDataComponent.h"
+#include "GameFramework/Actor.h"
+
+BEGIN_DEFINE_SPEC(ComponentHelpersSpec, "MyProject2.Utils.ComponentHelpers", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+
+END_DEFINE_SPEC(ComponentHelpersSpec)
+
+void ComponentHelpersSpec::Define()
+{
+    Describe("FindCharacterDataComponent", [this]()
+    {
+        It("should return component when owner has it", [this]()
+        {
+            // Test implementation
+        });
+
+        It("should return nullptr when owner is null", [this]()
+        {
+            // Test implementation
+        });
+    });
+}
+```
+
+## Regras de Implementação
+
+### 1. Testes Devem Ser Independentes
+
+- Cada teste deve poder rodar isoladamente
+- Não dependa de ordem de execução
+- Limpe estado entre testes
+
+### 2. Testes Devem Ser Rápidos
+
+- Evite operações lentas (I/O, rede)
+- Use mocks quando necessário
+- Mantenha testes unitários rápidos (< 1 segundo cada)
+
+### 3. Testes Devem Ser Determinísticos
+
+- Sempre produzem o mesmo resultado
+- Não use valores aleatórios sem seed fixo
+- Evite dependências de tempo/data
+
+### 4. Um Teste = Uma Coisa
+
+- Teste uma funcionalidade por vez
+- Nome do teste deve deixar claro o que está testando
+- Se precisa testar múltiplas coisas, crie múltiplos testes
+
+## Checklist de Testes
+
+Antes de considerar código "pronto":
+
+- [ ] Funções helper têm testes?
+- [ ] Casos edge estão cobertos (nullptr, valores inválidos)?
+- [ ] Testes passam localmente?
+- [ ] Testes são independentes?
+- [ ] Testes são rápidos (< 1 segundo cada)?
+- [ ] Nomes dos testes são descritivos?
+
+## Quando Escrever Testes
+
+**SEMPRE escreva testes quando:**
+- Criar nova função helper em `Utils/`
+- Implementar lógica de cálculo complexa
+- Refatorar código crítico
+- Corrigir bug (adicione teste que reproduz o bug)
+
+**Pode pular testes quando:**
+- Código é muito simples (getter/setter)
+- É wrapper direto de API do Unreal
+- É código temporário (mas lembre-se: não deve ter código temporário!)
+
+## Benefícios
+
+- ✅ Detecta bugs antes de commitar
+- ✅ Confiança ao refatorar
+- ✅ Documentação viva (testes mostram como usar)
+- ✅ Facilita integração contínua (CI/CD)
+- ✅ Melhora qualidade do código

@@ -1,0 +1,23 @@
+# <type>(<scope>): <descrição curta>
+# <corpo opcional>
+# <footer opcional>
+#
+# Tipos:
+#   feat: Nova feature/funcionalidade
+#   fix: Correção de bug
+#   refactor: Refatoração (sem mudança de comportamento)
+#   docs: Apenas documentação
+#   style: Formatação, espaços, etc
+#   test: Adição ou correção de testes
+#   chore: Tarefas de manutenção
+#   perf: Melhoria de performance
+#   ci: Mudanças em CI/CD
+#
+# Scope (opcional):
+#   Characters, Components, Data, Utils, Gameplay, Architecture, Docs, Build
+#
+# Exemplos:
+#   feat(Characters): adiciona CharacterTotalLvl ao Data Asset
+#   fix(Components): corrige busca de CharacterDataComponent quando Owner é nullptr
+#   refactor(Utils): move FindCharacterDataComponent para ComponentHelpers
+#   docs(Architecture): adiciona diagramas Mermaid ao ARCHITECTURE.md

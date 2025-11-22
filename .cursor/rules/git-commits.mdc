@@ -1,0 +1,138 @@
+---
+description: Padrões de commits Git para o projeto
+globs: []
+alwaysApply: true
+---
+
+# Regras de Git e Commits
+
+## Formato de Commits (Conventional Commits)
+
+**SEMPRE** use o formato Conventional Commits para facilitar histórico, changelog automático e integração com ferramentas.
+
+### Estrutura
+
+```
+<type>(<scope>): <descrição curta>
+
+[corpo opcional]
+
+[footer opcional]
+```
+
+### Tipos de Commit
+
+- **feat**: Nova feature/funcionalidade
+- **fix**: Correção de bug
+- **refactor**: Refatoração (sem mudança de comportamento)
+- **docs**: Apenas documentação
+- **style**: Formatação, espaços, etc (não afeta código)
+- **test**: Adição ou correção de testes
+- **chore**: Tarefas de manutenção (build, dependências, etc)
+- **perf**: Melhoria de performance
+- **ci**: Mudanças em CI/CD
+
+### Scope (Opcional mas Recomendado)
+
+Use o módulo/área afetada:
+
+- `Characters` - Personagens e componentes relacionados
+- `Components` - Componentes genéricos
+- `Data` - Data Assets e Data Tables
+- `Utils` - Utilitários e helpers
+- `Gameplay` - Mecânicas de jogo
+- `Architecture` - Mudanças arquiteturais
+- `Docs` - Documentação
+- `Build` - Sistema de build
+
+### Exemplos Corretos
+
+```bash
+feat(Characters): adiciona CharacterTotalLvl ao Data Asset
+fix(Components): corrige busca de CharacterDataComponent quando Owner é nullptr
+refactor(Utils): move FindCharacterDataComponent para ComponentHelpers
+docs(Architecture): adiciona diagramas Mermaid ao ARCHITECTURE.md
+test(Utils): adiciona testes para ComponentHelpers::FindCharacterDataComponent
+perf(Characters): otimiza cálculo de atributos finais
+chore(Build): atualiza dependências do projeto
+ci(GitHub): adiciona workflow de build automático
+```
+
+### Exemplos Incorretos
+
+```bash
+❌ "fix"
+❌ "update"
+❌ "mudanças"
+❌ "arrumei o bug"
+❌ "feat: coisa nova"
+❌ "fix: bug no componente"
+```
+
+## Regras de Mensagem
+
+### Descrição Curta
+
+- **Máximo 50 caracteres** (ideal)
+- **Primeira letra minúscula** (exceto nomes próprios)
+- **Sem ponto final**
+- **Verbo no imperativo**: "adiciona", "corrige", "remove" (não "adicionou", "corrigiu")
+
+### Corpo (Opcional)
+
+- Use para explicar **o quê** e **por quê** (não **como**)
+- Separe do título com linha em branco
+- Máximo 72 caracteres por linha
+
+### Footer (Opcional)
+
+- Use para referenciar issues: `Closes #123`
+- Use para breaking changes: `BREAKING CHANGE: descrição`
+
+## Exemplos Completos
+
+### Commit Simples
+
+```bash
+feat(Characters): adiciona campo CharacterTotalLvl
+```
+
+### Commit com Corpo
+
+```bash
+refactor(Utils): move FindCharacterDataComponent para helper
+
+Move função de busca de componente para ComponentHelpers namespace
+seguindo princípios de Clean Code. Função agora é reutilizável e
+testável isoladamente.
+
+Antes: Função privada acoplada ao CharacterSheetComponent
+Depois: Função pública em ComponentHelpers namespace
+```
+
+### Commit com Breaking Change
+
+```bash
+refactor(Characters): renomeia CharacterSheetComponent para CharacterBuilderComponent
+
+BREAKING CHANGE: CharacterSheetComponent foi renomeado para CharacterBuilderComponent.
+Atualize todas as referências no código e Blueprints.
+```
+
+## Checklist Antes de Commitar
+
+- [ ] Mensagem segue formato Conventional Commits?
+- [ ] Scope está correto?
+- [ ] Descrição é clara e concisa?
+- [ ] Código compila sem erros?
+- [ ] Testes passam (se houver)?
+- [ ] Documentação atualizada (se necessário)?
+
+## Benefícios
+
+- ✅ Histórico claro e navegável
+- ✅ Geração automática de changelog
+- ✅ Facilita rollback seletivo
+- ✅ Melhora code review
+- ✅ Integração com ferramentas (semantic-release, etc)
+- ✅ Filtragem fácil de commits por tipo/scope

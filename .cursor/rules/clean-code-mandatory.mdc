@@ -1,0 +1,186 @@
+---
+description: REGRA CRÍTICA - Clean Code e Design Patterns são OBRIGATÓRIOS em TODAS as situações
+globs: ["*.cpp", "*.h", "*.hpp", "*.cs"]
+alwaysApply: true
+---
+
+# ⚠️ REGRA CRÍTICA - CLEAN CODE E DESIGN PATTERNS OBRIGATÓRIOS ⚠️
+
+## 🚨 REGRA ABSOLUTA - SEM EXCEÇÕES 🚨
+
+**SEMPRE, SEMPRE, SEMPRE** aplicar Clean Code e C++ Design Patterns em **TODAS** as situações:
+
+- ✅ Código de produção
+- ✅ Testes rápidos
+- ✅ Protótipos
+- ✅ Correções de bug
+- ✅ Refatorações
+- ✅ Novas features
+- ✅ Qualquer linha de código escrita
+
+**NUNCA, NUNCA, NUNCA** criar código que viole Clean Code ou Design Patterns, mesmo que seja:
+
+- ❌ "Só um teste rápido"
+- ❌ "Depois eu arrumo"
+- ❌ "É temporário"
+- ❌ "Funciona assim mesmo"
+
+## Princípios OBRIGATÓRIOS
+
+### 1. Funções Helper/Utilitárias
+
+**REGRA CRÍTICA:** Qualquer função que possa ser reutilizada DEVE estar em arquivo separado de helpers/utilities.
+
+**SEMPRE:**
+
+- ✅ Funções helper em `Utils/` ou `Helpers/`
+- ✅ Funções parametrizadas (sem dependência de estado interno)
+- ✅ Funções puras quando possível
+- ✅ Funções testáveis isoladamente
+
+**NUNCA:**
+
+- ❌ Funções helper dentro de classes quando podem ser reutilizadas
+- ❌ Funções acopladas a estado interno quando podem ser parametrizadas
+- ❌ Duplicação de código de busca/verificação
+
+**Exemplo CORRETO:**
+
+```cpp
+// Utils/ComponentHelpers.h
+UCharacterDataComponent* FindCharacterDataComponent(AActor* Owner);
+
+// Utils/ComponentHelpers.cpp
+UCharacterDataComponent* FindCharacterDataComponent(AActor* Owner)
+{
+    if (!Owner) return nullptr;
+    return Owner->FindComponentByClass<UCharacterDataComponent>();
+}
+```
+
+**Exemplo ERRADO:**
+
+```cpp
+// ❌ NUNCA fazer isso - função privada acoplada
+private:
+    UCharacterDataComponent* FindOrGetCharacterDataComponent()
+    {
+        if (!CharacterDataComponent)
+        {
+            CharacterDataComponent = GetOwner()->FindComponentByClass<UCharacterDataComponent>();
+        }
+        return CharacterDataComponent;
+    }
+```
+
+### 2. DRY (Don't Repeat Yourself)
+
+**REGRA CRÍTICA:** Se você vai usar a mesma lógica em mais de um lugar, crie uma função helper.
+
+**SEMPRE:**
+
+- ✅ Identificar código duplicado
+- ✅ Extrair para função helper
+- ✅ Parametrizar adequadamente
+
+**NUNCA:**
+
+- ❌ Copiar e colar código
+- ❌ "Só dessa vez vou duplicar"
+
+### 3. Single Responsibility Principle (SRP)
+
+**REGRA CRÍTICA:** Cada função/classe deve ter uma única responsabilidade.
+
+**SEMPRE:**
+
+- ✅ Funções pequenas e focadas
+- ✅ Uma função = uma ação
+- ✅ Classes com responsabilidade única
+
+**NUNCA:**
+
+- ❌ Funções que fazem múltiplas coisas
+- ❌ Classes que fazem tudo
+
+### 4. Separation of Concerns
+
+**REGRA CRÍTICA:** Separe lógica de negócio de lógica auxiliar.
+
+**SEMPRE:**
+
+- ✅ Helpers em arquivos separados
+- ✅ Utilitários em `Utils/`
+- ✅ Funções puras quando possível
+
+**NUNCA:**
+
+- ❌ Misturar helpers com lógica de negócio
+- ❌ Acoplar funções utilitárias a classes específicas
+
+### 5. Testabilidade
+
+**REGRA CRÍTICA:** Código deve ser testável.
+
+**SEMPRE:**
+
+- ✅ Funções parametrizadas
+- ✅ Sem dependências ocultas
+- ✅ Funções puras quando possível
+
+**NUNCA:**
+
+- ❌ Funções acopladas a estado global
+- ❌ Dependências hardcoded
+
+## Checklist OBRIGATÓRIO
+
+Antes de escrever QUALQUER código, pergunte:
+
+- [ ] Esta função pode ser reutilizada? → Vai para `Utils/`
+- [ ] Esta função depende de estado interno? → Pode ser parametrizada?
+- [ ] Estou duplicando código? → Extrair para helper
+- [ ] Esta função tem responsabilidade única?
+- [ ] Esta função é testável isoladamente?
+- [ ] Estou seguindo Clean Code?
+- [ ] Estou seguindo Design Patterns apropriados?
+
+## Estrutura de Helpers/Utils
+
+**SEMPRE** organize helpers em:
+
+```text
+Source/MyProject2/
+├── Utils/
+│   ├── ComponentHelpers.h
+│   ├── ComponentHelpers.cpp
+│   ├── MathHelpers.h
+│   ├── MathHelpers.cpp
+│   └── ...
+```
+
+## Quando Criar Helper
+
+**SEMPRE** crie helper quando:
+
+1. ✅ Função pode ser usada em mais de um lugar
+2. ✅ Função é pura (sem efeitos colaterais)
+3. ✅ Função faz busca/verificação genérica
+4. ✅ Função faz cálculo/transformação
+5. ✅ Função pode ser testada isoladamente
+
+## Exceções
+
+**NÃO HÁ EXCEÇÕES.** Esta regra é absoluta.
+
+## Lembrete Final
+
+**TODA** linha de código deve seguir Clean Code e Design Patterns.
+
+**NUNCA** crie código "temporário" ou "só para testar" que viole essas regras.
+
+**SEMPRE** pense em reutilização, testabilidade e manutenibilidade.
+
+---
+
+**Esta regra tem prioridade MÁXIMA sobre todas as outras regras.**

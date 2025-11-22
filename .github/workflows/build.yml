@@ -1,0 +1,46 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+
+jobs:
+  build:
+    name: Build MyProject2
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Unreal Engine
+      # Nota: GitHub Actions não tem Unreal Engine instalado por padrão
+      # Você precisará configurar ou usar self-hosted runner
+      run: |
+        echo "Unreal Engine path: C:\Program Files\Epic Games\UE_5.7"
+
+    - name: Generate Project Files
+      run: |
+        "C:\Program Files\Epic Games\UE_5.7\Engine\Build\BatchFiles\RunUBT.bat" -projectfiles -project="${{ github.workspace }}\MyProject2.uproject" -game -engine
+      continue-on-error: true
+
+    - name: Build Project (Development)
+      run: |
+        "C:\Program Files\Epic Games\UE_5.7\Engine\Build\BatchFiles\Build.bat" MyProject2Editor Win64 Development "${{ github.workspace }}\MyProject2.uproject" -waitmutex
+      continue-on-error: true
+
+    - name: Check Build Result
+      run: |
+        if (Test-Path "${{ github.workspace }}\Binaries\Win64\UnrealEditor.exe") {
+          echo "Build successful!"
+        } else {
+          echo "Build failed!"
+          exit 1
+        }
+
+    # Nota: Testes serão adicionados quando implementados
+    # - name: Run Tests
+    #   run: |
+    #     # Executar testes automatizados
