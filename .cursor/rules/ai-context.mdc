@@ -1,0 +1,44 @@
+---
+description: Regras para dar melhor contexto à IA sobre o projeto
+alwaysApply: true
+---
+
+# Contexto para IA
+
+## Informações do Projeto
+- **Nome**: MyProject2
+- **Engine**: Unreal Engine 5.7
+- **Plataforma**: Windows (Win64)
+- **Linguagem**: C++ e Blueprints
+- **Estrutura**: Projeto padrão do Unreal Engine
+
+## Estrutura de Diretórios Importante
+- `Source/MyProject2/` - Código C++ principal
+- `Content/` - Assets (Blueprints, Texturas, Modelos)
+- `Config/` - Configurações (.ini)
+- `.cursor/rules/` - Regras do Cursor para o projeto
+
+## Convenções do Projeto
+- Use as regras em `.cursor/rules/` como referência
+- Sempre siga padrões do Unreal Engine
+- Documente código complexo
+- Mantenha código limpo e organizado
+
+## Quando Sugerir Mudanças
+- **SEMPRE** explique o motivo
+- **SEMPRE** considere impacto em Blueprints
+- **SEMPRE** verifique se compila antes de sugerir
+- **SEMPRE** mencione se requer rebuild
+
+## Contexto de Arquivos
+- Ao trabalhar com arquivos, considere:
+  - Estrutura do projeto
+  - Padrões estabelecidos
+  - Compatibilidade com Blueprints
+  - Performance (especialmente em hot paths)
+
+## Comunicação
+- Responda sempre em Português do Brasil
+- Seja claro e direto
+- Forneça exemplos quando útil
+- Explique conceitos complexos
