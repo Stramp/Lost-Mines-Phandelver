@@ -1,0 +1,75 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "ms-vscode.cpptools",
+  "[cpp]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "[c]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit"
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "C_Cpp.clang_format_path": "C:\\Program Files\\LLVM\\bin\\clang-format.exe",
+  "C_Cpp.clang_format_style": "file",
+  "C_Cpp.clang_format_fallbackStyle": "LLVM",
+  "C_Cpp.formatting": "clangFormat",
+  "C_Cpp.errorSquiggles": "disabled",
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/Binaries": true,
+    "**/Intermediate": true,
+    "**/DerivedDataCache": true,
+    "**/Saved": true
+  },
+  "search.exclude": {
+    "**/Binaries": true,
+    "**/Intermediate": true,
+    "**/DerivedDataCache": true,
+    "**/Saved": true,
+    "**/.git": true
+  },
+  "files.watcherExclude": {
+    "**/Binaries/**": true,
+    "**/Intermediate/**": true,
+    "**/DerivedDataCache/**": true,
+    "**/Saved/**": true
+  },
+  "unreal-clangd.creation.overwrite": "full",
+  "unreal-clangd.utility.createProjectOnStartup": false,
+  "C_Cpp.autocomplete": "disabled",
+  "C_Cpp.formatting": "disabled",
+  "unreal-clangd.creation.compilerPath": "c:\\Program Files\\LLVM\\bin\\clang-cl.exe",
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "clangd.path": "c:\\Program Files\\LLVM\\bin\\clangd.exe",
+  "clangd.arguments": [
+    "-header-insertion=iwyu",
+    "-header-insertion-decorators=true",
+    "-all-scopes-completion=true",
+    "-limit-results=100",
+    "-background-index=true",
+    "-limit-references=2000",
+    "-completion-style=detailed",
+    "-function-arg-placeholders=true",
+    "-log=info"
+  ],
+  "clangd.detectExtensionConflicts": false,
+  "files.associations": {
+    "*.clangd": "yaml",
+    "*.clang-format": "yaml",
+    "*.clang-tidy": "yaml"
+  },
+  "workbench.colorCustomizations": {
+    "editorInlayHint.foreground": "#a2a2a2c0",
+    "editorInlayHint.background": "#00000000"
+  },
+  "editor.suggestFontSize": 0
+}

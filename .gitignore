@@ -8,8 +8,14 @@
 *.VC.VC.opendb
 
 # Arquivos gerados pelo Visual Studio Code
-.vscode/
-*.code-workspace
+# Ignorar apenas arquivos gerados automaticamente
+.vscode/compileCommands_*/
+.vscode/compileCommands_*.json
+.vscode/unreal-clangd/
+.vscode/cpp.code-snippets
+# IMPORTANTE: .vscode/settings.json, c_cpp_properties.json, tasks.json, launch.json DEVEM ser versionados
+# Workspace deve ser versionado (tem configurações importantes)
+# *.code-workspace está comentado para permitir versionamento
 
 # Binários do Unreal Engine
 Binaries/
@@ -32,6 +38,10 @@ Plugins/*/Intermediate/
 *.bak
 *.swp
 *~
+build_log.txt
+build_output.txt
+compile_commands.json
+compile_commands_*.json
 
 # Arquivos específicos do Unreal (gerados)
 *.uasset
@@ -69,3 +79,34 @@ Saved/Logs/
 # Arquivos de build do UnrealBuildTool
 Saved/UnrealBuildTool/
 
+# Arquivos de compilação e análise
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.obj
+*.o
+
+# Arquivos do Cursor (exceto regras e configurações importantes)
+.cursor/*
+!.cursor/rules/
+!.cursor/*.md
+!.cursor/mcp-config-example.json
+
+# Arquivos de teste e coverage
+*.gcda
+*.gcno
+coverage/
+*.profdata
+
+# Arquivos Python (se houver scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.*.local
