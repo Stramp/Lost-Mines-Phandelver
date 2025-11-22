@@ -28,7 +28,8 @@ struct MYPROJECT2_API FClassLevelEntry
     int32 Level = 1;
 
     /** Nome da subclasse escolhida (se aplicável) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class", meta = (GetOptions = "GetSubclassNames"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class",
+              meta = (GetOptions = "GetSubclassNames", GetOptionsParam = "ClassName"))
     FName SubclassName;
 
     FClassLevelEntry() : ClassName(NAME_None), Level(1), SubclassName(NAME_None) {}
@@ -89,6 +90,30 @@ public:
 
 #if WITH_EDITOR
     virtual void PostEditChangeProperty(FPropertyChangedEvent &PropertyChangedEvent) override;
+
+    // ============================================================================
+    // GetOptions Functions (para dropdowns no editor)
+    // ============================================================================
+
+    /** Retorna todos os nomes de raças disponíveis no RaceDataTable */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetRaceNames() const;
+
+    /** Retorna todas as sub-raças disponíveis para a raça selecionada */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetSubraceNames() const;
+
+    /** Retorna todos os nomes de backgrounds disponíveis no BackgroundDataTable */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetBackgroundNames() const;
+
+    /** Retorna todos os nomes de classes disponíveis no ClassDataTable */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetClassNames() const;
+
+    /** Retorna todas as subclasses disponíveis para uma classe específica */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetSubclassNames(FName ClassName) const;
 #endif
 
     // ============================================================================

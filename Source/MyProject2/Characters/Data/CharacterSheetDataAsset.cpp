@@ -305,4 +305,54 @@ void UCharacterSheetDataAsset::UpdateCalculatedFields()
     // Limpa flag após modificar propriedades
     bIsValidatingProperties = false;
 }
+
+TArray<FName> UCharacterSheetDataAsset::GetRaceNames() const
+{
+    if (!RaceDataTable)
+    {
+        return TArray<FName>();
+    }
+
+    return CharacterSheetHelpers::GetAllRaceNames(RaceDataTable);
+}
+
+TArray<FName> UCharacterSheetDataAsset::GetSubraceNames() const
+{
+    if (!RaceDataTable || SelectedRace == NAME_None)
+    {
+        return TArray<FName>();
+    }
+
+    return CharacterSheetHelpers::GetAvailableSubraces(SelectedRace, RaceDataTable);
+}
+
+TArray<FName> UCharacterSheetDataAsset::GetBackgroundNames() const
+{
+    if (!BackgroundDataTable)
+    {
+        return TArray<FName>();
+    }
+
+    return CharacterSheetHelpers::GetAllBackgroundNames(BackgroundDataTable);
+}
+
+TArray<FName> UCharacterSheetDataAsset::GetClassNames() const
+{
+    if (!ClassDataTable)
+    {
+        return TArray<FName>();
+    }
+
+    return CharacterSheetHelpers::GetAllClassNames(ClassDataTable);
+}
+
+TArray<FName> UCharacterSheetDataAsset::GetSubclassNames(FName ClassName) const
+{
+    if (!ClassDataTable || ClassName == NAME_None)
+    {
+        return TArray<FName>();
+    }
+
+    return CharacterSheetHelpers::GetAvailableSubclasses(ClassName, ClassDataTable);
+}
 #endif
