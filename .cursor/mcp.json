@@ -4,8 +4,9 @@
       "command": "node",
       "args": [
         "F:/UNREAL GAME/unreal-mcp/dist/bin.js"
-      ],
-      "description": "Unreal Engine MCP - Servidor local"
+      ]
     }
+  }
+}
   }
 }
