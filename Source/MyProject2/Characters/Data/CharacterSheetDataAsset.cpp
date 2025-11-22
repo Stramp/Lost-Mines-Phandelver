@@ -268,11 +268,15 @@ void UCharacterSheetDataAsset::UpdateRacialBonuses()
 
 void UCharacterSheetDataAsset::UpdateCalculatedFields()
 {
+    // Seta flag para evitar recursão infinita ao modificar UPROPERTY fields
+    bIsValidatingProperties = true;
+
     AvailableFeatures.Empty();
     Proficiencies.Empty();
 
     if (!ClassDataTable)
     {
+        bIsValidatingProperties = false;
         return;
     }
 
@@ -297,5 +301,8 @@ void UCharacterSheetDataAsset::UpdateCalculatedFields()
 
     // TODO: Adicionar proficiências de raça, classe e background quando necessário
     // Por enquanto, apenas estrutura preparada
+
+    // Limpa flag após modificar propriedades
+    bIsValidatingProperties = false;
 }
 #endif
