@@ -1,0 +1,34 @@
+{
+  "mcpServers": {
+    "unreal-engine": {
+      "command": "python",
+      "args": [
+        "path/to/unreal-engine-mcp/server.py"
+      ],
+      "env": {
+        "UE_PATH": "C:/Program Files/Epic Games/UE_5.7",
+        "UE_PROJECT": "F:/UNREAL GAME/MyProject2/MyProject2.uproject"
+      },
+      "description": "Unreal Engine MCP - Controla o Unreal Engine via comandos em linguagem natural"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "F:/UNREAL GAME/MyProject2"
+      ],
+      "description": "File System MCP - Navegação e manipulação de arquivos"
+    },
+    "git": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-git",
+        "F:/UNREAL GAME/MyProject2"
+      ],
+      "description": "Git MCP - Operações Git integradas"
+    }
+  }
+}
+

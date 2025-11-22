@@ -1,0 +1,199 @@
+---
+description: Ferramentas e MCPs úteis para desenvolvimento Unreal Engine
+alwaysApply: false
+---
+
+# Ferramentas e MCPs para Unreal Engine 5.7
+
+## MCPs (Model Context Protocol) Recomendados
+
+### 1. Unreal Engine MCP
+**Repositório**: https://github.com/flopperam/unreal-engine-mcp
+
+**Descrição**: Permite controlar o Unreal Engine 5.5+ via comandos em linguagem natural.
+
+**Funcionalidades**:
+- Criar mundos 3D complexos e estruturas arquitetônicas
+- Construir cidades futurísticas com arranha-céus
+- Criar mansões complexas com múltiplos cômodos
+- Gerar labirintos solucionáveis
+
+**Requisitos**:
+- Unreal Engine 5.5+
+- Python 3.12+
+- Cliente MCP (Cursor, Claude Desktop, Windsurf)
+
+**Instalação**:
+```bash
+# Clone o repositório
+git clone https://github.com/flopperam/unreal-engine-mcp.git
+
+# Siga as instruções de instalação no README
+```
+
+### 2. MCPs Gerais Úteis
+
+#### MCP de Documentação
+- Acesso rápido à documentação do Unreal Engine
+- Busca em APIs e referências
+- Exemplos de código
+
+#### MCP de File System
+- Navegação e manipulação de arquivos do projeto
+- Busca de arquivos por padrão
+- Operações em lote
+
+#### MCP de Git
+- Operações Git integradas
+- Commits, branches, merges
+- Histórico e diffs
+
+## Ferramentas de Desenvolvimento
+
+### 1. Visual Studio Tools para Unreal Engine
+**Link**: https://learn.microsoft.com/pt-br/visualstudio/gamedev/unreal/get-started/vs-tools-unreal-install
+
+**Funcionalidades**:
+- Logs do Unreal Engine no Visual Studio
+- Visualização e expansão de macros
+- Adicionar classes, módulos e plugins
+- Depuração de código C++ chamado por Blueprints
+- Visualização de informações de Blueprints no depurador
+- Localização de referências aos Blueprints
+
+**Requisitos**:
+- Visual Studio 17.7 ou posterior
+- Unreal Engine 4.27 ou 5.0+
+
+### 2. Extensões VS Code/Cursor Recomendadas
+
+#### C++ Development
+- **C/C++** (Microsoft) - IntelliSense, debugging, code browsing
+- **C++ Intellisense** - Autocomplete melhorado
+- **clangd** - Language server para C++
+
+#### Unreal Engine Específicas
+- **Unreal Engine 4 Snippets** - Snippets para UE4/UE5
+- **UnrealScript** - Syntax highlighting
+
+#### Git e Versionamento
+- **GitLens** - Visualização avançada do Git
+- **Git History** - Histórico de arquivos
+
+#### Produtividade
+- **Error Lens** - Mostra erros inline
+- **Better Comments** - Comentários destacados
+- **Todo Tree** - Gerenciamento de TODOs
+
+### 3. Ferramentas de Build e Compilação
+
+#### UnrealBuildTool (UBT)
+- Já integrado no projeto via tasks do workspace
+- Use `Ctrl+Shift+P > Tasks: Run Task` para builds
+
+#### Unreal Engine Project Generator
+- Regenera arquivos do projeto após mudanças em `.Build.cs`
+- Disponível via task "Generate Project Files"
+
+### 4. Ferramentas de Debugging
+
+#### Unreal Insights
+- Profiling de performance
+- Análise de frame time
+- Memory profiling
+- Network profiling
+
+#### Visual Studio Debugger
+- Breakpoints
+- Watch variables
+- Call stack
+- Memory inspection
+
+### 5. Ferramentas de Análise de Código
+
+#### Static Analysis
+- **PVS-Studio** - Análise estática de código C++
+- **Cppcheck** - Detecção de bugs
+- **Clang Static Analyzer** - Análise estática
+
+#### Code Formatting
+- **ClangFormat** - Formatação automática
+- Configuração via `.clang-format` no projeto
+
+## Configuração de MCPs no Cursor
+
+### Como Configurar MCPs
+
+1. **Localizar arquivo de configuração do Cursor**
+   - Windows: `%APPDATA%\Cursor\User\globalStorage\mcp.json` ou configuração via Settings
+
+2. **Adicionar servidor MCP**
+   ```json
+   {
+     "mcpServers": {
+       "unreal-engine": {
+         "command": "python",
+         "args": ["path/to/unreal-engine-mcp/server.py"],
+         "env": {
+           "UE_PATH": "C:/Program Files/Epic Games/UE_5.7"
+         }
+       }
+     }
+   }
+   ```
+
+3. **Reiniciar Cursor** após configuração
+
+## Ferramentas de Produtividade
+
+### 1. Blueprint Visual Scripting
+- Integração nativa no Unreal Editor
+- Use para prototipagem rápida
+- C++ para performance crítica
+
+### 2. Asset Management
+- **Unreal Engine Content Browser** - Gerenciamento de assets
+- **Perforce/Plastic SCM** - Versionamento de assets grandes
+- **Git LFS** - Para assets versionados no Git
+
+### 3. Performance Tools
+- **Unreal Insights** - Profiling
+- **Stat Commands** - Comandos de estatísticas em runtime
+- **Memory Profiler** - Análise de memória
+
+## Comandos Úteis do Unreal Engine
+
+### Console Commands
+- `stat fps` - Mostra FPS
+- `stat unit` - Estatísticas de performance
+- `stat memory` - Uso de memória
+- `showdebug ai` - Debug de IA
+- `showdebug collision` - Debug de colisão
+
+### Editor Commands
+- `Ctrl+Shift+P` - Command Palette (VS Code/Cursor)
+- `F5` - Compile (no editor)
+- `Ctrl+Alt+F11` - Hot Reload
+
+## Recursos de Aprendizado
+
+### Documentação Oficial
+- **Unreal Engine Documentation**: https://docs.unrealengine.com/
+- **API Reference**: https://docs.unrealengine.com/5.7/en-US/API/
+- **C++ Programming Guide**: https://docs.unrealengine.com/5.7/en-US/cpp-programming-in-unreal-engine/
+
+### Comunidade
+- **Unreal Engine Forums**: https://forums.unrealengine.com/
+- **Unreal Engine Discord**
+- **Stack Overflow** - Tag: `unreal-engine`
+
+## Boas Práticas com Ferramentas
+
+1. **SEMPRE** use versionamento (Git) para código
+2. **SEMPRE** teste builds antes de commitar
+3. Use **Unreal Insights** para identificar gargalos
+4. Mantenha **dependências mínimas** no `.Build.cs`
+5. Use **Blueprints** para prototipagem, **C++** para produção
+6. **Documente** código complexo
+7. Use **static analysis** regularmente
+8. **Profile** antes de otimizar
