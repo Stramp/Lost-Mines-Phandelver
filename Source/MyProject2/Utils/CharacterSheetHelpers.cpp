@@ -218,9 +218,8 @@ bool CharacterSheetHelpers::ValidateAbilityScorePrerequisite(const FName &Prereq
     // Converte FName para FString para parsing
     FString PrerequisiteStr = Prerequisite.ToString();
 
-    // Lista de ability scores válidos
-    TArray<FName> AbilityNames = {TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
-                                  TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+    // Usa helper global para obter lista de ability scores válidos
+    TArray<FName> AbilityNames = CharacterSheetHelpers::GetAbilityScoreNames();
 
     // Tenta parsear formato "AbilityName Score"
     for (const FName &AbilityName : AbilityNames)
@@ -327,6 +326,28 @@ TArray<FName> CharacterSheetHelpers::GetAbilityScoreNames()
     // Ordem: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
     return TArray<FName>{TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
                          TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+}
+
+// ============================================================================
+// Skill Helpers
+// ============================================================================
+
+TArray<FName> CharacterSheetHelpers::GetSkillNames()
+{
+    // Retorna array estático com os 18 nomes de skills padrão D&D 5e
+    // Ordem alfabética: Acrobatics, Animal Handling, Arcana, Athletics, Deception,
+    // History, Insight, Intimidation, Investigation, Medicine, Nature, Perception,
+    // Performance, Persuasion, Religion, Sleight of Hand, Stealth, Survival
+    //
+    // TODO: Futuramente migrar para SkillDataTable seguindo o princípio Data-Driven completo.
+    // Por enquanto, hardcoded porque são constantes do sistema D&D 5e (assim como Ability Scores).
+    // Quando implementado SkillDataTable, criar função GetAllSkillNames(UDataTable* SkillDataTable)
+    // similar a GetAllRaceNames() e GetAllClassNames().
+    return TArray<FName>{TEXT("Acrobatics"),    TEXT("Animal Handling"), TEXT("Arcana"),   TEXT("Athletics"),
+                         TEXT("Deception"),     TEXT("History"),         TEXT("Insight"),  TEXT("Intimidation"),
+                         TEXT("Investigation"), TEXT("Medicine"),        TEXT("Nature"),   TEXT("Perception"),
+                         TEXT("Performance"),   TEXT("Persuasion"),      TEXT("Religion"), TEXT("Sleight of Hand"),
+                         TEXT("Stealth"),       TEXT("Survival")};
 }
 
 // ============================================================================

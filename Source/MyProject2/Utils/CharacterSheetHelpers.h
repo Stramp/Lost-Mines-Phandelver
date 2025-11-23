@@ -162,6 +162,24 @@ namespace CharacterSheetHelpers
     TArray<FName> GetAbilityScoreNames();
 
     // ============================================================================
+    // Skill Helpers
+    // ============================================================================
+
+    /**
+     * Retorna array estático com os 18 nomes de skills padrão D&D 5e.
+     * Ordem alfabética: Acrobatics, Animal Handling, Arcana, Athletics, Deception,
+     * History, Insight, Intimidation, Investigation, Medicine, Nature, Perception,
+     * Performance, Persuasion, Religion, Sleight of Hand, Stealth, Survival
+     *
+     * NOTA: Futuramente pode ser migrado para SkillDataTable seguindo o princípio
+     * Data-Driven completo. Por enquanto, hardcoded porque são constantes do sistema
+     * D&D 5e (assim como Ability Scores são hardcoded).
+     *
+     * @return Array com os 18 nomes de skills
+     */
+    TArray<FName> GetSkillNames();
+
+    // ============================================================================
     // Point Buy System Helpers
     // ============================================================================
 

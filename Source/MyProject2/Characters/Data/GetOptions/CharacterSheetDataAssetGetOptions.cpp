@@ -77,11 +77,8 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(UDataTab
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetSkillNames()
 {
-    // TODO: Mover para SkillDataTable quando implementado
-    // Por enquanto, lista hardcoded de skills de D&D 5e
-    return TArray<FName>{TEXT("Acrobatics"),    TEXT("Animal Handling"), TEXT("Arcana"),   TEXT("Athletics"),
-                         TEXT("Deception"),     TEXT("History"),         TEXT("Insight"),  TEXT("Intimidation"),
-                         TEXT("Investigation"), TEXT("Medicine"),        TEXT("Nature"),   TEXT("Perception"),
-                         TEXT("Performance"),   TEXT("Persuasion"),      TEXT("Religion"), TEXT("Sleight of Hand"),
-                         TEXT("Stealth"),       TEXT("Survival")};
+    // Usa helper global para evitar duplicação
+    // TODO: Futuramente, quando SkillDataTable for implementado, usar:
+    // return CharacterSheetHelpers::GetAllSkillNames(SkillDataTable);
+    return CharacterSheetHelpers::GetSkillNames();
 }
