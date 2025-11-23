@@ -31,7 +31,31 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Novas Funcionalidades
 > >
-> > 1. Commit [`f625bf6`] - Adicionar escolhas de Variant Human, race traits e melhorar log da ficha
+> > 1. Commit [`3c8c31c`] - Implementar sistema completo de raça e background com escolhas de idiomas
+> >    - Corrigido `GetAllRaceNames()` para mostrar todas as raças base (Dragonborn, Half-Elf, Half-Orc, Tiefling)
+> >    - Adicionada flag `bHasSubraces` para ocultar campo de sub-raça quando raça não tem sub-raças
+> >    - Implementado `UpdateSubraceFlag()` seguindo padrão de `bIsVariantHuman`
+> >    - Adicionado sistema de escolhas de idiomas com filtro automático
+> >    - Filtro de idiomas disponíveis exclui idiomas já conhecidos automaticamente
+> >    - Ajuste automático do array `SelectedLanguages` quando `MaxLanguageChoices` diminui
+> >    - Adicionada propriedade `Languages` ao `CharacterDataComponent` (replicável)
+> >    - Adicionada seção de idiomas no log da ficha (`LogCharacterSheet()`)
+> >    - Todos os dados do personagem agora acessíveis em qualquer sistema/componente para GAS e replicação
+> >
+> > 2. Commit [`9a98032`] - Implementar sistema de escolhas de idiomas com filtro automático
+> >    - Adicionado array `SelectedLanguages` com dropdown filtrado
+> >    - Filtro exclui idiomas automáticos de raça/background
+> >    - Adicionadas propriedades `MaxLanguageChoices` e `bHasLanguageChoices`
+> >    - Implementado helper `GetAvailableLanguagesForChoice`
+> >    - Adicionada validação e handlers para idiomas
+> >    - Categoria "Language Choices" oculta quando não há escolhas disponíveis
+> >
+> > 3. Commit [`9fa0946`] - Implementar sistema de escolhas de idiomas
+> >    - Refatorado `BackgroundDataTable` para separar idiomas automáticos de escolhas
+> >    - Criado struct `FLanguageChoices` para escolhas de idiomas
+> >    - Implementado `CalculateLanguages()` para compilar lista final de idiomas conhecidos
+> >
+> > 4. Commit [`f625bf6`] - Adicionar escolhas de Variant Human, race traits e melhorar log da ficha
 > >    - Adicionado suporte para escolhas customizadas de Variant Human
 > >    - Adicionado sistema de race traits
 > >    - Melhorado sistema de logging da ficha do personagem
@@ -58,11 +82,15 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Correções de Bugs
 > >
-> > 1. Commit [`e2b34ec`] - Correção do cálculo de bônus para Variant Human
-> >    - Corrigido cálculo de bônus raciais para Variant Human
-> >    - Ajuste em CalculationHelpers
+> > 1. Commit [`3c8c31c`] - Remoção de logs de DEBUG
+> >    - Removidos todos os logs temporários de DEBUG de handlers, updaters e calculation helpers
+> >    - Mantido `LogCharacterSheet()` intacto conforme solicitado
 > >
-> > 2. Commit [`a9ef548`] - Correção de arrays hardcoded e centralização de helpers
+> > 2. Commit [`e2b34ec`] - Correção do cálculo de bônus para Variant Human
+> >    - Corrigido cálculo de bônus raciais para Variant Human
+> >    - Ajuste em CalculationHelpers para aplicar escolhas customizadas apenas uma vez
+> >
+> > 3. Commit [`a9ef548`] - Correção de arrays hardcoded e centralização de helpers
 > >    - Removidos arrays hardcoded
 > >    - Centralizados helpers em Utils/
 >
