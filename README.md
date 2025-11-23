@@ -15,41 +15,60 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 
 ## 🎯 Visão Geral
 
-Este projeto implementa um sistema de fichas de personagem para D&D 5e no Unreal Engine, com foco em:
+<details open>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Sobre o Projeto</b></summary>
 
-- ✅ **Data-Driven**: Todas as regras vêm de Data Tables/Assets
-- ✅ **Modularidade**: Código organizado por responsabilidade única
-- ✅ **Multiplayer-Ready**: Preparado para replicação desde o início
-- ✅ **Editor-Friendly**: Configuração completa no editor
-- ✅ **Clean Code**: Seguindo princípios de código limpo e design patterns
+> Este projeto implementa um sistema de fichas de personagem para D&D 5e no Unreal Engine, com foco em:
+>
+> - ✅ **Data-Driven**: Todas as regras vêm de Data Tables/Assets
+> - ✅ **Modularidade**: Código organizado por responsabilidade única
+> - ✅ **Multiplayer-Ready**: Preparado para replicação desde o início
+> - ✅ **Editor-Friendly**: Configuração completa no editor
+> - ✅ **Clean Code**: Seguindo princípios de código limpo e design patterns
+
+</details>
 
 ## 🔧 Requisitos
 
-- **Unreal Engine**: 5.7
-- **Plataforma**: Windows (Win64)
-- **IDE**: Cursor/VS Code (recomendado) ou Visual Studio
-- **Compilador**: Visual Studio 2022 com componentes C++
-- **LLVM**: Para clangd (opcional, mas recomendado)
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🛠️ Ferramentas e Dependências</b></summary>
+
+> Requisitos para desenvolvimento:
+>
+> - **Unreal Engine**: 5.7
+> - **Plataforma**: Windows (Win64)
+> - **IDE**: Cursor/VS Code (recomendado) ou Visual Studio
+> - **Compilador**: Visual Studio 2022 com componentes C++
+> - **LLVM**: Para clangd (opcional, mas recomendado)
+
+</details>
 
 ## 📁 Estrutura do Projeto
 
-```
-MyProject2/
-├── Source/MyProject2/          # Código C++ principal
-│   ├── Characters/             # Personagens e raças
-│   │   ├── Data/              # Data Assets de personagens
-│   │   └── Components/        # Componentes de personagem
-│   ├── Components/            # Componentes reutilizáveis
-│   ├── Data/                  # Data Assets e Data Tables
-│   ├── Gameplay/              # Mecânicas de jogo
-│   └── Utils/                 # Utilitários e helpers
-├── Content/                    # Assets (Blueprints, Texturas, Modelos)
-├── Config/                     # Configurações (.ini)
-├── .cursor/                    # Regras e configurações do Cursor
-│   └── rules/                 # Regras de código e arquitetura
-├── ARCHITECTURE.md            # Documentação de arquitetura completa
-└── README.md                  # Este arquivo
-```
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📂 Organização de Diretórios</b></summary>
+
+> Estrutura de diretórios do projeto:
+>
+> ```
+> MyProject2/
+> ├── Source/MyProject2/          # Código C++ principal
+> │   ├── Characters/             # Personagens e raças
+> │   │   ├── Data/              # Data Assets de personagens
+> │   │   └── Components/        # Componentes de personagem
+> │   ├── Components/            # Componentes reutilizáveis
+> │   ├── Data/                  # Data Assets e Data Tables
+> │   ├── Gameplay/              # Mecânicas de jogo
+> │   └── Utils/                 # Utilitários e helpers
+> ├── Content/                    # Assets (Blueprints, Texturas, Modelos)
+> ├── Config/                     # Configurações (.ini)
+> ├── .cursor/                    # Regras e configurações do Cursor
+> │   └── rules/                 # Regras de código e arquitetura
+> ├── ARCHITECTURE.md            # Documentação de arquitetura completa
+> └── README.md                  # Este arquivo
+> ```
+
+</details>
 
 ## 🚀 Como Começar
 
@@ -106,32 +125,174 @@ MyProject2/
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📐 Arquitetura em 4 Camadas</b></summary>
 
-> O projeto segue uma arquitetura em 4 camadas:
+> > **💡 Dica:** Veja o diagrama visual abaixo para entender melhor a arquitetura em camadas.
 >
-> ### Camada 1: Data Assets (Editor)
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📝 Camada 1: Data Assets (Editor/Configuração)</summary>
 >
-> - Configuração estática editável no editor
-> - Exemplo: `UCharacterSheetDataAsset`
+> > **Responsabilidade:** Armazenar configuração estática, não contém lógica.
+> >
+> > **Características:**
+> >
+> > - Herda de `UDataAsset`
+> > - `UPROPERTY(EditDefaultsOnly)` - editável apenas em defaults
+> > - Não é replicável (não precisa em runtime)
+> > - Funciona apenas no editor para designers
+> > - Exemplo: `UCharacterSheetDataAsset`
 >
-> ### Camada 2: Bridge Components
+> </details>
 >
-> - Faz ponte entre Data Asset e Runtime Component
-> - Aplica regras de raça e classe
-> - Exemplo: `UCharacterSheetComponent`
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🌉 Camada 2: Bridge Components (Aplicação de Regras)</summary>
 >
-> ### Camada 3: Runtime Data Components
+> > **Responsabilidade:** Fazer ponte entre Data Asset e Runtime Component, aplicar regras de raça e classe.
+> >
+> > **Características:**
+> >
+> > - Herda de `UActorComponent`
+> > - Executa apenas no servidor/local (não replicável)
+> > - Aplica regras de raça e classe (`ApplyRaceBonuses()`, `ApplyClassFeatures()`)
+> > - Carrega dados do Data Asset para Runtime Component
+> > - Exemplo: `UCharacterSheetComponent`
 >
-> - Armazena dados replicáveis do personagem
-> - Calcula atributos finais, HP, proficiência
-> - Exemplo: `UCharacterDataComponent`
+> </details>
 >
-> ### Camada 4: Feature Components
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">💾 Camada 3: Runtime Data Components (Dados Replicáveis)</summary>
 >
-> - Gerencia features específicas (spells, abilities)
-> - Preparado para migração futura para GAS
-> - Exemplos: `USpellcastingComponent`, `USecondWindComponent`
+> > **Responsabilidade:** Armazenar dados do personagem em runtime, todas as propriedades replicáveis.
+> >
+> > **Características:**
+> >
+> > - Herda de `UActorComponent`
+> > - Todas as propriedades são replicáveis (`DOREPLIFETIME`)
+> > - Calcula atributos finais, HP, proficiência
+> > - Preparado para migração futura para GAS Attributes
+> > - Exemplo: `UCharacterDataComponent`
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⚡ Camada 4: Feature Components (Lógica Específica)</summary>
+>
+> > **Responsabilidade:** Gerenciar features específicas de classes (spells, abilities, etc.).
+> >
+> > **Características:**
+> >
+> > - Herda de `UActorComponent`
+> > - Cada um gerencia uma feature específica
+> > - Podem ser migrados para GAS Abilities no futuro
+> > - Exemplos: `USpellcastingComponent`, `USecondWindComponent`, `UActionSurgeComponent`
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Diagrama Visual das Camadas</b></summary>
+>
+> >
+>
+> ```mermaid
+> graph LR
+>     subgraph Layer1["Camada 1: Data Assets"]
+>         DA1[UCharacterSheetDataAsset<br/>📝 Editor Only<br/>⚙️ Configuração Estática]
+>     end
+>
+>     subgraph Layer2["Camada 2: Bridge Components"]
+>         BC1[UCharacterSheetComponent<br/>🔗 Ponte Data → Runtime<br/>📋 Aplica Regras]
+>     end
+>
+>     subgraph Layer3["Camada 3: Runtime Data"]
+>         RD1[UCharacterDataComponent<br/>💾 Dados Replicáveis<br/>📊 Atributos Finais]
+>     end
+>
+>     subgraph Layer4["Camada 4: Features"]
+>         F1[USpellcastingComponent]
+>         F2[USecondWindComponent]
+>         F3[UActionSurgeComponent]
+>     end
+>
+>     DA1 -->|InitializeFromDataAsset| BC1
+>     BC1 -->|SetData| RD1
+>     RD1 -->|Usa dados| F1
+>     RD1 -->|Usa dados| F2
+>     RD1 -->|Usa dados| F3
+>
+>     style Layer1 fill:#e3f2fd
+>     style Layer2 fill:#fff3e0
+>     style Layer3 fill:#f3e5f5
+>     style Layer4 fill:#e8f5e9
+> ```
+>
+> </details>
 >
 > **📖 Para mais detalhes, veja [ARCHITECTURE.md](ARCHITECTURE.md)**
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔄 Fluxo de Dados</b></summary>
+
+> Diagrama completo do fluxo de dados do sistema:
+>
+> ```mermaid
+> graph TB
+>     subgraph Editor["📝 EDITOR"]
+>         DA[CharacterSheetDataAsset<br/>- Raça, Classe<br/>- Habilidades<br/>- Dados Estáticos]
+>         subgraph Modules["Módulos Modulares"]
+>             H[Handlers<br/>Processa mudanças]
+>             V[Validators<br/>Valida dados]
+>             U[Updaters<br/>Atualiza campos]
+>         end
+>         DA -->|PostEditChangeProperty| H
+>         H -->|Valida| V
+>         H -->|Atualiza| U
+>         U -->|Dados atualizados| DA
+>     end
+>
+>     subgraph Server["🖥️ RUNTIME - SERVIDOR"]
+>         SC[CharacterSheetComponent<br/>- Aplica regras de raça<br/>- Aplica regras de classe<br/>- Carrega dados]
+>         DC[CharacterDataComponent<br/>- Armazena dados replicáveis<br/>- Calcula atributos finais<br/>- Valida integridade]
+>
+>         SC -->|InitializeFromDataAsset| DA
+>         SC -->|SetData| DC
+>         DC -->|ValidateDataIntegrity| DC
+>     end
+>
+>     subgraph Client["💻 RUNTIME - CLIENTE"]
+>         DCC[CharacterDataComponent<br/>- Recebe dados replicados<br/>- Atualiza UI]
+>         FC1[SpellcastingComponent]
+>         FC2[SecondWindComponent]
+>         FC3[ActionSurgeComponent]
+>         FC4[Outros Feature Components]
+>
+>         DCC -->|Usa dados| FC1
+>         DCC -->|Usa dados| FC2
+>         DCC -->|Usa dados| FC3
+>         DCC -->|Usa dados| FC4
+>     end
+>
+>     DC -->|DOREPLIFETIME<br/>Replicação| DCC
+>
+>     style Editor fill:#e1f5ff
+>     style Server fill:#fff4e1
+>     style Client fill:#e8f5e9
+>     style DA fill:#bbdefb
+>     style SC fill:#ffe0b2
+>     style DC fill:#ffe0b2
+>     style DCC fill:#c8e6c9
+>     style FC1 fill:#c8e6c9
+>     style FC2 fill:#c8e6c9
+>     style FC3 fill:#c8e6c9
+>     style FC4 fill:#c8e6c9
+>     style Modules fill:#f3e5f5
+>     style H fill:#e1bee7
+>     style V fill:#e1bee7
+>     style U fill:#e1bee7
+> ```
+>
+> **📖 Para mais detalhes sobre o fluxo de dados, veja [ARCHITECTURE.md](ARCHITECTURE.md)**
 
 </details>
 
