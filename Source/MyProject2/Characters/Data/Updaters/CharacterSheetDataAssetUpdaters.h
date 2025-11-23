@@ -1,0 +1,40 @@
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+#pragma once
+
+#include "CoreMinimal.h"
+
+// Forward declaration
+class UCharacterSheetDataAsset;
+
+/**
+ * Updaters for CharacterSheetDataAsset.
+ * Handles all update logic for calculated fields and racial bonuses.
+ */
+class MYPROJECT2_API FCharacterSheetDataAssetUpdaters
+{
+public:
+    /**
+     * Updates racial bonuses on ability scores.
+     * Applies bonuses from base race and subrace (including Variant Human custom ASI).
+     */
+    static void UpdateRacialBonuses(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Updates calculated fields (AvailableFeatures, Proficiencies, etc.).
+     * Collects features from all classes and levels.
+     */
+    static void UpdateCalculatedFields(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Updates Variant Human flag and notifies editor if changed.
+     * Resets Variant Human choices if no longer Variant Human.
+     */
+    static void UpdateVariantHumanFlag(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Updates sheet visibility based on Data Tables selection.
+     * Shows all categories when all Data Tables are selected, otherwise shows only Data Tables.
+     */
+    static void UpdateSheetVisibility(UCharacterSheetDataAsset *Asset);
+};

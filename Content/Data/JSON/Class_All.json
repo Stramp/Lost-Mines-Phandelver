@@ -1,0 +1,987 @@
+[
+  {
+    "Name": "Fighter",
+    "ClassName": "Fighter",
+    "Description": "A master of martial combat, skilled with a variety of weapons and armor",
+    "HitDie": 10,
+    "SubclassNames": ["Champion", "Battle Master", "Eldritch Knight"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Simple Weapons"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Martial Weapons"}
+    ],
+    "ArmorProficiencies": [
+      {"ProficiencyType": "Armor", "ProficiencyName": "Light Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Medium Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Heavy Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Shields"}
+    ],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Strength"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Constitution"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "Acrobatics"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Animal Handling"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Athletics"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "History"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Insight"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Intimidation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Perception"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Survival"}
+    ],
+    "StartingEquipment": ["Chain Mail", "Shield", "Martial Weapon", "Handaxe", "Dungeoneer's Pack"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": false,
+      "SpellcastingAbility": "",
+      "SpellSlotsPerLevel": []
+    },
+    "Features": [
+      {
+        "FeatureName": "Second Wind",
+        "Description": "You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level. Once you use this feature, you must finish a short or long rest before you can use it again.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "UsesPerRest": "1",
+          "Type": "BonusAction"
+        }
+      },
+      {
+        "FeatureName": "Fighting Style",
+        "Description": "You adopt a particular style of fighting as your specialty. Choose one of the following options. You can't take a Fighting Style option more than once, even if you later get to choose again.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Choice",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Action Surge",
+        "Description": "Starting at 2nd level, you can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action. Once you use this feature, you must finish a short or long rest before you can use it again.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "UsesPerRest": "1"
+        }
+      },
+      {
+        "FeatureName": "Martial Archetype",
+        "Description": "At 3rd level, you choose an archetype that you strive to emulate in your combat styles and techniques. The archetype you choose grants you features at 3rd level and again at 7th, 10th, 15th, and 18th level.",
+        "LevelUnlocked": 3,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Extra Attack",
+        "Description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+        "LevelUnlocked": 5,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      }
+    ]
+  },
+  {
+    "Name": "Wizard",
+    "ClassName": "Wizard",
+    "Description": "A scholarly magic-user capable of manipulating the structures of reality",
+    "HitDie": 6,
+    "SubclassNames": ["Evocation", "Abjuration", "Conjuration"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Daggers"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Darts"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Slings"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Quarterstaffs"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Light Crossbows"}
+    ],
+    "ArmorProficiencies": [],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Intelligence"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Wisdom"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "Arcana"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "History"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Insight"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Investigation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Medicine"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Religion"}
+    ],
+    "StartingEquipment": ["Quarterstaff", "Component Pouch", "Scholar's Pack", "Spellbook"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": true,
+      "SpellcastingAbility": "Intelligence",
+      "SpellSlotsPerLevel": [2, 3, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "Features": [
+      {
+        "FeatureName": "Spellcasting",
+        "Description": "As a student of arcane magic, you have a spellbook containing spells that show the first glimmerings of your true power.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "SpellcastingAbility": "Intelligence"
+        }
+      },
+      {
+        "FeatureName": "Arcane Recovery",
+        "Description": "You have learned to recover some of your magical energy by studying your spellbook. Once per day when you finish a short rest, you can choose expended spell slots to recover. The spell slots can have a combined level that is equal to or less than half your wizard level (rounded up), and none of the slots can be 6th level or higher.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "UsesPerRest": "1"
+        }
+      },
+      {
+        "FeatureName": "Arcane Tradition",
+        "Description": "When you reach 2nd level, you choose an arcane tradition, shaping your practice of magic through one of eight schools: Abjuration, Conjuration, Divination, Enchantment, Evocation, Illusion, Necromancy, or Transmutation.",
+        "LevelUnlocked": 2,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      }
+    ]
+  },
+  {
+    "Name": "Cleric",
+    "ClassName": "Cleric",
+    "Description": "A priestly champion who wields divine magic in service of a higher power",
+    "HitDie": 8,
+    "SubclassNames": ["Life", "War", "Light"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Simple Weapons"}
+    ],
+    "ArmorProficiencies": [
+      {"ProficiencyType": "Armor", "ProficiencyName": "Light Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Medium Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Shields"}
+    ],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Wisdom"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Charisma"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "History"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Insight"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Medicine"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Persuasion"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Religion"}
+    ],
+    "StartingEquipment": ["Mace", "Scale Mail", "Shield", "Holy Symbol", "Priest's Pack"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": true,
+      "SpellcastingAbility": "Wisdom",
+      "SpellSlotsPerLevel": [2, 3, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "Features": [
+      {
+        "FeatureName": "Spellcasting",
+        "Description": "As a conduit for divine power, you can cast cleric spells.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "SpellcastingAbility": "Wisdom"
+        }
+      },
+      {
+        "FeatureName": "Divine Domain",
+        "Description": "At 1st level, you choose a domain associated with your deity. Your choice grants you domain spells and other features when you choose it at 1st level. It also grants you additional ways to use Channel Divinity when you gain that feature at 2nd level, and additional benefits at 6th, 8th, and 17th levels.",
+        "LevelUnlocked": 1,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Channel Divinity",
+        "Description": "At 2nd level, you gain the ability to channel divine energy directly from your deity, using that energy to fuel magical effects. You start with two such effects: Turn Undead and an effect determined by your domain.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "UsesPerRest": "1"
+        }
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      }
+    ]
+  },
+  {
+    "Name": "Rogue",
+    "ClassName": "Rogue",
+    "Description": "A scoundrel who uses stealth and trickery to overcome obstacles and enemies",
+    "HitDie": 8,
+    "SubclassNames": ["Thief", "Assassin", "Arcane Trickster"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Simple Weapons"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Hand Crossbows"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Longswords"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Rapiers"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Shortswords"}
+    ],
+    "ArmorProficiencies": [
+      {"ProficiencyType": "Armor", "ProficiencyName": "Light Armor"}
+    ],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Dexterity"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Intelligence"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "Acrobatics"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Athletics"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Deception"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Insight"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Intimidation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Investigation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Perception"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Performance"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Persuasion"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Sleight of Hand"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Stealth"}
+    ],
+    "StartingEquipment": ["Rapier", "Shortsword", "Shortbow", "Burglar's Pack", "Leather Armor"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": false,
+      "SpellcastingAbility": "",
+      "SpellSlotsPerLevel": []
+    },
+    "Features": [
+      {
+        "FeatureName": "Expertise",
+        "Description": "At 1st level, choose two of your skill proficiencies, or one of your skill proficiencies and your proficiency with thieves' tools. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Choice",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Sneak Attack",
+        "Description": "Beginning at 1st level, you know how to strike subtly and exploit a foe's distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "DamageDie": "1d6"
+        }
+      },
+      {
+        "FeatureName": "Thieves' Cant",
+        "Description": "During your rogue training you learned thieves' cant, a secret mix of dialect, jargon, and code that allows you to hide messages in seemingly normal conversation. Only another creature that knows thieves' cant understands such messages.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Cunning Action",
+        "Description": "Starting at 2nd level, your quick thinking and agility allow you to move and act quickly. You can take a bonus action on each of your turns in combat. This action can be used only to take the Dash, Disengage, or Hide action.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Roguish Archetype",
+        "Description": "At 3rd level, you choose an archetype that you emulate in the exercise of your rogue abilities. Your archetype choice grants you features at 3rd level and then again at 9th, 13th, and 17th level.",
+        "LevelUnlocked": 3,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 8th, 10th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Uncanny Dodge",
+        "Description": "Starting at 5th level, when an attacker that you can see hits you with an attack, you can use your reaction to halve the attack's damage against you.",
+        "LevelUnlocked": 5,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      }
+    ]
+  },
+  {
+    "Name": "Ranger",
+    "ClassName": "Ranger",
+    "Description": "A warrior who uses martial prowess and nature magic to combat threats on the edges of civilization",
+    "HitDie": 10,
+    "SubclassNames": ["Hunter", "Beast Master"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Simple Weapons"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Martial Weapons"}
+    ],
+    "ArmorProficiencies": [
+      {"ProficiencyType": "Armor", "ProficiencyName": "Light Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Medium Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Shields"}
+    ],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Strength"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Dexterity"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "Animal Handling"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Athletics"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Insight"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Investigation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Nature"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Perception"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Stealth"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Survival"}
+    ],
+    "StartingEquipment": ["Scale Mail", "Longbow", "Explorer's Pack"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": true,
+      "SpellcastingAbility": "Wisdom",
+      "SpellSlotsPerLevel": [0, 2, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "Features": [
+      {
+        "FeatureName": "Favored Enemy",
+        "Description": "Beginning at 1st level, you have significant experience studying, tracking, hunting, and even talking to a certain type of enemy. Choose a type of favored enemy: aberrations, beasts, celestials, constructs, dragons, elementals, fey, fiends, giants, monstrosities, oozes, plants, or undead.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Choice",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Natural Explorer",
+        "Description": "You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions. Choose one type of favored terrain: arctic, coast, desert, forest, grassland, mountain, swamp, or the Underdark.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Choice",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Spellcasting",
+        "Description": "By the time you reach 2nd level, you have learned to use the magical essence of nature to cast spells, much as a druid does.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "SpellcastingAbility": "Wisdom"
+        }
+      },
+      {
+        "FeatureName": "Ranger Archetype",
+        "Description": "At 3rd level, you choose an archetype that you strive to emulate: Hunter or Beast Master. Your choice grants you features at 3rd level and again at 7th, 11th, and 15th level.",
+        "LevelUnlocked": 3,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Extra Attack",
+        "Description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+        "LevelUnlocked": 5,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      }
+    ]
+  },
+  {
+    "Name": "Paladin",
+    "ClassName": "Paladin",
+    "Description": "A holy warrior bound to a sacred oath",
+    "HitDie": 10,
+    "SubclassNames": ["Devotion", "Ancients", "Vengeance"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Simple Weapons"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Martial Weapons"}
+    ],
+    "ArmorProficiencies": [
+      {"ProficiencyType": "Armor", "ProficiencyName": "Light Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Medium Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Heavy Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Shields"}
+    ],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Wisdom"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Charisma"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "Athletics"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Insight"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Intimidation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Medicine"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Persuasion"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Religion"}
+    ],
+    "StartingEquipment": ["Chain Mail", "Shield", "Holy Symbol", "Priest's Pack"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": true,
+      "SpellcastingAbility": "Charisma",
+      "SpellSlotsPerLevel": [0, 2, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "Features": [
+      {
+        "FeatureName": "Divine Sense",
+        "Description": "The presence of strong evil registers on your senses like a noxious odor, and powerful good rings like heavenly music in your ears. As an action, you can open your awareness to detect such forces. Until the end of your next turn, you know the location of any celestial, fiend, or undead within 60 feet of you that is not behind total cover.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "UsesPerRest": "1"
+        }
+      },
+      {
+        "FeatureName": "Lay on Hands",
+        "Description": "Your blessed touch can heal wounds. You have a pool of healing power that replenishes when you take a long rest. With that pool, you can restore a total number of hit points equal to your paladin level × 5.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Spellcasting",
+        "Description": "By 2nd level, you have learned to draw on divine magic through meditation and prayer to cast spells as a cleric does.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "SpellcastingAbility": "Charisma"
+        }
+      },
+      {
+        "FeatureName": "Divine Smite",
+        "Description": "When you hit a creature with a melee weapon attack, you can expend one spell slot to deal radiant damage to the target, in addition to the weapon's damage. The extra damage is 2d8 for a 1st-level spell slot, plus 1d8 for each spell level higher than 1st, to a maximum of 5d8.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Sacred Oath",
+        "Description": "When you reach 3rd level, you swear the oath that binds you as a paladin forever. Up to this time you have been in a preparatory stage, committed to the path but not yet sworn to it. Your choice grants you features at 3rd level and again at 7th, 15th, and 20th level.",
+        "LevelUnlocked": 3,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Extra Attack",
+        "Description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+        "LevelUnlocked": 5,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      }
+    ]
+  },
+  {
+    "Name": "Barbarian",
+    "ClassName": "Barbarian",
+    "Description": "A fierce warrior of primitive background who can enter a battle rage",
+    "HitDie": 12,
+    "SubclassNames": ["Berserker", "Totem Warrior"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Simple Weapons"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Martial Weapons"}
+    ],
+    "ArmorProficiencies": [],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Strength"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Constitution"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "Animal Handling"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Athletics"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Intimidation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Nature"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Perception"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Survival"}
+    ],
+    "StartingEquipment": ["Greataxe", "Handaxe", "Explorer's Pack"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": false,
+      "SpellcastingAbility": "",
+      "SpellSlotsPerLevel": []
+    },
+    "Features": [
+      {
+        "FeatureName": "Rage",
+        "Description": "In battle, you fight with primal ferocity. On your turn, you can enter a rage as a bonus action. While raging, you gain the following benefits if you aren't wearing heavy armor: You have advantage on Strength checks and Strength saving throws. When you make a melee weapon attack using Strength, you gain a bonus to the damage roll that increases as you gain levels as a barbarian, as shown in the Rage Damage column of the Barbarian table. You have resistance to bludgeoning, piercing, and slashing damage.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "UsesPerRest": "2"
+        }
+      },
+      {
+        "FeatureName": "Unarmored Defense",
+        "Description": "While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Reckless Attack",
+        "Description": "Starting at 2nd level, you can throw aside all concern for defense to attack with fierce desperation. When you make your first attack on your turn, you can decide to attack recklessly. Doing so gives you advantage on melee weapon attack rolls using Strength during this turn, but attack rolls against you have advantage until your next turn.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Danger Sense",
+        "Description": "At 2nd level, you gain an uncanny sense of when things nearby aren't as they should be, giving you an edge when you dodge away from danger. You have advantage on Dexterity saving throws against effects that you can see, such as traps and spells. To gain this benefit, you can't be blinded, deafened, or incapacitated.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Primal Path",
+        "Description": "At 3rd level, you choose a path that shapes the nature of your rage. Your choice grants you features at 3rd level and again at 6th, 10th, and 14th level.",
+        "LevelUnlocked": 3,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Extra Attack",
+        "Description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+        "LevelUnlocked": 5,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      }
+    ]
+  },
+  {
+    "Name": "Bard",
+    "ClassName": "Bard",
+    "Description": "An inspiring magician whose power echoes the music of creation",
+    "HitDie": 8,
+    "SubclassNames": ["Lore", "Valor"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Simple Weapons"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Hand Crossbows"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Longswords"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Rapiers"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Shortswords"}
+    ],
+    "ArmorProficiencies": [
+      {"ProficiencyType": "Armor", "ProficiencyName": "Light Armor"}
+    ],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Dexterity"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Charisma"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "Athletics"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Acrobatics"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Sleight of Hand"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Stealth"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Arcana"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "History"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Investigation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Nature"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Religion"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Animal Handling"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Insight"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Medicine"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Perception"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Survival"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Deception"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Intimidation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Performance"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Persuasion"}
+    ],
+    "StartingEquipment": ["Rapier", "Diplomat's Pack", "Lute", "Leather Armor"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": true,
+      "SpellcastingAbility": "Charisma",
+      "SpellSlotsPerLevel": [2, 3, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "Features": [
+      {
+        "FeatureName": "Spellcasting",
+        "Description": "You have learned to untangle and reshape the fabric of reality in harmony with your wishes and music. Your spells are part of your vast repertoire, magic that you can tune to different situations.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "SpellcastingAbility": "Charisma"
+        }
+      },
+      {
+        "FeatureName": "Bardic Inspiration",
+        "Description": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d6.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "UsesPerRest": "2"
+        }
+      },
+      {
+        "FeatureName": "Jack of All Trades",
+        "Description": "Starting at 2nd level, you can add half your proficiency bonus, rounded down, to any ability check you make that doesn't already include your proficiency bonus.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Song of Rest",
+        "Description": "Beginning at 2nd level, you can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points at the end of the short rest by spending one or more Hit Dice, each of those creatures regains an extra 1d6 hit points.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Bard College",
+        "Description": "At 3rd level, you delve into the advanced techniques of a bard college of your choice. Your choice grants you features at 3rd level and again at 6th and 14th level.",
+        "LevelUnlocked": 3,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      }
+    ]
+  },
+  {
+    "Name": "Sorcerer",
+    "ClassName": "Sorcerer",
+    "Description": "A spellcaster who draws on inherent magic from a gift or bloodline",
+    "HitDie": 6,
+    "SubclassNames": ["Draconic", "Wild Magic"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Daggers"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Darts"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Slings"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Quarterstaffs"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Light Crossbows"}
+    ],
+    "ArmorProficiencies": [],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Constitution"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Charisma"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "Arcana"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Deception"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Insight"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Intimidation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Persuasion"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Religion"}
+    ],
+    "StartingEquipment": ["Light Crossbow", "Component Pouch", "Dungeoneer's Pack"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": true,
+      "SpellcastingAbility": "Charisma",
+      "SpellSlotsPerLevel": [2, 3, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "Features": [
+      {
+        "FeatureName": "Spellcasting",
+        "Description": "An event in your past, or in the life of a parent or ancestor, left an indelible mark on you, infusing you with arcane magic. This font of magic, whatever its origin, fuels your spells.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "SpellcastingAbility": "Charisma"
+        }
+      },
+      {
+        "FeatureName": "Sorcerous Origin",
+        "Description": "Choose a sorcerous origin, which describes the source of your innate magical power. Your choice grants you features when you choose it at 1st level and again at 6th, 14th, and 18th level.",
+        "LevelUnlocked": 1,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Font of Magic",
+        "Description": "At 2nd level, you tap into a deep wellspring of magic within yourself. This wellspring is represented by sorcery points, which allow you to create a variety of magical effects.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Metamagic",
+        "Description": "At 3rd level, you gain the ability to twist your spells to suit your needs. You gain two Metamagic options of your choice. You gain another one at 10th and 17th level.",
+        "LevelUnlocked": 3,
+        "FeatureType": "Choice",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      }
+    ]
+  },
+  {
+    "Name": "Warlock",
+    "ClassName": "Warlock",
+    "Description": "A wielder of magic that is derived from a bargain with an extraplanar entity",
+    "HitDie": 8,
+    "SubclassNames": ["Fiend", "Great Old One", "Archfey"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Simple Weapons"}
+    ],
+    "ArmorProficiencies": [
+      {"ProficiencyType": "Armor", "ProficiencyName": "Light Armor"}
+    ],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Wisdom"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Charisma"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "Arcana"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Deception"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "History"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Intimidation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Investigation"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Nature"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Religion"}
+    ],
+    "StartingEquipment": ["Light Crossbow", "Component Pouch", "Scholar's Pack", "Leather Armor"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": true,
+      "SpellcastingAbility": "Charisma",
+      "SpellSlotsPerLevel": [1, 2, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "Features": [
+      {
+        "FeatureName": "Otherworldly Patron",
+        "Description": "At 1st level, you have struck a bargain with an otherworldly being of your choice. Your choice grants you features at 1st level and again at 6th, 10th, and 14th level.",
+        "LevelUnlocked": 1,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Pact Magic",
+        "Description": "Your arcane research and the magic bestowed on you by your patron have given you facility with spells.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "SpellcastingAbility": "Charisma"
+        }
+      },
+      {
+        "FeatureName": "Eldritch Invocations",
+        "Description": "In your study of occult lore, you have unearthed eldritch invocations, fragments of forbidden knowledge that imbue you with an abiding magical ability. At 2nd level, you gain two eldritch invocations of your choice. You gain an additional invocation at 5th, 7th, 9th, 12th, 15th, and 18th level.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Choice",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Pact Boon",
+        "Description": "At 3rd level, your otherworldly patron bestows a gift upon you for your loyal service. You gain one of the following features of your choice.",
+        "LevelUnlocked": 3,
+        "FeatureType": "Choice",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      }
+    ]
+  },
+  {
+    "Name": "Monk",
+    "ClassName": "Monk",
+    "Description": "A master of martial arts, harnessing the power of the body in pursuit of physical and spiritual perfection",
+    "HitDie": 8,
+    "SubclassNames": ["Open Hand", "Shadow", "Four Elements"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Simple Weapons"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Shortswords"}
+    ],
+    "ArmorProficiencies": [],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Strength"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Dexterity"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "Acrobatics"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Athletics"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "History"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Insight"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Religion"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Stealth"}
+    ],
+    "StartingEquipment": ["Shortsword", "Dungeoneer's Pack"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": false,
+      "SpellcastingAbility": "",
+      "SpellSlotsPerLevel": []
+    },
+    "Features": [
+      {
+        "FeatureName": "Unarmored Defense",
+        "Description": "Beginning at 1st level, while you are wearing no armor and not wielding a shield, your AC equals 10 + your Dexterity modifier + your Wisdom modifier.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Martial Arts",
+        "Description": "At 1st level, your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are shortswords and any simple melee weapons that don't have the two-handed or heavy property.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ki",
+        "Description": "Starting at 2nd level, your training allows you to harness the mystic energy of ki. Your access to this energy is represented by a number of ki points. Your monk level determines the number of points you have.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Unarmored Movement",
+        "Description": "Starting at 2nd level, your speed increases by 10 feet while you are not wearing armor or wielding a shield. This bonus increases when you reach certain monk levels.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Monastic Tradition",
+        "Description": "When you reach 3rd level, you commit yourself to a monastic tradition. Your tradition grants you features at 3rd level and again at 6th, 11th, and 17th level.",
+        "LevelUnlocked": 3,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Deflect Missiles",
+        "Description": "Starting at 3rd level, you can use your reaction to deflect or catch the missile when you are hit by a ranged weapon attack. When you do so, the damage you take from the attack is reduced by 1d10 + your Dexterity modifier + your monk level.",
+        "LevelUnlocked": 3,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Extra Attack",
+        "Description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+        "LevelUnlocked": 5,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Stunning Strike",
+        "Description": "Starting at 5th level, you can interfere with the flow of ki in an opponent's body. When you hit another creature with a melee weapon attack, you can spend 1 ki point to attempt a stunning strike. The target must succeed on a Constitution saving throw or be stunned until the end of your next turn.",
+        "LevelUnlocked": 5,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      }
+    ]
+  },
+  {
+    "Name": "Druid",
+    "ClassName": "Druid",
+    "Description": "A priest of the Old Faith, wielding the powers of nature and adopting animal forms",
+    "HitDie": 8,
+    "SubclassNames": ["Land", "Moon"],
+    "WeaponProficiencies": [
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Clubs"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Daggers"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Darts"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Javelins"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Maces"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Quarterstaffs"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Scimitars"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Sickles"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Slings"},
+      {"ProficiencyType": "Weapon", "ProficiencyName": "Spears"}
+    ],
+    "ArmorProficiencies": [
+      {"ProficiencyType": "Armor", "ProficiencyName": "Light Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Medium Armor"},
+      {"ProficiencyType": "Armor", "ProficiencyName": "Shields"}
+    ],
+    "SavingThrowProficiencies": [
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Intelligence"},
+      {"ProficiencyType": "SavingThrow", "ProficiencyName": "Wisdom"}
+    ],
+    "SkillProficiencies": [
+      {"ProficiencyType": "Skill", "ProficiencyName": "Arcana"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Animal Handling"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Insight"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Medicine"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Nature"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Perception"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Religion"},
+      {"ProficiencyType": "Skill", "ProficiencyName": "Survival"}
+    ],
+    "StartingEquipment": ["Shield", "Scimitar", "Leather Armor", "Explorer's Pack", "Druidic Focus"],
+    "SpellcastingInfo": {
+      "bHasSpellcasting": true,
+      "SpellcastingAbility": "Wisdom",
+      "SpellSlotsPerLevel": [2, 3, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "Features": [
+      {
+        "FeatureName": "Druidic",
+        "Description": "You know Druidic, the secret language of druids. You can speak the language and use it to leave hidden messages. You and others who know this language automatically spot such a message. Others spot the message's presence with a successful DC 15 Wisdom (Perception) check but can't decipher it without magic.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Spellcasting",
+        "Description": "Drawing on the divine essence of nature itself, you can cast spells to shape that essence to your will.",
+        "LevelUnlocked": 1,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "SpellcastingAbility": "Wisdom"
+        }
+      },
+      {
+        "FeatureName": "Wild Shape",
+        "Description": "Starting at 2nd level, you can use your action to magically assume the shape of a beast that you have seen before. You can use this feature twice. You regain expended uses when you finish a short or long rest.",
+        "LevelUnlocked": 2,
+        "FeatureType": "Automatic",
+        "FeatureData": {
+          "UsesPerRest": "2"
+        }
+      },
+      {
+        "FeatureName": "Druid Circle",
+        "Description": "At 2nd level, you choose to identify with a circle of druids. Your choice grants you features at 2nd level and again at 6th, 10th, and 14th level.",
+        "LevelUnlocked": 2,
+        "FeatureType": "SubclassSelection",
+        "FeatureData": {}
+      },
+      {
+        "FeatureName": "Ability Score Improvement",
+        "Description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "LevelUnlocked": 4,
+        "FeatureType": "ASI",
+        "FeatureData": {}
+      }
+    ]
+  }
+]

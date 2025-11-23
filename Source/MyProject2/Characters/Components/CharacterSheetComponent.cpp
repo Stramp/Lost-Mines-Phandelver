@@ -30,11 +30,7 @@ void UCharacterSheetComponent::BeginPlay()
 
     if (!FindOrGetCharacterDataComponent())
     {
-        FString OwnerName = TEXT("Desconhecido");
-        if (AActor *OwnerActor = GetOwner())
-        {
-            OwnerName = OwnerActor->GetName();
-        }
+        FString OwnerName = Owner ? Owner->GetName() : TEXT("Desconhecido");
         UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: CharacterDataComponent não encontrado no Actor %s"),
                *OwnerName);
         return;
@@ -57,15 +53,28 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
 
     if (!FindOrGetCharacterDataComponent())
     {
+        AActor *Owner = GetOwner();
+        FString OwnerName = Owner ? Owner->GetName() : TEXT("Desconhecido");
         UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: CharacterDataComponent não encontrado no Actor %s"),
-               *GetOwner()->GetName());
+               *OwnerName);
         return;
     }
 
     // Copia dados do Data Asset para o CharacterDataComponent
     CharacterDataComponent->CharacterName = DataAsset->CharacterName;
     CharacterDataComponent->CharacterDescription = DataAsset->CharacterDescription;
-    CharacterDataComponent->CharacterTotalLvl = DataAsset->CharacterTotalLvl;
+    CharacterDataComponent->CharacterTotalLvl = DataAsset->TotalLevel;
+    CharacterDataComponent->SelectedRace = DataAsset->SelectedRace;
+    CharacterDataComponent->SelectedSubrace = DataAsset->SelectedSubrace;
+    CharacterDataComponent->SelectedBackground = DataAsset->SelectedBackground;
+    CharacterDataComponent->Proficiencies = DataAsset->Proficiencies;
+
+    // Copia ability scores (apenas os valores finais)
+    CharacterDataComponent->AbilityScores.Empty();
+    for (const auto &Pair : DataAsset->AbilityScores)
+    {
+        CharacterDataComponent->AbilityScores.Add(Pair.Key, Pair.Value.FinalScore);
+    }
 
     // Salva referência ao Data Asset
     SourceDataAsset = DataAsset;
