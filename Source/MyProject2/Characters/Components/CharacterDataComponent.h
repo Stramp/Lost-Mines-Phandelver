@@ -62,6 +62,26 @@ public:
     UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
     TArray<FName> Proficiencies;
 
+    /** Features disponíveis do personagem (raça + classe) */
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    TArray<FName> AvailableFeatures;
+
+    /** Variant Human: Feat escolhido (se aplicável) */
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    FName SelectedFeat = NAME_None;
+
+    /** Variant Human: Skill escolhido (se aplicável) */
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    FName SelectedSkill = NAME_None;
+
+    /** Variant Human: Escolhas customizadas de ability scores (se aplicável) */
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    TArray<FName> CustomAbilityScoreChoices;
+
+    /** Traits da raça (ex: Darkvision, Fey Ancestry) */
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    TArray<FName> RaceTraits;
+
     /** Ability scores finais (chave: nome do atributo, valor: score final)
      * NOTA: TMap não pode ser replicado diretamente no Unreal Engine.
      * Para replicação futura, usar TArray de structs ou implementar replicação customizada.

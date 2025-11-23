@@ -4,6 +4,8 @@
 #include "../Data/CharacterSheetDataAsset.h"
 #include "CharacterDataComponent.h"
 #include "../../Utils/ComponentHelpers.h"
+#include "../../Utils/DataTableHelpers.h"
+#include "../../Data/Tables/RaceDataTable.h"
 #include "GameFramework/Actor.h"
 
 UCharacterSheetComponent::UCharacterSheetComponent() { PrimaryComponentTick.bCanEverTick = false; }
@@ -68,6 +70,45 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     CharacterDataComponent->SelectedSubrace = DataAsset->SelectedSubrace;
     CharacterDataComponent->SelectedBackground = DataAsset->SelectedBackground;
     CharacterDataComponent->Proficiencies = DataAsset->Proficiencies;
+    CharacterDataComponent->AvailableFeatures = DataAsset->AvailableFeatures;
+
+    // Copia Variant Human choices (se aplicável)
+    CharacterDataComponent->SelectedFeat = DataAsset->SelectedFeat;
+    CharacterDataComponent->SelectedSkill = DataAsset->SelectedSkill;
+    CharacterDataComponent->CustomAbilityScoreChoices = DataAsset->CustomAbilityScoreChoices;
+
+    // Busca e copia traits da raça (raça base + sub-raça se houver)
+    CharacterDataComponent->RaceTraits.Empty();
+    if (DataAsset->RaceDataTable && DataAsset->SelectedRace != NAME_None)
+    {
+        // Busca traits da raça base
+        if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(DataAsset->SelectedRace, DataAsset->RaceDataTable))
+        {
+            for (const FRaceTrait &Trait : RaceRow->Traits)
+            {
+                if (Trait.TraitName != NAME_None)
+                {
+                    CharacterDataComponent->RaceTraits.AddUnique(Trait.TraitName);
+                }
+            }
+        }
+
+        // Busca traits da sub-raça (se houver)
+        if (DataAsset->SelectedSubrace != NAME_None)
+        {
+            if (FRaceDataRow *SubraceRow =
+                    DataTableHelpers::FindSubraceRow(DataAsset->SelectedSubrace, DataAsset->RaceDataTable))
+            {
+                for (const FRaceTrait &Trait : SubraceRow->Traits)
+                {
+                    if (Trait.TraitName != NAME_None)
+                    {
+                        CharacterDataComponent->RaceTraits.AddUnique(Trait.TraitName);
+                    }
+                }
+            }
+        }
+    }
 
     // Copia ability scores (apenas os valores finais)
     CharacterDataComponent->AbilityScores.Empty();

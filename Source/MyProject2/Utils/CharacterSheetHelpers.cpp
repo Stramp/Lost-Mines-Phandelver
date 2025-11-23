@@ -316,6 +316,39 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeats(int32 TotalLevel, const T
     return AvailableFeats;
 }
 
+TArray<FName> CharacterSheetHelpers::GetAvailableFeatsForVariantHuman(const TMap<FName, int32> &AbilityScores,
+                                                                      UDataTable *FeatDataTable)
+{
+    TArray<FName> AvailableFeats;
+
+    if (!FeatDataTable)
+    {
+        return AvailableFeats;
+    }
+
+    // Variant Human pode escolher feat no nível 1 (bypassa verificação de nível)
+    // Ainda valida pré-requisitos de ability scores
+    TArray<FName> RowNames = FeatDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
+    {
+        if (FFeatDataRow *Row = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("GetAvailableFeatsForVariantHuman")))
+        {
+            if (Row->FeatName == NAME_None)
+            {
+                continue;
+            }
+
+            // Valida apenas pré-requisitos de ability scores (sem verificação de nível)
+            if (CharacterSheetHelpers::MeetsFeatPrerequisites(Row, AbilityScores))
+            {
+                AvailableFeats.AddUnique(Row->FeatName);
+            }
+        }
+    }
+
+    return AvailableFeats;
+}
+
 // ============================================================================
 // Ability Score Helpers
 // ============================================================================

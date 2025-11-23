@@ -122,6 +122,18 @@ namespace CharacterSheetHelpers
                                     UDataTable *FeatDataTable);
 
     /**
+     * Retorna todos os feats disponíveis para Variant Human (nível 1).
+     * Variant Human é uma exceção especial que permite escolher feat no nível 1,
+     * bypassando a verificação normal de nível (4, 8, 12, 16, 19).
+     * Ainda valida pré-requisitos de ability scores.
+     *
+     * @param AbilityScores Map com ability scores do personagem (chave: FName do atributo, valor: score)
+     * @param FeatDataTable Data Table de feats (pode ser nullptr)
+     * @return Array com nomes dos feats disponíveis, ou array vazio se Data Table inválido
+     */
+    TArray<FName> GetAvailableFeatsForVariantHuman(const TMap<FName, int32> &AbilityScores, UDataTable *FeatDataTable);
+
+    /**
      * Verifica se o personagem pode escolher um feat no nível especificado.
      * Em D&D 5e, feats podem ser escolhidos nos níveis 4, 8, 12, 16, 19 (ou ao invés de ASI).
      *

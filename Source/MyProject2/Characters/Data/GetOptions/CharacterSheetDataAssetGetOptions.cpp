@@ -70,9 +70,9 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(UDataTab
         return TArray<FName>();
     }
 
-    // Para Variant Human, todos os feats estão disponíveis (sem pré-requisitos de nível)
-    // Usa nível 1 e ability scores atuais
-    return CharacterSheetHelpers::GetAvailableFeats(1, AbilityScores, FeatDataTable);
+    // Para Variant Human, usa função específica que bypassa verificação de nível
+    // Variant Human pode escolher feat no nível 1 (exceção especial de D&D 5e)
+    return CharacterSheetHelpers::GetAvailableFeatsForVariantHuman(AbilityScores, FeatDataTable);
 }
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetSkillNames()
