@@ -453,8 +453,8 @@ Funções helper para validação de dados de personagem D&D 5e.
 > **ValidatePointBuy()**
 >
 > ```cpp
-> bool ValidatePointBuy(const TMap<FName, int32> &BaseScores, 
->                       int32 &PointsRemaining, 
+> bool ValidatePointBuy(const TMap<FName, int32> &BaseScores,
+>                       int32 &PointsRemaining,
 >                       int32 MaxPoints = 27);
 > ```
 >
@@ -472,7 +472,7 @@ Funções helper para validação de dados de personagem D&D 5e.
 > **ValidatePointBuyAllocation()**
 >
 > ```cpp
-> bool ValidatePointBuyAllocation(const TMap<FName, int32> &BaseScores, 
+> bool ValidatePointBuyAllocation(const TMap<FName, int32> &BaseScores,
 >                                  int32 MaxPoints = 27);
 > ```
 >
@@ -488,8 +488,8 @@ Funções helper para validação de dados de personagem D&D 5e.
 > **ValidateTotalLevel()**
 >
 > ```cpp
-> bool ValidateTotalLevel(const TArray<FClassLevelEntry> &ClassLevels, 
->                         int32 &TotalLevel, 
+> bool ValidateTotalLevel(const TArray<FClassLevelEntry> &ClassLevels,
+>                         int32 &TotalLevel,
 >                         int32 MaxLevel = 20);
 > ```
 >
@@ -534,8 +534,8 @@ Funções helper para validação de dados de personagem D&D 5e.
 > **ValidateAbilityScoreChoices()**
 >
 > ```cpp
-> bool ValidateAbilityScoreChoices(TArray<FName> &Choices, 
->                                   const TArray<FName> &ValidNames, 
+> bool ValidateAbilityScoreChoices(TArray<FName> &Choices,
+>                                   const TArray<FName> &ValidNames,
 >                                   int32 MaxChoices = 2);
 > ```
 >
@@ -556,7 +556,7 @@ Funções helper para validação de dados de personagem D&D 5e.
 > **ValidateFeatSelection()**
 >
 > ```cpp
-> bool ValidateFeatSelection(FName &SelectedFeat, 
+> bool ValidateFeatSelection(FName &SelectedFeat,
 >                             const TArray<FName> &AvailableFeats);
 > ```
 >
@@ -573,7 +573,7 @@ Funções helper para validação de dados de personagem D&D 5e.
 > **ValidateSkillSelection()**
 >
 > ```cpp
-> bool ValidateSkillSelection(FName &SelectedSkill, 
+> bool ValidateSkillSelection(FName &SelectedSkill,
 >                             const TArray<FName> &ValidSkills);
 > ```
 >
@@ -618,8 +618,8 @@ Funções helper para cálculos de dados de personagem D&D 5e.
 > **CalculateFinalAbilityScore()**
 >
 > ```cpp
-> int32 CalculateFinalAbilityScore(int32 BaseScore, 
->                                   int32 RacialBonus, 
+> int32 CalculateFinalAbilityScore(int32 BaseScore,
+>                                   int32 RacialBonus,
 >                                   int32 ASIBonus = 0);
 > ```
 >
@@ -637,9 +637,9 @@ Funções helper para cálculos de dados de personagem D&D 5e.
 > **CalculateRacialBonuses()**
 >
 > ```cpp
-> void CalculateRacialBonuses(const FRaceDataRow *RaceRow, 
+> void CalculateRacialBonuses(const FRaceDataRow *RaceRow,
 >                             const FRaceDataRow *SubraceRow,
->                             const TArray<FName> &CustomChoices, 
+>                             const TArray<FName> &CustomChoices,
 >                             TMap<FName, int32> &RacialBonuses);
 > ```
 >
@@ -677,7 +677,7 @@ Funções helper para cálculos de dados de personagem D&D 5e.
 > **CalculateAvailableFeatures()**
 >
 > ```cpp
-> TArray<FName> CalculateAvailableFeatures(const TArray<FClassLevelEntry> &ClassLevels, 
+> TArray<FName> CalculateAvailableFeatures(const TArray<FClassLevelEntry> &ClassLevels,
 >                                          UDataTable *ClassDataTable);
 > ```
 >
@@ -690,11 +690,11 @@ Funções helper para cálculos de dados de personagem D&D 5e.
 > **CalculateProficiencies()**
 >
 > ```cpp
-> TArray<FName> CalculateProficiencies(FName RaceName, 
->                                      FName SubraceName, 
+> TArray<FName> CalculateProficiencies(FName RaceName,
+>                                      FName SubraceName,
 >                                      const TArray<FClassLevelEntry> &ClassLevels,
->                                      FName BackgroundName, 
->                                      UDataTable *RaceDataTable, 
+>                                      FName BackgroundName,
+>                                      UDataTable *RaceDataTable,
 >                                      UDataTable *ClassDataTable,
 >                                      UDataTable *BackgroundDataTable);
 > ```
