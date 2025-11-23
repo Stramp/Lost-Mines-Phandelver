@@ -4,6 +4,7 @@
 #include "Handlers/CharacterSheetDataAssetHandlers.h"
 #include "Validators/CharacterSheetDataAssetValidators.h"
 #include "Updaters/CharacterSheetDataAssetUpdaters.h"
+#include "GetOptions/CharacterSheetDataAssetGetOptions.h"
 #include "Containers/UnrealString.h"
 #include "../../Utils/CharacterSheetHelpers.h"
 #include "../../Data/Tables/RaceDataTable.h"
@@ -156,87 +157,57 @@ void UCharacterSheetDataAsset::ValidateAndUpdate()
     }
 }
 
+// ============================================================================
+// GetOptions Functions (wrappers - lógica está em FCharacterSheetDataAssetGetOptions)
+// ============================================================================
+// Estas funções DEVEM ficar na classe porque Unreal Engine procura por elas
+// quando vê GetOptions = "GetRaceNames" no meta do UPROPERTY.
+// A lógica foi movida para FCharacterSheetDataAssetGetOptions para melhor organização.
+
 TArray<FName> UCharacterSheetDataAsset::GetRaceNames() const
 {
-    if (!RaceDataTable)
-    {
-        return TArray<FName>();
-    }
-
-    return CharacterSheetHelpers::GetAllRaceNames(RaceDataTable);
+    return FCharacterSheetDataAssetGetOptions::GetRaceNames(RaceDataTable);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetSubraceNames() const
 {
-    if (!RaceDataTable || SelectedRace == NAME_None)
-    {
-        return TArray<FName>();
-    }
-
-    return CharacterSheetHelpers::GetAvailableSubraces(SelectedRace, RaceDataTable);
+    return FCharacterSheetDataAssetGetOptions::GetSubraceNames(RaceDataTable, SelectedRace);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetBackgroundNames() const
 {
-    if (!BackgroundDataTable)
-    {
-        return TArray<FName>();
-    }
-
-    return CharacterSheetHelpers::GetAllBackgroundNames(BackgroundDataTable);
+    return FCharacterSheetDataAssetGetOptions::GetBackgroundNames(BackgroundDataTable);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetClassNames() const
 {
-    if (!ClassDataTable)
-    {
-        return TArray<FName>();
-    }
-
-    return CharacterSheetHelpers::GetAllClassNames(ClassDataTable);
+    return FCharacterSheetDataAssetGetOptions::GetClassNames(ClassDataTable);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetSubclassNames(FName ClassName) const
 {
-    if (!ClassDataTable || ClassName == NAME_None)
-    {
-        return TArray<FName>();
-    }
-
-    return CharacterSheetHelpers::GetAvailableSubclasses(ClassName, ClassDataTable);
+    return FCharacterSheetDataAssetGetOptions::GetSubclassNames(ClassDataTable, ClassName);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetAbilityScoreNames() const
 {
-    return TArray<FName>{TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
-                         TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+    return FCharacterSheetDataAssetGetOptions::GetAbilityScoreNames();
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetAvailableFeatNames() const
 {
-    if (!FeatDataTable)
-    {
-        return TArray<FName>();
-    }
-
-    // Para Variant Human, todos os feats estão disponíveis (sem pré-requisitos de nível)
-    // Usa nível 1 e ability scores atuais
+    // Converte AbilityScores para formato esperado pelo módulo
     TMap<FName, int32> CurrentAbilityScores;
     for (const auto &Pair : AbilityScores)
     {
         CurrentAbilityScores.Add(Pair.Key, Pair.Value.FinalScore);
     }
 
-    return CharacterSheetHelpers::GetAvailableFeats(1, CurrentAbilityScores, FeatDataTable);
+    return FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(FeatDataTable, CurrentAbilityScores);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetSkillNames() const
 {
-    // Lista completa de skills de D&D 5e
-    return TArray<FName>{TEXT("Acrobatics"),    TEXT("Animal Handling"), TEXT("Arcana"),   TEXT("Athletics"),
-                         TEXT("Deception"),     TEXT("History"),         TEXT("Insight"),  TEXT("Intimidation"),
-                         TEXT("Investigation"), TEXT("Medicine"),        TEXT("Nature"),   TEXT("Perception"),
-                         TEXT("Performance"),   TEXT("Persuasion"),      TEXT("Religion"), TEXT("Sleight of Hand"),
-                         TEXT("Stealth"),       TEXT("Survival")};
+    return FCharacterSheetDataAssetGetOptions::GetSkillNames();
 }
 #endif

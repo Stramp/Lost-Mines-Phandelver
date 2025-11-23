@@ -1,0 +1,63 @@
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+#pragma once
+
+#include "CoreMinimal.h"
+
+// Forward declarations
+class UDataTable;
+class UCharacterSheetDataAsset;
+
+/**
+ * GetOptions functions for CharacterSheetDataAsset dropdowns.
+ * Contains the logic for populating dropdown options in the editor.
+ *
+ * Note: The actual GetOptions functions must remain in UCharacterSheetDataAsset
+ * class because Unreal Engine's GetOptions meta requires them to be in the same class.
+ * These functions provide the implementation logic that can be reused and tested.
+ */
+class MYPROJECT2_API FCharacterSheetDataAssetGetOptions
+{
+public:
+    /**
+     * Returns all race names from RaceDataTable.
+     */
+    static TArray<FName> GetRaceNames(UDataTable *RaceDataTable);
+
+    /**
+     * Returns all available subraces for the selected race.
+     */
+    static TArray<FName> GetSubraceNames(UDataTable *RaceDataTable, FName SelectedRace);
+
+    /**
+     * Returns all background names from BackgroundDataTable.
+     */
+    static TArray<FName> GetBackgroundNames(UDataTable *BackgroundDataTable);
+
+    /**
+     * Returns all class names from ClassDataTable.
+     */
+    static TArray<FName> GetClassNames(UDataTable *ClassDataTable);
+
+    /**
+     * Returns all available subclasses for a specific class.
+     */
+    static TArray<FName> GetSubclassNames(UDataTable *ClassDataTable, FName ClassName);
+
+    /**
+     * Returns all ability score names (Strength, Dexterity, etc.).
+     */
+    static TArray<FName> GetAbilityScoreNames();
+
+    /**
+     * Returns all available feats for Variant Human.
+     * Uses level 1 and current ability scores.
+     */
+    static TArray<FName> GetAvailableFeatNames(UDataTable *FeatDataTable, const TMap<FName, int32> &AbilityScores);
+
+    /**
+     * Returns all skill names from D&D 5e.
+     * TODO: Move to SkillDataTable when implemented.
+     */
+    static TArray<FName> GetSkillNames();
+};
