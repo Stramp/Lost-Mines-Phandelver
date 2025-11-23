@@ -43,7 +43,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > > > - Aplicação de padrão de organização Markdown em guias (`docs/GUIDES/`) [`cf8ec7d`]
 > > > - Aplicação de padrão de organização Markdown em `ARCHITECTURE.md` [`4d11ca4`]
 > > > - Adição de regra de honestidade e perguntas para IA [`d4d8a80`]
-> > > - Adição de hashes de commits em todas as entradas do CHANGELOG para rastreabilidade
+> > > - Adição de hashes de commits em todas as entradas do CHANGELOG para rastreabilidade [`7b5040e`]
 > >
 > > </details>
 >
