@@ -263,8 +263,20 @@ private:
     /** Flag para evitar recursão infinita ao modificar propriedades durante validação */
     bool bIsValidatingProperties = false;
 
+    /** Tipo para ponteiros de função estáticos (mais seguro que std::function) */
+    using PropertyHandlerFunction = void (*)(UCharacterSheetDataAsset *, FName);
+
+    /** Map de nomes de propriedades para seus handlers (usando ponteiros de função estáticos) */
+    TMap<FName, PropertyHandlerFunction> PropertyHandlers;
+
+    /** Inicializa o map de handlers (chamado no construtor e PostLoad) */
+    void InitializePropertyHandlers();
+
     /** Valida e atualiza campos calculados (orquestrador completo) */
     void ValidateAndUpdate();
+
+    /** Called after object is loaded from disk - ensures PropertyHandlers is initialized */
+    virtual void PostLoad() override;
 
     /** Friend classes for modules to access private members */
     friend class FCharacterSheetDataAssetHandlers;

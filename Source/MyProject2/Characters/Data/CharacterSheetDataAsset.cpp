@@ -31,9 +31,25 @@ UCharacterSheetDataAsset::UCharacterSheetDataAsset()
 
     PointsRemaining = 27;
     TotalLevel = 0;
+
+#if WITH_EDITOR
+    InitializePropertyHandlers();
+#endif
 }
 
 #if WITH_EDITOR
+void UCharacterSheetDataAsset::PostLoad()
+{
+    Super::PostLoad();
+
+    // Garantir que PropertyHandlers seja inicializado quando objeto é carregado do disco
+    // (construtor não é chamado quando carregado do disco)
+    if (PropertyHandlers.Num() == 0)
+    {
+        InitializePropertyHandlers();
+    }
+}
+
 void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &PropertyChangedEvent)
 {
     Super::PostEditChangeProperty(PropertyChangedEvent);
@@ -58,41 +74,87 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
         return;
     }
 
-    // Switch case direto - mais seguro que std::function com lambdas capturando 'this'
-    // Evita problemas de lifetime quando objeto é carregado do disco
-    if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace))
+    // Verificar se PropertyHandlers foi inicializado
+    if (PropertyHandlers.Num() == 0)
     {
-        FCharacterSheetDataAssetHandlers::HandleRaceChange(this, PropertyName);
+        InitializePropertyHandlers();
     }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace))
+
+    // Lookup handler no map usando ponteiros de função estáticos (mais seguro que std::function)
+    if (PropertyHandlerFunction *HandlerPtr = PropertyHandlers.Find(PropertyName))
     {
-        FCharacterSheetDataAssetHandlers::HandleRaceChange(this, PropertyName);
+        // Executar handler - ponteiros de função estáticos são seguros e não têm problemas de lifetime
+        (*HandlerPtr)(this, PropertyName);
     }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, AbilityScores))
+}
+
+// Funções wrapper estáticas para os handlers (necessárias porque ponteiros de função C-style
+// não podem ser lambdas, apenas funções estáticas)
+namespace
+{
+    void HandleSelectedRace(UCharacterSheetDataAsset *Asset, FName PropertyName)
     {
-        FCharacterSheetDataAssetHandlers::HandleAbilityScoresChange(this);
+        FCharacterSheetDataAssetHandlers::HandleRaceChange(Asset, PropertyName);
     }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassLevels))
+
+    void HandleSelectedSubrace(UCharacterSheetDataAsset *Asset, FName PropertyName)
     {
-        FCharacterSheetDataAssetHandlers::HandleClassLevelsChange(this);
+        FCharacterSheetDataAssetHandlers::HandleRaceChange(Asset, PropertyName);
     }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground))
+
+    void HandleAbilityScores(UCharacterSheetDataAsset *Asset, FName)
     {
-        FCharacterSheetDataAssetHandlers::HandleBackgroundChange(this);
+        FCharacterSheetDataAssetHandlers::HandleAbilityScoresChange(Asset);
     }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices) ||
-             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedFeat) ||
-             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSkill))
+
+    void HandleClassLevels(UCharacterSheetDataAsset *Asset, FName)
     {
-        FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(this);
+        FCharacterSheetDataAssetHandlers::HandleClassLevelsChange(Asset);
     }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable) ||
-             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable) ||
-             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, BackgroundDataTable) ||
-             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, FeatDataTable))
+
+    void HandleSelectedBackground(UCharacterSheetDataAsset *Asset, FName)
     {
-        FCharacterSheetDataAssetHandlers::HandleDataTableChange(this);
+        FCharacterSheetDataAssetHandlers::HandleBackgroundChange(Asset);
     }
+
+    void HandleVariantHumanChoices(UCharacterSheetDataAsset *Asset, FName)
+    {
+        FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(Asset);
+    }
+
+    void HandleDataTable(UCharacterSheetDataAsset *Asset, FName)
+    {
+        FCharacterSheetDataAssetHandlers::HandleDataTableChange(Asset);
+    }
+} // namespace
+
+void UCharacterSheetDataAsset::InitializePropertyHandlers()
+{
+    // Race and Subrace handlers
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace), HandleSelectedRace);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace), HandleSelectedSubrace);
+
+    // Ability Scores handler
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, AbilityScores), HandleAbilityScores);
+
+    // Class Levels handler
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassLevels), HandleClassLevels);
+
+    // Background handler
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground),
+                         HandleSelectedBackground);
+
+    // Variant Human choices handlers
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices),
+                         HandleVariantHumanChoices);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedFeat), HandleVariantHumanChoices);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSkill), HandleVariantHumanChoices);
+
+    // Data Tables handlers
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable), HandleDataTable);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable), HandleDataTable);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, BackgroundDataTable), HandleDataTable);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, FeatDataTable), HandleDataTable);
 }
 
 void UCharacterSheetDataAsset::ValidateAndUpdate()
