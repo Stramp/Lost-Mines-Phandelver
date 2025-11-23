@@ -89,3 +89,12 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNames()
     // Por enquanto, hardcoded porque são constantes do sistema D&D 5e.
     return CharacterSheetHelpers::GetAvailableLanguageNames();
 }
+
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(FName RaceName, FName SubraceName,
+                                                                                     FName BackgroundName,
+                                                                                     UDataTable *RaceDataTable,
+                                                                                     UDataTable *BackgroundDataTable)
+{
+    return CharacterSheetHelpers::GetAvailableLanguagesForChoice(RaceName, SubraceName, BackgroundName, RaceDataTable,
+                                                                 BackgroundDataTable);
+}

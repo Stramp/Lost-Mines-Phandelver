@@ -224,6 +224,36 @@ namespace CharacterSheetHelpers
      */
     bool HasLanguageChoiceFromBackground(FName BackgroundName, UDataTable *BackgroundDataTable, int32 &OutCount);
 
+    /**
+     * Calcula idiomas automáticos que o personagem já fala (raça + sub-raça + background automáticos).
+     * NÃO inclui idiomas escolhidos pelo jogador (apenas automáticos).
+     * Usado para filtrar dropdown de escolhas de idiomas.
+     *
+     * @param RaceName Nome da raça selecionada (pode ser NAME_None)
+     * @param SubraceName Nome da sub-raça selecionada (pode ser NAME_None)
+     * @param BackgroundName Nome do background selecionado (pode ser NAME_None)
+     * @param RaceDataTable Data Table de raças (pode ser nullptr)
+     * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
+     * @return Array com idiomas automáticos já conhecidos
+     */
+    TArray<FName> GetAutomaticLanguages(FName RaceName, FName SubraceName, FName BackgroundName,
+                                        UDataTable *RaceDataTable, UDataTable *BackgroundDataTable);
+
+    /**
+     * Retorna idiomas disponíveis para escolha, EXCLUINDO idiomas já conhecidos automaticamente.
+     * Filtra o array completo de idiomas removendo os que o personagem já fala (raça + sub-raça + background
+     * automáticos). Usado no dropdown de escolhas de idiomas para evitar que o jogador escolha idiomas que já possui.
+     *
+     * @param RaceName Nome da raça selecionada (pode ser NAME_None)
+     * @param SubraceName Nome da sub-raça selecionada (pode ser NAME_None)
+     * @param BackgroundName Nome do background selecionado (pode ser NAME_None)
+     * @param RaceDataTable Data Table de raças (pode ser nullptr)
+     * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
+     * @return Array com idiomas disponíveis para escolha (excluindo já conhecidos)
+     */
+    TArray<FName> GetAvailableLanguagesForChoice(FName RaceName, FName SubraceName, FName BackgroundName,
+                                                 UDataTable *RaceDataTable, UDataTable *BackgroundDataTable);
+
     // ============================================================================
     // Point Buy System Helpers
     // ============================================================================

@@ -206,13 +206,8 @@ public:
 
     /** Quantidade máxima de idiomas que podem ser escolhidos (calculado automaticamente) */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Race & Background | Language Choices",
-              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+              meta = (EditCondition = "bHasLanguageChoices && !bCanShowSheet", EditConditionHides))
     int32 MaxLanguageChoices = 0;
-
-    /** Flag indicando se há escolhas de idiomas disponíveis (raça/background/feat) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Race & Background | Language Choices",
-              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
-    bool bHasLanguageChoices = false;
 
     // ============================================================================
     // Ability Scores (Point Buy System)
@@ -261,6 +256,11 @@ private:
     /** Flag calculada: true se SelectedSubrace == "Variant Human" (propriedade interna, não visível no editor) */
     UPROPERTY()
     bool bIsVariantHuman = false;
+
+    /** Flag calculada: true se há escolhas de idiomas disponíveis (raça/background/feat) (propriedade interna, não
+     * visível no editor) */
+    UPROPERTY()
+    bool bHasLanguageChoices = false;
 
     /** Flag to control sheet display (true = only Data Tables, false = all categories) */
     UPROPERTY()

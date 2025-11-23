@@ -219,7 +219,28 @@ void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetData
     // Soma total de escolhas disponíveis (raça + background)
     // NOTA: Futuramente, quando feats forem implementados, adicionar aqui também
     Asset->MaxLanguageChoices = RaceLanguageCount + BackgroundLanguageCount;
-    Asset->bHasLanguageChoices = (Asset->MaxLanguageChoices > 0);
+    bool bNewHasLanguageChoices = (Asset->MaxLanguageChoices > 0);
+
+    // Atualiza flag bHasLanguageChoices e notifica editor se mudou
+    if (Asset->bHasLanguageChoices != bNewHasLanguageChoices)
+    {
+        Asset->bHasLanguageChoices = bNewHasLanguageChoices;
+
+#if WITH_EDITOR
+        // Notifica o editor sobre a mudança para atualizar EditCondition
+        // A verificação em PostEditChangeProperty evita recursão ao ignorar mudanças em bHasLanguageChoices
+        if (GIsEditor && !Asset->bIsValidatingProperties)
+        {
+            Asset->Modify();
+            if (FProperty *Property = FindFieldChecked<FProperty>(
+                    Asset->GetClass(), GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasLanguageChoices)))
+            {
+                FPropertyChangedEvent PropertyChangedEvent(Property, EPropertyChangeType::ValueSet);
+                Asset->PostEditChangeProperty(PropertyChangedEvent);
+            }
+        }
+#endif
+    }
 
     // Se não há mais escolhas disponíveis, limpa SelectedLanguages
     if (!Asset->bHasLanguageChoices)

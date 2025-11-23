@@ -66,4 +66,18 @@ public:
      * TODO: Move to LanguageDataTable when implemented.
      */
     static TArray<FName> GetAvailableLanguageNames();
+
+    /**
+     * Returns available languages for choice, filtered (excluding already known automatic languages).
+     * Uses current character state (race, subrace, background) to filter out languages the character already speaks.
+     *
+     * @param RaceName Selected race name (can be NAME_None)
+     * @param SubraceName Selected subrace name (can be NAME_None)
+     * @param BackgroundName Selected background name (can be NAME_None)
+     * @param RaceDataTable Race Data Table (can be nullptr)
+     * @param BackgroundDataTable Background Data Table (can be nullptr)
+     * @return Array with available languages for choice (excluding already known)
+     */
+    static TArray<FName> GetAvailableLanguageNamesForChoice(FName RaceName, FName SubraceName, FName BackgroundName,
+                                                            UDataTable *RaceDataTable, UDataTable *BackgroundDataTable);
 };

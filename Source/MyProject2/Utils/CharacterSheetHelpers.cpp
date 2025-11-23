@@ -478,6 +478,84 @@ bool CharacterSheetHelpers::HasLanguageChoiceFromBackground(FName BackgroundName
     return false;
 }
 
+TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName SubraceName, FName BackgroundName,
+                                                           UDataTable *RaceDataTable, UDataTable *BackgroundDataTable)
+{
+    TArray<FName> AutomaticLanguages;
+
+    // Coleta idiomas automáticos da raça base
+    if (RaceDataTable && RaceName != NAME_None)
+    {
+        if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(RaceName, RaceDataTable))
+        {
+            for (const FName &Language : RaceRow->Languages)
+            {
+                if (Language != NAME_None)
+                {
+                    AutomaticLanguages.AddUnique(Language);
+                }
+            }
+        }
+    }
+
+    // Coleta idiomas automáticos da sub-raça
+    if (RaceDataTable && SubraceName != NAME_None)
+    {
+        if (FRaceDataRow *SubraceRow = DataTableHelpers::FindSubraceRow(SubraceName, RaceDataTable))
+        {
+            for (const FName &Language : SubraceRow->Languages)
+            {
+                if (Language != NAME_None)
+                {
+                    AutomaticLanguages.AddUnique(Language);
+                }
+            }
+        }
+    }
+
+    // Coleta idiomas automáticos do background (não-escolhas)
+    if (BackgroundDataTable && BackgroundName != NAME_None)
+    {
+        if (FBackgroundDataRow *BackgroundRow =
+                DataTableHelpers::FindBackgroundRow(BackgroundName, BackgroundDataTable))
+        {
+            for (const FName &Language : BackgroundRow->Languages)
+            {
+                if (Language != NAME_None)
+                {
+                    AutomaticLanguages.AddUnique(Language);
+                }
+            }
+        }
+    }
+
+    return AutomaticLanguages;
+}
+
+TArray<FName> CharacterSheetHelpers::GetAvailableLanguagesForChoice(FName RaceName, FName SubraceName,
+                                                                    FName BackgroundName, UDataTable *RaceDataTable,
+                                                                    UDataTable *BackgroundDataTable)
+{
+    // Obtém todos os idiomas disponíveis
+    TArray<FName> AllLanguages = GetAvailableLanguageNames();
+
+    // Calcula idiomas automáticos já conhecidos
+    TArray<FName> AutomaticLanguages =
+        GetAutomaticLanguages(RaceName, SubraceName, BackgroundName, RaceDataTable, BackgroundDataTable);
+
+    // Remove idiomas já conhecidos do array completo
+    TArray<FName> AvailableLanguages;
+    for (const FName &Language : AllLanguages)
+    {
+        if (!AutomaticLanguages.Contains(Language))
+        {
+            AvailableLanguages.Add(Language);
+        }
+    }
+
+    return AvailableLanguages;
+}
+
 // ============================================================================
 // Point Buy System Helpers
 // ============================================================================
