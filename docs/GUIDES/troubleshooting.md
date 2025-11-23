@@ -477,7 +477,13 @@ Guia de problemas comuns e suas soluções no sistema de fichas D&D 5e.
 
 ---
 
-Para mais ajuda, consulte:
-- [getting-started.md](getting-started.md) - Guia de início
-- [API.md](../API.md) - Referência da API
-- [ARCHITECTURE.md](../../ARCHITECTURE.md) - Arquitetura do projeto
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📚 Recursos Adicionais</b></summary>
+
+> Para mais ajuda, consulte:
+>
+> - [getting-started.md](getting-started.md) - Guia de início
+> - [API.md](../API.md) - Referência da API
+> - [ARCHITECTURE.md](../../ARCHITECTURE.md) - Arquitetura do projeto
+
+</details>

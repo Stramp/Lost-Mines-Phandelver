@@ -372,7 +372,12 @@ O `CharacterSheetDataAsset` valida dados automaticamente no editor via `PostEdit
 
 ## Estruturas Relacionadas
 
-### FAbilityScoreEntry
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📦 Structs e Tipos de Dados</b></summary>
+
+> Estruturas auxiliares usadas no sistema de fichas:
+>
+> ### FAbilityScoreEntry
 
 **Caminho:** `Source/MyProject2/Characters/Data/CharacterSheetDataAssetTypes.h`
 
@@ -398,9 +403,16 @@ struct MYPROJECT2_API FAbilityScoreEntry
 
 **Uso:** Armazena ability score com base, bônus racial e score final.
 
+</details>
+
 ---
 
 ## Helpers e Utilitários
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🛠️ Funções Helper Reutilizáveis</b></summary>
+
+> Funções helper organizadas em namespaces em `Utils/`:
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🛠️ Utils - Funções Helper Reutilizáveis</b></summary>
@@ -868,14 +880,21 @@ Funções helper para leitura, filtragem e validação de Data Tables de D&D 5e.
 
 </details>
 
-**Uso:** Usadas em `CharacterSheetDataAsset` para funções `GetOptions` e podem ser reutilizadas em widgets e outras mecânicas.
+> **Uso:** Usadas em `CharacterSheetDataAsset` para funções `GetOptions` e podem ser reutilizadas em widgets e outras mecânicas.
+
+</details>
 
 ---
 
 ## Integração com Refatorações
 
 <details>
-<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📈 Benefícios das Refatorações</summary>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔄 Refatorações e Melhorias</b></summary>
+
+> Informações sobre refatorações realizadas e seus benefícios:
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📈 Benefícios das Refatorações</summary>
 
 > Todas as funções helper foram extraídas de código acoplado seguindo princípios de Clean Code:
 >
@@ -898,7 +917,10 @@ Funções helper para leitura, filtragem e validação de Data Tables de D&D 5e.
 
 ## Preparação para Combat Components
 
-O `CharacterDataComponent` está preparado para uso em combat components:
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚔️ Integração com Sistema de Combate</b></summary>
+
+> O `CharacterDataComponent` está preparado para uso em combat components:
 
 - **Ability Scores:** Acessíveis via `AbilityScores` map
 - **Validação:** `ValidateDataIntegrity()` garante dados válidos antes de usar

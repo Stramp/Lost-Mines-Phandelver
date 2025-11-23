@@ -236,9 +236,16 @@ MyProject2/
 
 ## 🔗 Links Úteis
 
-- [Unreal Engine 5.7 Documentation](https://docs.unrealengine.com/5.7/)
-- [Unreal Engine API Reference](https://docs.unrealengine.com/5.7/en-US/API/)
-- [C++ Programming Guide](https://docs.unrealengine.com/5.7/en-US/cpp-programming-in-unreal-engine/)
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📚 Documentação e Recursos</b></summary>
+
+> Links úteis para desenvolvimento:
+>
+> - [Unreal Engine 5.7 Documentation](https://docs.unrealengine.com/5.7/)
+> - [Unreal Engine API Reference](https://docs.unrealengine.com/5.7/en-US/API/)
+> - [C++ Programming Guide](https://docs.unrealengine.com/5.7/en-US/cpp-programming-in-unreal-engine/)
+
+</details>
 
 ## 🗺️ Roadmap
 
@@ -410,12 +417,19 @@ Copyright Epic Games, Inc. All Rights Reserved.
 
 ## 🤝 Contribuindo
 
-Ao contribuir, certifique-se de:
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Diretrizes para Contribuidores</b></summary>
 
-1. Seguir todas as regras em `.cursor/rules/`
-2. Manter código limpo e documentado
-3. Testar no editor antes de commitar
-4. Atualizar documentação quando necessário
+> Ao contribuir, certifique-se de:
+>
+> 1. Seguir todas as regras em `.cursor/rules/`
+> 2. Manter código limpo e documentado
+> 3. Testar no editor antes de commitar
+> 4. Atualizar documentação quando necessário
+>
+> **📖 Para mais detalhes, veja [CONTRIBUTING.md](CONTRIBUTING.md)**
+
+</details>
 
 ---
 

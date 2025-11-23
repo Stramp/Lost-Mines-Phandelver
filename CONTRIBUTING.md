@@ -243,19 +243,31 @@ Este projeto segue princípios de Clean Code, Design Patterns e arquitetura bem 
 
 ## Links Úteis
 
-- [ARCHITECTURE.md](ARCHITECTURE.md) - Arquitetura do projeto
-- [README.md](README.md) - Visão geral do projeto
-- [.cursor/rules/](.cursor/rules/) - Regras de código
-- [API.md](docs/API.md) - Referência da API
-- [getting-started.md](docs/GUIDES/getting-started.md) - Guia de início
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📚 Documentação e Recursos</b></summary>
+
+> Links úteis para contribuidores:
+>
+> - [ARCHITECTURE.md](ARCHITECTURE.md) - Arquitetura do projeto
+> - [README.md](README.md) - Visão geral do projeto
+> - [.cursor/rules/](.cursor/rules/) - Regras de código
+> - [API.md](docs/API.md) - Referência da API
+> - [getting-started.md](docs/GUIDES/getting-started.md) - Guia de início
+
+</details>
 
 ## Dúvidas?
 
-Se tiver dúvidas sobre como contribuir:
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>❓ Precisa de Ajuda?</b></summary>
 
-1. Verifique a documentação primeiro
-2. Abra uma issue para discussão
-3. Entre em contato com os mantenedores
+> Se tiver dúvidas sobre como contribuir:
+>
+> 1. Verifique a documentação primeiro
+> 2. Abra uma issue para discussão
+> 3. Entre em contato com os mantenedores
+
+</details>
 
 ---
 
