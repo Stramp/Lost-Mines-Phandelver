@@ -5,12 +5,14 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Engine/DataTable.h"
-#include <functional>
 #include "CharacterSheetDataAsset.generated.h"
 
 // Forward declarations
 class UDataTable;
 class FCharacterSheetDataAssetHandlers;
+class FCharacterSheetDataAssetValidators;
+class FCharacterSheetDataAssetUpdaters;
+class FCharacterSheetDataAssetHelpers;
 
 /**
  * Struct para armazenar entrada de nível de classe (multi-classing).
@@ -261,37 +263,13 @@ private:
     /** Flag para evitar recursão infinita ao modificar propriedades durante validação */
     bool bIsValidatingProperties = false;
 
-    /** Map of property names to their handlers */
-    TMap<FName, std::function<void()>> PropertyHandlers;
-
-    /** Initialize property handlers map */
-    void InitializePropertyHandlers();
-
-    /** Valida e atualiza campos calculados */
+    /** Valida e atualiza campos calculados (orquestrador completo) */
     void ValidateAndUpdate();
 
-    /** Valida Point Buy system */
-    void ValidatePointBuy();
-
-    /** Valida nível total */
-    void ValidateTotalLevel();
-
-    /** Atualiza bônus raciais nos ability scores */
-    void UpdateRacialBonuses();
-
-    /** Atualiza campos calculados usando helpers */
-    void UpdateCalculatedFields();
-
-    /** Atualiza flag bIsVariantHuman e notifica editor se necessário */
-    void UpdateVariantHumanFlag();
-
-    /** Valida escolhas de Variant Human */
-    void ValidateVariantHumanChoices();
-
-    /** Reseta escolhas de Variant Human quando raça muda */
-    void ResetVariantHumanChoices();
-
-    /** Friend class for handlers to access private members */
+    /** Friend classes for modules to access private members */
     friend class FCharacterSheetDataAssetHandlers;
+    friend class FCharacterSheetDataAssetValidators;
+    friend class FCharacterSheetDataAssetUpdaters;
+    friend class FCharacterSheetDataAssetHelpers;
 #endif
 };
