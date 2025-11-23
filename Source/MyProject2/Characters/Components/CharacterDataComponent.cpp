@@ -16,7 +16,8 @@ void UCharacterDataComponent::GetLifetimeReplicatedProps(TArray<FLifetimePropert
     DOREPLIFETIME(UCharacterDataComponent, SelectedSubrace);
     DOREPLIFETIME(UCharacterDataComponent, SelectedBackground);
     DOREPLIFETIME(UCharacterDataComponent, Proficiencies);
-    DOREPLIFETIME(UCharacterDataComponent, AbilityScores);
+    // NOTA: AbilityScores (TMap) não pode ser replicado diretamente
+    // Para replicação futura, usar TArray de structs ou implementar replicação customizada
 }
 
 void UCharacterDataComponent::BeginPlay()

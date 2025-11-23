@@ -62,8 +62,11 @@ public:
     UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
     TArray<FName> Proficiencies;
 
-    /** Ability scores finais (chave: nome do atributo, valor: score final) */
-    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    /** Ability scores finais (chave: nome do atributo, valor: score final)
+     * NOTA: TMap não pode ser replicado diretamente no Unreal Engine.
+     * Para replicação futura, usar TArray de structs ou implementar replicação customizada.
+     */
+    UPROPERTY(BlueprintReadOnly, Category = "Character Data")
     TMap<FName, int32> AbilityScores;
 
     /**
