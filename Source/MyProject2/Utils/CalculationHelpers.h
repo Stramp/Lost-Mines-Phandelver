@@ -85,19 +85,19 @@ namespace CalculationHelpers
     TArray<FName> CalculateAvailableFeatures(const TArray<FClassLevelEntry> &ClassLevels, UDataTable *ClassDataTable);
 
     /**
-     * Calcula proficiências do personagem (raça + classe + background).
-     * Placeholder para implementação futura.
+     * Calcula proficiências do personagem (raça + classe + background + Variant Human skill).
      *
      * @param RaceName Nome da raça selecionada
      * @param SubraceName Nome da sub-raça selecionada (pode ser NAME_None)
      * @param ClassLevels Array com entradas de nível por classe
      * @param BackgroundName Nome do background selecionado
+     * @param SelectedSkill Skill escolhido para Variant Human (pode ser NAME_None)
      * @param RaceDataTable Data Table de raças (pode ser nullptr)
      * @param ClassDataTable Data Table de classes (pode ser nullptr)
      * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
      * @return Array com nomes de proficiências
      */
     TArray<FName> CalculateProficiencies(FName RaceName, FName SubraceName, const TArray<FClassLevelEntry> &ClassLevels,
-                                         FName BackgroundName, UDataTable *RaceDataTable, UDataTable *ClassDataTable,
-                                         UDataTable *BackgroundDataTable);
+                                         FName BackgroundName, FName SelectedSkill, UDataTable *RaceDataTable,
+                                         UDataTable *ClassDataTable, UDataTable *BackgroundDataTable);
 } // namespace CalculationHelpers

@@ -4,6 +4,7 @@
 #include "../Data/Tables/RaceDataTable.h"
 #include "../Data/Tables/ClassDataTable.h"
 #include "../Data/Tables/FeatDataTable.h"
+#include "../Data/Tables/BackgroundDataTable.h"
 
 // ============================================================================
 // Race Data Table Helpers
@@ -127,6 +128,42 @@ FFeatDataRow *DataTableHelpers::FindFeatRow(FName FeatName, UDataTable *FeatData
             if (FFeatDataRow *FoundRow = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("FindFeatRow")))
             {
                 if (FoundRow->FeatName == FeatName)
+                {
+                    Row = FoundRow;
+                    break;
+                }
+            }
+        }
+    }
+
+    return Row;
+}
+
+// ============================================================================
+// Background Data Table Helpers
+// ============================================================================
+
+FBackgroundDataRow *DataTableHelpers::FindBackgroundRow(FName BackgroundName, UDataTable *BackgroundDataTable)
+{
+    if (!BackgroundDataTable || BackgroundName == NAME_None)
+    {
+        return nullptr;
+    }
+
+    // Tenta FindRow direto primeiro (otimização)
+    FBackgroundDataRow *Row =
+        BackgroundDataTable->FindRow<FBackgroundDataRow>(BackgroundName, TEXT("FindBackgroundRow"));
+
+    // Fallback: busca manual O(n) se FindRow não encontrou
+    if (!Row)
+    {
+        TArray<FName> RowNames = BackgroundDataTable->GetRowNames();
+        for (const FName &RowName : RowNames)
+        {
+            if (FBackgroundDataRow *FoundRow =
+                    BackgroundDataTable->FindRow<FBackgroundDataRow>(RowName, TEXT("FindBackgroundRow")))
+            {
+                if (FoundRow->BackgroundName == BackgroundName)
                 {
                     Row = FoundRow;
                     break;

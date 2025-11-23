@@ -101,6 +101,10 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
         return;
     }
 
+    UE_LOG(LogTemp, Warning,
+           TEXT("[DEBUG] HandleVariantHumanChoicesChange: Chamado - SelectedSubrace='%s', SelectedSkill='%s'"),
+           *Asset->SelectedSubrace.ToString(), *Asset->SelectedSkill.ToString());
+
     Asset->bIsValidatingProperties = true;
 
     // Valida escolhas de Variant Human
@@ -109,7 +113,12 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
     // Recalcula bônus raciais (Custom ASI afeta bônus)
     FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(Asset);
 
+    // Recalcula proficiências (SelectedSkill do Variant Human afeta proficiências)
+    UE_LOG(LogTemp, Warning, TEXT("[DEBUG] HandleVariantHumanChoicesChange: Chamando UpdateCalculatedFields"));
+    FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
+
     Asset->bIsValidatingProperties = false;
+    UE_LOG(LogTemp, Warning, TEXT("[DEBUG] HandleVariantHumanChoicesChange: Finalizado"));
 }
 
 void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetDataAsset *Asset)

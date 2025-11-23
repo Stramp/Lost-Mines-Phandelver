@@ -247,7 +247,7 @@ MyProject2/
 
 > Roadmap detalhado para transformação em Action RPG D&D 5e:
 >
-> <details>
+> <details open>
 > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⏱️ Curto Prazo (Próximas 4-6 semanas)</summary>
 >
 > > **Fase 1: Finalizar Sistema de Fichas**
@@ -256,8 +256,8 @@ MyProject2/
 > >   - ⚠️ Validação do sistema de Point Buy
 > >   - ⚠️ Validação do sistema de Multiclasse
 > >   - ⚠️ Conferir criação de feat no editor no config do Data Asset
-> > - ✅ Validar integridade de dados (standby)
-> > - ✅ Validar suporte para Variant Human (standby)
+> > - ⏳ Validar suporte para Variant Human (standby)
+> > - ⏳ Validar integridade de dados (standby)
 > >
 > > **Fase 2: Combate Básico (2-3 semanas)**
 > >

@@ -10,6 +10,7 @@ class UDataTable;
 struct FRaceDataRow;
 struct FClassDataRow;
 struct FFeatDataRow;
+struct FBackgroundDataRow;
 
 /**
  * Funções helper para busca de rows em Data Tables com fallback manual.
@@ -74,4 +75,18 @@ namespace DataTableHelpers
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
     FFeatDataRow *FindFeatRow(FName FeatName, UDataTable *FeatDataTable);
+
+    // ============================================================================
+    // Background Data Table Helpers
+    // ============================================================================
+
+    /**
+     * Busca row de background no Data Table.
+     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     *
+     * @param BackgroundName Nome do background para buscar
+     * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
+     * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
+     */
+    FBackgroundDataRow *FindBackgroundRow(FName BackgroundName, UDataTable *BackgroundDataTable);
 } // namespace DataTableHelpers

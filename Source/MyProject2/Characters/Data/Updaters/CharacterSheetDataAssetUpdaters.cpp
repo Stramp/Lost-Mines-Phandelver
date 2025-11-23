@@ -159,12 +159,24 @@ void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDat
     Asset->AvailableFeatures.Empty();
     Asset->Proficiencies.Empty();
 
+    // DEBUG: Log valores antes de calcular
+    UE_LOG(LogTemp, Warning,
+           TEXT("[DEBUG] UpdateCalculatedFields: SelectedRace='%s', SelectedSubrace='%s', SelectedBackground='%s', "
+                "SelectedSkill='%s'"),
+           *Asset->SelectedRace.ToString(), *Asset->SelectedSubrace.ToString(), *Asset->SelectedBackground.ToString(),
+           *Asset->SelectedSkill.ToString());
+
     // Usa CalculationHelpers para calcular features disponíveis (função pura)
     Asset->AvailableFeatures =
         CalculationHelpers::CalculateAvailableFeatures(Asset->ClassLevels, Asset->ClassDataTable);
 
-    // TODO: Adicionar proficiências de raça, classe e background quando necessário
-    // Por enquanto, apenas estrutura preparada
+    // Usa CalculationHelpers para calcular proficiências (raça, classe, background e Variant Human skill)
+    Asset->Proficiencies = CalculationHelpers::CalculateProficiencies(
+        Asset->SelectedRace, Asset->SelectedSubrace, Asset->ClassLevels, Asset->SelectedBackground,
+        Asset->SelectedSkill, Asset->RaceDataTable, Asset->ClassDataTable, Asset->BackgroundDataTable);
+
+    UE_LOG(LogTemp, Warning, TEXT("[DEBUG] UpdateCalculatedFields: Após calcular, ProficienciesCount=%d"),
+           Asset->Proficiencies.Num());
 }
 
 void FCharacterSheetDataAssetUpdaters::UpdateVariantHumanFlag(UCharacterSheetDataAsset *Asset)
