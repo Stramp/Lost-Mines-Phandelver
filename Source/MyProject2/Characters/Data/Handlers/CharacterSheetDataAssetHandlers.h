@@ -50,4 +50,18 @@ public:
      * When all Data Tables are ready, calls ValidateAndUpdate() to update everything.
      */
     static void HandleDataTableChange(UCharacterSheetDataAsset *Asset);
+
+    // ============================================================================
+    // Wrapper Functions for Property Handler Map (C-style function pointers)
+    // ============================================================================
+    // These wrapper functions are used as function pointers in the PropertyHandlers map.
+    // They provide a consistent signature (UCharacterSheetDataAsset*, FName) for all handlers.
+
+    static void HandleSelectedRaceWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleSelectedSubraceWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleAbilityScoresWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleClassLevelsWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleSelectedBackgroundWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleVariantHumanChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleDataTableWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
 };

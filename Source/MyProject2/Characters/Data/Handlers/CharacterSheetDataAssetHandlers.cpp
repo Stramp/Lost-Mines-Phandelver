@@ -146,3 +146,46 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
 
     Asset->bIsValidatingProperties = false;
 }
+
+// ============================================================================
+// Wrapper Functions for Property Handler Map
+// ============================================================================
+// These wrapper functions are used as C-style function pointers in the
+// PropertyHandlers map. They provide a consistent signature for all handlers.
+
+void FCharacterSheetDataAssetHandlers::HandleSelectedRaceWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+{
+    HandleRaceChange(Asset, PropertyName);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleSelectedSubraceWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+{
+    HandleRaceChange(Asset, PropertyName);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleAbilityScoresWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+{
+    HandleAbilityScoresChange(Asset);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleClassLevelsWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+{
+    HandleClassLevelsChange(Asset);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleSelectedBackgroundWrapper(UCharacterSheetDataAsset *Asset,
+                                                                       FName PropertyName)
+{
+    HandleBackgroundChange(Asset);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper(UCharacterSheetDataAsset *Asset,
+                                                                        FName PropertyName)
+{
+    HandleVariantHumanChoicesChange(Asset);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleDataTableWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+{
+    HandleDataTableChange(Asset);
+}
