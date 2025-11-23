@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Engine/DataTable.h"
+#include "CharacterSheetDataAssetTypes.h"
 #include "CharacterSheetDataAsset.generated.h"
 
 // Forward declarations
@@ -42,30 +43,6 @@ struct MYPROJECT2_API FClassLevelEntry
         : ClassName(InClassName), Level(InLevel), SubclassName(NAME_None)
     {
     }
-};
-
-/**
- * Struct para armazenar ability score com base, bônus racial e score final.
- * Usado no sistema Point Buy.
- */
-USTRUCT(BlueprintType)
-struct MYPROJECT2_API FAbilityScoreEntry
-{
-    GENERATED_BODY()
-
-    /** Score base (8-15 para Point Buy) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability", meta = (ClampMin = "8", ClampMax = "15"))
-    int32 BaseScore = 8;
-
-    /** Bônus racial aplicado (calculado automaticamente) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
-    int32 RacialBonus = 0;
-
-    /** Score final (BaseScore + RacialBonus) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
-    int32 FinalScore = 8;
-
-    FAbilityScoreEntry() : BaseScore(8), RacialBonus(0), FinalScore(8) {}
 };
 
 /**

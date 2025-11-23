@@ -3,8 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Containers/Map.h"
+#include "UObject/NameTypes.h"
+#include "../CharacterSheetDataAssetTypes.h"
 
-// Forward declaration
+// Forward declarations
 class UCharacterSheetDataAsset;
 
 /**
@@ -14,6 +17,12 @@ class UCharacterSheetDataAsset;
 class MYPROJECT2_API FCharacterSheetDataAssetHelpers
 {
 public:
+    /**
+     * Initializes default ability scores (all start at 8).
+     * Populates AbilityScores map with all 6 ability scores at base value 8.
+     */
+    static void InitializeDefaultAbilityScores(TMap<FName, FAbilityScoreEntry> &AbilityScores);
+
     /**
      * Resets Variant Human choices when race changes.
      * Clears CustomAbilityScoreChoices, SelectedFeat, and SelectedSkill.

@@ -5,6 +5,7 @@
 #include "Validators/CharacterSheetDataAssetValidators.h"
 #include "Updaters/CharacterSheetDataAssetUpdaters.h"
 #include "GetOptions/CharacterSheetDataAssetGetOptions.h"
+#include "Helpers/CharacterSheetDataAssetHelpers.h"
 #include "Containers/UnrealString.h"
 #include "../../Utils/CharacterSheetHelpers.h"
 #include "../../Data/Tables/RaceDataTable.h"
@@ -19,19 +20,11 @@
 
 UCharacterSheetDataAsset::UCharacterSheetDataAsset()
 {
-    // Inicializa ability scores padrão (todos começam em 8)
-    TArray<FName> AbilityNames = {TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
-                                  TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
-    for (const FName &AbilityName : AbilityNames)
-    {
-        FAbilityScoreEntry Entry;
-        Entry.BaseScore = 8;
-        Entry.FinalScore = 8;
-        AbilityScores.Add(AbilityName, Entry);
-    }
+    // Inicializa ability scores padrão usando helper
+    FCharacterSheetDataAssetHelpers::InitializeDefaultAbilityScores(AbilityScores);
 
-    PointsRemaining = 27;
-    TotalLevel = 0;
+    // PointsRemaining e TotalLevel já têm valores padrão no header (= 27 e = 0)
+    // Não precisam ser inicializados aqui
 
 #if WITH_EDITOR
     InitializePropertyHandlers();
