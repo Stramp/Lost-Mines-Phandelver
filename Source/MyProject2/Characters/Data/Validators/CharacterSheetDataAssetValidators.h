@@ -28,8 +28,25 @@ public:
 
     /**
      * Validates Variant Human choices.
-     * Ensures CustomAbilityScoreChoices has exactly 2 elements,
-     * SelectedFeat is available, and SelectedSkill is valid.
+     * Orchestrates validation of ability scores, feat, and skill.
      */
     static void ValidateVariantHumanChoices(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Validates Variant Human ability score choices.
+     * Ensures CustomAbilityScoreChoices has exactly 2 valid elements.
+     */
+    static void ValidateVariantHumanAbilityScoreChoices(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Validates Variant Human selected feat.
+     * Ensures SelectedFeat is available and valid.
+     */
+    static void ValidateVariantHumanFeat(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Validates Variant Human selected skill.
+     * Ensures SelectedSkill is valid.
+     */
+    static void ValidateVariantHumanSkill(UCharacterSheetDataAsset *Asset);
 };

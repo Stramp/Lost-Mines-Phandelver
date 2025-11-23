@@ -91,30 +91,43 @@ void FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(UCharacterS
         return;
     }
 
-    // Validar CustomAbilityScoreChoices: deve ter exatamente 2 elementos
-    if (Asset->CustomAbilityScoreChoices.Num() != 2)
+    ValidateVariantHumanAbilityScoreChoices(Asset);
+    ValidateVariantHumanFeat(Asset);
+    ValidateVariantHumanSkill(Asset);
+}
+
+void FCharacterSheetDataAssetValidators::ValidateVariantHumanAbilityScoreChoices(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
     {
-        // Ajusta para ter exatamente 2 elementos
+        return;
+    }
+
+    // Validar CustomAbilityScoreChoices: deve ser possivel adicionar até 2 atributos, dando +1 a cada atributo
+    // escolhido. Se o numero de atributos escolhidos for somente 1, deve se adicionar +2 para o unico atributo
+    // escolhido. Se escolher 2 atributos, deve se adicionar +1 para cada atributo escolhido.
+    if (Asset->CustomAbilityScoreChoices.Num() > 2)
+    {
+        // Ajusta para ter no maximo 2 elementos
         Asset->CustomAbilityScoreChoices.SetNum(2);
-        // Preenche com valores padrão se necessário
-        if (Asset->CustomAbilityScoreChoices[0] == NAME_None)
-        {
-            Asset->CustomAbilityScoreChoices[0] = TEXT("Strength");
-        }
-        if (Asset->CustomAbilityScoreChoices[1] == NAME_None)
-        {
-            Asset->CustomAbilityScoreChoices[1] = TEXT("Dexterity");
-        }
     }
 
     // Validar que os atributos escolhidos são válidos
     TArray<FName> ValidAbilityNames = Asset->GetAbilityScoreNames();
     for (FName &AbilityName : Asset->CustomAbilityScoreChoices)
     {
-        if (!ValidAbilityNames.Contains(AbilityName))
+        if (AbilityName != NAME_None && !ValidAbilityNames.Contains(AbilityName))
         {
-            AbilityName = TEXT("Strength"); // Valor padrão
+            AbilityName = TEXT("Strength"); // Valor padrão se inválido
         }
+    }
+}
+
+void FCharacterSheetDataAssetValidators::ValidateVariantHumanFeat(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
     }
 
     // Validar SelectedFeat (deve estar na lista de feats disponíveis)
@@ -127,6 +140,14 @@ void FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(UCharacterS
                    *Asset->SelectedFeat.ToString());
             Asset->SelectedFeat = NAME_None;
         }
+    }
+}
+
+void FCharacterSheetDataAssetValidators::ValidateVariantHumanSkill(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
     }
 
     // Validar SelectedSkill (deve estar na lista de skills válidas)

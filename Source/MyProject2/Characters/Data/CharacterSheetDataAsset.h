@@ -152,17 +152,17 @@ public:
     // ============================================================================
 
     /** Raça selecionada */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background",
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Choices",
               meta = (GetOptions = "GetRaceNames", EditCondition = "!bCanShowSheet", EditConditionHides))
     FName SelectedRace = NAME_None;
 
     /** Sub-raça selecionada (se aplicável) */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background",
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Choices",
               meta = (GetOptions = "GetSubraceNames", EditCondition = "!bCanShowSheet", EditConditionHides))
     FName SelectedSubrace = NAME_None;
 
     /** Background selecionado */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background",
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Choices",
               meta = (GetOptions = "GetBackgroundNames", EditCondition = "!bCanShowSheet", EditConditionHides))
     FName SelectedBackground = NAME_None;
 
@@ -170,20 +170,22 @@ public:
     // Variant Human Choices (aparece apenas quando SelectedSubrace == "Variant Human")
     // ============================================================================
 
+    // Propriedades de Variant Human (agrupadas em subcategoria)
+
     /** Escolhas customizadas de atributos para Variant Human (2x +1 para distribuir) */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human",
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Variant Choices",
               meta = (GetOptions = "GetAbilityScoreNames", EditCondition = "bIsVariantHuman && !bCanShowSheet",
                       EditConditionHides))
     TArray<FName> CustomAbilityScoreChoices;
 
     /** Feat escolhido para Variant Human */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human",
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Variant Choices",
               meta = (GetOptions = "GetAvailableFeatNames", EditCondition = "bIsVariantHuman && !bCanShowSheet",
                       EditConditionHides))
     FName SelectedFeat = NAME_None;
 
     /** Skill escolhido para Variant Human */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human",
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Variant Choices",
               meta = (GetOptions = "GetSkillNames", EditCondition = "bIsVariantHuman && !bCanShowSheet",
                       EditConditionHides))
     FName SelectedSkill = NAME_None;

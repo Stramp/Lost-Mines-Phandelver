@@ -24,7 +24,17 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 > 🔄 Mudanças em desenvolvimento
 >
-> Nenhuma mudança pendente no momento.
+> Mudanças pendentes de release.
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔄 Changed</summary>
+>
+> > Mudanças em Funcionalidades Existentes
+> >
+> > - Refatoração de `ValidateVariantHumanChoices`: dividida em 3 funções separadas seguindo Clean Code (Validators)
+> > - Reorganização de categorias no editor do CharacterSheetDataAsset (Data)
+>
+> </details>
 
 </details>
 
