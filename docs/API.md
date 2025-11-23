@@ -7,6 +7,7 @@ Referência completa da API das classes principais do sistema de fichas de perso
 - [CharacterDataComponent](#characterdatacomponent)
 - [CharacterSheetComponent](#charactersheetcomponent)
 - [CharacterSheetDataAsset](#charactersheetdataasset)
+- [Helpers e Utilitários](#helpers-e-utilitários)
 
 ---
 
@@ -401,6 +402,18 @@ struct MYPROJECT2_API FAbilityScoreEntry
 
 ## Helpers e Utilitários
 
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🛠️ Utils - Funções Helper Reutilizáveis</b></summary>
+
+> Todas as funções helper estão organizadas em namespaces no diretório `Source/MyProject2/Utils/`.
+>
+> **Princípios:**
+> - Funções puras (sem efeitos colaterais)
+> - Parametrizadas (sem dependência de estado interno)
+> - Testáveis isoladamente
+> - < 50 linhas cada
+> - Reutilizáveis em editor e runtime
+
 ### ComponentHelpers
 
 **Caminho:** `Source/MyProject2/Utils/ComponentHelpers.h`
@@ -412,17 +425,474 @@ namespace ComponentHelpers
 }
 ```
 
-**Uso:** Busca `CharacterDataComponent` em um Actor.
+**Funções:**
+
+#### FindCharacterDataComponent()
+
+Busca `CharacterDataComponent` em um Actor.
+
+**Parâmetros:**
+- `Owner` - Actor onde buscar o componente (pode ser nullptr)
+
+**Retorno:**
+- `UCharacterDataComponent*` - Componente encontrado, ou `nullptr` se não encontrado ou Owner inválido
+
+**Uso:** Reutilizável em qualquer lugar que precise buscar o componente de dados do personagem.
+
+---
+
+### ValidationHelpers
+
+**Caminho:** `Source/MyProject2/Utils/ValidationHelpers.h`
+
+Funções helper para validação de dados de personagem D&D 5e.
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Point Buy Validation</summary>
+
+> **ValidatePointBuy()**
+>
+> ```cpp
+> bool ValidatePointBuy(const TMap<FName, int32> &BaseScores, 
+>                       int32 &PointsRemaining, 
+>                       int32 MaxPoints = 27);
+> ```
+>
+> Valida alocação de Point Buy e calcula pontos restantes.
+>
+> **Parâmetros:**
+> - `BaseScores` - Map com ability scores base (chave: FName do atributo, valor: score)
+> - `PointsRemaining` [OUT] - Pontos restantes após alocação (pode ser negativo se excedeu)
+> - `MaxPoints` - Pontos máximos disponíveis (padrão: 27 para D&D 5e)
+>
+> **Retorno:** `true` se todos os scores estão no range válido [8, 15], `false` caso contrário
+>
+> ---
+>
+> **ValidatePointBuyAllocation()**
+>
+> ```cpp
+> bool ValidatePointBuyAllocation(const TMap<FName, int32> &BaseScores, 
+>                                  int32 MaxPoints = 27);
+> ```
+>
+> Valida alocação completa de Point Buy (range + pontos).
+>
+> **Retorno:** `true` se válido (range correto E exatamente MaxPoints gastos), `false` caso contrário
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Level Validation</summary>
+
+> **ValidateTotalLevel()**
+>
+> ```cpp
+> bool ValidateTotalLevel(const TArray<FClassLevelEntry> &ClassLevels, 
+>                         int32 &TotalLevel, 
+>                         int32 MaxLevel = 20);
+> ```
+>
+> Calcula nível total e valida se está dentro do range permitido.
+>
+> **Parâmetros:**
+> - `ClassLevels` - Array com entradas de nível por classe
+> - `TotalLevel` [OUT] - Nível total calculado
+> - `MaxLevel` - Nível máximo permitido (padrão: 20 para D&D 5e)
+>
+> **Retorno:** `true` se nível total <= MaxLevel, `false` caso contrário
+>
+> ---
+>
+> **ValidateTotalLevelRange()**
+>
+> ```cpp
+> bool ValidateTotalLevelRange(int32 Level, int32 MaxLevel = 20);
+> ```
+>
+> Valida se um nível total está dentro do range permitido.
+>
+> **Retorno:** `true` se 1 <= Level <= MaxLevel, `false` caso contrário
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Ability Score Validation</summary>
+
+> **ValidateAbilityScoreRange()**
+>
+> ```cpp
+> bool ValidateAbilityScoreRange(int32 Score, int32 Min = 1, int32 Max = 30);
+> ```
+>
+> Valida se um ability score está dentro do range permitido.
+>
+> **Retorno:** `true` se Min <= Score <= Max, `false` caso contrário
+>
+> ---
+>
+> **ValidateAbilityScoreChoices()**
+>
+> ```cpp
+> bool ValidateAbilityScoreChoices(TArray<FName> &Choices, 
+>                                   const TArray<FName> &ValidNames, 
+>                                   int32 MaxChoices = 2);
+> ```
+>
+> Valida escolhas de ability scores (ex: Variant Human). Remove duplicatas e valores inválidos.
+>
+> **Parâmetros:**
+> - `Choices` [IN/OUT] - Array de escolhas (será modificado: duplicatas removidas, valores inválidos corrigidos)
+> - `ValidNames` - Array com nomes válidos de ability scores
+> - `MaxChoices` - Número máximo de escolhas permitidas (padrão: 2)
+>
+> **Retorno:** `true` se válido (1 <= Choices.Num() <= MaxChoices e todos os nomes são válidos), `false` caso contrário
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Selection Validation</summary>
+
+> **ValidateFeatSelection()**
+>
+> ```cpp
+> bool ValidateFeatSelection(FName &SelectedFeat, 
+>                             const TArray<FName> &AvailableFeats);
+> ```
+>
+> Valida se uma seleção de feat está disponível.
+>
+> **Parâmetros:**
+> - `SelectedFeat` [IN/OUT] - Feat selecionado (será resetado para NAME_None se inválido)
+> - `AvailableFeats` - Array com feats disponíveis
+>
+> **Retorno:** `true` se SelectedFeat está em AvailableFeats ou é NAME_None, `false` caso contrário
+>
+> ---
+>
+> **ValidateSkillSelection()**
+>
+> ```cpp
+> bool ValidateSkillSelection(FName &SelectedSkill, 
+>                             const TArray<FName> &ValidSkills);
+> ```
+>
+> Valida se uma seleção de skill é válida.
+>
+> **Parâmetros:**
+> - `SelectedSkill` [IN/OUT] - Skill selecionado (será resetado para NAME_None se inválido)
+> - `ValidSkills` - Array com skills válidas
+>
+> **Retorno:** `true` se SelectedSkill está em ValidSkills ou é NAME_None, `false` caso contrário
+
+</details>
+
+**Uso:** Todas as funções são usadas em `CharacterSheetDataAssetValidators` e podem ser reutilizadas em widgets, combat components e outras mecânicas do jogo.
+
+---
+
+### CalculationHelpers
+
+**Caminho:** `Source/MyProject2/Utils/CalculationHelpers.h`
+
+Funções helper para cálculos de dados de personagem D&D 5e.
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Ability Score Calculations</summary>
+
+> **CalculateAbilityModifier()**
+>
+> ```cpp
+> int32 CalculateAbilityModifier(int32 Score);
+> ```
+>
+> Calcula o modificador de ability score. Fórmula D&D 5e: `floor((Score - 10) / 2)`
+>
+> **Parâmetros:**
+> - `Score` - Ability score (1-30)
+>
+> **Retorno:** Modificador calculado (pode ser negativo)
+>
+> ---
+>
+> **CalculateFinalAbilityScore()**
+>
+> ```cpp
+> int32 CalculateFinalAbilityScore(int32 BaseScore, 
+>                                   int32 RacialBonus, 
+>                                   int32 ASIBonus = 0);
+> ```
+>
+> Calcula o score final de ability score (BaseScore + RacialBonus + ASIBonus).
+>
+> **Parâmetros:**
+> - `BaseScore` - Score base (do Point Buy)
+> - `RacialBonus` - Bônus racial aplicado
+> - `ASIBonus` - Bônus de Ability Score Improvement (padrão: 0)
+>
+> **Retorno:** Score final
+>
+> ---
+>
+> **CalculateRacialBonuses()**
+>
+> ```cpp
+> void CalculateRacialBonuses(const FRaceDataRow *RaceRow, 
+>                             const FRaceDataRow *SubraceRow,
+>                             const TArray<FName> &CustomChoices, 
+>                             TMap<FName, int32> &RacialBonuses);
+> ```
+>
+> Calcula bônus raciais de ability scores. Função pura que calcula bônus sem modificar Asset.
+>
+> **Parâmetros:**
+> - `RaceRow` - Row da raça base (pode ser nullptr)
+> - `SubraceRow` - Row da sub-raça (pode ser nullptr)
+> - `CustomChoices` - Array com escolhas customizadas (ex: Variant Human)
+> - `RacialBonuses` [OUT] - Map com bônus calculados (chave: FName do atributo, valor: bônus)
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Proficiency Calculations</summary>
+
+> **CalculateProficiencyBonus()**
+>
+> ```cpp
+> int32 CalculateProficiencyBonus(int32 TotalLevel);
+> ```
+>
+> Calcula o bônus de proficiência baseado no nível total. Fórmula D&D 5e: `1 + floor((TotalLevel - 1) / 4)`
+>
+> **Parâmetros:**
+> - `TotalLevel` - Nível total do personagem (1-20)
+>
+> **Retorno:** Bônus de proficiência
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Feature Calculations</summary>
+
+> **CalculateAvailableFeatures()**
+>
+> ```cpp
+> TArray<FName> CalculateAvailableFeatures(const TArray<FClassLevelEntry> &ClassLevels, 
+>                                          UDataTable *ClassDataTable);
+> ```
+>
+> Calcula features disponíveis baseado em níveis de classes.
+>
+> **Retorno:** Array com nomes de features disponíveis
+>
+> ---
+>
+> **CalculateProficiencies()**
+>
+> ```cpp
+> TArray<FName> CalculateProficiencies(FName RaceName, 
+>                                      FName SubraceName, 
+>                                      const TArray<FClassLevelEntry> &ClassLevels,
+>                                      FName BackgroundName, 
+>                                      UDataTable *RaceDataTable, 
+>                                      UDataTable *ClassDataTable,
+>                                      UDataTable *BackgroundDataTable);
+> ```
+>
+> Calcula proficiências do personagem (raça + classe + background).
+>
+> **Retorno:** Array com nomes de proficiências
+
+</details>
+
+**Uso:** Usadas em `CharacterSheetDataAssetUpdaters` e podem ser reutilizadas em combat components para cálculos de dano, AC, etc.
+
+---
+
+### DataTableHelpers
+
+**Caminho:** `Source/MyProject2/Utils/DataTableHelpers.h`
+
+Funções helper para busca de rows em Data Tables com fallback manual.
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Race Data Table Helpers</summary>
+
+> **FindRaceRow()**
+>
+> ```cpp
+> FRaceDataRow* FindRaceRow(FName RaceName, UDataTable* RaceDataTable);
+> ```
+>
+> Busca row de raça no Data Table. Tenta `FindRow` direto primeiro, depois busca manual O(n) como fallback.
+>
+> **Retorno:** Row encontrado, ou `nullptr` se não encontrado ou Data Table inválido
+>
+> ---
+>
+> **FindSubraceRow()**
+>
+> ```cpp
+> FRaceDataRow* FindSubraceRow(FName SubraceName, UDataTable* RaceDataTable);
+> ```
+>
+> Busca row de sub-raça no Data Table.
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Class Data Table Helpers</summary>
+
+> **FindClassRow()**
+>
+> ```cpp
+> FClassDataRow* FindClassRow(FName ClassName, UDataTable* ClassDataTable);
+> ```
+>
+> Busca row de classe no Data Table.
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Feat Data Table Helpers</summary>
+
+> **FindFeatRow()**
+>
+> ```cpp
+> FFeatDataRow* FindFeatRow(FName FeatName, UDataTable* FeatDataTable);
+> ```
+>
+> Busca row de feat no Data Table.
+
+</details>
+
+**Uso:** Centraliza lógica de busca que pode falhar com `FindRow` direto. Reutilizável em qualquer lugar que precise buscar rows em Data Tables.
+
+---
+
+### FormattingHelpers
+
+**Caminho:** `Source/MyProject2/Utils/FormattingHelpers.h`
+
+Funções helper para formatação de dados de personagem D&D 5e.
+
+**FormatRaceDisplay()**
+```cpp
+FString FormatRaceDisplay(FName RaceName, FName SubraceName);
+```
+Formata display de raça com sub-raça (se houver). Ex: "Elf" ou "Elf (High Elf)"
+
+**FormatProficienciesList()**
+```cpp
+FString FormatProficienciesList(const TArray<FName> &Proficiencies);
+```
+Formata lista de proficiências como string separada por vírgulas. Ex: "Athletics, Acrobatics, Stealth"
+
+**FormatAbilityScores()**
+```cpp
+FString FormatAbilityScores(const TMap<FName, int32> &AbilityScores);
+```
+Formata ability scores para log/display. Retorna string formatada com todos os ability scores em ordem padrão.
+
+**Uso:** Usadas em `CharacterDataComponent::LogCharacterSheet()` e podem ser reutilizadas em widgets de UI para formatação de display.
+
+---
 
 ### CharacterSheetHelpers
 
 **Caminho:** `Source/MyProject2/Utils/CharacterSheetHelpers.h`
 
-Funções helper para leitura e validação de Data Tables:
-- `GetAllRaceNames()` - Filtra apenas raças base (não sub-raças)
-- `GetAvailableFeats()` - Retorna feats disponíveis baseado em pré-requisitos
-- `CalculateTotalLevel()` - Calcula nível total de ClassLevels
-- E outras funções utilitárias
+Funções helper para leitura, filtragem e validação de Data Tables de D&D 5e.
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Race Data Table Helpers</summary>
+
+> - `GetAllRaceNames()` - Retorna todos os nomes de raças (filtra apenas raças base, não sub-raças)
+> - `GetAvailableSubraces()` - Retorna todas as sub-raças disponíveis para uma raça específica
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Class Data Table Helpers</summary>
+
+> - `GetAllClassNames()` - Retorna todos os nomes de classes
+> - `GetAvailableSubclasses()` - Retorna todas as subclasses disponíveis para uma classe
+> - `CanSelectSubclass()` - Verifica se pode selecionar subclasse no nível dado
+> - `GetFeaturesAtLevel()` - Retorna features desbloqueadas em um nível específico
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Background Data Table Helpers</summary>
+
+> - `GetAllBackgroundNames()` - Retorna todos os nomes de backgrounds
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Feat Data Table Helpers</summary>
+
+> - `GetAvailableFeats()` - Retorna feats disponíveis baseado em pré-requisitos (nível e ability scores)
+> - `CanTakeFeatAtLevel()` - Verifica se pode escolher feat no nível especificado
+> - `ValidateAbilityScorePrerequisite()` - Parseia e valida pré-requisito de ability score
+> - `MeetsFeatPrerequisites()` - Verifica se personagem atende aos pré-requisitos de um feat
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Ability Score Helpers</summary>
+
+> - `GetAbilityScoreNames()` - Retorna array estático com os 6 nomes de ability scores padrão D&D 5e
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Skill Helpers</summary>
+
+> - `GetSkillNames()` - Retorna array estático com os 18 nomes de skills padrão D&D 5e
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Point Buy System Helpers</summary>
+
+> - `CalculatePointBuyCost()` - Calcula custo em pontos do Point Buy para um score específico
+> - `CalculateTotalPointBuyCost()` - Calcula custo total do Point Buy para todos os scores
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Level Calculation Helpers</summary>
+
+> - `CalculateTotalLevel()` - Calcula nível total somando todos os níveis de classes
+
+</details>
+
+**Uso:** Usadas em `CharacterSheetDataAsset` para funções `GetOptions` e podem ser reutilizadas em widgets e outras mecânicas.
+
+---
+
+## Integração com Refatorações
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📈 Benefícios das Refatorações</summary>
+
+> Todas as funções helper foram extraídas de código acoplado seguindo princípios de Clean Code:
+>
+> **Antes:** Validações e cálculos acoplados a `CharacterSheetDataAsset`
+>
+> **Depois:** Funções puras em namespaces reutilizáveis em `Utils/`
+>
+> **Benefícios:**
+> - ✅ Reutilizáveis em widgets, combat components e outras mecânicas
+> - ✅ Testáveis isoladamente
+> - ✅ Funções < 50 linhas (Clean Code)
+> - ✅ Sem dependência de estado interno
+> - ✅ Preparadas para uso em runtime e editor
+
+</details>
+
+</details>
 
 ---
 
