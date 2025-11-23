@@ -113,7 +113,7 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
                          [this]() { FCharacterSheetDataAssetHandlers::HandleDataTableChange(this); });
 }
 
-void UCharacterSheetDataAsset::ValidateAndUpdate()
+void UCharacterSheetDataAsset::UpdateVariantHumanFlag()
 {
     // Atualiza flag bIsVariantHuman e notifica editor se mudou
     // Variant Human é uma SUB-RAÇA, não uma raça
@@ -143,7 +143,12 @@ void UCharacterSheetDataAsset::ValidateAndUpdate()
     {
         ResetVariantHumanChoices();
     }
+}
 
+void UCharacterSheetDataAsset::ValidateAndUpdate()
+{
+    // Orquestrador completo: atualiza tudo (usado apenas quando necessário)
+    UpdateVariantHumanFlag();
     ValidatePointBuy();
     ValidateTotalLevel();
     UpdateRacialBonuses();

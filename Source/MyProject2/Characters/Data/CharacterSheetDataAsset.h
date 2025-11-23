@@ -282,6 +282,9 @@ private:
     /** Atualiza campos calculados usando helpers */
     void UpdateCalculatedFields();
 
+    /** Atualiza flag bIsVariantHuman e notifica editor se necessário */
+    void UpdateVariantHumanFlag();
+
     /** Valida escolhas de Variant Human */
     void ValidateVariantHumanChoices();
 

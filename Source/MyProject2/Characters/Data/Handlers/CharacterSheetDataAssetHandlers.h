@@ -47,12 +47,7 @@ public:
     /**
      * Handles changes to Data Tables (RaceDataTable, ClassDataTable, BackgroundDataTable, FeatDataTable).
      * Validates if all Data Tables are selected and logs status.
+     * When all Data Tables are ready, calls ValidateAndUpdate() to update everything.
      */
     static void HandleDataTableChange(UCharacterSheetDataAsset *Asset);
-
-private:
-    /**
-     * Helper to safely call ValidateAndUpdate with recursion protection.
-     */
-    static void SafeValidateAndUpdate(UCharacterSheetDataAsset *Asset);
 };

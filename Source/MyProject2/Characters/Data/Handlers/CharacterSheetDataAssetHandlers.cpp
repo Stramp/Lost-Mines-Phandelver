@@ -12,25 +12,24 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
         return;
     }
 
+    Asset->bIsValidatingProperties = true;
+
     // Resetar sub-raça se raça mudou
-    // Seta flag antes de modificar para evitar re-disparar PostEditChangeProperty
-    // e causar validação redundante
     if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace))
     {
-        Asset->bIsValidatingProperties = true;
         Asset->SelectedSubrace = NAME_None;
-        // Flag será limpa após ValidateAndUpdate() para proteger toda a operação
     }
 
-    // ValidateAndUpdate() já chama UpdateRacialBonuses() e UpdateCalculatedFields()
-    // Não precisa chamar separadamente para evitar redundância
-    SafeValidateAndUpdate(Asset);
+    // Atualiza flag Variant Human e reseta escolhas se necessário
+    Asset->UpdateVariantHumanFlag();
 
-    // Limpa flag após validação completa
-    if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace))
-    {
-        Asset->bIsValidatingProperties = false;
-    }
+    // Bônus raciais mudam quando raça/sub-raça muda
+    Asset->UpdateRacialBonuses();
+
+    // Proficiências de raça mudam
+    Asset->UpdateCalculatedFields();
+
+    Asset->bIsValidatingProperties = false;
 }
 
 void FCharacterSheetDataAssetHandlers::HandleAbilityScoresChange(UCharacterSheetDataAsset *Asset)
@@ -40,14 +39,17 @@ void FCharacterSheetDataAssetHandlers::HandleAbilityScoresChange(UCharacterSheet
         return;
     }
 
-    // Seta flag para evitar recursão infinita ao modificar AbilityScores dentro de ValidateAndUpdate()
     Asset->bIsValidatingProperties = true;
 
-    // ValidateAndUpdate() já chama ValidatePointBuy(), UpdateRacialBonuses() e UpdateCalculatedFields()
-    // Não precisa chamar ValidatePointBuy() separadamente para evitar redundância
-    SafeValidateAndUpdate(Asset);
+    // Valida Point Buy system
+    Asset->ValidatePointBuy();
 
-    // Limpa flag após validação completa
+    // Recalcula bônus raciais (depende de base scores)
+    Asset->UpdateRacialBonuses();
+
+    // Features podem depender de ability scores
+    Asset->UpdateCalculatedFields();
+
     Asset->bIsValidatingProperties = false;
 }
 
@@ -58,14 +60,14 @@ void FCharacterSheetDataAssetHandlers::HandleClassLevelsChange(UCharacterSheetDa
         return;
     }
 
-    // Seta flag para evitar recursão infinita ao modificar propriedades dentro de ValidateAndUpdate()
     Asset->bIsValidatingProperties = true;
 
-    // ValidateAndUpdate() já chama ValidateTotalLevel() e UpdateCalculatedFields()
-    // Não precisa chamar ValidateTotalLevel() separadamente para evitar redundância
-    SafeValidateAndUpdate(Asset);
+    // Valida nível total (máximo 20)
+    Asset->ValidateTotalLevel();
 
-    // Limpa flag após validação completa
+    // Features de classe mudam com níveis
+    Asset->UpdateCalculatedFields();
+
     Asset->bIsValidatingProperties = false;
 }
 
@@ -76,13 +78,11 @@ void FCharacterSheetDataAssetHandlers::HandleBackgroundChange(UCharacterSheetDat
         return;
     }
 
-    // Seta flag para evitar recursão infinita ao modificar propriedades dentro de ValidateAndUpdate()
     Asset->bIsValidatingProperties = true;
 
-    // ValidateAndUpdate() já chama UpdateCalculatedFields()
-    SafeValidateAndUpdate(Asset);
+    // Apenas proficiências de background mudam
+    Asset->UpdateCalculatedFields();
 
-    // Limpa flag após validação completa
     Asset->bIsValidatingProperties = false;
 }
 
@@ -93,9 +93,14 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
         return;
     }
 
-    // Valida escolhas de Variant Human
     Asset->bIsValidatingProperties = true;
-    SafeValidateAndUpdate(Asset);
+
+    // Valida escolhas de Variant Human
+    Asset->ValidateVariantHumanChoices();
+
+    // Recalcula bônus raciais (Custom ASI afeta bônus)
+    Asset->UpdateRacialBonuses();
+
     Asset->bIsValidatingProperties = false;
 }
 
@@ -114,10 +119,10 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
     {
         UE_LOG(LogTemp, Log, TEXT("CharacterSheetDataAsset: Todos os Data Tables foram selecionados!"));
 
-        // TODO: Chamar update quando todos os Data Tables estiverem prontos
-        // Asset->bIsValidatingProperties = true;
-        // SafeValidateAndUpdate(Asset);
-        // Asset->bIsValidatingProperties = false;
+        // Quando todos os Data Tables estão prontos, atualiza tudo
+        Asset->bIsValidatingProperties = true;
+        Asset->ValidateAndUpdate(); // Orquestrador completo quando necessário
+        Asset->bIsValidatingProperties = false;
     }
     else
     {
@@ -128,14 +133,4 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
                Asset->BackgroundDataTable ? TEXT("OK") : TEXT("FALTANDO"),
                Asset->FeatDataTable ? TEXT("OK") : TEXT("FALTANDO"));
     }
-}
-
-void FCharacterSheetDataAssetHandlers::SafeValidateAndUpdate(UCharacterSheetDataAsset *Asset)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    Asset->ValidateAndUpdate();
 }
