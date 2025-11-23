@@ -25,6 +25,7 @@ alwaysApply: true
 - **ALWAYS** use Conventional Commits format (see `git-commits.mdc`)
 - **ALWAYS** write tests for helper functions (see `testing.mdc`)
 - **ALWAYS** maintain expert/teacher posture in C++/Unreal (see `teaching-role.mdc`)
+- **ALWAYS** use collapsible sections in Markdown files (see `markdown-organization.mdc`)
 - Always follow Unreal Engine standards
 - Document complex code
 - Keep code clean and organized
