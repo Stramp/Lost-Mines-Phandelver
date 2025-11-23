@@ -182,21 +182,22 @@ public:
     FName SelectedBackground = NAME_None;
 
     // ============================================================================
-    // Variant Human Choices (aparece apenas quando SelectedRace == "Variant Human")
+    // Variant Human Choices (aparece apenas quando SelectedSubrace == "Variant Human")
     // ============================================================================
 
     /** Escolhas customizadas de atributos para Variant Human (2x +1 para distribuir) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human",
-              meta = (GetOptions = "GetAbilityScoreNames"))
+              meta = (GetOptions = "GetAbilityScoreNames", EditCondition = "bIsVariantHuman", EditConditionHides))
     TArray<FName> CustomAbilityScoreChoices;
 
     /** Feat escolhido para Variant Human */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human",
-              meta = (GetOptions = "GetAvailableFeatNames"))
+              meta = (GetOptions = "GetAvailableFeatNames", EditCondition = "bIsVariantHuman", EditConditionHides))
     FName SelectedFeat = NAME_None;
 
     /** Skill escolhido para Variant Human */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human", meta = (GetOptions = "GetSkillNames"))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human",
+              meta = (GetOptions = "GetSkillNames", EditCondition = "bIsVariantHuman", EditConditionHides))
     FName SelectedSkill = NAME_None;
 
     // ============================================================================
@@ -233,7 +234,7 @@ public:
 
 private:
 #if WITH_EDITORONLY_DATA
-    /** Flag calculada: true se SelectedRace == "Variant Human" */
+    /** Flag calculada: true se SelectedSubrace == "Variant Human" (propriedade interna, não visível no editor) */
     UPROPERTY()
     bool bIsVariantHuman = false;
 #endif

@@ -47,6 +47,12 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
 
     FName PropertyName = PropertyChangedEvent.Property->GetFName();
 
+    // Ignora mudanças em bIsVariantHuman (é uma propriedade calculada, não editada diretamente)
+    if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bIsVariantHuman))
+    {
+        return;
+    }
+
     // Valida e atualiza quando propriedades relevantes mudam
     if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace) ||
         PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace))
@@ -119,8 +125,28 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
 
 void UCharacterSheetDataAsset::ValidateAndUpdate()
 {
-    // Atualiza flag bIsVariantHuman
-    bIsVariantHuman = (SelectedRace == TEXT("Variant Human"));
+    // Atualiza flag bIsVariantHuman e notifica editor se mudou
+    // Variant Human é uma SUB-RAÇA, não uma raça
+    bool bNewIsVariantHuman = (SelectedSubrace == TEXT("Variant Human"));
+    if (bIsVariantHuman != bNewIsVariantHuman)
+    {
+        bIsVariantHuman = bNewIsVariantHuman;
+
+#if WITH_EDITOR
+        // Notifica o editor sobre a mudança para atualizar EditCondition
+        // A verificação em PostEditChangeProperty evita recursão ao ignorar mudanças em bIsVariantHuman
+        if (GIsEditor && !bIsValidatingProperties)
+        {
+            Modify();
+            if (FProperty *Property = FindFieldChecked<FProperty>(
+                    GetClass(), GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bIsVariantHuman)))
+            {
+                FPropertyChangedEvent PropertyChangedEvent(Property, EPropertyChangeType::ValueSet);
+                PostEditChangeProperty(PropertyChangedEvent);
+            }
+        }
+#endif
+    }
 
     // Reseta escolhas se não for Variant Human
     if (!bIsVariantHuman)
@@ -272,25 +298,11 @@ void UCharacterSheetDataAsset::UpdateRacialBonuses()
     // Aplicar bônus da raça base
     for (const FAbilityScoreImprovement &Improvement : RaceRow->AbilityScoreImprovements)
     {
-        // Tratar "Custom" para Variant Human
-        if (Improvement.AbilityName == TEXT("Custom"))
+        // Bônus normal para atributo específico
+        // Nota: "Custom" é tratado apenas na sub-raça (Variant Human)
+        if (FAbilityScoreEntry *Entry = AbilityScores.Find(Improvement.AbilityName))
         {
-            // Variant Human: aplicar +1 para cada atributo em CustomAbilityScoreChoices
-            for (const FName &CustomAbility : CustomAbilityScoreChoices)
-            {
-                if (FAbilityScoreEntry *Entry = AbilityScores.Find(CustomAbility))
-                {
-                    Entry->RacialBonus += 1;
-                }
-            }
-        }
-        else
-        {
-            // Bônus normal para atributo específico
-            if (FAbilityScoreEntry *Entry = AbilityScores.Find(Improvement.AbilityName))
-            {
-                Entry->RacialBonus += Improvement.Bonus;
-            }
+            Entry->RacialBonus += Improvement.Bonus;
         }
     }
 
@@ -334,8 +346,21 @@ void UCharacterSheetDataAsset::UpdateRacialBonuses()
                 // Aplicar bônus adicionais da sub-raça (somando aos bônus da raça base)
                 for (const FAbilityScoreImprovement &Improvement : SubraceRow->AbilityScoreImprovements)
                 {
-                    if (FAbilityScoreEntry *Entry = AbilityScores.Find(Improvement.AbilityName))
+                    // Tratar "Custom" para Variant Human (sub-raça)
+                    if (Improvement.AbilityName == TEXT("Custom") && SelectedSubrace == TEXT("Variant Human"))
                     {
+                        // Variant Human: aplicar +1 para cada atributo em CustomAbilityScoreChoices
+                        for (const FName &CustomAbility : CustomAbilityScoreChoices)
+                        {
+                            if (FAbilityScoreEntry *Entry = AbilityScores.Find(CustomAbility))
+                            {
+                                Entry->RacialBonus += 1; // Cada escolha dá +1
+                            }
+                        }
+                    }
+                    else if (FAbilityScoreEntry *Entry = AbilityScores.Find(Improvement.AbilityName))
+                    {
+                        // Bônus normal para atributo específico
                         Entry->RacialBonus += Improvement.Bonus;
                     }
                 }

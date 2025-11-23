@@ -25,7 +25,7 @@ TArray<FName> CharacterSheetHelpers::GetAllRaceNames(UDataTable *RaceDataTable)
     {
         if (FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("GetAllRaceNames")))
         {
-            if (Row->RaceName != NAME_None)
+            if (Row->RaceName != NAME_None && Row->SubraceNames.Num() > 0)
             {
                 RaceNames.AddUnique(Row->RaceName);
             }
