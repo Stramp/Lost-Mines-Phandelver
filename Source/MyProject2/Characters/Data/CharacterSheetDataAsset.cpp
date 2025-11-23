@@ -1,6 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterSheetDataAsset.h"
+#include "Handlers/CharacterSheetDataAssetHandlers.h"
+#include "Containers/UnrealString.h"
 #include "../../Utils/CharacterSheetHelpers.h"
 #include "../../Data/Tables/RaceDataTable.h"
 #include "../../Data/Tables/ClassDataTable.h"
@@ -27,6 +29,10 @@ UCharacterSheetDataAsset::UCharacterSheetDataAsset()
 
     PointsRemaining = 27;
     TotalLevel = 0;
+
+#if WITH_EDITOR
+    InitializePropertyHandlers();
+#endif
 }
 
 #if WITH_EDITOR
@@ -53,102 +59,58 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
         return;
     }
 
-    // Valida e atualiza quando propriedades relevantes mudam
-    if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace) ||
-        PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace))
+    // Lookup handler in map and execute if found
+    if (std::function<void()> *Handler = PropertyHandlers.Find(PropertyName))
     {
-        // Resetar sub-raça se raça mudou
-        // Seta flag antes de modificar para evitar re-disparar PostEditChangeProperty
-        // e causar validação redundante
-        if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace))
-        {
-            bIsValidatingProperties = true;
-            SelectedSubrace = NAME_None;
-            // Flag será limpa após ValidateAndUpdate() para proteger toda a operação
-        }
-
-        // ValidateAndUpdate() já chama UpdateRacialBonuses() e UpdateCalculatedFields()
-        // Não precisa chamar separadamente para evitar redundância
-        ValidateAndUpdate();
-
-        // Limpa flag após validação completa
-        if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace))
-        {
-            bIsValidatingProperties = false;
-        }
+        (*Handler)();
     }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, AbilityScores))
-    {
-        // Seta flag para evitar recursão infinita ao modificar AbilityScores dentro de ValidateAndUpdate()
-        bIsValidatingProperties = true;
+}
 
-        // ValidateAndUpdate() já chama ValidatePointBuy(), UpdateRacialBonuses() e UpdateCalculatedFields()
-        // Não precisa chamar ValidatePointBuy() separadamente para evitar redundância
-        ValidateAndUpdate();
+void UCharacterSheetDataAsset::InitializePropertyHandlers()
+{
+    // Race and Subrace handlers
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace),
+                         [this]()
+                         {
+                             FCharacterSheetDataAssetHandlers::HandleRaceChange(
+                                 this, GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace));
+                         });
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace),
+                         [this]()
+                         {
+                             FCharacterSheetDataAssetHandlers::HandleRaceChange(
+                                 this, GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace));
+                         });
 
-        // Limpa flag após validação completa
-        bIsValidatingProperties = false;
-    }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassLevels))
-    {
-        // Seta flag para evitar recursão infinita ao modificar propriedades dentro de ValidateAndUpdate()
-        bIsValidatingProperties = true;
+    // Ability Scores handler
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, AbilityScores),
+                         [this]() { FCharacterSheetDataAssetHandlers::HandleAbilityScoresChange(this); });
 
-        // ValidateAndUpdate() já chama ValidateTotalLevel() e UpdateCalculatedFields()
-        // Não precisa chamar ValidateTotalLevel() separadamente para evitar redundância
-        ValidateAndUpdate();
+    // Class Levels handler
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassLevels),
+                         [this]() { FCharacterSheetDataAssetHandlers::HandleClassLevelsChange(this); });
 
-        // Limpa flag após validação completa
-        bIsValidatingProperties = false;
-    }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground))
-    {
-        // Seta flag para evitar recursão infinita ao modificar propriedades dentro de ValidateAndUpdate()
-        bIsValidatingProperties = true;
+    // Background handler
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground),
+                         [this]() { FCharacterSheetDataAssetHandlers::HandleBackgroundChange(this); });
 
-        // ValidateAndUpdate() já chama UpdateCalculatedFields()
-        ValidateAndUpdate();
+    // Variant Human choices handlers
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices),
+                         [this]() { FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(this); });
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedFeat),
+                         [this]() { FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(this); });
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSkill),
+                         [this]() { FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(this); });
 
-        // Limpa flag após validação completa
-        bIsValidatingProperties = false;
-    }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices) ||
-             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedFeat) ||
-             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSkill))
-    {
-        // Valida escolhas de Variant Human
-        bIsValidatingProperties = true;
-        ValidateAndUpdate();
-        bIsValidatingProperties = false;
-    }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable) ||
-             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable) ||
-             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, BackgroundDataTable) ||
-             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, FeatDataTable))
-    {
-        // Verifica se todos os Data Tables foram selecionados
-        bool bAllDataTablesSelected = RaceDataTable != nullptr && ClassDataTable != nullptr &&
-                                      BackgroundDataTable != nullptr && FeatDataTable != nullptr;
-
-        if (bAllDataTablesSelected)
-        {
-            UE_LOG(LogTemp, Log, TEXT("CharacterSheetDataAsset: Todos os Data Tables foram selecionados!"));
-
-            // TODO: Chamar update quando todos os Data Tables estiverem prontos
-            // bIsValidatingProperties = true;
-            // ValidateAndUpdate();
-            // bIsValidatingProperties = false;
-        }
-        else
-        {
-            UE_LOG(
-                LogTemp, Warning,
-                TEXT(
-                    "CharacterSheetDataAsset: Ainda faltam Data Tables. Race: %s, Class: %s, Background: %s, Feat: %s"),
-                RaceDataTable ? TEXT("OK") : TEXT("FALTANDO"), ClassDataTable ? TEXT("OK") : TEXT("FALTANDO"),
-                BackgroundDataTable ? TEXT("OK") : TEXT("FALTANDO"), FeatDataTable ? TEXT("OK") : TEXT("FALTANDO"));
-        }
-    }
+    // Data Tables handlers
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable),
+                         [this]() { FCharacterSheetDataAssetHandlers::HandleDataTableChange(this); });
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable),
+                         [this]() { FCharacterSheetDataAssetHandlers::HandleDataTableChange(this); });
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, BackgroundDataTable),
+                         [this]() { FCharacterSheetDataAssetHandlers::HandleDataTableChange(this); });
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, FeatDataTable),
+                         [this]() { FCharacterSheetDataAssetHandlers::HandleDataTableChange(this); });
 }
 
 void UCharacterSheetDataAsset::ValidateAndUpdate()

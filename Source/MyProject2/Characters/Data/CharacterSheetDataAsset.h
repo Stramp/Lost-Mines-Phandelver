@@ -5,10 +5,12 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Engine/DataTable.h"
+#include <functional>
 #include "CharacterSheetDataAsset.generated.h"
 
 // Forward declarations
 class UDataTable;
+class FCharacterSheetDataAssetHandlers;
 
 /**
  * Struct para armazenar entrada de nível de classe (multi-classing).
@@ -259,6 +261,12 @@ private:
     /** Flag para evitar recursão infinita ao modificar propriedades durante validação */
     bool bIsValidatingProperties = false;
 
+    /** Map of property names to their handlers */
+    TMap<FName, std::function<void()>> PropertyHandlers;
+
+    /** Initialize property handlers map */
+    void InitializePropertyHandlers();
+
     /** Valida e atualiza campos calculados */
     void ValidateAndUpdate();
 
@@ -279,5 +287,8 @@ private:
 
     /** Reseta escolhas de Variant Human quando raça muda */
     void ResetVariantHumanChoices();
+
+    /** Friend class for handlers to access private members */
+    friend class FCharacterSheetDataAssetHandlers;
 #endif
 };
