@@ -30,11 +30,7 @@ void UCharacterSheetComponent::BeginPlay()
 
     if (!FindOrGetCharacterDataComponent())
     {
-        FString OwnerName = TEXT("Desconhecido");
-        if (AActor *OwnerActor = GetOwner())
-        {
-            OwnerName = OwnerActor->GetName();
-        }
+        FString OwnerName = Owner ? Owner->GetName() : TEXT("Desconhecido");
         UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: CharacterDataComponent não encontrado no Actor %s"),
                *OwnerName);
         return;
@@ -57,8 +53,10 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
 
     if (!FindOrGetCharacterDataComponent())
     {
+        AActor *Owner = GetOwner();
+        FString OwnerName = Owner ? Owner->GetName() : TEXT("Desconhecido");
         UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: CharacterDataComponent não encontrado no Actor %s"),
-               *GetOwner()->GetName());
+               *OwnerName);
         return;
     }
 

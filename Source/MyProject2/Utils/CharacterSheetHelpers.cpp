@@ -200,97 +200,87 @@ TArray<FName> CharacterSheetHelpers::GetAllBackgroundNames(UDataTable *Backgroun
 // Feat Data Table Helpers
 // ============================================================================
 
-namespace
+bool CharacterSheetHelpers::CanTakeFeatAtLevel(int32 TotalLevel)
 {
-    bool CanTakeFeatAtLevel(int32 TotalLevel)
+    // Em D&D 5e, feats podem ser escolhidos nos níveis 4, 8, 12, 16, 19 (ou ao invés de ASI)
+    TArray<int32> FeatLevels = {4, 8, 12, 16, 19};
+    return FeatLevels.Contains(TotalLevel);
+}
+
+bool CharacterSheetHelpers::ValidateAbilityScorePrerequisite(const FName &Prerequisite,
+                                                             const TMap<FName, int32> &AbilityScores)
+{
+    if (Prerequisite == NAME_None)
     {
-        // Em D&D 5e, feats podem ser escolhidos nos níveis 4, 8, 12, 16, 19 (ou ao invés de ASI)
-        TArray<int32> FeatLevels = {4, 8, 12, 16, 19};
-        return FeatLevels.Contains(TotalLevel);
+        return true; // Pré-requisito vazio é considerado válido
     }
 
-    /**
-     * Parseia e valida um pré-requisito de ability score.
-     * Formato esperado: "AbilityName Score" (ex: "Strength 13", "Dexterity 15")
-     *
-     * @param Prerequisite String do pré-requisito
-     * @param AbilityScores Map com ability scores do personagem
-     * @return true se o pré-requisito é atendido, false caso contrário
-     */
-    bool ValidateAbilityScorePrerequisite(const FName &Prerequisite, const TMap<FName, int32> &AbilityScores)
+    // Converte FName para FString para parsing
+    FString PrerequisiteStr = Prerequisite.ToString();
+
+    // Lista de ability scores válidos
+    TArray<FName> AbilityNames = {TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
+                                  TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+
+    // Tenta parsear formato "AbilityName Score"
+    for (const FName &AbilityName : AbilityNames)
     {
-        if (Prerequisite == NAME_None)
+        FString AbilityNameStr = AbilityName.ToString();
+        if (PrerequisiteStr.StartsWith(AbilityNameStr))
         {
-            return true; // Pré-requisito vazio é considerado válido
-        }
+            // Remove o nome do ability e espaços
+            FString ScoreStr = PrerequisiteStr.RightChop(AbilityNameStr.Len()).TrimStart();
 
-        // Converte FName para FString para parsing
-        FString PrerequisiteStr = Prerequisite.ToString();
-
-        // Lista de ability scores válidos
-        TArray<FName> AbilityNames = {TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
-                                      TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
-
-        // Tenta parsear formato "AbilityName Score"
-        for (const FName &AbilityName : AbilityNames)
-        {
-            FString AbilityNameStr = AbilityName.ToString();
-            if (PrerequisiteStr.StartsWith(AbilityNameStr))
+            // Tenta converter para número
+            int32 RequiredScore = 0;
+            if (LexTryParseString(RequiredScore, *ScoreStr))
             {
-                // Remove o nome do ability e espaços
-                FString ScoreStr = PrerequisiteStr.RightChop(AbilityNameStr.Len()).TrimStart();
-
-                // Tenta converter para número
-                int32 RequiredScore = 0;
-                if (LexTryParseString(RequiredScore, *ScoreStr))
+                // Pré-requisito foi parseado com sucesso: ability name encontrado e score parseado
+                // Se o ability não está no map, retorna false (dados faltando ou não inicializados)
+                if (const int32 *CurrentScore = AbilityScores.Find(AbilityName))
                 {
-                    // Pré-requisito foi parseado com sucesso: ability name encontrado e score parseado
-                    // Se o ability não está no map, retorna false (dados faltando ou não inicializados)
-                    if (const int32 *CurrentScore = AbilityScores.Find(AbilityName))
-                    {
-                        return *CurrentScore >= RequiredScore;
-                    }
-                    else
-                    {
-                        // Ability score não encontrado no map - pré-requisito não pode ser atendido
-                        return false;
-                    }
+                    return *CurrentScore >= RequiredScore;
+                }
+                else
+                {
+                    // Ability score não encontrado no map - pré-requisito não pode ser atendido
+                    return false;
                 }
             }
         }
+    }
 
-        // Se não for um pré-requisito de ability score reconhecido,
-        // assume que é outro tipo (proficiência, etc.) e retorna true
-        // TODO: Implementar validação de outros tipos de pré-requisitos quando necessário
+    // Se não for um pré-requisito de ability score reconhecido,
+    // assume que é outro tipo (proficiência, etc.) e retorna true
+    // TODO: Implementar validação de outros tipos de pré-requisitos quando necessário
+    return true;
+}
+
+bool CharacterSheetHelpers::MeetsFeatPrerequisites(const FFeatDataRow *Row, const TMap<FName, int32> &AbilityScores)
+{
+    if (!Row)
+    {
+        return false;
+    }
+
+    // Se não há pré-requisitos, o feat está disponível
+    if (Row->Prerequisites.Num() == 0)
+    {
         return true;
     }
 
-    bool MeetsFeatPrerequisites(const FFeatDataRow *Row, const TMap<FName, int32> &AbilityScores)
+    // Valida cada pré-requisito
+    // Todos os pré-requisitos devem ser atendidos (AND lógico)
+    for (const FName &Prerequisite : Row->Prerequisites)
     {
-        if (!Row)
+        if (!ValidateAbilityScorePrerequisite(Prerequisite, AbilityScores))
         {
-            return false;
+            return false; // Se qualquer pré-requisito falhar, o feat não está disponível
         }
-
-        // Se não há pré-requisitos, o feat está disponível
-        if (Row->Prerequisites.Num() == 0)
-        {
-            return true;
-        }
-
-        // Valida cada pré-requisito
-        // Todos os pré-requisitos devem ser atendidos (AND lógico)
-        for (const FName &Prerequisite : Row->Prerequisites)
-        {
-            if (!ValidateAbilityScorePrerequisite(Prerequisite, AbilityScores))
-            {
-                return false; // Se qualquer pré-requisito falhar, o feat não está disponível
-            }
-        }
-
-        return true; // Todos os pré-requisitos foram atendidos
     }
-} // namespace
+
+    return true; // Todos os pré-requisitos foram atendidos
+}
 
 TArray<FName> CharacterSheetHelpers::GetAvailableFeats(int32 TotalLevel, const TMap<FName, int32> &AbilityScores,
                                                        UDataTable *FeatDataTable)
@@ -302,7 +292,7 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeats(int32 TotalLevel, const T
         return AvailableFeats;
     }
 
-    if (!CanTakeFeatAtLevel(TotalLevel))
+    if (!CharacterSheetHelpers::CanTakeFeatAtLevel(TotalLevel))
     {
         return AvailableFeats;
     }
@@ -317,7 +307,7 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeats(int32 TotalLevel, const T
                 continue;
             }
 
-            if (MeetsFeatPrerequisites(Row, AbilityScores))
+            if (CharacterSheetHelpers::MeetsFeatPrerequisites(Row, AbilityScores))
             {
                 AvailableFeats.AddUnique(Row->FeatName);
             }

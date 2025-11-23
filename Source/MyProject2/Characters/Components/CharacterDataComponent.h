@@ -32,16 +32,18 @@ protected:
 public:
     UCharacterDataComponent();
 
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const override;
+
     /** Nome do personagem */
-    UPROPERTY(BlueprintReadWrite, Category = "Character Data")
+    UPROPERTY(Replicated, BlueprintReadWrite, Category = "Character Data")
     FName CharacterName = NAME_None;
 
     /** Descrição do personagem (localizável) */
-    UPROPERTY(BlueprintReadWrite, Category = "Character Data")
+    UPROPERTY(Replicated, BlueprintReadWrite, Category = "Character Data")
     FText CharacterDescription = FText::GetEmpty();
 
     /** Nível total do personagem */
-    UPROPERTY(BlueprintReadOnly, Category = "Character Data")
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
     int32 CharacterTotalLvl = 0;
 
     /**

@@ -73,29 +73,71 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
     }
     else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, AbilityScores))
     {
+        // Seta flag para evitar recursão infinita ao modificar AbilityScores dentro de ValidateAndUpdate()
+        bIsValidatingProperties = true;
+
         // ValidateAndUpdate() já chama ValidatePointBuy(), UpdateRacialBonuses() e UpdateCalculatedFields()
         // Não precisa chamar ValidatePointBuy() separadamente para evitar redundância
         ValidateAndUpdate();
+
+        // Limpa flag após validação completa
+        bIsValidatingProperties = false;
     }
     else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassLevels))
     {
+        // Seta flag para evitar recursão infinita ao modificar propriedades dentro de ValidateAndUpdate()
+        bIsValidatingProperties = true;
+
         // ValidateAndUpdate() já chama ValidateTotalLevel() e UpdateCalculatedFields()
         // Não precisa chamar ValidateTotalLevel() separadamente para evitar redundância
         ValidateAndUpdate();
+
+        // Limpa flag após validação completa
+        bIsValidatingProperties = false;
     }
     else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground))
     {
+        // Seta flag para evitar recursão infinita ao modificar propriedades dentro de ValidateAndUpdate()
+        bIsValidatingProperties = true;
+
         // ValidateAndUpdate() já chama UpdateCalculatedFields()
         ValidateAndUpdate();
+
+        // Limpa flag após validação completa
+        bIsValidatingProperties = false;
+    }
+    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices) ||
+             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedFeat) ||
+             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSkill))
+    {
+        // Valida escolhas de Variant Human
+        bIsValidatingProperties = true;
+        ValidateAndUpdate();
+        bIsValidatingProperties = false;
     }
 }
 
 void UCharacterSheetDataAsset::ValidateAndUpdate()
 {
+    // Atualiza flag bIsVariantHuman
+    bIsVariantHuman = (SelectedRace == TEXT("Variant Human"));
+
+    // Reseta escolhas se não for Variant Human
+    if (!bIsVariantHuman)
+    {
+        ResetVariantHumanChoices();
+    }
+
     ValidatePointBuy();
     ValidateTotalLevel();
     UpdateRacialBonuses();
     UpdateCalculatedFields();
+
+    // Valida escolhas de Variant Human se aplicável
+    if (bIsVariantHuman)
+    {
+        ValidateVariantHumanChoices();
+    }
 }
 
 void UCharacterSheetDataAsset::ValidatePointBuy()
@@ -122,6 +164,13 @@ void UCharacterSheetDataAsset::ValidatePointBuy()
             bAllScoresValid = false;
             break;
         }
+    }
+
+    // Log de aviso se scores estão fora do range válido
+    if (!bAllScoresValid)
+    {
+        UE_LOG(LogTemp, Warning,
+               TEXT("CharacterSheetDataAsset: Alguns ability scores estão fora do range válido [8, 15]"));
     }
 
     // Se PointsRemaining != 0 ou scores inválidos, a alocação está incorreta
@@ -187,32 +236,29 @@ void UCharacterSheetDataAsset::UpdateRacialBonuses()
     }
 
     // Busca dados da raça base no Data Table
-    bool bRaceFound = false;
-    TArray<FName> RowNames = RaceDataTable->GetRowNames();
-    for (const FName &RowName : RowNames)
+    // Otimização: Assumindo que RowName = RaceName no JSON, podemos usar FindRow diretamente
+    // Se não encontrar, faz busca O(n) como fallback
+    FRaceDataRow *RaceRow = RaceDataTable->FindRow<FRaceDataRow>(SelectedRace, TEXT("UpdateRacialBonuses"));
+
+    // Fallback: Se FindRow não encontrou, pode ser que RowName != RaceName, então busca manual
+    if (!RaceRow)
     {
-        if (FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("UpdateRacialBonuses")))
+        TArray<FName> RowNames = RaceDataTable->GetRowNames();
+        for (const FName &RowName : RowNames)
         {
-            if (Row->RaceName == SelectedRace)
+            if (FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("UpdateRacialBonuses")))
             {
-                bRaceFound = true;
-
-                // Aplicar bônus da raça base
-                for (const FAbilityScoreImprovement &Improvement : Row->AbilityScoreImprovements)
+                if (Row->RaceName == SelectedRace)
                 {
-                    if (FAbilityScoreEntry *Entry = AbilityScores.Find(Improvement.AbilityName))
-                    {
-                        Entry->RacialBonus += Improvement.Bonus;
-                    }
+                    RaceRow = Row;
+                    break;
                 }
-
-                break;
             }
         }
     }
 
     // Se a raça não foi encontrada no Data Table, resetar bônus para evitar estado inconsistente
-    if (!bRaceFound)
+    if (!RaceRow)
     {
         for (auto &Pair : AbilityScores)
         {
@@ -223,36 +269,81 @@ void UCharacterSheetDataAsset::UpdateRacialBonuses()
         return;
     }
 
-    // Se uma sub-raça foi selecionada, aplicar bônus adicionais da sub-raça
-    if (SelectedSubrace != NAME_None)
+    // Aplicar bônus da raça base
+    for (const FAbilityScoreImprovement &Improvement : RaceRow->AbilityScoreImprovements)
     {
-        bool bSubraceFound = false;
-        for (const FName &RowName : RowNames)
+        // Tratar "Custom" para Variant Human
+        if (Improvement.AbilityName == TEXT("Custom"))
         {
-            if (FRaceDataRow *SubraceRow = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("UpdateRacialBonuses")))
+            // Variant Human: aplicar +1 para cada atributo em CustomAbilityScoreChoices
+            for (const FName &CustomAbility : CustomAbilityScoreChoices)
             {
-                if (SubraceRow->RaceName == SelectedSubrace)
+                if (FAbilityScoreEntry *Entry = AbilityScores.Find(CustomAbility))
                 {
-                    bSubraceFound = true;
-
-                    // Aplicar bônus adicionais da sub-raça (somando aos bônus da raça base)
-                    for (const FAbilityScoreImprovement &Improvement : SubraceRow->AbilityScoreImprovements)
-                    {
-                        if (FAbilityScoreEntry *Entry = AbilityScores.Find(Improvement.AbilityName))
-                        {
-                            Entry->RacialBonus += Improvement.Bonus;
-                        }
-                    }
-
-                    break;
+                    Entry->RacialBonus += 1;
                 }
             }
         }
-
-        // Se sub-raça não foi encontrada, apenas loga (não reseta bônus da raça base)
-        if (!bSubraceFound)
+        else
         {
-            UE_LOG(LogTemp, Warning, TEXT("Subrace '%s' not found in RaceDataTable"), *SelectedSubrace.ToString());
+            // Bônus normal para atributo específico
+            if (FAbilityScoreEntry *Entry = AbilityScores.Find(Improvement.AbilityName))
+            {
+                Entry->RacialBonus += Improvement.Bonus;
+            }
+        }
+    }
+
+    // Se uma sub-raça foi selecionada, validar e aplicar bônus adicionais
+    if (SelectedSubrace != NAME_None)
+    {
+        // Validar se a sub-raça pertence à raça selecionada
+        bool bSubraceValid = RaceRow->SubraceNames.Contains(SelectedSubrace);
+
+        if (!bSubraceValid)
+        {
+            UE_LOG(LogTemp, Warning, TEXT("Subrace '%s' não pertence à raça '%s'. Resetando sub-raça."),
+                   *SelectedSubrace.ToString(), *SelectedRace.ToString());
+            SelectedSubrace = NAME_None;
+        }
+        else
+        {
+            // Busca direta da sub-raça (otimização)
+            FRaceDataRow *SubraceRow =
+                RaceDataTable->FindRow<FRaceDataRow>(SelectedSubrace, TEXT("UpdateRacialBonuses"));
+
+            // Fallback: busca manual se FindRow não encontrou
+            if (!SubraceRow)
+            {
+                TArray<FName> RowNames = RaceDataTable->GetRowNames();
+                for (const FName &RowName : RowNames)
+                {
+                    if (FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("UpdateRacialBonuses")))
+                    {
+                        if (Row->RaceName == SelectedSubrace)
+                        {
+                            SubraceRow = Row;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (SubraceRow)
+            {
+                // Aplicar bônus adicionais da sub-raça (somando aos bônus da raça base)
+                for (const FAbilityScoreImprovement &Improvement : SubraceRow->AbilityScoreImprovements)
+                {
+                    if (FAbilityScoreEntry *Entry = AbilityScores.Find(Improvement.AbilityName))
+                    {
+                        Entry->RacialBonus += Improvement.Bonus;
+                    }
+                }
+            }
+            else
+            {
+                UE_LOG(LogTemp, Warning, TEXT("Subrace '%s' not found in RaceDataTable"), *SelectedSubrace.ToString());
+            }
         }
     }
 
@@ -354,5 +445,104 @@ TArray<FName> UCharacterSheetDataAsset::GetSubclassNames(FName ClassName) const
     }
 
     return CharacterSheetHelpers::GetAvailableSubclasses(ClassName, ClassDataTable);
+}
+
+void UCharacterSheetDataAsset::ValidateVariantHumanChoices()
+{
+    if (!bIsVariantHuman)
+    {
+        return;
+    }
+
+    // Validar CustomAbilityScoreChoices: deve ter exatamente 2 elementos
+    if (CustomAbilityScoreChoices.Num() != 2)
+    {
+        // Ajusta para ter exatamente 2 elementos
+        CustomAbilityScoreChoices.SetNum(2);
+        // Preenche com valores padrão se necessário
+        if (CustomAbilityScoreChoices[0] == NAME_None)
+        {
+            CustomAbilityScoreChoices[0] = TEXT("Strength");
+        }
+        if (CustomAbilityScoreChoices[1] == NAME_None)
+        {
+            CustomAbilityScoreChoices[1] = TEXT("Dexterity");
+        }
+    }
+
+    // Validar que os atributos escolhidos são válidos
+    TArray<FName> ValidAbilityNames = GetAbilityScoreNames();
+    for (FName &AbilityName : CustomAbilityScoreChoices)
+    {
+        if (!ValidAbilityNames.Contains(AbilityName))
+        {
+            AbilityName = TEXT("Strength"); // Valor padrão
+        }
+    }
+
+    // Validar SelectedFeat (deve estar na lista de feats disponíveis)
+    if (SelectedFeat != NAME_None && FeatDataTable)
+    {
+        TArray<FName> AvailableFeats = GetAvailableFeatNames();
+        if (!AvailableFeats.Contains(SelectedFeat))
+        {
+            UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: SelectedFeat '%s' não está disponível. Resetando."),
+                   *SelectedFeat.ToString());
+            SelectedFeat = NAME_None;
+        }
+    }
+
+    // Validar SelectedSkill (deve estar na lista de skills válidas)
+    if (SelectedSkill != NAME_None)
+    {
+        TArray<FName> ValidSkills = GetSkillNames();
+        if (!ValidSkills.Contains(SelectedSkill))
+        {
+            UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: SelectedSkill '%s' não é válido. Resetando."),
+                   *SelectedSkill.ToString());
+            SelectedSkill = NAME_None;
+        }
+    }
+}
+
+void UCharacterSheetDataAsset::ResetVariantHumanChoices()
+{
+    CustomAbilityScoreChoices.Empty();
+    SelectedFeat = NAME_None;
+    SelectedSkill = NAME_None;
+}
+
+TArray<FName> UCharacterSheetDataAsset::GetAbilityScoreNames() const
+{
+    return TArray<FName>{TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
+                         TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+}
+
+TArray<FName> UCharacterSheetDataAsset::GetAvailableFeatNames() const
+{
+    if (!FeatDataTable)
+    {
+        return TArray<FName>();
+    }
+
+    // Para Variant Human, todos os feats estão disponíveis (sem pré-requisitos de nível)
+    // Usa nível 1 e ability scores atuais
+    TMap<FName, int32> CurrentAbilityScores;
+    for (const auto &Pair : AbilityScores)
+    {
+        CurrentAbilityScores.Add(Pair.Key, Pair.Value.FinalScore);
+    }
+
+    return CharacterSheetHelpers::GetAvailableFeats(1, CurrentAbilityScores, FeatDataTable);
+}
+
+TArray<FName> UCharacterSheetDataAsset::GetSkillNames() const
+{
+    // Lista completa de skills de D&D 5e
+    return TArray<FName>{TEXT("Acrobatics"),    TEXT("Animal Handling"), TEXT("Arcana"),   TEXT("Athletics"),
+                         TEXT("Deception"),     TEXT("History"),         TEXT("Insight"),  TEXT("Intimidation"),
+                         TEXT("Investigation"), TEXT("Medicine"),        TEXT("Nature"),   TEXT("Perception"),
+                         TEXT("Performance"),   TEXT("Persuasion"),      TEXT("Religion"), TEXT("Sleight of Hand"),
+                         TEXT("Stealth"),       TEXT("Survival")};
 }
 #endif

@@ -114,20 +114,19 @@ public:
     /** Retorna todas as subclasses disponíveis para uma classe específica */
     UFUNCTION(CallInEditor)
     TArray<FName> GetSubclassNames(FName ClassName) const;
+
+    /** Retorna todos os nomes de ability scores (Strength, Dexterity, etc.) */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetAbilityScoreNames() const;
+
+    /** Retorna todos os feats disponíveis para Variant Human */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetAvailableFeatNames() const;
+
+    /** Retorna todos os nomes de skills de D&D 5e */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetSkillNames() const;
 #endif
-
-    // ============================================================================
-    // Basic Info
-    // ============================================================================
-
-    /** Nome do personagem */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic Info")
-    FName CharacterName = TEXT("Character Name");
-
-    /** Descrição do personagem */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic Info")
-    FText CharacterDescription = FText::GetEmpty();
-
     // ============================================================================
     // Data Tables
     // ============================================================================
@@ -149,6 +148,22 @@ public:
     UDataTable *FeatDataTable = nullptr;
 
     // ============================================================================
+    // Basic Info
+    // ============================================================================
+
+    /** Nome do personagem */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic Info")
+    FName CharacterName = TEXT("Character Name");
+
+    /** Descrição do personagem */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic Info")
+    FText CharacterDescription = FText::GetEmpty();
+
+    /** Nível total do personagem (soma de todos os níveis de classes, máximo 20) */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info")
+    int32 TotalLevel = 0;
+
+    // ============================================================================
     // Race & Background
     // ============================================================================
 
@@ -165,6 +180,24 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background",
               meta = (GetOptions = "GetBackgroundNames"))
     FName SelectedBackground = NAME_None;
+
+    // ============================================================================
+    // Variant Human Choices (aparece apenas quando SelectedRace == "Variant Human")
+    // ============================================================================
+
+    /** Escolhas customizadas de atributos para Variant Human (2x +1 para distribuir) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human",
+              meta = (GetOptions = "GetAbilityScoreNames"))
+    TArray<FName> CustomAbilityScoreChoices;
+
+    /** Feat escolhido para Variant Human */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human",
+              meta = (GetOptions = "GetAvailableFeatNames"))
+    FName SelectedFeat = NAME_None;
+
+    /** Skill escolhido para Variant Human */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human", meta = (GetOptions = "GetSkillNames"))
+    FName SelectedSkill = NAME_None;
 
     // ============================================================================
     // Ability Scores (Point Buy System)
@@ -186,10 +219,6 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Classes")
     TArray<FClassLevelEntry> ClassLevels;
 
-    /** Nível total do personagem (soma de todos os níveis de classes, máximo 20) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Classes")
-    int32 TotalLevel = 0;
-
     // ============================================================================
     // Calculated (Read-only)
     // ============================================================================
@@ -203,6 +232,12 @@ public:
     TArray<FName> Proficiencies;
 
 private:
+#if WITH_EDITORONLY_DATA
+    /** Flag calculada: true se SelectedRace == "Variant Human" */
+    UPROPERTY()
+    bool bIsVariantHuman = false;
+#endif
+
 #if WITH_EDITOR
     /** Flag para evitar recursão infinita ao modificar propriedades durante validação */
     bool bIsValidatingProperties = false;
@@ -221,5 +256,11 @@ private:
 
     /** Atualiza campos calculados usando helpers */
     void UpdateCalculatedFields();
+
+    /** Valida escolhas de Variant Human */
+    void ValidateVariantHumanChoices();
+
+    /** Reseta escolhas de Variant Human quando raça muda */
+    void ResetVariantHumanChoices();
 #endif
 };

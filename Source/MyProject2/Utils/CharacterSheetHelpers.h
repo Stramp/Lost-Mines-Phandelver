@@ -121,6 +121,34 @@ namespace CharacterSheetHelpers
     TArray<FName> GetAvailableFeats(int32 TotalLevel, const TMap<FName, int32> &AbilityScores,
                                     UDataTable *FeatDataTable);
 
+    /**
+     * Verifica se o personagem pode escolher um feat no nível especificado.
+     * Em D&D 5e, feats podem ser escolhidos nos níveis 4, 8, 12, 16, 19 (ou ao invés de ASI).
+     *
+     * @param TotalLevel Nível total do personagem
+     * @return true se pode escolher feat neste nível, false caso contrário
+     */
+    bool CanTakeFeatAtLevel(int32 TotalLevel);
+
+    /**
+     * Parseia e valida um pré-requisito de ability score.
+     * Formato esperado: "AbilityName Score" (ex: "Strength 13", "Dexterity 15")
+     *
+     * @param Prerequisite String do pré-requisito
+     * @param AbilityScores Map com ability scores do personagem
+     * @return true se o pré-requisito é atendido, false caso contrário
+     */
+    bool ValidateAbilityScorePrerequisite(const FName &Prerequisite, const TMap<FName, int32> &AbilityScores);
+
+    /**
+     * Verifica se um personagem atende aos pré-requisitos de um feat.
+     *
+     * @param Row Row do feat no Data Table
+     * @param AbilityScores Map com ability scores do personagem
+     * @return true se todos os pré-requisitos são atendidos, false caso contrário
+     */
+    bool MeetsFeatPrerequisites(const FFeatDataRow *Row, const TMap<FName, int32> &AbilityScores);
+
     // ============================================================================
     // Point Buy System Helpers
     // ============================================================================

@@ -11,7 +11,32 @@
     ],
     "Size": "Medium",
     "BaseSpeed": 25,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Darkvision",
+        "Description": "Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light.",
+        "TraitData": {
+          "Range": "60",
+          "Type": "Vision"
+        }
+      },
+      {
+        "TraitName": "Dwarven Resilience",
+        "Description": "You have advantage on saving throws against poison, and you have resistance against poison damage.",
+        "TraitData": {
+          "Advantage": "Poison",
+          "Resistance": "Poison"
+        }
+      },
+      {
+        "TraitName": "Stonecunning",
+        "Description": "Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check.",
+        "TraitData": {
+          "Skill": "History",
+          "DoubleProficiency": "true"
+        }
+      }
+    ],
     "SubraceNames": [
       "Hill Dwarf",
       "Mountain Dwarf"
@@ -33,7 +58,17 @@
     ],
     "Size": "Medium",
     "BaseSpeed": 25,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Dwarven Toughness",
+        "Description": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.",
+        "TraitData": {
+          "HPBonus": "1",
+          "PerLevel": "1",
+          "Type": "Health"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": []
   },
@@ -49,7 +84,16 @@
     ],
     "Size": "Medium",
     "BaseSpeed": 25,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Dwarven Armor Training",
+        "Description": "You have proficiency with light and medium armor.",
+        "TraitData": {
+          "Armor": "Light,Medium",
+          "Type": "Proficiency"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": []
   },
@@ -65,7 +109,32 @@
     ],
     "Size": "Medium",
     "BaseSpeed": 30,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Darkvision",
+        "Description": "Accustomed to twilit forests and the night sky, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray.",
+        "TraitData": {
+          "Range": "60",
+          "Type": "Vision"
+        }
+      },
+      {
+        "TraitName": "Fey Ancestry",
+        "Description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep.",
+        "TraitData": {
+          "Advantage": "Charmed",
+          "Immunity": "Sleep"
+        }
+      },
+      {
+        "TraitName": "Trance",
+        "Description": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep.",
+        "TraitData": {
+          "RestTime": "4",
+          "EquivalentSleep": "8"
+        }
+      }
+    ],
     "SubraceNames": [
       "High Elf",
       "Wood Elf",
@@ -88,7 +157,36 @@
     ],
     "Size": "Medium",
     "BaseSpeed": 30,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Elf Weapon Training",
+        "Description": "You have proficiency with the longsword, shortsword, shortbow, and longbow.",
+        "TraitData": {
+          "Weapons": "Longsword,Shortsword,Shortbow,Longbow",
+          "Type": "Proficiency"
+        }
+      },
+      {
+        "TraitName": "Cantrip",
+        "Description": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it.",
+        "TraitData": {
+          "Type": "Spell",
+          "Count": "1",
+          "Level": "Cantrip",
+          "List": "Wizard",
+          "Ability": "Intelligence"
+        }
+      },
+      {
+        "TraitName": "Extra Language",
+        "Description": "You can speak, read, and write one extra language of your choice.",
+        "TraitData": {
+          "Type": "Language",
+          "Count": "1",
+          "Choice": "true"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": []
   },
@@ -104,7 +202,32 @@
     ],
     "Size": "Medium",
     "BaseSpeed": 35,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Elf Weapon Training",
+        "Description": "You have proficiency with the longsword, shortsword, shortbow, and longbow.",
+        "TraitData": {
+          "Weapons": "Longsword,Shortsword,Shortbow,Longbow",
+          "Type": "Proficiency"
+        }
+      },
+      {
+        "TraitName": "Fleet of Foot",
+        "Description": "Your base walking speed increases to 35 feet.",
+        "TraitData": {
+          "SpeedBonus": "5",
+          "Type": "Movement"
+        }
+      },
+      {
+        "TraitName": "Mask of the Wild",
+        "Description": "You can attempt to hide even when you are only lightly obscured by foliage, heavy rain, falling snow, mist, and other natural phenomena.",
+        "TraitData": {
+          "Type": "Stealth",
+          "Condition": "NaturalObscurement"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": []
   },
@@ -120,7 +243,34 @@
     ],
     "Size": "Medium",
     "BaseSpeed": 30,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Superior Darkvision",
+        "Description": "Your darkvision has a radius of 120 feet.",
+        "TraitData": {
+          "Range": "120",
+          "Type": "Vision"
+        }
+      },
+      {
+        "TraitName": "Sunlight Sensitivity",
+        "Description": "You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight.",
+        "TraitData": {
+          "Disadvantage": "Attack,Perception",
+          "Condition": "DirectSunlight"
+        }
+      },
+      {
+        "TraitName": "Drow Magic",
+        "Description": "You know the dancing lights cantrip. When you reach 3rd level, you can cast the faerie fire spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can also cast the darkness spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells.",
+        "TraitData": {
+          "Cantrip": "DancingLights",
+          "Level3": "FaerieFire",
+          "Level5": "Darkness",
+          "Ability": "Charisma"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": []
   },
@@ -136,7 +286,31 @@
     ],
     "Size": "Small",
     "BaseSpeed": 25,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Lucky",
+        "Description": "When you roll a 1 on an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.",
+        "TraitData": {
+          "RerollOn": "1",
+          "Type": "Universal"
+        }
+      },
+      {
+        "TraitName": "Brave",
+        "Description": "You have advantage on saving throws against being frightened.",
+        "TraitData": {
+          "Advantage": "Frightened"
+        }
+      },
+      {
+        "TraitName": "Halfling Nimbleness",
+        "Description": "You can move through the space of any creature that is of a size larger than yours.",
+        "TraitData": {
+          "Type": "Movement",
+          "SizeRestriction": "Larger"
+        }
+      }
+    ],
     "SubraceNames": [
       "Lightfoot",
       "Stout"
@@ -158,7 +332,16 @@
     ],
     "Size": "Small",
     "BaseSpeed": 25,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Naturally Stealthy",
+        "Description": "You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.",
+        "TraitData": {
+          "Type": "Stealth",
+          "Condition": "LargerCreature"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": []
   },
@@ -174,7 +357,16 @@
     ],
     "Size": "Small",
     "BaseSpeed": 25,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Stout Resilience",
+        "Description": "You have advantage on saving throws against poison, and you have resistance against poison damage.",
+        "TraitData": {
+          "Advantage": "Poison",
+          "Resistance": "Poison"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": []
   },
@@ -182,6 +374,22 @@
     "Name": "Human",
     "RaceName": "Human",
     "Description": "Humans are the most adaptable and ambitious people among the common races Whatever drives them humans are the innovators the achievers and the pioneers of the worlds",
+    "AbilityScoreImprovements": [],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "Traits": [],
+    "SubraceNames": [
+      "Standard Human",
+      "Variant Human"
+    ],
+    "Languages": [
+      "Common"
+    ]
+  },
+  {
+    "Name": "Standard Human",
+    "RaceName": "Standard Human",
+    "Description": "Humans are the most adaptable and ambitious people among the common races. Standard humans gain +1 to all ability scores.",
     "AbilityScoreImprovements": [
       {
         "AbilityName": "Strength",
@@ -217,6 +425,45 @@
     ]
   },
   {
+    "Name": "Variant Human",
+    "RaceName": "Variant Human",
+    "Description": "Some humans are more versatile than others. Instead of gaining +1 to all ability scores, variant humans gain +1 to two ability scores of their choice, one skill proficiency, and one feat.",
+    "AbilityScoreImprovements": [
+      {
+        "AbilityName": "Custom",
+        "Bonus": 1
+      },
+      {
+        "AbilityName": "Custom",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "Traits": [
+      {
+        "TraitName": "Skill Proficiency",
+        "Description": "You gain proficiency in one skill of your choice.",
+        "TraitData": {
+          "Type": "SkillChoice",
+          "Count": "1"
+        }
+      },
+      {
+        "TraitName": "Feat",
+        "Description": "You gain one feat of your choice.",
+        "TraitData": {
+          "Type": "FeatChoice",
+          "Count": "1"
+        }
+      }
+    ],
+    "SubraceNames": [],
+    "Languages": [
+      "Common"
+    ]
+  },
+  {
     "Name": "Dragonborn",
     "RaceName": "Dragonborn",
     "Description": "Born of dragons as their name proclaims the dragonborn walk proudly through a world that greets them with fearful incomprehension",
@@ -232,7 +479,33 @@
     ],
     "Size": "Medium",
     "BaseSpeed": 30,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Draconic Ancestry",
+        "Description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type.",
+        "TraitData": {
+          "Type": "Choice",
+          "Table": "DraconicAncestry"
+        }
+      },
+      {
+        "TraitName": "Breath Weapon",
+        "Description": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type. The DC equals 8 + your Constitution modifier + your proficiency bonus. Damage: 2d6 (increases to 3d6 at 6th level, 4d6 at 11th, 5d6 at 16th). After use, you can't use it again until you complete a short or long rest.",
+        "TraitData": {
+          "DC": "8+Con+Prof",
+          "Damage": "2d6",
+          "Scales": "true"
+        }
+      },
+      {
+        "TraitName": "Damage Resistance",
+        "Description": "You have resistance to the damage type associated with your draconic ancestry.",
+        "TraitData": {
+          "Type": "Resistance",
+          "Source": "DraconicAncestry"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": [
       "Common",
@@ -251,7 +524,24 @@
     ],
     "Size": "Small",
     "BaseSpeed": 25,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Darkvision",
+        "Description": "Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light.",
+        "TraitData": {
+          "Range": "60",
+          "Type": "Vision"
+        }
+      },
+      {
+        "TraitName": "Gnome Cunning",
+        "Description": "You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic.",
+        "TraitData": {
+          "Advantage": "IntWisCha",
+          "Against": "Magic"
+        }
+      }
+    ],
     "SubraceNames": [
       "Forest Gnome",
       "Rock Gnome"
@@ -273,7 +563,24 @@
     ],
     "Size": "Small",
     "BaseSpeed": 25,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Natural Illusionist",
+        "Description": "You know the minor illusion cantrip. Intelligence is your spellcasting ability for it.",
+        "TraitData": {
+          "Cantrip": "MinorIllusion",
+          "Ability": "Intelligence"
+        }
+      },
+      {
+        "TraitName": "Speak with Small Beasts",
+        "Description": "Through sounds and gestures, you can communicate simple ideas with Small or smaller beasts. Forest gnomes love animals and often keep squirrels, badgers, rabbits, moles, woodpeckers, and other creatures as beloved pets.",
+        "TraitData": {
+          "Type": "Communication",
+          "Target": "SmallBeasts"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": []
   },
@@ -289,7 +596,27 @@
     ],
     "Size": "Small",
     "BaseSpeed": 25,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Artificer's Lore",
+        "Description": "Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus, instead of any proficiency bonus you normally apply.",
+        "TraitData": {
+          "Skill": "History",
+          "DoubleProficiency": "true",
+          "RelatedTo": "MagicItems,Alchemy,Tech"
+        }
+      },
+      {
+        "TraitName": "Tinker",
+        "Description": "You have proficiency with artisan's tools (tinker's tools). Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it to keep the device functioning), or when you use your action to dismantle it.",
+        "TraitData": {
+          "Tools": "TinkersTools",
+          "Type": "Crafting",
+          "Time": "1hour",
+          "Cost": "10gp"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": []
   },
@@ -305,7 +632,32 @@
     ],
     "Size": "Medium",
     "BaseSpeed": 30,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Darkvision",
+        "Description": "Thanks to your elf blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light.",
+        "TraitData": {
+          "Range": "60",
+          "Type": "Vision"
+        }
+      },
+      {
+        "TraitName": "Fey Ancestry",
+        "Description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep.",
+        "TraitData": {
+          "Advantage": "Charmed",
+          "Immunity": "Sleep"
+        }
+      },
+      {
+        "TraitName": "Skill Versatility",
+        "Description": "You gain proficiency in two skills of your choice.",
+        "TraitData": {
+          "Type": "SkillChoice",
+          "Count": "2"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": [
       "Common",
@@ -328,7 +680,42 @@
     ],
     "Size": "Medium",
     "BaseSpeed": 30,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Darkvision",
+        "Description": "Thanks to your orc blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light.",
+        "TraitData": {
+          "Range": "60",
+          "Type": "Vision"
+        }
+      },
+      {
+        "TraitName": "Menacing",
+        "Description": "You gain proficiency in the Intimidation skill.",
+        "TraitData": {
+          "Skill": "Intimidation",
+          "Type": "Proficiency"
+        }
+      },
+      {
+        "TraitName": "Relentless Endurance",
+        "Description": "When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can't use this feature again until you finish a long rest.",
+        "TraitData": {
+          "Type": "Survival",
+          "UsesPerRest": "1",
+          "RestType": "Long"
+        }
+      },
+      {
+        "TraitName": "Savage Attacks",
+        "Description": "When you score a critical hit with a melee weapon attack, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the critical hit.",
+        "TraitData": {
+          "Type": "Combat",
+          "Trigger": "CriticalHit",
+          "Bonus": "1dice"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": [
       "Common",
@@ -351,7 +738,33 @@
     ],
     "Size": "Medium",
     "BaseSpeed": 30,
-    "Traits": [],
+    "Traits": [
+      {
+        "TraitName": "Darkvision",
+        "Description": "Thanks to your infernal heritage, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light.",
+        "TraitData": {
+          "Range": "60",
+          "Type": "Vision"
+        }
+      },
+      {
+        "TraitName": "Hellish Resistance",
+        "Description": "You have resistance to fire damage.",
+        "TraitData": {
+          "Resistance": "Fire"
+        }
+      },
+      {
+        "TraitName": "Infernal Legacy",
+        "Description": "You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the hellish rebuke spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can also cast the darkness spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells.",
+        "TraitData": {
+          "Cantrip": "Thaumaturgy",
+          "Level3": "HellishRebuke",
+          "Level5": "Darkness",
+          "Ability": "Charisma"
+        }
+      }
+    ],
     "SubraceNames": [],
     "Languages": [
       "Common",
