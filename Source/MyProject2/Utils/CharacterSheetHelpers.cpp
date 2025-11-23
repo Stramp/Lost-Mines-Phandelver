@@ -21,12 +21,34 @@ TArray<FName> CharacterSheetHelpers::GetAllRaceNames(UDataTable *RaceDataTable)
         return RaceNames;
     }
 
+    // Primeiro, coleta todos os nomes de sub-raças de todas as rows
+    // Isso permite identificar quais raças são sub-raças (não devem aparecer no dropdown)
+    TArray<FName> AllSubraceNames;
     TArray<FName> RowNames = RaceDataTable->GetRowNames();
     for (const FName &RowName : RowNames)
     {
         if (FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("GetAllRaceNames")))
         {
-            if (Row->RaceName != NAME_None && Row->SubraceNames.Num() > 0)
+            // Adiciona todos os nomes de sub-raças à lista
+            for (const FName &SubraceName : Row->SubraceNames)
+            {
+                if (SubraceName != NAME_None)
+                {
+                    AllSubraceNames.AddUnique(SubraceName);
+                }
+            }
+        }
+    }
+
+    // Agora, itera novamente e adiciona apenas raças base (que não são sub-raças de outra raça)
+    for (const FName &RowName : RowNames)
+    {
+        if (FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("GetAllRaceNames")))
+        {
+            // Adiciona apenas se:
+            // 1. RaceName não é None
+            // 2. RaceName não está na lista de sub-raças (é uma raça base, não sub-raça)
+            if (Row->RaceName != NAME_None && !AllSubraceNames.Contains(Row->RaceName))
             {
                 RaceNames.AddUnique(Row->RaceName);
             }
@@ -533,7 +555,9 @@ TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName
 }
 
 TArray<FName> CharacterSheetHelpers::GetAvailableLanguagesForChoice(FName RaceName, FName SubraceName,
-                                                                    FName BackgroundName, UDataTable *RaceDataTable,
+                                                                    FName BackgroundName,
+                                                                    const TArray<FName> &SelectedLanguages,
+                                                                    UDataTable *RaceDataTable,
                                                                     UDataTable *BackgroundDataTable)
 {
     // Obtém todos os idiomas disponíveis
@@ -543,14 +567,23 @@ TArray<FName> CharacterSheetHelpers::GetAvailableLanguagesForChoice(FName RaceNa
     TArray<FName> AutomaticLanguages =
         GetAutomaticLanguages(RaceName, SubraceName, BackgroundName, RaceDataTable, BackgroundDataTable);
 
-    // Remove idiomas já conhecidos do array completo
+    // Remove idiomas já conhecidos (automáticos + já escolhidos no array) do array completo
     TArray<FName> AvailableLanguages;
     for (const FName &Language : AllLanguages)
     {
-        if (!AutomaticLanguages.Contains(Language))
+        // Exclui idiomas automáticos
+        if (AutomaticLanguages.Contains(Language))
         {
-            AvailableLanguages.Add(Language);
+            continue;
         }
+
+        // Exclui idiomas já escolhidos no array SelectedLanguages
+        if (SelectedLanguages.Contains(Language))
+        {
+            continue;
+        }
+
+        AvailableLanguages.Add(Language);
     }
 
     return AvailableLanguages;

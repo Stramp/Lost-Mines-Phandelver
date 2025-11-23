@@ -160,13 +160,6 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
                                                          UDataTable *RaceDataTable, UDataTable *ClassDataTable,
                                                          UDataTable *BackgroundDataTable)
 {
-    // DEBUG: Log parâmetros recebidos
-    UE_LOG(
-        LogTemp, Warning,
-        TEXT(
-            "[DEBUG] CalculateProficiencies: RaceName='%s', SubraceName='%s', BackgroundName='%s', SelectedSkill='%s'"),
-        *RaceName.ToString(), *SubraceName.ToString(), *BackgroundName.ToString(), *SelectedSkill.ToString());
-
     TArray<FName> Proficiencies;
 
     // Coleta proficiências de todas as classes (multi-classing)
@@ -243,36 +236,15 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
 
     // Adiciona skill do Variant Human (se aplicável)
     // Variant Human permite escolher 1 skill proficiency no nível 1
-    UE_LOG(LogTemp, Warning,
-           TEXT("[DEBUG] CalculateProficiencies: Antes Variant Human check - SubraceName='%s', SelectedSkill='%s', "
-                "ProficienciesCount=%d"),
-           *SubraceName.ToString(), *SelectedSkill.ToString(), Proficiencies.Num());
-
-    bool bIsVariantHuman = (SubraceName == TEXT("Variant Human"));
-    bool bHasSelectedSkill = (SelectedSkill != NAME_None);
-    UE_LOG(LogTemp, Warning, TEXT("[DEBUG] CalculateProficiencies: bIsVariantHuman=%d, bHasSelectedSkill=%d"),
-           bIsVariantHuman ? 1 : 0, bHasSelectedSkill ? 1 : 0);
-
     if (SubraceName == TEXT("Variant Human") && SelectedSkill != NAME_None)
     {
-        UE_LOG(LogTemp, Warning,
-               TEXT("[DEBUG] CalculateProficiencies: Adicionando Variant Human skill '%s' às proficiências"),
-               *SelectedSkill.ToString());
         Proficiencies.AddUnique(SelectedSkill);
-        UE_LOG(LogTemp, Warning, TEXT("[DEBUG] CalculateProficiencies: Após adicionar skill, ProficienciesCount=%d"),
-               Proficiencies.Num());
-    }
-    else
-    {
-        UE_LOG(LogTemp, Warning,
-               TEXT("[DEBUG] CalculateProficiencies: NÃO adicionou Variant Human skill (condição não satisfeita)"));
     }
 
     // NOTA: Proficiências de raça podem vir de Traits especiais (ex: Dwarf Stonecunning)
     // Por enquanto, não implementado. Se necessário no futuro, adicionar lógica aqui
     // para extrair proficiências de Traits específicos da raça/sub-raça.
 
-    UE_LOG(LogTemp, Warning, TEXT("[DEBUG] CalculateProficiencies: Retornando %d proficiências"), Proficiencies.Num());
     return Proficiencies;
 }
 

@@ -161,13 +161,6 @@ void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDat
     Asset->Proficiencies.Empty();
     Asset->Languages.Empty();
 
-    // DEBUG: Log valores antes de calcular
-    UE_LOG(LogTemp, Warning,
-           TEXT("[DEBUG] UpdateCalculatedFields: SelectedRace='%s', SelectedSubrace='%s', SelectedBackground='%s', "
-                "SelectedSkill='%s'"),
-           *Asset->SelectedRace.ToString(), *Asset->SelectedSubrace.ToString(), *Asset->SelectedBackground.ToString(),
-           *Asset->SelectedSkill.ToString());
-
     // Usa CalculationHelpers para calcular features disponíveis (função pura)
     Asset->AvailableFeatures =
         CalculationHelpers::CalculateAvailableFeatures(Asset->ClassLevels, Asset->ClassDataTable);
@@ -177,16 +170,10 @@ void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDat
         Asset->SelectedRace, Asset->SelectedSubrace, Asset->ClassLevels, Asset->SelectedBackground,
         Asset->SelectedSkill, Asset->RaceDataTable, Asset->ClassDataTable, Asset->BackgroundDataTable);
 
-    UE_LOG(LogTemp, Warning, TEXT("[DEBUG] UpdateCalculatedFields: Após calcular, ProficienciesCount=%d"),
-           Asset->Proficiencies.Num());
-
     // Usa CalculationHelpers para calcular idiomas finais (raça + background + escolhas do jogador)
     Asset->Languages = CalculationHelpers::CalculateLanguages(Asset->SelectedRace, Asset->SelectedSubrace,
                                                               Asset->SelectedBackground, Asset->SelectedLanguages,
                                                               Asset->RaceDataTable, Asset->BackgroundDataTable);
-
-    UE_LOG(LogTemp, Warning, TEXT("[DEBUG] UpdateCalculatedFields: Após calcular, LanguagesCount=%d"),
-           Asset->Languages.Num());
 }
 
 void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetDataAsset *Asset)
@@ -220,6 +207,19 @@ void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetData
     // NOTA: Futuramente, quando feats forem implementados, adicionar aqui também
     Asset->MaxLanguageChoices = RaceLanguageCount + BackgroundLanguageCount;
     bool bNewHasLanguageChoices = (Asset->MaxLanguageChoices > 0);
+
+    // Ajusta array SelectedLanguages se o máximo diminuiu
+    // Remove itens extras do final quando MaxLanguageChoices < SelectedLanguages.Num()
+    if (Asset->SelectedLanguages.Num() > Asset->MaxLanguageChoices)
+    {
+        Asset->Modify(); // Marca objeto como modificado
+
+        int32 ItemsToRemove = Asset->SelectedLanguages.Num() - Asset->MaxLanguageChoices;
+        Asset->SelectedLanguages.SetNum(Asset->MaxLanguageChoices);
+
+        UE_LOG(LogTemp, Log, TEXT("UpdateLanguageChoices: Removidos %d idioma(s) do array (máximo permitido: %d)"),
+               ItemsToRemove, Asset->MaxLanguageChoices);
+    }
 
     // Atualiza flag bHasLanguageChoices e notifica editor se mudou
     if (Asset->bHasLanguageChoices != bNewHasLanguageChoices)
@@ -283,6 +283,51 @@ void FCharacterSheetDataAssetUpdaters::UpdateVariantHumanFlag(UCharacterSheetDat
     if (!Asset->bIsVariantHuman)
     {
         FCharacterSheetDataAssetHelpers::ResetVariantHumanChoices(Asset);
+    }
+}
+
+void FCharacterSheetDataAssetUpdaters::UpdateSubraceFlag(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    // Verifica se a raça selecionada tem sub-raças disponíveis
+    bool bNewHasSubraces = false;
+    if (Asset->RaceDataTable && Asset->SelectedRace != NAME_None)
+    {
+        TArray<FName> AvailableSubraces =
+            CharacterSheetHelpers::GetAvailableSubraces(Asset->SelectedRace, Asset->RaceDataTable);
+        bNewHasSubraces = (AvailableSubraces.Num() > 0);
+    }
+
+    // Atualiza flag bHasSubraces e notifica editor se mudou
+    if (Asset->bHasSubraces != bNewHasSubraces)
+    {
+        Asset->bHasSubraces = bNewHasSubraces;
+
+#if WITH_EDITOR
+        // Notifica o editor sobre a mudança para atualizar EditCondition
+        // A verificação em PostEditChangeProperty evita recursão ao ignorar mudanças em bHasSubraces
+        if (GIsEditor && !Asset->bIsValidatingProperties)
+        {
+            Asset->Modify();
+            if (FProperty *Property = FindFieldChecked<FProperty>(
+                    Asset->GetClass(), GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasSubraces)))
+            {
+                FPropertyChangedEvent PropertyChangedEvent(Property, EPropertyChangeType::ValueSet);
+                Asset->PostEditChangeProperty(PropertyChangedEvent);
+            }
+        }
+#endif
+    }
+
+    // Se não há mais sub-raças disponíveis, reseta SelectedSubrace
+    if (!Asset->bHasSubraces && Asset->SelectedSubrace != NAME_None)
+    {
+        Asset->Modify();
+        Asset->SelectedSubrace = NAME_None;
     }
 }
 

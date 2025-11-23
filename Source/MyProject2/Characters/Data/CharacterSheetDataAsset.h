@@ -162,7 +162,8 @@ public:
 
     /** Sub-raça selecionada (se aplicável) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Choices",
-              meta = (GetOptions = "GetSubraceNames", EditCondition = "!bCanShowSheet", EditConditionHides))
+              meta = (GetOptions = "GetSubraceNames", EditCondition = "bHasSubraces && !bCanShowSheet",
+                      EditConditionHides))
     FName SelectedSubrace = NAME_None;
 
     /** Background selecionado */
@@ -261,6 +262,11 @@ private:
      * visível no editor) */
     UPROPERTY()
     bool bHasLanguageChoices = false;
+
+    /** Flag calculada: true se a raça selecionada tem sub-raças disponíveis (propriedade interna, não visível no
+     * editor) */
+    UPROPERTY()
+    bool bHasSubraces = false;
 
     /** Flag to control sheet display (true = only Data Tables, false = all categories) */
     UPROPERTY()

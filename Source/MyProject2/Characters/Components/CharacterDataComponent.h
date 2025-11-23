@@ -82,6 +82,10 @@ public:
     UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
     TArray<FName> RaceTraits;
 
+    /** Idiomas que o personagem fala (automáticos + escolhidos) */
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    TArray<FName> Languages;
+
     /** Ability scores finais (chave: nome do atributo, valor: score final)
      * NOTA: TMap não pode ser replicado diretamente no Unreal Engine.
      * Para replicação futura, usar TArray de structs ou implementar replicação customizada.

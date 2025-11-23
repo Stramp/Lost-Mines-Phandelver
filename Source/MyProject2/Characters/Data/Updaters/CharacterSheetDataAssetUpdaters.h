@@ -43,4 +43,10 @@ public:
      * Detects if race/background/feat allows language choices.
      */
     static void UpdateLanguageChoices(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Updates subrace flag (bHasSubraces).
+     * Detects if selected race has available subraces.
+     */
+    static void UpdateSubraceFlag(UCharacterSheetDataAsset *Asset);
 };

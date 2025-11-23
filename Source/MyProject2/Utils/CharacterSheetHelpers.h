@@ -252,7 +252,8 @@ namespace CharacterSheetHelpers
      * @return Array com idiomas disponíveis para escolha (excluindo já conhecidos)
      */
     TArray<FName> GetAvailableLanguagesForChoice(FName RaceName, FName SubraceName, FName BackgroundName,
-                                                 UDataTable *RaceDataTable, UDataTable *BackgroundDataTable);
+                                                 const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
+                                                 UDataTable *BackgroundDataTable);
 
     // ============================================================================
     // Point Buy System Helpers

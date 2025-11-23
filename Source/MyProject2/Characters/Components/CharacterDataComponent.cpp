@@ -24,6 +24,7 @@ void UCharacterDataComponent::GetLifetimeReplicatedProps(TArray<FLifetimePropert
     DOREPLIFETIME(UCharacterDataComponent, SelectedSkill);
     DOREPLIFETIME(UCharacterDataComponent, CustomAbilityScoreChoices);
     DOREPLIFETIME(UCharacterDataComponent, RaceTraits);
+    DOREPLIFETIME(UCharacterDataComponent, Languages);
     // NOTA: AbilityScores (TMap) não pode ser replicado diretamente
     // Para replicação futura, usar TArray de structs ou implementar replicação customizada
 }
@@ -173,6 +174,18 @@ void UCharacterDataComponent::LogCharacterSheet() const
     else
     {
         UE_LOG(LogTemp, Warning, TEXT("--- Proficiencies: Nenhuma ---"));
+    }
+
+    // Languages (usa FormattingHelpers)
+    if (Languages.Num() > 0)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("--- Languages (%d) ---"), Languages.Num());
+        FString LanguagesList = FormattingHelpers::FormatProficienciesList(Languages);
+        UE_LOG(LogTemp, Warning, TEXT("  %s"), *LanguagesList);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("--- Languages: Nenhuma ---"));
     }
 
     // Available Features

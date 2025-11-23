@@ -90,11 +90,10 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNames()
     return CharacterSheetHelpers::GetAvailableLanguageNames();
 }
 
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(FName RaceName, FName SubraceName,
-                                                                                     FName BackgroundName,
-                                                                                     UDataTable *RaceDataTable,
-                                                                                     UDataTable *BackgroundDataTable)
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
+    FName RaceName, FName SubraceName, FName BackgroundName, const TArray<FName> &SelectedLanguages,
+    UDataTable *RaceDataTable, UDataTable *BackgroundDataTable)
 {
-    return CharacterSheetHelpers::GetAvailableLanguagesForChoice(RaceName, SubraceName, BackgroundName, RaceDataTable,
-                                                                 BackgroundDataTable);
+    return CharacterSheetHelpers::GetAvailableLanguagesForChoice(RaceName, SubraceName, BackgroundName,
+                                                                 SelectedLanguages, RaceDataTable, BackgroundDataTable);
 }

@@ -77,6 +77,9 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     CharacterDataComponent->SelectedSkill = DataAsset->SelectedSkill;
     CharacterDataComponent->CustomAbilityScoreChoices = DataAsset->CustomAbilityScoreChoices;
 
+    // Copia idiomas calculados (automáticos + escolhidos)
+    CharacterDataComponent->Languages = DataAsset->Languages;
+
     // Busca e copia traits da raça (raça base + sub-raça se houver)
     CharacterDataComponent->RaceTraits.Empty();
     if (DataAsset->RaceDataTable && DataAsset->SelectedRace != NAME_None)

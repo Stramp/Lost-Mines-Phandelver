@@ -64,6 +64,7 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
     // Ignora mudanças em propriedades calculadas (não editadas diretamente)
     if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bIsVariantHuman) ||
         PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasLanguageChoices) ||
+        PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasSubraces) ||
         PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bCanShowSheet))
     {
         return;
@@ -211,9 +212,10 @@ TArray<FName> UCharacterSheetDataAsset::GetSkillNames() const
 
 TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
 {
-    // Usa função filtrada que exclui idiomas já conhecidos automaticamente
+    // Usa função filtrada que exclui idiomas já conhecidos automaticamente e já escolhidos no array
     // Segue padrão de GetAvailableFeatNames que filtra baseado em estado do personagem
+    // Filtra também SelectedLanguages para evitar duplicatas entre elementos do array
     return FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
-        SelectedRace, SelectedSubrace, SelectedBackground, RaceDataTable, BackgroundDataTable);
+        SelectedRace, SelectedSubrace, SelectedBackground, SelectedLanguages, RaceDataTable, BackgroundDataTable);
 }
 #endif
