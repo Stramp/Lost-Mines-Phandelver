@@ -31,8 +31,21 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Mudanças em Funcionalidades Existentes
 > >
-> > - Refatoração de `ValidateVariantHumanChoices`: dividida em 3 funções separadas seguindo Clean Code (Validators)
-> > - Reorganização de categorias no editor do CharacterSheetDataAsset (Data)
+> > - Refatoração de `ValidateVariantHumanChoices`: dividida em 3 funções separadas seguindo Clean Code (Validators) [`6c500f5`]
+> > - Reorganização de categorias no editor do CharacterSheetDataAsset (Data) [`6c500f5`]
+> > - Extração de helpers reutilizáveis para `Utils/` seguindo Clean Code [`e14a162`]
+> >
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📚 Docs</summary>
+> >
+> > > Documentação
+> > >
+> > > - Aplicação de padrão de organização Markdown em guias (`docs/GUIDES/`) [`cf8ec7d`]
+> > > - Aplicação de padrão de organização Markdown em `ARCHITECTURE.md` [`4d11ca4`]
+> > > - Adição de regra de honestidade e perguntas para IA [`d4d8a80`]
+> > > - Adição de hashes de commits em todas as entradas do CHANGELOG para rastreabilidade
+> >
+> > </details>
 >
 > </details>
 
@@ -52,28 +65,28 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Novas Funcionalidades
 > >
-> > - Sistema de validação de integridade de dados (`ValidateDataIntegrity()`) em `CharacterDataComponent`
-> > - Suporte completo para Variant Human (atributos customizados, feat e skill)
+> > - Sistema de validação de integridade de dados (`ValidateDataIntegrity()`) em `CharacterDataComponent` [`c90d893`]
+> > - Suporte completo para Variant Human (atributos customizados, feat e skill) [`8460879`]
 > > - Organização modular do `CharacterSheetDataAsset`:
-> >   - `Handlers/` - Processamento de mudanças de propriedades
-> >   - `Validators/` - Validação de dados
-> >   - `Updaters/` - Atualização de campos calculados
-> >   - `Helpers/` - Funções auxiliares reutilizáveis
-> >   - `GetOptions/` - Lógica para dropdowns no editor
-> > - Padrão Map/Table-Driven com ponteiros de função estáticos para handlers
-> > - Sistema de logging completo da ficha do personagem (`LogCharacterSheet()`)
+> >   - `Handlers/` - Processamento de mudanças de propriedades [`1cd52b3`]
+> >   - `Validators/` - Validação de dados [`8899eed`]
+> >   - `Updaters/` - Atualização de campos calculados [`8899eed`]
+> >   - `Helpers/` - Funções auxiliares reutilizáveis [`e899bf8`]
+> >   - `GetOptions/` - Lógica para dropdowns no editor [`c20b354`]
+> > - Padrão Map/Table-Driven com ponteiros de função estáticos para handlers [`503e553`]
+> > - Sistema de logging completo da ficha do personagem (`LogCharacterSheet()`) [`c90d893`]
 > > - Documentação completa:
 > >   - `docs/API.md` - Referência completa da API
-> >   - `docs/GUIDES/getting-started.md` - Guia prático passo a passo
-> >   - `docs/GUIDES/data-tables.md` - Documentação dos Data Tables
-> >   - `docs/GUIDES/troubleshooting.md` - Problemas comuns e soluções
+> >   - `docs/GUIDES/getting-started.md` - Guia prático passo a passo [`cf8ec7d`]
+> >   - `docs/GUIDES/data-tables.md` - Documentação dos Data Tables [`cf8ec7d`]
+> >   - `docs/GUIDES/troubleshooting.md` - Problemas comuns e soluções [`cf8ec7d`]
 > >   - `CHANGELOG.md` - Histórico de mudanças
 > >   - `CONTRIBUTING.md` - Guia para contribuidores
-> > - `CharacterSheetHelpers` para operações com Data Tables D&D 5e
-> > - `FeatDataTable` para feats gerais D&D 5e
-> > - Expansão de `ClassDataTable` com `FeatureType` e `SubclassNames`
-> > - Funções `GetOptions` para dropdowns no editor (raças, classes, backgrounds, feats, skills)
-> > - Visibilidade condicional de categorias baseada em seleção de Data Tables
+> > - `CharacterSheetHelpers` para operações com Data Tables D&D 5e [`886ca0f`]
+> > - `FeatDataTable` para feats gerais D&D 5e [`47198fe`]
+> > - Expansão de `ClassDataTable` com `FeatureType` e `SubclassNames` [`80d152e`]
+> > - Funções `GetOptions` para dropdowns no editor (raças, classes, backgrounds, feats, skills) [`b526ff9`, `30a5b7a`]
+> > - Visibilidade condicional de categorias baseada em seleção de Data Tables [`8460879`]
 >
 > </details>
 >
@@ -83,15 +96,15 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > > Mudanças em Funcionalidades Existentes
 > >
 > > - Refatoração completa do `PostEditChangeProperty`:
-> >   - Implementado padrão Map/Table-Driven com lookup table
-> >   - Substituído `std::function` por ponteiros de função estáticos (mais seguro)
-> >   - Handlers agora chamam apenas funções necessárias (não mais `ValidateAndUpdate` completo)
-> > - Movida lógica de `GetOptions` para módulo separado (`FCharacterSheetDataAssetGetOptions`)
-> > - Movidas funções wrapper de handlers para módulo `Handlers`
+> >   - Implementado padrão Map/Table-Driven com lookup table [`503e553`]
+> >   - Substituído `std::function` por ponteiros de função estáticos (mais seguro) [`b00fad8`]
+> >   - Handlers agora chamam apenas funções necessárias (não mais `ValidateAndUpdate` completo) [`d3d87b1`]
+> > - Movida lógica de `GetOptions` para módulo separado (`FCharacterSheetDataAssetGetOptions`) [`c20b354`]
+> > - Movidas funções wrapper de handlers para módulo `Handlers` [`1cd52b3`]
 > > - Simplificado construtor de `CharacterSheetDataAsset`:
 > >   - Removidas inicializações redundantes de `PointsRemaining` e `TotalLevel`
-> >   - Extraída inicialização de `AbilityScores` para helper
-> > - Melhorada organização de código com separação de responsabilidades
+> >   - Extraída inicialização de `AbilityScores` para helper [`e899bf8`]
+> > - Melhorada organização de código com separação de responsabilidades [`8899eed`]
 > > - `CharacterSheetDataAssetTypes.h` criado para evitar dependências circulares
 >
 > </details>
@@ -102,25 +115,25 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > > Correções de Bugs
 > >
 > > - **Editor crash ao selecionar raça:**
-> >   - Resolvido com implementação de `PostLoad()` para inicializar `PropertyHandlers`
-> >   - Substituído `std::function` por ponteiros de função estáticos (resolve problemas de lifetime)
+> >   - Resolvido com implementação de `PostLoad()` para inicializar `PropertyHandlers` [`b00fad8`]
+> >   - Substituído `std::function` por ponteiros de função estáticos (resolve problemas de lifetime) [`b00fad8`]
 > > - **Recursão infinita em `PostEditChangeProperty`:**
-> >   - Resolvido com flag `bIsValidatingProperties` para evitar re-disparo de handlers
-> >   - Handlers agora gerenciam a flag corretamente
+> >   - Resolvido com flag `bIsValidatingProperties` para evitar re-disparo de handlers [`8899eed`]
+> >   - Handlers agora gerenciam a flag corretamente [`8899eed`]
 > > - **Validação de sub-raças:**
-> >   - Agora valida corretamente se sub-raça pertence à raça selecionada
-> >   - Reset automático de sub-raça quando raça muda
+> >   - Agora valida corretamente se sub-raça pertence à raça selecionada [`30a5b7a`]
+> >   - Reset automático de sub-raça quando raça muda [`30a5b7a`]
 > > - **Filtro de raças base:**
-> >   - Agora filtra corretamente sub-raças do dropdown de raças
-> >   - Apenas raças base aparecem no dropdown principal
+> >   - Agora filtra corretamente sub-raças do dropdown de raças [`30a5b7a`]
+> >   - Apenas raças base aparecem no dropdown principal [`30a5b7a`]
 > > - **Proteção de modificações de propriedades:**
-> >   - Adicionado `Modify()` antes de modificar propriedades em `UpdateCalculatedFields`
-> >   - Evita validação redundante ao resetar sub-raça
+> >   - Adicionado `Modify()` antes de modificar propriedades em `UpdateCalculatedFields` [`6b8621f`]
+> >   - Evita validação redundante ao resetar sub-raça [`ff5d537`]
 > > - **Correção de múltiplos bugs críticos:**
-> >   - Correção de range de validação de ability scores em criação de personagem
-> >   - Correção de tabela de custos Point Buy para corresponder às regras oficiais D&D 5e
+> >   - Correção de range de validação de ability scores em criação de personagem [`22c1991`]
+> >   - Correção de tabela de custos Point Buy para corresponder às regras oficiais D&D 5e [`a3ce3e7`]
 > > - **Remoção de replicação desnecessária:**
-> >   - Removida replicação de `TMap` de `CharacterDataComponent` (não suportado nativamente)
+> >   - Removida replicação de `TMap` de `CharacterDataComponent` (não suportado nativamente) [`b81bab2`]
 >
 > </details>
 
@@ -134,6 +147,8 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > 🎯 Sistema básico de fichas de personagem
 >
 > Versão inicial do sistema de fichas de personagem D&D 5e com funcionalidades básicas.
+>
+> > **Nota:** Esta versão representa os commits iniciais do projeto que estabeleceram a arquitetura base e funcionalidades fundamentais.
 >
 > <details>
 > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">➕ Added</summary>

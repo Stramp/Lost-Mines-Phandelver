@@ -2,6 +2,9 @@
 
 #include "CharacterDataComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "../../Utils/ValidationHelpers.h"
+#include "../../Utils/CharacterSheetHelpers.h"
+#include "../../Utils/FormattingHelpers.h"
 
 UCharacterDataComponent::UCharacterDataComponent() { PrimaryComponentTick.bCanEverTick = false; }
 
@@ -31,9 +34,8 @@ bool UCharacterDataComponent::ValidateDataIntegrity() const
 {
     bool bIsValid = true;
 
-    // Validação 1: Ability Scores devem ter os 6 atributos
-    TArray<FName> RequiredAbilities = {TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
-                                       TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+    // Validação 1: Ability Scores devem ter os 6 atributos e valores válidos
+    TArray<FName> RequiredAbilities = CharacterSheetHelpers::GetAbilityScoreNames();
 
     for (const FName &AbilityName : RequiredAbilities)
     {
@@ -46,7 +48,7 @@ bool UCharacterDataComponent::ValidateDataIntegrity() const
         else
         {
             int32 Score = AbilityScores[AbilityName];
-            if (Score < 1 || Score > 30)
+            if (!ValidationHelpers::ValidateAbilityScoreRange(Score, 1, 30))
             {
                 UE_LOG(LogTemp, Error,
                        TEXT("CharacterDataComponent: Ability Score '%s' tem valor inválido: %d (deve ser 1-30)"),
@@ -71,7 +73,7 @@ bool UCharacterDataComponent::ValidateDataIntegrity() const
     }
 
     // Validação 4: Nível total deve ser válido (1-20)
-    if (CharacterTotalLvl < 1 || CharacterTotalLvl > 20)
+    if (!ValidationHelpers::ValidateTotalLevelRange(CharacterTotalLvl, 20))
     {
         UE_LOG(LogTemp, Error, TEXT("CharacterDataComponent: Nível total inválido: %d (deve ser 1-20)"),
                CharacterTotalLvl);
@@ -95,19 +97,14 @@ void UCharacterDataComponent::LogCharacterSheet() const
     UE_LOG(LogTemp, Warning, TEXT("Description: %s"), *CharacterDescription.ToString());
     UE_LOG(LogTemp, Warning, TEXT("Level Total: %d"), CharacterTotalLvl);
 
-    // Race & Background
-    FString RaceDisplay = SelectedRace.ToString();
-    if (SelectedSubrace != NAME_None)
-    {
-        RaceDisplay += TEXT(" (") + SelectedSubrace.ToString() + TEXT(")");
-    }
+    // Race & Background (usa FormattingHelpers)
+    FString RaceDisplay = FormattingHelpers::FormatRaceDisplay(SelectedRace, SelectedSubrace);
     UE_LOG(LogTemp, Warning, TEXT("Race: %s"), *RaceDisplay);
     UE_LOG(LogTemp, Warning, TEXT("Background: %s"), *SelectedBackground.ToString());
 
-    // Ability Scores
+    // Ability Scores (usa FormattingHelpers)
     UE_LOG(LogTemp, Warning, TEXT("--- Ability Scores ---"));
-    TArray<FName> AbilityOrder = {TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
-                                  TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+    TArray<FName> AbilityOrder = CharacterSheetHelpers::GetAbilityScoreNames();
     for (const FName &AbilityName : AbilityOrder)
     {
         if (AbilityScores.Contains(AbilityName))
@@ -120,19 +117,11 @@ void UCharacterDataComponent::LogCharacterSheet() const
         }
     }
 
-    // Proficiencies
+    // Proficiencies (usa FormattingHelpers)
     if (Proficiencies.Num() > 0)
     {
         UE_LOG(LogTemp, Warning, TEXT("--- Proficiencies (%d) ---"), Proficiencies.Num());
-        FString ProficienciesList;
-        for (int32 i = 0; i < Proficiencies.Num(); ++i)
-        {
-            ProficienciesList += Proficiencies[i].ToString();
-            if (i < Proficiencies.Num() - 1)
-            {
-                ProficienciesList += TEXT(", ");
-            }
-        }
+        FString ProficienciesList = FormattingHelpers::FormatProficienciesList(Proficiencies);
         UE_LOG(LogTemp, Warning, TEXT("  %s"), *ProficienciesList);
     }
     else

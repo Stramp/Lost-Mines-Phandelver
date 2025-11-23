@@ -58,8 +58,8 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetSubclassNames(UDataTable *C
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAbilityScoreNames()
 {
-    return TArray<FName>{TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
-                         TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+    // Usa helper global para evitar duplicação
+    return CharacterSheetHelpers::GetAbilityScoreNames();
 }
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(UDataTable *FeatDataTable,

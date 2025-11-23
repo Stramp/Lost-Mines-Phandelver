@@ -1,0 +1,52 @@
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+#include "FormattingHelpers.h"
+#include "CharacterSheetHelpers.h"
+
+// ============================================================================
+// String Formatting
+// ============================================================================
+
+FString FormattingHelpers::FormatRaceDisplay(FName RaceName, FName SubraceName)
+{
+    FString RaceDisplay = RaceName.ToString();
+    if (SubraceName != NAME_None)
+    {
+        RaceDisplay += TEXT(" (") + SubraceName.ToString() + TEXT(")");
+    }
+    return RaceDisplay;
+}
+
+FString FormattingHelpers::FormatProficienciesList(const TArray<FName> &Proficiencies)
+{
+    FString ProficienciesList;
+    for (int32 i = 0; i < Proficiencies.Num(); ++i)
+    {
+        ProficienciesList += Proficiencies[i].ToString();
+        if (i < Proficiencies.Num() - 1)
+        {
+            ProficienciesList += TEXT(", ");
+        }
+    }
+    return ProficienciesList;
+}
+
+FString FormattingHelpers::FormatAbilityScores(const TMap<FName, int32> &AbilityScores)
+{
+    FString FormattedScores;
+    TArray<FName> AbilityOrder = CharacterSheetHelpers::GetAbilityScoreNames();
+
+    for (const FName &AbilityName : AbilityOrder)
+    {
+        if (AbilityScores.Contains(AbilityName))
+        {
+            FormattedScores += FString::Printf(TEXT("  %s: %d\n"), *AbilityName.ToString(), AbilityScores[AbilityName]);
+        }
+        else
+        {
+            FormattedScores += FString::Printf(TEXT("  %s: FALTANDO!\n"), *AbilityName.ToString());
+        }
+    }
+
+    return FormattedScores;
+}
