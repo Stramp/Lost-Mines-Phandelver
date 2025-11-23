@@ -2,17 +2,18 @@
 
 #include "CharacterSheetDataAssetHelpers.h"
 #include "../CharacterSheetDataAsset.h"
+#include "../../../Utils/CharacterSheetHelpers.h"
 
-void FCharacterSheetDataAssetHelpers::InitializeDefaultAbilityScores(TMap<FName, FAbilityScoreEntry> &AbilityScores)
+void FCharacterSheetDataAssetHelpers::InitializeDefaultAbilityScores(TMap<FName, FAbilityScoreEntry> &AbilityScores,
+                                                                     int32 DefaultValue)
 {
-    // Inicializa ability scores padrão (todos começam em 8)
-    TArray<FName> AbilityNames = {TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
-                                  TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+    // Usa CharacterSheetHelpers para obter nomes de ability scores
+    TArray<FName> AbilityNames = CharacterSheetHelpers::GetAbilityScoreNames();
     for (const FName &AbilityName : AbilityNames)
     {
         FAbilityScoreEntry Entry;
-        Entry.BaseScore = 8;
-        Entry.FinalScore = 8;
+        Entry.BaseScore = DefaultValue;
+        Entry.FinalScore = DefaultValue;
         AbilityScores.Add(AbilityName, Entry);
     }
 }

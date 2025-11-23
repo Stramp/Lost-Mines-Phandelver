@@ -4,6 +4,7 @@
 #include "../CharacterSheetDataAsset.h"
 #include "../Helpers/CharacterSheetDataAssetHelpers.h"
 #include "../../../Utils/CharacterSheetHelpers.h"
+#include "../../../Utils/CalculationHelpers.h"
 #include "../../../Data/Tables/RaceDataTable.h"
 #include "../../../Data/Tables/ClassDataTable.h"
 #include "Logging/LogMacros.h"
@@ -74,18 +75,8 @@ void FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(UCharacterSheetDataAs
         return;
     }
 
-    // Aplicar bônus da raça base
-    for (const FAbilityScoreImprovement &Improvement : RaceRow->AbilityScoreImprovements)
-    {
-        // Bônus normal para atributo específico
-        // Nota: "Custom" é tratado apenas na sub-raça (Variant Human)
-        if (FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(Improvement.AbilityName))
-        {
-            Entry->RacialBonus += Improvement.Bonus;
-        }
-    }
-
-    // Se uma sub-raça foi selecionada, validar e aplicar bônus adicionais
+    // Busca sub-raça se necessário
+    FRaceDataRow *SubraceRow = nullptr;
     if (Asset->SelectedSubrace != NAME_None)
     {
         // Validar se a sub-raça pertence à raça selecionada
@@ -105,7 +96,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(UCharacterSheetDataAs
         else
         {
             // Busca direta da sub-raça (otimização)
-            FRaceDataRow *SubraceRow =
+            SubraceRow =
                 Asset->RaceDataTable->FindRow<FRaceDataRow>(Asset->SelectedSubrace, TEXT("UpdateRacialBonuses"));
 
             // Fallback: busca manual se FindRow não encontrou
@@ -126,31 +117,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(UCharacterSheetDataAs
                 }
             }
 
-            if (SubraceRow)
-            {
-                // Aplicar bônus adicionais da sub-raça (somando aos bônus da raça base)
-                for (const FAbilityScoreImprovement &Improvement : SubraceRow->AbilityScoreImprovements)
-                {
-                    // Tratar "Custom" para Variant Human (sub-raça)
-                    if (Improvement.AbilityName == TEXT("Custom") && Asset->SelectedSubrace == TEXT("Variant Human"))
-                    {
-                        // Variant Human: aplicar +1 para cada atributo em CustomAbilityScoreChoices
-                        for (const FName &CustomAbility : Asset->CustomAbilityScoreChoices)
-                        {
-                            if (FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(CustomAbility))
-                            {
-                                Entry->RacialBonus += 1; // Cada escolha dá +1
-                            }
-                        }
-                    }
-                    else if (FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(Improvement.AbilityName))
-                    {
-                        // Bônus normal para atributo específico
-                        Entry->RacialBonus += Improvement.Bonus;
-                    }
-                }
-            }
-            else
+            if (!SubraceRow)
             {
                 UE_LOG(LogTemp, Warning, TEXT("Subrace '%s' not found in RaceDataTable"),
                        *Asset->SelectedSubrace.ToString());
@@ -158,10 +125,24 @@ void FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(UCharacterSheetDataAs
         }
     }
 
+    // Usa CalculationHelpers para calcular bônus raciais (função pura)
+    TMap<FName, int32> RacialBonuses;
+    CalculationHelpers::CalculateRacialBonuses(RaceRow, SubraceRow, Asset->CustomAbilityScoreChoices, RacialBonuses);
+
+    // Aplica bônus calculados ao Asset
+    for (const auto &BonusPair : RacialBonuses)
+    {
+        if (FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(BonusPair.Key))
+        {
+            Entry->RacialBonus = BonusPair.Value;
+        }
+    }
+
     // Atualizar scores finais após aplicar bônus da raça e sub-raça
     for (auto &Pair : Asset->AbilityScores)
     {
-        Pair.Value.FinalScore = Pair.Value.BaseScore + Pair.Value.RacialBonus;
+        Pair.Value.FinalScore =
+            CalculationHelpers::CalculateFinalAbilityScore(Pair.Value.BaseScore, Pair.Value.RacialBonus, 0);
     }
 }
 
@@ -178,29 +159,9 @@ void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDat
     Asset->AvailableFeatures.Empty();
     Asset->Proficiencies.Empty();
 
-    if (!Asset->ClassDataTable)
-    {
-        return;
-    }
-
-    // Coleta features de todas as classes e níveis
-    // GetFeaturesAtLevel() agora retorna todas as features desbloqueadas até o nível especificado
-    // (corrigido para usar <= em vez de ==), então chamamos apenas uma vez por classe
-    for (const FClassLevelEntry &ClassEntry : Asset->ClassLevels)
-    {
-        if (ClassEntry.ClassName == NAME_None || ClassEntry.Level < 1)
-        {
-            continue;
-        }
-
-        // Busca todas as features desbloqueadas até o nível atual da classe
-        TArray<FClassFeature> Features =
-            CharacterSheetHelpers::GetFeaturesAtLevel(ClassEntry.ClassName, ClassEntry.Level, Asset->ClassDataTable);
-        for (const FClassFeature &Feature : Features)
-        {
-            Asset->AvailableFeatures.AddUnique(Feature.FeatureName);
-        }
-    }
+    // Usa CalculationHelpers para calcular features disponíveis (função pura)
+    Asset->AvailableFeatures =
+        CalculationHelpers::CalculateAvailableFeatures(Asset->ClassLevels, Asset->ClassDataTable);
 
     // TODO: Adicionar proficiências de raça, classe e background quando necessário
     // Por enquanto, apenas estrutura preparada

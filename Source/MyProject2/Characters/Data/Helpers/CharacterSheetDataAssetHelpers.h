@@ -18,10 +18,13 @@ class MYPROJECT2_API FCharacterSheetDataAssetHelpers
 {
 public:
     /**
-     * Initializes default ability scores (all start at 8).
-     * Populates AbilityScores map with all 6 ability scores at base value 8.
+     * Initializes default ability scores.
+     * Populates AbilityScores map with all 6 ability scores at specified base value.
+     *
+     * @param AbilityScores Map to populate with ability scores
+     * @param DefaultValue Base value for all ability scores (padrão: 8)
      */
-    static void InitializeDefaultAbilityScores(TMap<FName, FAbilityScoreEntry> &AbilityScores);
+    static void InitializeDefaultAbilityScores(TMap<FName, FAbilityScoreEntry> &AbilityScores, int32 DefaultValue = 8);
 
     /**
      * Resets Variant Human choices when race changes.

@@ -150,6 +150,18 @@ namespace CharacterSheetHelpers
     bool MeetsFeatPrerequisites(const FFeatDataRow *Row, const TMap<FName, int32> &AbilityScores);
 
     // ============================================================================
+    // Ability Score Helpers
+    // ============================================================================
+
+    /**
+     * Retorna array estático com os 6 nomes de ability scores padrão D&D 5e.
+     * Ordem: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
+     *
+     * @return Array com os 6 nomes de ability scores
+     */
+    TArray<FName> GetAbilityScoreNames();
+
+    // ============================================================================
     // Point Buy System Helpers
     // ============================================================================
 

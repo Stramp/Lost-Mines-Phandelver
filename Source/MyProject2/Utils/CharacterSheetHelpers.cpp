@@ -318,6 +318,18 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeats(int32 TotalLevel, const T
 }
 
 // ============================================================================
+// Ability Score Helpers
+// ============================================================================
+
+TArray<FName> CharacterSheetHelpers::GetAbilityScoreNames()
+{
+    // Retorna array estático com os 6 nomes de ability scores padrão D&D 5e
+    // Ordem: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
+    return TArray<FName>{TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
+                         TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+}
+
+// ============================================================================
 // Point Buy System Helpers
 // ============================================================================
 

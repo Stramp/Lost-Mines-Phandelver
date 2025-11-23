@@ -3,6 +3,7 @@
 #include "CharacterSheetDataAssetValidators.h"
 #include "../CharacterSheetDataAsset.h"
 #include "../../../Utils/CharacterSheetHelpers.h"
+#include "../../../Utils/ValidationHelpers.h"
 #include "Logging/LogMacros.h"
 
 void FCharacterSheetDataAssetValidators::ValidatePointBuy(UCharacterSheetDataAsset *Asset)
@@ -12,29 +13,17 @@ void FCharacterSheetDataAssetValidators::ValidatePointBuy(UCharacterSheetDataAss
         return;
     }
 
-    // Calcula pontos gastos usando helper
+    // Extrai base scores para validação
     TMap<FName, int32> BaseScores;
     for (const auto &Pair : Asset->AbilityScores)
     {
         BaseScores.Add(Pair.Key, Pair.Value.BaseScore);
     }
 
-    int32 TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
-    Asset->PointsRemaining = 27 - TotalCost;
-
-    // Validação D&D 5e Point Buy: exatamente 27 pontos devem ser gastos
-    // PointsRemaining deve ser 0 para alocação válida
-    // Não clampa silenciosamente - mantém o valor real para indicar estado inválido
-    // Validação adicional: todos os scores devem estar entre 8 e 15
-    bool bAllScoresValid = true;
-    for (const auto &Pair : Asset->AbilityScores)
-    {
-        if (Pair.Value.BaseScore < 8 || Pair.Value.BaseScore > 15)
-        {
-            bAllScoresValid = false;
-            break;
-        }
-    }
+    // Usa ValidationHelpers para validar e calcular pontos restantes
+    int32 PointsRemaining = 0;
+    bool bAllScoresValid = ValidationHelpers::ValidatePointBuy(BaseScores, PointsRemaining, 27);
+    Asset->PointsRemaining = PointsRemaining;
 
     // Log de aviso se scores estão fora do range válido
     if (!bAllScoresValid)
@@ -56,11 +45,14 @@ void FCharacterSheetDataAssetValidators::ValidateTotalLevel(UCharacterSheetDataA
         return;
     }
 
-    // Calcula nível total usando helper
-    Asset->TotalLevel = CharacterSheetHelpers::CalculateTotalLevel(Asset->ClassLevels);
+    // Usa ValidationHelpers para calcular e validar nível total
+    int32 TotalLevel = 0;
+    bool bIsValid = ValidationHelpers::ValidateTotalLevel(Asset->ClassLevels, TotalLevel, 20);
+    Asset->TotalLevel = TotalLevel;
 
-    // Validação: nível total não pode exceder 20
-    if (Asset->TotalLevel > 20)
+    // Se nível total exceder 20, ajusta níveis das classes
+    // Nota: Ajuste de níveis individuais deve ficar no validator acoplado (modifica Asset)
+    if (!bIsValid && Asset->TotalLevel > 20)
     {
         Asset->TotalLevel = 20;
 
@@ -103,24 +95,9 @@ void FCharacterSheetDataAssetValidators::ValidateVariantHumanAbilityScoreChoices
         return;
     }
 
-    // Validar CustomAbilityScoreChoices: deve ser possivel adicionar até 2 atributos, dando +1 a cada atributo
-    // escolhido. Se o numero de atributos escolhidos for somente 1, deve se adicionar +2 para o unico atributo
-    // escolhido. Se escolher 2 atributos, deve se adicionar +1 para cada atributo escolhido.
-    if (Asset->CustomAbilityScoreChoices.Num() > 2)
-    {
-        // Ajusta para ter no maximo 2 elementos
-        Asset->CustomAbilityScoreChoices.SetNum(2);
-    }
-
-    // Validar que os atributos escolhidos são válidos
-    TArray<FName> ValidAbilityNames = Asset->GetAbilityScoreNames();
-    for (FName &AbilityName : Asset->CustomAbilityScoreChoices)
-    {
-        if (AbilityName != NAME_None && !ValidAbilityNames.Contains(AbilityName))
-        {
-            AbilityName = TEXT("Strength"); // Valor padrão se inválido
-        }
-    }
+    // Usa ValidationHelpers para validar escolhas de ability scores
+    TArray<FName> ValidAbilityNames = CharacterSheetHelpers::GetAbilityScoreNames();
+    ValidationHelpers::ValidateAbilityScoreChoices(Asset->CustomAbilityScoreChoices, ValidAbilityNames, 2);
 }
 
 void FCharacterSheetDataAssetValidators::ValidateVariantHumanFeat(UCharacterSheetDataAsset *Asset)
@@ -130,15 +107,13 @@ void FCharacterSheetDataAssetValidators::ValidateVariantHumanFeat(UCharacterShee
         return;
     }
 
-    // Validar SelectedFeat (deve estar na lista de feats disponíveis)
-    if (Asset->SelectedFeat != NAME_None && Asset->FeatDataTable)
+    // Usa ValidationHelpers para validar seleção de feat
+    if (Asset->FeatDataTable)
     {
         TArray<FName> AvailableFeats = Asset->GetAvailableFeatNames();
-        if (!AvailableFeats.Contains(Asset->SelectedFeat))
+        if (!ValidationHelpers::ValidateFeatSelection(Asset->SelectedFeat, AvailableFeats))
         {
-            UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: SelectedFeat '%s' não está disponível. Resetando."),
-                   *Asset->SelectedFeat.ToString());
-            Asset->SelectedFeat = NAME_None;
+            UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: SelectedFeat não está disponível. Resetando."));
         }
     }
 }
@@ -150,15 +125,10 @@ void FCharacterSheetDataAssetValidators::ValidateVariantHumanSkill(UCharacterShe
         return;
     }
 
-    // Validar SelectedSkill (deve estar na lista de skills válidas)
-    if (Asset->SelectedSkill != NAME_None)
+    // Usa ValidationHelpers para validar seleção de skill
+    TArray<FName> ValidSkills = Asset->GetSkillNames();
+    if (!ValidationHelpers::ValidateSkillSelection(Asset->SelectedSkill, ValidSkills))
     {
-        TArray<FName> ValidSkills = Asset->GetSkillNames();
-        if (!ValidSkills.Contains(Asset->SelectedSkill))
-        {
-            UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: SelectedSkill '%s' não é válido. Resetando."),
-                   *Asset->SelectedSkill.ToString());
-            Asset->SelectedSkill = NAME_None;
-        }
+        UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: SelectedSkill não é válido. Resetando."));
     }
 }
