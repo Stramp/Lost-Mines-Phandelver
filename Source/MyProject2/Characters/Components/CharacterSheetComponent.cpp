@@ -64,6 +64,17 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     CharacterDataComponent->CharacterName = DataAsset->CharacterName;
     CharacterDataComponent->CharacterDescription = DataAsset->CharacterDescription;
     CharacterDataComponent->CharacterTotalLvl = DataAsset->TotalLevel;
+    CharacterDataComponent->SelectedRace = DataAsset->SelectedRace;
+    CharacterDataComponent->SelectedSubrace = DataAsset->SelectedSubrace;
+    CharacterDataComponent->SelectedBackground = DataAsset->SelectedBackground;
+    CharacterDataComponent->Proficiencies = DataAsset->Proficiencies;
+
+    // Copia ability scores (apenas os valores finais)
+    CharacterDataComponent->AbilityScores.Empty();
+    for (const auto &Pair : DataAsset->AbilityScores)
+    {
+        CharacterDataComponent->AbilityScores.Add(Pair.Key, Pair.Value.FinalScore);
+    }
 
     // Salva referência ao Data Asset
     SourceDataAsset = DataAsset;

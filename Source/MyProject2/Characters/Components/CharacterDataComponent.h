@@ -46,8 +46,40 @@ public:
     UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
     int32 CharacterTotalLvl = 0;
 
+    /** Raça selecionada */
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    FName SelectedRace = NAME_None;
+
+    /** Sub-raça selecionada */
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    FName SelectedSubrace = NAME_None;
+
+    /** Background selecionado */
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    FName SelectedBackground = NAME_None;
+
+    /** Proficiências do personagem (raça + classe + background) */
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    TArray<FName> Proficiencies;
+
+    /** Ability scores finais (chave: nome do atributo, valor: score final) */
+    UPROPERTY(Replicated, BlueprintReadOnly, Category = "Character Data")
+    TMap<FName, int32> AbilityScores;
+
+    /**
+     * Valida integridade dos dados do personagem.
+     * Verifica se todos os dados necessários estão presentes e consistentes.
+     *
+     * @return true se todos os dados estão válidos, false caso contrário
+     */
+    UFUNCTION(BlueprintCallable, Category = "Character Data")
+    bool ValidateDataIntegrity() const;
+
     /**
      * Faz log da ficha do personagem no console.
+     * Valida integridade dos dados antes de exibir.
+     * Este log garante que a informação está totalmente organizada e bem disposta
+     * nos componentes necessários para tudo funcionar bem.
      */
     UFUNCTION(BlueprintCallable, Category = "Character Data")
     void LogCharacterSheet() const;
