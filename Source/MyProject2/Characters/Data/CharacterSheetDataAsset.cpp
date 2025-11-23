@@ -121,6 +121,34 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
         ValidateAndUpdate();
         bIsValidatingProperties = false;
     }
+    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable) ||
+             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable) ||
+             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, BackgroundDataTable) ||
+             PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, FeatDataTable))
+    {
+        // Verifica se todos os Data Tables foram selecionados
+        bool bAllDataTablesSelected = RaceDataTable != nullptr && ClassDataTable != nullptr &&
+                                      BackgroundDataTable != nullptr && FeatDataTable != nullptr;
+
+        if (bAllDataTablesSelected)
+        {
+            UE_LOG(LogTemp, Log, TEXT("CharacterSheetDataAsset: Todos os Data Tables foram selecionados!"));
+
+            // TODO: Chamar update quando todos os Data Tables estiverem prontos
+            // bIsValidatingProperties = true;
+            // ValidateAndUpdate();
+            // bIsValidatingProperties = false;
+        }
+        else
+        {
+            UE_LOG(
+                LogTemp, Warning,
+                TEXT(
+                    "CharacterSheetDataAsset: Ainda faltam Data Tables. Race: %s, Class: %s, Background: %s, Feat: %s"),
+                RaceDataTable ? TEXT("OK") : TEXT("FALTANDO"), ClassDataTable ? TEXT("OK") : TEXT("FALTANDO"),
+                BackgroundDataTable ? TEXT("OK") : TEXT("FALTANDO"), FeatDataTable ? TEXT("OK") : TEXT("FALTANDO"));
+        }
+    }
 }
 
 void UCharacterSheetDataAsset::ValidateAndUpdate()

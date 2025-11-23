@@ -152,15 +152,18 @@ public:
     // ============================================================================
 
     /** Nome do personagem */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic Info")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic Info",
+              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
     FName CharacterName = TEXT("Character Name");
 
     /** Descrição do personagem */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic Info")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic Info",
+              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
     FText CharacterDescription = FText::GetEmpty();
 
     /** Nível total do personagem (soma de todos os níveis de classes, máximo 20) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info")
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info",
+              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 TotalLevel = 0;
 
     // ============================================================================
@@ -168,17 +171,18 @@ public:
     // ============================================================================
 
     /** Raça selecionada */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background", meta = (GetOptions = "GetRaceNames"))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background",
+              meta = (GetOptions = "GetRaceNames", EditCondition = "!bCanShowSheet", EditConditionHides))
     FName SelectedRace = NAME_None;
 
     /** Sub-raça selecionada (se aplicável) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background",
-              meta = (GetOptions = "GetSubraceNames"))
+              meta = (GetOptions = "GetSubraceNames", EditCondition = "!bCanShowSheet", EditConditionHides))
     FName SelectedSubrace = NAME_None;
 
     /** Background selecionado */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background",
-              meta = (GetOptions = "GetBackgroundNames"))
+              meta = (GetOptions = "GetBackgroundNames", EditCondition = "!bCanShowSheet", EditConditionHides))
     FName SelectedBackground = NAME_None;
 
     // ============================================================================
@@ -187,17 +191,20 @@ public:
 
     /** Escolhas customizadas de atributos para Variant Human (2x +1 para distribuir) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human",
-              meta = (GetOptions = "GetAbilityScoreNames", EditCondition = "bIsVariantHuman", EditConditionHides))
+              meta = (GetOptions = "GetAbilityScoreNames", EditCondition = "bIsVariantHuman && !bCanShowSheet",
+                      EditConditionHides))
     TArray<FName> CustomAbilityScoreChoices;
 
     /** Feat escolhido para Variant Human */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human",
-              meta = (GetOptions = "GetAvailableFeatNames", EditCondition = "bIsVariantHuman", EditConditionHides))
+              meta = (GetOptions = "GetAvailableFeatNames", EditCondition = "bIsVariantHuman && !bCanShowSheet",
+                      EditConditionHides))
     FName SelectedFeat = NAME_None;
 
     /** Skill escolhido para Variant Human */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variant Human",
-              meta = (GetOptions = "GetSkillNames", EditCondition = "bIsVariantHuman", EditConditionHides))
+              meta = (GetOptions = "GetSkillNames", EditCondition = "bIsVariantHuman && !bCanShowSheet",
+                      EditConditionHides))
     FName SelectedSkill = NAME_None;
 
     // ============================================================================
@@ -205,11 +212,13 @@ public:
     // ============================================================================
 
     /** Ability scores do personagem (chave: nome do atributo, valor: entrada com base/racial/final) */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",
+              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
     TMap<FName, FAbilityScoreEntry> AbilityScores;
 
     /** Pontos restantes no sistema Point Buy (27 pontos totais) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability Scores")
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability Scores",
+              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 PointsRemaining = 27;
 
     // ============================================================================
@@ -217,7 +226,8 @@ public:
     // ============================================================================
 
     /** Níveis em cada classe (permite multi-classing) */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Classes")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Classes",
+              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
     TArray<FClassLevelEntry> ClassLevels;
 
     // ============================================================================
@@ -225,11 +235,13 @@ public:
     // ============================================================================
 
     /** Features disponíveis baseadas nas classes e níveis */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated")
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated",
+              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
     TArray<FName> AvailableFeatures;
 
     /** Proficiências do personagem (raça + classe + background) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated")
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated",
+              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
     TArray<FName> Proficiencies;
 
 private:
@@ -237,6 +249,10 @@ private:
     /** Flag calculada: true se SelectedSubrace == "Variant Human" (propriedade interna, não visível no editor) */
     UPROPERTY()
     bool bIsVariantHuman = false;
+
+    /** Flag to control sheet display (true = only Data Tables, false = all categories) */
+    UPROPERTY()
+    bool bCanShowSheet = true;
 #endif
 
 #if WITH_EDITOR
