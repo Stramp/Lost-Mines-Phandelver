@@ -9,6 +9,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 <summary>📋 Versões</summary>
 
 - **[Unreleased](#unreleased)** - Mudanças em desenvolvimento
+- **[0.3.0](#030---2024-12-20)** - Sistema completo de raça e background com escolhas de idiomas
 - **[0.2.0](#020---2024-12-xx)** - Refatoração modular e validação de integridade
 - **[0.1.0](#010---2024-12-xx)** - Sistema básico de fichas de personagem
 
@@ -20,11 +21,11 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 <details>
 
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>[Unreleased]</b></summary>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>[0.3.0] - 2024-12-20</b></summary>
 
-> 🔄 Mudanças em desenvolvimento
+> ✨ Sistema completo de raça e background com escolhas de idiomas
 >
-> Mudanças pendentes de release.
+> Esta versão finaliza o sistema de raça e background com suporte completo para escolhas de idiomas, filtros automáticos, correções de raças faltantes e melhorias na arquitetura e documentação.
 >
 > <details>
 > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">➕ Added</summary>
@@ -132,6 +133,18 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Adicionada regra honesty-and-questions.mdc
 >
 > </details>
+
+</details>
+
+---
+
+<details>
+
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>[Unreleased]</b></summary>
+
+> 🔄 Mudanças em desenvolvimento
+>
+> Mudanças pendentes de release.
 
 </details>
 
