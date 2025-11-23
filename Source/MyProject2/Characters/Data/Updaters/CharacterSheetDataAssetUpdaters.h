@@ -37,4 +37,10 @@ public:
      * Shows all categories when all Data Tables are selected, otherwise shows only Data Tables.
      */
     static void UpdateSheetVisibility(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Updates language choices detection (bHasLanguageChoices, MaxLanguageChoices).
+     * Detects if race/background/feat allows language choices.
+     */
+    static void UpdateLanguageChoices(UCharacterSheetDataAsset *Asset);
 };

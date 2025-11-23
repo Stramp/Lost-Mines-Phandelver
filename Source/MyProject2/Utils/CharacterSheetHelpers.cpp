@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterSheetHelpers.h"
+#include "DataTableHelpers.h"
 #include "../Data/Tables/RaceDataTable.h"
 #include "../Data/Tables/ClassDataTable.h"
 #include "../Data/Tables/BackgroundDataTable.h"
@@ -381,6 +382,100 @@ TArray<FName> CharacterSheetHelpers::GetSkillNames()
                          TEXT("Investigation"), TEXT("Medicine"),        TEXT("Nature"),   TEXT("Perception"),
                          TEXT("Performance"),   TEXT("Persuasion"),      TEXT("Religion"), TEXT("Sleight of Hand"),
                          TEXT("Stealth"),       TEXT("Survival")};
+}
+
+TArray<FName> CharacterSheetHelpers::GetAvailableLanguageNames()
+{
+    // TODO: Futuramente migrar para LanguageDataTable seguindo o princípio Data-Driven completo.
+    // Por enquanto, hardcoded porque são constantes do sistema D&D 5e.
+    // Quando implementado LanguageDataTable, criar função GetAllLanguageNames(UDataTable* LanguageDataTable)
+    // similar a GetAllRaceNames() e GetAllClassNames().
+    return TArray<FName>{TEXT("Common"),   TEXT("Dwarvish"),   TEXT("Elvish"),   TEXT("Giant"),
+                         TEXT("Gnomish"),  TEXT("Goblin"),     TEXT("Halfling"), TEXT("Orc"),
+                         TEXT("Abyssal"),  TEXT("Celestial"),  TEXT("Draconic"), TEXT("Deep Speech"),
+                         TEXT("Infernal"), TEXT("Primordial"), TEXT("Sylvan"),   TEXT("Undercommon")};
+}
+
+bool CharacterSheetHelpers::HasLanguageChoiceFromRace(FName RaceName, FName SubraceName, UDataTable *RaceDataTable,
+                                                      int32 &OutCount)
+{
+    OutCount = 0;
+
+    if (!RaceDataTable)
+    {
+        return false;
+    }
+
+    // Verifica sub-raça primeiro (tem prioridade sobre raça base)
+    if (SubraceName != NAME_None)
+    {
+        if (FRaceDataRow *SubraceRow = DataTableHelpers::FindSubraceRow(SubraceName, RaceDataTable))
+        {
+            for (const FRaceTrait &Trait : SubraceRow->Traits)
+            {
+                if (Trait.TraitName == TEXT("Extra Language"))
+                {
+                    if (const FString *TypePtr = Trait.TraitData.Find(TEXT("Type")))
+                    {
+                        if (*TypePtr == TEXT("Language"))
+                        {
+                            if (const FString *CountPtr = Trait.TraitData.Find(TEXT("Count")))
+                            {
+                                OutCount = FCString::Atoi(**CountPtr);
+                                return OutCount > 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Verifica raça base se sub-raça não tiver escolha
+    if (RaceName != NAME_None && OutCount == 0)
+    {
+        if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(RaceName, RaceDataTable))
+        {
+            for (const FRaceTrait &Trait : RaceRow->Traits)
+            {
+                if (Trait.TraitName == TEXT("Extra Language"))
+                {
+                    if (const FString *TypePtr = Trait.TraitData.Find(TEXT("Type")))
+                    {
+                        if (*TypePtr == TEXT("Language"))
+                        {
+                            if (const FString *CountPtr = Trait.TraitData.Find(TEXT("Count")))
+                            {
+                                OutCount = FCString::Atoi(**CountPtr);
+                                return OutCount > 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+bool CharacterSheetHelpers::HasLanguageChoiceFromBackground(FName BackgroundName, UDataTable *BackgroundDataTable,
+                                                            int32 &OutCount)
+{
+    OutCount = 0;
+
+    if (!BackgroundDataTable || BackgroundName == NAME_None)
+    {
+        return false;
+    }
+
+    if (FBackgroundDataRow *BackgroundRow = DataTableHelpers::FindBackgroundRow(BackgroundName, BackgroundDataTable))
+    {
+        OutCount = BackgroundRow->LanguageChoices.Count;
+        return OutCount > 0;
+    }
+
+    return false;
 }
 
 // ============================================================================

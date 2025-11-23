@@ -132,3 +132,22 @@ void FCharacterSheetDataAssetValidators::ValidateVariantHumanSkill(UCharacterShe
         UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: SelectedSkill não é válido. Resetando."));
     }
 }
+
+void FCharacterSheetDataAssetValidators::ValidateLanguageChoices(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    // Se não há escolhas disponíveis, limpa SelectedLanguages
+    if (!Asset->bHasLanguageChoices || Asset->MaxLanguageChoices == 0)
+    {
+        Asset->SelectedLanguages.Empty();
+        return;
+    }
+
+    // Valida quantidade de escolhas (não pode exceder MaxLanguageChoices)
+    TArray<FName> ValidLanguages = CharacterSheetHelpers::GetAvailableLanguageNames();
+    ValidationHelpers::ValidateAbilityScoreChoices(Asset->SelectedLanguages, ValidLanguages, Asset->MaxLanguageChoices);
+}

@@ -45,6 +45,12 @@ public:
     static void HandleVariantHumanChoicesChange(UCharacterSheetDataAsset *Asset);
 
     /**
+     * Handles changes to SelectedLanguages.
+     * Validates language choices and updates calculated languages.
+     */
+    static void HandleLanguageChoicesChange(UCharacterSheetDataAsset *Asset);
+
+    /**
      * Handles changes to Data Tables (RaceDataTable, ClassDataTable, BackgroundDataTable, FeatDataTable).
      * Validates if all Data Tables are selected and logs status.
      * When all Data Tables are ready, calls ValidateAndUpdate() to update everything.
@@ -63,5 +69,6 @@ public:
     static void HandleClassLevelsWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleSelectedBackgroundWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleVariantHumanChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleLanguageChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleDataTableWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
 };

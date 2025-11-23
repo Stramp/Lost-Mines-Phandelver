@@ -27,25 +27,81 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > Mudanças pendentes de release.
 >
 > <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">➕ Added</summary>
+>
+> > Novas Funcionalidades
+> >
+> > 1. Commit [`f625bf6`] - Adicionar escolhas de Variant Human, race traits e melhorar log da ficha
+> >    - Adicionado suporte para escolhas customizadas de Variant Human
+> >    - Adicionado sistema de race traits
+> >    - Melhorado sistema de logging da ficha do personagem
+>
+> </details>
+>
+> <details>
 > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔄 Changed</summary>
 >
 > > Mudanças em Funcionalidades Existentes
 > >
-> > - Refatoração de `ValidateVariantHumanChoices`: dividida em 3 funções separadas seguindo Clean Code (Validators) [`6c500f5`]
-> > - Reorganização de categorias no editor do CharacterSheetDataAsset (Data) [`6c500f5`]
-> > - Extração de helpers reutilizáveis para `Utils/` seguindo Clean Code [`e14a162`]
+> > 1. Commit [`6c500f5`] - Refatoração do ValidateVariantHumanChoices
+> >    - Dividida em 3 funções separadas seguindo Clean Code (Validators)
+> >    - Reorganização de categorias no editor do CharacterSheetDataAsset
 > >
-> > <details>
-> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📚 Docs</summary>
+> > 2. Commit [`e14a162`] - Extração de helpers reutilizáveis para Utils/
+> >    - Movidos helpers para `Utils/` seguindo Clean Code
+> >    - Funções puras e testáveis isoladas
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🐛 Fixed</summary>
+>
+> > Correções de Bugs
 > >
-> > > Documentação
-> > >
-> > > - Aplicação de padrão de organização Markdown em guias (`docs/GUIDES/`) [`cf8ec7d`]
-> > > - Aplicação de padrão de organização Markdown em `ARCHITECTURE.md` [`4d11ca4`]
-> > > - Adição de regra de honestidade e perguntas para IA [`d4d8a80`]
-> > > - Adição de hashes de commits em todas as entradas do CHANGELOG para rastreabilidade [`7b5040e`, `5d47179`]
+> > 1. Commit [`e2b34ec`] - Correção do cálculo de bônus para Variant Human
+> >    - Corrigido cálculo de bônus raciais para Variant Human
+> >    - Ajuste em CalculationHelpers
 > >
-> > </details>
+> > 2. Commit [`a9ef548`] - Correção de arrays hardcoded e centralização de helpers
+> >    - Removidos arrays hardcoded
+> >    - Centralizados helpers em Utils/
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📚 Docs</summary>
+>
+> > Documentação
+> >
+> > 1. Commit [`275db60`] - Atualização do roadmap no README
+> >    - Adicionado roadmap detalhado com 10 fases do Action RPG
+> >    - Incluída seção de NPCs e Monsters
+> >
+> > 2. Commit [`6737271`] - Adição de seção Skill Helpers e documentação completa de helpers
+> >    - Adicionada seção Skill Helpers na documentação da API
+> >    - Documentação completa de todas as funções helper
+> >
+> > 3. Commit [`271f1f9`] - Correção de line endings e formatação da API
+> >    - Normalização de line endings (LF vs CRLF)
+> >    - Correção de formatação na documentação da API
+> >
+> > 4. Commit [`6369309`] - Adição de hash de commit para atualização do changelog
+> >    - Adicionado hash de commit para rastreabilidade
+> >
+> > 5. Commit [`5d47179`] - Adição de hash de commit para atualização do changelog
+> >    - Adicionado hash de commit para rastreabilidade
+> >
+> > 6. Commit [`7b5040e`] - Adição de hashes de commits em todas as entradas do CHANGELOG
+> >    - Adicionados hashes de commits para rastreabilidade completa
+> >
+> > 7. Commit [`cf8ec7d`] - Aplicação de padrão de organização Markdown em guias
+> >    - Aplicado padrão markdown-organization.mdc em `docs/GUIDES/`
+> >
+> > 8. Commit [`4d11ca4`] - Aplicação de padrão de organização Markdown em ARCHITECTURE.md
+> >    - Aplicado padrão markdown-organization.mdc com seções colapsáveis
+> >
+> > 9. Commit [`d4d8a80`] - Adição de regra de honestidade e perguntas para IA
+> >    - Adicionada regra honesty-and-questions.mdc
 >
 > </details>
 
@@ -65,28 +121,44 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Novas Funcionalidades
 > >
-> > - Sistema de validação de integridade de dados (`ValidateDataIntegrity()`) em `CharacterDataComponent` [`c90d893`]
-> > - Suporte completo para Variant Human (atributos customizados, feat e skill) [`8460879`]
-> > - Organização modular do `CharacterSheetDataAsset`:
-> >   - `Handlers/` - Processamento de mudanças de propriedades [`1cd52b3`]
-> >   - `Validators/` - Validação de dados [`8899eed`]
-> >   - `Updaters/` - Atualização de campos calculados [`8899eed`]
-> >   - `Helpers/` - Funções auxiliares reutilizáveis [`e899bf8`]
-> >   - `GetOptions/` - Lógica para dropdowns no editor [`c20b354`]
-> > - Padrão Map/Table-Driven com ponteiros de função estáticos para handlers [`503e553`]
-> > - Sistema de logging completo da ficha do personagem (`LogCharacterSheet()`) [`c90d893`]
-> > - Documentação completa:
-> >   - `docs/API.md` - Referência completa da API
-> >   - `docs/GUIDES/getting-started.md` - Guia prático passo a passo [`cf8ec7d`]
-> >   - `docs/GUIDES/data-tables.md` - Documentação dos Data Tables [`cf8ec7d`]
-> >   - `docs/GUIDES/troubleshooting.md` - Problemas comuns e soluções [`cf8ec7d`]
-> >   - `CHANGELOG.md` - Histórico de mudanças
-> >   - `CONTRIBUTING.md` - Guia para contribuidores
-> > - `CharacterSheetHelpers` para operações com Data Tables D&D 5e [`886ca0f`]
-> > - `FeatDataTable` para feats gerais D&D 5e [`47198fe`]
-> > - Expansão de `ClassDataTable` com `FeatureType` e `SubclassNames` [`80d152e`]
-> > - Funções `GetOptions` para dropdowns no editor (raças, classes, backgrounds, feats, skills) [`b526ff9`, `30a5b7a`]
-> > - Visibilidade condicional de categorias baseada em seleção de Data Tables [`8460879`]
+> > 1. Commit [`c90d893`] - Sistema de validação de integridade de dados
+> >    - Implementado `ValidateDataIntegrity()` em `CharacterDataComponent`
+> >    - Sistema de logging completo da ficha do personagem (`LogCharacterSheet()`)
+> >
+> > 2. Commit [`8460879`] - Suporte completo para Variant Human
+> >    - Atributos customizados, feat e skill
+> >    - Visibilidade condicional de categorias baseada em seleção de Data Tables
+> >
+> > 3. Commit [`1cd52b3`] - Organização modular do CharacterSheetDataAsset
+> >    - `Handlers/` - Processamento de mudanças de propriedades
+> >
+> > 4. Commit [`8899eed`] - Organização modular do CharacterSheetDataAsset
+> >    - `Validators/` - Validação de dados
+> >    - `Updaters/` - Atualização de campos calculados
+> >
+> > 5. Commit [`e899bf8`] - Organização modular do CharacterSheetDataAsset
+> >    - `Helpers/` - Funções auxiliares reutilizáveis
+> >
+> > 6. Commit [`c20b354`] - Organização modular do CharacterSheetDataAsset
+> >    - `GetOptions/` - Lógica para dropdowns no editor
+> >
+> > 7. Commit [`503e553`] - Padrão Map/Table-Driven com ponteiros de função estáticos
+> >    - Implementado padrão Map/Table-Driven para handlers
+> >
+> > 8. Commit [`cf8ec7d`] - Documentação completa
+> >    - `docs/GUIDES/getting-started.md` - Guia prático passo a passo
+> >    - `docs/GUIDES/data-tables.md` - Documentação dos Data Tables
+> >    - `docs/GUIDES/troubleshooting.md` - Problemas comuns e soluções
+> >
+> > 9. Commit [`886ca0f`] - CharacterSheetHelpers para operações com Data Tables D&D 5e
+> >
+> > 10. Commit [`47198fe`] - FeatDataTable para feats gerais D&D 5e
+> >
+> > 11. Commit [`80d152e`] - Expansão de ClassDataTable
+> >     - Adicionado `FeatureType` e `SubclassNames`
+> >
+> > 12. Commit [`b526ff9`, `30a5b7a`] - Funções GetOptions para dropdowns no editor
+> >     - Dropdowns para raças, classes, backgrounds, feats, skills
 >
 > </details>
 >
@@ -95,17 +167,27 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Mudanças em Funcionalidades Existentes
 > >
-> > - Refatoração completa do `PostEditChangeProperty`:
-> >   - Implementado padrão Map/Table-Driven com lookup table [`503e553`]
-> >   - Substituído `std::function` por ponteiros de função estáticos (mais seguro) [`b00fad8`]
-> >   - Handlers agora chamam apenas funções necessárias (não mais `ValidateAndUpdate` completo) [`d3d87b1`]
-> > - Movida lógica de `GetOptions` para módulo separado (`FCharacterSheetDataAssetGetOptions`) [`c20b354`]
-> > - Movidas funções wrapper de handlers para módulo `Handlers` [`1cd52b3`]
-> > - Simplificado construtor de `CharacterSheetDataAsset`:
-> >   - Removidas inicializações redundantes de `PointsRemaining` e `TotalLevel`
-> >   - Extraída inicialização de `AbilityScores` para helper [`e899bf8`]
-> > - Melhorada organização de código com separação de responsabilidades [`8899eed`]
-> > - `CharacterSheetDataAssetTypes.h` criado para evitar dependências circulares
+> > 1. Commit [`503e553`] - Refatoração completa do PostEditChangeProperty
+> >    - Implementado padrão Map/Table-Driven com lookup table
+> >
+> > 2. Commit [`b00fad8`] - Substituição de std::function por ponteiros de função estáticos
+> >    - Mais seguro e eficiente
+> >
+> > 3. Commit [`d3d87b1`] - Otimização de handlers
+> >    - Handlers agora chamam apenas funções necessárias (não mais `ValidateAndUpdate` completo)
+> >
+> > 4. Commit [`c20b354`] - Movida lógica de GetOptions para módulo separado
+> >    - Criado `FCharacterSheetDataAssetGetOptions`
+> >
+> > 5. Commit [`1cd52b3`] - Movidas funções wrapper de handlers para módulo Handlers
+> >
+> > 6. Commit [`e899bf8`] - Simplificado construtor de CharacterSheetDataAsset
+> >    - Removidas inicializações redundantes de `PointsRemaining` e `TotalLevel`
+> >    - Extraída inicialização de `AbilityScores` para helper
+> >
+> > 7. Commit [`8899eed`] - Melhorada organização de código
+> >    - Separação de responsabilidades
+> >    - `CharacterSheetDataAssetTypes.h` criado para evitar dependências circulares
 >
 > </details>
 >
@@ -114,26 +196,32 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Correções de Bugs
 > >
-> > - **Editor crash ao selecionar raça:**
-> >   - Resolvido com implementação de `PostLoad()` para inicializar `PropertyHandlers` [`b00fad8`]
-> >   - Substituído `std::function` por ponteiros de função estáticos (resolve problemas de lifetime) [`b00fad8`]
-> > - **Recursão infinita em `PostEditChangeProperty`:**
-> >   - Resolvido com flag `bIsValidatingProperties` para evitar re-disparo de handlers [`8899eed`]
-> >   - Handlers agora gerenciam a flag corretamente [`8899eed`]
-> > - **Validação de sub-raças:**
-> >   - Agora valida corretamente se sub-raça pertence à raça selecionada [`30a5b7a`]
-> >   - Reset automático de sub-raça quando raça muda [`30a5b7a`]
-> > - **Filtro de raças base:**
-> >   - Agora filtra corretamente sub-raças do dropdown de raças [`30a5b7a`]
-> >   - Apenas raças base aparecem no dropdown principal [`30a5b7a`]
-> > - **Proteção de modificações de propriedades:**
-> >   - Adicionado `Modify()` antes de modificar propriedades em `UpdateCalculatedFields` [`6b8621f`]
-> >   - Evita validação redundante ao resetar sub-raça [`ff5d537`]
-> > - **Correção de múltiplos bugs críticos:**
-> >   - Correção de range de validação de ability scores em criação de personagem [`22c1991`]
-> >   - Correção de tabela de custos Point Buy para corresponder às regras oficiais D&D 5e [`a3ce3e7`]
-> > - **Remoção de replicação desnecessária:**
-> >   - Removida replicação de `TMap` de `CharacterDataComponent` (não suportado nativamente) [`b81bab2`]
+> > 1. Commit [`b00fad8`] - Correção de crash do editor ao selecionar raça
+> >    - Resolvido com implementação de `PostLoad()` para inicializar `PropertyHandlers`
+> >    - Substituído `std::function` por ponteiros de função estáticos (resolve problemas de lifetime)
+> >
+> > 2. Commit [`8899eed`] - Correção de recursão infinita em PostEditChangeProperty
+> >    - Resolvido com flag `bIsValidatingProperties` para evitar re-disparo de handlers
+> >    - Handlers agora gerenciam a flag corretamente
+> >
+> > 3. Commit [`30a5b7a`] - Correção de validação de sub-raças
+> >    - Agora valida corretamente se sub-raça pertence à raça selecionada
+> >    - Reset automático de sub-raça quando raça muda
+> >    - Filtro de raças base corrigido (apenas raças base aparecem no dropdown principal)
+> >
+> > 4. Commit [`6b8621f`] - Proteção de modificações de propriedades
+> >    - Adicionado `Modify()` antes de modificar propriedades em `UpdateCalculatedFields`
+> >
+> > 5. Commit [`ff5d537`] - Evita validação redundante ao resetar sub-raça
+> >
+> > 6. Commit [`22c1991`] - Correção de range de validação de ability scores
+> >    - Correção de range de validação de ability scores em criação de personagem
+> >
+> > 7. Commit [`a3ce3e7`] - Correção de tabela de custos Point Buy
+> >    - Correção de tabela de custos Point Buy para corresponder às regras oficiais D&D 5e
+> >
+> > 8. Commit [`b81bab2`] - Remoção de replicação desnecessária
+> >    - Removida replicação de `TMap` de `CharacterDataComponent` (não suportado nativamente)
 >
 > </details>
 
@@ -155,17 +243,29 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Funcionalidades Iniciais
 > >
-> > - Sistema básico de fichas de personagem D&D 5e
-> > - `UCharacterSheetDataAsset` - Data Asset para configuração no editor
-> > - `UCharacterDataComponent` - Componente de dados replicáveis em runtime
-> > - `UCharacterSheetComponent` - Bridge component para inicialização
-> > - Suporte para Point Buy system (27 pontos, scores 8-15)
-> > - Suporte para multi-classing (múltiplas classes, nível total máximo 20)
-> > - Data Tables para raças, classes, backgrounds e feats
-> > - Sistema de proficiências (raça + classe + background)
-> > - Bônus raciais automáticos nos ability scores
-> > - Validação automática no editor (`PostEditChangeProperty`)
-> > - Replicação completa para multiplayer (`DOREPLIFETIME`)
+> > 1. Sistema básico de fichas de personagem D&D 5e
+> >    - `UCharacterSheetDataAsset` - Data Asset para configuração no editor
+> >    - `UCharacterDataComponent` - Componente de dados replicáveis em runtime
+> >    - `UCharacterSheetComponent` - Bridge component para inicialização
+> >
+> > 2. Suporte para Point Buy system
+> >    - 27 pontos, scores 8-15
+> >
+> > 3. Suporte para multi-classing
+> >    - Múltiplas classes, nível total máximo 20
+> >
+> > 4. Data Tables para raças, classes, backgrounds e feats
+> >
+> > 5. Sistema de proficiências
+> >    - Proficiências de raça + classe + background
+> >
+> > 6. Bônus raciais automáticos nos ability scores
+> >
+> > 7. Validação automática no editor
+> >    - `PostEditChangeProperty`
+> >
+> > 8. Replicação completa para multiplayer
+> >    - `DOREPLIFETIME`
 >
 > </details>
 >

@@ -34,6 +34,9 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
     // Bônus raciais mudam quando raça/sub-raça muda
     FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(Asset);
 
+    // Escolhas de idiomas podem mudar quando raça/sub-raça muda
+    FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(Asset);
+
     // Proficiências de raça mudam
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
 
@@ -88,7 +91,28 @@ void FCharacterSheetDataAssetHandlers::HandleBackgroundChange(UCharacterSheetDat
 
     Asset->bIsValidatingProperties = true;
 
-    // Apenas proficiências de background mudam
+    // Escolhas de idiomas podem mudar quando background muda
+    FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(Asset);
+
+    // Proficiências de background mudam
+    FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
+
+    Asset->bIsValidatingProperties = false;
+}
+
+void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesChange(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    Asset->bIsValidatingProperties = true;
+
+    // Valida escolhas de idiomas
+    FCharacterSheetDataAssetValidators::ValidateLanguageChoices(Asset);
+
+    // Recalcula idiomas finais
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
 
     Asset->bIsValidatingProperties = false;
@@ -192,6 +216,11 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper(UCharact
                                                                         FName PropertyName)
 {
     HandleVariantHumanChoicesChange(Asset);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+{
+    HandleLanguageChoicesChange(Asset);
 }
 
 void FCharacterSheetDataAssetHandlers::HandleDataTableWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)

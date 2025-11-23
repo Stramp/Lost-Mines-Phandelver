@@ -100,4 +100,23 @@ namespace CalculationHelpers
     TArray<FName> CalculateProficiencies(FName RaceName, FName SubraceName, const TArray<FClassLevelEntry> &ClassLevels,
                                          FName BackgroundName, FName SelectedSkill, UDataTable *RaceDataTable,
                                          UDataTable *ClassDataTable, UDataTable *BackgroundDataTable);
+
+    // ============================================================================
+    // Language Calculations
+    // ============================================================================
+
+    /**
+     * Calcula idiomas finais do personagem (raça + background + escolhas do jogador + feats).
+     *
+     * @param RaceName Nome da raça selecionada
+     * @param SubraceName Nome da sub-raça selecionada (pode ser NAME_None)
+     * @param BackgroundName Nome do background selecionado
+     * @param SelectedLanguages Array com idiomas escolhidos pelo jogador (quando há escolhas)
+     * @param RaceDataTable Data Table de raças (pode ser nullptr)
+     * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
+     * @return Array com nomes de idiomas que o personagem fala
+     */
+    TArray<FName> CalculateLanguages(FName RaceName, FName SubraceName, FName BackgroundName,
+                                     const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
+                                     UDataTable *BackgroundDataTable);
 } // namespace CalculationHelpers

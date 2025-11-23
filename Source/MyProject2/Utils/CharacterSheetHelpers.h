@@ -192,6 +192,39 @@ namespace CharacterSheetHelpers
     TArray<FName> GetSkillNames();
 
     // ============================================================================
+    // Language Helpers
+    // ============================================================================
+
+    /**
+     * Retorna array estático com os nomes de idiomas padrão D&D 5e.
+     * NOTA: Futuramente pode ser migrado para LanguageDataTable para permitir customização.
+     * Por enquanto, hardcoded porque são constantes do sistema D&D 5e.
+     * @return Array com nomes de idiomas disponíveis
+     */
+    TArray<FName> GetAvailableLanguageNames();
+
+    /**
+     * Detecta se raça/sub-raça permite escolha de idiomas via TraitData.
+     *
+     * @param RaceName Nome da raça (pode ser NAME_None)
+     * @param SubraceName Nome da sub-raça (pode ser NAME_None)
+     * @param RaceDataTable Data Table de raças (pode ser nullptr)
+     * @param OutCount [OUT] Quantidade de idiomas que podem ser escolhidos (1, 2, etc.)
+     * @return true se há escolha de idiomas, false caso contrário
+     */
+    bool HasLanguageChoiceFromRace(FName RaceName, FName SubraceName, UDataTable *RaceDataTable, int32 &OutCount);
+
+    /**
+     * Detecta se background permite escolha de idiomas.
+     *
+     * @param BackgroundName Nome do background (pode ser NAME_None)
+     * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
+     * @param OutCount [OUT] Quantidade de idiomas que podem ser escolhidos (1, 2, etc.)
+     * @return true se há escolha de idiomas, false caso contrário
+     */
+    bool HasLanguageChoiceFromBackground(FName BackgroundName, UDataTable *BackgroundDataTable, int32 &OutCount);
+
+    // ============================================================================
     // Point Buy System Helpers
     // ============================================================================
 

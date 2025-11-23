@@ -49,4 +49,10 @@ public:
      * Ensures SelectedSkill is valid.
      */
     static void ValidateVariantHumanSkill(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Validates language choices.
+     * Ensures SelectedLanguages count doesn't exceed MaxLanguageChoices.
+     */
+    static void ValidateLanguageChoices(UCharacterSheetDataAsset *Asset);
 };

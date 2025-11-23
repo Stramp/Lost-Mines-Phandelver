@@ -82,3 +82,10 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetSkillNames()
     // return CharacterSheetHelpers::GetAllSkillNames(SkillDataTable);
     return CharacterSheetHelpers::GetSkillNames();
 }
+
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNames()
+{
+    // TODO: Futuramente migrar para LanguageDataTable seguindo o princípio Data-Driven completo.
+    // Por enquanto, hardcoded porque são constantes do sistema D&D 5e.
+    return CharacterSheetHelpers::GetAvailableLanguageNames();
+}

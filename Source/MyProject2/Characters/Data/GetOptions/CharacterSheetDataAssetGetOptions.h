@@ -60,4 +60,10 @@ public:
      * TODO: Move to SkillDataTable when implemented.
      */
     static TArray<FName> GetSkillNames();
+
+    /**
+     * Returns all available language names from D&D 5e.
+     * TODO: Move to LanguageDataTable when implemented.
+     */
+    static TArray<FName> GetAvailableLanguageNames();
 };

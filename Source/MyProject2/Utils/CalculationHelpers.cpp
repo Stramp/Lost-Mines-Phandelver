@@ -236,14 +236,8 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
                 }
             }
 
-            // Adiciona proficiências de idiomas do background
-            for (const FName &LangProf : BackgroundRow->LanguageProficiencies)
-            {
-                if (LangProf != NAME_None)
-                {
-                    Proficiencies.AddUnique(LangProf);
-                }
-            }
+            // NOTA: Idiomas não são proficiências, são calculados separadamente em CalculateLanguages()
+            // Backgrounds não fornecem proficiências de idiomas, apenas escolhas de idiomas
         }
     }
 
@@ -280,4 +274,69 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
 
     UE_LOG(LogTemp, Warning, TEXT("[DEBUG] CalculateProficiencies: Retornando %d proficiências"), Proficiencies.Num());
     return Proficiencies;
+}
+
+TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName SubraceName, FName BackgroundName,
+                                                     const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
+                                                     UDataTable *BackgroundDataTable)
+{
+    TArray<FName> Languages;
+
+    // Coleta idiomas automáticos da raça base
+    if (RaceDataTable && RaceName != NAME_None)
+    {
+        if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(RaceName, RaceDataTable))
+        {
+            for (const FName &Language : RaceRow->Languages)
+            {
+                if (Language != NAME_None)
+                {
+                    Languages.AddUnique(Language);
+                }
+            }
+        }
+    }
+
+    // Coleta idiomas automáticos da sub-raça
+    if (RaceDataTable && SubraceName != NAME_None)
+    {
+        if (FRaceDataRow *SubraceRow = DataTableHelpers::FindSubraceRow(SubraceName, RaceDataTable))
+        {
+            for (const FName &Language : SubraceRow->Languages)
+            {
+                if (Language != NAME_None)
+                {
+                    Languages.AddUnique(Language);
+                }
+            }
+        }
+    }
+
+    // Coleta idiomas automáticos do background
+    if (BackgroundDataTable && BackgroundName != NAME_None)
+    {
+        if (FBackgroundDataRow *BackgroundRow =
+                DataTableHelpers::FindBackgroundRow(BackgroundName, BackgroundDataTable))
+        {
+            // Adiciona idiomas automáticos (não-escolhas)
+            for (const FName &Language : BackgroundRow->Languages)
+            {
+                if (Language != NAME_None)
+                {
+                    Languages.AddUnique(Language);
+                }
+            }
+        }
+    }
+
+    // Adiciona idiomas escolhidos pelo jogador
+    for (const FName &SelectedLanguage : SelectedLanguages)
+    {
+        if (SelectedLanguage != NAME_None)
+        {
+            Languages.AddUnique(SelectedLanguage);
+        }
+    }
+
+    return Languages;
 }

@@ -7,6 +7,7 @@
 #include "../../../Utils/CalculationHelpers.h"
 #include "../../../Data/Tables/RaceDataTable.h"
 #include "../../../Data/Tables/ClassDataTable.h"
+#include "../../../Data/Tables/BackgroundDataTable.h"
 #include "Logging/LogMacros.h"
 
 #if WITH_EDITOR
@@ -158,6 +159,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDat
 
     Asset->AvailableFeatures.Empty();
     Asset->Proficiencies.Empty();
+    Asset->Languages.Empty();
 
     // DEBUG: Log valores antes de calcular
     UE_LOG(LogTemp, Warning,
@@ -177,6 +179,53 @@ void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDat
 
     UE_LOG(LogTemp, Warning, TEXT("[DEBUG] UpdateCalculatedFields: Após calcular, ProficienciesCount=%d"),
            Asset->Proficiencies.Num());
+
+    // Usa CalculationHelpers para calcular idiomas finais (raça + background + escolhas do jogador)
+    Asset->Languages = CalculationHelpers::CalculateLanguages(Asset->SelectedRace, Asset->SelectedSubrace,
+                                                              Asset->SelectedBackground, Asset->SelectedLanguages,
+                                                              Asset->RaceDataTable, Asset->BackgroundDataTable);
+
+    UE_LOG(LogTemp, Warning, TEXT("[DEBUG] UpdateCalculatedFields: Após calcular, LanguagesCount=%d"),
+           Asset->Languages.Num());
+}
+
+void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    Asset->bHasLanguageChoices = false;
+    Asset->MaxLanguageChoices = 0;
+
+    int32 RaceLanguageCount = 0;
+    int32 BackgroundLanguageCount = 0;
+
+    // Verifica escolhas de idiomas da raça/sub-raça
+    if (Asset->RaceDataTable)
+    {
+        CharacterSheetHelpers::HasLanguageChoiceFromRace(Asset->SelectedRace, Asset->SelectedSubrace,
+                                                         Asset->RaceDataTable, RaceLanguageCount);
+    }
+
+    // Verifica escolhas de idiomas do background
+    if (Asset->BackgroundDataTable)
+    {
+        CharacterSheetHelpers::HasLanguageChoiceFromBackground(Asset->SelectedBackground, Asset->BackgroundDataTable,
+                                                               BackgroundLanguageCount);
+    }
+
+    // Soma total de escolhas disponíveis (raça + background)
+    // NOTA: Futuramente, quando feats forem implementados, adicionar aqui também
+    Asset->MaxLanguageChoices = RaceLanguageCount + BackgroundLanguageCount;
+    Asset->bHasLanguageChoices = (Asset->MaxLanguageChoices > 0);
+
+    // Se não há mais escolhas disponíveis, limpa SelectedLanguages
+    if (!Asset->bHasLanguageChoices)
+    {
+        Asset->SelectedLanguages.Empty();
+    }
 }
 
 void FCharacterSheetDataAssetUpdaters::UpdateVariantHumanFlag(UCharacterSheetDataAsset *Asset)

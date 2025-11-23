@@ -110,6 +110,10 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSkill),
                          FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
 
+    // Language choices handler
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedLanguages),
+                         FCharacterSheetDataAssetHandlers::HandleLanguageChoicesWrapper);
+
     // Data Tables handlers
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable),
                          FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
@@ -202,5 +206,10 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableFeatNames() const
 TArray<FName> UCharacterSheetDataAsset::GetSkillNames() const
 {
     return FCharacterSheetDataAssetGetOptions::GetSkillNames();
+}
+
+TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
+{
+    return FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNames();
 }
 #endif

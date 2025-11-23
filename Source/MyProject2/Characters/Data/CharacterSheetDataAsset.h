@@ -107,6 +107,10 @@ public:
     /** Retorna todos os nomes de skills de D&D 5e */
     UFUNCTION(CallInEditor)
     TArray<FName> GetSkillNames() const;
+
+    /** Retorna todos os nomes de idiomas disponíveis (para dropdown de escolhas de idiomas) */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetAvailableLanguageNames() const;
 #endif
     // ============================================================================
     // Data Tables
@@ -191,6 +195,26 @@ public:
     FName SelectedSkill = NAME_None;
 
     // ============================================================================
+    // Language Choices (aparece quando há escolhas de idiomas disponíveis)
+    // ============================================================================
+
+    /** Idiomas escolhidos pelo jogador (quando raça/background/feat permite escolha) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Language Choices",
+              meta = (GetOptions = "GetAvailableLanguageNames", EditCondition = "bHasLanguageChoices && !bCanShowSheet",
+                      EditConditionHides))
+    TArray<FName> SelectedLanguages;
+
+    /** Quantidade máxima de idiomas que podem ser escolhidos (calculado automaticamente) */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Race & Background | Language Choices",
+              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+    int32 MaxLanguageChoices = 0;
+
+    /** Flag indicando se há escolhas de idiomas disponíveis (raça/background/feat) */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Race & Background | Language Choices",
+              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+    bool bHasLanguageChoices = false;
+
+    // ============================================================================
     // Ability Scores (Point Buy System)
     // ============================================================================
 
@@ -226,6 +250,11 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated",
               meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
     TArray<FName> Proficiencies;
+
+    /** Idiomas que o personagem fala (calculado automaticamente: raça + background + escolhas) */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated",
+              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+    TArray<FName> Languages;
 
 private:
 #if WITH_EDITORONLY_DATA
