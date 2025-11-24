@@ -38,13 +38,14 @@ namespace CalculationHelpers
 
     /**
      * Calcula o score final de ability score.
+     * Fórmula: FinalScore = BaseScore (8) + RacialBonus + PointBuyAllocation + ASIBonus
      *
-     * @param BaseScore Score base (do Point Buy)
      * @param RacialBonus Bônus racial aplicado
+     * @param PointBuyAllocation Alocação de Point Buy (0-7 pontos)
      * @param ASIBonus Bônus de Ability Score Improvement (padrão: 0)
-     * @return Score final (BaseScore + RacialBonus + ASIBonus)
+     * @return Score final (8 + RacialBonus + PointBuyAllocation + ASIBonus)
      */
-    int32 CalculateFinalAbilityScore(int32 BaseScore, int32 RacialBonus, int32 ASIBonus = 0);
+    int32 CalculateFinalAbilityScore(int32 RacialBonus, int32 PointBuyAllocation, int32 ASIBonus = 0);
 
     /**
      * Calcula bônus raciais de ability scores.
@@ -57,6 +58,52 @@ namespace CalculationHelpers
      */
     void CalculateRacialBonuses(const FRaceDataRow *RaceRow, const FRaceDataRow *SubraceRow,
                                 const TArray<FName> &CustomChoices, TMap<FName, int32> &RacialBonuses);
+
+    /**
+     * Reseta Final Scores para valor base (8).
+     * Função pura que apenas reseta valores.
+     *
+     * @param FinalStrength [IN/OUT] Score final de Strength
+     * @param FinalDexterity [IN/OUT] Score final de Dexterity
+     * @param FinalConstitution [IN/OUT] Score final de Constitution
+     * @param FinalIntelligence [IN/OUT] Score final de Intelligence
+     * @param FinalWisdom [IN/OUT] Score final de Wisdom
+     * @param FinalCharisma [IN/OUT] Score final de Charisma
+     */
+    void ResetFinalScoresToBase(int32 &FinalStrength, int32 &FinalDexterity, int32 &FinalConstitution,
+                                int32 &FinalIntelligence, int32 &FinalWisdom, int32 &FinalCharisma);
+
+    /**
+     * Incrementa Final Scores com bônus raciais.
+     * Motor independente: apenas incrementa, não reseta, não conhece Point Buy.
+     *
+     * @param RacialBonuses Map com bônus raciais calculados
+     * @param FinalStrength [IN/OUT] Score final de Strength
+     * @param FinalDexterity [IN/OUT] Score final de Dexterity
+     * @param FinalConstitution [IN/OUT] Score final de Constitution
+     * @param FinalIntelligence [IN/OUT] Score final de Intelligence
+     * @param FinalWisdom [IN/OUT] Score final de Wisdom
+     * @param FinalCharisma [IN/OUT] Score final de Charisma
+     */
+    void IncrementFinalScoresWithRacialBonuses(const TMap<FName, int32> &RacialBonuses, int32 &FinalStrength,
+                                               int32 &FinalDexterity, int32 &FinalConstitution,
+                                               int32 &FinalIntelligence, int32 &FinalWisdom, int32 &FinalCharisma);
+
+    /**
+     * Incrementa Final Scores com alocação de Point Buy.
+     * Motor independente: apenas incrementa, não reseta, não conhece bônus racial.
+     *
+     * @param PointBuyAllocation Map com alocação de Point Buy (chave: FName do atributo, valor: 0-7)
+     * @param FinalStrength [IN/OUT] Score final de Strength
+     * @param FinalDexterity [IN/OUT] Score final de Dexterity
+     * @param FinalConstitution [IN/OUT] Score final de Constitution
+     * @param FinalIntelligence [IN/OUT] Score final de Intelligence
+     * @param FinalWisdom [IN/OUT] Score final de Wisdom
+     * @param FinalCharisma [IN/OUT] Score final de Charisma
+     */
+    void IncrementFinalScoresWithPointBuy(const TMap<FName, int32> &PointBuyAllocation, int32 &FinalStrength,
+                                          int32 &FinalDexterity, int32 &FinalConstitution, int32 &FinalIntelligence,
+                                          int32 &FinalWisdom, int32 &FinalCharisma);
 
     // ============================================================================
     // Proficiency Calculations

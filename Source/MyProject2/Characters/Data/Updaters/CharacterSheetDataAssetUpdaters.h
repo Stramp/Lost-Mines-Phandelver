@@ -51,8 +51,17 @@ public:
     static void UpdateSubraceFlag(UCharacterSheetDataAsset *Asset);
 
     /**
-     * Updates final ability scores fields (FinalStrength, FinalDexterity, etc.).
-     * Calculates final scores from BaseScore + RacialBonus + ASI.
+     * Recalcula Final Scores aplicando todos os motores sequencialmente.
+     * Orquestrador: reseta para base (8) e aplica cada motor independente.
+     * Fórmula: FinalScore = 8 + RacialBonus + PointBuyAllocation
+     *
+     * @param Asset Character Sheet Data Asset
      */
-    static void UpdateFinalAbilityScores(UCharacterSheetDataAsset *Asset);
+    static void RecalculateFinalScores(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Updates Point Buy allocation and applies to Final Scores.
+     * Motor independente: calcula alocação de Point Buy (0-7 por atributo) e aplica nos Final Scores.
+     */
+    static void UpdatePointBuyAllocation(UCharacterSheetDataAsset *Asset);
 };

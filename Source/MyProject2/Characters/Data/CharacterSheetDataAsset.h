@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Engine/DataTable.h"
-#include "CharacterSheetDataAssetTypes.h"
 #include "CharacterSheetDataAsset.generated.h"
 
 // Forward declarations
@@ -70,6 +69,90 @@ public:
     UCharacterSheetDataAsset();
 
 #if WITH_EDITOR
+    // ============================================================================
+    // Public methods for modules (replaces friend class access)
+    // ============================================================================
+
+    /**
+     * Sets the validating properties flag.
+     * Used by Handlers to prevent recursive property change events.
+     *
+     * @param bValidating True if currently validating properties
+     */
+    void SetValidatingProperties(bool bValidating);
+
+    /**
+     * Gets the validating properties flag.
+     * Used by Handlers/Validators/Updaters to check if validation is in progress.
+     *
+     * @return True if currently validating properties
+     */
+    bool IsValidatingProperties() const;
+
+    /**
+     * Gets bIsVariantHuman flag.
+     * Used by Validators/Updaters.
+     *
+     * @return True if selected subrace is Variant Human
+     */
+    bool GetIsVariantHuman() const { return bIsVariantHuman; }
+
+    /**
+     * Sets bIsVariantHuman flag.
+     * Used by Updaters.
+     *
+     * @param bValue New value
+     */
+    void SetIsVariantHuman(bool bValue) { bIsVariantHuman = bValue; }
+
+    /**
+     * Gets bHasLanguageChoices flag.
+     * Used by Validators/Updaters.
+     *
+     * @return True if there are language choices available
+     */
+    bool GetHasLanguageChoices() const { return bHasLanguageChoices; }
+
+    /**
+     * Sets bHasLanguageChoices flag.
+     * Used by Updaters.
+     *
+     * @param bValue New value
+     */
+    void SetHasLanguageChoices(bool bValue) { bHasLanguageChoices = bValue; }
+
+    /**
+     * Gets bHasSubraces flag.
+     * Used by Updaters.
+     *
+     * @return True if selected race has subraces
+     */
+    bool GetHasSubraces() const { return bHasSubraces; }
+
+    /**
+     * Sets bHasSubraces flag.
+     * Used by Updaters.
+     *
+     * @param bValue New value
+     */
+    void SetHasSubraces(bool bValue) { bHasSubraces = bValue; }
+
+    /**
+     * Gets bCanShowSheet flag.
+     * Used by Updaters.
+     *
+     * @return True if sheet can be shown
+     */
+    bool GetCanShowSheet() const { return bCanShowSheet; }
+
+    /**
+     * Sets bCanShowSheet flag.
+     * Used by Updaters.
+     *
+     * @param bValue New value
+     */
+    void SetCanShowSheet(bool bValue) { bCanShowSheet = bValue; }
+
     virtual void PostEditChangeProperty(FPropertyChangedEvent &PropertyChangedEvent) override;
 
     // ============================================================================
@@ -151,32 +234,32 @@ public:
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 TotalLevel = 0;
 
-    /** Strength final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    /** Strength final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalStrength = 8;
 
-    /** Dexterity final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    /** Dexterity final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalDexterity = 8;
 
-    /** Constitution final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    /** Constitution final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalConstitution = 8;
 
-    /** Intelligence final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    /** Intelligence final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalIntelligence = 8;
 
-    /** Wisdom final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    /** Wisdom final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalWisdom = 8;
 
-    /** Charisma final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    /** Charisma final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalCharisma = 8;
@@ -247,10 +330,10 @@ public:
     // Ability Scores (Point Buy System)
     // ============================================================================
 
-    /** Ability scores do personagem (chave: nome do atributo, valor: entrada com base/racial/final) */
+    /** Alocação de Point Buy por atributo (0-7 pontos por atributo, total = 27 pontos) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    TMap<FName, FAbilityScoreEntry> AbilityScores;
+    TMap<FName, int32> PointBuyAllocation;
 
     /** Pontos restantes no sistema Point Buy (27 pontos totais) */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability Scores",
@@ -318,9 +401,6 @@ private:
 
     /** Inicializa o map de handlers (chamado no construtor e PostLoad) */
     void InitializePropertyHandlers();
-
-    /** Valida e atualiza campos calculados (orquestrador completo) */
-    void ValidateAndUpdate();
 
     /** Called after object is loaded from disk - ensures PropertyHandlers is initialized */
     virtual void PostLoad() override;

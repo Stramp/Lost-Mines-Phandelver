@@ -7,6 +7,7 @@
 #include "../Data/Tables/ClassDataTable.h"
 #include "../Data/Tables/BackgroundDataTable.h"
 #include "../Characters/Data/CharacterSheetDataAsset.h"
+#include "Math/UnrealMathUtility.h"
 
 // ============================================================================
 // Ability Score Calculations
@@ -18,9 +19,11 @@ int32 CalculationHelpers::CalculateAbilityModifier(int32 Score)
     return FMath::FloorToInt((Score - 10) / 2.0f);
 }
 
-int32 CalculationHelpers::CalculateFinalAbilityScore(int32 BaseScore, int32 RacialBonus, int32 ASIBonus)
+int32 CalculationHelpers::CalculateFinalAbilityScore(int32 RacialBonus, int32 PointBuyAllocation, int32 ASIBonus)
 {
-    return BaseScore + RacialBonus + ASIBonus;
+    // Base fixa = 8 (constante hardcoded)
+    const int32 BaseScore = 8;
+    return BaseScore + RacialBonus + PointBuyAllocation + ASIBonus;
 }
 
 void CalculationHelpers::CalculateRacialBonuses(const FRaceDataRow *RaceRow, const FRaceDataRow *SubraceRow,
@@ -103,6 +106,46 @@ void CalculationHelpers::CalculateRacialBonuses(const FRaceDataRow *RaceRow, con
             }
         }
     }
+}
+
+void CalculationHelpers::ResetFinalScoresToBase(int32 &FinalStrength, int32 &FinalDexterity, int32 &FinalConstitution,
+                                                int32 &FinalIntelligence, int32 &FinalWisdom, int32 &FinalCharisma)
+{
+    const int32 BaseScore = 8;
+    FinalStrength = BaseScore;
+    FinalDexterity = BaseScore;
+    FinalConstitution = BaseScore;
+    FinalIntelligence = BaseScore;
+    FinalWisdom = BaseScore;
+    FinalCharisma = BaseScore;
+}
+
+void CalculationHelpers::IncrementFinalScoresWithRacialBonuses(const TMap<FName, int32> &RacialBonuses,
+                                                               int32 &FinalStrength, int32 &FinalDexterity,
+                                                               int32 &FinalConstitution, int32 &FinalIntelligence,
+                                                               int32 &FinalWisdom, int32 &FinalCharisma)
+{
+    // Apenas incrementa (não reseta, não conhece Point Buy)
+    FinalStrength += RacialBonuses.FindRef(TEXT("Strength"));
+    FinalDexterity += RacialBonuses.FindRef(TEXT("Dexterity"));
+    FinalConstitution += RacialBonuses.FindRef(TEXT("Constitution"));
+    FinalIntelligence += RacialBonuses.FindRef(TEXT("Intelligence"));
+    FinalWisdom += RacialBonuses.FindRef(TEXT("Wisdom"));
+    FinalCharisma += RacialBonuses.FindRef(TEXT("Charisma"));
+}
+
+void CalculationHelpers::IncrementFinalScoresWithPointBuy(const TMap<FName, int32> &PointBuyAllocation,
+                                                          int32 &FinalStrength, int32 &FinalDexterity,
+                                                          int32 &FinalConstitution, int32 &FinalIntelligence,
+                                                          int32 &FinalWisdom, int32 &FinalCharisma)
+{
+    // Apenas incrementa (não reseta, não conhece bônus racial)
+    FinalStrength += PointBuyAllocation.FindRef(TEXT("Strength"));
+    FinalDexterity += PointBuyAllocation.FindRef(TEXT("Dexterity"));
+    FinalConstitution += PointBuyAllocation.FindRef(TEXT("Constitution"));
+    FinalIntelligence += PointBuyAllocation.FindRef(TEXT("Intelligence"));
+    FinalWisdom += PointBuyAllocation.FindRef(TEXT("Wisdom"));
+    FinalCharisma += PointBuyAllocation.FindRef(TEXT("Charisma"));
 }
 
 // ============================================================================

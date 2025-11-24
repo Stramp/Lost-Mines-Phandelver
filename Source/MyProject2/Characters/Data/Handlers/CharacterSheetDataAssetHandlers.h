@@ -21,10 +21,10 @@ public:
     static void HandleRaceChange(UCharacterSheetDataAsset *Asset, FName PropertyName);
 
     /**
-     * Handles changes to AbilityScores.
-     * Validates Point Buy system and updates calculated fields.
+     * Handles changes to PointBuyAllocation.
+     * Validates Point Buy system and updates Final Scores.
      */
-    static void HandleAbilityScoresChange(UCharacterSheetDataAsset *Asset);
+    static void HandlePointBuyAllocationChange(UCharacterSheetDataAsset *Asset);
 
     /**
      * Handles changes to ClassLevels.
@@ -52,8 +52,7 @@ public:
 
     /**
      * Handles changes to Data Tables (RaceDataTable, ClassDataTable, BackgroundDataTable, FeatDataTable).
-     * Validates if all Data Tables are selected and logs status.
-     * When all Data Tables are ready, calls ValidateAndUpdate() to update everything.
+     * Updates sheet visibility based on Data Tables selection and logs status.
      */
     static void HandleDataTableChange(UCharacterSheetDataAsset *Asset);
 
@@ -65,7 +64,7 @@ public:
 
     static void HandleSelectedRaceWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleSelectedSubraceWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
-    static void HandleAbilityScoresWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandlePointBuyAllocationWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleClassLevelsWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleSelectedBackgroundWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleVariantHumanChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);

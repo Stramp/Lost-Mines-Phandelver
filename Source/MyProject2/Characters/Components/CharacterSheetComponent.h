@@ -34,13 +34,6 @@ protected:
     virtual void BeginPlay() override;
 
 private:
-    /**
-     * Busca e cacheia o CharacterDataComponent no Actor.
-     * Usa helper reutilizável de ComponentHelpers.
-     * @return CharacterDataComponent encontrado ou nullptr
-     */
-    UCharacterDataComponent *FindOrGetCharacterDataComponent();
-
     /** Data Asset fonte (template) */
     UPROPERTY(EditAnywhere, Category = "Character Sheet")
     UCharacterSheetDataAsset *SourceDataAsset;

@@ -20,8 +20,12 @@
 
 UCharacterSheetDataAsset::UCharacterSheetDataAsset()
 {
-    // Inicializa ability scores padrão usando helper
-    FCharacterSheetDataAssetHelpers::InitializeDefaultAbilityScores(AbilityScores);
+    // Inicializa Point Buy allocation com 0 para todos os atributos (base = 8, sem pontos gastos)
+    TArray<FName> AbilityNames = CharacterSheetHelpers::GetAbilityScoreNames();
+    for (const FName &AbilityName : AbilityNames)
+    {
+        PointBuyAllocation.Add(AbilityName, 0);
+    }
 
     // PointsRemaining e TotalLevel já têm valores padrão no header (= 27 e = 0)
     // Não precisam ser inicializados aqui
@@ -92,9 +96,9 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace),
                          FCharacterSheetDataAssetHandlers::HandleSelectedSubraceWrapper);
 
-    // Ability Scores handler
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, AbilityScores),
-                         FCharacterSheetDataAssetHandlers::HandleAbilityScoresWrapper);
+    // Point Buy Allocation handler
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyAllocation),
+                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
 
     // Class Levels handler
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassLevels),
@@ -125,35 +129,6 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
                          FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, FeatDataTable),
                          FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
-}
-
-void UCharacterSheetDataAsset::ValidateAndUpdate()
-{
-    // Orquestrador completo: atualiza tudo (usado apenas quando necessário)
-    // Gerencia bIsValidatingProperties para proteger contra recursão
-    bool bWasValidating = bIsValidatingProperties;
-    if (!bWasValidating)
-    {
-        bIsValidatingProperties = true;
-    }
-
-    FCharacterSheetDataAssetUpdaters::UpdateVariantHumanFlag(this);
-    FCharacterSheetDataAssetValidators::ValidatePointBuy(this);
-    FCharacterSheetDataAssetValidators::ValidateTotalLevel(this);
-    FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(this);
-    FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(this);
-
-    // Valida escolhas de Variant Human se aplicável
-    if (bIsVariantHuman)
-    {
-        FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(this);
-    }
-
-    // Restaura flag apenas se não estava setada antes
-    if (!bWasValidating)
-    {
-        bIsValidatingProperties = false;
-    }
 }
 
 // ============================================================================
@@ -220,4 +195,8 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
     return FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
         SelectedRace, SelectedSubrace, SelectedBackground, SelectedLanguages, RaceDataTable, BackgroundDataTable);
 }
+
+void UCharacterSheetDataAsset::SetValidatingProperties(bool bValidating) { bIsValidatingProperties = bValidating; }
+
+bool UCharacterSheetDataAsset::IsValidatingProperties() const { return bIsValidatingProperties; }
 #endif

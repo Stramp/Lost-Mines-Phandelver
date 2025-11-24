@@ -5,6 +5,7 @@
 #include "../Helpers/CharacterSheetDataAssetHelpers.h"
 #include "../../../Utils/CharacterSheetHelpers.h"
 #include "../../../Utils/CalculationHelpers.h"
+#include "../../../Utils/ValidationHelpers.h"
 #include "../../../Data/Tables/RaceDataTable.h"
 #include "../../../Data/Tables/ClassDataTable.h"
 #include "../../../Data/Tables/BackgroundDataTable.h"
@@ -14,6 +15,109 @@
 #include "Editor.h"
 #include "UObject/UnrealType.h"
 #endif
+
+void FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    // Orquestrador: reseta para base (8) e aplica cada motor independente
+    // Fórmula: FinalScore = 8 + RacialBonus + PointBuyAllocation
+
+    // 1. Reset para base (8)
+    CalculationHelpers::ResetFinalScoresToBase(Asset->FinalStrength, Asset->FinalDexterity, Asset->FinalConstitution,
+                                               Asset->FinalIntelligence, Asset->FinalWisdom, Asset->FinalCharisma);
+
+    // 2. Aplica bônus raciais (motor independente)
+    TMap<FName, int32> RacialBonuses;
+    if (Asset->RaceDataTable && Asset->SelectedRace != NAME_None)
+    {
+        // Busca dados da raça base no Data Table
+        FRaceDataRow *RaceRow =
+            Asset->RaceDataTable->FindRow<FRaceDataRow>(Asset->SelectedRace, TEXT("RecalculateFinalScores"));
+
+        // Fallback: Se FindRow não encontrou, busca manual
+        if (!RaceRow)
+        {
+            TArray<FName> RowNames = Asset->RaceDataTable->GetRowNames();
+            for (const FName &RowName : RowNames)
+            {
+                if (FRaceDataRow *Row =
+                        Asset->RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("RecalculateFinalScores")))
+                {
+                    if (Row->RaceName == Asset->SelectedRace)
+                    {
+                        RaceRow = Row;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Busca sub-raça se necessário
+        FRaceDataRow *SubraceRow = nullptr;
+        if (RaceRow && Asset->SelectedSubrace != NAME_None)
+        {
+            // Validar se a sub-raça pertence à raça selecionada
+            bool bSubraceValid = RaceRow->SubraceNames.Contains(Asset->SelectedSubrace);
+
+            if (!bSubraceValid)
+            {
+                UE_LOG(LogTemp, Warning, TEXT("Subrace '%s' não pertence à raça '%s'. Resetando sub-raça."),
+                       *Asset->SelectedSubrace.ToString(), *Asset->SelectedRace.ToString());
+
+                Asset->Modify();
+                Asset->SelectedSubrace = NAME_None;
+            }
+            else
+            {
+                // Busca direta da sub-raça
+                SubraceRow =
+                    Asset->RaceDataTable->FindRow<FRaceDataRow>(Asset->SelectedSubrace, TEXT("RecalculateFinalScores"));
+
+                // Fallback: busca manual se FindRow não encontrou
+                if (!SubraceRow)
+                {
+                    TArray<FName> RowNames = Asset->RaceDataTable->GetRowNames();
+                    for (const FName &RowName : RowNames)
+                    {
+                        if (FRaceDataRow *Row =
+                                Asset->RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("RecalculateFinalScores")))
+                        {
+                            if (Row->RaceName == Asset->SelectedSubrace)
+                            {
+                                SubraceRow = Row;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!SubraceRow)
+                {
+                    UE_LOG(LogTemp, Warning, TEXT("Subrace '%s' not found in RaceDataTable"),
+                           *Asset->SelectedSubrace.ToString());
+                }
+            }
+        }
+
+        // Calcula bônus raciais usando CalculationHelpers (função pura)
+        CalculationHelpers::CalculateRacialBonuses(RaceRow, SubraceRow, Asset->CustomAbilityScoreChoices,
+                                                   RacialBonuses);
+    }
+
+    // Incrementa com bônus raciais (motor independente)
+    CalculationHelpers::IncrementFinalScoresWithRacialBonuses(
+        RacialBonuses, Asset->FinalStrength, Asset->FinalDexterity, Asset->FinalConstitution, Asset->FinalIntelligence,
+        Asset->FinalWisdom, Asset->FinalCharisma);
+
+    // 3. Aplica Point Buy (motor independente, não conhece bônus racial)
+    CalculationHelpers::IncrementFinalScoresWithPointBuy(
+        Asset->PointBuyAllocation, Asset->FinalStrength, Asset->FinalDexterity, Asset->FinalConstitution,
+        Asset->FinalIntelligence, Asset->FinalWisdom, Asset->FinalCharisma);
+}
 
 void FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(UCharacterSheetDataAsset *Asset)
 {
@@ -25,122 +129,9 @@ void FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(UCharacterSheetDataAs
     // Nota: bIsValidatingProperties deve ser gerenciado pelo caller (handler)
     // Esta função assume que a flag já está setada corretamente
 
-    if (!Asset->RaceDataTable || Asset->SelectedRace == NAME_None)
-    {
-        // Resetar bônus raciais se não há raça selecionada
-        for (auto &Pair : Asset->AbilityScores)
-        {
-            Pair.Value.RacialBonus = 0;
-        }
-        UpdateFinalAbilityScores(Asset);
-        return;
-    }
-
-    // Resetar todos os bônus primeiro
-    for (auto &Pair : Asset->AbilityScores)
-    {
-        Pair.Value.RacialBonus = 0;
-    }
-
-    // Busca dados da raça base no Data Table
-    // Otimização: Assumindo que RowName = RaceName no JSON, podemos usar FindRow diretamente
-    // Se não encontrar, faz busca O(n) como fallback
-    FRaceDataRow *RaceRow =
-        Asset->RaceDataTable->FindRow<FRaceDataRow>(Asset->SelectedRace, TEXT("UpdateRacialBonuses"));
-
-    // Fallback: Se FindRow não encontrou, pode ser que RowName != RaceName, então busca manual
-    if (!RaceRow)
-    {
-        TArray<FName> RowNames = Asset->RaceDataTable->GetRowNames();
-        for (const FName &RowName : RowNames)
-        {
-            if (FRaceDataRow *Row = Asset->RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("UpdateRacialBonuses")))
-            {
-                if (Row->RaceName == Asset->SelectedRace)
-                {
-                    RaceRow = Row;
-                    break;
-                }
-            }
-        }
-    }
-
-    // Se a raça não foi encontrada no Data Table, resetar bônus para evitar estado inconsistente
-    if (!RaceRow)
-    {
-        for (auto &Pair : Asset->AbilityScores)
-        {
-            Pair.Value.RacialBonus = 0;
-        }
-        UpdateFinalAbilityScores(Asset);
-        return;
-    }
-
-    // Busca sub-raça se necessário
-    FRaceDataRow *SubraceRow = nullptr;
-    if (Asset->SelectedSubrace != NAME_None)
-    {
-        // Validar se a sub-raça pertence à raça selecionada
-        bool bSubraceValid = RaceRow->SubraceNames.Contains(Asset->SelectedSubrace);
-
-        if (!bSubraceValid)
-        {
-            UE_LOG(LogTemp, Warning, TEXT("Subrace '%s' não pertence à raça '%s'. Resetando sub-raça."),
-                   *Asset->SelectedSubrace.ToString(), *Asset->SelectedRace.ToString());
-
-            // Marca objeto como modificado antes de alterar propriedade
-            Asset->Modify();
-            Asset->SelectedSubrace = NAME_None;
-            // Não chama PostEditChangeProperty aqui para evitar recursão
-            // A flag bIsValidatingProperties já protege contra re-disparo de handlers
-        }
-        else
-        {
-            // Busca direta da sub-raça (otimização)
-            SubraceRow =
-                Asset->RaceDataTable->FindRow<FRaceDataRow>(Asset->SelectedSubrace, TEXT("UpdateRacialBonuses"));
-
-            // Fallback: busca manual se FindRow não encontrou
-            if (!SubraceRow)
-            {
-                TArray<FName> RowNames = Asset->RaceDataTable->GetRowNames();
-                for (const FName &RowName : RowNames)
-                {
-                    if (FRaceDataRow *Row =
-                            Asset->RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("UpdateRacialBonuses")))
-                    {
-                        if (Row->RaceName == Asset->SelectedSubrace)
-                        {
-                            SubraceRow = Row;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (!SubraceRow)
-            {
-                UE_LOG(LogTemp, Warning, TEXT("Subrace '%s' not found in RaceDataTable"),
-                       *Asset->SelectedSubrace.ToString());
-            }
-        }
-    }
-
-    // Usa CalculationHelpers para calcular bônus raciais (função pura)
-    TMap<FName, int32> RacialBonuses;
-    CalculationHelpers::CalculateRacialBonuses(RaceRow, SubraceRow, Asset->CustomAbilityScoreChoices, RacialBonuses);
-
-    // Aplica bônus calculados ao Asset
-    for (const auto &BonusPair : RacialBonuses)
-    {
-        if (FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(BonusPair.Key))
-        {
-            Entry->RacialBonus = BonusPair.Value;
-        }
-    }
-
-    // Atualizar campos de final scores (FinalStrength, FinalDexterity, etc.)
-    UpdateFinalAbilityScores(Asset);
+    // Motor de Bônus Raciais (TOTALMENTE DESACOPLADO)
+    // Apenas recalcula Final Scores (orquestrador aplica todos os motores)
+    RecalculateFinalScores(Asset);
 }
 
 void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDataAsset *Asset)
@@ -179,7 +170,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetData
         return;
     }
 
-    Asset->bHasLanguageChoices = false;
+    Asset->SetHasLanguageChoices(false);
     Asset->MaxLanguageChoices = 0;
 
     int32 RaceLanguageCount = 0;
@@ -218,18 +209,18 @@ void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetData
     }
 
     // Atualiza flag bHasLanguageChoices e notifica editor se mudou
-    if (Asset->bHasLanguageChoices != bNewHasLanguageChoices)
+    if (Asset->GetHasLanguageChoices() != bNewHasLanguageChoices)
     {
-        Asset->bHasLanguageChoices = bNewHasLanguageChoices;
+        Asset->SetHasLanguageChoices(bNewHasLanguageChoices);
 
 #if WITH_EDITOR
         // Notifica o editor sobre a mudança para atualizar EditCondition
         // A verificação em PostEditChangeProperty evita recursão ao ignorar mudanças em bHasLanguageChoices
-        if (GIsEditor && !Asset->bIsValidatingProperties)
+        if (GIsEditor && !Asset->IsValidatingProperties())
         {
             Asset->Modify();
-            if (FProperty *Property = FindFieldChecked<FProperty>(
-                    Asset->GetClass(), GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasLanguageChoices)))
+            if (FProperty *Property =
+                    FindFieldChecked<FProperty>(Asset->GetClass(), FName(TEXT("bHasLanguageChoices"))))
             {
                 FPropertyChangedEvent PropertyChangedEvent(Property, EPropertyChangeType::ValueSet);
                 Asset->PostEditChangeProperty(PropertyChangedEvent);
@@ -239,7 +230,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetData
     }
 
     // Se não há mais escolhas disponíveis, limpa SelectedLanguages
-    if (!Asset->bHasLanguageChoices)
+    if (!Asset->GetHasLanguageChoices())
     {
         Asset->SelectedLanguages.Empty();
     }
@@ -255,18 +246,17 @@ void FCharacterSheetDataAssetUpdaters::UpdateVariantHumanFlag(UCharacterSheetDat
     // Atualiza flag bIsVariantHuman e notifica editor se mudou
     // Variant Human é uma SUB-RAÇA, não uma raça
     bool bNewIsVariantHuman = (Asset->SelectedSubrace == TEXT("Variant Human"));
-    if (Asset->bIsVariantHuman != bNewIsVariantHuman)
+    if (Asset->GetIsVariantHuman() != bNewIsVariantHuman)
     {
-        Asset->bIsVariantHuman = bNewIsVariantHuman;
+        Asset->SetIsVariantHuman(bNewIsVariantHuman);
 
 #if WITH_EDITOR
         // Notifica o editor sobre a mudança para atualizar EditCondition
         // A verificação em PostEditChangeProperty evita recursão ao ignorar mudanças em bIsVariantHuman
-        if (GIsEditor && !Asset->bIsValidatingProperties)
+        if (GIsEditor && !Asset->IsValidatingProperties())
         {
             Asset->Modify();
-            if (FProperty *Property = FindFieldChecked<FProperty>(
-                    Asset->GetClass(), GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bIsVariantHuman)))
+            if (FProperty *Property = FindFieldChecked<FProperty>(Asset->GetClass(), FName(TEXT("bIsVariantHuman"))))
             {
                 FPropertyChangedEvent PropertyChangedEvent(Property, EPropertyChangeType::ValueSet);
                 Asset->PostEditChangeProperty(PropertyChangedEvent);
@@ -276,7 +266,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateVariantHumanFlag(UCharacterSheetDat
     }
 
     // Reseta escolhas se não for Variant Human
-    if (!Asset->bIsVariantHuman)
+    if (!Asset->GetIsVariantHuman())
     {
         FCharacterSheetDataAssetHelpers::ResetVariantHumanChoices(Asset);
     }
@@ -299,18 +289,17 @@ void FCharacterSheetDataAssetUpdaters::UpdateSubraceFlag(UCharacterSheetDataAsse
     }
 
     // Atualiza flag bHasSubraces e notifica editor se mudou
-    if (Asset->bHasSubraces != bNewHasSubraces)
+    if (Asset->GetHasSubraces() != bNewHasSubraces)
     {
-        Asset->bHasSubraces = bNewHasSubraces;
+        Asset->SetHasSubraces(bNewHasSubraces);
 
 #if WITH_EDITOR
         // Notifica o editor sobre a mudança para atualizar EditCondition
         // A verificação em PostEditChangeProperty evita recursão ao ignorar mudanças em bHasSubraces
-        if (GIsEditor && !Asset->bIsValidatingProperties)
+        if (GIsEditor && !Asset->IsValidatingProperties())
         {
             Asset->Modify();
-            if (FProperty *Property = FindFieldChecked<FProperty>(
-                    Asset->GetClass(), GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasSubraces)))
+            if (FProperty *Property = FindFieldChecked<FProperty>(Asset->GetClass(), FName(TEXT("bHasSubraces"))))
             {
                 FPropertyChangedEvent PropertyChangedEvent(Property, EPropertyChangeType::ValueSet);
                 Asset->PostEditChangeProperty(PropertyChangedEvent);
@@ -320,7 +309,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateSubraceFlag(UCharacterSheetDataAsse
     }
 
     // Se não há mais sub-raças disponíveis, reseta SelectedSubrace
-    if (!Asset->bHasSubraces && Asset->SelectedSubrace != NAME_None)
+    if (!Asset->GetHasSubraces() && Asset->SelectedSubrace != NAME_None)
     {
         Asset->Modify();
         Asset->SelectedSubrace = NAME_None;
@@ -342,17 +331,16 @@ void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetData
     // bCanShowSheet = true significa mostrar apenas Data Tables
     bool bNewCanShowSheet = !bAllDataTablesSelected;
 
-    if (Asset->bCanShowSheet != bNewCanShowSheet)
+    if (Asset->GetCanShowSheet() != bNewCanShowSheet)
     {
-        Asset->bCanShowSheet = bNewCanShowSheet;
+        Asset->SetCanShowSheet(bNewCanShowSheet);
 
 #if WITH_EDITOR
         // Notifica o editor sobre a mudança para atualizar EditCondition
-        if (GIsEditor && !Asset->bIsValidatingProperties)
+        if (GIsEditor && !Asset->IsValidatingProperties())
         {
             Asset->Modify();
-            if (FProperty *Property = FindFieldChecked<FProperty>(
-                    Asset->GetClass(), GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bCanShowSheet)))
+            if (FProperty *Property = FindFieldChecked<FProperty>(Asset->GetClass(), FName(TEXT("bCanShowSheet"))))
             {
                 FPropertyChangedEvent PropertyChangedEvent(Property, EPropertyChangeType::ValueSet);
                 Asset->PostEditChangeProperty(PropertyChangedEvent);
@@ -362,68 +350,26 @@ void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetData
     }
 }
 
-void FCharacterSheetDataAssetUpdaters::UpdateFinalAbilityScores(UCharacterSheetDataAsset *Asset)
+void FCharacterSheetDataAssetUpdaters::UpdatePointBuyAllocation(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
     {
         return;
     }
 
-    // Atualiza cada campo final baseado no AbilityScores TMap
-    // Usa CalculationHelpers para calcular o score final (BaseScore + RacialBonus + ASI)
-    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Strength")))
+    // Motor de Point Buy (TOTALMENTE DESACOPLADO)
+    // Apenas recalcula Final Scores (orquestrador aplica todos os motores)
+    RecalculateFinalScores(Asset);
+
+    // Valida Point Buy (sem recalcular bônus raciais)
+    TMap<FName, int32> BaseScoresForValidation;
+    for (const auto &Pair : Asset->PointBuyAllocation)
     {
-        Asset->FinalStrength = CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
-    }
-    else
-    {
-        Asset->FinalStrength = 8; // Default
+        // Converte alocação (0-7) para score base (8-15) para validação
+        BaseScoresForValidation.Add(Pair.Key, 8 + Pair.Value);
     }
 
-    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Dexterity")))
-    {
-        Asset->FinalDexterity = CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
-    }
-    else
-    {
-        Asset->FinalDexterity = 8; // Default
-    }
-
-    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Constitution")))
-    {
-        Asset->FinalConstitution =
-            CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
-    }
-    else
-    {
-        Asset->FinalConstitution = 8; // Default
-    }
-
-    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Intelligence")))
-    {
-        Asset->FinalIntelligence =
-            CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
-    }
-    else
-    {
-        Asset->FinalIntelligence = 8; // Default
-    }
-
-    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Wisdom")))
-    {
-        Asset->FinalWisdom = CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
-    }
-    else
-    {
-        Asset->FinalWisdom = 8; // Default
-    }
-
-    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Charisma")))
-    {
-        Asset->FinalCharisma = CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
-    }
-    else
-    {
-        Asset->FinalCharisma = 8; // Default
-    }
+    int32 PointsRemaining = 0;
+    ValidationHelpers::ValidatePointBuy(BaseScoresForValidation, PointsRemaining, 27);
+    Asset->PointsRemaining = PointsRemaining;
 }

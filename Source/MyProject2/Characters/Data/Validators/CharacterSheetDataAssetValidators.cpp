@@ -13,11 +13,12 @@ void FCharacterSheetDataAssetValidators::ValidatePointBuy(UCharacterSheetDataAss
         return;
     }
 
-    // Extrai base scores para validação
+    // Converte alocação de Point Buy (0-7) para score base (8-15) para validação
     TMap<FName, int32> BaseScores;
-    for (const auto &Pair : Asset->AbilityScores)
+    for (const auto &Pair : Asset->PointBuyAllocation)
     {
-        BaseScores.Add(Pair.Key, Pair.Value.BaseScore);
+        // Alocação (0-7) + base (8) = score base (8-15)
+        BaseScores.Add(Pair.Key, 8 + Pair.Value);
     }
 
     // Usa ValidationHelpers para validar e calcular pontos restantes

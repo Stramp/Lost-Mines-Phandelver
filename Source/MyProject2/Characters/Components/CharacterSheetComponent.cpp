@@ -10,15 +10,6 @@
 
 UCharacterSheetComponent::UCharacterSheetComponent() { PrimaryComponentTick.bCanEverTick = false; }
 
-UCharacterDataComponent *UCharacterSheetComponent::FindOrGetCharacterDataComponent()
-{
-    if (!CharacterDataComponent)
-    {
-        CharacterDataComponent = ComponentHelpers::FindCharacterDataComponent(GetOwner());
-    }
-    return CharacterDataComponent;
-}
-
 void UCharacterSheetComponent::BeginPlay()
 {
     Super::BeginPlay();
@@ -30,7 +21,9 @@ void UCharacterSheetComponent::BeginPlay()
         return;
     }
 
-    if (!FindOrGetCharacterDataComponent())
+    // Cache explícito do CharacterDataComponent no BeginPlay
+    CharacterDataComponent = ComponentHelpers::FindCharacterDataComponent(Owner);
+    if (!CharacterDataComponent)
     {
         FString OwnerName = Owner ? Owner->GetName() : TEXT("Desconhecido");
         UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: CharacterDataComponent não encontrado no Actor %s"),
@@ -53,13 +46,24 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
         return;
     }
 
-    if (!FindOrGetCharacterDataComponent())
+    // Se componente não foi cacheado ainda (pode acontecer se chamado antes do BeginPlay), busca agora
+    if (!CharacterDataComponent)
     {
         AActor *Owner = GetOwner();
-        FString OwnerName = Owner ? Owner->GetName() : TEXT("Desconhecido");
-        UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: CharacterDataComponent não encontrado no Actor %s"),
-               *OwnerName);
-        return;
+        if (!Owner)
+        {
+            UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: Owner não encontrado"));
+            return;
+        }
+
+        CharacterDataComponent = ComponentHelpers::FindCharacterDataComponent(Owner);
+        if (!CharacterDataComponent)
+        {
+            FString OwnerName = Owner ? Owner->GetName() : TEXT("Desconhecido");
+            UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: CharacterDataComponent não encontrado no Actor %s"),
+                   *OwnerName);
+            return;
+        }
     }
 
     // Copia dados do Data Asset para o CharacterDataComponent

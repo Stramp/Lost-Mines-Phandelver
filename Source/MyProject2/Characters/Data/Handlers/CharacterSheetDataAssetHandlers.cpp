@@ -46,7 +46,7 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
     Asset->bIsValidatingProperties = false;
 }
 
-void FCharacterSheetDataAssetHandlers::HandleAbilityScoresChange(UCharacterSheetDataAsset *Asset)
+void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
     {
@@ -55,11 +55,11 @@ void FCharacterSheetDataAssetHandlers::HandleAbilityScoresChange(UCharacterSheet
 
     Asset->bIsValidatingProperties = true;
 
-    // Valida Point Buy system
-    FCharacterSheetDataAssetValidators::ValidatePointBuy(Asset);
+    // Motor de Point Buy: aplica alocação nos Final Scores e valida
+    FCharacterSheetDataAssetUpdaters::UpdatePointBuyAllocation(Asset);
 
-    // Recalcula bônus raciais (depende de base scores)
-    FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(Asset);
+    // Valida Point Buy system (calcula PointsRemaining)
+    FCharacterSheetDataAssetValidators::ValidatePointBuy(Asset);
 
     // Features podem depender de ability scores
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
@@ -193,9 +193,10 @@ void FCharacterSheetDataAssetHandlers::HandleSelectedSubraceWrapper(UCharacterSh
     HandleRaceChange(Asset, PropertyName);
 }
 
-void FCharacterSheetDataAssetHandlers::HandleAbilityScoresWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper(UCharacterSheetDataAsset *Asset,
+                                                                       FName PropertyName)
 {
-    HandleAbilityScoresChange(Asset);
+    HandlePointBuyAllocationChange(Asset);
 }
 
 void FCharacterSheetDataAssetHandlers::HandleClassLevelsWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
