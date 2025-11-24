@@ -57,6 +57,10 @@ compile_commands_*.json
 Thumbs.db
 desktop.ini
 
+# Arquivos de crash dump do bash
+*.stackdump
+bash.exe.stackdump
+
 # Arquivos de backup
 *_Backup/
 *_backup/
