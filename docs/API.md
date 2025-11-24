@@ -7,6 +7,7 @@ Referência completa da API das classes principais do sistema de fichas de perso
 - [CharacterDataComponent](#characterdatacomponent)
 - [CharacterSheetComponent](#charactersheetcomponent)
 - [CharacterSheetDataAsset](#charactersheetdataasset)
+- [CreateSheet - Motores de Criação](#createsheet---motores-de-criação)
 - [Helpers e Utilitários](#helpers-e-utilitários)
 
 ---
@@ -407,6 +408,167 @@ struct MYPROJECT2_API FAbilityScoreEntry
 
 ---
 
+## CreateSheet - Motores de Criação
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚙️ Motores Desacoplados para Criação de Personagem</b></summary>
+
+> Sistema modular com motores desacoplados para cálculo de ability scores finais. Arquitetura genérica que funciona tanto no Data Asset quanto em Widgets.
+
+> ### FCharacterSheetCore
+
+> **Caminho:** `Source/MyProject2/CreateSheet/Core/CharacterSheetCore.h`
+>
+> **Responsabilidade:** Orquestrador genérico que coordena todos os motores de criação de personagem.
+>
+> **Método Principal:**
+>
+> #### RecalculateFinalScores()
+> ```cpp
+> static void RecalculateFinalScores(FCharacterSheetData &Data, FPointBuyResult *OutPointBuyResult = nullptr);
+> ```
+>
+> - **Parâmetros:**
+>   - `Data` - Estrutura genérica com dados de entrada e referências de saída
+>   - `OutPointBuyResult` - [OPCIONAL] Resultado do motor de Point Buy (feedback e ajustes)
+> - **Descrição:** Reseta scores para base (8) e aplica cada motor sequencialmente
+> - **Fórmula:** `FinalScore = 8 (base) + RacialBonus + PointBuyAllocation`
+> - **Fluxo:**
+>   1. Reseta todos os Final Scores para 8 (base)
+>   2. Aplica `FRaceBonusMotor::ApplyRacialBonuses()`
+>   3. Aplica `FPointBuyMotor::ApplyPointBuy()`
+>
+> ### FCharacterSheetData
+
+> **Caminho:** `Source/MyProject2/CreateSheet/Core/CharacterSheetData.h`
+>
+> **Responsabilidade:** Estrutura genérica de dados que permite o Core funcionar em diferentes contextos.
+>
+> **Campos Principais:**
+>
+> **Input (Dados de Entrada):**
+> - `PointBuyStrength`, `PointBuyDexterity`, etc. - Alocação de Point Buy (0-7 cada)
+> - `SelectedRace`, `SelectedSubrace` - Raça e sub-raça selecionadas
+> - `CustomAbilityScoreChoices` - Escolhas customizadas (Variant Human)
+> - `RaceDataTable` - Data Table de raças
+>
+> **Output (Referências de Saída):**
+> - `FinalStrength`, `FinalDexterity`, etc. - Ponteiros para Final Scores (serão modificados)
+>
+> **Características:**
+> - Struct C++ normal (não USTRUCT) - contém ponteiros
+> - Permite reutilização: mesmo Core funciona no Data Asset e em Widgets
+> - Princípio: "Program to an interface, not an implementation"
+>
+> ### FRaceBonusMotor
+
+> **Caminho:** `Source/MyProject2/CreateSheet/RaceBonus/RaceBonusMotor.h`
+>
+> **Responsabilidade:** Calcular e aplicar bônus raciais nos Final Scores.
+>
+> **Método Principal:**
+>
+> #### ApplyRacialBonuses()
+> ```cpp
+> static void ApplyRacialBonuses(FCharacterSheetData &Data);
+> ```
+>
+> - **Parâmetros:**
+>   - `Data` - Estrutura genérica com dados de raça e referências de Final Scores
+> - **Descrição:** Calcula bônus de raça base, sub-raça e Variant Human, e aplica nos Final Scores
+> - **Fluxo:**
+>   1. Busca RaceRow e SubraceRow usando `DataTableHelpers`
+>   2. Calcula bônus usando `FRaceBonusHelpers::CalculateRacialBonuses()`
+>   3. Incrementa Final Scores usando `FRaceBonusHelpers::IncrementFinalScoresWithRacialBonuses()`
+>
+> **Características:**
+> - Motor independente: não conhece Point Buy, apenas aplica bônus raciais
+> - Suporta Variant Human com escolhas customizadas
+> - Usa helpers puros para cálculos
+>
+> ### FRaceBonusHelpers
+
+> **Caminho:** `Source/MyProject2/CreateSheet/RaceBonus/RaceBonusHelpers.h`
+>
+> **Responsabilidade:** Funções helper puras para cálculo de bônus raciais.
+>
+> **Métodos:**
+>
+> #### CalculateRacialBonuses()
+> ```cpp
+> static void CalculateRacialBonuses(const FRaceDataRow *RaceRow, const FRaceDataRow *SubraceRow,
+>                                    const TArray<FName> &CustomChoices, TMap<FName, int32> &RacialBonuses);
+> ```
+> - Calcula bônus raciais de ability scores (raça base + sub-raça + Variant Human)
+>
+> #### IncrementFinalScoresWithRacialBonuses()
+> ```cpp
+> static void IncrementFinalScoresWithRacialBonuses(const TMap<FName, int32> &RacialBonuses,
+>                                                    int32 &FinalStrength, int32 &FinalDexterity, ...);
+> ```
+> - Incrementa Final Scores com bônus raciais calculados
+>
+> ### FPointBuyMotor
+
+> **Caminho:** `Source/MyProject2/CreateSheet/PointBuy/PointBuyMotor.h`
+>
+> **Responsabilidade:** Aplicar alocação de Point Buy nos Final Scores com validação automática.
+>
+> **Método Principal:**
+>
+> #### ApplyPointBuy()
+> ```cpp
+> static FPointBuyResult ApplyPointBuy(FCharacterSheetData &Data);
+> ```
+>
+> - **Parâmetros:**
+>   - `Data` - Estrutura genérica com dados de Point Buy e referências de Final Scores
+> - **Retorno:** `FPointBuyResult` com feedback sobre validação e ajustes realizados
+> - **Descrição:** Valida se não excede 27 pontos e ajusta automaticamente se necessário
+> - **Fluxo:**
+>   1. Converte dados de entrada para `TMap<FName, int32>`
+>   2. Calcula custo total usando `CharacterSheetHelpers::CalculateTotalPointBuyCost()`
+>   3. Se exceder 27 pontos, ajusta usando `AdjustPointBuyAllocation()`
+>   4. Incrementa Final Scores usando `CalculationHelpers::IncrementFinalScoresWithPointBuy()`
+>   5. Retorna `FPointBuyResult` com feedback
+>
+> **Características:**
+> - Motor independente: não conhece bônus raciais, apenas aplica Point Buy
+> - Validação automática: ajusta se exceder 27 pontos
+> - Ajuste automático: reduz do final da fila (Charisma → Wisdom → ... → Strength)
+>
+> ### FPointBuyValidator
+
+> **Caminho:** `Source/MyProject2/CreateSheet/PointBuy/PointBuyValidator.h`
+>
+> **Responsabilidade:** Validar alocação de Point Buy.
+>
+> **Métodos:**
+>
+> #### ValidatePointBuy()
+> ```cpp
+> static bool ValidatePointBuy(const TMap<FName, int32> &PointBuyAllocation, int32 MaxPoints = 27);
+> ```
+> - Valida se alocação não excede MaxPoints e se todos os scores estão no range [8, 15]
+>
+> ### FPointBuyResult
+
+> **Caminho:** `Source/MyProject2/CreateSheet/PointBuy/PointBuyResult.h`
+>
+> **Responsabilidade:** Struct de feedback sobre aplicação de Point Buy.
+>
+> **Campos:**
+> - `bWasAdjusted` - Se o motor teve que ajustar a alocação (excedeu 27 pontos)
+> - `AdjustedAllocation` - Alocação ajustada (pode ser diferente da original)
+> - `PointsRemaining` - Pontos restantes após alocação
+> - `FeedbackMessage` - Mensagem de feedback para o caller ajustar a UI
+>
+> **Uso:** Retornado por `FPointBuyMotor::ApplyPointBuy()` para informar o caller sobre ajustes realizados.
+
+</details>
+
+---
+
 ## Helpers e Utilitários
 
 <details>
@@ -627,41 +789,37 @@ Funções helper para cálculos de dados de personagem D&D 5e.
 >
 > ---
 >
-> **CalculateFinalAbilityScore()**
+> **ResetFinalScoresToBase()**
 >
 > ```cpp
-> int32 CalculateFinalAbilityScore(int32 BaseScore,
->                                   int32 RacialBonus,
->                                   int32 ASIBonus = 0);
+> void ResetFinalScoresToBase(int32 &FinalStrength, int32 &FinalDexterity,
+>                             int32 &FinalConstitution, int32 &FinalIntelligence,
+>                             int32 &FinalWisdom, int32 &FinalCharisma);
 > ```
 >
-> Calcula o score final de ability score (BaseScore + RacialBonus + ASIBonus).
+> Reseta Final Scores para valor base (8). Função pura que apenas reseta valores.
 >
 > **Parâmetros:**
-> - `BaseScore` - Score base (do Point Buy)
-> - `RacialBonus` - Bônus racial aplicado
-> - `ASIBonus` - Bônus de Ability Score Improvement (padrão: 0)
+> - `FinalStrength`, `FinalDexterity`, etc. [IN/OUT] - Scores finais (serão resetados para 8)
 >
-> **Retorno:** Score final
+> **Uso:** Chamado pelo `FCharacterSheetCore` antes de aplicar motores.
 >
 > ---
 >
-> **CalculateRacialBonuses()**
+> **IncrementFinalScoresWithPointBuy()**
 >
 > ```cpp
-> void CalculateRacialBonuses(const FRaceDataRow *RaceRow,
->                             const FRaceDataRow *SubraceRow,
->                             const TArray<FName> &CustomChoices,
->                             TMap<FName, int32> &RacialBonuses);
+> void IncrementFinalScoresWithPointBuy(const TMap<FName, int32> &PointBuyAllocation,
+>                                        int32 &FinalStrength, int32 &FinalDexterity, ...);
 > ```
 >
-> Calcula bônus raciais de ability scores. Função pura que calcula bônus sem modificar Asset.
+> Incrementa Final Scores com alocação de Point Buy. Motor independente: apenas incrementa, não reseta, não conhece bônus racial.
 >
 > **Parâmetros:**
-> - `RaceRow` - Row da raça base (pode ser nullptr)
-> - `SubraceRow` - Row da sub-raça (pode ser nullptr)
-> - `CustomChoices` - Array com escolhas customizadas (ex: Variant Human)
-> - `RacialBonuses` [OUT] - Map com bônus calculados (chave: FName do atributo, valor: bônus)
+> - `PointBuyAllocation` - Map com alocação de Point Buy (chave: FName do atributo, valor: 0-7)
+> - `FinalStrength`, `FinalDexterity`, etc. [IN/OUT] - Scores finais (serão incrementados)
+>
+> **Uso:** Chamado pelo `FPointBuyMotor` para aplicar Point Buy.
 
 </details>
 
@@ -702,18 +860,44 @@ Funções helper para cálculos de dados de personagem D&D 5e.
 > **CalculateProficiencies()**
 >
 > ```cpp
-> TArray<FName> CalculateProficiencies(FName RaceName,
->                                      FName SubraceName,
->                                      const TArray<FClassLevelEntry> &ClassLevels,
->                                      FName BackgroundName,
->                                      UDataTable *RaceDataTable,
->                                      UDataTable *ClassDataTable,
->                                      UDataTable *BackgroundDataTable);
+> TArray<FName> CalculateProficiencies(FName RaceName, FName SubraceName,
+>                                      FName BackgroundName, FName SelectedSkill,
+>                                      UDataTable *RaceDataTable, UDataTable *BackgroundDataTable);
 > ```
 >
-> Calcula proficiências do personagem (raça + classe + background).
+> Calcula proficiências do personagem (background + Variant Human skill). Nota: Sem classes, proficiências vêm apenas de background e Variant Human.
+>
+> **Parâmetros:**
+> - `RaceName` - Nome da raça selecionada (para Variant Human)
+> - `SubraceName` - Nome da sub-raça selecionada (pode ser NAME_None)
+> - `BackgroundName` - Nome do background selecionado
+> - `SelectedSkill` - Skill escolhido para Variant Human (pode ser NAME_None)
+> - `RaceDataTable` - Data Table de raças (pode ser nullptr)
+> - `BackgroundDataTable` - Data Table de backgrounds (pode ser nullptr)
 >
 > **Retorno:** Array com nomes de proficiências
+>
+> ---
+>
+> **CalculateLanguages()**
+>
+> ```cpp
+> TArray<FName> CalculateLanguages(FName RaceName, FName SubraceName,
+>                                  FName BackgroundName, const TArray<FName> &SelectedLanguages,
+>                                  UDataTable *RaceDataTable, UDataTable *BackgroundDataTable);
+> ```
+>
+> Calcula idiomas finais do personagem (raça + background + escolhas do jogador + feats).
+>
+> **Parâmetros:**
+> - `RaceName` - Nome da raça selecionada
+> - `SubraceName` - Nome da sub-raça selecionada (pode ser NAME_None)
+> - `BackgroundName` - Nome do background selecionado
+> - `SelectedLanguages` - Array com idiomas escolhidos pelo jogador (quando há escolhas)
+> - `RaceDataTable` - Data Table de raças (pode ser nullptr)
+> - `BackgroundDataTable` - Data Table de backgrounds (pode ser nullptr)
+>
+> **Retorno:** Array com nomes de idiomas que o personagem fala
 
 </details>
 

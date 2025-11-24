@@ -80,10 +80,13 @@ Guia prático passo a passo para criar e configurar um personagem completo no si
 > > Na categoria **Ability Scores**:
 > >
 > > 1. Ajuste cada ability score entre 8 e 15
-> > 2. O sistema Point Buy valida automaticamente:
+> > 2. O sistema Point Buy valida automaticamente via `PointBuyMotor`:
 > >    - Máximo 27 pontos gastos
 > >    - Cada score entre 8 e 15
 > >    - Points Remaining mostra pontos restantes
+> >    - Se exceder 27 pontos, o sistema ajusta automaticamente (reduz do final da fila)
+> >
+> > **Nota Técnica:** O sistema usa `FPointBuyMotor` internamente para validar e aplicar Point Buy. A validação é feita por `PointBuyValidator` e o ajuste automático é realizado pelo `PointBuyMotor` se necessário.
 > >
 > > **Exemplo:**
 > > - Strength: 10
@@ -204,6 +207,9 @@ Guia prático passo a passo para criar e configurar um personagem completo no si
 > >   Insight, Religion, Perception, Investigation
 > > --- Data Integrity ---
 > >   ✅ Todos os dados estão válidos e organizados corretamente
+> > ```
+> >
+> > **Nota Técnica:** Os ability scores finais são calculados via `FCharacterSheetCore::RecalculateFinalScores()`, que orquestra os motores `FRaceBonusMotor` e `FPointBuyMotor` para aplicar bônus raciais e Point Buy sequencialmente.
 > > ======================
 > > ```
 >

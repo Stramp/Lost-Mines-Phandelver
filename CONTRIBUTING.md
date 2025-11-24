@@ -156,6 +156,10 @@ Este projeto segue princípios de Clean Code, Design Patterns e arquitetura bem 
 > │   │   ├── Helpers/       # Funções auxiliares
 > │   │   └── GetOptions/    # Lógica de dropdowns
 > │   └── Components/
+> ├── CreateSheet/            # Motores de criação de personagem
+> │   ├── Core/               # Core genérico e CharacterSheetData
+> │   ├── RaceBonus/          # Motor de bônus raciais
+> │   └── PointBuy/           # Motor de Point Buy
 > ├── Utils/                  # Helpers reutilizáveis
 > └── ...
 > ```
@@ -180,6 +184,32 @@ Este projeto segue princípios de Clean Code, Design Patterns e arquitetura bem 
 > private:
 >     UCharacterDataComponent* FindOrGetCharacterDataComponent();
 > ```
+>
+> ### Arquitetura CreateSheet/
+>
+> **Ao criar novos motores de criação de personagem:**
+>
+> - ✅ **Seguir padrão de motores desacoplados:** Cada motor deve ser independente e não conhecer outros motores
+> - ✅ **Usar `FCharacterSheetData`:** Estrutura genérica que permite reutilização em diferentes contextos
+> - ✅ **Funções estáticas:** Motores devem ter métodos estáticos para facilitar testes
+> - ✅ **Helpers puros:** Lógica de cálculo deve estar em helpers puros (sem side effects)
+> - ✅ **Orquestração via Core:** `FCharacterSheetCore` é responsável por resetar e orquestrar motores
+>
+> **Exemplo de novo motor:**
+>
+> ```cpp
+> // CreateSheet/LevelUp/LevelUpMotor.h
+> class MYPROJECT2_API FLevelUpMotor
+> {
+> public:
+>     static void ApplyLevelUpBonuses(FCharacterSheetData &Data);
+> };
+> ```
+>
+> **Referências:**
+> - `FRaceBonusMotor` - Exemplo de motor de bônus
+> - `FPointBuyMotor` - Exemplo de motor com validação e ajuste automático
+> - `FCharacterSheetCore` - Orquestrador que coordena todos os motores
 >
 > ### Documentação
 >

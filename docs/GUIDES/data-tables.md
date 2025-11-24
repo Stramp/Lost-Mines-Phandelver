@@ -445,6 +445,7 @@ Guia completo sobre a estrutura, criação e uso dos Data Tables no sistema de f
 > > - **Sub-raças:** Sistema valida que sub-raça pertence à raça selecionada
 > > - **Custom ASI:** Variant Human com `AbilityName = "Custom"` é tratado especialmente
 > > - **Traits:** Traits `FeatChoice` e `SkillChoice` habilitam escolhas do jogador
+> > - **Bônus Raciais:** Calculados automaticamente por `FRaceBonusMotor` que processa bônus de raça base, sub-raça e Variant Human
 >
 > </details>
 >
@@ -470,6 +471,15 @@ Guia completo sobre a estrutura, criação e uso dos Data Tables no sistema de f
 >
 > > - **Pré-requisitos:** Sistema valida pré-requisitos antes de permitir seleção
 > > - **Disponibilidade:** Apenas feats sem pré-requisitos de nível aparecem no nível 1
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Point Buy System</summary>
+>
+> > - **Validação:** Point Buy é validado por `FPointBuyValidator` que verifica se não excede 27 pontos e se todos os scores estão no range [8, 15]
+> > - **Aplicação:** Point Buy é aplicado por `FPointBuyMotor` que ajusta automaticamente se exceder 27 pontos
+> > - **Cálculo Final:** Ability scores finais são calculados via `FCharacterSheetCore` que orquestra `FRaceBonusMotor` e `FPointBuyMotor` sequencialmente
 >
 > </details>
 

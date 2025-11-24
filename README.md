@@ -56,10 +56,21 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > │   ├── Characters/             # Personagens e raças
 > │   │   ├── Data/              # Data Assets de personagens
 > │   │   └── Components/        # Componentes de personagem
+> │   ├── CreateSheet/            # Motores de criação de personagem
+> │   │   ├── Core/              # Core genérico e CharacterSheetData
+> │   │   ├── RaceBonus/         # Motor de bônus raciais
+> │   │   └── PointBuy/           # Motor de Point Buy
 > │   ├── Components/            # Componentes reutilizáveis
 > │   ├── Data/                  # Data Assets e Data Tables
+> │   │   └── Tables/            # Data Tables (Race, Class, Background, Feat)
 > │   ├── Gameplay/              # Mecânicas de jogo
 > │   └── Utils/                 # Utilitários e helpers
+> │       ├── CalculationHelpers # Cálculos puros
+> │       ├── CharacterSheetHelpers # Helpers específicos de fichas
+> │       ├── DataTableHelpers   # Busca centralizada em Data Tables
+> │       ├── ValidationHelpers  # Validações reutilizáveis
+> │       ├── FormattingHelpers  # Formatação de dados
+> │       └── ComponentHelpers   # Helpers de componentes
 > ├── Content/                    # Assets (Blueprints, Texturas, Modelos)
 > ├── Config/                     # Configurações (.ini)
 > ├── .cursor/                    # Regras e configurações do Cursor
@@ -232,6 +243,37 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 ---
 
 <details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚙️ Arquitetura CreateSheet/ - Motores Desacoplados</b></summary>
+
+> O sistema utiliza uma arquitetura modular com motores desacoplados para cálculo de ability scores finais.
+>
+> **Componentes Principais:**
+>
+> - **`FCharacterSheetCore`** - Orquestrador genérico que coordena todos os motores
+> - **`FCharacterSheetData`** - Estrutura genérica de dados (funciona em Data Asset e Widget)
+> - **`FRaceBonusMotor`** - Motor independente para bônus raciais
+> - **`FPointBuyMotor`** - Motor independente para alocação de Point Buy
+>
+> **Fórmula de Cálculo:**
+>
+> ```
+> FinalScore = 8 (base) + RacialBonus + PointBuyAllocation
+> ```
+>
+> **Características:**
+>
+> - ✅ **Genérico:** Funciona tanto no Data Asset quanto em Widgets
+> - ✅ **Desacoplado:** Motores não conhecem uns aos outros
+> - ✅ **Independente:** Cada motor pode ser testado isoladamente
+> - ✅ **Reutilizável:** Core pode ser usado em diferentes contextos
+>
+> **📖 Para mais detalhes, veja [ARCHITECTURE.md](ARCHITECTURE.md)**
+
+</details>
+
+---
+
+<details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔄 Fluxo de Dados</b></summary>
 
 > Diagrama completo do fluxo de dados do sistema:
@@ -245,8 +287,17 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >             V[Validators<br/>Valida dados]
 >             U[Updaters<br/>Atualiza campos]
 >         end
+>         subgraph CreateSheet["CreateSheet/ - Motores"]
+>             Core[CharacterSheetCore<br/>Orquestrador]
+>             RBM[RaceBonusMotor<br/>Bônus Raciais]
+>             PBM[PointBuyMotor<br/>Point Buy]
+>         end
 >         DA -->|PostEditChangeProperty| H
 >         H -->|Valida| V
+>         H -->|RecalculateFinalScoresFromDataAsset| Core
+>         Core -->|Aplica| RBM
+>         Core -->|Aplica| PBM
+>         Core -->|Final Scores atualizados| DA
 >         H -->|Atualiza| U
 >         U -->|Dados atualizados| DA
 >     end
@@ -290,6 +341,10 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >     style H fill:#e1bee7
 >     style V fill:#e1bee7
 >     style U fill:#e1bee7
+>     style CreateSheet fill:#fff9c4
+>     style Core fill:#fff59d
+>     style RBM fill:#fff59d
+>     style PBM fill:#fff59d
 > ```
 >
 > **📖 Para mais detalhes sobre o fluxo de dados, veja [ARCHITECTURE.md](ARCHITECTURE.md)**

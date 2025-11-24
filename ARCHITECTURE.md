@@ -411,8 +411,17 @@ graph TB
             V[Validators<br/>Valida dados]
             U[Updaters<br/>Atualiza campos]
         end
+        subgraph CreateSheet["CreateSheet/ - Motores"]
+            Core[CharacterSheetCore<br/>Orquestrador]
+            RBM[RaceBonusMotor<br/>Bônus Raciais]
+            PBM[PointBuyMotor<br/>Point Buy]
+        end
         DA -->|PostEditChangeProperty| H
         H -->|Valida| V
+        H -->|RecalculateFinalScoresFromDataAsset| Core
+        Core -->|Aplica| RBM
+        Core -->|Aplica| PBM
+        Core -->|Final Scores atualizados| DA
         H -->|Atualiza| U
         U -->|Dados atualizados| DA
     end
@@ -456,7 +465,172 @@ graph TB
     style H fill:#e1bee7
     style V fill:#e1bee7
     style U fill:#e1bee7
+    style CreateSheet fill:#fff9c4
+    style Core fill:#fff59d
+    style RBM fill:#fff59d
+    style PBM fill:#fff59d
 ```
+
+</details>
+
+---
+
+## Arquitetura CreateSheet/
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚙️ Motores Desacoplados para Criação de Personagem</b></summary>
+
+> O sistema utiliza uma arquitetura modular com motores desacoplados para cálculo de ability scores finais. Esta arquitetura permite reutilização em diferentes contextos (Data Asset, Widgets) e facilita testes e manutenção.
+>
+> ### Componentes Principais
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">FCharacterSheetCore - Orquestrador</summary>
+>
+> > **Localização:** `Source/MyProject2/CreateSheet/Core/CharacterSheetCore.h`
+> >
+> > **Responsabilidade:** Orquestrar todos os motores de criação de personagem de forma genérica.
+> >
+> > **Características:**
+> >
+> > - Função estática `RecalculateFinalScores()` que coordena todos os motores
+> > - Recebe `FCharacterSheetData` (estrutura genérica) ao invés de objetos concretos
+> > - Reseta scores para base (8) e aplica cada motor sequencialmente
+> > - Funciona tanto no Data Asset quanto em Widgets
+> >
+> > **Fórmula de Cálculo:**
+> >
+> > ```
+> > FinalScore = 8 (base) + RacialBonus + PointBuyAllocation
+> > ```
+> >
+> > **Fluxo:**
+> >
+> > 1. Reseta todos os Final Scores para 8 (base)
+> > 2. Aplica `FRaceBonusMotor::ApplyRacialBonuses()`
+> > 3. Aplica `FPointBuyMotor::ApplyPointBuy()`
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">FCharacterSheetData - Estrutura Genérica</summary>
+>
+> > **Localização:** `Source/MyProject2/CreateSheet/Core/CharacterSheetData.h`
+> >
+> > **Responsabilidade:** Estrutura genérica de dados que permite o Core funcionar em diferentes contextos.
+> >
+> > **Características:**
+> >
+> > - Struct C++ normal (não USTRUCT) - contém ponteiros e não precisa ser exposta ao Blueprint
+> > - Contém dados de entrada (Point Buy, Race, Subrace, Custom Choices)
+> > - Contém referências de saída (ponteiros para Final Scores)
+> > - Permite reutilização: mesmo Core funciona no Data Asset e em Widgets
+> >
+> > **Princípio:** "Program to an interface, not an implementation" (Design Patterns)
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">FRaceBonusMotor - Motor de Bônus Raciais</summary>
+>
+> > **Localização:** `Source/MyProject2/CreateSheet/RaceBonus/RaceBonusMotor.h`
+> >
+> > **Responsabilidade:** Calcular e aplicar bônus raciais nos Final Scores.
+> >
+> > **Características:**
+> >
+> > - Motor independente: não conhece Point Buy, apenas aplica bônus raciais
+> > - Recebe `FCharacterSheetData` (dados puros), não objetos concretos
+> > - Usa `FRaceBonusHelpers` para cálculos puros
+> > - Suporta Variant Human com escolhas customizadas
+> >
+> > **Fluxo:**
+> >
+> > 1. Busca RaceRow e SubraceRow usando `DataTableHelpers`
+> > 2. Calcula bônus usando `FRaceBonusHelpers::CalculateRacialBonuses()`
+> > 3. Incrementa Final Scores usando `FRaceBonusHelpers::IncrementFinalScoresWithRacialBonuses()`
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">FPointBuyMotor - Motor de Point Buy</summary>
+>
+> > **Localização:** `Source/MyProject2/CreateSheet/PointBuy/PointBuyMotor.h`
+> >
+> > **Responsabilidade:** Aplicar alocação de Point Buy nos Final Scores com validação automática.
+> >
+> > **Características:**
+> >
+> > - Motor independente: não conhece bônus raciais, apenas aplica Point Buy
+> > - Valida automaticamente se não excede 27 pontos
+> > - Ajusta automaticamente se exceder (reduz do final da fila)
+> > - Retorna `FPointBuyResult` com feedback para o caller ajustar a UI
+> >
+> > **Fluxo:**
+> >
+> > 1. Converte dados de entrada para `TMap<FName, int32>`
+> > 2. Calcula custo total usando `CharacterSheetHelpers::CalculateTotalPointBuyCost()`
+> > 3. Se exceder 27 pontos, ajusta usando `AdjustPointBuyAllocation()`
+> > 4. Incrementa Final Scores usando `CalculationHelpers::IncrementFinalScoresWithPointBuy()`
+> > 5. Retorna `FPointBuyResult` com feedback
+>
+> </details>
+>
+> ### Independência dos Motores
+>
+> **Princípio Fundamental:** Motores são completamente desacoplados e não conhecem uns aos outros.
+>
+> - ✅ `FRaceBonusMotor` não conhece `FPointBuyMotor`
+> - ✅ `FPointBuyMotor` não conhece `FRaceBonusMotor`
+> - ✅ Ambos apenas incrementam Final Scores (não resetam)
+> - ✅ `FCharacterSheetCore` é responsável por resetar e orquestrar
+>
+> **Benefícios:**
+>
+> - ✅ Fácil testar cada motor isoladamente
+> - ✅ Fácil adicionar novos motores (ex: LevelUpMotor, FeatMotor)
+> - ✅ Fácil modificar ordem de aplicação
+> - ✅ Reutilização em diferentes contextos
+>
+> ### Diagrama de Arquitetura
+>
+> ```mermaid
+> graph TB
+>     subgraph Core["CharacterSheetCore"]
+>         CoreFunc[RecalculateFinalScores]
+>     end
+>
+>     subgraph Data["FCharacterSheetData"]
+>         Input[Point Buy, Race, Subrace]
+>         Output[Final Scores - Referências]
+>     end
+>
+>     subgraph RaceMotor["RaceBonusMotor"]
+>         RaceApply[ApplyRacialBonuses]
+>         RaceHelpers[RaceBonusHelpers]
+>     end
+>
+>     subgraph PointBuyMotor["PointBuyMotor"]
+>         PointBuyApply[ApplyPointBuy]
+>         PointBuyValidator[PointBuyValidator]
+>     end
+>
+>     CoreFunc -->|Reseta para base 8| Output
+>     CoreFunc -->|Aplica| RaceApply
+>     CoreFunc -->|Aplica| PointBuyApply
+>     RaceApply -->|Usa| RaceHelpers
+>     PointBuyApply -->|Valida| PointBuyValidator
+>     RaceApply -->|Incrementa| Output
+>     PointBuyApply -->|Incrementa| Output
+>     Input -->|Dados de entrada| CoreFunc
+>
+>     style Core fill:#fff59d
+>     style Data fill:#e1f5ff
+>     style RaceMotor fill:#c8e6c9
+>     style PointBuyMotor fill:#c8e6c9
+> ```
+>
+> **📖 Para mais detalhes sobre a implementação, veja os arquivos em `Source/MyProject2/CreateSheet/`**
 
 </details>
 
@@ -555,6 +729,7 @@ graph TB
 > ```mermaid
 > graph TD
 >     Root[Source/MyProject2/] --> Chars[Characters/]
+>     Root --> CreateSheet[CreateSheet/]
 >     Root --> Comp[Components/]
 >     Root --> Data[Data/]
 >     Root --> Gameplay[Gameplay/]
@@ -562,6 +737,10 @@ graph TB
 >
 >     Chars --> CharsData[Data/<br/>CharacterSheetDataAsset]
 >     Chars --> CharsComp[Components/<br/>CharacterSheetComponent<br/>CharacterDataComponent]
+>
+>     CreateSheet --> CreateSheetCore[Core/<br/>CharacterSheetCore<br/>CharacterSheetData]
+>     CreateSheet --> CreateSheetRace[RaceBonus/<br/>RaceBonusMotor<br/>RaceBonusHelpers]
+>     CreateSheet --> CreateSheetPointBuy[PointBuy/<br/>PointBuyMotor<br/>PointBuyValidator]
 >
 >     Comp --> CompFeat[Features/<br/>SpellcastingComponent<br/>SecondWindComponent]
 >     Comp --> CompData[Data/]
@@ -572,10 +751,16 @@ graph TB
 >     Gameplay --> GameplayAbil[Abilities/]
 >     Gameplay --> GameplaySys[Systems/]
 >
->     Utils --> UtilsHelpers[ComponentHelpers<br/>MathHelpers]
+>     Utils --> UtilsCalc[CalculationHelpers]
+>     Utils --> UtilsChar[CharacterSheetHelpers]
+>     Utils --> UtilsData[DataTableHelpers]
+>     Utils --> UtilsVal[ValidationHelpers]
+>     Utils --> UtilsFmt[FormattingHelpers]
+>     Utils --> UtilsComp[ComponentHelpers]
 >
 >     style Root fill:#2196f3,color:#fff
 >     style Chars fill:#4caf50,color:#fff
+>     style CreateSheet fill:#ffc107,color:#000
 >     style Comp fill:#ff9800,color:#fff
 >     style Data fill:#9c27b0,color:#fff
 >     style Gameplay fill:#f44336,color:#fff
@@ -590,7 +775,6 @@ graph TB
 > │   ├── Data/
 > │   │   ├── CharacterSheetDataAsset.h
 > │   │   ├── CharacterSheetDataAsset.cpp
-> │   │   ├── CharacterSheetDataAssetTypes.h
 > │   │   ├── Handlers/
 > │   │   │   ├── CharacterSheetDataAssetHandlers.h
 > │   │   │   └── CharacterSheetDataAssetHandlers.cpp
@@ -602,7 +786,9 @@ graph TB
 > │   │   │   └── CharacterSheetDataAssetUpdaters.cpp
 > │   │   ├── Helpers/
 > │   │   │   ├── CharacterSheetDataAssetHelpers.h
-> │   │   │   └── CharacterSheetDataAssetHelpers.cpp
+> │   │   │   ├── CharacterSheetDataAssetHelpers.cpp
+> │   │   │   ├── ValidationGuard.h
+> │   │   │   └── ValidationGuard.cpp
 > │   │   └── GetOptions/
 > │   │       ├── CharacterSheetDataAssetGetOptions.h
 > │   │       └── CharacterSheetDataAssetGetOptions.cpp
@@ -611,6 +797,22 @@ graph TB
 > │       ├── CharacterSheetComponent.cpp
 > │       ├── CharacterDataComponent.h
 > │       └── CharacterDataComponent.cpp
+> ├── CreateSheet/
+> │   ├── Core/
+> │   │   ├── CharacterSheetCore.h
+> │   │   ├── CharacterSheetCore.cpp
+> │   │   └── CharacterSheetData.h
+> │   ├── RaceBonus/
+> │   │   ├── RaceBonusMotor.h
+> │   │   ├── RaceBonusMotor.cpp
+> │   │   ├── RaceBonusHelpers.h
+> │   │   └── RaceBonusHelpers.cpp
+> │   └── PointBuy/
+> │       ├── PointBuyMotor.h
+> │       ├── PointBuyMotor.cpp
+> │       ├── PointBuyValidator.h
+> │       ├── PointBuyValidator.cpp
+> │       └── PointBuyResult.h
 > ├── Components/
 > │   ├── Features/
 > │   │   ├── SpellcastingComponent.h
@@ -631,10 +833,18 @@ graph TB
 > │   ├── Abilities/
 > │   └── Systems/
 > └── Utils/
->     ├── ComponentHelpers.h
->     ├── ComponentHelpers.cpp
+>     ├── CalculationHelpers.h
+>     ├── CalculationHelpers.cpp
 >     ├── CharacterSheetHelpers.h
->     └── CharacterSheetHelpers.cpp
+>     ├── CharacterSheetHelpers.cpp
+>     ├── DataTableHelpers.h
+>     ├── DataTableHelpers.cpp
+>     ├── ValidationHelpers.h
+>     ├── ValidationHelpers.cpp
+>     ├── FormattingHelpers.h
+>     ├── FormattingHelpers.cpp
+>     ├── ComponentHelpers.h
+>     └── ComponentHelpers.cpp
 > ```
 
 </details>
