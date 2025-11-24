@@ -137,41 +137,48 @@ public:
     // ============================================================================
 
     /** Nome do personagem */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic Info",
-              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic | Info",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     FName CharacterName = TEXT("Character Name");
 
     /** Descrição do personagem */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic Info",
-              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic | Info",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     FText CharacterDescription = FText::GetEmpty();
 
     /** Nível total do personagem (soma de todos os níveis de classes, máximo 20) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Info",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 TotalLevel = 0;
 
     /** Strength final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalStrength = 8;
 
     /** Dexterity final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalDexterity = 8;
 
     /** Constitution final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalConstitution = 8;
 
     /** Intelligence final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalIntelligence = 8;
 
     /** Wisdom final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalWisdom = 8;
 
     /** Charisma final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalCharisma = 8;
 
     // ============================================================================
@@ -180,18 +187,20 @@ public:
 
     /** Raça selecionada */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Choices",
-              meta = (GetOptions = "GetRaceNames", EditCondition = "!bCanShowSheet", EditConditionHides))
+              meta = (HideEditConditionToggle, GetOptions = "GetRaceNames", EditCondition = "!bCanShowSheet",
+                      EditConditionHides))
     FName SelectedRace = NAME_None;
 
     /** Sub-raça selecionada (se aplicável) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Choices",
-              meta = (GetOptions = "GetSubraceNames", EditCondition = "bHasSubraces && !bCanShowSheet",
-                      EditConditionHides))
+              meta = (HideEditConditionToggle, GetOptions = "GetSubraceNames",
+                      EditCondition = "bHasSubraces && !bCanShowSheet", EditConditionHides))
     FName SelectedSubrace = NAME_None;
 
     /** Background selecionado */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Choices",
-              meta = (GetOptions = "GetBackgroundNames", EditCondition = "!bCanShowSheet", EditConditionHides))
+              meta = (HideEditConditionToggle, GetOptions = "GetBackgroundNames", EditCondition = "!bCanShowSheet",
+                      EditConditionHides))
     FName SelectedBackground = NAME_None;
 
     // ============================================================================
@@ -202,20 +211,20 @@ public:
 
     /** Escolhas customizadas de atributos para Variant Human (2x +1 para distribuir) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Variant Choices",
-              meta = (GetOptions = "GetAbilityScoreNames", EditCondition = "bIsVariantHuman && !bCanShowSheet",
-                      EditConditionHides))
+              meta = (HideEditConditionToggle, GetOptions = "GetAbilityScoreNames",
+                      EditCondition = "bIsVariantHuman && !bCanShowSheet", EditConditionHides))
     TArray<FName> CustomAbilityScoreChoices;
 
     /** Feat escolhido para Variant Human */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Variant Choices",
-              meta = (GetOptions = "GetAvailableFeatNames", EditCondition = "bIsVariantHuman && !bCanShowSheet",
-                      EditConditionHides))
+              meta = (HideEditConditionToggle, GetOptions = "GetAvailableFeatNames",
+                      EditCondition = "bIsVariantHuman && !bCanShowSheet", EditConditionHides))
     FName SelectedFeat = NAME_None;
 
     /** Skill escolhido para Variant Human */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Variant Choices",
-              meta = (GetOptions = "GetSkillNames", EditCondition = "bIsVariantHuman && !bCanShowSheet",
-                      EditConditionHides))
+              meta = (HideEditConditionToggle, GetOptions = "GetSkillNames",
+                      EditCondition = "bIsVariantHuman && !bCanShowSheet", EditConditionHides))
     FName SelectedSkill = NAME_None;
 
     // ============================================================================
@@ -224,13 +233,14 @@ public:
 
     /** Idiomas escolhidos pelo jogador (quando raça/background/feat permite escolha) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Language Choices",
-              meta = (GetOptions = "GetAvailableLanguageNames", EditCondition = "bHasLanguageChoices && !bCanShowSheet",
-                      EditConditionHides))
+              meta = (HideEditConditionToggle, GetOptions = "GetAvailableLanguageNames",
+                      EditCondition = "bHasLanguageChoices && !bCanShowSheet", EditConditionHides))
     TArray<FName> SelectedLanguages;
 
     /** Quantidade máxima de idiomas que podem ser escolhidos (calculado automaticamente) */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Race & Background | Language Choices",
-              meta = (EditCondition = "bHasLanguageChoices && !bCanShowSheet", EditConditionHides))
+              meta = (HideEditConditionToggle, EditCondition = "bHasLanguageChoices && !bCanShowSheet",
+                      EditConditionHides))
     int32 MaxLanguageChoices = 0;
 
     // ============================================================================
@@ -239,12 +249,12 @@ public:
 
     /** Ability scores do personagem (chave: nome do atributo, valor: entrada com base/racial/final) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",
-              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     TMap<FName, FAbilityScoreEntry> AbilityScores;
 
     /** Pontos restantes no sistema Point Buy (27 pontos totais) */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability Scores",
-              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 PointsRemaining = 27;
 
     // ============================================================================
@@ -253,7 +263,7 @@ public:
 
     /** Níveis em cada classe (permite multi-classing) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Classes",
-              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     TArray<FClassLevelEntry> ClassLevels;
 
     // ============================================================================
@@ -262,17 +272,17 @@ public:
 
     /** Features disponíveis baseadas nas classes e níveis */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated",
-              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     TArray<FName> AvailableFeatures;
 
     /** Proficiências do personagem (raça + classe + background) */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated",
-              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     TArray<FName> Proficiencies;
 
     /** Idiomas que o personagem fala (calculado automaticamente: raça + background + escolhas) */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated",
-              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     TArray<FName> Languages;
 
 private:
