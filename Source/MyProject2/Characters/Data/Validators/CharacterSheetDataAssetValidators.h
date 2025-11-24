@@ -15,12 +15,6 @@ class MYPROJECT2_API FCharacterSheetDataAssetValidators
 {
 public:
     /**
-     * Validates Point Buy system.
-     * Calculates points spent and validates ability scores are within valid range [8, 15].
-     */
-    static void ValidatePointBuy(UCharacterSheetDataAsset *Asset);
-
-    /**
      * Validates total level.
      * Ensures total level doesn't exceed 20 and adjusts class levels if necessary.
      */

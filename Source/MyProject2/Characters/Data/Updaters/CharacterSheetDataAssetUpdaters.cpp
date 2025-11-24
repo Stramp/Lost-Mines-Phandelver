@@ -5,7 +5,6 @@
 #include "../Helpers/CharacterSheetDataAssetHelpers.h"
 #include "../../../Utils/CharacterSheetHelpers.h"
 #include "../../../Utils/CalculationHelpers.h"
-#include "../../../Utils/ValidationHelpers.h"
 #include "../../../Data/Tables/RaceDataTable.h"
 #include "../../../Data/Tables/ClassDataTable.h"
 #include "../../../Data/Tables/BackgroundDataTable.h"
@@ -15,122 +14,6 @@
 #include "Editor.h"
 #include "UObject/UnrealType.h"
 #endif
-
-void FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(UCharacterSheetDataAsset *Asset)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    // Orquestrador: reseta para base (8) e aplica cada motor independente
-    // Fórmula: FinalScore = 8 + RacialBonus + PointBuyAllocation
-
-    // 1. Reset para base (8)
-    CalculationHelpers::ResetFinalScoresToBase(Asset->FinalStrength, Asset->FinalDexterity, Asset->FinalConstitution,
-                                               Asset->FinalIntelligence, Asset->FinalWisdom, Asset->FinalCharisma);
-
-    // 2. Aplica bônus raciais (motor independente)
-    TMap<FName, int32> RacialBonuses;
-    if (Asset->RaceDataTable && Asset->SelectedRace != NAME_None)
-    {
-        // Busca dados da raça base no Data Table
-        FRaceDataRow *RaceRow =
-            Asset->RaceDataTable->FindRow<FRaceDataRow>(Asset->SelectedRace, TEXT("RecalculateFinalScores"));
-
-        // Fallback: Se FindRow não encontrou, busca manual
-        if (!RaceRow)
-        {
-            TArray<FName> RowNames = Asset->RaceDataTable->GetRowNames();
-            for (const FName &RowName : RowNames)
-            {
-                if (FRaceDataRow *Row =
-                        Asset->RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("RecalculateFinalScores")))
-                {
-                    if (Row->RaceName == Asset->SelectedRace)
-                    {
-                        RaceRow = Row;
-                        break;
-                    }
-                }
-            }
-        }
-
-        // Busca sub-raça se necessário
-        FRaceDataRow *SubraceRow = nullptr;
-        if (RaceRow && Asset->SelectedSubrace != NAME_None)
-        {
-            // Validar se a sub-raça pertence à raça selecionada
-            bool bSubraceValid = RaceRow->SubraceNames.Contains(Asset->SelectedSubrace);
-
-            if (!bSubraceValid)
-            {
-
-                Asset->Modify();
-                Asset->SelectedSubrace = NAME_None;
-            }
-            else
-            {
-                // Busca direta da sub-raça
-                SubraceRow =
-                    Asset->RaceDataTable->FindRow<FRaceDataRow>(Asset->SelectedSubrace, TEXT("RecalculateFinalScores"));
-
-                // Fallback: busca manual se FindRow não encontrou
-                if (!SubraceRow)
-                {
-                    TArray<FName> RowNames = Asset->RaceDataTable->GetRowNames();
-                    for (const FName &RowName : RowNames)
-                    {
-                        if (FRaceDataRow *Row =
-                                Asset->RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("RecalculateFinalScores")))
-                        {
-                            if (Row->RaceName == Asset->SelectedSubrace)
-                            {
-                                SubraceRow = Row;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (!SubraceRow)
-                {
-                    UE_LOG(LogTemp, Warning, TEXT("Subrace '%s' not found in RaceDataTable"),
-                           *Asset->SelectedSubrace.ToString());
-                }
-            }
-        }
-
-        // Calcula bônus raciais usando CalculationHelpers (função pura)
-        CalculationHelpers::CalculateRacialBonuses(RaceRow, SubraceRow, Asset->CustomAbilityScoreChoices,
-                                                   RacialBonuses);
-    }
-
-    // Incrementa com bônus raciais (motor independente)
-    CalculationHelpers::IncrementFinalScoresWithRacialBonuses(
-        RacialBonuses, Asset->FinalStrength, Asset->FinalDexterity, Asset->FinalConstitution, Asset->FinalIntelligence,
-        Asset->FinalWisdom, Asset->FinalCharisma);
-
-    // 3. Aplica Point Buy (motor independente, não conhece bônus racial)
-    CalculationHelpers::IncrementFinalScoresWithPointBuy(
-        Asset->PointBuyAllocation, Asset->FinalStrength, Asset->FinalDexterity, Asset->FinalConstitution,
-        Asset->FinalIntelligence, Asset->FinalWisdom, Asset->FinalCharisma);
-}
-
-void FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(UCharacterSheetDataAsset *Asset)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    // Nota: bIsValidatingProperties deve ser gerenciado pelo caller (handler)
-    // Esta função assume que a flag já está setada corretamente
-
-    // Motor de Bônus Raciais (TOTALMENTE DESACOPLADO)
-    // Apenas recalcula Final Scores (orquestrador aplica todos os motores)
-    RecalculateFinalScores(Asset);
-}
 
 void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDataAsset *Asset)
 {
@@ -346,28 +229,4 @@ void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetData
         }
 #endif
     }
-}
-
-void FCharacterSheetDataAssetUpdaters::UpdatePointBuyAllocation(UCharacterSheetDataAsset *Asset)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    // Motor de Point Buy (TOTALMENTE DESACOPLADO)
-    // Apenas recalcula Final Scores (orquestrador aplica todos os motores)
-    RecalculateFinalScores(Asset);
-
-    // Valida Point Buy (sem recalcular bônus raciais)
-    TMap<FName, int32> BaseScoresForValidation;
-    for (const auto &Pair : Asset->PointBuyAllocation)
-    {
-        // Converte alocação (0-7) para score base (8-15) para validação
-        BaseScoresForValidation.Add(Pair.Key, 8 + Pair.Value);
-    }
-
-    int32 PointsRemaining = 0;
-    ValidationHelpers::ValidatePointBuy(BaseScoresForValidation, PointsRemaining, 27);
-    Asset->PointsRemaining = PointsRemaining;
 }

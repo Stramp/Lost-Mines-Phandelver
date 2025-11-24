@@ -6,39 +6,6 @@
 #include "../../../Utils/ValidationHelpers.h"
 #include "Logging/LogMacros.h"
 
-void FCharacterSheetDataAssetValidators::ValidatePointBuy(UCharacterSheetDataAsset *Asset)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    // Converte alocação de Point Buy (0-7) para score base (8-15) para validação
-    TMap<FName, int32> BaseScores;
-    for (const auto &Pair : Asset->PointBuyAllocation)
-    {
-        // Alocação (0-7) + base (8) = score base (8-15)
-        BaseScores.Add(Pair.Key, 8 + Pair.Value);
-    }
-
-    // Usa ValidationHelpers para validar e calcular pontos restantes
-    int32 PointsRemaining = 0;
-    bool bAllScoresValid = ValidationHelpers::ValidatePointBuy(BaseScores, PointsRemaining, 27);
-    Asset->PointsRemaining = PointsRemaining;
-
-    // Log de aviso se scores estão fora do range válido
-    if (!bAllScoresValid)
-    {
-        UE_LOG(LogTemp, Warning,
-               TEXT("CharacterSheetDataAsset: Alguns ability scores estão fora do range válido [8, 15]"));
-    }
-
-    // Se PointsRemaining != 0 ou scores inválidos, a alocação está incorreta
-    // PointsRemaining negativo = pontos excedidos (mais de 27 gastos)
-    // PointsRemaining positivo = pontos não gastos (menos de 27 gastos)
-    // Não clampa para evitar mascarar estado inválido
-}
-
 void FCharacterSheetDataAssetValidators::ValidateTotalLevel(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)

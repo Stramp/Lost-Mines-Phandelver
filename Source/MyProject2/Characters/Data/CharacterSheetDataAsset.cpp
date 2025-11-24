@@ -1,6 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterSheetDataAsset.h"
+#include "../../CreateSheet/Core/CharacterSheetCore.h"
+#include "../../CreateSheet/Core/CharacterSheetData.h"
+#include "../../CreateSheet/PointBuy/PointBuyResult.h"
 #include "Handlers/CharacterSheetDataAssetHandlers.h"
 #include "Validators/CharacterSheetDataAssetValidators.h"
 #include "Updaters/CharacterSheetDataAssetUpdaters.h"
@@ -20,14 +23,8 @@
 
 UCharacterSheetDataAsset::UCharacterSheetDataAsset()
 {
-    // Inicializa Point Buy allocation com 0 para todos os atributos (base = 8, sem pontos gastos)
-    TArray<FName> AbilityNames = CharacterSheetHelpers::GetAbilityScoreNames();
-    for (const FName &AbilityName : AbilityNames)
-    {
-        PointBuyAllocation.Add(AbilityName, 0);
-    }
-
-    // PointsRemaining e TotalLevel já têm valores padrão no header (= 27 e = 0)
+    // Point Buy allocation já tem valores padrão no header (= 0 para todos)
+    // PointsRemaining e TotalLevel também já têm valores padrão no header (= 27 e = 0)
     // Não precisam ser inicializados aqui
 
 #if WITH_EDITOR
@@ -96,8 +93,18 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace),
                          FCharacterSheetDataAssetHandlers::HandleSelectedSubraceWrapper);
 
-    // Point Buy Allocation handler
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyAllocation),
+    // Point Buy Allocation handlers (6 propriedades separadas)
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyStrength),
+                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyDexterity),
+                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyConstitution),
+                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyIntelligence),
+                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyWisdom),
+                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyCharisma),
                          FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
 
     // Class Levels handler
@@ -199,4 +206,42 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
 void UCharacterSheetDataAsset::SetValidatingProperties(bool bValidating) { bIsValidatingProperties = bValidating; }
 
 bool UCharacterSheetDataAsset::IsValidatingProperties() const { return bIsValidatingProperties; }
+
+void UCharacterSheetDataAsset::RecalculateFinalScoresFromDataAsset()
+{
+    // Cria estrutura genérica a partir do Data Asset
+    FCharacterSheetData Data(PointBuyStrength, PointBuyDexterity, PointBuyConstitution, PointBuyIntelligence,
+                             PointBuyWisdom, PointBuyCharisma, SelectedRace, SelectedSubrace, CustomAbilityScoreChoices,
+                             RaceDataTable, &FinalStrength, &FinalDexterity, &FinalConstitution, &FinalIntelligence,
+                             &FinalWisdom, &FinalCharisma);
+
+    // Chama Core genérico (funciona tanto no Data Asset quanto no Widget)
+    FPointBuyResult PointBuyResult;
+    FCharacterSheetCore::RecalculateFinalScores(Data, &PointBuyResult);
+
+    // Se o motor ajustou a alocação, atualiza propriedades do Data Asset
+    if (PointBuyResult.bWasAdjusted)
+    {
+        Modify(); // Marca objeto como modificado no editor
+
+        // Atualiza propriedades com valores ajustados
+        PointBuyStrength = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Strength"));
+        PointBuyDexterity = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Dexterity"));
+        PointBuyConstitution = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Constitution"));
+        PointBuyIntelligence = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Intelligence"));
+        PointBuyWisdom = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Wisdom"));
+        PointBuyCharisma = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Charisma"));
+
+        // Atualiza PointsRemaining
+        PointsRemaining = PointBuyResult.PointsRemaining;
+
+        // Log de feedback
+        UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: %s"), *PointBuyResult.FeedbackMessage);
+    }
+    else
+    {
+        // Atualiza PointsRemaining mesmo se não foi ajustado
+        PointsRemaining = PointBuyResult.PointsRemaining;
+    }
+}
 #endif

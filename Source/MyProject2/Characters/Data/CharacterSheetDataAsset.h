@@ -330,15 +330,48 @@ public:
     // Ability Scores (Point Buy System)
     // ============================================================================
 
-    /** Alocação de Point Buy por atributo (0-7 pontos por atributo, total = 27 pontos) */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",
-              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    TMap<FName, int32> PointBuyAllocation;
-
+    // ============================================================================
+    // Point Buy Allocation (0-7 pontos por atributo, total = 27 pontos)
+    // ============================================================================
     /** Pontos restantes no sistema Point Buy (27 pontos totais) */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability Scores",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 PointsRemaining = 27;
+    /** Pontos alocados em Strength (0-7) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides, ClampMin = "0",
+                      ClampMax = "7"))
+    int32 PointBuyStrength = 0;
+
+    /** Pontos alocados em Dexterity (0-7) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides, ClampMin = "0",
+                      ClampMax = "7"))
+    int32 PointBuyDexterity = 0;
+
+    /** Pontos alocados em Constitution (0-7) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides, ClampMin = "0",
+                      ClampMax = "7"))
+    int32 PointBuyConstitution = 0;
+
+    /** Pontos alocados em Intelligence (0-7) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides, ClampMin = "0",
+                      ClampMax = "7"))
+    int32 PointBuyIntelligence = 0;
+
+    /** Pontos alocados em Wisdom (0-7) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides, ClampMin = "0",
+                      ClampMax = "7"))
+    int32 PointBuyWisdom = 0;
+
+    /** Pontos alocados em Charisma (0-7) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides, ClampMin = "0",
+                      ClampMax = "7"))
+    int32 PointBuyCharisma = 0;
 
     // ============================================================================
     // Classes (Multi-classing)
@@ -404,6 +437,12 @@ private:
 
     /** Called after object is loaded from disk - ensures PropertyHandlers is initialized */
     virtual void PostLoad() override;
+
+    /**
+     * Helper: Cria FCharacterSheetData a partir do Data Asset e chama Core genérico.
+     * Bridge entre Data Asset específico e Core genérico.
+     */
+    void RecalculateFinalScoresFromDataAsset();
 
     /** Friend classes for modules to access private members */
     friend class FCharacterSheetDataAssetHandlers;

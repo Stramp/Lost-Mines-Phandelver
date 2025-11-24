@@ -4,6 +4,7 @@
 #include "../CharacterSheetDataAsset.h"
 #include "../Validators/CharacterSheetDataAssetValidators.h"
 #include "../Updaters/CharacterSheetDataAssetUpdaters.h"
+#include "../../../CreateSheet/PointBuy/PointBuyValidator.h"
 #include "Logging/LogMacros.h"
 #include "UObject/UnrealType.h"
 
@@ -35,7 +36,8 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
     FCharacterSheetDataAssetUpdaters::UpdateSubraceFlag(Asset);
 
     // Bônus raciais mudam quando raça/sub-raça muda
-    FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(Asset);
+    // Usa Core genérico via helper do Data Asset (aplica todos os motores)
+    Asset->RecalculateFinalScoresFromDataAsset();
 
     // Escolhas de idiomas podem mudar quando raça/sub-raça muda
     FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(Asset);
@@ -55,11 +57,12 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacter
 
     Asset->bIsValidatingProperties = true;
 
-    // Motor de Point Buy: aplica alocação nos Final Scores e valida
-    FCharacterSheetDataAssetUpdaters::UpdatePointBuyAllocation(Asset);
+    // Motor de Point Buy: aplica alocação nos Final Scores
+    // Usa Core genérico via helper do Data Asset (aplica todos os motores)
+    Asset->RecalculateFinalScoresFromDataAsset();
 
     // Valida Point Buy system (calcula PointsRemaining)
-    FCharacterSheetDataAssetValidators::ValidatePointBuy(Asset);
+    FPointBuyValidator::ValidatePointBuy(Asset);
 
     // Features podem depender de ability scores
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
@@ -134,7 +137,8 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
     FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(Asset);
 
     // Recalcula bônus raciais (Custom ASI afeta bônus)
-    FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(Asset);
+    // Usa Core genérico via helper do Data Asset (aplica todos os motores)
+    Asset->RecalculateFinalScoresFromDataAsset();
 
     // Recalcula proficiências (SelectedSkill do Variant Human afeta proficiências)
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
