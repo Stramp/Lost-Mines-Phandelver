@@ -3,9 +3,9 @@
 #include "CalculationHelpers.h"
 #include "CharacterSheetHelpers.h"
 #include "DataTableHelpers.h"
-#include "../Data/Tables/RaceDataTable.h"
-#include "../Data/Tables/BackgroundDataTable.h"
-#include "../Characters/Data/CharacterSheetDataAsset.h"
+#include "Data/Tables/RaceDataTable.h"
+#include "Data/Tables/BackgroundDataTable.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
 #include "Logging/LogVerbosity.h"
 #include "Math/UnrealMathUtility.h"
 

@@ -2,9 +2,9 @@
 
 #include "RaceBonusMotor.h"
 #include "RaceBonusHelpers.h"
-#include "../Core/CharacterSheetData.h"
-#include "../../Data/Tables/RaceDataTable.h"
-#include "../../Utils/DataTableHelpers.h"
+#include "CreateSheet/Core/CharacterSheetData.h"
+#include "Data/Tables/RaceDataTable.h"
+#include "Utils/DataTableHelpers.h"
 #include "Logging/LogMacros.h"
 
 void FRaceBonusMotor::ApplyRacialBonuses(FCharacterSheetData &Data)

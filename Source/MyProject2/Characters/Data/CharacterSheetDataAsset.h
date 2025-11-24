@@ -153,6 +153,13 @@ public:
      */
     void SetCanShowSheet(bool bValue) { bCanShowSheet = bValue; }
 
+    /**
+     * Helper: Cria FCharacterSheetData a partir do Data Asset e chama Core genérico.
+     * Bridge entre Data Asset específico e Core genérico.
+     * Used by Handlers to recalculate final scores when properties change.
+     */
+    void RecalculateFinalScoresFromDataAsset();
+
     virtual void PostEditChangeProperty(FPropertyChangedEvent &PropertyChangedEvent) override;
 
     // ============================================================================
@@ -406,17 +413,5 @@ private:
 
     /** Called after object is loaded from disk - ensures PropertyHandlers is initialized */
     virtual void PostLoad() override;
-
-    /**
-     * Helper: Cria FCharacterSheetData a partir do Data Asset e chama Core genérico.
-     * Bridge entre Data Asset específico e Core genérico.
-     */
-    void RecalculateFinalScoresFromDataAsset();
-
-    /** Friend classes for modules to access private members */
-    friend class FCharacterSheetDataAssetHandlers;
-    friend class FCharacterSheetDataAssetValidators;
-    friend class FCharacterSheetDataAssetUpdaters;
-    friend class FCharacterSheetDataAssetHelpers;
 #endif
 };

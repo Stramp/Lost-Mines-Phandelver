@@ -1,10 +1,10 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterSheetCore.h"
-#include "../PointBuy/PointBuyMotor.h"
-#include "../PointBuy/PointBuyResult.h"
-#include "../RaceBonus/RaceBonusMotor.h"
-#include "../../Utils/CalculationHelpers.h"
+#include "CreateSheet/PointBuy/PointBuyMotor.h"
+#include "CreateSheet/PointBuy/PointBuyResult.h"
+#include "CreateSheet/RaceBonus/RaceBonusMotor.h"
+#include "Utils/CalculationHelpers.h"
 #include "Logging/LogMacros.h"
 
 void FCharacterSheetCore::RecalculateFinalScores(FCharacterSheetData &Data, FPointBuyResult *OutPointBuyResult)

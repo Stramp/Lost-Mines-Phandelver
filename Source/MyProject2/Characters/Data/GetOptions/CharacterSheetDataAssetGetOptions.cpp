@@ -1,8 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterSheetDataAssetGetOptions.h"
-#include "../../../Utils/CharacterSheetHelpers.h"
-#include "../../../Data/Tables/RaceDataTable.h"
+#include "Utils/CharacterSheetHelpers.h"
+#include "Data/Tables/RaceDataTable.h"
 #include "Engine/DataTable.h"
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetRaceNames(UDataTable *RaceDataTable)

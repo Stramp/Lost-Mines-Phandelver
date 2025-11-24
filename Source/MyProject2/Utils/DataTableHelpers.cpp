@@ -1,10 +1,10 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "DataTableHelpers.h"
-#include "../Data/Tables/RaceDataTable.h"
-#include "../Data/Tables/ClassDataTable.h"
-#include "../Data/Tables/FeatDataTable.h"
-#include "../Data/Tables/BackgroundDataTable.h"
+#include "Data/Tables/RaceDataTable.h"
+#include "Data/Tables/ClassDataTable.h"
+#include "Data/Tables/FeatDataTable.h"
+#include "Data/Tables/BackgroundDataTable.h"
 
 // ============================================================================
 // Race Data Table Helpers

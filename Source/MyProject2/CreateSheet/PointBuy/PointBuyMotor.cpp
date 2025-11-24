@@ -1,9 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "PointBuyMotor.h"
-#include "../Core/CharacterSheetData.h"
-#include "../../Utils/CalculationHelpers.h"
-#include "../../Utils/CharacterSheetHelpers.h"
+#include "CreateSheet/Core/CharacterSheetData.h"
+#include "Utils/CalculationHelpers.h"
+#include "Utils/CharacterSheetHelpers.h"
 #include "Logging/LogMacros.h"
 
 FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)

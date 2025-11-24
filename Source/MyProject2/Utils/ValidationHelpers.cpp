@@ -2,7 +2,7 @@
 
 #include "ValidationHelpers.h"
 #include "CharacterSheetHelpers.h"
-#include "../Characters/Data/CharacterSheetDataAsset.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
 #include "Logging/LogMacros.h"
 
 // ============================================================================

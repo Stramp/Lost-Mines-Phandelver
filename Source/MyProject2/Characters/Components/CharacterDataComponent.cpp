@@ -2,9 +2,9 @@
 
 #include "CharacterDataComponent.h"
 #include "Net/UnrealNetwork.h"
-#include "../../Utils/ValidationHelpers.h"
-#include "../../Utils/CharacterSheetHelpers.h"
-#include "../../Utils/FormattingHelpers.h"
+#include "Utils/ValidationHelpers.h"
+#include "Utils/CharacterSheetHelpers.h"
+#include "Utils/FormattingHelpers.h"
 
 UCharacterDataComponent::UCharacterDataComponent() { PrimaryComponentTick.bCanEverTick = false; }
 

@@ -1,8 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "PointBuyValidator.h"
-#include "../../Characters/Data/CharacterSheetDataAsset.h"
-#include "../../Utils/ValidationHelpers.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
+#include "Utils/ValidationHelpers.h"
 #include "Logging/LogMacros.h"
 
 void FPointBuyValidator::ValidatePointBuy(UCharacterSheetDataAsset *Asset)

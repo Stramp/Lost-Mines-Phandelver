@@ -1,12 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterSheetDataAssetUpdaters.h"
-#include "../CharacterSheetDataAsset.h"
-#include "../Helpers/CharacterSheetDataAssetHelpers.h"
-#include "../../../Utils/CharacterSheetHelpers.h"
-#include "../../../Utils/CalculationHelpers.h"
-#include "../../../Data/Tables/RaceDataTable.h"
-#include "../../../Data/Tables/BackgroundDataTable.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
+#include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
+#include "Utils/CharacterSheetHelpers.h"
+#include "Utils/CalculationHelpers.h"
+#include "Data/Tables/RaceDataTable.h"
+#include "Data/Tables/BackgroundDataTable.h"
 #include "Logging/LogMacros.h"
 
 #if WITH_EDITOR

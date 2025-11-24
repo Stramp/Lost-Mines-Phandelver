@@ -1,11 +1,11 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterSheetDataAssetHandlers.h"
-#include "../CharacterSheetDataAsset.h"
-#include "../Validators/CharacterSheetDataAssetValidators.h"
-#include "../Updaters/CharacterSheetDataAssetUpdaters.h"
-#include "../Helpers/ValidationGuard.h"
-#include "../../../CreateSheet/PointBuy/PointBuyValidator.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
+#include "Characters/Data/Validators/CharacterSheetDataAssetValidators.h"
+#include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
+#include "Characters/Data/Helpers/ValidationGuard.h"
+#include "CreateSheet/PointBuy/PointBuyValidator.h"
 #include "Logging/LogMacros.h"
 #include "UObject/UnrealType.h"
 

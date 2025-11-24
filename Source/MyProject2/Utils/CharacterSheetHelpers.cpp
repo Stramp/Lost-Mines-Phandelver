@@ -2,11 +2,11 @@
 
 #include "CharacterSheetHelpers.h"
 #include "DataTableHelpers.h"
-#include "../Data/Tables/RaceDataTable.h"
-#include "../Data/Tables/ClassDataTable.h"
-#include "../Data/Tables/BackgroundDataTable.h"
-#include "../Data/Tables/FeatDataTable.h"
-#include "../Characters/Data/CharacterSheetDataAsset.h"
+#include "Data/Tables/RaceDataTable.h"
+#include "Data/Tables/ClassDataTable.h"
+#include "Data/Tables/BackgroundDataTable.h"
+#include "Data/Tables/FeatDataTable.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
 
 // ============================================================================
 // Race Data Table Helpers
@@ -19,15 +19,18 @@ TArray<FName> CharacterSheetHelpers::GetAllRaceNames(UDataTable *RaceDataTable)
         return TArray<FName>();
     }
 
-    // Primeiro, coleta todos os nomes de sub-raças de todas as rows
-    // Isso permite identificar quais raças são sub-raças (não devem aparecer no dropdown)
+    // Otimização: itera uma única vez coletando tudo
+    // Evita O(n²) de FindRow dentro de loops
     TSet<FName> AllSubraceNamesSet;
+    TSet<FName> RaceNamesSet;
     TArray<FName> RowNames = RaceDataTable->GetRowNames();
+
+    // Primeira passagem: coleta sub-raças e raças base em uma única iteração
     for (const FName &RowName : RowNames)
     {
         if (FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("GetAllRaceNames")))
         {
-            // Adiciona todos os nomes de sub-raças à lista
+            // Coleta todos os nomes de sub-raças
             for (const FName &SubraceName : Row->SubraceNames)
             {
                 if (SubraceName != NAME_None)
@@ -35,23 +38,19 @@ TArray<FName> CharacterSheetHelpers::GetAllRaceNames(UDataTable *RaceDataTable)
                     AllSubraceNamesSet.Add(SubraceName);
                 }
             }
-        }
-    }
 
-    // Agora, itera novamente e adiciona apenas raças base (que não são sub-raças de outra raça)
-    TSet<FName> RaceNamesSet;
-    for (const FName &RowName : RowNames)
-    {
-        if (FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("GetAllRaceNames")))
-        {
-            // Adiciona apenas se:
-            // 1. RaceName não é None
-            // 2. RaceName não está na lista de sub-raças (é uma raça base, não sub-raça)
-            if (Row->RaceName != NAME_None && !AllSubraceNamesSet.Contains(Row->RaceName))
+            // Coleta raça base (será filtrada depois se for sub-raça)
+            if (Row->RaceName != NAME_None)
             {
                 RaceNamesSet.Add(Row->RaceName);
             }
         }
+    }
+
+    // Remove raças que são sub-raças (não devem aparecer no dropdown)
+    for (const FName &SubraceName : AllSubraceNamesSet)
+    {
+        RaceNamesSet.Remove(SubraceName);
     }
 
     // Converte TSet para TArray (ordem não importa para nomes de raças)

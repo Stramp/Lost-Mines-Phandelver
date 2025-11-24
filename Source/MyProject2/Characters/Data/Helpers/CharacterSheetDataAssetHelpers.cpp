@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterSheetDataAssetHelpers.h"
-#include "../CharacterSheetDataAsset.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
 
 void FCharacterSheetDataAssetHelpers::ResetVariantHumanChoices(UCharacterSheetDataAsset *Asset)
 {

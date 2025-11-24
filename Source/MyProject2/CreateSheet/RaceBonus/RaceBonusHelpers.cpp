@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "RaceBonusHelpers.h"
-#include "../../Data/Tables/RaceDataTable.h"
+#include "Data/Tables/RaceDataTable.h"
 #include "Logging/LogMacros.h"
 
 void FRaceBonusHelpers::CalculateRacialBonuses(const FRaceDataRow *RaceRow, const FRaceDataRow *SubraceRow,

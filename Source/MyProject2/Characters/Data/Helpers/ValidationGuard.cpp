@@ -4,7 +4,7 @@
 
 #if WITH_EDITOR
 
-#include "../CharacterSheetDataAsset.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
 
 FValidationGuard::FValidationGuard(UCharacterSheetDataAsset *InAsset) : Asset(InAsset)
 {

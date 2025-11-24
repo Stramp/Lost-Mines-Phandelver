@@ -1,14 +1,14 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterSheetDataAssetValidators.h"
-#include "../CharacterSheetDataAsset.h"
-#include "../../../Utils/CharacterSheetHelpers.h"
-#include "../../../Utils/ValidationHelpers.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
+#include "Utils/CharacterSheetHelpers.h"
+#include "Utils/ValidationHelpers.h"
 #include "Logging/LogMacros.h"
 
 void FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(UCharacterSheetDataAsset *Asset)
 {
-    if (!Asset || !Asset->bIsVariantHuman)
+    if (!Asset || !Asset->GetIsVariantHuman())
     {
         return;
     }
@@ -71,7 +71,7 @@ void FCharacterSheetDataAssetValidators::ValidateLanguageChoices(UCharacterSheet
     }
 
     // Se não há escolhas disponíveis, limpa SelectedLanguages
-    if (!Asset->bHasLanguageChoices || Asset->MaxLanguageChoices == 0)
+    if (!Asset->GetHasLanguageChoices() || Asset->MaxLanguageChoices == 0)
     {
         Asset->SelectedLanguages.Empty();
         return;

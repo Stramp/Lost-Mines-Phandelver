@@ -1,11 +1,11 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterSheetComponent.h"
-#include "../Data/CharacterSheetDataAsset.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
 #include "CharacterDataComponent.h"
-#include "../../Utils/ComponentHelpers.h"
-#include "../../Utils/DataTableHelpers.h"
-#include "../../Data/Tables/RaceDataTable.h"
+#include "Utils/ComponentHelpers.h"
+#include "Utils/DataTableHelpers.h"
+#include "Data/Tables/RaceDataTable.h"
 #include "GameFramework/Actor.h"
 
 UCharacterSheetComponent::UCharacterSheetComponent() { PrimaryComponentTick.bCanEverTick = false; }
@@ -90,14 +90,17 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     CharacterDataComponent->RaceTraits.Empty();
     if (DataAsset->RaceDataTable && DataAsset->SelectedRace != NAME_None)
     {
+        // Otimização: usa TSet para verificação O(1) antes de adicionar
+        TSet<FName> TraitsSet;
+
         // Busca traits da raça base
         if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(DataAsset->SelectedRace, DataAsset->RaceDataTable))
         {
             for (const FRaceTrait &Trait : RaceRow->Traits)
             {
-                if (Trait.TraitName != NAME_None)
+                if (Trait.TraitName != NAME_None && !TraitsSet.Contains(Trait.TraitName))
                 {
-                    CharacterDataComponent->RaceTraits.AddUnique(Trait.TraitName);
+                    TraitsSet.Add(Trait.TraitName);
                 }
             }
         }
@@ -110,13 +113,16 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
             {
                 for (const FRaceTrait &Trait : SubraceRow->Traits)
                 {
-                    if (Trait.TraitName != NAME_None)
+                    if (Trait.TraitName != NAME_None && !TraitsSet.Contains(Trait.TraitName))
                     {
-                        CharacterDataComponent->RaceTraits.AddUnique(Trait.TraitName);
+                        TraitsSet.Add(Trait.TraitName);
                     }
                 }
             }
         }
+
+        // Converte TSet para TArray
+        CharacterDataComponent->RaceTraits = TraitsSet.Array();
     }
 
     // Copia ability scores (valores finais dos campos dedicados)
