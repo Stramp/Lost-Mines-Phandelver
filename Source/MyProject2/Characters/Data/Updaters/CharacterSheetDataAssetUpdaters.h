@@ -15,8 +15,8 @@ class MYPROJECT2_API FCharacterSheetDataAssetUpdaters
 {
 public:
     /**
-     * Updates calculated fields (AvailableFeatures, Proficiencies, etc.).
-     * Collects features from all classes and levels.
+     * Updates calculated fields (Proficiencies, Languages, etc.).
+     * Calculates proficiencies from background and Variant Human skill.
      */
     static void UpdateCalculatedFields(UCharacterSheetDataAsset *Asset);
 

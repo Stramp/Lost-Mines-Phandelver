@@ -35,16 +35,6 @@ public:
     static TArray<FName> GetBackgroundNames(UDataTable *BackgroundDataTable);
 
     /**
-     * Returns all class names from ClassDataTable.
-     */
-    static TArray<FName> GetClassNames(UDataTable *ClassDataTable);
-
-    /**
-     * Returns all available subclasses for a specific class.
-     */
-    static TArray<FName> GetSubclassNames(UDataTable *ClassDataTable, FName ClassName);
-
-    /**
      * Returns all ability score names (Strength, Dexterity, etc.).
      */
     static TArray<FName> GetAbilityScoreNames();

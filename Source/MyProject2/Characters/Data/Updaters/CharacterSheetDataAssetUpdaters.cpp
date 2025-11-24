@@ -6,7 +6,6 @@
 #include "../../../Utils/CharacterSheetHelpers.h"
 #include "../../../Utils/CalculationHelpers.h"
 #include "../../../Data/Tables/RaceDataTable.h"
-#include "../../../Data/Tables/ClassDataTable.h"
 #include "../../../Data/Tables/BackgroundDataTable.h"
 #include "Logging/LogMacros.h"
 
@@ -26,20 +25,14 @@ void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDat
     // Esta função assume que a flag já está setada corretamente
 
     // Pre-aloca memória antes de repopular arrays (otimização de performance)
-    Asset->AvailableFeatures.Empty();
     Asset->Proficiencies.Empty();
     Asset->Languages.Empty();
 
-    // Usa CalculationHelpers para calcular features disponíveis (função pura)
-    TArray<FName> CalculatedFeatures =
-        CalculationHelpers::CalculateAvailableFeatures(Asset->ClassLevels, Asset->ClassDataTable);
-    Asset->AvailableFeatures.Reserve(CalculatedFeatures.Num());
-    Asset->AvailableFeatures = CalculatedFeatures;
-
-    // Usa CalculationHelpers para calcular proficiências (raça, classe, background e Variant Human skill)
+    // Usa CalculationHelpers para calcular proficiências (background + Variant Human skill)
+    // Nota: Sem classes, proficiências vêm apenas de background e Variant Human
     TArray<FName> CalculatedProficiencies = CalculationHelpers::CalculateProficiencies(
-        Asset->SelectedRace, Asset->SelectedSubrace, Asset->ClassLevels, Asset->SelectedBackground,
-        Asset->SelectedSkill, Asset->RaceDataTable, Asset->ClassDataTable, Asset->BackgroundDataTable);
+        Asset->SelectedRace, Asset->SelectedSubrace, Asset->SelectedBackground, Asset->SelectedSkill,
+        Asset->RaceDataTable, Asset->BackgroundDataTable);
     Asset->Proficiencies.Reserve(CalculatedProficiencies.Num());
     Asset->Proficiencies = CalculatedProficiencies;
 
@@ -212,8 +205,8 @@ void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetData
     }
 
     // Verifica se todos os Data Tables foram selecionados
-    bool bAllDataTablesSelected = Asset->RaceDataTable != nullptr && Asset->ClassDataTable != nullptr &&
-                                  Asset->BackgroundDataTable != nullptr && Asset->FeatDataTable != nullptr;
+    bool bAllDataTablesSelected =
+        Asset->RaceDataTable != nullptr && Asset->BackgroundDataTable != nullptr && Asset->FeatDataTable != nullptr;
 
     // bCanShowSheet = false significa mostrar todas as categorias
     // bCanShowSheet = true significa mostrar apenas Data Tables

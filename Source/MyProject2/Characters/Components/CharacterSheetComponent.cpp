@@ -69,12 +69,14 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     // Copia dados do Data Asset para o CharacterDataComponent
     CharacterDataComponent->CharacterName = DataAsset->CharacterName;
     CharacterDataComponent->CharacterDescription = DataAsset->CharacterDescription;
-    CharacterDataComponent->CharacterTotalLvl = DataAsset->TotalLevel;
+    // Nota: TotalLevel e AvailableFeatures não existem mais no Data Asset (removidos - serão calculados pelo motor de
+    // multiclassing)
+    CharacterDataComponent->CharacterTotalLvl = 0; // Sem classes, nível é 0
     CharacterDataComponent->SelectedRace = DataAsset->SelectedRace;
     CharacterDataComponent->SelectedSubrace = DataAsset->SelectedSubrace;
     CharacterDataComponent->SelectedBackground = DataAsset->SelectedBackground;
     CharacterDataComponent->Proficiencies = DataAsset->Proficiencies;
-    CharacterDataComponent->AvailableFeatures = DataAsset->AvailableFeatures;
+    CharacterDataComponent->AvailableFeatures.Empty(); // Sem classes, não há features
 
     // Copia Variant Human choices (se aplicável)
     CharacterDataComponent->SelectedFeat = DataAsset->SelectedFeat;

@@ -15,12 +15,6 @@ class MYPROJECT2_API FCharacterSheetDataAssetValidators
 {
 public:
     /**
-     * Validates total level.
-     * Ensures total level doesn't exceed 20 and adjusts class levels if necessary.
-     */
-    static void ValidateTotalLevel(UCharacterSheetDataAsset *Asset);
-
-    /**
      * Validates Variant Human choices.
      * Orchestrates validation of ability scores, feat, and skill.
      */

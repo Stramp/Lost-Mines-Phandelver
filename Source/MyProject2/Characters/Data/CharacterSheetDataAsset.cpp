@@ -12,7 +12,6 @@
 #include "Containers/UnrealString.h"
 #include "../../Utils/CharacterSheetHelpers.h"
 #include "../../Data/Tables/RaceDataTable.h"
-#include "../../Data/Tables/ClassDataTable.h"
 #include "../../Data/Tables/BackgroundDataTable.h"
 #include "Logging/LogMacros.h"
 
@@ -107,10 +106,6 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyCharisma),
                          FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
 
-    // Class Levels handler
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassLevels),
-                         FCharacterSheetDataAssetHandlers::HandleClassLevelsWrapper);
-
     // Background handler
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground),
                          FCharacterSheetDataAssetHandlers::HandleSelectedBackgroundWrapper);
@@ -129,8 +124,6 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
 
     // Data Tables handlers
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable),
-                         FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable),
                          FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, BackgroundDataTable),
                          FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
@@ -158,16 +151,6 @@ TArray<FName> UCharacterSheetDataAsset::GetSubraceNames() const
 TArray<FName> UCharacterSheetDataAsset::GetBackgroundNames() const
 {
     return FCharacterSheetDataAssetGetOptions::GetBackgroundNames(BackgroundDataTable);
-}
-
-TArray<FName> UCharacterSheetDataAsset::GetClassNames() const
-{
-    return FCharacterSheetDataAssetGetOptions::GetClassNames(ClassDataTable);
-}
-
-TArray<FName> UCharacterSheetDataAsset::GetSubclassNames(FName ClassName) const
-{
-    return FCharacterSheetDataAssetGetOptions::GetSubclassNames(ClassDataTable, ClassName);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetAbilityScoreNames() const

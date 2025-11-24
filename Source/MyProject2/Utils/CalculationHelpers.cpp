@@ -4,7 +4,6 @@
 #include "CharacterSheetHelpers.h"
 #include "DataTableHelpers.h"
 #include "../Data/Tables/RaceDataTable.h"
-#include "../Data/Tables/ClassDataTable.h"
 #include "../Data/Tables/BackgroundDataTable.h"
 #include "../Characters/Data/CharacterSheetDataAsset.h"
 #include "Logging/LogVerbosity.h"
@@ -64,97 +63,11 @@ int32 CalculationHelpers::CalculateProficiencyBonus(int32 TotalLevel)
 // Feature Calculations
 // ============================================================================
 
-TArray<FName> CalculationHelpers::CalculateAvailableFeatures(const TArray<FClassLevelEntry> &ClassLevels,
-                                                             UDataTable *ClassDataTable)
-{
-    TSet<FName> AvailableFeaturesSet;
-
-    if (!ClassDataTable)
-    {
-        return TArray<FName>();
-    }
-
-    // Coleta features de todas as classes e níveis
-    // GetFeaturesAtLevel() retorna todas as features desbloqueadas até o nível especificado
-    for (const FClassLevelEntry &ClassEntry : ClassLevels)
-    {
-        if (ClassEntry.ClassName == NAME_None || ClassEntry.Level < 1)
-        {
-            continue;
-        }
-
-        // Busca todas as features desbloqueadas até o nível atual da classe
-        TArray<FClassFeature> Features =
-            CharacterSheetHelpers::GetFeaturesAtLevel(ClassEntry.ClassName, ClassEntry.Level, ClassDataTable);
-        for (const FClassFeature &Feature : Features)
-        {
-            AvailableFeaturesSet.Add(Feature.FeatureName);
-        }
-    }
-
-    // Converte TSet para TArray (ordem não importa para features)
-    return AvailableFeaturesSet.Array();
-}
-
-TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName SubraceName,
-                                                         const TArray<FClassLevelEntry> &ClassLevels,
-                                                         FName BackgroundName, FName SelectedSkill,
-                                                         UDataTable *RaceDataTable, UDataTable *ClassDataTable,
+TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName SubraceName, FName BackgroundName,
+                                                         FName SelectedSkill, UDataTable *RaceDataTable,
                                                          UDataTable *BackgroundDataTable)
 {
     TSet<FName> ProficienciesSet;
-
-    // Coleta proficiências de todas as classes (multi-classing)
-    if (ClassDataTable)
-    {
-        for (const FClassLevelEntry &ClassEntry : ClassLevels)
-        {
-            if (ClassEntry.ClassName == NAME_None)
-            {
-                continue;
-            }
-
-            // Busca row da classe
-            if (FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassEntry.ClassName, ClassDataTable))
-            {
-                // Adiciona proficiências de armas
-                for (const FClassProficiency &Prof : ClassRow->WeaponProficiencies)
-                {
-                    if (Prof.ProficiencyName != NAME_None)
-                    {
-                        ProficienciesSet.Add(Prof.ProficiencyName);
-                    }
-                }
-
-                // Adiciona proficiências de armaduras
-                for (const FClassProficiency &Prof : ClassRow->ArmorProficiencies)
-                {
-                    if (Prof.ProficiencyName != NAME_None)
-                    {
-                        ProficienciesSet.Add(Prof.ProficiencyName);
-                    }
-                }
-
-                // Adiciona proficiências de saving throws
-                for (const FClassProficiency &Prof : ClassRow->SavingThrowProficiencies)
-                {
-                    if (Prof.ProficiencyName != NAME_None)
-                    {
-                        ProficienciesSet.Add(Prof.ProficiencyName);
-                    }
-                }
-
-                // Adiciona proficiências de skills
-                for (const FClassProficiency &Prof : ClassRow->SkillProficiencies)
-                {
-                    if (Prof.ProficiencyName != NAME_None)
-                    {
-                        ProficienciesSet.Add(Prof.ProficiencyName);
-                    }
-                }
-            }
-        }
-    }
 
     // Coleta proficiências de background
     if (BackgroundDataTable && BackgroundName != NAME_None)

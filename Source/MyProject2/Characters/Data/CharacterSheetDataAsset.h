@@ -171,14 +171,6 @@ public:
     UFUNCTION(CallInEditor)
     TArray<FName> GetBackgroundNames() const;
 
-    /** Retorna todos os nomes de classes disponíveis no ClassDataTable */
-    UFUNCTION(CallInEditor)
-    TArray<FName> GetClassNames() const;
-
-    /** Retorna todas as subclasses disponíveis para uma classe específica */
-    UFUNCTION(CallInEditor)
-    TArray<FName> GetSubclassNames(FName ClassName) const;
-
     /** Retorna todos os nomes de ability scores (Strength, Dexterity, etc.) */
     UFUNCTION(CallInEditor)
     TArray<FName> GetAbilityScoreNames() const;
@@ -203,10 +195,6 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
     UDataTable *RaceDataTable = nullptr;
 
-    /** Referência ao Data Table de classes */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
-    UDataTable *ClassDataTable = nullptr;
-
     /** Referência ao Data Table de backgrounds */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
     UDataTable *BackgroundDataTable = nullptr;
@@ -228,11 +216,6 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic | Info",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     FText CharacterDescription = FText::GetEmpty();
-
-    /** Nível total do personagem (soma de todos os níveis de classes, máximo 20) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Info",
-              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    int32 TotalLevel = 0;
 
     /** Strength final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
@@ -374,24 +357,10 @@ public:
     int32 PointBuyCharisma = 0;
 
     // ============================================================================
-    // Classes (Multi-classing)
-    // ============================================================================
-
-    /** Níveis em cada classe (permite multi-classing) */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Classes",
-              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    TArray<FClassLevelEntry> ClassLevels;
-
-    // ============================================================================
     // Calculated (Read-only)
     // ============================================================================
 
-    /** Features disponíveis baseadas nas classes e níveis */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated",
-              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    TArray<FName> AvailableFeatures;
-
-    /** Proficiências do personagem (raça + classe + background) */
+    /** Proficiências do personagem (background + Variant Human skill) */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     TArray<FName> Proficiencies;

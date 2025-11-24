@@ -3,7 +3,6 @@
 #include "CharacterSheetDataAssetGetOptions.h"
 #include "../../../Utils/CharacterSheetHelpers.h"
 #include "../../../Data/Tables/RaceDataTable.h"
-#include "../../../Data/Tables/ClassDataTable.h"
 #include "Engine/DataTable.h"
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetRaceNames(UDataTable *RaceDataTable)
@@ -34,26 +33,6 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetBackgroundNames(UDataTable 
     }
 
     return CharacterSheetHelpers::GetAllBackgroundNames(BackgroundDataTable);
-}
-
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetClassNames(UDataTable *ClassDataTable)
-{
-    if (!ClassDataTable)
-    {
-        return TArray<FName>();
-    }
-
-    return CharacterSheetHelpers::GetAllClassNames(ClassDataTable);
-}
-
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetSubclassNames(UDataTable *ClassDataTable, FName ClassName)
-{
-    if (!ClassDataTable || ClassName == NAME_None)
-    {
-        return TArray<FName>();
-    }
-
-    return CharacterSheetHelpers::GetAvailableSubclasses(ClassName, ClassDataTable);
 }
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAbilityScoreNames()

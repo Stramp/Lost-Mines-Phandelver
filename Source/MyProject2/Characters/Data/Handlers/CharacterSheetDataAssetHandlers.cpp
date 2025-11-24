@@ -69,23 +69,6 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacter
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
 }
 
-void FCharacterSheetDataAssetHandlers::HandleClassLevelsChange(UCharacterSheetDataAsset *Asset)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    // RAII Guard: gerencia bIsValidatingProperties automaticamente
-    FValidationGuard Guard(Asset);
-
-    // Valida nível total (máximo 20)
-    FCharacterSheetDataAssetValidators::ValidateTotalLevel(Asset);
-
-    // Features de classe mudam com níveis
-    FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
-}
-
 void FCharacterSheetDataAssetHandlers::HandleBackgroundChange(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -155,8 +138,8 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
     FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(Asset);
 
     // Log informativo sobre status dos Data Tables
-    bool bAllDataTablesSelected = Asset->RaceDataTable != nullptr && Asset->ClassDataTable != nullptr &&
-                                  Asset->BackgroundDataTable != nullptr && Asset->FeatDataTable != nullptr;
+    bool bAllDataTablesSelected =
+        Asset->RaceDataTable != nullptr && Asset->BackgroundDataTable != nullptr && Asset->FeatDataTable != nullptr;
 
     if (bAllDataTablesSelected)
     {
@@ -167,9 +150,8 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
     else
     {
         UE_LOG(LogTemp, Warning,
-               TEXT("CharacterSheetDataAsset: Ainda faltam Data Tables. Race: %s, Class: %s, Background: %s, Feat: %s"),
+               TEXT("CharacterSheetDataAsset: Ainda faltam Data Tables. Race: %s, Background: %s, Feat: %s"),
                Asset->RaceDataTable ? TEXT("OK") : TEXT("FALTANDO"),
-               Asset->ClassDataTable ? TEXT("OK") : TEXT("FALTANDO"),
                Asset->BackgroundDataTable ? TEXT("OK") : TEXT("FALTANDO"),
                Asset->FeatDataTable ? TEXT("OK") : TEXT("FALTANDO"));
     }
@@ -195,11 +177,6 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper(UCharacte
                                                                        FName PropertyName)
 {
     HandlePointBuyAllocationChange(Asset);
-}
-
-void FCharacterSheetDataAssetHandlers::HandleClassLevelsWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
-{
-    HandleClassLevelsChange(Asset);
 }
 
 void FCharacterSheetDataAssetHandlers::HandleSelectedBackgroundWrapper(UCharacterSheetDataAsset *Asset,

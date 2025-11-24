@@ -6,44 +6,6 @@
 #include "../../../Utils/ValidationHelpers.h"
 #include "Logging/LogMacros.h"
 
-void FCharacterSheetDataAssetValidators::ValidateTotalLevel(UCharacterSheetDataAsset *Asset)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    // Usa ValidationHelpers para calcular e validar nível total
-    int32 TotalLevel = 0;
-    bool bIsValid = ValidationHelpers::ValidateTotalLevel(Asset->ClassLevels, TotalLevel, 20);
-    Asset->TotalLevel = TotalLevel;
-
-    // Se nível total exceder 20, ajusta níveis das classes
-    // Nota: Ajuste de níveis individuais deve ficar no validator acoplado (modifica Asset)
-    if (!bIsValid && Asset->TotalLevel > 20)
-    {
-        Asset->TotalLevel = 20;
-
-        // Nota: bIsValidatingProperties deve ser gerenciado pelo caller (handler)
-        // Esta função assume que a flag já está setada corretamente
-
-        // Ajusta níveis das classes para não exceder 20
-        int32 RemainingLevels = 20;
-        for (FClassLevelEntry &Entry : Asset->ClassLevels)
-        {
-            if (RemainingLevels <= 0)
-            {
-                Entry.Level = 0;
-            }
-            else if (Entry.Level > RemainingLevels)
-            {
-                Entry.Level = RemainingLevels;
-            }
-            RemainingLevels -= Entry.Level;
-        }
-    }
-}
-
 void FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset || !Asset->bIsVariantHuman)

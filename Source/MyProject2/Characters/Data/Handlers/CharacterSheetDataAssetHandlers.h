@@ -27,12 +27,6 @@ public:
     static void HandlePointBuyAllocationChange(UCharacterSheetDataAsset *Asset);
 
     /**
-     * Handles changes to ClassLevels.
-     * Validates total level and updates calculated fields.
-     */
-    static void HandleClassLevelsChange(UCharacterSheetDataAsset *Asset);
-
-    /**
      * Handles changes to SelectedBackground.
      * Updates calculated fields (proficiencies, etc.).
      */
@@ -51,7 +45,7 @@ public:
     static void HandleLanguageChoicesChange(UCharacterSheetDataAsset *Asset);
 
     /**
-     * Handles changes to Data Tables (RaceDataTable, ClassDataTable, BackgroundDataTable, FeatDataTable).
+     * Handles changes to Data Tables (RaceDataTable, BackgroundDataTable, FeatDataTable).
      * Updates sheet visibility based on Data Tables selection and logs status.
      */
     static void HandleDataTableChange(UCharacterSheetDataAsset *Asset);
@@ -65,7 +59,6 @@ public:
     static void HandleSelectedRaceWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleSelectedSubraceWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandlePointBuyAllocationWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
-    static void HandleClassLevelsWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleSelectedBackgroundWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleVariantHumanChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleLanguageChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
