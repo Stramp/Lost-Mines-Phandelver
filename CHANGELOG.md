@@ -21,6 +21,50 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 <details>
 
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>[Unreleased]</b></summary>
+
+> 🔄 Mudanças em desenvolvimento
+>
+> Refatoração dos motores de bônus raciais e Point Buy com desacoplamento total e correção de bugs.
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔄 Changed</summary>
+>
+> > Mudanças em Funcionalidades Existentes
+> >
+> > 1. Commit [`22c7b4e`] - Implementar motores desacoplados para racial bonuses e point buy
+> >    - Criado `ResetFinalScoresToBase()` helper puro
+> >    - Refatorado `ApplyRacialBonusesToFinalScores()` → `IncrementFinalScoresWithRacialBonuses()` (apenas incrementa)
+> >    - Refatorado `ApplyPointBuyToFinalScores()` → `IncrementFinalScoresWithPointBuy()` (apenas incrementa, desacoplado)
+> >    - Criado `RecalculateFinalScores()` orquestrador centralizado
+> >    - Refatorado `UpdateRacialBonuses()` e `UpdatePointBuyAllocation()` para usar orquestrador
+> >    - Removido `CalculatePointBuyAllocation()` obsoleta
+> >    - Corrigida ordem de includes (.generated.h deve ser último)
+> >    - Adicionados getters/setters públicos para propriedades privadas
+> >    - Substituído `GET_MEMBER_NAME_CHECKED` por `FName(TEXT(...))` para evitar acesso a privados
+> >    - Motores totalmente desacoplados, sem cache, seguindo Clean Code e Design Patterns
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🐛 Fixed</summary>
+>
+> > Correções de Bugs
+> >
+> > 1. Commit [`29c4411`] - Corrigir bug de bônus de atributo racial pós refatoração
+> >    - Corrigida lógica de Variant Human: 1 item no array = +2, 2 items = +1 cada
+> >    - Simplificado código usando `BonusPerItem` calculado dinamicamente
+> >    - Adicionados logs de depuração para diagnóstico
+> >    - Corrigido acesso a membros privados usando getters/setters públicos
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>[0.3.0] - 2024-12-20</b></summary>
 
 > ✨ Sistema completo de raça e background com escolhas de idiomas
@@ -133,18 +177,6 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Adicionada regra honesty-and-questions.mdc
 >
 > </details>
-
-</details>
-
----
-
-<details>
-
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>[Unreleased]</b></summary>
-
-> 🔄 Mudanças em desenvolvimento
->
-> Mudanças pendentes de release.
 
 </details>
 
