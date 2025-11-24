@@ -4,6 +4,7 @@
 #include "../CharacterSheetDataAsset.h"
 #include "../Validators/CharacterSheetDataAssetValidators.h"
 #include "../Updaters/CharacterSheetDataAssetUpdaters.h"
+#include "../Helpers/ValidationGuard.h"
 #include "../../../CreateSheet/PointBuy/PointBuyValidator.h"
 #include "Logging/LogMacros.h"
 #include "UObject/UnrealType.h"
@@ -15,7 +16,8 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
         return;
     }
 
-    Asset->bIsValidatingProperties = true;
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
 
     // Resetar sub-raça se raça mudou
     if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace))
@@ -44,8 +46,6 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
 
     // Proficiências de raça mudam
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
-
-    Asset->bIsValidatingProperties = false;
 }
 
 void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacterSheetDataAsset *Asset)
@@ -55,7 +55,8 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacter
         return;
     }
 
-    Asset->bIsValidatingProperties = true;
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
 
     // Motor de Point Buy: aplica alocação nos Final Scores
     // Usa Core genérico via helper do Data Asset (aplica todos os motores)
@@ -66,8 +67,6 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacter
 
     // Features podem depender de ability scores
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
-
-    Asset->bIsValidatingProperties = false;
 }
 
 void FCharacterSheetDataAssetHandlers::HandleClassLevelsChange(UCharacterSheetDataAsset *Asset)
@@ -77,15 +76,14 @@ void FCharacterSheetDataAssetHandlers::HandleClassLevelsChange(UCharacterSheetDa
         return;
     }
 
-    Asset->bIsValidatingProperties = true;
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
 
     // Valida nível total (máximo 20)
     FCharacterSheetDataAssetValidators::ValidateTotalLevel(Asset);
 
     // Features de classe mudam com níveis
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
-
-    Asset->bIsValidatingProperties = false;
 }
 
 void FCharacterSheetDataAssetHandlers::HandleBackgroundChange(UCharacterSheetDataAsset *Asset)
@@ -95,15 +93,14 @@ void FCharacterSheetDataAssetHandlers::HandleBackgroundChange(UCharacterSheetDat
         return;
     }
 
-    Asset->bIsValidatingProperties = true;
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
 
     // Escolhas de idiomas podem mudar quando background muda
     FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(Asset);
 
     // Proficiências de background mudam
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
-
-    Asset->bIsValidatingProperties = false;
 }
 
 void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesChange(UCharacterSheetDataAsset *Asset)
@@ -113,15 +110,14 @@ void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesChange(UCharacterShe
         return;
     }
 
-    Asset->bIsValidatingProperties = true;
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
 
     // Valida escolhas de idiomas
     FCharacterSheetDataAssetValidators::ValidateLanguageChoices(Asset);
 
     // Recalcula idiomas finais
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
-
-    Asset->bIsValidatingProperties = false;
 }
 
 void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacterSheetDataAsset *Asset)
@@ -131,7 +127,8 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
         return;
     }
 
-    Asset->bIsValidatingProperties = true;
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
 
     // Valida escolhas de Variant Human
     FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(Asset);
@@ -142,8 +139,6 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
 
     // Recalcula proficiências (SelectedSkill do Variant Human afeta proficiências)
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
-
-    Asset->bIsValidatingProperties = false;
 }
 
 void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetDataAsset *Asset)
@@ -153,7 +148,8 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
         return;
     }
 
-    Asset->bIsValidatingProperties = true;
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
 
     // Atualiza visibilidade da ficha baseado na seleção de Data Tables
     FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(Asset);
@@ -177,8 +173,6 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
                Asset->BackgroundDataTable ? TEXT("OK") : TEXT("FALTANDO"),
                Asset->FeatDataTable ? TEXT("OK") : TEXT("FALTANDO"));
     }
-
-    Asset->bIsValidatingProperties = false;
 }
 
 // ============================================================================

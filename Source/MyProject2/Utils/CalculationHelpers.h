@@ -37,17 +37,6 @@ namespace CalculationHelpers
     int32 CalculateAbilityModifier(int32 Score);
 
     /**
-     * Calcula o score final de ability score.
-     * Fórmula: FinalScore = BaseScore (8) + RacialBonus + PointBuyAllocation + ASIBonus
-     *
-     * @param RacialBonus Bônus racial aplicado
-     * @param PointBuyAllocation Alocação de Point Buy (0-7 pontos)
-     * @param ASIBonus Bônus de Ability Score Improvement (padrão: 0)
-     * @return Score final (8 + RacialBonus + PointBuyAllocation + ASIBonus)
-     */
-    int32 CalculateFinalAbilityScore(int32 RacialBonus, int32 PointBuyAllocation, int32 ASIBonus = 0);
-
-    /**
      * Reseta Final Scores para valor base (8).
      * Função pura que apenas reseta valores.
      *

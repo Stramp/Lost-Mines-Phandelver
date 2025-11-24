@@ -20,13 +20,6 @@ int32 CalculationHelpers::CalculateAbilityModifier(int32 Score)
     return FMath::FloorToInt((Score - 10) / 2.0f);
 }
 
-int32 CalculationHelpers::CalculateFinalAbilityScore(int32 RacialBonus, int32 PointBuyAllocation, int32 ASIBonus)
-{
-    // Base fixa = 8 (constante hardcoded)
-    const int32 BaseScore = 8;
-    return BaseScore + RacialBonus + PointBuyAllocation + ASIBonus;
-}
-
 void CalculationHelpers::ResetFinalScoresToBase(int32 &FinalStrength, int32 &FinalDexterity, int32 &FinalConstitution,
                                                 int32 &FinalIntelligence, int32 &FinalWisdom, int32 &FinalCharisma)
 {
@@ -74,11 +67,11 @@ int32 CalculationHelpers::CalculateProficiencyBonus(int32 TotalLevel)
 TArray<FName> CalculationHelpers::CalculateAvailableFeatures(const TArray<FClassLevelEntry> &ClassLevels,
                                                              UDataTable *ClassDataTable)
 {
-    TArray<FName> AvailableFeatures;
+    TSet<FName> AvailableFeaturesSet;
 
     if (!ClassDataTable)
     {
-        return AvailableFeatures;
+        return TArray<FName>();
     }
 
     // Coleta features de todas as classes e níveis
@@ -95,11 +88,12 @@ TArray<FName> CalculationHelpers::CalculateAvailableFeatures(const TArray<FClass
             CharacterSheetHelpers::GetFeaturesAtLevel(ClassEntry.ClassName, ClassEntry.Level, ClassDataTable);
         for (const FClassFeature &Feature : Features)
         {
-            AvailableFeatures.AddUnique(Feature.FeatureName);
+            AvailableFeaturesSet.Add(Feature.FeatureName);
         }
     }
 
-    return AvailableFeatures;
+    // Converte TSet para TArray (ordem não importa para features)
+    return AvailableFeaturesSet.Array();
 }
 
 TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName SubraceName,
@@ -108,7 +102,7 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
                                                          UDataTable *RaceDataTable, UDataTable *ClassDataTable,
                                                          UDataTable *BackgroundDataTable)
 {
-    TArray<FName> Proficiencies;
+    TSet<FName> ProficienciesSet;
 
     // Coleta proficiências de todas as classes (multi-classing)
     if (ClassDataTable)
@@ -128,7 +122,7 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
                 {
                     if (Prof.ProficiencyName != NAME_None)
                     {
-                        Proficiencies.AddUnique(Prof.ProficiencyName);
+                        ProficienciesSet.Add(Prof.ProficiencyName);
                     }
                 }
 
@@ -137,7 +131,7 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
                 {
                     if (Prof.ProficiencyName != NAME_None)
                     {
-                        Proficiencies.AddUnique(Prof.ProficiencyName);
+                        ProficienciesSet.Add(Prof.ProficiencyName);
                     }
                 }
 
@@ -146,7 +140,7 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
                 {
                     if (Prof.ProficiencyName != NAME_None)
                     {
-                        Proficiencies.AddUnique(Prof.ProficiencyName);
+                        ProficienciesSet.Add(Prof.ProficiencyName);
                     }
                 }
 
@@ -155,7 +149,7 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
                 {
                     if (Prof.ProficiencyName != NAME_None)
                     {
-                        Proficiencies.AddUnique(Prof.ProficiencyName);
+                        ProficienciesSet.Add(Prof.ProficiencyName);
                     }
                 }
             }
@@ -173,7 +167,7 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
             {
                 if (SkillProf != NAME_None)
                 {
-                    Proficiencies.AddUnique(SkillProf);
+                    ProficienciesSet.Add(SkillProf);
                 }
             }
 
@@ -186,21 +180,22 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
     // Variant Human permite escolher 1 skill proficiency no nível 1
     if (SubraceName == TEXT("Variant Human") && SelectedSkill != NAME_None)
     {
-        Proficiencies.AddUnique(SelectedSkill);
+        ProficienciesSet.Add(SelectedSkill);
     }
 
     // NOTA: Proficiências de raça podem vir de Traits especiais (ex: Dwarf Stonecunning)
     // Por enquanto, não implementado. Se necessário no futuro, adicionar lógica aqui
     // para extrair proficiências de Traits específicos da raça/sub-raça.
 
-    return Proficiencies;
+    // Converte TSet para TArray (ordem não importa para proficiências)
+    return ProficienciesSet.Array();
 }
 
 TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName SubraceName, FName BackgroundName,
                                                      const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
                                                      UDataTable *BackgroundDataTable)
 {
-    TArray<FName> Languages;
+    TSet<FName> LanguagesSet;
 
     // Coleta idiomas automáticos da raça base
     if (RaceDataTable && RaceName != NAME_None)
@@ -211,7 +206,7 @@ TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName Subra
             {
                 if (Language != NAME_None)
                 {
-                    Languages.AddUnique(Language);
+                    LanguagesSet.Add(Language);
                 }
             }
         }
@@ -226,7 +221,7 @@ TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName Subra
             {
                 if (Language != NAME_None)
                 {
-                    Languages.AddUnique(Language);
+                    LanguagesSet.Add(Language);
                 }
             }
         }
@@ -243,7 +238,7 @@ TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName Subra
             {
                 if (Language != NAME_None)
                 {
-                    Languages.AddUnique(Language);
+                    LanguagesSet.Add(Language);
                 }
             }
         }
@@ -254,9 +249,10 @@ TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName Subra
     {
         if (SelectedLanguage != NAME_None)
         {
-            Languages.AddUnique(SelectedLanguage);
+            LanguagesSet.Add(SelectedLanguage);
         }
     }
 
-    return Languages;
+    // Converte TSet para TArray (ordem não importa para idiomas)
+    return LanguagesSet.Array();
 }

@@ -14,16 +14,14 @@
 
 TArray<FName> CharacterSheetHelpers::GetAllRaceNames(UDataTable *RaceDataTable)
 {
-    TArray<FName> RaceNames;
-
     if (!RaceDataTable)
     {
-        return RaceNames;
+        return TArray<FName>();
     }
 
     // Primeiro, coleta todos os nomes de sub-raças de todas as rows
     // Isso permite identificar quais raças são sub-raças (não devem aparecer no dropdown)
-    TArray<FName> AllSubraceNames;
+    TSet<FName> AllSubraceNamesSet;
     TArray<FName> RowNames = RaceDataTable->GetRowNames();
     for (const FName &RowName : RowNames)
     {
@@ -34,13 +32,14 @@ TArray<FName> CharacterSheetHelpers::GetAllRaceNames(UDataTable *RaceDataTable)
             {
                 if (SubraceName != NAME_None)
                 {
-                    AllSubraceNames.AddUnique(SubraceName);
+                    AllSubraceNamesSet.Add(SubraceName);
                 }
             }
         }
     }
 
     // Agora, itera novamente e adiciona apenas raças base (que não são sub-raças de outra raça)
+    TSet<FName> RaceNamesSet;
     for (const FName &RowName : RowNames)
     {
         if (FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("GetAllRaceNames")))
@@ -48,39 +47,31 @@ TArray<FName> CharacterSheetHelpers::GetAllRaceNames(UDataTable *RaceDataTable)
             // Adiciona apenas se:
             // 1. RaceName não é None
             // 2. RaceName não está na lista de sub-raças (é uma raça base, não sub-raça)
-            if (Row->RaceName != NAME_None && !AllSubraceNames.Contains(Row->RaceName))
+            if (Row->RaceName != NAME_None && !AllSubraceNamesSet.Contains(Row->RaceName))
             {
-                RaceNames.AddUnique(Row->RaceName);
+                RaceNamesSet.Add(Row->RaceName);
             }
         }
     }
 
-    return RaceNames;
+    // Converte TSet para TArray (ordem não importa para nomes de raças)
+    return RaceNamesSet.Array();
 }
 
 TArray<FName> CharacterSheetHelpers::GetAvailableSubraces(FName RaceName, UDataTable *RaceDataTable)
 {
-    TArray<FName> SubraceNames;
-
     if (!RaceDataTable || RaceName == NAME_None)
     {
-        return SubraceNames;
+        return TArray<FName>();
     }
 
-    TArray<FName> RowNames = RaceDataTable->GetRowNames();
-    for (const FName &RowName : RowNames)
+    // Usa DataTableHelpers para buscar row de raça (otimização: remove loop O(n²))
+    if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(RaceName, RaceDataTable))
     {
-        if (FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("GetAvailableSubraces")))
-        {
-            if (Row->RaceName == RaceName)
-            {
-                SubraceNames = Row->SubraceNames;
-                break;
-            }
-        }
+        return RaceRow->SubraceNames;
     }
 
-    return SubraceNames;
+    return TArray<FName>();
 }
 
 // ============================================================================
@@ -89,13 +80,12 @@ TArray<FName> CharacterSheetHelpers::GetAvailableSubraces(FName RaceName, UDataT
 
 TArray<FName> CharacterSheetHelpers::GetAllClassNames(UDataTable *ClassDataTable)
 {
-    TArray<FName> ClassNames;
-
     if (!ClassDataTable)
     {
-        return ClassNames;
+        return TArray<FName>();
     }
 
+    TSet<FName> ClassNamesSet;
     TArray<FName> RowNames = ClassDataTable->GetRowNames();
     for (const FName &RowName : RowNames)
     {
@@ -103,37 +93,29 @@ TArray<FName> CharacterSheetHelpers::GetAllClassNames(UDataTable *ClassDataTable
         {
             if (Row->ClassName != NAME_None)
             {
-                ClassNames.AddUnique(Row->ClassName);
+                ClassNamesSet.Add(Row->ClassName);
             }
         }
     }
 
-    return ClassNames;
+    // Converte TSet para TArray (ordem não importa para nomes de classes)
+    return ClassNamesSet.Array();
 }
 
 TArray<FName> CharacterSheetHelpers::GetAvailableSubclasses(FName ClassName, UDataTable *ClassDataTable)
 {
-    TArray<FName> SubclassNames;
-
     if (!ClassDataTable || ClassName == NAME_None)
     {
-        return SubclassNames;
+        return TArray<FName>();
     }
 
-    TArray<FName> RowNames = ClassDataTable->GetRowNames();
-    for (const FName &RowName : RowNames)
+    // Usa DataTableHelpers para buscar row de classe (otimização: remove loop O(n²))
+    if (FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, ClassDataTable))
     {
-        if (FClassDataRow *Row = ClassDataTable->FindRow<FClassDataRow>(RowName, TEXT("GetAvailableSubclasses")))
-        {
-            if (Row->ClassName == ClassName)
-            {
-                SubclassNames = Row->SubclassNames;
-                break;
-            }
-        }
+        return ClassRow->SubclassNames;
     }
 
-    return SubclassNames;
+    return TArray<FName>();
 }
 
 bool CharacterSheetHelpers::CanSelectSubclass(FName ClassName, int32 ClassLevel, UDataTable *ClassDataTable)
@@ -159,35 +141,31 @@ bool CharacterSheetHelpers::CanSelectSubclass(FName ClassName, int32 ClassLevel,
 TArray<FClassFeature> CharacterSheetHelpers::GetFeaturesAtLevel(FName ClassName, int32 Level,
                                                                 UDataTable *ClassDataTable)
 {
-    TArray<FClassFeature> Features;
-
     if (!ClassDataTable || ClassName == NAME_None || Level < 1)
     {
+        return TArray<FClassFeature>();
+    }
+
+    // Usa DataTableHelpers para buscar row de classe (otimização: remove loop O(n²))
+    if (FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, ClassDataTable))
+    {
+        TArray<FClassFeature> Features;
+        Features.Reserve(ClassRow->Features.Num()); // Pre-aloca memória
+
+        for (const FClassFeature &Feature : ClassRow->Features)
+        {
+            // Features persistem uma vez desbloqueadas (comportamento D&D 5e)
+            // Retorna todas as features desbloqueadas até o nível especificado
+            if (Feature.LevelUnlocked <= Level)
+            {
+                Features.Add(Feature);
+            }
+        }
+
         return Features;
     }
 
-    TArray<FName> RowNames = ClassDataTable->GetRowNames();
-    for (const FName &RowName : RowNames)
-    {
-        if (FClassDataRow *Row = ClassDataTable->FindRow<FClassDataRow>(RowName, TEXT("GetFeaturesAtLevel")))
-        {
-            if (Row->ClassName == ClassName)
-            {
-                for (const FClassFeature &Feature : Row->Features)
-                {
-                    // Features persistem uma vez desbloqueadas (comportamento D&D 5e)
-                    // Retorna todas as features desbloqueadas até o nível especificado
-                    if (Feature.LevelUnlocked <= Level)
-                    {
-                        Features.Add(Feature);
-                    }
-                }
-                break;
-            }
-        }
-    }
-
-    return Features;
+    return TArray<FClassFeature>();
 }
 
 // ============================================================================
@@ -196,13 +174,12 @@ TArray<FClassFeature> CharacterSheetHelpers::GetFeaturesAtLevel(FName ClassName,
 
 TArray<FName> CharacterSheetHelpers::GetAllBackgroundNames(UDataTable *BackgroundDataTable)
 {
-    TArray<FName> BackgroundNames;
-
     if (!BackgroundDataTable)
     {
-        return BackgroundNames;
+        return TArray<FName>();
     }
 
+    TSet<FName> BackgroundNamesSet;
     TArray<FName> RowNames = BackgroundDataTable->GetRowNames();
     for (const FName &RowName : RowNames)
     {
@@ -211,12 +188,13 @@ TArray<FName> CharacterSheetHelpers::GetAllBackgroundNames(UDataTable *Backgroun
         {
             if (Row->BackgroundName != NAME_None)
             {
-                BackgroundNames.AddUnique(Row->BackgroundName);
+                BackgroundNamesSet.Add(Row->BackgroundName);
             }
         }
     }
 
-    return BackgroundNames;
+    // Converte TSet para TArray (ordem não importa para nomes de backgrounds)
+    return BackgroundNamesSet.Array();
 }
 
 // ============================================================================
@@ -307,18 +285,17 @@ bool CharacterSheetHelpers::MeetsFeatPrerequisites(const FFeatDataRow *Row, cons
 TArray<FName> CharacterSheetHelpers::GetAvailableFeats(int32 TotalLevel, const TMap<FName, int32> &AbilityScores,
                                                        UDataTable *FeatDataTable)
 {
-    TArray<FName> AvailableFeats;
-
     if (!FeatDataTable || TotalLevel < 1)
     {
-        return AvailableFeats;
+        return TArray<FName>();
     }
 
     if (!CharacterSheetHelpers::CanTakeFeatAtLevel(TotalLevel))
     {
-        return AvailableFeats;
+        return TArray<FName>();
     }
 
+    TSet<FName> AvailableFeatsSet;
     TArray<FName> RowNames = FeatDataTable->GetRowNames();
     for (const FName &RowName : RowNames)
     {
@@ -331,26 +308,26 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeats(int32 TotalLevel, const T
 
             if (CharacterSheetHelpers::MeetsFeatPrerequisites(Row, AbilityScores))
             {
-                AvailableFeats.AddUnique(Row->FeatName);
+                AvailableFeatsSet.Add(Row->FeatName);
             }
         }
     }
 
-    return AvailableFeats;
+    // Converte TSet para TArray (ordem não importa para feats)
+    return AvailableFeatsSet.Array();
 }
 
 TArray<FName> CharacterSheetHelpers::GetAvailableFeatsForVariantHuman(const TMap<FName, int32> &AbilityScores,
                                                                       UDataTable *FeatDataTable)
 {
-    TArray<FName> AvailableFeats;
-
     if (!FeatDataTable)
     {
-        return AvailableFeats;
+        return TArray<FName>();
     }
 
     // Variant Human pode escolher feat no nível 1 (bypassa verificação de nível)
     // Ainda valida pré-requisitos de ability scores
+    TSet<FName> AvailableFeatsSet;
     TArray<FName> RowNames = FeatDataTable->GetRowNames();
     for (const FName &RowName : RowNames)
     {
@@ -364,12 +341,13 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeatsForVariantHuman(const TMap
             // Valida apenas pré-requisitos de ability scores (sem verificação de nível)
             if (CharacterSheetHelpers::MeetsFeatPrerequisites(Row, AbilityScores))
             {
-                AvailableFeats.AddUnique(Row->FeatName);
+                AvailableFeatsSet.Add(Row->FeatName);
             }
         }
     }
 
-    return AvailableFeats;
+    // Converte TSet para TArray (ordem não importa para feats)
+    return AvailableFeatsSet.Array();
 }
 
 // ============================================================================
@@ -503,7 +481,7 @@ bool CharacterSheetHelpers::HasLanguageChoiceFromBackground(FName BackgroundName
 TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName SubraceName, FName BackgroundName,
                                                            UDataTable *RaceDataTable, UDataTable *BackgroundDataTable)
 {
-    TArray<FName> AutomaticLanguages;
+    TSet<FName> AutomaticLanguagesSet;
 
     // Coleta idiomas automáticos da raça base
     if (RaceDataTable && RaceName != NAME_None)
@@ -514,7 +492,7 @@ TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName
             {
                 if (Language != NAME_None)
                 {
-                    AutomaticLanguages.AddUnique(Language);
+                    AutomaticLanguagesSet.Add(Language);
                 }
             }
         }
@@ -529,7 +507,7 @@ TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName
             {
                 if (Language != NAME_None)
                 {
-                    AutomaticLanguages.AddUnique(Language);
+                    AutomaticLanguagesSet.Add(Language);
                 }
             }
         }
@@ -545,13 +523,14 @@ TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName
             {
                 if (Language != NAME_None)
                 {
-                    AutomaticLanguages.AddUnique(Language);
+                    AutomaticLanguagesSet.Add(Language);
                 }
             }
         }
     }
 
-    return AutomaticLanguages;
+    // Converte TSet para TArray (ordem não importa para idiomas)
+    return AutomaticLanguagesSet.Array();
 }
 
 TArray<FName> CharacterSheetHelpers::GetAvailableLanguagesForChoice(FName RaceName, FName SubraceName,
@@ -567,18 +546,23 @@ TArray<FName> CharacterSheetHelpers::GetAvailableLanguagesForChoice(FName RaceNa
     TArray<FName> AutomaticLanguages =
         GetAutomaticLanguages(RaceName, SubraceName, BackgroundName, RaceDataTable, BackgroundDataTable);
 
+    // Converte para TSet para busca O(1) em vez de O(n)
+    TSet<FName> AutomaticLanguagesSet(AutomaticLanguages);
+    TSet<FName> SelectedLanguagesSet(SelectedLanguages);
+
     // Remove idiomas já conhecidos (automáticos + já escolhidos no array) do array completo
     TArray<FName> AvailableLanguages;
+    AvailableLanguages.Reserve(AllLanguages.Num()); // Pre-aloca memória
     for (const FName &Language : AllLanguages)
     {
-        // Exclui idiomas automáticos
-        if (AutomaticLanguages.Contains(Language))
+        // Exclui idiomas automáticos (busca O(1) com TSet)
+        if (AutomaticLanguagesSet.Contains(Language))
         {
             continue;
         }
 
-        // Exclui idiomas já escolhidos no array SelectedLanguages
-        if (SelectedLanguages.Contains(Language))
+        // Exclui idiomas já escolhidos no array SelectedLanguages (busca O(1) com TSet)
+        if (SelectedLanguagesSet.Contains(Language))
         {
             continue;
         }

@@ -92,12 +92,6 @@ void FRaceBonusHelpers::IncrementFinalScoresWithRacialBonuses(const TMap<FName, 
                                                               int32 &FinalConstitution, int32 &FinalIntelligence,
                                                               int32 &FinalWisdom, int32 &FinalCharisma)
 {
-    UE_LOG(LogTemp, Error, TEXT("[DEBUG] RacialBonuses: %d entradas"), RacialBonuses.Num());
-    for (const auto &Pair : RacialBonuses)
-    {
-        UE_LOG(LogTemp, Error, TEXT("[DEBUG]   %s = %d"), *Pair.Key.ToString(), Pair.Value);
-    }
-
     // Apenas incrementa (não reseta, não conhece Point Buy)
     FinalStrength += RacialBonuses.FindRef(TEXT("Strength"));
     FinalDexterity += RacialBonuses.FindRef(TEXT("Dexterity"));
@@ -105,6 +99,4 @@ void FRaceBonusHelpers::IncrementFinalScoresWithRacialBonuses(const TMap<FName, 
     FinalIntelligence += RacialBonuses.FindRef(TEXT("Intelligence"));
     FinalWisdom += RacialBonuses.FindRef(TEXT("Wisdom"));
     FinalCharisma += RacialBonuses.FindRef(TEXT("Charisma"));
-
-    UE_LOG(LogTemp, Warning, TEXT("[DEBUG] Final após bônus racial: Str=%d"), FinalStrength);
 }

@@ -4,6 +4,7 @@
 #include "RaceBonusHelpers.h"
 #include "../Core/CharacterSheetData.h"
 #include "../../Data/Tables/RaceDataTable.h"
+#include "../../Utils/DataTableHelpers.h"
 #include "Logging/LogMacros.h"
 
 void FRaceBonusMotor::ApplyRacialBonuses(FCharacterSheetData &Data)
@@ -20,26 +21,8 @@ void FRaceBonusMotor::ApplyRacialBonuses(FCharacterSheetData &Data)
     TMap<FName, int32> RacialBonuses;
     if (Data.RaceDataTable && Data.SelectedRace != NAME_None)
     {
-        // Busca dados da raça base no Data Table
-        FRaceDataRow *RaceRow =
-            Data.RaceDataTable->FindRow<FRaceDataRow>(Data.SelectedRace, TEXT("ApplyRacialBonuses"));
-
-        // Fallback: Se FindRow não encontrou, busca manual
-        if (!RaceRow)
-        {
-            TArray<FName> RowNames = Data.RaceDataTable->GetRowNames();
-            for (const FName &RowName : RowNames)
-            {
-                if (FRaceDataRow *Row = Data.RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("ApplyRacialBonuses")))
-                {
-                    if (Row->RaceName == Data.SelectedRace)
-                    {
-                        RaceRow = Row;
-                        break;
-                    }
-                }
-            }
-        }
+        // Usa DataTableHelpers para buscar row de raça (remove código duplicado)
+        FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(Data.SelectedRace, Data.RaceDataTable);
 
         // Busca sub-raça se necessário
         FRaceDataRow *SubraceRow = nullptr;
@@ -58,27 +41,8 @@ void FRaceBonusMotor::ApplyRacialBonuses(FCharacterSheetData &Data)
             }
             else
             {
-                // Busca direta da sub-raça
-                SubraceRow =
-                    Data.RaceDataTable->FindRow<FRaceDataRow>(Data.SelectedSubrace, TEXT("ApplyRacialBonuses"));
-
-                // Fallback: busca manual se FindRow não encontrou
-                if (!SubraceRow)
-                {
-                    TArray<FName> RowNames = Data.RaceDataTable->GetRowNames();
-                    for (const FName &RowName : RowNames)
-                    {
-                        if (FRaceDataRow *Row =
-                                Data.RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("ApplyRacialBonuses")))
-                        {
-                            if (Row->RaceName == Data.SelectedSubrace)
-                            {
-                                SubraceRow = Row;
-                                break;
-                            }
-                        }
-                    }
-                }
+                // Usa DataTableHelpers para buscar row de sub-raça (remove código duplicado)
+                SubraceRow = DataTableHelpers::FindSubraceRow(Data.SelectedSubrace, Data.RaceDataTable);
 
                 if (!SubraceRow)
                 {

@@ -25,23 +25,30 @@ void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDat
     // Nota: bIsValidatingProperties deve ser gerenciado pelo caller (handler)
     // Esta função assume que a flag já está setada corretamente
 
+    // Pre-aloca memória antes de repopular arrays (otimização de performance)
     Asset->AvailableFeatures.Empty();
     Asset->Proficiencies.Empty();
     Asset->Languages.Empty();
 
     // Usa CalculationHelpers para calcular features disponíveis (função pura)
-    Asset->AvailableFeatures =
+    TArray<FName> CalculatedFeatures =
         CalculationHelpers::CalculateAvailableFeatures(Asset->ClassLevels, Asset->ClassDataTable);
+    Asset->AvailableFeatures.Reserve(CalculatedFeatures.Num());
+    Asset->AvailableFeatures = CalculatedFeatures;
 
     // Usa CalculationHelpers para calcular proficiências (raça, classe, background e Variant Human skill)
-    Asset->Proficiencies = CalculationHelpers::CalculateProficiencies(
+    TArray<FName> CalculatedProficiencies = CalculationHelpers::CalculateProficiencies(
         Asset->SelectedRace, Asset->SelectedSubrace, Asset->ClassLevels, Asset->SelectedBackground,
         Asset->SelectedSkill, Asset->RaceDataTable, Asset->ClassDataTable, Asset->BackgroundDataTable);
+    Asset->Proficiencies.Reserve(CalculatedProficiencies.Num());
+    Asset->Proficiencies = CalculatedProficiencies;
 
     // Usa CalculationHelpers para calcular idiomas finais (raça + background + escolhas do jogador)
-    Asset->Languages = CalculationHelpers::CalculateLanguages(Asset->SelectedRace, Asset->SelectedSubrace,
-                                                              Asset->SelectedBackground, Asset->SelectedLanguages,
-                                                              Asset->RaceDataTable, Asset->BackgroundDataTable);
+    TArray<FName> CalculatedLanguages = CalculationHelpers::CalculateLanguages(
+        Asset->SelectedRace, Asset->SelectedSubrace, Asset->SelectedBackground, Asset->SelectedLanguages,
+        Asset->RaceDataTable, Asset->BackgroundDataTable);
+    Asset->Languages.Reserve(CalculatedLanguages.Num());
+    Asset->Languages = CalculatedLanguages;
 }
 
 void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetDataAsset *Asset)
