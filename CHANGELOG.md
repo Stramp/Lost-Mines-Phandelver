@@ -70,6 +70,15 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Substituído `GET_MEMBER_NAME_CHECKED` por `FName(TEXT(...))` para evitar acesso a privados
 > >    - Motores totalmente desacoplados, sem cache, seguindo Clean Code e Design Patterns
 >
+> > 3. Commit [`816bdab`] - Atualizar documentação completa para incluir CreateSheet/ e motores desacoplados
+> >    - Adicionado `CreateSheet/` na estrutura de diretórios em README.md e ARCHITECTURE.md
+> >    - Documentada arquitetura CreateSheet/ com motores desacoplados (RaceBonus, PointBuy)
+> >    - Atualizados diagramas de fluxo de dados para incluir CharacterSheetCore
+> >    - Adicionada seção completa de CreateSheet/ na API.md
+> >    - Expandida documentação de Helpers e Utilitários com novas funções
+> >    - Atualizados guias práticos (getting-started, data-tables) para mencionar motores
+> >    - Adicionados padrões de CreateSheet/ no CONTRIBUTING.md
+>
 > </details>
 >
 > <details>
