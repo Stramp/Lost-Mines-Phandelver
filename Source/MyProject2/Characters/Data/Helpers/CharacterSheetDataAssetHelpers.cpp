@@ -13,7 +13,6 @@ void FCharacterSheetDataAssetHelpers::InitializeDefaultAbilityScores(TMap<FName,
     {
         FAbilityScoreEntry Entry;
         Entry.BaseScore = DefaultValue;
-        Entry.FinalScore = DefaultValue;
         AbilityScores.Add(AbilityName, Entry);
     }
 }

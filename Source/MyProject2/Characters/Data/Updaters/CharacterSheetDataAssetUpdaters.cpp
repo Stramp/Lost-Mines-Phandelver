@@ -31,8 +31,8 @@ void FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(UCharacterSheetDataAs
         for (auto &Pair : Asset->AbilityScores)
         {
             Pair.Value.RacialBonus = 0;
-            Pair.Value.FinalScore = Pair.Value.BaseScore;
         }
+        UpdateFinalAbilityScores(Asset);
         return;
     }
 
@@ -71,8 +71,8 @@ void FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(UCharacterSheetDataAs
         for (auto &Pair : Asset->AbilityScores)
         {
             Pair.Value.RacialBonus = 0;
-            Pair.Value.FinalScore = Pair.Value.BaseScore;
         }
+        UpdateFinalAbilityScores(Asset);
         return;
     }
 
@@ -139,12 +139,8 @@ void FCharacterSheetDataAssetUpdaters::UpdateRacialBonuses(UCharacterSheetDataAs
         }
     }
 
-    // Atualizar scores finais após aplicar bônus da raça e sub-raça
-    for (auto &Pair : Asset->AbilityScores)
-    {
-        Pair.Value.FinalScore =
-            CalculationHelpers::CalculateFinalAbilityScore(Pair.Value.BaseScore, Pair.Value.RacialBonus, 0);
-    }
+    // Atualizar campos de final scores (FinalStrength, FinalDexterity, etc.)
+    UpdateFinalAbilityScores(Asset);
 }
 
 void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDataAsset *Asset)
@@ -363,5 +359,71 @@ void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetData
             }
         }
 #endif
+    }
+}
+
+void FCharacterSheetDataAssetUpdaters::UpdateFinalAbilityScores(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    // Atualiza cada campo final baseado no AbilityScores TMap
+    // Usa CalculationHelpers para calcular o score final (BaseScore + RacialBonus + ASI)
+    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Strength")))
+    {
+        Asset->FinalStrength = CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
+    }
+    else
+    {
+        Asset->FinalStrength = 8; // Default
+    }
+
+    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Dexterity")))
+    {
+        Asset->FinalDexterity = CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
+    }
+    else
+    {
+        Asset->FinalDexterity = 8; // Default
+    }
+
+    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Constitution")))
+    {
+        Asset->FinalConstitution =
+            CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
+    }
+    else
+    {
+        Asset->FinalConstitution = 8; // Default
+    }
+
+    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Intelligence")))
+    {
+        Asset->FinalIntelligence =
+            CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
+    }
+    else
+    {
+        Asset->FinalIntelligence = 8; // Default
+    }
+
+    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Wisdom")))
+    {
+        Asset->FinalWisdom = CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
+    }
+    else
+    {
+        Asset->FinalWisdom = 8; // Default
+    }
+
+    if (const FAbilityScoreEntry *Entry = Asset->AbilityScores.Find(TEXT("Charisma")))
+    {
+        Asset->FinalCharisma = CalculationHelpers::CalculateFinalAbilityScore(Entry->BaseScore, Entry->RacialBonus, 0);
+    }
+    else
+    {
+        Asset->FinalCharisma = 8; // Default
     }
 }

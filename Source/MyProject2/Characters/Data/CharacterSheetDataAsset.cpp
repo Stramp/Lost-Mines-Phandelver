@@ -195,12 +195,14 @@ TArray<FName> UCharacterSheetDataAsset::GetAbilityScoreNames() const
 
 TArray<FName> UCharacterSheetDataAsset::GetAvailableFeatNames() const
 {
-    // Converte AbilityScores para formato esperado pelo módulo
+    // Converte campos finais para formato esperado pelo módulo
     TMap<FName, int32> CurrentAbilityScores;
-    for (const auto &Pair : AbilityScores)
-    {
-        CurrentAbilityScores.Add(Pair.Key, Pair.Value.FinalScore);
-    }
+    CurrentAbilityScores.Add(TEXT("Strength"), FinalStrength);
+    CurrentAbilityScores.Add(TEXT("Dexterity"), FinalDexterity);
+    CurrentAbilityScores.Add(TEXT("Constitution"), FinalConstitution);
+    CurrentAbilityScores.Add(TEXT("Intelligence"), FinalIntelligence);
+    CurrentAbilityScores.Add(TEXT("Wisdom"), FinalWisdom);
+    CurrentAbilityScores.Add(TEXT("Charisma"), FinalCharisma);
 
     return FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(FeatDataTable, CurrentAbilityScores);
 }

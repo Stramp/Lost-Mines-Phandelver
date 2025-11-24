@@ -113,12 +113,14 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
         }
     }
 
-    // Copia ability scores (apenas os valores finais)
+    // Copia ability scores (valores finais dos campos dedicados)
     CharacterDataComponent->AbilityScores.Empty();
-    for (const auto &Pair : DataAsset->AbilityScores)
-    {
-        CharacterDataComponent->AbilityScores.Add(Pair.Key, Pair.Value.FinalScore);
-    }
+    CharacterDataComponent->AbilityScores.Add(TEXT("Strength"), DataAsset->FinalStrength);
+    CharacterDataComponent->AbilityScores.Add(TEXT("Dexterity"), DataAsset->FinalDexterity);
+    CharacterDataComponent->AbilityScores.Add(TEXT("Constitution"), DataAsset->FinalConstitution);
+    CharacterDataComponent->AbilityScores.Add(TEXT("Intelligence"), DataAsset->FinalIntelligence);
+    CharacterDataComponent->AbilityScores.Add(TEXT("Wisdom"), DataAsset->FinalWisdom);
+    CharacterDataComponent->AbilityScores.Add(TEXT("Charisma"), DataAsset->FinalCharisma);
 
     // Salva referência ao Data Asset
     SourceDataAsset = DataAsset;

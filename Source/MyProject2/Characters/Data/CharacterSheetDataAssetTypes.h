@@ -22,9 +22,5 @@ struct MYPROJECT2_API FAbilityScoreEntry
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
     int32 RacialBonus = 0;
 
-    /** Score final (BaseScore + RacialBonus) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
-    int32 FinalScore = 8;
-
-    FAbilityScoreEntry() : BaseScore(8), RacialBonus(0), FinalScore(8) {}
+    FAbilityScoreEntry() : BaseScore(8), RacialBonus(0) {}
 };

@@ -147,9 +147,32 @@ public:
     FText CharacterDescription = FText::GetEmpty();
 
     /** Nível total do personagem (soma de todos os níveis de classes, máximo 20) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info",
-              meta = (EditCondition = "!bCanShowSheet", EditConditionHides))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
     int32 TotalLevel = 0;
+
+    /** Strength final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    int32 FinalStrength = 8;
+
+    /** Dexterity final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    int32 FinalDexterity = 8;
+
+    /** Constitution final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    int32 FinalConstitution = 8;
+
+    /** Intelligence final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    int32 FinalIntelligence = 8;
+
+    /** Wisdom final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    int32 FinalWisdom = 8;
+
+    /** Charisma final (BaseScore + RacialBonus + ASI) - Valor pronto para uso */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic Info", meta = (EditCondition = "false"))
+    int32 FinalCharisma = 8;
 
     // ============================================================================
     // Race & Background

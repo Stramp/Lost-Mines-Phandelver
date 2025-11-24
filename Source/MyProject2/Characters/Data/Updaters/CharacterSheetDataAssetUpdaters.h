@@ -49,4 +49,10 @@ public:
      * Detects if selected race has available subraces.
      */
     static void UpdateSubraceFlag(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Updates final ability scores fields (FinalStrength, FinalDexterity, etc.).
+     * Calculates final scores from BaseScore + RacialBonus + ASI.
+     */
+    static void UpdateFinalAbilityScores(UCharacterSheetDataAsset *Asset);
 };
