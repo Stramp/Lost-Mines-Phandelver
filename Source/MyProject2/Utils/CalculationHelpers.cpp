@@ -7,6 +7,7 @@
 #include "../Data/Tables/ClassDataTable.h"
 #include "../Data/Tables/BackgroundDataTable.h"
 #include "../Characters/Data/CharacterSheetDataAsset.h"
+#include "Logging/LogVerbosity.h"
 #include "Math/UnrealMathUtility.h"
 
 // ============================================================================
@@ -72,6 +73,8 @@ void CalculationHelpers::CalculateRacialBonuses(const FRaceDataRow *RaceRow, con
         // Variant Human permite escolher 2 atributos para receber +1 cada
         if (bHasCustomEntry)
         {
+
+            const int32 BonusPerItem = (CustomChoices.Num() == 1) ? 2 : 1;
             for (const FName &CustomAbility : CustomChoices)
             {
                 if (CustomAbility != NAME_None)
@@ -79,11 +82,11 @@ void CalculationHelpers::CalculateRacialBonuses(const FRaceDataRow *RaceRow, con
                     int32 *BonusPtr = RacialBonuses.Find(CustomAbility);
                     if (BonusPtr)
                     {
-                        *BonusPtr += 1; // Cada escolha dá +1
+                        *BonusPtr += BonusPerItem; // Acumula se já existe
                     }
                     else
                     {
-                        RacialBonuses.Add(CustomAbility, 1);
+                        RacialBonuses.Add(CustomAbility, BonusPerItem); // Adiciona se não existe
                     }
                 }
             }
@@ -125,6 +128,13 @@ void CalculationHelpers::IncrementFinalScoresWithRacialBonuses(const TMap<FName,
                                                                int32 &FinalConstitution, int32 &FinalIntelligence,
                                                                int32 &FinalWisdom, int32 &FinalCharisma)
 {
+
+    UE_LOG(LogTemp, Error, TEXT("[DEBUG] RacialBonuses: %d entradas"), RacialBonuses.Num());
+    for (const auto &Pair : RacialBonuses)
+    {
+        UE_LOG(LogTemp, Error, TEXT("[DEBUG]   %s = %d"), *Pair.Key.ToString(), Pair.Value);
+    }
+
     // Apenas incrementa (não reseta, não conhece Point Buy)
     FinalStrength += RacialBonuses.FindRef(TEXT("Strength"));
     FinalDexterity += RacialBonuses.FindRef(TEXT("Dexterity"));
@@ -132,6 +142,8 @@ void CalculationHelpers::IncrementFinalScoresWithRacialBonuses(const TMap<FName,
     FinalIntelligence += RacialBonuses.FindRef(TEXT("Intelligence"));
     FinalWisdom += RacialBonuses.FindRef(TEXT("Wisdom"));
     FinalCharisma += RacialBonuses.FindRef(TEXT("Charisma"));
+
+    UE_LOG(LogTemp, Warning, TEXT("[DEBUG] Final após bônus racial: Str=%d"), FinalStrength);
 }
 
 void CalculationHelpers::IncrementFinalScoresWithPointBuy(const TMap<FName, int32> &PointBuyAllocation,

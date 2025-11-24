@@ -65,8 +65,6 @@ void FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(UCharacterSheetDat
 
             if (!bSubraceValid)
             {
-                UE_LOG(LogTemp, Warning, TEXT("Subrace '%s' não pertence à raça '%s'. Resetando sub-raça."),
-                       *Asset->SelectedSubrace.ToString(), *Asset->SelectedRace.ToString());
 
                 Asset->Modify();
                 Asset->SelectedSubrace = NAME_None;
