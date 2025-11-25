@@ -17,7 +17,7 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetRaceNames(const UDataTable 
         return {};
     }
 
-    return CharacterSheetHelpers::GetAllRaceNames(RaceDataTable);
+    return CharacterSheetHelpers::GetAllRaceNames(const_cast<UDataTable *>(RaceDataTable));
 }
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetSubraceNames(const UDataTable *RaceDataTable, FName SelectedRace)
@@ -27,7 +27,7 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetSubraceNames(const UDataTab
         return {};
     }
 
-    return CharacterSheetHelpers::GetAvailableSubraces(SelectedRace, RaceDataTable);
+    return CharacterSheetHelpers::GetAvailableSubraces(SelectedRace, const_cast<UDataTable *>(RaceDataTable));
 }
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetBackgroundNames(const UDataTable *BackgroundDataTable)
@@ -37,7 +37,7 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetBackgroundNames(const UData
         return {};
     }
 
-    return CharacterSheetHelpers::GetAllBackgroundNames(BackgroundDataTable);
+    return CharacterSheetHelpers::GetAllBackgroundNames(const_cast<UDataTable *>(BackgroundDataTable));
 }
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAbilityScoreNames()
@@ -53,7 +53,8 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(const UD
         return {};
     }
 
-    return CharacterSheetHelpers::GetAvailableFeatsForVariantHuman(AbilityScores, FeatDataTable);
+    return CharacterSheetHelpers::GetAvailableFeatsForVariantHuman(AbilityScores,
+                                                                   const_cast<UDataTable *>(FeatDataTable));
 }
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetSkillNames() { return CharacterSheetHelpers::GetSkillNames(); }
@@ -67,8 +68,9 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForCh
     FName RaceName, FName SubraceName, FName BackgroundName, const TArray<FName> &SelectedLanguages,
     const UDataTable *RaceDataTable, const UDataTable *BackgroundDataTable)
 {
-    return CharacterSheetHelpers::GetAvailableLanguagesForChoice(RaceName, SubraceName, BackgroundName,
-                                                                 SelectedLanguages, RaceDataTable, BackgroundDataTable);
+    return CharacterSheetHelpers::GetAvailableLanguagesForChoice(
+        RaceName, SubraceName, BackgroundName, SelectedLanguages, const_cast<UDataTable *>(RaceDataTable),
+        const_cast<UDataTable *>(BackgroundDataTable));
 }
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetClassNameOptions(const UDataTable *ClassDataTable,
@@ -82,9 +84,9 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetClassNameOptions(const UDat
     }
 
     TArray<FName> FormattedClassNames;
-    TArray<FClassOption> AvailableClasses =
-        FMulticlassingMotor::GetAvailableClasses(ClassDataTable, FinalStrength, FinalDexterity, FinalConstitution,
-                                                 FinalIntelligence, FinalWisdom, FinalCharisma);
+    TArray<FClassOption> AvailableClasses = FMulticlassingMotor::GetAvailableClasses(
+        const_cast<UDataTable *>(ClassDataTable), FinalStrength, FinalDexterity, FinalConstitution, FinalIntelligence,
+        FinalWisdom, FinalCharisma);
 
     FormattedClassNames.Reserve(AvailableClasses.Num());
 

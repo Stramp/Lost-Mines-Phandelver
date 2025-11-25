@@ -44,51 +44,49 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
 {
     Super::PostEditChangeProperty(PropertyChangedEvent);
 
-    // Evita recursão infinita: se já estamos validando propriedades, não re-dispara validações
-    if (bIsValidatingProperties)
+    if (bIsValidatingProperties || !PropertyChangedEvent.Property)
     {
         return;
     }
 
-    if (!PropertyChangedEvent.Property)
+    const FName PropertyName = PropertyChangedEvent.Property->GetFName();
+
+    if (IsCalculatedProperty(PropertyName))
     {
         return;
     }
 
-    FName PropertyName = PropertyChangedEvent.Property->GetFName();
+    EnsurePropertyHandlersInitialized();
 
-    // Ignora mudanças em propriedades calculadas (não editadas diretamente)
-    if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bIsVariantHuman) ||
-        PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasLanguageChoices) ||
-        PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasSubraces) ||
-        PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bCanShowSheet))
+    if (PropertyHandlerFunction *HandlerPtr = PropertyHandlers.Find(PropertyName))
     {
-        return;
+        (*HandlerPtr)(this, PropertyName);
     }
+}
 
-    // Verificar se PropertyHandlers foi inicializado
+bool UCharacterSheetDataAsset::IsCalculatedProperty(FName PropertyName) const
+{
+    return PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bIsVariantHuman) ||
+           PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasLanguageChoices) ||
+           PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasSubraces) ||
+           PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bCanShowSheet);
+}
+
+void UCharacterSheetDataAsset::EnsurePropertyHandlersInitialized()
+{
     if (PropertyHandlers.Num() == 0)
     {
         InitializePropertyHandlers();
-    }
-
-    // Lookup handler no map usando ponteiros de função estáticos (mais seguro que std::function)
-    if (PropertyHandlerFunction *HandlerPtr = PropertyHandlers.Find(PropertyName))
-    {
-        // Executar handler - ponteiros de função estáticos são seguros e não têm problemas de lifetime
-        (*HandlerPtr)(this, PropertyName);
     }
 }
 
 void UCharacterSheetDataAsset::InitializePropertyHandlers()
 {
-    // Race and Subrace handlers
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace),
                          FCharacterSheetDataAssetHandlers::HandleSelectedRaceWrapper);
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace),
                          FCharacterSheetDataAssetHandlers::HandleSelectedSubraceWrapper);
 
-    // Point Buy Allocation handlers (6 propriedades separadas)
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyStrength),
                          FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyDexterity),
@@ -102,11 +100,9 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyCharisma),
                          FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
 
-    // Background handler
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground),
                          FCharacterSheetDataAssetHandlers::HandleSelectedBackgroundWrapper);
 
-    // Variant Human choices handlers
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices),
                          FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedFeat),
@@ -114,11 +110,9 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSkill),
                          FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
 
-    // Language choices handler
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedLanguages),
                          FCharacterSheetDataAssetHandlers::HandleLanguageChoicesWrapper);
 
-    // Data Tables handlers
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable),
                          FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, BackgroundDataTable),
@@ -132,9 +126,6 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
 // ============================================================================
 // GetOptions Functions (wrappers - lógica está em FCharacterSheetDataAssetGetOptions)
 // ============================================================================
-// Estas funções DEVEM ficar na classe porque Unreal Engine procura por elas
-// quando vê GetOptions = "GetRaceNames" no meta do UPROPERTY.
-// A lógica foi movida para FCharacterSheetDataAssetGetOptions para melhor organização.
 
 TArray<FName> UCharacterSheetDataAsset::GetRaceNames() const
 {
@@ -187,39 +178,21 @@ bool UCharacterSheetDataAsset::IsValidatingProperties() const { return bIsValida
 
 void UCharacterSheetDataAsset::RecalculateFinalScoresFromDataAsset()
 {
-    // Cria estrutura genérica a partir do Data Asset
     FCharacterSheetData Data(PointBuyStrength, PointBuyDexterity, PointBuyConstitution, PointBuyIntelligence,
                              PointBuyWisdom, PointBuyCharisma, SelectedRace, SelectedSubrace, CustomAbilityScoreChoices,
                              RaceDataTable, &FinalStrength, &FinalDexterity, &FinalConstitution, &FinalIntelligence,
                              &FinalWisdom, &FinalCharisma);
 
-    // Chama Core genérico (funciona tanto no Data Asset quanto no Widget)
     FPointBuyResult PointBuyResult;
     FCharacterSheetCore::RecalculateFinalScores(Data, &PointBuyResult);
 
-    // Se o motor ajustou a alocação, atualiza propriedades do Data Asset
+    PointsRemaining = PointBuyResult.PointsRemaining;
+
     if (PointBuyResult.bWasAdjusted)
     {
-        Modify(); // Marca objeto como modificado no editor
-
-        // Atualiza propriedades com valores ajustados
-        PointBuyStrength = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Strength"));
-        PointBuyDexterity = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Dexterity"));
-        PointBuyConstitution = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Constitution"));
-        PointBuyIntelligence = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Intelligence"));
-        PointBuyWisdom = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Wisdom"));
-        PointBuyCharisma = PointBuyResult.AdjustedAllocation.FindRef(TEXT("Charisma"));
-
-        // Atualiza PointsRemaining
-        PointsRemaining = PointBuyResult.PointsRemaining;
-
-        // Log de feedback
+        Modify();
+        FCharacterSheetDataAssetHelpers::UpdatePointBuyFromAdjustedAllocation(this, PointBuyResult.AdjustedAllocation);
         UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: %s"), *PointBuyResult.FeedbackMessage);
-    }
-    else
-    {
-        // Atualiza PointsRemaining mesmo se não foi ajustado
-        PointsRemaining = PointBuyResult.PointsRemaining;
     }
 }
 #endif

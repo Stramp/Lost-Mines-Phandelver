@@ -36,4 +36,14 @@ public:
      */
     static TMap<FName, int32> CreateAbilityScoresMap(int32 FinalStrength, int32 FinalDexterity, int32 FinalConstitution,
                                                      int32 FinalIntelligence, int32 FinalWisdom, int32 FinalCharisma);
+
+    /**
+     * Updates Point Buy allocation values from adjusted allocation map.
+     * Uses GetAbilityScoreNames() to ensure data-driven approach.
+     *
+     * @param Asset Character Sheet Data Asset to update
+     * @param AdjustedAllocation Map of ability score names to adjusted values
+     */
+    static void UpdatePointBuyFromAdjustedAllocation(UCharacterSheetDataAsset *Asset,
+                                                     const TMap<FName, int32> &AdjustedAllocation);
 };

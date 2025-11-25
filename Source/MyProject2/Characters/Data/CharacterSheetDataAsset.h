@@ -524,5 +524,11 @@ private:
 
     /** Called after object is loaded from disk - ensures PropertyHandlers is initialized */
     virtual void PostLoad() override;
+
+    /** Checks if property is a calculated property that should be ignored */
+    bool IsCalculatedProperty(FName PropertyName) const;
+
+    /** Ensures PropertyHandlers map is initialized */
+    void EnsurePropertyHandlersInitialized();
 #endif
 };
