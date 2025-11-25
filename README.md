@@ -59,7 +59,9 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > │   ├── CreateSheet/            # Motores de criação de personagem
 > │   │   ├── Core/              # Core genérico e CharacterSheetData
 > │   │   ├── RaceBonus/         # Motor de bônus raciais
-> │   │   └── PointBuy/           # Motor de Point Buy
+> │   │   ├── PointBuy/          # Motor de Point Buy
+> │   │   ├── Multiclassing/     # Motor de multiclassing
+> │   │   └── Choices/           # Motor de escolhas de classe
 > │   ├── Components/            # Componentes reutilizáveis
 > │   ├── Data/                  # Data Assets e Data Tables
 > │   │   └── Tables/            # Data Tables (Race, Class, Background, Feat)
@@ -253,6 +255,8 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > - **`FCharacterSheetData`** - Estrutura genérica de dados (funciona em Data Asset e Widget)
 > - **`FRaceBonusMotor`** - Motor independente para bônus raciais
 > - **`FPointBuyMotor`** - Motor independente para alocação de Point Buy
+> - **`FMulticlassingMotor`** - Motor independente para cálculo de multiclassing
+> - **`FChoiceMotor`** - Motor independente para processar escolhas de classe
 >
 > **Fórmula de Cálculo:**
 >
@@ -291,6 +295,8 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >             Core[CharacterSheetCore<br/>Orquestrador]
 >             RBM[RaceBonusMotor<br/>Bônus Raciais]
 >             PBM[PointBuyMotor<br/>Point Buy]
+>             MCM[MulticlassingMotor<br/>Multiclassing]
+>             CM[ChoiceMotor<br/>Escolhas]
 >         end
 >         DA -->|PostEditChangeProperty| H
 >         H -->|Valida| V
@@ -345,6 +351,8 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >     style Core fill:#fff59d
 >     style RBM fill:#fff59d
 >     style PBM fill:#fff59d
+>     style MCM fill:#fff59d
+>     style CM fill:#fff59d
 > ```
 >
 > **📖 Para mais detalhes sobre o fluxo de dados, veja [ARCHITECTURE.md](ARCHITECTURE.md)**

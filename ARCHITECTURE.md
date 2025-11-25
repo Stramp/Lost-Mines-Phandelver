@@ -469,6 +469,8 @@ graph TB
     style Core fill:#fff59d
     style RBM fill:#fff59d
     style PBM fill:#fff59d
+    style MCM fill:#fff59d
+    style CM fill:#fff59d
 ```
 
 </details>
@@ -509,6 +511,55 @@ graph TB
 > > 1. Reseta todos os Final Scores para 8 (base)
 > > 2. Aplica `FRaceBonusMotor::ApplyRacialBonuses()`
 > > 3. Aplica `FPointBuyMotor::ApplyPointBuy()`
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">FMulticlassingMotor - Motor de Multiclassing</summary>
+>
+> > **Localização:** `Source/MyProject2/CreateSheet/Multiclassing/MulticlassingMotor.h`
+> >
+> > **Responsabilidade:** Calcular nível total, bônus de proficiência, coletar features disponíveis e informações de spellcasting para multiclassing.
+> >
+> > **Características:**
+> >
+> > - Motor independente: não conhece SpellSystem, apenas fornece dados brutos
+> > - Genérico: recebe dados puros (`TArray<FClassLevelEntry>`), não objetos concretos
+> > - Calcula `TotalLevel` (soma de todos os níveis de classe)
+> > - Calcula `ProficiencyBonus` baseado no TotalLevel
+> > - Coleta features disponíveis considerando níveis e escolhas
+> > - Coleta informações de spellcasting (dados brutos para SpellSystem futuro)
+> > - Fornece queries sobre classes e níveis (`GetClassLevelsInfo()`)
+> > - Valida requisitos de atributo para multiclassing D&D 5e (`GetAvailableClasses()`)
+> >
+> > **Funções Principais:**
+> >
+> > - `CalculateMulticlassing()` - Calcula resultado completo de multiclassing
+> > - `GetClassLevelsInfo()` - Query: retorna informações sobre classes e níveis
+> > - `GetAvailableClasses()` - Retorna todas as classes com informação de disponibilidade
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">FChoiceMotor - Motor de Escolhas de Classe</summary>
+>
+> > **Localização:** `Source/MyProject2/CreateSheet/Choices/ChoiceMotor.h`
+> >
+> > **Responsabilidade:** Processar escolhas de classe (subclasses, fighting styles, etc.) baseadas em `FClassFeatureChoice` do DataTable.
+> >
+> > **Características:**
+> >
+> > - Coleta escolhas disponíveis para uma classe até um determinado nível
+> > - Busca features do tipo "Choice" ou "SubclassSelection" no DataTable
+> > - Valida escolhas contra regras do DataTable
+> > - Resolve dependências entre escolhas
+> > - Converte `FClassFeatureChoice` (do DataTable) para `FClassChoice` (do Data Asset)
+> >
+> > **Funções Principais:**
+> >
+> > - `CollectAvailableChoices()` - Coleta todas as escolhas disponíveis
+> > - `ValidateChoice()` - Valida uma escolha contra as regras
+> > - `ResolveDependencies()` - Resolve dependências entre escolhas
 >
 > </details>
 >
@@ -582,6 +633,8 @@ graph TB
 >
 > - ✅ `FRaceBonusMotor` não conhece `FPointBuyMotor`
 > - ✅ `FPointBuyMotor` não conhece `FRaceBonusMotor`
+> - ✅ `FMulticlassingMotor` não conhece outros motores
+> - ✅ `FChoiceMotor` não conhece outros motores
 > - ✅ Ambos apenas incrementam Final Scores (não resetam)
 > - ✅ `FCharacterSheetCore` é responsável por resetar e orquestrar
 >
@@ -628,6 +681,8 @@ graph TB
 >     style Data fill:#e1f5ff
 >     style RaceMotor fill:#c8e6c9
 >     style PointBuyMotor fill:#c8e6c9
+>     style MulticlassingMotor fill:#c8e6c9
+>     style ChoiceMotor fill:#c8e6c9
 > ```
 >
 > **📖 Para mais detalhes sobre a implementação, veja os arquivos em `Source/MyProject2/CreateSheet/`**
@@ -741,6 +796,8 @@ graph TB
 >     CreateSheet --> CreateSheetCore[Core/<br/>CharacterSheetCore<br/>CharacterSheetData]
 >     CreateSheet --> CreateSheetRace[RaceBonus/<br/>RaceBonusMotor<br/>RaceBonusHelpers]
 >     CreateSheet --> CreateSheetPointBuy[PointBuy/<br/>PointBuyMotor<br/>PointBuyValidator]
+>     CreateSheet --> CreateSheetMulticlassing[Multiclassing/<br/>MulticlassingMotor<br/>MulticlassingValidator]
+>     CreateSheet --> CreateSheetChoices[Choices/<br/>ChoiceMotor]
 >
 >     Comp --> CompFeat[Features/<br/>SpellcastingComponent<br/>SecondWindComponent]
 >     Comp --> CompData[Data/]
@@ -807,12 +864,21 @@ graph TB
 > │   │   ├── RaceBonusMotor.cpp
 > │   │   ├── RaceBonusHelpers.h
 > │   │   └── RaceBonusHelpers.cpp
-> │   └── PointBuy/
-> │       ├── PointBuyMotor.h
-> │       ├── PointBuyMotor.cpp
-> │       ├── PointBuyValidator.h
-> │       ├── PointBuyValidator.cpp
-> │       └── PointBuyResult.h
+> │   ├── PointBuy/
+> │   │   ├── PointBuyMotor.h
+> │   │   ├── PointBuyMotor.cpp
+> │   │   ├── PointBuyValidator.h
+> │   │   ├── PointBuyValidator.cpp
+> │   │   └── PointBuyResult.h
+> │   ├── Multiclassing/
+> │   │   ├── MulticlassingMotor.h
+> │   │   ├── MulticlassingMotor.cpp
+> │   │   ├── MulticlassingValidator.h
+> │   │   ├── MulticlassingValidator.cpp
+> │   │   └── MulticlassingResult.h
+> │   └── Choices/
+> │       ├── ChoiceMotor.h
+> │       └── ChoiceMotor.cpp
 > ├── Components/
 > │   ├── Features/
 > │   │   ├── SpellcastingComponent.h
