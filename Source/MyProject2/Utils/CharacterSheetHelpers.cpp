@@ -635,3 +635,106 @@ int32 CharacterSheetHelpers::CalculateTotalLevel(const TArray<FClassLevelEntry> 
 
     return TotalLevel;
 }
+
+// ============================================================================
+// Multiclassing Helpers
+// ============================================================================
+
+TArray<FName> CharacterSheetHelpers::GetChoiceOptions(FName ChoiceID, FName ClassName, int32 ClassLevel,
+                                                      UDataTable *ClassDataTable)
+{
+    TArray<FName> Options;
+
+    if (!ClassDataTable || ChoiceID == NAME_None || ClassName == NAME_None)
+    {
+        return Options;
+    }
+
+    FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, ClassDataTable);
+    if (!ClassRow)
+    {
+        return Options;
+    }
+
+    // Busca a feature que contém esta escolha
+    for (const FClassFeature &Feature : ClassRow->Features)
+    {
+        if (Feature.LevelUnlocked > ClassLevel)
+        {
+            continue; // Feature ainda não desbloqueada
+        }
+
+        // Verifica se esta feature tem a escolha procurada
+        for (const FClassFeatureChoice &Choice : Feature.Choices)
+        {
+            if (Choice.ChoiceID == ChoiceID)
+            {
+                // Verifica dependências
+                if (Choice.DependsOnChoiceID != NAME_None)
+                {
+                    // TODO: Implementar verificação de dependências
+                    // Por enquanto, retorna opções mesmo com dependências
+                }
+
+                Options = Choice.AvailableOptions;
+                return Options;
+            }
+        }
+    }
+
+    return Options;
+}
+
+bool CharacterSheetHelpers::IsChoiceValid(FName ChoiceID, const TArray<FName> &SelectedValues,
+                                          const TArray<FClassLevelEntry> &ClassLevels, UDataTable *ClassDataTable)
+{
+    if (ChoiceID == NAME_None || SelectedValues.Num() == 0 || !ClassDataTable)
+    {
+        return false;
+    }
+
+    // Busca a escolha no Data Table
+    for (const FClassLevelEntry &Entry : ClassLevels)
+    {
+        FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(Entry.ClassName, ClassDataTable);
+        if (!ClassRow)
+        {
+            continue;
+        }
+
+        for (const FClassFeature &Feature : ClassRow->Features)
+        {
+            for (const FClassFeatureChoice &Choice : Feature.Choices)
+            {
+                if (Choice.ChoiceID == ChoiceID)
+                {
+                    // Verifica quantidade de escolhas
+                    if (SelectedValues.Num() > Choice.ChoicesAllowed)
+                    {
+                        return false;
+                    }
+
+                    // Verifica se todas as opções escolhidas estão disponíveis
+                    for (const FName &SelectedValue : SelectedValues)
+                    {
+                        if (!Choice.AvailableOptions.Contains(SelectedValue))
+                        {
+                            return false;
+                        }
+                    }
+
+                    // Verifica dependências
+                    if (Choice.DependsOnChoiceID != NAME_None)
+                    {
+                        // TODO: Implementar verificação de dependências
+                        // Por enquanto, assume válido se quantidade e opções estão corretas
+                    }
+
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}

@@ -291,4 +291,32 @@ namespace CharacterSheetHelpers
      * @return Nível total do personagem
      */
     int32 CalculateTotalLevel(const TArray<FClassLevelEntry> &ClassLevels);
+
+    // ============================================================================
+    // Multiclassing Helpers
+    // ============================================================================
+
+    /**
+     * Retorna opções disponíveis para uma escolha específica.
+     * Usado pela UI para popular dropdowns dinâmicos.
+     *
+     * @param ChoiceID ID único da escolha (ex: "Fighter_FightingStyle_1")
+     * @param ClassName Nome da classe
+     * @param ClassLevel Nível da classe
+     * @param ClassDataTable Data Table de classes (pode ser nullptr)
+     * @return Array com opções disponíveis, ou array vazio se não encontrado
+     */
+    TArray<FName> GetChoiceOptions(FName ChoiceID, FName ClassName, int32 ClassLevel, UDataTable *ClassDataTable);
+
+    /**
+     * Verifica se uma escolha é válida baseado em dependências.
+     *
+     * @param ChoiceID ID único da escolha
+     * @param SelectedValues Valores escolhidos pelo jogador
+     * @param ClassLevels Array com níveis de classe do personagem
+     * @param ClassDataTable Data Table de classes (pode ser nullptr)
+     * @return true se a escolha é válida, false caso contrário
+     */
+    bool IsChoiceValid(FName ChoiceID, const TArray<FName> &SelectedValues, const TArray<FClassLevelEntry> &ClassLevels,
+                       UDataTable *ClassDataTable);
 } // namespace CharacterSheetHelpers

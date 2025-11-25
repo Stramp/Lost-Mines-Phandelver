@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Engine/DataTable.h"
+#include "Data/Tables/ClassDataTable.h"
 #include "CharacterSheetDataAsset.generated.h"
 
 // Forward declarations
@@ -15,11 +16,36 @@ class FCharacterSheetDataAssetUpdaters;
 class FCharacterSheetDataAssetHelpers;
 
 /**
- * Struct para armazenar entrada de nível de classe (multi-classing).
- * Permite personagens terem níveis em múltiplas classes.
+ * Struct para armazenar escolhas do jogador em uma classe.
+ * Usado pelo motor de Multiclassing (mantido para compatibilidade).
  */
 USTRUCT(BlueprintType)
-struct MYPROJECT2_API FClassLevelEntry
+struct MYPROJECT2_API FClassLevelChoice
+{
+    GENERATED_BODY()
+
+    /** ID da escolha (ex: "Fighter_FightingStyle_1") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
+    FName ChoiceID;
+
+    /** Valores escolhidos pelo jogador (ex: ["Archery"]) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
+    TArray<FName> SelectedValues;
+
+    /** Nível da classe quando a escolha foi feita */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
+    int32 ClassLevel;
+
+    FClassLevelChoice() : ChoiceID(NAME_None), ClassLevel(1) {}
+};
+
+/**
+ * Struct para armazenar progresso de classe do personagem.
+ * Representa uma classe e seu nível atual.
+ * Usado no Data Asset para armazenar progresso simples de classes.
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FMultClass
 {
     GENERATED_BODY()
 
@@ -31,10 +57,36 @@ struct MYPROJECT2_API FClassLevelEntry
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class", meta = (ClampMin = "1", ClampMax = "20"))
     int32 Level = 1;
 
+    FMultClass() : ClassName(NAME_None), Level(1) {}
+
+    FMultClass(const FName &InClassName, int32 InLevel) : ClassName(InClassName), Level(InLevel) {}
+};
+
+/**
+ * Struct para armazenar entrada de nível de classe (multi-classing).
+ * Usado pelo motor de Multiclassing (mantido para compatibilidade).
+ * NOTA: Para o Data Asset, use FMultClass (mais simples).
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FClassLevelEntry
+{
+    GENERATED_BODY()
+
+    /** Nome da classe */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    FName ClassName;
+
+    /** Nível nesta classe (1-20) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    int32 Level = 1;
+
     /** Nome da subclasse escolhida (se aplicável) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class",
-              meta = (GetOptions = "GetSubclassNames", GetOptionsParam = "ClassName"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
     FName SubclassName;
+
+    /** Escolhas feitas pelo jogador nesta classe (ex: Fighting Style, Maneuvers) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FClassLevelChoice> Choices;
 
     FClassLevelEntry() : ClassName(NAME_None), Level(1), SubclassName(NAME_None) {}
 
@@ -193,6 +245,10 @@ public:
     /** Retorna todos os nomes de idiomas disponíveis (para dropdown de escolhas de idiomas) */
     UFUNCTION(CallInEditor)
     TArray<FName> GetAvailableLanguageNames() const;
+
+    /** Retorna todos os nomes de classes disponíveis no ClassDataTable */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetClassNames() const;
 #endif
     // ============================================================================
     // Data Tables
@@ -210,6 +266,10 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
     UDataTable *FeatDataTable = nullptr;
 
+    /** Referência ao Data Table de classes */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
+    UDataTable *ClassDataTable = nullptr;
+
     // ============================================================================
     // Basic Info
     // ============================================================================
@@ -223,6 +283,16 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic | Info",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     FText CharacterDescription = FText::GetEmpty();
+
+    /** Nível total do personagem (soma de todos os níveis de classe) */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Info",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
+    int32 TotalLevel = 1;
+
+    /** Bônus de proficiência baseado no TotalLevel */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Info",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
+    int32 ProficiencyBonus = 2;
 
     /** Strength final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
@@ -362,6 +432,15 @@ public:
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides, ClampMin = "0",
                       ClampMax = "7"))
     int32 PointBuyCharisma = 0;
+
+    // ============================================================================
+    // Classes | Progress
+    // ============================================================================
+
+    /** Progresso de classes do personagem (multiclassing) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Classes",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
+    TArray<FMultClass> MultClass;
 
     // ============================================================================
     // Calculated (Read-only)

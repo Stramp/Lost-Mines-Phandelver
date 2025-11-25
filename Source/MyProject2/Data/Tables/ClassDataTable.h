@@ -32,6 +32,41 @@ struct MYPROJECT2_API FClassProficiency
 };
 
 /**
+ * Struct para armazenar escolhas dentro de features.
+ * Usado para features do tipo "Choice" (ex: Fighting Style, Maneuvers).
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FClassFeatureChoice
+{
+    GENERATED_BODY()
+
+    /** ID único da escolha (ex: "Fighter_FightingStyle_1") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
+    FName ChoiceID;
+
+    /** Opções disponíveis (ex: ["Archery", "Defense", "Dueling"]) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
+    TArray<FName> AvailableOptions;
+
+    /** Quantas opções o jogador pode escolher (padrão: 1) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
+    int32 ChoicesAllowed = 1;
+
+    /** ID da escolha que esta depende (ex: "Fighter_Subclass_3") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
+    FName DependsOnChoiceID;
+
+    /** Valor requerido na escolha dependente (ex: "Battle Master") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
+    FName RequiredValue;
+
+    FClassFeatureChoice()
+        : ChoiceID(NAME_None), ChoicesAllowed(1), DependsOnChoiceID(NAME_None), RequiredValue(NAME_None)
+    {
+    }
+};
+
+/**
  * Struct para armazenar features de classe.
  * Combina descrição textual com dados estruturados para lógica programática.
  * Exemplos: Second Wind, Action Surge, Spellcasting.
@@ -72,8 +107,21 @@ struct MYPROJECT2_API FClassFeature
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
     TMap<FName, FString> FeatureData;
 
+    /** ID único da feature (ex: "Fighter_SecondWind_1") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
+    FName FeatureID;
+
+    /** Tags da feature (ex: ["Spellcasting", "Combat", "Rest"]) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
+    TArray<FName> FeatureTags;
+
+    /** Escolhas disponíveis nesta feature (se FeatureType == "Choice") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
+    TArray<FClassFeatureChoice> Choices;
+
     FClassFeature()
-        : FeatureName(NAME_None), Description(FText::GetEmpty()), LevelUnlocked(1), FeatureType(TEXT("Automatic"))
+        : FeatureName(NAME_None), Description(FText::GetEmpty()), LevelUnlocked(1), FeatureType(TEXT("Automatic")),
+          FeatureID(NAME_None)
     {
     }
 

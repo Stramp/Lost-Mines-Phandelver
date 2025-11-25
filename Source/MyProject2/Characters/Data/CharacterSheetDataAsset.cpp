@@ -129,6 +129,12 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
                          FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, FeatDataTable),
                          FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable),
+                         FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
+
+    // MultClass handler
+    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, MultClass),
+                         FCharacterSheetDataAssetHandlers::HandleMultClassWrapper);
 }
 
 // ============================================================================
@@ -184,6 +190,11 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
     // Filtra também SelectedLanguages para evitar duplicatas entre elementos do array
     return FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
         SelectedRace, SelectedSubrace, SelectedBackground, SelectedLanguages, RaceDataTable, BackgroundDataTable);
+}
+
+TArray<FName> UCharacterSheetDataAsset::GetClassNames() const
+{
+    return FCharacterSheetDataAssetGetOptions::GetClassNames(this);
 }
 
 void UCharacterSheetDataAsset::SetValidatingProperties(bool bValidating) { bIsValidatingProperties = bValidating; }

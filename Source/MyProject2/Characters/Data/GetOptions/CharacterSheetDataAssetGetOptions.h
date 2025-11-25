@@ -74,4 +74,22 @@ public:
     static TArray<FName> GetAvailableLanguageNamesForChoice(FName RaceName, FName SubraceName, FName BackgroundName,
                                                             const TArray<FName> &SelectedLanguages,
                                                             UDataTable *RaceDataTable, UDataTable *BackgroundDataTable);
+
+    /**
+     * Returns all class names from ClassDataTable with availability prefix.
+     * Uses MulticlassingMotor to check prerequisites and adds prefix for unavailable classes.
+     */
+    static TArray<FName> GetClassNames(const UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Returns all available subclasses for the selected class.
+     */
+    static TArray<FName> GetSubclassNames(UDataTable *ClassDataTable, FName ClassName);
+
+    /**
+     * Returns available options for a specific choice.
+     * Used for dynamic dropdowns in class features (e.g., Fighting Style, Maneuvers).
+     */
+    static TArray<FName> GetChoiceOptions(const UCharacterSheetDataAsset *Asset, FName ChoiceID, FName ClassName,
+                                          int32 ClassLevel);
 };

@@ -3,6 +3,8 @@
 #include "CharacterSheetDataAssetGetOptions.h"
 #include "Utils/CharacterSheetHelpers.h"
 #include "Data/Tables/RaceDataTable.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
+#include "CreateSheet/Multiclassing/MulticlassingMotor.h"
 #include "Engine/DataTable.h"
 
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetRaceNames(UDataTable *RaceDataTable)
@@ -75,4 +77,64 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForCh
 {
     return CharacterSheetHelpers::GetAvailableLanguagesForChoice(RaceName, SubraceName, BackgroundName,
                                                                  SelectedLanguages, RaceDataTable, BackgroundDataTable);
+}
+
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetClassNames(const UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset || !Asset->ClassDataTable)
+    {
+        return TArray<FName>();
+    }
+
+    // Obtém classes disponíveis do motor de multiclassing
+    TArray<FClassOption> ClassOptions = FMulticlassingMotor::GetAvailableClasses(
+        Asset->ClassDataTable, Asset->FinalStrength, Asset->FinalDexterity, Asset->FinalConstitution,
+        Asset->FinalIntelligence, Asset->FinalWisdom, Asset->FinalCharisma);
+
+    TArray<FName> FormattedClassNames;
+    FormattedClassNames.Reserve(ClassOptions.Num());
+
+    for (const FClassOption &Option : ClassOptions)
+    {
+        if (Option.RequirementMessage.IsEmpty())
+        {
+            // Classe disponível (RequirementMessage vazio): retorna nome normal
+            FormattedClassNames.Add(Option.ClassName);
+        }
+        else
+        {
+            // Classe não disponível (RequirementMessage preenchido): adiciona prefixo com requisito específico
+            FString FormattedName =
+                FString::Printf(TEXT("[REQ %s] %s"), *Option.RequirementMessage, *Option.ClassName.ToString());
+            FormattedClassNames.Add(FName(*FormattedName));
+        }
+    }
+
+    return FormattedClassNames;
+}
+
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetSubclassNames(UDataTable *ClassDataTable, FName ClassName)
+{
+    if (!ClassDataTable || ClassName == NAME_None)
+    {
+        return TArray<FName>();
+    }
+
+    return CharacterSheetHelpers::GetAvailableSubclasses(ClassName, ClassDataTable);
+}
+
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetChoiceOptions(const UCharacterSheetDataAsset *Asset,
+                                                                   FName ChoiceID, FName ClassName, int32 ClassLevel)
+{
+    TArray<FName> Options;
+
+    if (!Asset || !Asset->ClassDataTable)
+    {
+        return Options;
+    }
+
+    // Usa CharacterSheetHelpers para buscar opções
+    Options = CharacterSheetHelpers::GetChoiceOptions(ChoiceID, ClassName, ClassLevel, Asset->ClassDataTable);
+
+    return Options;
 }
