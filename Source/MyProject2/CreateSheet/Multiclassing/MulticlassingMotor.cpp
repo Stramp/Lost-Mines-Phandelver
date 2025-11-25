@@ -9,8 +9,8 @@
 #include "Utils/CalculationHelpers.h"
 #include "Math/UnrealMathUtility.h"
 
-// FClassLevelEntry ainda é usado pelo motor de Multiclassing (mantido para compatibilidade)
-// FMultClass é a nova struct simples para o Data Asset
+// FClassLevelEntry é usado pelo motor de Multiclassing para cálculos internos
+// FMultClass é usado no Data Asset para armazenar progresso de classes
 
 FMulticlassingResult FMulticlassingMotor::CalculateMulticlassing(const TArray<FClassLevelEntry> &ClassLevels,
                                                                  UDataTable *ClassDataTable)

@@ -50,13 +50,6 @@ public:
      */
     static void HandleDataTableChange(UCharacterSheetDataAsset *Asset);
 
-    /**
-     * Handles changes to MultClass.
-     * Validates that selected classes meet multiclassing prerequisites.
-     * Resets to NAME_None if class is not available.
-     */
-    static void HandleMultClassChange(UCharacterSheetDataAsset *Asset);
-
     // ============================================================================
     // Wrapper Functions for Property Handler Map (C-style function pointers)
     // ============================================================================
@@ -70,5 +63,4 @@ public:
     static void HandleVariantHumanChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleLanguageChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleDataTableWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
-    static void HandleMultClassWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
 };

@@ -1,18 +1,20 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterSheetDataAsset.h"
+
+#include "Characters/Data/GetOptions/CharacterSheetDataAssetGetOptions.h"
+#include "Characters/Data/Handlers/CharacterSheetDataAssetHandlers.h"
+#include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
+#include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
+#include "Characters/Data/Validators/CharacterSheetDataAssetValidators.h"
 #include "CreateSheet/Core/CharacterSheetCore.h"
 #include "CreateSheet/Core/CharacterSheetData.h"
 #include "CreateSheet/PointBuy/PointBuyResult.h"
-#include "Characters/Data/Handlers/CharacterSheetDataAssetHandlers.h"
-#include "Characters/Data/Validators/CharacterSheetDataAssetValidators.h"
-#include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
-#include "Characters/Data/GetOptions/CharacterSheetDataAssetGetOptions.h"
-#include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
-#include "Containers/UnrealString.h"
-#include "Utils/CharacterSheetHelpers.h"
-#include "Data/Tables/RaceDataTable.h"
 #include "Data/Tables/BackgroundDataTable.h"
+#include "Data/Tables/RaceDataTable.h"
+#include "Utils/CharacterSheetHelpers.h"
+
+#include "Containers/UnrealString.h"
 #include "Logging/LogMacros.h"
 
 #if WITH_EDITOR
@@ -22,10 +24,6 @@
 
 UCharacterSheetDataAsset::UCharacterSheetDataAsset()
 {
-    // Point Buy allocation já tem valores padrão no header (= 0 para todos)
-    // PointsRemaining e TotalLevel também já têm valores padrão no header (= 27 e = 0)
-    // Não precisam ser inicializados aqui
-
 #if WITH_EDITOR
     InitializePropertyHandlers();
 #endif
@@ -36,8 +34,6 @@ void UCharacterSheetDataAsset::PostLoad()
 {
     Super::PostLoad();
 
-    // Garantir que PropertyHandlers seja inicializado quando objeto é carregado do disco
-    // (construtor não é chamado quando carregado do disco)
     if (PropertyHandlers.Num() == 0)
     {
         InitializePropertyHandlers();
@@ -131,10 +127,6 @@ void UCharacterSheetDataAsset::InitializePropertyHandlers()
                          FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
     PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable),
                          FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
-
-    // MultClass handler
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, MultClass),
-                         FCharacterSheetDataAssetHandlers::HandleMultClassWrapper);
 }
 
 // ============================================================================
@@ -166,16 +158,10 @@ TArray<FName> UCharacterSheetDataAsset::GetAbilityScoreNames() const
 
 TArray<FName> UCharacterSheetDataAsset::GetAvailableFeatNames() const
 {
-    // Converte campos finais para formato esperado pelo módulo
-    TMap<FName, int32> CurrentAbilityScores;
-    CurrentAbilityScores.Add(TEXT("Strength"), FinalStrength);
-    CurrentAbilityScores.Add(TEXT("Dexterity"), FinalDexterity);
-    CurrentAbilityScores.Add(TEXT("Constitution"), FinalConstitution);
-    CurrentAbilityScores.Add(TEXT("Intelligence"), FinalIntelligence);
-    CurrentAbilityScores.Add(TEXT("Wisdom"), FinalWisdom);
-    CurrentAbilityScores.Add(TEXT("Charisma"), FinalCharisma);
+    const TMap<FName, int32> AbilityScores = FCharacterSheetDataAssetHelpers::CreateAbilityScoresMap(
+        FinalStrength, FinalDexterity, FinalConstitution, FinalIntelligence, FinalWisdom, FinalCharisma);
 
-    return FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(FeatDataTable, CurrentAbilityScores);
+    return FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(FeatDataTable, AbilityScores);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetSkillNames() const
@@ -185,18 +171,16 @@ TArray<FName> UCharacterSheetDataAsset::GetSkillNames() const
 
 TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
 {
-    // Usa função filtrada que exclui idiomas já conhecidos automaticamente e já escolhidos no array
-    // Segue padrão de GetAvailableFeatNames que filtra baseado em estado do personagem
-    // Filtra também SelectedLanguages para evitar duplicatas entre elementos do array
     return FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
         SelectedRace, SelectedSubrace, SelectedBackground, SelectedLanguages, RaceDataTable, BackgroundDataTable);
 }
 
-TArray<FName> UCharacterSheetDataAsset::GetClassNames() const
+TArray<FName> UCharacterSheetDataAsset::GetClassNameOptions() const
 {
-    return FCharacterSheetDataAssetGetOptions::GetClassNames(this);
+    return FCharacterSheetDataAssetGetOptions::GetClassNameOptions(ClassDataTable, FinalStrength, FinalDexterity,
+                                                                   FinalConstitution, FinalIntelligence, FinalWisdom,
+                                                                   FinalCharisma);
 }
-
 void UCharacterSheetDataAsset::SetValidatingProperties(bool bValidating) { bIsValidatingProperties = bValidating; }
 
 bool UCharacterSheetDataAsset::IsValidatingProperties() const { return bIsValidatingProperties; }

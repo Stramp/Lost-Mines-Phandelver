@@ -560,6 +560,40 @@ graph TB
 > > - `CollectAvailableChoices()` - Coleta todas as escolhas disponíveis
 > > - `ValidateChoice()` - Valida uma escolha contra as regras
 > > - `ResolveDependencies()` - Resolve dependências entre escolhas
+> >
+> > **Estrutura de Dados FClassChoice:**
+> >
+> > ```cpp
+> > FMultClass {
+> >   ClassName: "Fighter",
+> >   Level: 5,
+> >   Choices: [
+> >     FClassChoice {
+> >       ChoiceID: "Fighter_Archetype_3",           // INVISÍVEL no editor
+> >       ChoiceName: "Arquetipos guerreiro",        // VISÍVEL
+> >       ChoiceType: "SubclassSelection",           // VISÍVEL
+> >       AvailableSingleChoices: ["Battle Master", "Champion", ...],  // VISÍVEL quando tem conteúdo
+> >       AvailableMultChoice: [],                   // INVISÍVEL quando vazio, VISÍVEL quando preenchido
+> >       Level: 3                                    // VISÍVEL
+> >     }
+> >   ]
+> > }
+> > ```
+> >
+> > **Visibilidade Dinâmica no Editor:**
+> >
+> > - `ChoiceID`: **SEMPRE INVISÍVEL** - Gerado automaticamente, não editável pelo usuário
+> > - `ChoiceName`: **SEMPRE VISÍVEL** - Nome da escolha exibido ao usuário
+> > - `ChoiceType`: **SEMPRE VISÍVEL** - Tipo da escolha (Simple, Multiple, SubclassSelection, ASI, Scalable)
+> > - `AvailableSingleChoices`: **VISÍVEL quando tem conteúdo** - Opções para escolhas simples
+> > - `AvailableMultChoice`: **INVISÍVEL quando vazio, VISÍVEL quando preenchido** - Preenchido dinamicamente baseado na escolha de `AvailableSingleChoices`
+> > - `Level`: **SEMPRE VISÍVEL** - Nível da classe quando a escolha foi desbloqueada
+> >
+> > **Comportamento Dinâmico:**
+> >
+> > - `AvailableMultChoice` é preenchido automaticamente quando o usuário escolhe uma opção em `AvailableSingleChoices`
+> > - Exemplo: Se escolher "Battle Master" em `AvailableSingleChoices`, `AvailableMultChoice` será preenchido com as manobras do Battle Master
+> > - Isso permite escolhas dependentes (ex: escolher subclass primeiro, depois escolher features da subclass)
 >
 > </details>
 >

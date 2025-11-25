@@ -16,27 +16,49 @@ class FCharacterSheetDataAssetUpdaters;
 class FCharacterSheetDataAssetHelpers;
 
 /**
- * Struct para armazenar escolhas do jogador em uma classe.
- * Usado pelo motor de Multiclassing (mantido para compatibilidade).
+ * Struct para armazenar uma escolha disponível em uma classe.
+ * Representa uma escolha específica (ex: Fighting Style, Subclass, ASI).
  */
 USTRUCT(BlueprintType)
-struct MYPROJECT2_API FClassLevelChoice
+struct MYPROJECT2_API FClassChoice
 {
     GENERATED_BODY()
 
-    /** ID da escolha (ex: "Fighter_FightingStyle_1") */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
+    /** ID único da escolha (ex: "Fighter_FightingStyle_1") - INVISÍVEL no editor */
+    UPROPERTY()
     FName ChoiceID;
 
-    /** Valores escolhidos pelo jogador (ex: ["Archery"]) */
+    /** Nome da escolha exibido ao usuário (ex: "Fighting Style", "Arquetipos guerreiro") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
-    TArray<FName> SelectedValues;
+    FName ChoiceName;
 
-    /** Nível da classe quando a escolha foi feita */
+    /**
+     * Tipo da escolha: determina como a escolha é processada.
+     * Valores possíveis:
+     * - "Simple": Escolha simples (1 de N opções)
+     * - "Multiple": Escolha múltipla (M de N opções)
+     * - "SubclassSelection": Seleção de subclasse
+     * - "ASI": Ability Score Improvement
+     * - "Scalable": Escolha que escala com nível
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
-    int32 ClassLevel;
+    FName ChoiceType;
 
-    FClassLevelChoice() : ChoiceID(NAME_None), ClassLevel(1) {}
+    /** Opções disponíveis para escolhas simples - VISÍVEL quando tem conteúdo */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice",
+              meta = (EditCondition = "AvailableSingleChoices.Num() > 0", EditConditionHides))
+    TArray<FName> AvailableSingleChoices;
+
+    /** Opções disponíveis para escolhas múltiplas - INVISÍVEL quando vazio, VISÍVEL quando preenchido */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice",
+              meta = (EditCondition = "AvailableMultChoice.Num() > 0", EditConditionHides))
+    TArray<FName> AvailableMultChoice;
+
+    /** Nível da classe quando a escolha foi desbloqueada */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Choice")
+    int32 Level;
+
+    FClassChoice() : ChoiceID(NAME_None), ChoiceName(NAME_None), ChoiceType(NAME_None), Level(1) {}
 };
 
 /**
@@ -49,13 +71,23 @@ struct MYPROJECT2_API FMultClass
 {
     GENERATED_BODY()
 
-    /** Nome da classe */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class", meta = (GetOptions = "GetClassNames"))
+    /** Nome da classe - dropdown mostra classes disponíveis com requisitos de atributo */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class", meta = (GetOptions = "GetClassNameOptions"))
     FName ClassName;
 
     /** Nível nesta classe (1-20) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class", meta = (ClampMin = "1", ClampMax = "20"))
     int32 Level = 1;
+
+    /**
+     * Escolhas feitas pelo jogador nesta classe.
+     * Array de estruturas FClassChoice onde cada item representa uma escolha feita.
+     * Exemplos: Fighting Style (Level 1), Subclass (Level 3), ASI (Level 4).
+     * Auto-preenchido pelo handler baseado no nível da classe e features do DataTable.
+     * EditCondition mostra apenas quando Level >= 1 (escolhas disponíveis).
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choices", meta = (EditCondition = "Level >= 1"))
+    TArray<FClassChoice> Choices;
 
     FMultClass() : ClassName(NAME_None), Level(1) {}
 
@@ -64,7 +96,7 @@ struct MYPROJECT2_API FMultClass
 
 /**
  * Struct para armazenar entrada de nível de classe (multi-classing).
- * Usado pelo motor de Multiclassing (mantido para compatibilidade).
+ * Usado pelo motor de Multiclassing para cálculos internos.
  * NOTA: Para o Data Asset, use FMultClass (mais simples).
  */
 USTRUCT(BlueprintType)
@@ -86,7 +118,7 @@ struct MYPROJECT2_API FClassLevelEntry
 
     /** Escolhas feitas pelo jogador nesta classe (ex: Fighting Style, Maneuvers) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-    TArray<FClassLevelChoice> Choices;
+    TArray<FName> Choices;
 
     FClassLevelEntry() : ClassName(NAME_None), Level(1), SubclassName(NAME_None) {}
 
@@ -246,9 +278,9 @@ public:
     UFUNCTION(CallInEditor)
     TArray<FName> GetAvailableLanguageNames() const;
 
-    /** Retorna todos os nomes de classes disponíveis no ClassDataTable */
+    /** Retorna todas as classes disponíveis com verificação de requisitos de atributo */
     UFUNCTION(CallInEditor)
-    TArray<FName> GetClassNames() const;
+    TArray<FName> GetClassNameOptions() const;
 #endif
     // ============================================================================
     // Data Tables

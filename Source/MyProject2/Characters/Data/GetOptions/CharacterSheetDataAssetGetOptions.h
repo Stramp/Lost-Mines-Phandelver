@@ -7,6 +7,7 @@
 // Forward declarations
 class UDataTable;
 class UCharacterSheetDataAsset;
+struct FClassOption;
 
 /**
  * GetOptions functions for CharacterSheetDataAsset dropdowns.
@@ -22,17 +23,17 @@ public:
     /**
      * Returns all race names from RaceDataTable.
      */
-    static TArray<FName> GetRaceNames(UDataTable *RaceDataTable);
+    static TArray<FName> GetRaceNames(const UDataTable *RaceDataTable);
 
     /**
      * Returns all available subraces for the selected race.
      */
-    static TArray<FName> GetSubraceNames(UDataTable *RaceDataTable, FName SelectedRace);
+    static TArray<FName> GetSubraceNames(const UDataTable *RaceDataTable, FName SelectedRace);
 
     /**
      * Returns all background names from BackgroundDataTable.
      */
-    static TArray<FName> GetBackgroundNames(UDataTable *BackgroundDataTable);
+    static TArray<FName> GetBackgroundNames(const UDataTable *BackgroundDataTable);
 
     /**
      * Returns all ability score names (Strength, Dexterity, etc.).
@@ -43,17 +44,16 @@ public:
      * Returns all available feats for Variant Human.
      * Uses level 1 and current ability scores.
      */
-    static TArray<FName> GetAvailableFeatNames(UDataTable *FeatDataTable, const TMap<FName, int32> &AbilityScores);
+    static TArray<FName> GetAvailableFeatNames(const UDataTable *FeatDataTable,
+                                               const TMap<FName, int32> &AbilityScores);
 
     /**
      * Returns all skill names from D&D 5e.
-     * TODO: Move to SkillDataTable when implemented.
      */
     static TArray<FName> GetSkillNames();
 
     /**
      * Returns all available language names from D&D 5e.
-     * TODO: Move to LanguageDataTable when implemented.
      */
     static TArray<FName> GetAvailableLanguageNames();
 
@@ -73,23 +73,30 @@ public:
      */
     static TArray<FName> GetAvailableLanguageNamesForChoice(FName RaceName, FName SubraceName, FName BackgroundName,
                                                             const TArray<FName> &SelectedLanguages,
-                                                            UDataTable *RaceDataTable, UDataTable *BackgroundDataTable);
+                                                            const UDataTable *RaceDataTable,
+                                                            const UDataTable *BackgroundDataTable);
 
     /**
-     * Returns all class names from ClassDataTable with availability prefix.
-     * Uses MulticlassingMotor to check prerequisites and adds prefix for unavailable classes.
+     * Returns all available class names with attribute requirement verification.
+     * Formats class names as "ClassName" if available, or "ClassName (STR 13)" if requirements not met.
+     *
+     * @param ClassDataTable Class Data Table (can be nullptr)
+     * @param FinalStrength Final Strength score
+     * @param FinalDexterity Final Dexterity score
+     * @param FinalConstitution Final Constitution score
+     * @param FinalIntelligence Final Intelligence score
+     * @param FinalWisdom Final Wisdom score
+     * @param FinalCharisma Final Charisma score
+     * @return Array of formatted class names with requirement messages
      */
-    static TArray<FName> GetClassNames(const UCharacterSheetDataAsset *Asset);
+    static TArray<FName> GetClassNameOptions(const UDataTable *ClassDataTable, int32 FinalStrength,
+                                             int32 FinalDexterity, int32 FinalConstitution, int32 FinalIntelligence,
+                                             int32 FinalWisdom, int32 FinalCharisma);
 
+private:
     /**
-     * Returns all available subclasses for the selected class.
+     * Formats class name with requirement message if class is not available.
+     * Returns "ClassName" if available, or "ClassName (STR 13)" if requirements not met.
      */
-    static TArray<FName> GetSubclassNames(UDataTable *ClassDataTable, FName ClassName);
-
-    /**
-     * Returns available options for a specific choice.
-     * Used for dynamic dropdowns in class features (e.g., Fighting Style, Maneuvers).
-     */
-    static TArray<FName> GetChoiceOptions(const UCharacterSheetDataAsset *Asset, FName ChoiceID, FName ClassName,
-                                          int32 ClassLevel);
+    static FString FormatClassNameWithRequirement(const FClassOption &ClassOption);
 };

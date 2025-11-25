@@ -21,4 +21,19 @@ public:
      * Clears CustomAbilityScoreChoices, SelectedFeat, and SelectedSkill.
      */
     static void ResetVariantHumanChoices(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Creates a map of ability scores from final attribute values.
+     * Used for feat validation and other ability score-based operations.
+     *
+     * @param FinalStrength Final Strength score
+     * @param FinalDexterity Final Dexterity score
+     * @param FinalConstitution Final Constitution score
+     * @param FinalIntelligence Final Intelligence score
+     * @param FinalWisdom Final Wisdom score
+     * @param FinalCharisma Final Charisma score
+     * @return Map of ability score names to their final values
+     */
+    static TMap<FName, int32> CreateAbilityScoresMap(int32 FinalStrength, int32 FinalDexterity, int32 FinalConstitution,
+                                                     int32 FinalIntelligence, int32 FinalWisdom, int32 FinalCharisma);
 };

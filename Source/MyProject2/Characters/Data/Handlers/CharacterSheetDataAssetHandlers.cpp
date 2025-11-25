@@ -6,7 +6,7 @@
 #include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
 #include "Characters/Data/Helpers/ValidationGuard.h"
 #include "CreateSheet/PointBuy/PointBuyValidator.h"
-#include "CreateSheet/Multiclassing/MulticlassingMotor.h"
+#include "Utils/CharacterSheetHelpers.h"
 #include "Logging/LogMacros.h"
 #include "UObject/UnrealType.h"
 
@@ -200,68 +200,4 @@ void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesWrapper(UCharacterSh
 void FCharacterSheetDataAssetHandlers::HandleDataTableWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
 {
     HandleDataTableChange(Asset);
-}
-
-void FCharacterSheetDataAssetHandlers::HandleMultClassChange(UCharacterSheetDataAsset *Asset)
-{
-    if (!Asset || Asset->IsValidatingProperties() || !Asset->ClassDataTable)
-    {
-        return;
-    }
-
-    FValidationGuard Guard(Asset);
-
-    // Obtém classes disponíveis do motor
-    TArray<FClassOption> ClassOptions = FMulticlassingMotor::GetAvailableClasses(
-        Asset->ClassDataTable, Asset->FinalStrength, Asset->FinalDexterity, Asset->FinalConstitution,
-        Asset->FinalIntelligence, Asset->FinalWisdom, Asset->FinalCharisma);
-
-    // Cria mapa rápido para lookup (ClassName -> RequirementMessage)
-    TMap<FName, FString> RequirementMap;
-    for (const FClassOption &Option : ClassOptions)
-    {
-        RequirementMap.Add(Option.ClassName, Option.RequirementMessage);
-    }
-
-    // Valida cada entrada em MultClass
-    bool bNeedsReset = false;
-    for (FMultClass &ClassEntry : Asset->MultClass)
-    {
-        if (ClassEntry.ClassName == NAME_None)
-        {
-            continue; // Ignora entradas vazias
-        }
-
-        // Remove prefixo se existir (formato: "[REQ X Y] ClassName")
-        FString ClassNameStr = ClassEntry.ClassName.ToString();
-        if (ClassNameStr.StartsWith(TEXT("[")))
-        {
-            // Extrai nome real da classe (tudo após o último espaço)
-            int32 LastSpaceIndex = ClassNameStr.Find(TEXT(" "), ESearchCase::CaseSensitive, ESearchDir::FromEnd);
-            if (LastSpaceIndex != INDEX_NONE)
-            {
-                ClassNameStr = ClassNameStr.RightChop(LastSpaceIndex + 1);
-                ClassEntry.ClassName = FName(*ClassNameStr);
-            }
-        }
-
-        // Verifica se classe está disponível (RequirementMessage vazio = disponível)
-        FString *RequirementMessage = RequirementMap.Find(ClassEntry.ClassName);
-        if (!RequirementMessage || !RequirementMessage->IsEmpty())
-        {
-            // Classe não disponível (RequirementMessage preenchido): reseta para NAME_None
-            ClassEntry.ClassName = NAME_None;
-            bNeedsReset = true;
-        }
-    }
-
-    if (bNeedsReset)
-    {
-        Asset->Modify(); // Marca como modificado no editor
-    }
-}
-
-void FCharacterSheetDataAssetHandlers::HandleMultClassWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
-{
-    HandleMultClassChange(Asset);
 }

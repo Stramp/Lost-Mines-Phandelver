@@ -15,6 +15,7 @@ struct FClassLevelEntry;
 struct FRaceDataRow;
 struct FClassDataRow;
 struct FClassFeature;
+struct FClassFeatureChoice;
 struct FBackgroundDataRow;
 struct FFeatDataRow;
 
@@ -92,6 +93,20 @@ namespace CharacterSheetHelpers
      * @return Array com features desbloqueadas no nível, ou array vazio se não encontrado ou Data Table inválido
      */
     TArray<FClassFeature> GetFeaturesAtLevel(FName ClassName, int32 Level, UDataTable *ClassDataTable);
+
+    /**
+     * Retorna escolhas disponíveis para uma classe e nível específico.
+     * Data-Driven: busca features do tipo "Choice" do ClassDataTable.
+     * Filtra apenas features desbloqueadas até o nível especificado.
+     *
+     * @param ClassName Nome da classe
+     * @param ClassLevel Nível da classe
+     * @param ClassDataTable Data Table de classes (pode ser nullptr)
+     * @return Array de FClassFeatureChoice disponíveis neste nível, ou array vazio se não encontrado ou Data Table
+     * inválido
+     */
+    TArray<FClassFeatureChoice> GetAvailableChoicesForClassLevel(FName ClassName, int32 ClassLevel,
+                                                                 UDataTable *ClassDataTable);
 
     // ============================================================================
     // Background Data Table Helpers

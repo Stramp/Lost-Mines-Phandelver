@@ -42,19 +42,9 @@ bool FMulticlassingValidator::ValidateChoices(const FClassLevelEntry &ClassEntry
         return false;
     }
 
-    // Valida cada escolha do jogador
-    for (const FClassLevelChoice &Choice : ClassEntry.Choices)
-    {
-        TArray<FClassLevelEntry> AllClassLevels;
-        AllClassLevels.Add(ClassEntry);
-
-        if (!CharacterSheetHelpers::IsChoiceValid(Choice.ChoiceID, Choice.SelectedValues, AllClassLevels,
-                                                  ClassDataTable))
-        {
-            OutErrorMessage = TEXT("Escolha inválida: ") + Choice.ChoiceID.ToString();
-            return false;
-        }
-    }
+    // TODO: Implementar validação de escolhas quando necessário
+    // Por enquanto, Choices é apenas TArray<FName> (valores escolhidos)
+    // Validação será implementada quando necessário baseado na ordem das features
 
     return true;
 }

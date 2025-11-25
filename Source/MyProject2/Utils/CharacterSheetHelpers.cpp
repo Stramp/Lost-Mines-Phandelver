@@ -167,6 +167,33 @@ TArray<FClassFeature> CharacterSheetHelpers::GetFeaturesAtLevel(FName ClassName,
     return TArray<FClassFeature>();
 }
 
+TArray<FClassFeatureChoice> CharacterSheetHelpers::GetAvailableChoicesForClassLevel(FName ClassName, int32 ClassLevel,
+                                                                                    UDataTable *ClassDataTable)
+{
+    TArray<FClassFeatureChoice> AvailableChoices;
+
+    if (!ClassDataTable || ClassName == NAME_None || ClassLevel < 1)
+    {
+        return AvailableChoices;
+    }
+
+    // Busca features desbloqueadas até o nível especificado
+    TArray<FClassFeature> Features = GetFeaturesAtLevel(ClassName, ClassLevel, ClassDataTable);
+
+    // Filtra apenas features do tipo "Choice" e coleta suas escolhas
+    for (const FClassFeature &Feature : Features)
+    {
+        // Verifica se é feature do tipo "Choice" ou "SubclassSelection"
+        if (Feature.FeatureType == TEXT("Choice") || Feature.FeatureType == TEXT("SubclassSelection"))
+        {
+            // Adiciona todas as escolhas desta feature
+            AvailableChoices.Append(Feature.Choices);
+        }
+    }
+
+    return AvailableChoices;
+}
+
 // ============================================================================
 // Background Data Table Helpers
 // ============================================================================
