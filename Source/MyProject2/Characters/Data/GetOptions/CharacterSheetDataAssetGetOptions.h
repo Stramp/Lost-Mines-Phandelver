@@ -7,7 +7,6 @@
 // Forward declarations
 class UDataTable;
 class UCharacterSheetDataAsset;
-struct FClassOption;
 
 /**
  * GetOptions functions for CharacterSheetDataAsset dropdowns.
@@ -89,14 +88,12 @@ public:
      * @param FinalCharisma Final Charisma score
      * @return Array of formatted class names with requirement messages
      */
-    static TArray<FName> GetClassNameOptions(const UDataTable *ClassDataTable, int32 FinalStrength,
+    static TArray<FName> GetListClassAvaible(const UDataTable *ClassDataTable, int32 FinalStrength,
                                              int32 FinalDexterity, int32 FinalConstitution, int32 FinalIntelligence,
                                              int32 FinalWisdom, int32 FinalCharisma);
 
 private:
-    /**
-     * Formats class name with requirement message if class is not available.
-     * Returns "ClassName" if available, or "ClassName (STR 13)" if requirements not met.
-     */
-    static FString FormatClassNameWithRequirement(const FClassOption &ClassOption);
+    // TODO: Reimplementar sem MulticlassingMotor
+    // FClassOption não existe mais (estava em MulticlassingResult.h)
+    // static FString FormatClassNameWithRequirement(const FClassOption &ClassOption);
 };

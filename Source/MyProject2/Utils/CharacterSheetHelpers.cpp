@@ -90,9 +90,10 @@ TArray<FName> CharacterSheetHelpers::GetAllClassNames(UDataTable *ClassDataTable
     {
         if (FClassDataRow *Row = ClassDataTable->FindRow<FClassDataRow>(RowName, TEXT("GetAllClassNames")))
         {
-            if (Row->ClassName != NAME_None)
+            // Usa FClass.Name da nova estrutura
+            if (Row->FClass.Name != NAME_None)
             {
-                ClassNamesSet.Add(Row->ClassName);
+                ClassNamesSet.Add(Row->FClass.Name);
             }
         }
     }
@@ -103,6 +104,9 @@ TArray<FName> CharacterSheetHelpers::GetAllClassNames(UDataTable *ClassDataTable
 
 TArray<FName> CharacterSheetHelpers::GetAvailableSubclasses(FName ClassName, UDataTable *ClassDataTable)
 {
+    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
+    // Estrutura antiga (ClassRow->SubclassNames) não existe mais
+    /*
     if (!ClassDataTable || ClassName == NAME_None)
     {
         return TArray<FName>();
@@ -113,6 +117,7 @@ TArray<FName> CharacterSheetHelpers::GetAvailableSubclasses(FName ClassName, UDa
     {
         return ClassRow->SubclassNames;
     }
+    */
 
     return TArray<FName>();
 }
@@ -137,62 +142,25 @@ bool CharacterSheetHelpers::CanSelectSubclass(FName ClassName, int32 ClassLevel,
     return Subclasses.Num() > 0;
 }
 
+// TODO: Reimplementar usando nova estrutura FClassData.FProgress
+// Funções comentadas porque não existem mais no header
+/*
 TArray<FClassFeature> CharacterSheetHelpers::GetFeaturesAtLevel(FName ClassName, int32 Level,
                                                                 UDataTable *ClassDataTable)
 {
-    if (!ClassDataTable || ClassName == NAME_None || Level < 1)
-    {
-        return TArray<FClassFeature>();
-    }
-
-    // Usa DataTableHelpers para buscar row de classe (otimização: remove loop O(n²))
-    if (FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, ClassDataTable))
-    {
-        TArray<FClassFeature> Features;
-        Features.Reserve(ClassRow->Features.Num()); // Pre-aloca memória
-
-        for (const FClassFeature &Feature : ClassRow->Features)
-        {
-            // Features persistem uma vez desbloqueadas (comportamento D&D 5e)
-            // Retorna todas as features desbloqueadas até o nível especificado
-            if (Feature.LevelUnlocked <= Level)
-            {
-                Features.Add(Feature);
-            }
-        }
-
-        return Features;
-    }
-
+    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
+    // Estrutura antiga (ClassRow->Features) não existe mais
     return TArray<FClassFeature>();
 }
 
 TArray<FClassFeatureChoice> CharacterSheetHelpers::GetAvailableChoicesForClassLevel(FName ClassName, int32 ClassLevel,
                                                                                     UDataTable *ClassDataTable)
 {
-    TArray<FClassFeatureChoice> AvailableChoices;
-
-    if (!ClassDataTable || ClassName == NAME_None || ClassLevel < 1)
-    {
-        return AvailableChoices;
-    }
-
-    // Busca features desbloqueadas até o nível especificado
-    TArray<FClassFeature> Features = GetFeaturesAtLevel(ClassName, ClassLevel, ClassDataTable);
-
-    // Filtra apenas features do tipo "Choice" e coleta suas escolhas
-    for (const FClassFeature &Feature : Features)
-    {
-        // Verifica se é feature do tipo "Choice" ou "SubclassSelection"
-        if (Feature.FeatureType == TEXT("Choice") || Feature.FeatureType == TEXT("SubclassSelection"))
-        {
-            // Adiciona todas as escolhas desta feature
-            AvailableChoices.Append(Feature.Choices);
-        }
-    }
-
-    return AvailableChoices;
+    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
+    // Estrutura antiga não existe mais
+    return TArray<FClassFeatureChoice>();
 }
+*/
 
 // ============================================================================
 // Background Data Table Helpers
@@ -683,6 +651,9 @@ TArray<FName> CharacterSheetHelpers::GetChoiceOptions(FName ChoiceID, FName Clas
         return Options;
     }
 
+    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
+    // Estrutura antiga (ClassRow->Features) não existe mais
+    /*
     // Busca a feature que contém esta escolha
     for (const FClassFeature &Feature : ClassRow->Features)
     {
@@ -708,6 +679,7 @@ TArray<FName> CharacterSheetHelpers::GetChoiceOptions(FName ChoiceID, FName Clas
             }
         }
     }
+    */
 
     return Options;
 }
@@ -729,6 +701,9 @@ bool CharacterSheetHelpers::IsChoiceValid(FName ChoiceID, const TArray<FName> &S
             continue;
         }
 
+        // TODO: Reimplementar usando nova estrutura FClassData.FProgress
+        // Estrutura antiga (ClassRow->Features) não existe mais
+        /*
         for (const FClassFeature &Feature : ClassRow->Features)
         {
             for (const FClassFeatureChoice &Choice : Feature.Choices)
@@ -761,6 +736,7 @@ bool CharacterSheetHelpers::IsChoiceValid(FName ChoiceID, const TArray<FName> &S
                 }
             }
         }
+        */
     }
 
     return false;

@@ -63,8 +63,8 @@ struct MYPROJECT2_API FClassChoice
 
 /**
  * Struct para armazenar progresso de classe do personagem.
- * Representa uma classe e seu nível atual.
- * Usado no Data Asset para armazenar progresso simples de classes.
+ * Representa uma classe e seu nível atual seguindo exatamente a estrutura do JSON fmultclass-estrutura-completa.json.
+ * Estrutura maior composta de outras estruturas: FProficienciesEntry e FProgressEntry.
  */
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FMultClass
@@ -72,22 +72,20 @@ struct MYPROJECT2_API FMultClass
     GENERATED_BODY()
 
     /** Nome da classe - dropdown mostra classes disponíveis com requisitos de atributo */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class", meta = (GetOptions = "GetClassNameOptions"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MultClass", meta = (GetOptions = "GetListClassAvaible"))
     FName ClassName;
 
     /** Nível nesta classe (1-20) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class", meta = (ClampMin = "1", ClampMax = "20"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MultClass", meta = (ClampMin = "1", ClampMax = "20"))
     int32 Level = 1;
 
-    /**
-     * Escolhas feitas pelo jogador nesta classe.
-     * Array de estruturas FClassChoice onde cada item representa uma escolha feita.
-     * Exemplos: Fighting Style (Level 1), Subclass (Level 3), ASI (Level 4).
-     * Auto-preenchido pelo handler baseado no nível da classe e features do DataTable.
-     * EditCondition mostra apenas quando Level >= 1 (escolhas disponíveis).
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choices", meta = (EditCondition = "Level >= 1"))
-    TArray<FClassChoice> Choices;
+    /** Proficiências da classe (armas, armaduras, saving throws, skills) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MultClass")
+    TArray<FProficienciesEntry> FProficiencies;
+
+    /** Progressão de features por nível */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MultClass")
+    TArray<FProgressEntry> FProgress;
 
     FMultClass() : ClassName(NAME_None), Level(1) {}
 
@@ -280,7 +278,7 @@ public:
 
     /** Retorna todas as classes disponíveis com verificação de requisitos de atributo */
     UFUNCTION(CallInEditor)
-    TArray<FName> GetClassNameOptions() const;
+    TArray<FName> GetListClassAvaible() const;
 #endif
     // ============================================================================
     // Data Tables
@@ -466,11 +464,11 @@ public:
     int32 PointBuyCharisma = 0;
 
     // ============================================================================
-    // Classes | Progress
+    // MultClass
     // ============================================================================
 
-    /** Progresso de classes do personagem (multiclassing) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Classes",
+    /** Progresso de classes do personagem (multiclassing) - Estrutura maior composta de outras estruturas */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MultClass",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     TArray<FMultClass> MultClass;
 

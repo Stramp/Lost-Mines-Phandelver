@@ -17,71 +17,9 @@ TArray<FClassChoice> FChoiceMotor::CollectAvailableChoices(FName ClassName, int3
         return AvailableChoices;
     }
 
-    // Busca features até o nível atual
-    TArray<FClassFeature> Features = CharacterSheetHelpers::GetFeaturesAtLevel(ClassName, ClassLevel, ClassDataTable);
-
-    // Para cada feature, verifica se tem escolhas
-    for (const FClassFeature &Feature : Features)
-    {
-        // Apenas features do tipo "Choice" ou "SubclassSelection" têm escolhas
-        if (Feature.FeatureType != TEXT("Choice") && Feature.FeatureType != TEXT("SubclassSelection") &&
-            Feature.FeatureType != TEXT("ASI"))
-        {
-            continue;
-        }
-
-        // Se a feature tem escolhas definidas no DataTable
-        if (Feature.Choices.Num() > 0)
-        {
-            // Para cada escolha na feature, cria um FClassChoice
-            for (const FClassFeatureChoice &FeatureChoice : Feature.Choices)
-            {
-                FClassChoice ClassChoice =
-                    ConvertFeatureChoiceToClassChoice(FeatureChoice, Feature, Feature.LevelUnlocked);
-                AvailableChoices.Add(ClassChoice);
-            }
-        }
-        else
-        {
-            // Se não tem Choices definidas, cria uma escolha baseada no FeatureType
-            if (Feature.FeatureType == TEXT("Choice"))
-            {
-                FClassChoice ChoiceChoice = CreateChoiceFromFeature(Feature, ClassName, ClassLevel, ClassDataTable);
-                AvailableChoices.Add(ChoiceChoice);
-            }
-            else if (Feature.FeatureType == TEXT("ASI"))
-            {
-                FClassChoice ASIChoice;
-                ASIChoice.ChoiceID = Feature.FeatureID;
-                ASIChoice.ChoiceName = Feature.FeatureName;
-                ASIChoice.ChoiceType = TEXT("ASI");
-                ASIChoice.Level = Feature.LevelUnlocked;
-                ASIChoice.AvailableSingleChoices = {TEXT("Strength+2"),
-                                                    TEXT("Dexterity+2"),
-                                                    TEXT("Constitution+2"),
-                                                    TEXT("Intelligence+2"),
-                                                    TEXT("Wisdom+2"),
-                                                    TEXT("Charisma+2"),
-                                                    TEXT("Feat")};
-                AvailableChoices.Add(ASIChoice);
-            }
-            else if (Feature.FeatureType == TEXT("SubclassSelection"))
-            {
-                // SubclassSelection sem Choices definidas: busca SubclassNames do ClassDataRow
-                FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, ClassDataTable);
-                if (ClassRow && ClassRow->SubclassNames.Num() > 0)
-                {
-                    FClassChoice SubclassChoice;
-                    SubclassChoice.ChoiceID = Feature.FeatureID;
-                    SubclassChoice.ChoiceName = Feature.FeatureName;
-                    SubclassChoice.ChoiceType = TEXT("SubclassSelection");
-                    SubclassChoice.Level = Feature.LevelUnlocked;
-                    SubclassChoice.AvailableSingleChoices = ClassRow->SubclassNames;
-                    AvailableChoices.Add(SubclassChoice);
-                }
-            }
-        }
-    }
+    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
+    // Estrutura antiga (FClassFeature) não existe mais
+    // Toda a lógica de busca de features foi comentada porque depende de estruturas antigas
 
     return AvailableChoices;
 }
@@ -95,6 +33,9 @@ bool FChoiceMotor::ValidateChoice(const FClassChoice &Choice, FName ClassName, U
         return false;
     }
 
+    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
+    // Estrutura antiga (FClassFeature, FClassFeatureChoice) não existe mais
+    /*
     // Busca a feature correspondente no DataTable
     TArray<FClassFeature> Features = CharacterSheetHelpers::GetFeaturesAtLevel(ClassName, Choice.Level, ClassDataTable);
     FClassFeatureChoice *FoundFeatureChoice = nullptr;
@@ -177,8 +118,15 @@ bool FChoiceMotor::ValidateChoice(const FClassChoice &Choice, FName ClassName, U
     }
 
     return true;
+    */
+
+    // Retorno temporário para compilação
+    return true;
 }
 
+// TODO: Reimplementar usando nova estrutura FClassData.FProgress
+// Estrutura antiga (FClassFeatureChoice) não existe mais
+/*
 TArray<FClassFeatureChoice> FChoiceMotor::ResolveDependencies(const TArray<FClassFeatureChoice> &AvailableChoices,
                                                               const TArray<FClassChoice> &MadeChoices)
 {
@@ -231,7 +179,19 @@ TArray<FClassFeatureChoice> FChoiceMotor::ResolveDependencies(const TArray<FClas
 
     return ResolvedChoices;
 }
+*/
 
+// TODO: Reimplementar usando nova estrutura FClassData.FProgress
+// Implementação comentada porque FClassFeatureChoice não existe mais
+// TArray<FClassFeatureChoice> FChoiceMotor::ResolveDependencies(const TArray<FClassFeatureChoice> &AvailableChoices,
+//                                                               const TArray<FClassChoice> &MadeChoices)
+// {
+//     return TArray<FClassFeatureChoice>();
+// }
+
+// TODO: Reimplementar usando nova estrutura FClassData.FProgress
+// Estrutura antiga (FClassFeature, FClassFeatureChoice) não existe mais
+/*
 FClassChoice FChoiceMotor::ConvertFeatureChoiceToClassChoice(const FClassFeatureChoice &FeatureChoice,
                                                              const FClassFeature &Feature, int32 ClassLevel)
 {
@@ -311,6 +271,7 @@ FClassChoice FChoiceMotor::CreateChoiceFromFeature(const FClassFeature &Feature,
 
     return ChoiceChoice;
 }
+*/
 
 FName FChoiceMotor::GenerateUniqueChoiceID(FName ClassName, FName FeatureName, int32 Level)
 {

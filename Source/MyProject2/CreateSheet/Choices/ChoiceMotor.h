@@ -43,16 +43,10 @@ public:
     static bool ValidateChoice(const FClassChoice &Choice, FName ClassName, UDataTable *ClassDataTable,
                                FString &OutErrorMessage);
 
-    /**
-     * Resolve dependências entre escolhas.
-     * Verifica se escolhas dependentes estão disponíveis baseado em escolhas já feitas.
-     *
-     * @param AvailableChoices Escolhas disponíveis (do DataTable)
-     * @param MadeChoices Escolhas já feitas pelo jogador
-     * @return Array de escolhas disponíveis após resolver dependências
-     */
-    static TArray<FClassFeatureChoice> ResolveDependencies(const TArray<FClassFeatureChoice> &AvailableChoices,
-                                                           const TArray<FClassChoice> &MadeChoices);
+    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
+    // Estrutura antiga (FClassFeatureChoice) não existe mais
+    // static TArray<FClassFeatureChoice> ResolveDependencies(const TArray<FClassFeatureChoice> &AvailableChoices,
+    //                                                          const TArray<FClassChoice> &MadeChoices);
 
 private:
     /**

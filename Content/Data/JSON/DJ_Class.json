@@ -1,0 +1,413 @@
+[
+  {
+    "Name": "Class_Fighter",
+    "FClass": {
+      "Name": "Fighter",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Simple Weapons", "Martial Weapons"]},
+        {"armaduras":["Light Armor", "Medium Armor", "Heavy Armor"]},
+        {"savingThrows":["Strength", "Constitution"]},
+        {"FSkills":{
+          "available":["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival"],
+          "qtdAvailable": 2
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_SecondWind", "FC_FightingStyle"]},
+        {"Level": 2, "Features":["FC_ActionSurge"]},
+        {"Level": 3, "Features":["FC_MartialArchetype"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 5, "Features":["FC_ExtraAtack"]},
+        {"Level": 6, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 7, "Features":["FC_MartialArchetype"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 9, "Features":["FC_Indomitable"]},
+        {"Level": 10, "Features":["FC_MartialArchetype"]},
+        {"Level": 11, "Features":["FC_ExtraAtack"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 13, "Features":["FC_Indomitable"]},
+        {"Level": 14, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 15, "Features":["FC_MartialArchetype"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 17, "Features":["FC_ActionSurge"]},
+        {"Level": 18, "Features":["FC_MartialArchetype"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_ExtraAtack"]}
+      ]
+    }
+  },
+  {
+    "Name": "Class_Wizard",
+    "FClass": {
+      "Name": "Wizard",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Daggers", "Darts", "Slings", "Quarterstaffs", "Light Crossbows"]},
+        {"armaduras":[]},
+        {"savingThrows":["Intelligence", "Wisdom"]},
+        {"FSkills":{
+          "available":["Arcana", "History", "Insight", "Investigation", "Medicine", "Religion"],
+          "qtdAvailable": 2
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_ArcaneRecovery"]},
+        {"Level": 2, "Features":["FC_ArcaneTradition"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 6, "Features":["FC_ArcaneTradition"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 10, "Features":["FC_ArcaneTradition"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 14, "Features":["FC_ArcaneTradition"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 18, "Features":["FC_SpellMastery", "FC_ArcaneTradition"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_SignatureSpells"]}
+      ]
+    }
+  },
+  {
+    "Name": "Class_Barbarian",
+    "FClass": {
+      "Name": "Barbarian",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Simple Weapons", "Martial Weapons"]},
+        {"armaduras":[]},
+        {"savingThrows":["Strength", "Constitution"]},
+        {"FSkills":{
+          "available":["Animal Handling", "Athletics", "Intimidation", "Nature", "Perception", "Survival"],
+          "qtdAvailable": 2
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_Rage", "FC_UnarmoredDefense"]},
+        {"Level": 2, "Features":["FC_RecklessAttack", "FC_DangerSense"]},
+        {"Level": 3, "Features":["FC_PrimalPath"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 5, "Features":["FC_ExtraAttack", "FC_FastMovement"]},
+        {"Level": 6, "Features":["FC_PrimalPath"]},
+        {"Level": 7, "Features":["FC_FeralInstinct"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 9, "Features":["FC_BrutalCritical"]},
+        {"Level": 10, "Features":["FC_PrimalPath"]},
+        {"Level": 11, "Features":["FC_RelentlessRage"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 13, "Features":["FC_BrutalCritical"]},
+        {"Level": 14, "Features":["FC_PrimalPath"]},
+        {"Level": 15, "Features":["FC_PersistentRage"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 17, "Features":["FC_BrutalCritical"]},
+        {"Level": 18, "Features":["FC_IndomitableMight"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_PrimalChampion"]}
+      ]
+    }
+  },
+  {
+    "Name": "Class_Bard",
+    "FClass": {
+      "Name": "Bard",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Simple Weapons", "Hand Crossbows", "Longswords", "Rapiers", "Shortswords"]},
+        {"armaduras":["Light Armor"]},
+        {"savingThrows":["Dexterity", "Charisma"]},
+        {"FSkills":{
+          "available":["Athletics", "Acrobatics", "Sleight of Hand", "Stealth", "Arcana", "History", "Investigation", "Nature", "Religion", "Animal Handling", "Insight", "Medicine", "Perception", "Survival", "Deception", "Intimidation", "Performance", "Persuasion"],
+          "qtdAvailable": 3
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_BardicInspiration", "FC_Spellcasting"]},
+        {"Level": 2, "Features":["FC_JackOfAllTrades", "FC_SongOfRest"]},
+        {"Level": 3, "Features":["FC_BardCollege", "FC_Expertise"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 5, "Features":["FC_FontOfInspiration"]},
+        {"Level": 6, "Features":["FC_BardCollege", "FC_Countercharm"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 10, "Features":["FC_Expertise", "FC_MagicalSecrets"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 14, "Features":["FC_BardCollege", "FC_MagicalSecrets"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 18, "Features":["FC_MagicalSecrets"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_SuperiorInspiration"]}
+      ]
+    }
+  },
+  {
+    "Name": "Class_Cleric",
+    "FClass": {
+      "Name": "Cleric",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Simple Weapons"]},
+        {"armaduras":["Light Armor", "Medium Armor", "Shields"]},
+        {"savingThrows":["Wisdom", "Charisma"]},
+        {"FSkills":{
+          "available":["History", "Insight", "Medicine", "Persuasion", "Religion"],
+          "qtdAvailable": 2
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_DivineDomain", "FC_Spellcasting"]},
+        {"Level": 2, "Features":["FC_ChannelDivinity", "FC_DivineDomain"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 5, "Features":["FC_DestroyUndead"]},
+        {"Level": 6, "Features":["FC_DivineDomain"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral", "FC_DivineDomain"]},
+        {"Level": 10, "Features":["FC_DivineIntervention"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 14, "Features":["FC_DestroyUndead"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 17, "Features":["FC_DivineDomain"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_DivineIntervention"]}
+      ]
+    }
+  },
+  {
+    "Name": "Class_Druid",
+    "FClass": {
+      "Name": "Druid",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Clubs", "Daggers", "Darts", "Javelins", "Maces", "Quarterstaffs", "Scimitars", "Sickles", "Slings", "Spears"]},
+        {"armaduras":["Light Armor", "Medium Armor", "Shields"]},
+        {"savingThrows":["Intelligence", "Wisdom"]},
+        {"FSkills":{
+          "available":["Arcana", "Animal Handling", "Insight", "Medicine", "Nature", "Perception", "Religion", "Survival"],
+          "qtdAvailable": 2
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_Druidic", "FC_Spellcasting"]},
+        {"Level": 2, "Features":["FC_WildShape", "FC_DruidCircle"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 6, "Features":["FC_DruidCircle"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 10, "Features":["FC_DruidCircle"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 14, "Features":["FC_DruidCircle"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 18, "Features":["FC_TimelessBody", "FC_BeastSpells"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_Archdruid"]}
+      ]
+    }
+  },
+  {
+    "Name": "Class_Monk",
+    "FClass": {
+      "Name": "Monk",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Simple Weapons", "Shortswords"]},
+        {"armaduras":[]},
+        {"savingThrows":["Strength", "Dexterity"]},
+        {"FSkills":{
+          "available":["Acrobatics", "Athletics", "History", "Insight", "Religion", "Stealth"],
+          "qtdAvailable": 2
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_UnarmoredDefense", "FC_MartialArts"]},
+        {"Level": 2, "Features":["FC_Ki", "FC_UnarmoredMovement"]},
+        {"Level": 3, "Features":["FC_MonasticTradition", "FC_DeflectMissiles"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral", "FC_SlowFall"]},
+        {"Level": 5, "Features":["FC_ExtraAttack", "FC_StunningStrike"]},
+        {"Level": 6, "Features":["FC_MonasticTradition", "FC_KiEmpoweredStrikes"]},
+        {"Level": 7, "Features":["FC_Evasion", "FC_StillnessOfMind"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 9, "Features":["FC_UnarmoredMovement"]},
+        {"Level": 10, "Features":["FC_PurityOfBody"]},
+        {"Level": 11, "Features":["FC_MonasticTradition"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 13, "Features":["FC_TongueOfTheSunAndMoon"]},
+        {"Level": 14, "Features":["FC_DiamondSoul"]},
+        {"Level": 15, "Features":["FC_TimelessBody"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 17, "Features":["FC_MonasticTradition"]},
+        {"Level": 18, "Features":["FC_EmptyBody"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_PerfectSelf"]}
+      ]
+    }
+  },
+  {
+    "Name": "Class_Paladin",
+    "FClass": {
+      "Name": "Paladin",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Simple Weapons", "Martial Weapons"]},
+        {"armaduras":["Light Armor", "Medium Armor", "Heavy Armor", "Shields"]},
+        {"savingThrows":["Wisdom", "Charisma"]},
+        {"FSkills":{
+          "available":["Athletics", "Insight", "Intimidation", "Medicine", "Persuasion", "Religion"],
+          "qtdAvailable": 2
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_DivineSense", "FC_LayOnHands"]},
+        {"Level": 2, "Features":["FC_Spellcasting", "FC_DivineSmite", "FC_FightingStyle"]},
+        {"Level": 3, "Features":["FC_SacredOath", "FC_DivineHealth"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 5, "Features":["FC_ExtraAttack"]},
+        {"Level": 6, "Features":["FC_AuraOfProtection"]},
+        {"Level": 7, "Features":["FC_SacredOath"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 9, "Features":[]},
+        {"Level": 10, "Features":["FC_AuraOfCourage"]},
+        {"Level": 11, "Features":["FC_ImprovedDivineSmite"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 13, "Features":[]},
+        {"Level": 14, "Features":["FC_CleansingTouch"]},
+        {"Level": 15, "Features":["FC_SacredOath"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 17, "Features":[]},
+        {"Level": 18, "Features":["FC_AuraImprovements"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_SacredOath"]}
+      ]
+    }
+  },
+  {
+    "Name": "Class_Ranger",
+    "FClass": {
+      "Name": "Ranger",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Simple Weapons", "Martial Weapons"]},
+        {"armaduras":["Light Armor", "Medium Armor", "Shields"]},
+        {"savingThrows":["Strength", "Dexterity"]},
+        {"FSkills":{
+          "available":["Animal Handling", "Athletics", "Insight", "Investigation", "Nature", "Perception", "Stealth", "Survival"],
+          "qtdAvailable": 3
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_FavoredEnemy", "FC_NaturalExplorer"]},
+        {"Level": 2, "Features":["FC_Spellcasting"]},
+        {"Level": 3, "Features":["FC_RangerArchetype", "FC_PrimevalAwareness"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 5, "Features":["FC_ExtraAttack"]},
+        {"Level": 6, "Features":["FC_FavoredEnemy", "FC_NaturalExplorer"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 10, "Features":["FC_NaturalExplorer", "FC_HideInPlainSight"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 14, "Features":["FC_FavoredEnemy"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_FoeSlayer"]}
+      ]
+    }
+  },
+  {
+    "Name": "Class_Rogue",
+    "FClass": {
+      "Name": "Rogue",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Simple Weapons", "Hand Crossbows", "Longswords", "Rapiers", "Shortswords"]},
+        {"armaduras":["Light Armor"]},
+        {"savingThrows":["Dexterity", "Intelligence"]},
+        {"FSkills":{
+          "available":["Acrobatics", "Athletics", "Deception", "Insight", "Intimidation", "Investigation", "Perception", "Performance", "Persuasion", "Sleight of Hand", "Stealth"],
+          "qtdAvailable": 4
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_Expertise", "FC_SneakAttack", "FC_ThievesCant"]},
+        {"Level": 2, "Features":["FC_CunningAction"]},
+        {"Level": 3, "Features":["FC_RoguishArchetype"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 5, "Features":["FC_UncannyDodge"]},
+        {"Level": 6, "Features":["FC_Expertise"]},
+        {"Level": 7, "Features":["FC_Evasion"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 9, "Features":["FC_RoguishArchetype"]},
+        {"Level": 10, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 11, "Features":["FC_ReliableTalent"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 13, "Features":["FC_RoguishArchetype"]},
+        {"Level": 14, "Features":["FC_Blindsense"]},
+        {"Level": 15, "Features":["FC_SlipperyMind"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 17, "Features":["FC_RoguishArchetype"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_StrokeOfLuck"]}
+      ]
+    }
+  },
+  {
+    "FClass": {
+      "Name": "Sorcerer",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Daggers", "Darts", "Slings", "Quarterstaffs", "Light Crossbows"]},
+        {"armaduras":[]},
+        {"savingThrows":["Constitution", "Charisma"]},
+        {"FSkills":{
+          "available":["Arcana", "Deception", "Insight", "Intimidation", "Persuasion", "Religion"],
+          "qtdAvailable": 2
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_SorcerousOrigin", "FC_Spellcasting"]},
+        {"Level": 2, "Features":["FC_FontOfMagic"]},
+        {"Level": 3, "Features":["FC_Metamagic"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 6, "Features":["FC_SorcerousOrigin"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 10, "Features":["FC_Metamagic"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 14, "Features":["FC_SorcerousOrigin"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 17, "Features":["FC_Metamagic"]},
+        {"Level": 18, "Features":["FC_SorcerousOrigin"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_SorcerousRestoration"]}
+      ]
+    }
+  },
+  {
+    "FClass": {
+      "Name": "Warlock",
+      "Level": 20,
+      "FProficiencies": [
+        {"armas":["Simple Weapons"]},
+        {"armaduras":["Light Armor"]},
+        {"savingThrows":["Wisdom", "Charisma"]},
+        {"FSkills":{
+          "available":["Arcana", "Deception", "History", "Intimidation", "Investigation", "Nature", "Religion"],
+          "qtdAvailable": 2
+        }}
+      ],
+      "FProgress": [
+        {"Level": 1, "Features":["FC_OtherworldlyPatron", "FC_PactMagic"]},
+        {"Level": 2, "Features":["FC_EldritchInvocations"]},
+        {"Level": 3, "Features":["FC_PactBoon"]},
+        {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 5, "Features":["FC_EldritchInvocations"]},
+        {"Level": 6, "Features":["FC_OtherworldlyPatron"]},
+        {"Level": 7, "Features":["FC_EldritchInvocations"]},
+        {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 9, "Features":["FC_EldritchInvocations"]},
+        {"Level": 10, "Features":["FC_OtherworldlyPatron"]},
+        {"Level": 11, "Features":["FC_MysticArcanum"]},
+        {"Level": 12, "Features":["FC_ASI","Feature_Geral", "FC_EldritchInvocations"]},
+        {"Level": 13, "Features":["FC_MysticArcanum"]},
+        {"Level": 14, "Features":["FC_OtherworldlyPatron"]},
+        {"Level": 15, "Features":["FC_MysticArcanum"]},
+        {"Level": 16, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 17, "Features":["FC_MysticArcanum"]},
+        {"Level": 18, "Features":["FC_EldritchInvocations"]},
+        {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
+        {"Level": 20, "Features":["FC_EldritchMaster"]}
+      ]
+    }
+  }
+]

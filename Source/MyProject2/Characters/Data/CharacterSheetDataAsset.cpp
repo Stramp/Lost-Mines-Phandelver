@@ -166,9 +166,9 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
         SelectedRace, SelectedSubrace, SelectedBackground, SelectedLanguages, RaceDataTable, BackgroundDataTable);
 }
 
-TArray<FName> UCharacterSheetDataAsset::GetClassNameOptions() const
+TArray<FName> UCharacterSheetDataAsset::GetListClassAvaible() const
 {
-    return FCharacterSheetDataAssetGetOptions::GetClassNameOptions(ClassDataTable, FinalStrength, FinalDexterity,
+    return FCharacterSheetDataAssetGetOptions::GetListClassAvaible(ClassDataTable, FinalStrength, FinalDexterity,
                                                                    FinalConstitution, FinalIntelligence, FinalWisdom,
                                                                    FinalCharisma);
 }

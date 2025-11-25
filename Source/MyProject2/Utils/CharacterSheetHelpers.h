@@ -84,29 +84,11 @@ namespace CharacterSheetHelpers
      */
     bool CanSelectSubclass(FName ClassName, int32 ClassLevel, UDataTable *ClassDataTable);
 
-    /**
-     * Retorna todas as features de uma classe que são desbloqueadas em um nível específico.
-     *
-     * @param ClassName Nome da classe
-     * @param Level Nível para buscar features
-     * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @return Array com features desbloqueadas no nível, ou array vazio se não encontrado ou Data Table inválido
-     */
-    TArray<FClassFeature> GetFeaturesAtLevel(FName ClassName, int32 Level, UDataTable *ClassDataTable);
-
-    /**
-     * Retorna escolhas disponíveis para uma classe e nível específico.
-     * Data-Driven: busca features do tipo "Choice" do ClassDataTable.
-     * Filtra apenas features desbloqueadas até o nível especificado.
-     *
-     * @param ClassName Nome da classe
-     * @param ClassLevel Nível da classe
-     * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @return Array de FClassFeatureChoice disponíveis neste nível, ou array vazio se não encontrado ou Data Table
-     * inválido
-     */
-    TArray<FClassFeatureChoice> GetAvailableChoicesForClassLevel(FName ClassName, int32 ClassLevel,
-                                                                 UDataTable *ClassDataTable);
+    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
+    // Estrutura antiga (FClassFeature, FClassFeatureChoice) não existe mais
+    // Funções comentadas:
+    // - GetFeaturesAtLevel
+    // - GetAvailableChoicesForClassLevel
 
     // ============================================================================
     // Background Data Table Helpers

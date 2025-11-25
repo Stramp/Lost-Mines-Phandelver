@@ -5,6 +5,8 @@
 #include "Characters/Data/CharacterSheetDataAsset.h"
 #include "Utils/CharacterSheetHelpers.h"
 
+#include "Math/UnrealMathUtility.h"
+
 void FCharacterSheetDataAssetHelpers::ResetVariantHumanChoices(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -49,7 +51,11 @@ void FCharacterSheetDataAssetHelpers::UpdatePointBuyFromAdjustedAllocation(UChar
     int32 *PointBuyFields[] = {&Asset->PointBuyStrength,     &Asset->PointBuyDexterity, &Asset->PointBuyConstitution,
                                &Asset->PointBuyIntelligence, &Asset->PointBuyWisdom,    &Asset->PointBuyCharisma};
 
-    for (int32 Index = 0; Index < AbilityNames.Num() && Index < 6; ++Index)
+    const int32 NumAbilityScores = AbilityNames.Num();
+    const int32 NumPointBuyFields = sizeof(PointBuyFields) / sizeof(PointBuyFields[0]);
+    const int32 MaxIndex = FMath::Min(NumAbilityScores, NumPointBuyFields);
+
+    for (int32 Index = 0; Index < MaxIndex; ++Index)
     {
         if (const int32 *AdjustedValue = AdjustedAllocation.Find(AbilityNames[Index]))
         {
