@@ -82,6 +82,9 @@ CompileFlags:
     - -Wno-constant-logical-operand
     - -Wno-unused-value
     - -Wno-bitfield-enum-conversion
+    # Desabilita warning de tipo ausente (falso positivo com GENERATED_BODY do Unreal)
+    - -Wno-error=missing-type-specifier
+    - -Wno-missing-type-specifier
 InlayHints:
   Enabled: Yes
   DeducedTypes: Yes
@@ -89,3 +92,11 @@ InlayHints:
   Designators: Yes
 Diagnostics:
   UnusedIncludes: None
+  # Ignora arquivos gerados pelo Unreal Engine (não analisa esses arquivos)
+  IgnoreRegex: '.*\.generated\.h$'
+  # Desabilita diagnóstico de tipo ausente (falso positivo com GENERATED_BODY)
+  UnusedIncludes: None
+  ClangTidy:
+    Remove:
+      - clang-diagnostic-missing-type-specifier
+      - readability-identifier-naming

@@ -1,0 +1,129 @@
+[
+  {
+    "Name": "Second Wind",
+    "FC_ID": "FC_SecondWind",
+    "Description": "You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level. Once you use this feature, you must finish a short or long rest before you can use it again.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "UsesPerRest": "1",
+      "Type": "BonusAction"
+    },
+    "AvailableChoices": []
+  },
+  {
+    "Name": "Fighting Style",
+    "FC_ID": "FC_FightingStyle",
+    "Description": "You adopt a particular style of fighting as your specialty. Choose one of the following options. You can't take a Fighting Style option more than once, even if you later get to choose again.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Choice",
+    "FeatureData": {},
+    "AvailableChoices": [
+      {
+        "ID": "FC_Archery",
+        "Name": "Archery"
+      },
+      {
+        "ID": "FC_Defense",
+        "Name": "Defense"
+      },
+      {
+        "ID": "FC_Dueling",
+        "Name": "Dueling"
+      },
+      {
+        "ID": "FC_Great_Weapon_Fighting",
+        "Name": "Great Weapon Fighting"
+      },
+      {
+        "ID": "FC_Protection",
+        "Name": "Protection"
+      },
+      {
+        "ID": "FC_Two_Weapon_Fighting",
+        "Name": "Two-Weapon Fighting"
+      }
+    ]
+  },
+  {
+    "Name": "Action Surge",
+    "FC_ID": "FC_ActionSurge",
+    "Description": "Starting at 2nd level, you can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action. Once you use this feature, you must finish a short or long rest before you can use it again. Starting at 17th level, you can use it twice before a rest, but only once on the same turn.",
+    "LevelUnlocked": 2,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "UsesPerRest": "1",
+      "UsesPerRestAtLevel17": "2"
+    },
+    "AvailableChoices": []
+  },
+  {
+    "Name": "Martial Archetype",
+    "FC_ID": "FC_MartialArchetype",
+    "Description": "At 3rd level, you choose an archetype that you strive to emulate in your combat styles and techniques. The archetype you choose grants you features at 3rd level and again at 7th, 10th, 15th, and 18th level.",
+    "LevelUnlocked": 3,
+    "FeatureType": "SubclassSelection",
+    "FeatureData": {},
+    "AvailableChoices": [
+      {
+        "ID": "FC_Champion",
+        "Name": "Champion"
+      },
+      {
+        "ID": "FC_Battle_Master",
+        "Name": "Battle Master"
+      },
+      {
+        "ID": "FC_Eldritch_Knight",
+        "Name": "Eldritch Knight"
+      }
+    ]
+  },
+  {
+    "Name": "Ability Score Improvement",
+    "FC_ID": "FC_ASI",
+    "Description": "When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+    "LevelUnlocked": 4,
+    "FeatureType": "ASI",
+    "FeatureData": {},
+    "AvailableChoices": []
+  },
+  {
+    "Name": "Extra Attack",
+    "FC_ID": "FC_ExtraAtack",
+    "Description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn. The number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class.",
+    "LevelUnlocked": 5,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "AttacksAtLevel5": "2",
+      "AttacksAtLevel11": "3",
+      "AttacksAtLevel20": "4"
+    },
+    "AvailableChoices": []
+  },
+  {
+    "Name": "Indomitable",
+    "FC_ID": "FC_Indomitable",
+    "Description": "Beginning at 9th level, you can reroll a saving throw that you fail. If you do so, you must use the new roll, and you can't use this feature again until you finish a long rest. You can use this feature twice between long rests starting at 13th level and three times between long rests starting at 17th level.",
+    "LevelUnlocked": 9,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "UsesPerLongRest": "1",
+      "UsesPerLongRestAtLevel13": "2",
+      "UsesPerLongRestAtLevel17": "3"
+    },
+    "AvailableChoices": []
+  },
+  {
+    "Name": "Feat Selection",
+    "FC_ID": "Feature_Geral",
+    "Description": "Instead of increasing your ability scores, you can choose to take a feat. Feats are special abilities that provide unique benefits. You can take each feat only once, unless the feat's description says otherwise.",
+    "LevelUnlocked": 4,
+    "FeatureType": "FeatSelection",
+    "FeatureData": {
+      "Source": "FeatDataTable",
+      "AlternativeTo": "FC_ASI"
+    },
+    "AvailableChoices": []
+  }
+]

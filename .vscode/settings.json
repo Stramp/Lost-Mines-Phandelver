@@ -19,9 +19,11 @@
   "C_Cpp.clang_format_path": "C:\\Program Files\\LLVM\\bin\\clang-format.exe",
   "C_Cpp.clang_format_style": "file",
   "C_Cpp.clang_format_fallbackStyle": "LLVM",
-  "C_Cpp.formatting": "disabled",
   "C_Cpp.errorSquiggles": "disabled",
   "C_Cpp.intelliSenseEngine": "disabled",
+  "editor.foldingStrategy": "indentation",
+  "editor.showFoldingControls": "always",
+  "C_Cpp.folding": "enabled",
   "files.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,

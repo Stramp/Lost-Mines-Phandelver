@@ -1,0 +1,17 @@
+---
+# Configuração do clang-tidy para projeto Unreal Engine
+# Suprime erros falsos positivos relacionados a macros do Unreal Engine
+
+Checks: >
+  -*,
+  clang-diagnostic-*,
+  -clang-diagnostic-missing-type-specifier,
+  -clang-diagnostic-undeclared-var-use
+
+WarningsAsErrors: ''
+
+# Ignora arquivos gerados pelo Unreal Engine
+ExcludeHeaderFilterRegex: '.*\.generated\.h$'
+
+# Ignora erros em structs com GENERATED_BODY
+# (Esses erros são falsos positivos - as macros são expandidas durante a compilação)

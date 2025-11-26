@@ -12,8 +12,9 @@ class UCharacterSheetDataAsset;
 struct FMulticlassEntry;
 
 /**
- * Helpers para validação e aplicação de regras de multiclasse.
- * Funções auxiliares reutilizáveis para o motor de multiclasse.
+ * Helpers para estrutura de dados de multiclasse.
+ * Funções auxiliares para manipulação de arrays e estruturas de multiclasse.
+ * Validação de atributos está em FMulticlassValidators.
  */
 class MYPROJECT2_API FMulticlassHelpers
 {
