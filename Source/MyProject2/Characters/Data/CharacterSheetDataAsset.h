@@ -4,126 +4,39 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "Engine/DataTable.h"
 #include "Data/Tables/ClassDataTable.h"
 #include "CharacterSheetDataAsset.generated.h"
 
-// Forward declarations
+// ============================================================================
+// Forward Declarations
+// ============================================================================
+
 class UDataTable;
-class FCharacterSheetDataAssetHandlers;
-class FCharacterSheetDataAssetValidators;
-class FCharacterSheetDataAssetUpdaters;
-class FCharacterSheetDataAssetHelpers;
+
+// ============================================================================
+// Class Declaration
+// ============================================================================
+
+// No CharacterSheetDataAsset.h ou em um arquivo separado
 
 /**
- * Struct para armazenar uma escolha disponível em uma classe.
- * Representa uma escolha específica (ex: Fighting Style, Subclass, ASI).
+ * Struct para armazenar informações de multiclasse.
+ * Contém FClassDataRow (dados da classe) + propriedades extras específicas de multiclasse.
  */
 USTRUCT(BlueprintType)
-struct MYPROJECT2_API FClassChoice
+struct MYPROJECT2_API FMulticlassEntry
 {
     GENERATED_BODY()
 
-    /** ID único da escolha (ex: "Fighter_FightingStyle_1") - INVISÍVEL no editor */
-    UPROPERTY()
-    FName ChoiceID;
+    /** Nível nesta classe (ex: Fighter 3, Wizard 2) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Multiclass", meta = (ClampMin = "1", ClampMax = "20"))
+    int32 LevelInClass = 1;
 
-    /** Nome da escolha exibido ao usuário (ex: "Fighting Style", "Arquetipos guerreiro") */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
-    FName ChoiceName;
+    /** Dados da classe (do ClassDataTable) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Multiclass")
+    FClassDataRow ClassData;
 
-    /**
-     * Tipo da escolha: determina como a escolha é processada.
-     * Valores possíveis:
-     * - "Simple": Escolha simples (1 de N opções)
-     * - "Multiple": Escolha múltipla (M de N opções)
-     * - "SubclassSelection": Seleção de subclasse
-     * - "ASI": Ability Score Improvement
-     * - "Scalable": Escolha que escala com nível
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice")
-    FName ChoiceType;
-
-    /** Opções disponíveis para escolhas simples - VISÍVEL quando tem conteúdo */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice",
-              meta = (EditCondition = "AvailableSingleChoices.Num() > 0", EditConditionHides))
-    TArray<FName> AvailableSingleChoices;
-
-    /** Opções disponíveis para escolhas múltiplas - INVISÍVEL quando vazio, VISÍVEL quando preenchido */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Choice",
-              meta = (EditCondition = "AvailableMultChoice.Num() > 0", EditConditionHides))
-    TArray<FName> AvailableMultChoice;
-
-    /** Nível da classe quando a escolha foi desbloqueada */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Choice")
-    int32 Level;
-
-    FClassChoice() : ChoiceID(NAME_None), ChoiceName(NAME_None), ChoiceType(NAME_None), Level(1) {}
-};
-
-/**
- * Struct para armazenar progresso de classe do personagem.
- * Representa uma classe e seu nível atual seguindo exatamente a estrutura do JSON fmultclass-estrutura-completa.json.
- * Estrutura maior composta de outras estruturas: FProficienciesEntry e FProgressEntry.
- */
-USTRUCT(BlueprintType)
-struct MYPROJECT2_API FMultClass
-{
-    GENERATED_BODY()
-
-    /** Nome da classe - dropdown mostra classes disponíveis com requisitos de atributo */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MultClass", meta = (GetOptions = "GetListClassAvaible"))
-    FName ClassName;
-
-    /** Nível nesta classe (1-20) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MultClass", meta = (ClampMin = "1", ClampMax = "20"))
-    int32 Level = 1;
-
-    /** Proficiências da classe (armas, armaduras, saving throws, skills) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MultClass")
-    TArray<FProficienciesEntry> FProficiencies;
-
-    /** Progressão de features por nível */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MultClass")
-    TArray<FProgressEntry> FProgress;
-
-    FMultClass() : ClassName(NAME_None), Level(1) {}
-
-    FMultClass(const FName &InClassName, int32 InLevel) : ClassName(InClassName), Level(InLevel) {}
-};
-
-/**
- * Struct para armazenar entrada de nível de classe (multi-classing).
- * Usado pelo motor de Multiclassing para cálculos internos.
- * NOTA: Para o Data Asset, use FMultClass (mais simples).
- */
-USTRUCT(BlueprintType)
-struct MYPROJECT2_API FClassLevelEntry
-{
-    GENERATED_BODY()
-
-    /** Nome da classe */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-    FName ClassName;
-
-    /** Nível nesta classe (1-20) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-    int32 Level = 1;
-
-    /** Nome da subclasse escolhida (se aplicável) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-    FName SubclassName;
-
-    /** Escolhas feitas pelo jogador nesta classe (ex: Fighting Style, Maneuvers) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-    TArray<FName> Choices;
-
-    FClassLevelEntry() : ClassName(NAME_None), Level(1), SubclassName(NAME_None) {}
-
-    FClassLevelEntry(const FName &InClassName, int32 InLevel)
-        : ClassName(InClassName), Level(InLevel), SubclassName(NAME_None)
-    {
-    }
+    FMulticlassEntry() : LevelInClass(1) {}
 };
 
 /**
@@ -148,12 +61,16 @@ class MYPROJECT2_API UCharacterSheetDataAsset : public UDataAsset
     GENERATED_BODY()
 
 public:
+    // ============================================================================
+    // Constructor
+    // ============================================================================
+
     UCharacterSheetDataAsset();
 
+    // ============================================================================
+    // Public Methods for Modules (replaces friend class access)
+    // ============================================================================
 #if WITH_EDITOR
-    // ============================================================================
-    // Public methods for modules (replaces friend class access)
-    // ============================================================================
 
     /**
      * Sets the validating properties flag.
@@ -171,69 +88,37 @@ public:
      */
     bool IsValidatingProperties() const;
 
-    /**
-     * Gets bIsVariantHuman flag.
-     * Used by Validators/Updaters.
-     *
-     * @return True if selected subrace is Variant Human
-     */
+    // ============================================================================
+    // Flag Getters and Setters (for Validators/Updaters)
+    // ============================================================================
+
+    /** Gets bIsVariantHuman flag. Used by Validators/Updaters. */
     bool GetIsVariantHuman() const { return bIsVariantHuman; }
 
-    /**
-     * Sets bIsVariantHuman flag.
-     * Used by Updaters.
-     *
-     * @param bValue New value
-     */
+    /** Sets bIsVariantHuman flag. Used by Updaters. */
     void SetIsVariantHuman(bool bValue) { bIsVariantHuman = bValue; }
 
-    /**
-     * Gets bHasLanguageChoices flag.
-     * Used by Validators/Updaters.
-     *
-     * @return True if there are language choices available
-     */
+    /** Gets bHasLanguageChoices flag. Used by Validators/Updaters. */
     bool GetHasLanguageChoices() const { return bHasLanguageChoices; }
 
-    /**
-     * Sets bHasLanguageChoices flag.
-     * Used by Updaters.
-     *
-     * @param bValue New value
-     */
+    /** Sets bHasLanguageChoices flag. Used by Updaters. */
     void SetHasLanguageChoices(bool bValue) { bHasLanguageChoices = bValue; }
 
-    /**
-     * Gets bHasSubraces flag.
-     * Used by Updaters.
-     *
-     * @return True if selected race has subraces
-     */
+    /** Gets bHasSubraces flag. Used by Updaters. */
     bool GetHasSubraces() const { return bHasSubraces; }
 
-    /**
-     * Sets bHasSubraces flag.
-     * Used by Updaters.
-     *
-     * @param bValue New value
-     */
+    /** Sets bHasSubraces flag. Used by Updaters. */
     void SetHasSubraces(bool bValue) { bHasSubraces = bValue; }
 
-    /**
-     * Gets bCanShowSheet flag.
-     * Used by Updaters.
-     *
-     * @return True if sheet can be shown
-     */
+    /** Gets bCanShowSheet flag. Used by Updaters. */
     bool GetCanShowSheet() const { return bCanShowSheet; }
 
-    /**
-     * Sets bCanShowSheet flag.
-     * Used by Updaters.
-     *
-     * @param bValue New value
-     */
+    /** Sets bCanShowSheet flag. Used by Updaters. */
     void SetCanShowSheet(bool bValue) { bCanShowSheet = bValue; }
+
+    // ============================================================================
+    // Helper Methods
+    // ============================================================================
 
     /**
      * Helper: Cria FCharacterSheetData a partir do Data Asset e chama Core genérico.
@@ -280,6 +165,7 @@ public:
     UFUNCTION(CallInEditor)
     TArray<FName> GetListClassAvaible() const;
 #endif
+
     // ============================================================================
     // Data Tables
     // ============================================================================
@@ -303,7 +189,6 @@ public:
     // ============================================================================
     // Basic Info
     // ============================================================================
-
     /** Nome do personagem */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Basic | Info",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
@@ -324,32 +209,34 @@ public:
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 ProficiencyBonus = 2;
 
-    /** Strength final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
+    // ============================================================================
+    // Final Attributes (8 + RacialBonus + PointBuyAllocation)
+    // ============================================================================
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalStrength = 8;
 
-    /** Dexterity final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
+    /** Dexterity final - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalDexterity = 8;
 
-    /** Constitution final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
+    /** Constitution final - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalConstitution = 8;
 
-    /** Intelligence final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
+    /** Intelligence final - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalIntelligence = 8;
 
-    /** Wisdom final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
+    /** Wisdom final - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalWisdom = 8;
 
-    /** Charisma final (8 + RacialBonus + PointBuyAllocation) - Valor pronto para uso */
+    /** Charisma final - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 FinalCharisma = 8;
@@ -357,8 +244,6 @@ public:
     // ============================================================================
     // Race & Background
     // ============================================================================
-
-    /** Raça selecionada */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Choices",
               meta = (HideEditConditionToggle, GetOptions = "GetRaceNames", EditCondition = "!bCanShowSheet",
                       EditConditionHides))
@@ -377,10 +262,9 @@ public:
     FName SelectedBackground = NAME_None;
 
     // ============================================================================
-    // Variant Human Choices (aparece apenas quando SelectedSubrace == "Variant Human")
+    // Variant Human Choices
+    // (aparece apenas quando SelectedSubrace == "Variant Human")
     // ============================================================================
-
-    // Propriedades de Variant Human (agrupadas em subcategoria)
 
     /** Escolhas customizadas de atributos para Variant Human (2x +1 para distribuir) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Race & Background | Variant Choices",
@@ -401,7 +285,8 @@ public:
     FName SelectedSkill = NAME_None;
 
     // ============================================================================
-    // Language Choices (aparece quando há escolhas de idiomas disponíveis)
+    // Language Choices
+    // (aparece quando há escolhas de idiomas disponíveis)
     // ============================================================================
 
     /** Idiomas escolhidos pelo jogador (quando raça/background/feat permite escolha) */
@@ -419,14 +304,10 @@ public:
     // ============================================================================
     // Ability Scores (Point Buy System)
     // ============================================================================
-
-    // ============================================================================
-    // Point Buy Allocation (0-7 pontos por atributo, total = 27 pontos)
-    // ============================================================================
-    /** Pontos restantes no sistema Point Buy (27 pontos totais) */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability Scores",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 PointsRemaining = 27;
+
     /** Pontos alocados em Strength (0-7) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides, ClampMin = "0",
@@ -464,41 +345,29 @@ public:
     int32 PointBuyCharisma = 0;
 
     // ============================================================================
-    // MultClass
+    // Multiclass
     // ============================================================================
-
-    /** Progresso de classes do personagem (multiclassing) - Estrutura maior composta de outras estruturas */
+    // #region Multiclass
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MultClass",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    TArray<FMultClass> MultClass;
-
-    // ============================================================================
-    // Calculated (Read-only)
-    // ============================================================================
-
-    /** Proficiências do personagem (background + Variant Human skill) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated",
-              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    TArray<FName> Proficiencies;
-
-    /** Idiomas que o personagem fala (calculado automaticamente: raça + background + escolhas) */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Calculated",
-              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    TArray<FName> Languages;
+    TArray<FMulticlassEntry> Multiclass;
+    // #endregion
 
 private:
 #if WITH_EDITORONLY_DATA
-    /** Flag calculada: true se SelectedSubrace == "Variant Human" (propriedade interna, não visível no editor) */
+    // ============================================================================
+    // Editor-Only Flags (internal state, not visible in editor)
+    // ============================================================================
+
+    /** Flag calculada: true se SelectedSubrace == "Variant Human" */
     UPROPERTY()
     bool bIsVariantHuman = false;
 
-    /** Flag calculada: true se há escolhas de idiomas disponíveis (raça/background/feat) (propriedade interna, não
-     * visível no editor) */
+    /** Flag calculada: true se há escolhas de idiomas disponíveis (raça/background/feat) */
     UPROPERTY()
     bool bHasLanguageChoices = false;
 
-    /** Flag calculada: true se a raça selecionada tem sub-raças disponíveis (propriedade interna, não visível no
-     * editor) */
+    /** Flag calculada: true se a raça selecionada tem sub-raças disponíveis */
     UPROPERTY()
     bool bHasSubraces = false;
 
@@ -508,6 +377,10 @@ private:
 #endif
 
 #if WITH_EDITOR
+    // ============================================================================
+    // Editor-Only Private Members
+    // ============================================================================
+
     /** Flag para evitar recursão infinita ao modificar propriedades durante validação */
     bool bIsValidatingProperties = false;
 
@@ -517,8 +390,21 @@ private:
     /** Map de nomes de propriedades para seus handlers (usando ponteiros de função estáticos) */
     TMap<FName, PropertyHandlerFunction> PropertyHandlers;
 
+    // ============================================================================
+    // Editor-Only Private Methods
+    // ============================================================================
+
     /** Inicializa o map de handlers (chamado no construtor e PostLoad) */
     void InitializePropertyHandlers();
+
+    // Funções auxiliares para inicialização de handlers (divididas por categoria)
+    void InitializeRaceHandlers();
+    void InitializePointBuyHandlers();
+    void InitializeBackgroundHandlers();
+    void InitializeVariantHumanHandlers();
+    void InitializeLanguageHandlers();
+    void InitializeDataTableHandlers();
+    void InitializeMulticlassHandlers();
 
     /** Called after object is loaded from disk - ensures PropertyHandlers is initialized */
     virtual void PostLoad() override;

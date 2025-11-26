@@ -50,6 +50,18 @@ public:
      */
     static void HandleDataTableChange(UCharacterSheetDataAsset *Asset);
 
+    /**
+     * Handles changes to LevelInClass in Multiclass array.
+     * Logs the new level value when changed.
+     */
+    static void HandleLevelInClassChange(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Handles changes to ClassData.FClass.Name in Multiclass array.
+     * Resets the field to NAME_None if the selected class has a requirement tag (starts with "[").
+     */
+    static void HandleMulticlassClassNameChange(UCharacterSheetDataAsset *Asset);
+
     // ============================================================================
     // Wrapper Functions for Property Handler Map (C-style function pointers)
     // ============================================================================
@@ -63,4 +75,6 @@ public:
     static void HandleVariantHumanChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleLanguageChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleDataTableWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleLevelInClassWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleMulticlassClassNameWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
 };
