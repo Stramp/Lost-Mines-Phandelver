@@ -77,7 +77,10 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > ├── Config/                     # Configurações (.ini)
 > ├── .cursor/                    # Regras e configurações do Cursor
 > │   └── rules/                 # Regras de código e arquitetura
-> ├── ARCHITECTURE.md            # Documentação de arquitetura completa
+> ├── docs/                      # Documentação completa organizada
+│   ├── design/               # Design (GDD, regras D&D 5e)
+│   └── technical/            # Técnico (arquitetura, API, guias)
+├── ARCHITECTURE.md            # Resumo da arquitetura (linka para docs/)
 > └── README.md                  # Este arquivo
 > ```
 
@@ -355,7 +358,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >     style CM fill:#fff59d
 > ```
 >
-> **📖 Para mais detalhes sobre o fluxo de dados, veja [ARCHITECTURE.md](ARCHITECTURE.md)**
+> **📖 Para mais detalhes sobre o fluxo de dados, veja [ARCHITECTURE.md](ARCHITECTURE.md) ou [documentação completa](docs/technical/architecture.md)**
 
 </details>
 
@@ -395,17 +398,22 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 
 > ### Documentação Principal
 >
-> - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Arquitetura completa do projeto
-> - **[API.md](docs/API.md)** - Referência completa da API
+> **📖 Para documentação completa e organizada, veja [docs/index.md](docs/index.md)**
+>
+> ### Documentação Principal
+>
+> - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Resumo da arquitetura (veja [completo](docs/technical/architecture.md))
+> - **[GDD](docs/design/gdd.md)** - Game Design Document (visão do jogo final)
+> - **[API Reference](docs/technical/api.md)** - Referência completa da API
 > - **[CHANGELOG.md](CHANGELOG.md)** - Histórico de mudanças
 > - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guia para contribuidores
 > - **[.cursor/rules/](.cursor/rules/)** - Regras de código e padrões
 >
-> ### Guias Práticos
+> ### Documentação Organizada
 >
-> - **[Getting Started](docs/GUIDES/getting-started.md)** - Guia passo a passo para criar personagens
-> - **[Data Tables](docs/GUIDES/data-tables.md)** - Documentação completa dos Data Tables
-> - **[Troubleshooting](docs/GUIDES/troubleshooting.md)** - Problemas comuns e soluções
+> - **[Design](docs/design/)** - GDD e regras D&D 5e
+> - **[Técnico](docs/technical/)** - Arquitetura, API e guias
+> - **[Índice Completo](docs/index.md)** - Organização da documentação
 >
 > ### Regras Críticas
 >
