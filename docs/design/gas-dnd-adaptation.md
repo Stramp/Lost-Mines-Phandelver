@@ -2,6 +2,19 @@
 
 > **Documento de Design:** Explica como adaptar as regras de D&D 5e para um jogo Action RPG no Unreal Engine 5 usando Gameplay Ability System (GAS).
 
+**⚠️ Status do Projeto:**
+
+**✅ Implementado Atualmente:**
+- Sistema de fichas completo: `UCharacterSheetDataAsset`, `UCharacterSheetComponent`, `UCharacterDataComponent`
+- Replicação multiplayer: `DOREPLIFETIME` em `UCharacterDataComponent` (todas as propriedades replicáveis)
+- Motores desacoplados: `FMulticlassMotor`, `FPointBuyMotor`, `FRaceBonusMotor`
+- Arquitetura em 4 camadas: Data Assets → Bridge Components → Runtime Data Components → Feature Components
+
+**🔮 Planejado (Futuro):**
+- Migração para GAS (Gameplay Ability System) - este documento explica como será implementado
+- Feature Components: `USpellcastingComponent`, `USecondWindComponent`, `UActionSurgeComponent`
+- Motor de escolhas: `FChoiceMotor` (pasta `Choices/` existe mas motor ainda não implementado)
+
 **Referências:**
 
 - [D&D Beyond Basic Rules](https://www.dndbeyond.com/sources/dnd/br-2024)
@@ -973,6 +986,17 @@
 > **🎯 Resultado Final:**
 >
 > Um jogo Action RPG multiplayer que mantém todas as regras de D&D 5e, executa tudo automaticamente em tempo real com colisão física real, e garante sincronização perfeita entre todos os jogadores.
+>
+> **📌 Nota Importante:**
+>
+> Este documento descreve a **arquitetura futura** usando GAS. O projeto atual usa:
+>
+> - ✅ `UCharacterDataComponent` com replicação (`DOREPLIFETIME`) para dados em runtime
+>   - 13 propriedades replicáveis: CharacterName, CharacterDescription, CharacterTotalLvl, SelectedRace, SelectedSubrace, SelectedBackground, Proficiencies, AvailableFeatures, SelectedFeat, SelectedSkill, CustomAbilityScoreChoices, RaceTraits, Languages
+>   - `AbilityScores` (TMap) não é replicável diretamente (limitação do Unreal Engine)
+> - ✅ `UCharacterSheetComponent` como bridge component para aplicar regras
+> - ✅ `UCharacterSheetDataAsset` para configuração no editor
+> - 🔮 Migração futura para GAS manterá a mesma arquitetura de camadas, mas usando `AttributeSet`, `GameplayEffect` e `GameplayAbility`
 
 </details>
 

@@ -256,10 +256,10 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >
 > - **`FCharacterSheetCore`** - Orquestrador genérico que coordena todos os motores
 > - **`FCharacterSheetData`** - Estrutura genérica de dados (funciona em Data Asset e Widget)
-> - **`FRaceBonusMotor`** - Motor independente para bônus raciais
-> - **`FPointBuyMotor`** - Motor independente para alocação de Point Buy
-> - **`FMulticlassMotor`** - Motor independente para cálculo de multiclassing
-> - **`FChoiceMotor`** - Motor independente para processar escolhas de classe
+> - **`FRaceBonusMotor`** - Motor independente para bônus raciais ✅ Implementado
+> - **`FPointBuyMotor`** - Motor independente para alocação de Point Buy ✅ Implementado
+> - **`FMulticlassMotor`** - Motor independente para cálculo de multiclassing ✅ Implementado
+> - **`FChoiceMotor`** - Motor independente para processar escolhas de classe 🔮 Planejado
 >
 > **Fórmula de Cálculo:**
 >

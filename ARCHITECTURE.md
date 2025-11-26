@@ -55,7 +55,7 @@
 > - **`FRaceBonusMotor`** - Bônus raciais
 > - **`FPointBuyMotor`** - Point Buy
 > - **`FMulticlassMotor`** - Multiclassing
-> - **`FChoiceMotor`** - Escolhas de classe
+> - **`FChoiceMotor`** - Escolhas de classe (planejado)
 >
 > **📖 Para detalhes completos, veja [docs/technical/architecture.md](docs/technical/architecture.md#arquitetura-createsheet)**
 
@@ -92,6 +92,7 @@
 > - **[API Reference](docs/technical/api.md)** - Referência completa da API
 > - **[Guias Práticos](docs/technical/guides/)** - Guias passo a passo
 > - **[GDD](docs/design/gdd.md)** - Game Design Document
+> - **[Adaptação D&D 5e + GAS](docs/design/gas-dnd-adaptation.md)** - Como adaptar D&D 5e para Unreal Engine 5 com GAS
 > - **[Regras D&D 5e](docs/design/dnd-rules/)** - Regras implementadas
 > - **[Índice de Documentação](docs/index.md)** - Organização completa da documentação
 
