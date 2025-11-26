@@ -60,6 +60,9 @@ class MYPROJECT2_API UCharacterSheetDataAsset : public UDataAsset
 {
     GENERATED_BODY()
 
+    // Friend class para permitir acesso a PropertyHandlers durante inicialização
+    friend class FCharacterSheetDataAssetInitializers;
+
 public:
     // ============================================================================
     // Constructor
@@ -120,12 +123,6 @@ public:
     // Helper Methods
     // ============================================================================
 
-    /**
-     * Helper: Cria FCharacterSheetData a partir do Data Asset e chama Core genérico.
-     * Bridge entre Data Asset específico e Core genérico.
-     * Used by Handlers to recalculate final scores when properties change.
-     */
-    void RecalculateFinalScoresFromDataAsset();
 
     virtual void PostEditChangeProperty(FPropertyChangedEvent &PropertyChangedEvent) override;
 
@@ -387,30 +384,23 @@ private:
     /** Tipo para ponteiros de função estáticos (mais seguro que std::function) */
     using PropertyHandlerFunction = void (*)(UCharacterSheetDataAsset *, FName);
 
+    // ============================================================================
+    // Editor-Only Protected Members
+    // ============================================================================
+protected:
     /** Map de nomes de propriedades para seus handlers (usando ponteiros de função estáticos) */
     TMap<FName, PropertyHandlerFunction> PropertyHandlers;
 
     // ============================================================================
     // Editor-Only Private Methods
     // ============================================================================
+private:
 
     /** Inicializa o map de handlers (chamado no construtor e PostLoad) */
     void InitializePropertyHandlers();
 
-    // Funções auxiliares para inicialização de handlers (divididas por categoria)
-    void InitializeRaceHandlers();
-    void InitializePointBuyHandlers();
-    void InitializeBackgroundHandlers();
-    void InitializeVariantHumanHandlers();
-    void InitializeLanguageHandlers();
-    void InitializeDataTableHandlers();
-    void InitializeMulticlassHandlers();
-
     /** Called after object is loaded from disk - ensures PropertyHandlers is initialized */
     virtual void PostLoad() override;
-
-    /** Checks if property is a calculated property that should be ignored */
-    bool IsCalculatedProperty(FName PropertyName) const;
 
     /** Ensures PropertyHandlers map is initialized */
     void EnsurePropertyHandlersInitialized();

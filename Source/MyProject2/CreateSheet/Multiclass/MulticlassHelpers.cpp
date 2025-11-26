@@ -1,41 +1,30 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CreateSheet/Multiclass/MulticlassHelpers.h"
+
+// Project includes - Characters
+#include "Characters/Data/CharacterSheetDataAsset.h"
+
+// Project includes - CreateSheet
+#include "CreateSheet/Multiclass/MulticlassMotor.h"
+
+// Project includes - Data Tables
 #include "Data/Tables/ClassDataTable.h"
+
+// Project includes - Utils
+#include "Utils/DataTableHelpers.h"
+
+// Engine includes
 #include "Engine/DataTable.h"
 #include "UObject/StructOnScope.h"
-#include "Utils/DataTableHelpers.h"
 #include "Logging/LogMacros.h"
 
-TArray<FName> FMulticlassHelpers::GetAllClassNames(const UDataTable *ClassDataTable)
-{
-    if (!ClassDataTable)
-    {
-        return TArray<FName>();
-    }
-
-    TSet<FName> ClassNamesSet;
-    TArray<FName> RowNames = ClassDataTable->GetRowNames();
-    for (const FName &RowName : RowNames)
-    {
-        // Tenta fazer FindRow, mas ignora erros de tipo (DataTable pode não estar configurado corretamente)
-        const FClassDataRow *Row = nullptr;
-        Row = ClassDataTable->FindRow<FClassDataRow>(RowName, TEXT("GetAllClassNames"));
-
-        if (Row)
-        {
-            // Retorna FClass.Name (sem prefixo "Class_")
-            // Exemplo: "Fighter", "Wizard", "Rogue"
-            if (Row->FClass.Name != NAME_None)
-            {
-                ClassNamesSet.Add(Row->FClass.Name);
-            }
-        }
-    }
-
-    // Converte TSet para TArray (ordem não importa para nomes de classes)
-    return ClassNamesSet.Array();
-}
+#pragma endregion Includes
 
 // ============================================================================
 // Local Helpers - Attribute Validation
@@ -267,3 +256,62 @@ TArray<FName> FMulticlassHelpers::GetAvailableClassWithTagRequirements(const UDa
 }
 
 #pragma endregion Get Available Class With Tag Requirements
+
+// ============================================================================
+// Progression Array Helpers
+// ============================================================================
+#pragma region Progression Array Helpers
+
+bool FMulticlassHelpers::AdjustProgressionArraySize(FMulticlassEntry &Entry)
+{
+    if (Entry.LevelInClass < 1 || Entry.LevelInClass > 20)
+    {
+        return false;
+    }
+
+    TArray<FProgressEntry> &Progression = Entry.ClassData.FClass.Progression;
+    const int32 TargetSize = Entry.LevelInClass;
+
+    // Redimensiona array para o tamanho desejado
+    Progression.SetNum(TargetSize);
+
+    // Garante que cada elemento tenha o Level correto (1-based)
+    for (int32 i = 0; i < Progression.Num(); ++i)
+    {
+        Progression[i].Level = i + 1;
+    }
+
+    return true;
+}
+
+int32 FMulticlassHelpers::AdjustAllMulticlassProgressionArrays(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return 0;
+    }
+
+    int32 AdjustedCount = 0;
+
+    for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+    {
+        FMulticlassEntry &Entry = Asset->Multiclass[i];
+        if (AdjustProgressionArraySize(Entry))
+        {
+            AdjustedCount++;
+
+            // Processa mudança de nível se classe estiver selecionada
+            const FName ClassName = Entry.ClassData.FClass.Name;
+            const int32 LevelInClass = Entry.LevelInClass;
+
+            if (ClassName != NAME_None && Asset->ClassDataTable)
+            {
+                FMulticlassMotor::ProcessLevelChange(ClassName, LevelInClass, Asset->ClassDataTable);
+            }
+        }
+    }
+
+    return AdjustedCount;
+}
+
+#pragma endregion Progression Array Helpers

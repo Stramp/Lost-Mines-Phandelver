@@ -91,9 +91,4 @@ public:
     static TArray<FName> GetListClassAvaible(const UDataTable *ClassDataTable, int32 FinalStrength,
                                              int32 FinalDexterity, int32 FinalConstitution, int32 FinalIntelligence,
                                              int32 FinalWisdom, int32 FinalCharisma);
-
-private:
-    // TODO: Reimplementar sem MulticlassingMotor
-    // FClassOption não existe mais (estava em MulticlassingResult.h)
-    // static FString FormatClassNameWithRequirement(const FClassOption &ClassOption);
 };

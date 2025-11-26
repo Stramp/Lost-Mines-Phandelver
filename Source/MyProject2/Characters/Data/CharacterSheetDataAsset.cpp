@@ -11,24 +11,10 @@
 #include "Characters/Data/GetOptions/CharacterSheetDataAssetGetOptions.h"
 #include "Characters/Data/Handlers/CharacterSheetDataAssetHandlers.h"
 #include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
-#include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
-#include "Characters/Data/Validators/CharacterSheetDataAssetValidators.h"
-
-// Project includes - CreateSheet modules
-#include "CreateSheet/Core/CharacterSheetCore.h"
-#include "CreateSheet/Core/CharacterSheetData.h"
-#include "CreateSheet/PointBuy/PointBuyResult.h"
+#include "Characters/Data/Initializers/CharacterSheetDataAssetInitializers.h"
 
 // Project includes - Data Tables
-#include "Data/Tables/BackgroundDataTable.h"
-#include "Data/Tables/RaceDataTable.h"
-
-// Project includes - Utils
-#include "Utils/CharacterSheetHelpers.h"
-
-// Engine includes
-#include "Containers/UnrealString.h"
-#include "Logging/LogMacros.h"
+#include "Data/Tables/ClassDataTable.h"
 
 #if WITH_EDITOR
 #include "Editor.h"
@@ -45,7 +31,7 @@
 UCharacterSheetDataAsset::UCharacterSheetDataAsset()
 {
 #if WITH_EDITOR
-    InitializePropertyHandlers();
+    FCharacterSheetDataAssetInitializers::InitializeAllPropertyHandlers(this);
 #endif
 }
 
@@ -118,7 +104,7 @@ void UCharacterSheetDataAsset::PostLoad()
 
     if (PropertyHandlers.Num() == 0)
     {
-        InitializePropertyHandlers();
+        FCharacterSheetDataAssetInitializers::InitializeAllPropertyHandlers(this);
     }
 }
 
@@ -139,7 +125,7 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
 
     const FName PropertyName = PropertyChangedEvent.Property->GetFName();
 
-    if (IsCalculatedProperty(PropertyName))
+    if (FCharacterSheetDataAssetHelpers::IsCalculatedProperty(PropertyName))
     {
         return;
     }
@@ -162,17 +148,6 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
     }
 }
 
-/**
- * Verifica se a propriedade é calculada (não deve disparar handlers).
- */
-bool UCharacterSheetDataAsset::IsCalculatedProperty(FName PropertyName) const
-{
-    return PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bIsVariantHuman) ||
-           PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasLanguageChoices) ||
-           PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bHasSubraces) ||
-           PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, bCanShowSheet);
-}
-
 #pragma endregion Property Change Handling
 
 // ============================================================================
@@ -184,117 +159,13 @@ void UCharacterSheetDataAsset::EnsurePropertyHandlersInitialized()
 {
     if (PropertyHandlers.Num() == 0)
     {
-        InitializePropertyHandlers();
+        FCharacterSheetDataAssetInitializers::InitializeAllPropertyHandlers(this);
     }
 }
 
-/**
- * Inicializa map de handlers de propriedades.
- * Dividido em funções menores por categoria para melhor organização.
- */
 void UCharacterSheetDataAsset::InitializePropertyHandlers()
 {
-    InitializeRaceHandlers();
-    InitializePointBuyHandlers();
-    InitializeBackgroundHandlers();
-    InitializeVariantHumanHandlers();
-    InitializeLanguageHandlers();
-    InitializeDataTableHandlers();
-    InitializeMulticlassHandlers();
-}
-
-// ============================================================================
-// Race Handlers Initialization
-// ============================================================================
-
-void UCharacterSheetDataAsset::InitializeRaceHandlers()
-{
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace),
-                         FCharacterSheetDataAssetHandlers::HandleSelectedRaceWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace),
-                         FCharacterSheetDataAssetHandlers::HandleSelectedSubraceWrapper);
-}
-
-// ============================================================================
-// Point Buy Handlers Initialization
-// ============================================================================
-
-void UCharacterSheetDataAsset::InitializePointBuyHandlers()
-{
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyStrength),
-                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyDexterity),
-                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyConstitution),
-                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyIntelligence),
-                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyWisdom),
-                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyCharisma),
-                         FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
-}
-
-// ============================================================================
-// Background Handlers Initialization
-// ============================================================================
-
-void UCharacterSheetDataAsset::InitializeBackgroundHandlers()
-{
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground),
-                         FCharacterSheetDataAssetHandlers::HandleSelectedBackgroundWrapper);
-}
-
-// ============================================================================
-// Variant Human Handlers Initialization
-// ============================================================================
-
-void UCharacterSheetDataAsset::InitializeVariantHumanHandlers()
-{
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices),
-                         FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedFeat),
-                         FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSkill),
-                         FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
-}
-
-// ============================================================================
-// Language Handlers Initialization
-// ============================================================================
-
-void UCharacterSheetDataAsset::InitializeLanguageHandlers()
-{
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedLanguages),
-                         FCharacterSheetDataAssetHandlers::HandleLanguageChoicesWrapper);
-}
-
-// ============================================================================
-// Data Table Handlers Initialization
-// ============================================================================
-
-void UCharacterSheetDataAsset::InitializeDataTableHandlers()
-{
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable),
-                         FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, BackgroundDataTable),
-                         FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, FeatDataTable),
-                         FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable),
-                         FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
-}
-
-// ============================================================================
-// Multiclass Handlers Initialization
-// ============================================================================
-
-void UCharacterSheetDataAsset::InitializeMulticlassHandlers()
-{
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FMulticlassEntry, LevelInClass),
-                         FCharacterSheetDataAssetHandlers::HandleLevelInClassWrapper);
-    PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FClassData, Name),
-                         FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameWrapper);
+    FCharacterSheetDataAssetInitializers::InitializeAllPropertyHandlers(this);
 }
 
 #pragma endregion Property Handlers Initialization
@@ -368,39 +239,5 @@ bool UCharacterSheetDataAsset::IsValidatingProperties() const { return bIsValida
 
 #pragma endregion Validation Helpers
 
-// ============================================================================
-// Final Scores Calculation
-// ============================================================================
-#pragma region Final Scores Calculation
-
-/**
- * Recalcula scores finais usando Core genérico (aplica todos os motores).
- * Atualiza PointsRemaining e ajusta alocação se necessário.
- */
-void UCharacterSheetDataAsset::RecalculateFinalScoresFromDataAsset()
-{
-    // Cria estrutura de dados para o Core genérico
-    FCharacterSheetData Data(PointBuyStrength, PointBuyDexterity, PointBuyConstitution, PointBuyIntelligence,
-                             PointBuyWisdom, PointBuyCharisma, SelectedRace, SelectedSubrace, CustomAbilityScoreChoices,
-                             RaceDataTable, &FinalStrength, &FinalDexterity, &FinalConstitution, &FinalIntelligence,
-                             &FinalWisdom, &FinalCharisma);
-
-    // Recalcula scores finais usando Core genérico (aplica todos os motores)
-    FPointBuyResult PointBuyResult;
-    FCharacterSheetCore::RecalculateFinalScores(Data, &PointBuyResult);
-
-    // Atualiza pontos restantes
-    PointsRemaining = PointBuyResult.PointsRemaining;
-
-    // Se houve ajuste automático, atualiza alocação e loga aviso
-    if (PointBuyResult.bWasAdjusted)
-    {
-        Modify();
-        FCharacterSheetDataAssetHelpers::UpdatePointBuyFromAdjustedAllocation(this, PointBuyResult.AdjustedAllocation);
-        UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: %s"), *PointBuyResult.FeedbackMessage);
-    }
-}
-
-#pragma endregion Final Scores Calculation
 
 #endif // WITH_EDITOR

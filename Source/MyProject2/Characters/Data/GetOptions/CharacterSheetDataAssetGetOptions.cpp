@@ -1,18 +1,32 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CharacterSheetDataAssetGetOptions.h"
 
-#include "Characters/Data/CharacterSheetDataAsset.h"
-#include "Data/Tables/RaceDataTable.h"
+// Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 
+// Project includes - CreateSheet Motors
+#include "CreateSheet/Multiclass/MulticlassMotor.h"
+
+// Engine includes
 #include "Engine/DataTable.h"
 #include "Logging/LogMacros.h"
 
-// ============================================================================
-// Race and Background Section
-// ============================================================================
+#pragma endregion Includes
 
+// ============================================================================
+// Race and Background Options
+// ============================================================================
+#pragma region Race and Background Options
+
+/**
+ * Retorna todos os nomes de raças disponíveis no RaceDataTable.
+ */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetRaceNames(const UDataTable *RaceDataTable)
 {
     if (!RaceDataTable)
@@ -23,6 +37,9 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetRaceNames(const UDataTable 
     return CharacterSheetHelpers::GetAllRaceNames(const_cast<UDataTable *>(RaceDataTable));
 }
 
+/**
+ * Retorna todas as sub-raças disponíveis para a raça selecionada.
+ */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetSubraceNames(const UDataTable *RaceDataTable, FName SelectedRace)
 {
     if (!RaceDataTable || SelectedRace == NAME_None)
@@ -33,6 +50,9 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetSubraceNames(const UDataTab
     return CharacterSheetHelpers::GetAvailableSubraces(SelectedRace, const_cast<UDataTable *>(RaceDataTable));
 }
 
+/**
+ * Retorna todos os nomes de backgrounds disponíveis no BackgroundDataTable.
+ */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetBackgroundNames(const UDataTable *BackgroundDataTable)
 {
     if (!BackgroundDataTable)
@@ -43,11 +63,18 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetBackgroundNames(const UData
     return CharacterSheetHelpers::GetAllBackgroundNames(const_cast<UDataTable *>(BackgroundDataTable));
 }
 
+/**
+ * Retorna todos os nomes de idiomas disponíveis (para dropdown de escolhas de idiomas).
+ */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNames()
 {
     return CharacterSheetHelpers::GetAvailableLanguageNames();
 }
 
+/**
+ * Retorna idiomas disponíveis para escolha baseado em raça, sub-raça e background.
+ * Exclui idiomas já selecionados.
+ */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
     FName RaceName, FName SubraceName, FName BackgroundName, const TArray<FName> &SelectedLanguages,
     const UDataTable *RaceDataTable, const UDataTable *BackgroundDataTable)
@@ -57,20 +84,33 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForCh
         const_cast<UDataTable *>(BackgroundDataTable));
 }
 
-// ============================================================================
-// Point Buy Section
-// ============================================================================
+#pragma endregion Race and Background Options
 
-// --- Ability Scores ---
+// ============================================================================
+// Point Buy Options
+// ============================================================================
+#pragma region Point Buy Options
+
+/**
+ * Retorna todos os nomes de ability scores (Strength, Dexterity, etc.).
+ */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAbilityScoreNames()
 {
     return CharacterSheetHelpers::GetAbilityScoreNames();
 }
 
-// --- Skills ---
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetSkillNames() { return CharacterSheetHelpers::GetSkillNames(); }
+/**
+ * Retorna todos os nomes de skills de D&D 5e.
+ */
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetSkillNames()
+{
+    return CharacterSheetHelpers::GetSkillNames();
+}
 
-// --- Feats ---
+/**
+ * Retorna todos os feats disponíveis para Variant Human baseado nos ability scores.
+ * Filtra feats que têm requisitos de atributo atendidos.
+ */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(const UDataTable *FeatDataTable,
                                                                         const TMap<FName, int32> &AbilityScores)
 {
@@ -83,35 +123,25 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(const UD
                                                                    const_cast<UDataTable *>(FeatDataTable));
 }
 
+#pragma endregion Point Buy Options
+
 // ============================================================================
-// Multiclass Section
+// Multiclass Options
 // ============================================================================
+#pragma region Multiclass Options
+
+/**
+ * Retorna todas as classes disponíveis com verificação de requisitos de atributo.
+ * Atualmente retorna apenas nomes de classes do DataTable sem validação de requisitos.
+ */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetListClassAvaible(const UDataTable *ClassDataTable,
                                                                       int32 FinalStrength, int32 FinalDexterity,
                                                                       int32 FinalConstitution, int32 FinalIntelligence,
                                                                       int32 FinalWisdom, int32 FinalCharisma)
 {
-    // ===== LOG: CALLER FAZENDO PRIMEIRA SOLICITAÇÃO PRO MOTOR =====
-    UE_LOG(
-        LogTemp, Warning,
-        TEXT(
-            "=== CALLER: CharacterSheetDataAssetGetOptions::GetListClassAvaible - PRIMEIRA SOLICITAÇÃO PRO MOTOR ==="));
-    UE_LOG(LogTemp, Warning, TEXT("ClassDataTable: %s"), ClassDataTable ? *ClassDataTable->GetName() : TEXT("nullptr"));
-    UE_LOG(LogTemp, Warning, TEXT("Atributos Finais:"));
-    UE_LOG(LogTemp, Warning, TEXT("  STR: %d"), FinalStrength);
-    UE_LOG(LogTemp, Warning, TEXT("  DEX: %d"), FinalDexterity);
-    UE_LOG(LogTemp, Warning, TEXT("  CON: %d"), FinalConstitution);
-    UE_LOG(LogTemp, Warning, TEXT("  INT: %d"), FinalIntelligence);
-    UE_LOG(LogTemp, Warning, TEXT("  WIS: %d"), FinalWisdom);
-    UE_LOG(LogTemp, Warning, TEXT("  CHA: %d"), FinalCharisma);
-    UE_LOG(LogTemp, Warning, TEXT("================================================================"));
-    // ===== FIM DO LOG =====
-
-    if (!ClassDataTable)
-    {
-        return {};
-    }
-
-    // Retorna apenas nomes de classes do DataTable sem validação de requisitos
-    return CharacterSheetHelpers::GetAllClassNames(const_cast<UDataTable *>(ClassDataTable));
+    // Solicita classes disponíveis ao motor de multiclasse
+    return FMulticlassMotor::GetAvailableClasses(ClassDataTable, FinalStrength, FinalDexterity, FinalConstitution,
+                                                 FinalIntelligence, FinalWisdom, FinalCharisma);
 }
+
+#pragma endregion Multiclass Options

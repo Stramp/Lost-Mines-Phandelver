@@ -1,11 +1,33 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CharacterSheetDataAssetValidators.h"
+
+// Project includes - Data Asset
 #include "Characters/Data/CharacterSheetDataAsset.h"
+
+// Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/ValidationHelpers.h"
+
+// Engine includes
 #include "Logging/LogMacros.h"
 
+#pragma endregion Includes
+
+// ============================================================================
+// Variant Human Validation
+// ============================================================================
+#pragma region Variant Human Validation
+
+/**
+ * Valida todas as escolhas de Variant Human.
+ * Orquestra validação de ability scores, feat e skill.
+ */
 void FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset || !Asset->GetIsVariantHuman())
@@ -18,6 +40,10 @@ void FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(UCharacterS
     ValidateVariantHumanSkill(Asset);
 }
 
+/**
+ * Valida escolhas de ability scores para Variant Human.
+ * Deve ter exatamente 2 ability scores escolhidos.
+ */
 void FCharacterSheetDataAssetValidators::ValidateVariantHumanAbilityScoreChoices(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -30,6 +56,10 @@ void FCharacterSheetDataAssetValidators::ValidateVariantHumanAbilityScoreChoices
     ValidationHelpers::ValidateAbilityScoreChoices(Asset->CustomAbilityScoreChoices, ValidAbilityNames, 2);
 }
 
+/**
+ * Valida seleção de feat para Variant Human.
+ * Verifica se o feat selecionado está disponível baseado nos ability scores.
+ */
 void FCharacterSheetDataAssetValidators::ValidateVariantHumanFeat(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -48,6 +78,10 @@ void FCharacterSheetDataAssetValidators::ValidateVariantHumanFeat(UCharacterShee
     }
 }
 
+/**
+ * Valida seleção de skill para Variant Human.
+ * Verifica se o skill selecionado é válido.
+ */
 void FCharacterSheetDataAssetValidators::ValidateVariantHumanSkill(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -63,6 +97,17 @@ void FCharacterSheetDataAssetValidators::ValidateVariantHumanSkill(UCharacterShe
     }
 }
 
+#pragma endregion Variant Human Validation
+
+// ============================================================================
+// Language Choices Validation
+// ============================================================================
+#pragma region Language Choices Validation
+
+/**
+ * Valida escolhas de idiomas.
+ * Verifica quantidade máxima e limpa seleções se não há escolhas disponíveis.
+ */
 void FCharacterSheetDataAssetValidators::ValidateLanguageChoices(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -81,3 +126,5 @@ void FCharacterSheetDataAssetValidators::ValidateLanguageChoices(UCharacterSheet
     TArray<FName> ValidLanguages = CharacterSheetHelpers::GetAvailableLanguageNames();
     ValidationHelpers::ValidateAbilityScoreChoices(Asset->SelectedLanguages, ValidLanguages, Asset->MaxLanguageChoices);
 }
+
+#pragma endregion Language Choices Validation

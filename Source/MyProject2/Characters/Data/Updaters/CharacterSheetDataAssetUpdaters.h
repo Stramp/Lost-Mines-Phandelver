@@ -43,4 +43,12 @@ public:
      * Detects if selected race has available subraces.
      */
     static void UpdateSubraceFlag(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Recalcula scores finais usando Core genérico (aplica todos os motores).
+     * Atualiza PointsRemaining e ajusta alocação se necessário.
+     *
+     * @param Asset Asset do personagem
+     */
+    static void RecalculateFinalScores(UCharacterSheetDataAsset *Asset);
 };

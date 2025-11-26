@@ -1,12 +1,32 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CharacterSheetDataAssetUpdaters.h"
+
+// Project includes - Data Asset
 #include "Characters/Data/CharacterSheetDataAsset.h"
+
+// Project includes - CreateSheet
+#include "CreateSheet/Core/CharacterSheetCore.h"
+#include "CreateSheet/Core/CharacterSheetData.h"
+#include "CreateSheet/PointBuy/PointBuyResult.h"
+
+// Project includes - Helpers
 #include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
+
+// Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/CalculationHelpers.h"
+
+// Project includes - Data Tables
 #include "Data/Tables/RaceDataTable.h"
 #include "Data/Tables/BackgroundDataTable.h"
+
+// Engine includes
 #include "Logging/LogMacros.h"
 
 #if WITH_EDITOR
@@ -14,6 +34,18 @@
 #include "UObject/UnrealType.h"
 #endif
 
+#pragma endregion Includes
+
+// ============================================================================
+// Calculated Fields Update
+// ============================================================================
+#pragma region Calculated Fields Update
+
+/**
+ * Atualiza campos calculados (proficiências, idiomas, etc.).
+ * Nota: Proficiencies e Languages foram removidos do Data Asset.
+ * Eles são calculados diretamente no CharacterDataComponent quando necessário.
+ */
 void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -23,27 +55,22 @@ void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDat
 
     // Nota: bIsValidatingProperties deve ser gerenciado pelo caller (handler)
     // Esta função assume que a flag já está setada corretamente
-
-    // Pre-aloca memória antes de repopular arrays (otimização de performance)
-    Asset->Proficiencies.Empty();
-    Asset->Languages.Empty();
-
-    // Usa CalculationHelpers para calcular proficiências (background + Variant Human skill)
-    // Nota: Sem classes, proficiências vêm apenas de background e Variant Human
-    TArray<FName> CalculatedProficiencies = CalculationHelpers::CalculateProficiencies(
-        Asset->SelectedRace, Asset->SelectedSubrace, Asset->SelectedBackground, Asset->SelectedSkill,
-        Asset->RaceDataTable, Asset->BackgroundDataTable);
-    Asset->Proficiencies.Reserve(CalculatedProficiencies.Num());
-    Asset->Proficiencies = CalculatedProficiencies;
-
-    // Usa CalculationHelpers para calcular idiomas finais (raça + background + escolhas do jogador)
-    TArray<FName> CalculatedLanguages = CalculationHelpers::CalculateLanguages(
-        Asset->SelectedRace, Asset->SelectedSubrace, Asset->SelectedBackground, Asset->SelectedLanguages,
-        Asset->RaceDataTable, Asset->BackgroundDataTable);
-    Asset->Languages.Reserve(CalculatedLanguages.Num());
-    Asset->Languages = CalculatedLanguages;
+    // Nota: Proficiencies e Languages foram removidos do Data Asset
+    // Eles são calculados diretamente no CharacterDataComponent quando necessário
 }
 
+#pragma endregion Calculated Fields Update
+
+// ============================================================================
+// Language Choices Update
+// ============================================================================
+#pragma region Language Choices Update
+
+/**
+ * Atualiza detecção de escolhas de idiomas (bHasLanguageChoices, MaxLanguageChoices).
+ * Detecta se raça/background/feat permite escolhas de idiomas.
+ * Ajusta SelectedLanguages se o máximo diminuiu.
+ */
 void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -117,6 +144,18 @@ void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetData
     }
 }
 
+#pragma endregion Language Choices Update
+
+// ============================================================================
+// Variant Human Flag Update
+// ============================================================================
+#pragma region Variant Human Flag Update
+
+/**
+ * Atualiza flag Variant Human e notifica editor se mudou.
+ * Reseta escolhas de Variant Human se não for mais Variant Human.
+ * Variant Human é uma SUB-RAÇA, não uma raça.
+ */
 void FCharacterSheetDataAssetUpdaters::UpdateVariantHumanFlag(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -153,6 +192,18 @@ void FCharacterSheetDataAssetUpdaters::UpdateVariantHumanFlag(UCharacterSheetDat
     }
 }
 
+#pragma endregion Variant Human Flag Update
+
+// ============================================================================
+// Subrace Flag Update
+// ============================================================================
+#pragma region Subrace Flag Update
+
+/**
+ * Atualiza flag de sub-raças disponíveis (bHasSubraces).
+ * Detecta se a raça selecionada tem sub-raças disponíveis.
+ * Reseta SelectedSubrace se não há mais sub-raças disponíveis.
+ */
 void FCharacterSheetDataAssetUpdaters::UpdateSubraceFlag(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -197,6 +248,18 @@ void FCharacterSheetDataAssetUpdaters::UpdateSubraceFlag(UCharacterSheetDataAsse
     }
 }
 
+#pragma endregion Subrace Flag Update
+
+// ============================================================================
+// Sheet Visibility Update
+// ============================================================================
+#pragma region Sheet Visibility Update
+
+/**
+ * Atualiza visibilidade da ficha baseado na seleção de Data Tables.
+ * Mostra todas as categorias quando todos os Data Tables são selecionados.
+ * Mostra apenas Data Tables quando algum está faltando.
+ */
 void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -230,3 +293,43 @@ void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetData
 #endif
     }
 }
+
+#pragma endregion Sheet Visibility Update
+
+// ============================================================================
+// Final Scores Calculation
+// ============================================================================
+#pragma region Final Scores Calculation
+
+void FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    // Cria estrutura de dados para o Core genérico
+    FCharacterSheetData Data(Asset->PointBuyStrength, Asset->PointBuyDexterity, Asset->PointBuyConstitution,
+                             Asset->PointBuyIntelligence, Asset->PointBuyWisdom, Asset->PointBuyCharisma,
+                             Asset->SelectedRace, Asset->SelectedSubrace, Asset->CustomAbilityScoreChoices,
+                             Asset->RaceDataTable, &Asset->FinalStrength, &Asset->FinalDexterity,
+                             &Asset->FinalConstitution, &Asset->FinalIntelligence, &Asset->FinalWisdom,
+                             &Asset->FinalCharisma);
+
+    // Recalcula scores finais usando Core genérico (aplica todos os motores)
+    FPointBuyResult PointBuyResult;
+    FCharacterSheetCore::RecalculateFinalScores(Data, &PointBuyResult);
+
+    // Atualiza pontos restantes
+    Asset->PointsRemaining = PointBuyResult.PointsRemaining;
+
+    // Se houve ajuste automático, atualiza alocação e loga aviso
+    if (PointBuyResult.bWasAdjusted)
+    {
+        Asset->Modify();
+        FCharacterSheetDataAssetHelpers::UpdatePointBuyFromAdjustedAllocation(Asset, PointBuyResult.AdjustedAllocation);
+        UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: %s"), *PointBuyResult.FeedbackMessage);
+    }
+}
+
+#pragma endregion Final Scores Calculation

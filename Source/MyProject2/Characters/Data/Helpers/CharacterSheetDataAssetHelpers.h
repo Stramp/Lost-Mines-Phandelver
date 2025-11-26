@@ -46,4 +46,14 @@ public:
      */
     static void UpdatePointBuyFromAdjustedAllocation(UCharacterSheetDataAsset *Asset,
                                                      const TMap<FName, int32> &AdjustedAllocation);
+
+    /**
+     * Verifica se a propriedade é calculada (não deve disparar handlers).
+     * Propriedades calculadas são atualizadas automaticamente e não devem
+     * disparar PostEditChangeProperty para evitar recursão.
+     *
+     * @param PropertyName Nome da propriedade a verificar
+     * @return true se a propriedade é calculada, false caso contrário
+     */
+    static bool IsCalculatedProperty(FName PropertyName);
 };

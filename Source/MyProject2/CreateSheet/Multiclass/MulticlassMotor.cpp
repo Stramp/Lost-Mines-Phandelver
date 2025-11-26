@@ -1,13 +1,34 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CreateSheet/Multiclass/MulticlassMotor.h"
+
+// Project includes - Core
 #include "CreateSheet/Core/CharacterSheetData.h"
+
+// Project includes - Data Tables
 #include "Data/Tables/ClassDataTable.h"
-#include "Engine/DataTable.h"
-#include "Utils/CharacterSheetHelpers.h"
-#include "Utils/DataTableHelpers.h"
-#include "Logging/LogMacros.h"
+
+// Project includes - CreateSheet
 #include "CreateSheet/Multiclass/MulticlassHelpers.h"
+
+// Project includes - Utils
+#include "Utils/DataTableHelpers.h"
+
+// Engine includes
+#include "Engine/DataTable.h"
+#include "Logging/LogMacros.h"
+
+#pragma endregion Includes
+
+// ============================================================================
+// Get Available Classes
+// ============================================================================
+#pragma region Get Available Classes
 
 TArray<FName> FMulticlassMotor::GetAvailableClasses(const UDataTable *ClassDataTable, int32 FinalStrength,
                                                     int32 FinalDexterity, int32 FinalConstitution,
@@ -18,39 +39,38 @@ TArray<FName> FMulticlassMotor::GetAvailableClasses(const UDataTable *ClassDataT
         return {};
     }
 
-    // TODO: Implementar validação de requisitos de atributo
+    TArray<int32> CharacterAttributes = {
+        FinalStrength, FinalDexterity, FinalConstitution, FinalIntelligence, FinalWisdom, FinalCharisma};
 
-    TArray<int32> charAttributes = {FinalStrength,     FinalDexterity, FinalConstitution,
-                                    FinalIntelligence, FinalWisdom,    FinalCharisma};
-
-    return FMulticlassHelpers::GetAvailableClassWithTagRequirements(ClassDataTable, charAttributes);
-
-    // filtrar classes que atendem requisitos de atributo
-
-    // devolver as classes filtradas no padrao de prefixo com req e atributo
-
-    // Por enquanto retorna todas as classes do DataTable
-    // Quando requisitos forem adicionados ao ClassDataTable, filtrar classes que atendem requisitos
-
-    return {};
+    return FMulticlassHelpers::GetAvailableClassWithTagRequirements(ClassDataTable, CharacterAttributes);
 }
+
+#pragma endregion Get Available Classes
+
+// ============================================================================
+// Validate Multiclass Requirements
+// ============================================================================
+#pragma region Validate Multiclass Requirements
 
 bool FMulticlassMotor::ValidateMulticlassRequirements(const FCharacterSheetData &Data, FName DesiredClassName)
 {
     // TODO: Implementar validação de requisitos de atributo
-    // Verificar requisitos da classe desejada no ClassDataTable
-    // Comparar com atributos finais do personagem
-
     return true;
 }
+
+#pragma endregion Validate Multiclass Requirements
+
+// ============================================================================
+// Apply Multiclass Rules
+// ============================================================================
+#pragma region Apply Multiclass Rules
 
 void FMulticlassMotor::ApplyMulticlassRules(FCharacterSheetData &Data)
 {
     // TODO: Implementar aplicação de regras de multiclasse
-    // - Proficiências de multiclasse (armaduras, armas, skills)
-    // - Features de multiclasse
-    // - Cálculo de nível total
 }
+
+#pragma endregion Apply Multiclass Rules
 
 // ============================================================================
 // Local Helpers
@@ -85,6 +105,78 @@ namespace
 
         return Result;
     }
+
+    /**
+     * Valida parâmetros de entrada para ProcessLevelChange.
+     * Extraído para manter função principal focada.
+     *
+     * @param ClassName Nome da classe
+     * @param LevelInClass Nível na classe
+     * @param ClassDataTable Data Table de classes
+     * @return true se parâmetros são válidos, false caso contrário
+     */
+    bool ValidateProcessLevelChangeInputs(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable)
+    {
+        if (ClassName == NAME_None)
+        {
+            return false;
+        }
+
+        if (!ClassDataTable)
+        {
+            return false;
+        }
+
+        if (LevelInClass < 1 || LevelInClass > 20)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Busca e valida dados da classe na tabela.
+     * Extraído para manter função principal focada.
+     *
+     * @param ClassName Nome da classe
+     * @param ClassDataTable Data Table de classes
+     * @return Row da classe encontrada, ou nullptr se não encontrada
+     */
+    const FClassDataRow *FindAndValidateClassRow(FName ClassName, const UDataTable *ClassDataTable)
+    {
+        UDataTable *NonConstTable = const_cast<UDataTable *>(ClassDataTable);
+        const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
+
+        if (!ClassRow)
+        {
+            return nullptr;
+        }
+
+        return ClassRow;
+    }
+
+    /**
+     * Extrai features do nível específico da progressão.
+     * Extraído para manter função principal focada.
+     *
+     * @param Progression Array de progressão da classe
+     * @param LevelInClass Nível desejado (1-based)
+     * @param OutLevelEntry [OUT] Entry do nível encontrado
+     * @return true se nível foi encontrado, false caso contrário
+     */
+    bool ExtractLevelFeatures(const TArray<FProgressEntry> &Progression, int32 LevelInClass,
+                              const FProgressEntry *&OutLevelEntry)
+    {
+        if (LevelInClass > Progression.Num())
+        {
+            return false;
+        }
+
+        // Array é 0-based, nível é 1-based
+        OutLevelEntry = &Progression[LevelInClass - 1];
+        return true;
+    }
 } // namespace
 
 #pragma endregion Local Helpers
@@ -96,51 +188,34 @@ namespace
 
 void FMulticlassMotor::ProcessLevelChange(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable)
 {
-    // Validação de entrada (guard clauses - Clean Code)
-    if (ClassName == NAME_None)
+    // Validação de entrada (guard clauses)
+    if (!ValidateProcessLevelChangeInputs(ClassName, LevelInClass, ClassDataTable))
     {
         return;
     }
 
-    if (!ClassDataTable)
-    {
-        return;
-    }
-
-    if (LevelInClass < 1 || LevelInClass > 20)
-    {
-        return;
-    }
-
-    // Busca dados da classe na tabela usando helper existente
-    UDataTable *NonConstTable = const_cast<UDataTable *>(ClassDataTable);
-    const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
-
+    // Busca dados da classe na tabela
+    const FClassDataRow *ClassRow = FindAndValidateClassRow(ClassName, ClassDataTable);
     if (!ClassRow)
     {
         return;
     }
 
-    // Busca features do nível específico na progressão
-    const TArray<FProgressEntry> &Progression = ClassRow->FClass.Progression;
-
-    // Valida se o nível está dentro do range da progressão
-    if (LevelInClass > Progression.Num())
+    // Extrai features do nível específico
+    const FProgressEntry *LevelEntry = nullptr;
+    if (!ExtractLevelFeatures(ClassRow->FClass.Progression, LevelInClass, LevelEntry))
     {
         return;
     }
 
-    // Acessa o entry do nível (array é 0-based, nível é 1-based)
-    const FProgressEntry &LevelEntry = Progression[LevelInClass - 1];
-
-    // Monta string com features ganhas neste nível
-    FString FeaturesString = BuildFeaturesString(LevelEntry.Features);
-
-    // Log informativo
-    FString ClassNameString = ClassName.ToString();
-    UE_LOG(LogTemp, Warning,
-           TEXT("FMulticlassMotor::ProcessLevelChange - Classe = %s, LevelInClass = %d, Features = [%s]"),
-           *ClassNameString, LevelInClass, *FeaturesString);
+    // Log apenas quando há features ganhas (ponto chave)
+    if (LevelEntry->Features.Num() > 0)
+    {
+        FString FeaturesString = BuildFeaturesString(LevelEntry->Features);
+        UE_LOG(LogTemp, Warning,
+               TEXT("FMulticlassMotor::ProcessLevelChange - Classe = %s, Level = %d, Features = [%s]"),
+               *ClassName.ToString(), LevelInClass, *FeaturesString);
+    }
 }
 
 #pragma endregion Process Level Change

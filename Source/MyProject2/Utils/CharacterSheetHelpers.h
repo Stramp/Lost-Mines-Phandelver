@@ -4,12 +4,43 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "CharacterSheetHelpers.generated.h"
 
 // Forward declarations
 class UDataTable;
 
-// Forward declaration para FClassLevelEntry (definida em CharacterSheetDataAsset.h)
-struct FClassLevelEntry;
+/**
+ * Struct para armazenar entrada de nível de classe (multi-classing).
+ * Usado pelos helpers para cálculos internos.
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FClassLevelEntry
+{
+    GENERATED_BODY()
+
+    /** Nome da classe */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    FName ClassName;
+
+    /** Nível nesta classe (1-20) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    int32 Level = 1;
+
+    /** Nome da subclasse escolhida (se aplicável) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    FName SubclassName;
+
+    /** Escolhas feitas pelo jogador nesta classe (ex: Fighting Style, Maneuvers) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FName> Choices;
+
+    FClassLevelEntry() : ClassName(NAME_None), Level(1), SubclassName(NAME_None) {}
+
+    FClassLevelEntry(const FName &InClassName, int32 InLevel)
+        : ClassName(InClassName), Level(InLevel), SubclassName(NAME_None)
+    {
+    }
+};
 
 // Forward declarations para structs dos Data Tables
 struct FRaceDataRow;

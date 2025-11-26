@@ -75,7 +75,6 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     CharacterDataComponent->SelectedRace = DataAsset->SelectedRace;
     CharacterDataComponent->SelectedSubrace = DataAsset->SelectedSubrace;
     CharacterDataComponent->SelectedBackground = DataAsset->SelectedBackground;
-    CharacterDataComponent->Proficiencies = DataAsset->Proficiencies;
     CharacterDataComponent->AvailableFeatures.Empty(); // Sem classes, não há features
 
     // Copia Variant Human choices (se aplicável)
@@ -83,8 +82,8 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     CharacterDataComponent->SelectedSkill = DataAsset->SelectedSkill;
     CharacterDataComponent->CustomAbilityScoreChoices = DataAsset->CustomAbilityScoreChoices;
 
-    // Copia idiomas calculados (automáticos + escolhidos)
-    CharacterDataComponent->Languages = DataAsset->Languages;
+    // Nota: Proficiencies e Languages são calculados diretamente no CharacterDataComponent quando necessário
+    // Não são mais armazenados no Data Asset
 
     // Busca e copia traits da raça (raça base + sub-raça se houver)
     CharacterDataComponent->RaceTraits.Empty();
