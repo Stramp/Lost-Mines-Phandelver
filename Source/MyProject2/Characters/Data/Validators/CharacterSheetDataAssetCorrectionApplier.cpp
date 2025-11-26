@@ -69,12 +69,12 @@ namespace
                 // Atualiza flag após limpar
                 const FName ClassName = Asset->Multiclass[ArrayIndex].ClassData.Name;
                 const int32 LevelInClass = Asset->Multiclass[ArrayIndex].ClassData.LevelInClass;
-                Asset->Multiclass[ArrayIndex].ClassData.bCanEditProgression =
-                    FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
+                const bool bCanEdit = FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
+                Asset->Multiclass[ArrayIndex].ClassData.bCanEditProgression = bCanEdit;
+                Asset->Multiclass[ArrayIndex].ClassData.bCanEditProficiencies = bCanEdit;
                 UE_LOG(LogTemp, Warning,
                        TEXT("CorrectionApplier: Progression limpo para Multiclass[%d] (bCanEditProgression = %s)"),
-                       ArrayIndex,
-                       Asset->Multiclass[ArrayIndex].ClassData.bCanEditProgression ? TEXT("true") : TEXT("false"));
+                       ArrayIndex, bCanEdit ? TEXT("true") : TEXT("false"));
             }
         }
         else

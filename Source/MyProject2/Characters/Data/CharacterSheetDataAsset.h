@@ -214,13 +214,13 @@ struct MYPROJECT2_API FMulticlassClassData
     TArray<FString> MulticlassRequirements;
 
     /** Proficiências da classe (armas, armaduras, saving throws, skills) */
-    UPROPERTY(HideEditConditionToggle, EditAnywhere, BlueprintReadWrite, Category = "Class",
-              meta = (EditCondition = "bCanEditProficiencies", EditConditionHides))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class",
+              meta = (HideEditConditionToggle, EditCondition = "bCanEditProficiencies", EditConditionHides))
     TArray<FMulticlassProficienciesEntry> Proficiencies;
 
     /** Progressão de features por nível (do nível 1 ao 20) */
-    UPROPERTY(HideEditConditionToggle, EditAnywhere, BlueprintReadWrite, Category = "Class",
-              meta = (EditCondition = "bCanEditProgression", EditConditionHides))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class",
+              meta = (HideEditConditionToggle, EditCondition = "bCanEditProgression", EditConditionHides))
     TArray<FMulticlassProgressEntry> Progression;
 
     FMulticlassClassData() : Name(NAME_None) {}
