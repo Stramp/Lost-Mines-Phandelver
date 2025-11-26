@@ -515,28 +515,26 @@ graph TB
 > </details>
 >
 > <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">FMulticlassingMotor - Motor de Multiclassing</summary>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">FMulticlassMotor - Motor de Multiclassing</summary>
 >
-> > **Localização:** `Source/MyProject2/CreateSheet/Multiclassing/MulticlassingMotor.h`
+> > **Localização:** `Source/MyProject2/CreateSheet/Multiclass/MulticlassMotor.h`
 > >
-> > **Responsabilidade:** Calcular nível total, bônus de proficiência, coletar features disponíveis e informações de spellcasting para multiclassing.
+> > **Responsabilidade:** Validar e aplicar regras de multiclassing D&D 5e.
 > >
 > > **Características:**
 > >
-> > - Motor independente: não conhece SpellSystem, apenas fornece dados brutos
-> > - Genérico: recebe dados puros (`TArray<FClassLevelEntry>`), não objetos concretos
-> > - Calcula `TotalLevel` (soma de todos os níveis de classe)
-> > - Calcula `ProficiencyBonus` baseado no TotalLevel
-> > - Coleta features disponíveis considerando níveis e escolhas
-> > - Coleta informações de spellcasting (dados brutos para SpellSystem futuro)
-> > - Fornece queries sobre classes e níveis (`GetClassLevelsInfo()`)
+> > - Motor independente: não conhece outros motores, apenas aplica regras de multiclasse
+> > - Genérico: recebe dados puros (`FCharacterSheetData`), não objetos concretos
 > > - Valida requisitos de atributo para multiclassing D&D 5e (`GetAvailableClasses()`)
+> > - Suporte para requisitos complexos (ex: "STR/13|DEX/13" - STR ou DEX >= 13)
+> > - Processa mudanças de nível em classes específicas (`ProcessLevelChange()`)
+> > - Busca informações de classe diretamente na ClassDataTable
 > >
 > > **Funções Principais:**
 > >
-> > - `CalculateMulticlassing()` - Calcula resultado completo de multiclassing
-> > - `GetClassLevelsInfo()` - Query: retorna informações sobre classes e níveis
-> > - `GetAvailableClasses()` - Retorna todas as classes com informação de disponibilidade
+> > - `GetAvailableClasses()` - Retorna classes disponíveis baseado em requisitos de atributo
+> > - `ValidateMulticlassRequirements()` - Valida se personagem atende requisitos para nova classe
+> > - `ProcessLevelChange()` - Processa mudança de nível e loga features ganhas
 >
 > </details>
 >
@@ -667,7 +665,7 @@ graph TB
 >
 > - ✅ `FRaceBonusMotor` não conhece `FPointBuyMotor`
 > - ✅ `FPointBuyMotor` não conhece `FRaceBonusMotor`
-> - ✅ `FMulticlassingMotor` não conhece outros motores
+> - ✅ `FMulticlassMotor` não conhece outros motores
 > - ✅ `FChoiceMotor` não conhece outros motores
 > - ✅ Ambos apenas incrementam Final Scores (não resetam)
 > - ✅ `FCharacterSheetCore` é responsável por resetar e orquestrar
@@ -715,7 +713,7 @@ graph TB
 >     style Data fill:#e1f5ff
 >     style RaceMotor fill:#c8e6c9
 >     style PointBuyMotor fill:#c8e6c9
->     style MulticlassingMotor fill:#c8e6c9
+>     style MulticlassMotor fill:#c8e6c9
 >     style ChoiceMotor fill:#c8e6c9
 > ```
 >
@@ -830,7 +828,7 @@ graph TB
 >     CreateSheet --> CreateSheetCore[Core/<br/>CharacterSheetCore<br/>CharacterSheetData]
 >     CreateSheet --> CreateSheetRace[RaceBonus/<br/>RaceBonusMotor<br/>RaceBonusHelpers]
 >     CreateSheet --> CreateSheetPointBuy[PointBuy/<br/>PointBuyMotor<br/>PointBuyValidator]
->     CreateSheet --> CreateSheetMulticlassing[Multiclassing/<br/>MulticlassingMotor<br/>MulticlassingValidator]
+>     CreateSheet --> CreateSheetMulticlass[Multiclass/<br/>MulticlassMotor<br/>MulticlassHelpers]
 >     CreateSheet --> CreateSheetChoices[Choices/<br/>ChoiceMotor]
 >
 >     Comp --> CompFeat[Features/<br/>SpellcastingComponent<br/>SecondWindComponent]
@@ -904,12 +902,11 @@ graph TB
 > │   │   ├── PointBuyValidator.h
 > │   │   ├── PointBuyValidator.cpp
 > │   │   └── PointBuyResult.h
-> │   ├── Multiclassing/
-> │   │   ├── MulticlassingMotor.h
-> │   │   ├── MulticlassingMotor.cpp
-> │   │   ├── MulticlassingValidator.h
-> │   │   ├── MulticlassingValidator.cpp
-> │   │   └── MulticlassingResult.h
+> │   ├── Multiclass/
+> │   │   ├── MulticlassMotor.h
+> │   │   ├── MulticlassMotor.cpp
+> │   │   ├── MulticlassHelpers.h
+> │   │   └── MulticlassHelpers.cpp
 > │   └── Choices/
 > │       ├── ChoiceMotor.h
 > │       └── ChoiceMotor.cpp

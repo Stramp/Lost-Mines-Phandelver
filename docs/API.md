@@ -565,6 +565,65 @@ struct MYPROJECT2_API FAbilityScoreEntry
 >
 > **Uso:** Retornado por `FPointBuyMotor::ApplyPointBuy()` para informar o caller sobre ajustes realizados.
 
+### FMulticlassMotor
+
+> **Caminho:** `Source/MyProject2/CreateSheet/Multiclass/MulticlassMotor.h`
+>
+> **Responsabilidade:** Validar e aplicar regras de multiclassing D&D 5e.
+>
+> **Métodos Principais:**
+>
+> #### GetAvailableClasses()
+> ```cpp
+> static TArray<FName> GetAvailableClasses(const UDataTable *ClassDataTable,
+>                                          int32 FinalStrength, int32 FinalDexterity,
+>                                          int32 FinalConstitution, int32 FinalIntelligence,
+>                                          int32 FinalWisdom, int32 FinalCharisma);
+> ```
+> - **Parâmetros:**
+>   - `ClassDataTable` - Data Table de classes (pode ser nullptr)
+>   - `FinalStrength`, `FinalDexterity`, etc. - Atributos finais do personagem
+> - **Retorno:** Array com nomes de classes disponíveis (que atendem requisitos de atributo)
+> - **Descrição:** Filtra classes que o personagem pode pegar baseado nos atributos finais
+> - **Suporte para requisitos complexos:** Ex: "STR/13|DEX/13" (STR ou DEX >= 13)
+>
+> #### ProcessLevelChange()
+> ```cpp
+> static void ProcessLevelChange(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable);
+> ```
+> - **Parâmetros:**
+>   - `ClassName` - Nome da classe que teve o nível alterado
+>   - `LevelInClass` - Novo nível na classe (1-20)
+>   - `ClassDataTable` - Data Table de classes para buscar informações
+> - **Descrição:** Processa mudança de nível em uma classe específica, busca informações da classe na tabela e loga features ganhas no nível
+>
+> **Características:**
+> - Motor independente: não conhece outros motores, apenas aplica regras de multiclasse
+> - Genérico: recebe dados puros, não objetos concretos
+> - Validação automática de requisitos de atributo para multiclassing D&D 5e
+
+### FMulticlassHelpers
+
+> **Caminho:** `Source/MyProject2/CreateSheet/Multiclass/MulticlassHelpers.h`
+>
+> **Responsabilidade:** Funções helper para processamento de multiclassing.
+>
+> **Métodos:**
+>
+> #### GetAvailableClassWithTagRequirements()
+> ```cpp
+> static TArray<FName> GetAvailableClassWithTagRequirements(const UDataTable *ClassDataTable,
+>                                                           const TArray<int32> &CharacterAttributes);
+> ```
+> - **Descrição:** Busca classes disponíveis baseado em requisitos de atributo
+> - **Suporte para parsing de requisitos:** Ex: "STR/13|DEX/13" (STR ou DEX >= 13)
+>
+> #### AdjustProgressionArraySize()
+> ```cpp
+> static void AdjustProgressionArraySize(TArray<FClassLevelEntry> &Progression, int32 LevelInClass);
+> ```
+> - **Descrição:** Ajusta tamanho do array de progressão baseado no nível da classe
+
 </details>
 
 ---

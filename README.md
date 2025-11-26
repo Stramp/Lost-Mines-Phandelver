@@ -60,7 +60,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > │   │   ├── Core/              # Core genérico e CharacterSheetData
 > │   │   ├── RaceBonus/         # Motor de bônus raciais
 > │   │   ├── PointBuy/          # Motor de Point Buy
-> │   │   ├── Multiclassing/     # Motor de multiclassing
+> │   │   ├── Multiclass/         # Motor de multiclassing
 > │   │   └── Choices/           # Motor de escolhas de classe
 > │   ├── Components/            # Componentes reutilizáveis
 > │   ├── Data/                  # Data Assets e Data Tables
@@ -255,7 +255,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > - **`FCharacterSheetData`** - Estrutura genérica de dados (funciona em Data Asset e Widget)
 > - **`FRaceBonusMotor`** - Motor independente para bônus raciais
 > - **`FPointBuyMotor`** - Motor independente para alocação de Point Buy
-> - **`FMulticlassingMotor`** - Motor independente para cálculo de multiclassing
+> - **`FMulticlassMotor`** - Motor independente para cálculo de multiclassing
 > - **`FChoiceMotor`** - Motor independente para processar escolhas de classe
 >
 > **Fórmula de Cálculo:**
@@ -295,7 +295,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >             Core[CharacterSheetCore<br/>Orquestrador]
 >             RBM[RaceBonusMotor<br/>Bônus Raciais]
 >             PBM[PointBuyMotor<br/>Point Buy]
->             MCM[MulticlassingMotor<br/>Multiclassing]
+>             MCM[MulticlassMotor<br/>Multiclass]
 >             CM[ChoiceMotor<br/>Escolhas]
 >         end
 >         DA -->|PostEditChangeProperty| H
@@ -483,10 +483,11 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >
 > > **Fase 1: Finalizar Sistema de Fichas**
 > >
-> > - ✅ Finalizar validações pendentes:
-> >   - ⚠️ Validação do sistema de Point Buy
-> >   - ⚠️ Validação do sistema de Multiclasse
-> >   - ⚠️ Conferir criação de feat no editor no config do Data Asset
+> > - ✅ Sistema de Point Buy completo com validação automática
+> > - ✅ Sistema de Multiclasse completo com filtro de classes por requisitos de atributo
+> > - ✅ Motor de multiclasse refatorado e desacoplado
+> > - ⚠️ Validação do sistema de Multiclasse (em testes)
+> > - ⚠️ Conferir criação de feat no editor no config do Data Asset
 > > - ⏳ Validar suporte para Variant Human (standby)
 > > - ⏳ Validar integridade de dados (standby)
 > >

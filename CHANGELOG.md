@@ -9,6 +9,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 <summary>📋 Versões</summary>
 
 - **[Unreleased](#unreleased)** - Mudanças em desenvolvimento
+- **[0.4.0](#040---2024-11-25)** - Sistema de multiclassing completo e melhorias de qualidade de código
 - **[0.3.0](#030---2024-12-20)** - Sistema completo de raça e background com escolhas de idiomas
 - **[0.2.0](#020---2024-12-xx)** - Refatoração modular e validação de integridade
 - **[0.1.0](#010---2024-12-xx)** - Sistema básico de fichas de personagem
@@ -24,6 +25,174 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>[Unreleased]</b></summary>
 
 > 🔄 Mudanças em desenvolvimento
+>
+> Melhorias contínuas de qualidade de código e novas funcionalidades.
+
+</details>
+
+---
+
+<details>
+
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>[0.4.0] - 2024-11-25</b></summary>
+
+> ✨ Sistema de multiclassing completo e melhorias de qualidade de código
+>
+> Esta versão implementa o sistema completo de multiclassing com filtro de classes baseado em requisitos de atributo, refatoração completa do motor de multiclasse, melhorias de performance e qualidade de código seguindo Clean Code e Design Patterns.
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">➕ Added</summary>
+>
+> > Novas Funcionalidades
+>
+> > 1. Commit [`6a52e7d`] - Implementar Core genérico e motor de PointBuy com validação automática
+> >    - Criada estrutura genérica `FCharacterSheetData` para desacoplar motores (funciona em Data Asset e Widget)
+> >    - Criado `CreateSheet/Core/` com Core genérico (`FCharacterSheetCore`)
+> >    - Criado `CreateSheet/PointBuy/PointBuyResult.h` com struct de feedback
+> >    - Motor de PointBuy valida e ajusta automaticamente se exceder 27 pontos
+> >    - Motor reduz do final da fila (Charisma → Wisdom → Intelligence → Constitution → Dexterity → Strength)
+> >    - Motor retorna `FPointBuyResult` com feedback para caller ajustar UI
+> >    - Data Asset atualiza propriedades automaticamente quando motor ajusta
+>
+> > 2. Commit [`c6102f5`] - Adicionar acesso a ClassDataTable em ProcessLevelChange
+> >    - `ProcessLevelChange` agora recebe `ClassDataTable` como parâmetro
+> >    - Permite busca de informações de classe diretamente no motor
+> >    - Melhora desacoplamento e testabilidade do motor
+>
+> > 3. Commit [`583e148`] - Implementar filtro de classes com requisitos de atributo
+> >    - Implementado `GetAvailableClasses()` que filtra classes baseado em requisitos de atributo
+> >    - Suporte para requisitos complexos (ex: "STR/13|DEX/13" - STR ou DEX >= 13)
+> >    - Validação automática de requisitos de multiclassing D&D 5e
+> >    - Helper `GetAvailableClassWithTagRequirements()` para parsing de requisitos
+>
+> > 4. Commit [`09162ce`] - Reiniciar motor multiclasse
+> >    - Criado novo `FMulticlassMotor` simplificado e focado
+> >    - Removido `MulticlassingMotor` antigo com dependências complexas
+> >    - Removido `MulticlassingResult` e `MulticlassingValidator` (lógica movida para helpers)
+> >    - Motor agora é genérico e desacoplado
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔄 Changed</summary>
+>
+> > Mudanças em Funcionalidades Existentes
+>
+> > 1. Commit [`6a52e7d`] - Refatoração arquitetural completa
+> >    - Movido Core de `Characters/Data/CoreSheet/` para `CreateSheet/Core/` (genérico)
+> >    - Refatorado motores para receber `FCharacterSheetData` (dados puros, não objetos concretos)
+> >    - `PointBuyMotor` e `RaceBonusMotor` agora são genéricos (funcionam em Data Asset e Widget)
+> >    - Core retorna resultado do PointBuy via parâmetro opcional
+> >    - Data Asset cria `FCharacterSheetData` e chama Core genérico
+> >    - Removido `CoreSheet` antigo específico do Data Asset
+> >    - Removidas funções duplicadas `CalculateRacialBonuses` e `IncrementFinalScoresWithRacialBonuses` de `CalculationHelpers`
+> >    - Funções movidas para `CreateSheet/RaceBonus/RaceBonusHelpers`
+>
+> > 2. Commit [`22c7b4e`] - Implementar motores desacoplados para racial bonuses e point buy
+> >    - Criado `ResetFinalScoresToBase()` helper puro
+> >    - Refatorado `ApplyRacialBonusesToFinalScores()` → `IncrementFinalScoresWithRacialBonuses()` (apenas incrementa)
+> >    - Refatorado `ApplyPointBuyToFinalScores()` → `IncrementFinalScoresWithPointBuy()` (apenas incrementa, desacoplado)
+> >    - Criado `RecalculateFinalScores()` orquestrador centralizado
+> >    - Refatorado `UpdateRacialBonuses()` e `UpdatePointBuyAllocation()` para usar orquestrador
+> >    - Removido `CalculatePointBuyAllocation()` obsoleta
+> >    - Corrigida ordem de includes (.generated.h deve ser último)
+> >    - Adicionados getters/setters públicos para propriedades privadas
+> >    - Substituído `GET_MEMBER_NAME_CHECKED` por `FName(TEXT(...))` para evitar acesso a privados
+> >    - Motores totalmente desacoplados, sem cache, seguindo Clean Code e Design Patterns
+>
+> > 3. Commit [`ada1b15`] - Limpar handlers e melhorar detecção de propriedades aninhadas
+> >    - Refatoração completa de `PostEditChangeProperty` para melhor detecção de propriedades aninhadas
+> >    - Melhorada lógica de lookup de handlers usando `PropertyHandlers` map
+> >    - Handlers agora suportam propriedades aninhadas (ex: `MulticlassEntries[0].ClassName`)
+> >    - Código mais limpo e manutenível
+>
+> > 4. Commit [`9680efd`] - Melhorar qualidade de código com Clean Code e Design Patterns
+> >    - Extraídas funções helper reutilizáveis para `CharacterSheetDataAssetHelpers`
+> >    - Aplicados princípios DRY (Don't Repeat Yourself)
+> >    - Funções menores e mais focadas (< 50 linhas)
+> >    - Melhorada organização de código
+>
+> > 5. Commit [`0215c04`] - Aplicar princípios Clean Code e melhorar qualidade
+> >    - Refatoração de `GetOptions` para reduzir duplicação
+> >    - Extraídas funções helper comuns
+> >    - Melhorada documentação de arquitetura
+> >    - Atualizado workspace com configurações otimizadas
+>
+> > 6. Commit [`742f6f3`] - Remover todas as dependências de classes do Data Asset
+> >    - Data Asset agora não depende diretamente de classes concretas
+> >    - Melhor desacoplamento seguindo Dependency Inversion Principle
+> >    - Facilita testes e manutenção
+>
+> > 7. Commit [`ccfc396`] - Configurar include paths e otimizar performance
+> >    - Otimizados include paths no workspace
+> >    - Melhorada performance de compilação
+> >    - Configurações de build otimizadas
+>
+> > 8. Commit [`816bdab`] - Atualizar documentação completa para incluir CreateSheet/ e motores desacoplados
+> >    - Adicionado `CreateSheet/` na estrutura de diretórios em README.md e ARCHITECTURE.md
+> >    - Documentada arquitetura CreateSheet/ com motores desacoplados (RaceBonus, PointBuy)
+> >    - Atualizados diagramas de fluxo de dados para incluir CharacterSheetCore
+> >    - Adicionada seção completa de CreateSheet/ na API.md
+> >    - Expandida documentação de Helpers e Utilitários com novas funções
+> >    - Atualizados guias práticos (getting-started, data-tables) para mencionar motores
+> >    - Adicionados padrões de CreateSheet/ no CONTRIBUTING.md
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⚡ Performance</summary>
+>
+> > Melhorias de Performance
+>
+> > 1. Commit [`d54c2d4`] - Otimizar performance O(n²) para O(n) e implementar RAII pattern
+> >    - Otimizados algoritmos de busca de O(n²) para O(n)
+> >    - Implementado padrão RAII para gerenciamento de recursos
+> >    - Melhorada eficiência de operações em Data Tables
+> >    - Redução significativa de tempo de execução em operações críticas
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📚 Docs</summary>
+>
+> > Documentação
+>
+> > 1. Commit [`6457d86`] - Atualizar documentação com novos motores CreateSheet
+> >    - Documentação atualizada para refletir nova arquitetura de motores
+> >    - Adicionados exemplos de uso dos novos motores
+> >    - Atualizados diagramas de arquitetura
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🐛 Fixed</summary>
+>
+> > Correções de Bugs
+>
+> > 1. Commit [`29c4411`] - Corrigir bug de bônus de atributo racial pós refatoração
+> >    - Corrigida lógica de Variant Human: 1 item no array = +2, 2 items = +1 cada
+> >    - Simplificado código usando `BonusPerItem` calculado dinamicamente
+> >    - Adicionados logs de depuração para diagnóstico
+> >    - Corrigido acesso a membros privados usando getters/setters públicos
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔧 Chore</summary>
+>
+> > Manutenção
+>
+> > 1. Commit [`d369ea5`] - Adicionar arquivos de crash dump do bash ao .gitignore
+> >    - Adicionados arquivos de crash dump ao .gitignore
+> >    - Melhorada organização do repositório
+>
+> </details>
+>
+</details>
+
+---
+
+> 🔄 Mudanças em desenvolvimento (legado)
 >
 > Refatoração arquitetural completa: Core genérico, motores desacoplados e validação automática de Point Buy.
 >
