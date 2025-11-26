@@ -68,10 +68,11 @@ namespace
         const FName PropertyName = PropertyChangedEvent.Property->GetFName();
 
         // Propriedades aninhadas em Multiclass array
-        // Verifica se MemberProperty é Multiclass OU se Property é LevelInClass/Name diretamente
+        // Verifica se MemberProperty é Multiclass OU se Property é LevelInClass/Name/Progression diretamente
         if (MemberPropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, Multiclass) ||
             PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass) ||
-            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name))
+            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name) ||
+            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression))
         {
             // LevelInClass dentro de ClassData dentro de Multiclass
             if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass))
@@ -83,6 +84,12 @@ namespace
             else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name))
             {
                 HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name);
+                return true;
+            }
+            // Progression dentro de ClassData dentro de Multiclass
+            else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression))
+            {
+                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression);
                 return true;
             }
         }

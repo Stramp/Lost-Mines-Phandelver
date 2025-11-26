@@ -39,8 +39,8 @@ TArray<FName> FMulticlassMotor::GetAvailableClasses(const UDataTable *ClassDataT
         return {};
     }
 
-    TArray<int32> CharacterAttributes = {
-        FinalStrength, FinalDexterity, FinalConstitution, FinalIntelligence, FinalWisdom, FinalCharisma};
+    TArray<int32> CharacterAttributes = {FinalStrength,     FinalDexterity, FinalConstitution,
+                                         FinalIntelligence, FinalWisdom,    FinalCharisma};
 
     return FMulticlassHelpers::GetAvailableClassWithTagRequirements(ClassDataTable, CharacterAttributes);
 }

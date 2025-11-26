@@ -365,6 +365,13 @@ void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetD
         return;
     }
 
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
+
+    // Protocolo de validação: valida todas as entradas antes de processar
+    FCharacterSheetDataAssetValidators::ValidateMulticlassNameLevelConsistency(Asset);
+    FCharacterSheetDataAssetValidators::ValidateMulticlassProgression(Asset);
+
     // Marca objeto como modificado
     Asset->Modify();
 
@@ -374,6 +381,14 @@ void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetD
         FMulticlassEntry &Entry = Asset->Multiclass[i];
         const FName ClassName = Entry.ClassData.Name;
         int32 LevelInClass = Entry.ClassData.LevelInClass;
+
+        // Valida se é permitido processar Progression (usa helper puro)
+        if (!FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass))
+        {
+            // Se não pode processar, limpa o array e pula para próxima entrada
+            Entry.ClassData.Progression.Empty();
+            continue;
+        }
 
         // Se LevelInClass mudou, ajusta o array Progression
         TArray<FMulticlassProgressEntry> &Progression = Entry.ClassData.Progression;
@@ -392,7 +407,8 @@ void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetD
             LevelInClass = Progression.Num();
         }
 
-        if (ClassName != NAME_None && LevelInClass > 0 && Asset->ClassDataTable)
+        // Processa features do nível apenas se há classe válida e nível válido
+        if (Asset->ClassDataTable)
         {
             FMulticlassMotor::ProcessLevelChange(ClassName, LevelInClass, Asset->ClassDataTable);
         }
@@ -402,6 +418,7 @@ void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetD
 /**
  * Processa mudanças em ClassData.Name dentro do array Multiclass.
  * Reseta o campo para NAME_None se a classe selecionada tiver tag de requerimento (começa com "[").
+ * Ajusta LevelInClass automaticamente: 1 se há classe, 0 se não há.
  */
 void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacterSheetDataAsset *Asset)
 {
@@ -423,7 +440,50 @@ void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacte
         {
             Asset->Modify(); // Marca objeto como modificado apenas se resetou
         }
+
+        // Ajusta LevelInClass baseado na presença de classe
+        const FName ClassName = Entry.ClassData.Name;
+        if (ClassName != NAME_None)
+        {
+            // Se há classe, seta LevelInClass para 1
+            Entry.ClassData.LevelInClass = 1;
+        }
+        else
+        {
+            // Se não há classe, seta LevelInClass para 0
+            Entry.ClassData.LevelInClass = 0;
+        }
     }
+
+    // Valida consistência Name/LevelInClass (delega para Validators)
+    FCharacterSheetDataAssetValidators::ValidateMulticlassNameLevelConsistency(Asset);
+
+    // Valida e limpa Progression se necessário (delega para Validators)
+    FCharacterSheetDataAssetValidators::ValidateMulticlassProgression(Asset);
+
+    // Chama HandleLevelInClassChange para processar mudanças de nível (ajustar Progression, etc.)
+    HandleLevelInClassChange(Asset);
+}
+
+/**
+ * Processa mudanças em ClassData.Progression dentro do array Multiclass.
+ * Delega validação para Validators (protocolo de validação).
+ */
+void FCharacterSheetDataAssetHandlers::HandleProgressionChange(UCharacterSheetDataAsset *Asset)
+{
+    LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression));
+
+    if (!ValidateAsset(Asset))
+    {
+        return;
+    }
+
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
+
+    // Protocolo de validação: delega para Validators
+    FCharacterSheetDataAssetValidators::ValidateMulticlassProgression(Asset);
+    Asset->Modify(); // Marca objeto como modificado após validação
 }
 
 #pragma endregion Multiclass Handlers
@@ -514,6 +574,11 @@ void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameWrapper(UCharact
                                                                         FName PropertyName)
 {
     HandleMulticlassClassNameChange(Asset);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleProgressionWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+{
+    HandleProgressionChange(Asset);
 }
 
 #pragma endregion Wrapper Functions

@@ -43,4 +43,24 @@ public:
      * Ensures SelectedLanguages count doesn't exceed MaxLanguageChoices.
      */
     static void ValidateLanguageChoices(UCharacterSheetDataAsset *Asset);
+
+    // ============================================================================
+    // Multiclass Validation
+    // ============================================================================
+
+    /**
+     * Validates and corrects consistency between Name and LevelInClass in Multiclass entries.
+     * Rule: If Name == NAME_None, LevelInClass must be 0.
+     *
+     * @param Asset Data Asset to validate
+     */
+    static void ValidateMulticlassNameLevelConsistency(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Validates and clears Progression array if invalid in Multiclass entries.
+     * Clears Progression if Name == NAME_None or LevelInClass == 0.
+     *
+     * @param Asset Data Asset to validate
+     */
+    static void ValidateMulticlassProgression(UCharacterSheetDataAsset *Asset);
 };

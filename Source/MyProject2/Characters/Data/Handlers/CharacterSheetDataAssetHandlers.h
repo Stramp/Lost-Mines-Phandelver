@@ -62,6 +62,12 @@ public:
      */
     static void HandleMulticlassClassNameChange(UCharacterSheetDataAsset *Asset);
 
+    /**
+     * Handles changes to ClassData.Progression in Multiclass array.
+     * Valida e limpa Progression se Name == NAME_None ou LevelInClass == 0.
+     */
+    static void HandleProgressionChange(UCharacterSheetDataAsset *Asset);
+
     // ============================================================================
     // Wrapper Functions for Property Handler Map (C-style function pointers)
     // ============================================================================
@@ -77,4 +83,5 @@ public:
     static void HandleDataTableWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleLevelInClassWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleMulticlassClassNameWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleProgressionWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
 };

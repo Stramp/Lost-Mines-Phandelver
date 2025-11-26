@@ -7,10 +7,6 @@
 // Forward declarations
 class UDataTable;
 
-// Forward declarations
-class UCharacterSheetDataAsset;
-struct FMulticlassEntry;
-
 /**
  * Helpers para estrutura de dados de multiclasse.
  * Funções auxiliares para manipulação de arrays e estruturas de multiclasse.
@@ -29,4 +25,15 @@ public:
      */
     static TArray<FName> GetAvailableClassWithTagRequirements(const UDataTable *ClassDataTable,
                                                               const TArray<int32> &Attributes);
+
+    /**
+     * Valida se é permitido processar Progression para uma entrada de multiclasse.
+     * Regra: Progression só pode ser processada se há classe válida (Name != NAME_None) e nível > 0.
+     * Função pura e testável, sem side effects.
+     *
+     * @param ClassName Nome da classe
+     * @param LevelInClass Nível na classe
+     * @return true se é válido processar Progression, false caso contrário
+     */
+    static bool CanProcessProgression(FName ClassName, int32 LevelInClass);
 };

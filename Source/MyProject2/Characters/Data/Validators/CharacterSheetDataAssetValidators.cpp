@@ -10,6 +10,9 @@
 // Project includes - Data Asset
 #include "Characters/Data/CharacterSheetDataAsset.h"
 
+// Project includes - CreateSheet
+#include "CreateSheet/Multiclass/MulticlassHelpers.h"
+
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/ValidationHelpers.h"
@@ -128,3 +131,69 @@ void FCharacterSheetDataAssetValidators::ValidateLanguageChoices(UCharacterSheet
 }
 
 #pragma endregion Language Choices Validation
+
+// ============================================================================
+// Multiclass Validation
+// ============================================================================
+#pragma region Multiclass Validation
+
+/**
+ * Valida e corrige consistência entre Name e LevelInClass em entradas de multiclasse.
+ * Regra: Se Name == NAME_None, LevelInClass deve ser 0.
+ */
+void FCharacterSheetDataAssetValidators::ValidateMulticlassNameLevelConsistency(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+    {
+        FMulticlassEntry &Entry = Asset->Multiclass[i];
+        const FName ClassName = Entry.ClassData.Name;
+        int32 &LevelInClass = Entry.ClassData.LevelInClass;
+
+        // Regra: Se não há classe, nível deve ser 0
+        if (ClassName == NAME_None && LevelInClass != 0)
+        {
+            LevelInClass = 0;
+            UE_LOG(LogTemp, Warning,
+                   TEXT("Multiclass[%d] - Inconsistência corrigida: Name é NAME_None, LevelInClass ajustado para 0"),
+                   i);
+        }
+    }
+}
+
+/**
+ * Valida e limpa array Progression se inválido em entradas de multiclasse.
+ * Limpa Progression se Name == NAME_None ou LevelInClass == 0.
+ */
+void FCharacterSheetDataAssetValidators::ValidateMulticlassProgression(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+    {
+        FMulticlassEntry &Entry = Asset->Multiclass[i];
+        const FName ClassName = Entry.ClassData.Name;
+        const int32 LevelInClass = Entry.ClassData.LevelInClass;
+
+        // Valida se pode processar Progression (usa helper puro)
+        if (!FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass))
+        {
+            // Se não pode processar, limpa o array
+            if (Entry.ClassData.Progression.Num() > 0)
+            {
+                Entry.ClassData.Progression.Empty();
+                UE_LOG(LogTemp, Warning,
+                       TEXT("Multiclass[%d] - Progression limpo: Name é NAME_None ou LevelInClass é 0"), i);
+            }
+        }
+    }
+}
+
+#pragma endregion Multiclass Validation

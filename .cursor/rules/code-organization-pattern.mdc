@@ -1,0 +1,408 @@
+---
+description: Padrão de organização de código com regions, comentários de seção e estrutura hierárquica
+alwaysApply: true
+---
+
+# Code Organization Pattern
+
+## 🎯 Objetivo
+
+**ALWAYS** organizar arquivos C++ seguindo um padrão consistente com:
+- Comentários de seção claros
+- Regions para agrupar código relacionado
+- Includes agrupados por categoria
+- Organização lógica por responsabilidade
+- Comentários explicativos em funções importantes
+
+## 📋 Estrutura Obrigatória
+
+### 1. Header do Arquivo
+
+**ALWAYS** começar com:
+
+```cpp
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+#pragma once
+
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
+// Project includes - [categoria]
+#include "..."
+
+// Engine includes
+#include "..."
+
+#pragma endregion Includes
+```
+
+### 2. Organização com Regions
+
+**ALWAYS** usar `#pragma region` para agrupar código relacionado:
+
+```cpp
+// ============================================================================
+// [Nome da Seção]
+// ============================================================================
+#pragma region [Nome da Seção]
+
+// Código relacionado aqui...
+
+#pragma endregion [Nome da Seção]
+```
+
+### 3. Comentários de Seção
+
+**ALWAYS** usar comentários de seção com separadores:
+
+```cpp
+// ============================================================================
+// Nome da Seção
+// ============================================================================
+```
+
+**Padrão de separadores:**
+- Usar `===` para criar linha visual
+- Espaçamento consistente
+- Títulos em PascalCase ou descritivos
+
+## 📁 Organização por Tipo de Arquivo
+
+### Arquivos .cpp (Implementation)
+
+**Estrutura obrigatória:**
+
+```cpp
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
+#include "[Header].h"
+
+// Project includes - [categoria 1]
+#include "..."
+
+// Project includes - [categoria 2]
+#include "..."
+
+// Engine includes
+#include "..."
+
+#if WITH_EDITOR
+#include "..."
+#endif
+
+#pragma endregion Includes
+
+// ============================================================================
+// [Seção Principal 1]
+// ============================================================================
+#pragma region [Seção Principal 1]
+
+/**
+ * Comentário explicativo da função.
+ * Explica o "porquê" e o "como" quando necessário.
+ */
+void Function1()
+{
+    // Implementação
+}
+
+#pragma endregion [Seção Principal 1]
+
+// ============================================================================
+// [Seção Principal 2]
+// ============================================================================
+#pragma region [Seção Principal 2]
+
+// Mais código...
+
+#pragma endregion [Seção Principal 2]
+```
+
+**Categorias de Includes:**
+- `Project includes - Data Asset`
+- `Project includes - Components`
+- `Project includes - Helpers`
+- `Project includes - Utils`
+- `Project includes - Data Tables`
+- `Project includes - CreateSheet`
+- `Engine includes`
+
+### Arquivos .h (Header)
+
+**Estrutura obrigatória:**
+
+```cpp
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+#pragma once
+
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
+#include "CoreMinimal.h"
+#include "Engine/..."
+#include "[File].generated.h"
+
+#pragma endregion Includes
+
+// ============================================================================
+// [Seção de Structs/Classes]
+// ============================================================================
+#pragma region [Seção de Structs/Classes]
+
+/**
+ * Comentário explicativo da struct/classe.
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FMyStruct
+{
+    GENERATED_BODY()
+
+    // Propriedades...
+};
+
+#pragma endregion [Seção de Structs/Classes]
+```
+
+## 🔍 Exemplos de Seções Comuns
+
+### Para Handlers/Updaters/Validators
+
+```cpp
+// ============================================================================
+// Property Change Handlers
+// ============================================================================
+#pragma region Property Change Handlers
+
+// Handlers aqui...
+
+#pragma endregion Property Change Handlers
+
+// ============================================================================
+// Wrapper Functions
+// ============================================================================
+#pragma region Wrapper Functions
+
+// Wrappers aqui...
+
+#pragma endregion Wrapper Functions
+```
+
+### Para Data Tables
+
+```cpp
+// ============================================================================
+// Skills Struct
+// ============================================================================
+#pragma region Skills Struct
+
+// Struct FSkills...
+
+#pragma endregion Skills Struct
+
+// ============================================================================
+// Proficiencies Struct
+// ============================================================================
+#pragma region Proficiencies Struct
+
+// Struct FProficienciesEntry...
+
+#pragma endregion Proficiencies Struct
+```
+
+### Para Helpers
+
+```cpp
+// ============================================================================
+// Variant Human Helpers
+// ============================================================================
+#pragma region Variant Human Helpers
+
+// Funções relacionadas a Variant Human...
+
+#pragma endregion Variant Human Helpers
+
+// ============================================================================
+// Ability Scores Helpers
+// ============================================================================
+#pragma region Ability Scores Helpers
+
+// Funções relacionadas a Ability Scores...
+
+#pragma endregion Ability Scores Helpers
+```
+
+## ✅ Regras de Organização
+
+### 1. Hierarquia Lógica
+
+**ALWAYS** organizar por hierarquia lógica:
+- Structs auxiliares primeiro
+- Structs principais depois
+- Classes/Structs de DataTable por último
+
+**Exemplo:**
+```
+FSkills → FProficienciesEntry → FProgressEntry → FClassData → FClassDataRow
+```
+
+### 2. Agrupamento por Responsabilidade
+
+**ALWAYS** agrupar código por responsabilidade:
+- Handlers juntos
+- Validators juntos
+- Updaters juntos
+- Helpers por categoria
+
+### 3. Comentários Explicativos
+
+**ALWAYS** adicionar comentários explicativos em:
+- Funções públicas importantes
+- Structs/Classes principais
+- Lógica complexa
+- Decisões de design importantes
+
+**Formato:**
+```cpp
+/**
+ * Descrição do que a função faz.
+ * Explica o "porquê" quando relevante.
+ *
+ * @param Param1 Descrição do parâmetro
+ * @return Descrição do retorno
+ */
+```
+
+### 4. Includes Agrupados
+
+**ALWAYS** agrupar includes por categoria:
+1. Header correspondente (se .cpp)
+2. Project includes (por categoria)
+3. Engine includes
+4. Editor includes (dentro de `#if WITH_EDITOR`)
+
+## 🚫 O Que NÃO Fazer
+
+- ❌ **NUNCA** misturar includes sem organização
+- ❌ **NUNCA** criar regions sem comentários de seção
+- ❌ **NUNCA** pular a organização de includes
+- ❌ **NUNCA** criar seções muito genéricas ("Misc", "Other")
+- ❌ **NUNCA** usar regions sem fechar com `#pragma endregion`
+
+## 📝 Checklist de Organização
+
+Antes de considerar um arquivo "organizado":
+
+- [ ] Copyright no topo
+- [ ] Includes agrupados por categoria em region
+- [ ] Comentários de seção com `===` antes de cada region
+- [ ] Regions nomeados de forma descritiva
+- [ ] Código agrupado por responsabilidade
+- [ ] Funções importantes têm comentários explicativos
+- [ ] Hierarquia lógica respeitada
+- [ ] Todos os regions fechados corretamente
+
+## 🎨 Benefícios
+
+- ✅ Navegação mais fácil no editor (regions colapsáveis)
+- ✅ Código mais legível e organizado
+- ✅ Manutenção facilitada
+- ✅ Padrão consistente em todo o projeto
+- ✅ Onboarding mais rápido para novos desenvolvedores
+
+## 📚 Exemplos de Uso
+
+### Exemplo 1: Handler File
+
+```cpp
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
+#include "CharacterSheetDataAssetHandlers.h"
+#include "Characters/Data/CharacterSheetDataAsset.h"
+// ... mais includes
+
+#pragma endregion Includes
+
+// ============================================================================
+// Property Change Handlers
+// ============================================================================
+#pragma region Property Change Handlers
+
+void HandleRaceChange(...) { ... }
+void HandleBackgroundChange(...) { ... }
+
+#pragma endregion Property Change Handlers
+
+// ============================================================================
+// Wrapper Functions
+// ============================================================================
+#pragma region Wrapper Functions
+
+void HandleSelectedRaceWrapper(...) { ... }
+
+#pragma endregion Wrapper Functions
+```
+
+### Exemplo 2: Data Table Header
+
+```cpp
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
+#include "CoreMinimal.h"
+#include "Engine/DataTable.h"
+#include "ClassDataTable.generated.h"
+
+#pragma endregion Includes
+
+// ============================================================================
+// Skills Struct
+// ============================================================================
+#pragma region Skills Struct
+
+USTRUCT(BlueprintType)
+struct FSkills { ... };
+
+#pragma endregion Skills Struct
+
+// ============================================================================
+// Class Data Struct
+// ============================================================================
+#pragma region Class Data Struct
+
+USTRUCT(BlueprintType)
+struct FClassData { ... };
+
+#pragma endregion Class Data Struct
+```
+
+## 🔄 Quando Aplicar
+
+**ALWAYS** aplicar este padrão quando:
+- ✅ Criar novos arquivos
+- ✅ Refatorar arquivos existentes
+- ✅ Reorganizar código
+- ✅ Adicionar novas seções grandes
+
+**Pode pular** (mas ainda recomendado) quando:
+- Arquivos muito pequenos (< 50 linhas)
+- Arquivos temporários (mas lembre-se: não deve ter arquivos temporários!)
+
+---
+
+**Lembre-se:** Consistência é a chave. Todos os arquivos devem seguir o mesmo padrão para facilitar navegação e manutenção.

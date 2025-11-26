@@ -181,8 +181,8 @@ struct MYPROJECT2_API FMulticlassClassData
     FName Name;
 
     /** Nível da classe (editável no editor) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress", meta = (ClampMin = "1", ClampMax = "20"))
-    int32 LevelInClass = 1;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress", meta = (ClampMin = "0", ClampMax = "20"))
+    int32 LevelInClass = 0;
 
     /**
      * Requisitos de atributo para multiclasse nesta classe.
@@ -382,6 +382,9 @@ public:
     /** Referência ao Data Table de features de classe */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
     UDataTable *ClassFeaturesDataTable = nullptr;
+    /** Referência ao Data Table de features de classe */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
+    UDataTable *ClassProficienciesDataTable = nullptr;
 
     // ============================================================================
     // Basic Info

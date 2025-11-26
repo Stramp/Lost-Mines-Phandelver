@@ -7,9 +7,6 @@
 
 #include "CreateSheet/Multiclass/MulticlassHelpers.h"
 
-// Project includes - Characters
-#include "Characters/Data/CharacterSheetDataAsset.h"
-
 // Project includes - CreateSheet
 #include "CreateSheet/Multiclass/MulticlassMotor.h"
 #include "CreateSheet/Multiclass/MulticlassValidators.h"
@@ -89,3 +86,16 @@ TArray<FName> FMulticlassHelpers::GetAvailableClassWithTagRequirements(const UDa
 }
 
 #pragma endregion Get Available Class With Tag Requirements
+
+// ============================================================================
+// Progression Validation
+// ============================================================================
+#pragma region Progression Validation
+
+bool FMulticlassHelpers::CanProcessProgression(FName ClassName, int32 LevelInClass)
+{
+    // Progression só pode ser processada se há classe válida e nível > 0
+    return ClassName != NAME_None && LevelInClass > 0;
+}
+
+#pragma endregion Progression Validation

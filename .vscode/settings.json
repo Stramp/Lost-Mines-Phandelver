@@ -30,7 +30,8 @@
     "**/Binaries": true,
     "**/Intermediate": true,
     "**/DerivedDataCache": true,
-    "**/Saved": true
+    "**/Saved": true,
+    ".vscode/unreal-clangd": true
   },
   "search.exclude": {
     "**/Binaries": true,
@@ -43,9 +44,10 @@
     "**/Binaries/**": true,
     "**/Intermediate/**": true,
     "**/DerivedDataCache/**": true,
-    "**/Saved/**": true
+    "**/Saved/**": true,
+    "**/.vscode/unreal-clangd/**": true
   },
-  "unreal-clangd.creation.overwrite": "full",
+  "unreal-clangd.creation.overwrite": "incremental",
   "unreal-clangd.utility.createProjectOnStartup": false,
   "C_Cpp.autocomplete": "disabled",
   "C_Cpp.formatting": "disabled",
