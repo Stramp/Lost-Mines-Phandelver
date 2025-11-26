@@ -46,7 +46,7 @@ FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
     // Se excedeu 27 pontos, ajusta automaticamente
     if (PointsRemaining < 0)
     {
-        FeedbackMessage = AdjustPointBuyAllocation(PointBuyMap, MaxPoints);
+        FeedbackMessage = CharacterSheetHelpers::AdjustPointBuyAllocation(PointBuyMap, MaxPoints);
         bWasAdjusted = true;
 
         // Recalcula após ajuste
@@ -79,65 +79,4 @@ FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
 
     // Retorna resultado com feedback
     return FPointBuyResult(bWasAdjusted, PointBuyMap, PointsRemaining, FeedbackMessage);
-}
-
-FString FPointBuyMotor::AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap, int32 MaxPoints)
-{
-    // Ordem de redução: do final da fila (Charisma -> Wisdom -> Intelligence -> Constitution -> Dexterity -> Strength)
-    TArray<FName> ReductionOrder = {TEXT("Charisma"),     TEXT("Wisdom"),    TEXT("Intelligence"),
-                                    TEXT("Constitution"), TEXT("Dexterity"), TEXT("Strength")};
-
-    // Calcula custo atual
-    TMap<FName, int32> BaseScores;
-    for (const auto &Pair : PointBuyMap)
-    {
-        BaseScores.Add(Pair.Key, 8 + Pair.Value);
-    }
-    int32 TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
-
-    // Reduz até chegar a 27 pontos
-    int32 PointsToReduce = TotalCost - MaxPoints;
-    int32 CurrentIndex = 0;
-
-    while (PointsToReduce > 0 && CurrentIndex < ReductionOrder.Num())
-    {
-        FName CurrentAttribute = ReductionOrder[CurrentIndex];
-        int32 *CurrentAllocation = PointBuyMap.Find(CurrentAttribute);
-
-        if (CurrentAllocation && *CurrentAllocation > 0)
-        {
-            // Calcula custo atual deste atributo
-            int32 CurrentBaseScore = 8 + *CurrentAllocation;
-            int32 CurrentCost = CharacterSheetHelpers::CalculatePointBuyCost(CurrentBaseScore);
-
-            // Reduz 1 ponto
-            (*CurrentAllocation)--;
-            int32 NewBaseScore = 8 + *CurrentAllocation;
-            int32 NewCost = CharacterSheetHelpers::CalculatePointBuyCost(NewBaseScore);
-
-            // Atualiza pontos a reduzir
-            PointsToReduce -= (CurrentCost - NewCost);
-
-            // Se ainda precisa reduzir, continua no mesmo atributo
-            if (PointsToReduce > 0)
-            {
-                continue;
-            }
-        }
-
-        // Próximo atributo
-        CurrentIndex++;
-    }
-
-    // Gera mensagem de feedback
-    if (PointsToReduce <= 0)
-    {
-        return FString::Printf(TEXT("Alocação ajustada: reduzido do final da fila para não exceder %d pontos"),
-                               MaxPoints);
-    }
-    else
-    {
-        return FString::Printf(TEXT("Alocação ajustada parcialmente: ainda excede %d pontos por %d"), MaxPoints,
-                               PointsToReduce);
-    }
 }

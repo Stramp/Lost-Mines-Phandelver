@@ -482,165 +482,26 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 ## 🗺️ Roadmap
 
 <details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🚀 Próximas Features Planejadas</b></summary>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🚀 Resumo do Roadmap</b></summary>
 
-> Roadmap detalhado para transformação em Action RPG D&D 5e:
+> **Roadmap resumido** - Para versão completa e detalhada, veja [docs/planning/roadmap.md](docs/planning/roadmap.md)
 >
-> <details open>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⏱️ Curto Prazo (Próximas 4-6 semanas)</summary>
+> **Status Atual:**
 >
-> > **Fase 1: Finalizar Sistema de Fichas**
-> >
-> > - ✅ Sistema de Point Buy completo com validação automática
-> > - ✅ Sistema de Multiclasse completo com filtro de classes por requisitos de atributo
-> > - ✅ Motor de multiclasse refatorado e desacoplado
-> > - ⚠️ Validação do sistema de Multiclasse (em testes)
-> > - ⚠️ Conferir criação de feat no editor no config do Data Asset
-> > - ⏳ Validar suporte para Variant Human (standby)
-> > - ⏳ Validar integridade de dados (standby)
-> >
-> > **Fase 2: Combate Básico (2-3 semanas)**
-> >
-> > - 📋 **CombatComponent**
-> >   - Calcular AC (10 + Dex Mod + Armor)
-> >   - Calcular dano de ataque (weapon dice + ability modifier)
-> >   - Aplicar dano
-> >   - Sistema de ações básico (Attack, Dodge, Dash)
-> > - 📋 **HealthComponent**
-> >   - HP/MaxHP (replicável)
-> >   - Healing/Damage
-> >   - Death system
-> > - 📋 **WeaponDataTable**
-> >   - Armas D&D 5e
-> >   - Propriedades (versatile, finesse, two-handed, etc.)
-> > - 📋 **CombatHelpers** (em `Utils/`)
-> >   - `CalculateArmorClass()`
-> >   - `CalculateAttackRoll()`
-> >   - `CalculateDamage()`
+> - ✅ **Fase 1:** Sistema de Fichas (Completo)
+> - 📋 **Fase 2:** Combate Básico com GAS (Próxima - 2-3 semanas)
+> - 📋 **Fases 3-10:** Planejadas
 >
-> </details>
+> **Próximas Fases:**
 >
-> <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📅 Médio Prazo (6-12 semanas)</summary>
+> - 📋 **Fase 2:** Combate Básico com GAS (AttributeSet, ASC, Gameplay Effects)
+> - 📋 **Fase 3:** NPCs e Monsters
+> - 📋 **Fase 4:** Equipamentos e Recursos
+> - 📋 **Fase 5:** Features e Habilidades (via GAS)
+> - 📋 **Fase 6:** Skills e Saving Throws
+> - 🔮 **Fases 7-10:** Sistemas Avançados
 >
-> > **Fase 3: Sistema de Fichas - NPCs e Monsters (2-3 semanas)**
-> >
-> > - 📋 **NPCDataAsset**
-> >   - Ability Scores fixos (não Point Buy)
-> >   - Classe opcional (não obrigatória)
-> >   - Stat blocks simplificados
-> >   - Validações específicas para NPCs
-> > - 📋 **MonsterDataAsset**
-> >   - Challenge Rating (CR) ao invés de Level
-> >   - Hit Dice variados (d8, d10, d12, d20)
-> >   - Armor Class natural
-> >   - Traits e Actions customizados
-> >   - Resistances/Immunities
-> >   - Legendary Actions (monsters especiais)
-> > - 📋 **NPCComponent e MonsterComponent**
-> >   - Bridge Components para NPCs/Monsters
-> >   - Integração com CharacterDataComponent (ou componentes específicos)
-> > - 📋 **NPC/Monster Helpers** (em `Utils/`)
-> >   - Helpers para cálculos de NPCs/Monsters
-> >   - Reutilização de helpers comuns quando aplicável
-> >
-> > **Fase 4: Equipamentos e Recursos (2 semanas)**
-> >
-> > - 📋 **EquipmentComponent**
-> >   - Equipar/desequipar armas e armaduras
-> >   - Bônus de equipamentos (AC, dano, etc.)
-> >   - Slots de equipamento (Main Hand, Off Hand, Armor, etc.)
-> > - 📋 **InventoryComponent**
-> >   - Inventário com peso (Carrying Capacity)
-> >   - Gerenciamento de itens
-> > - 📋 **ItemDataTable**
-> >   - Itens D&D 5e (armas, armaduras, consumíveis)
-> > - 📋 **ResourceComponent**
-> >   - Spell Slots (por nível)
-> >   - Ki Points
-> >   - Rage, etc.
-> >
-> > **Fase 5: Features e Habilidades (2-3 semanas)**
-> >
-> > - 📋 **AbilityComponent**
-> >   - Second Wind (Fighter)
-> >   - Action Surge (Fighter)
-> >   - Cunning Action (Rogue)
-> >   - Outras features de classes
-> > - 📋 **SpellcastingComponent**
-> >   - Spell slots (por nível)
-> >   - Preparar magias
-> >   - Casting de magias
-> > - 📋 **SpellDataTable**
-> >   - Magias D&D 5e
-> >   - Componentes, duração, alcance
-> >
-> > **Fase 6: Sistema de Skills e Saving Throws (1-2 semanas)**
-> >
-> > - 📋 **Skill System**
-> >   - Skills com modifiers
-> >   - Expertise (Rogue, Bard)
-> >   - Skill checks
-> > - 📋 **Saving Throws**
-> >   - Cálculo automático de saving throws
-> >   - Saving throw checks
->
-> </details>
->
-> <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔮 Longo Prazo (12+ semanas)</summary>
->
-> > **Fase 7: Movimento e Física (2 semanas)**
-> >
-> > - 📋 **MovementComponent**
-> >   - Velocidade baseada em raça/classe
-> >   - Dash, Disengage actions
-> > - 📋 **JumpComponent**
-> >   - Altura baseada em Strength
-> >   - Long jump, high jump
-> > - 📋 **InteractionComponent**
-> >   - Interação com objetos
-> >   - Pick up, drop, use items
-> >
-> > **Fase 8: UI e Feedback (2-3 semanas)**
-> >
-> > - 📋 **OnRep Callbacks**
-> >   - Callbacks de replicação para atualizar UI automaticamente
-> >   - Delegates para eventos (HP changed, Level up, etc.)
-> > - 📋 **UI Components**
-> >   - Health bar
-> >   - Action bar
-> >   - Inventory UI
-> >   - Character sheet UI
-> >
-> > **Fase 9: GAS Migration (4-6 semanas)**
-> >
-> > - 🔮 **Migração para Gameplay Ability System**
-> >   - Dados → GAS Attributes
-> >   - Features → GAS Abilities
-> >   - Effects → GAS Gameplay Effects
-> >   - Status Effects → GAS Gameplay Effects
-> >
-> > **Fase 10: Sistemas Avançados (4-6 semanas)**
-> >
-> > - 🔮 **Character Progression**
-> >   - Level up system
-> >   - ASI (Ability Score Improvement)
-> >   - Feat selection
-> > - 🔮 **Equipment System Avançado**
-> >   - Weapon enchantments
-> >   - Armor properties
-> >   - Item sets
->
-> </details>
->
-> **Status:**
->
-> - ✅ Completo
-> - 🔄 Em desenvolvimento
-> - ⚠️ Pendente/Validação necessária
-> - 📋 Planejado
-> - 🔮 Futuro
+> **📖 Para roadmap completo com prazos, dependências e status detalhado, veja [docs/planning/roadmap.md](docs/planning/roadmap.md)**
 
 </details>
 

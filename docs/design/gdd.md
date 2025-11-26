@@ -75,65 +75,25 @@
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📅 Fases de Desenvolvimento</b></summary>
 
-> <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">✅ Fase 1: Sistema de Fichas (Completo)</summary>
+> **Roadmap resumido** - Para versão completa e detalhada, veja [docs/planning/roadmap.md](../planning/roadmap.md)
 >
-> > - ✅ Sistema de Point Buy completo
-> > - ✅ Sistema de Multiclasse completo
-> > - ✅ Motores desacoplados (RaceBonus, PointBuy, Multiclass, Choice)
-> > - ✅ Validação automática
-> > - ✅ Editor-Friendly
+> **Status Atual:**
 >
-> </details>
+> - ✅ **Fase 1:** Sistema de Fichas (Completo)
+> - 📋 **Fase 2:** Combate Básico com GAS (Próxima)
+> - 📋 **Fases 3-10:** Planejadas
 >
-> <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📋 Fase 2: Combate Básico (Próxima)</summary>
+> **Fases Principais:**
 >
-> > - CombatComponent (AC, dano, ataques)
-> > - HealthComponent (HP/MaxHP, healing/damage)
-> > - WeaponDataTable (armas D&D 5e)
-> > - Sistema de ações básico
+> - ✅ **Fase 1:** Sistema de Fichas (Point Buy, Multiclasse, Motores desacoplados)
+> - 📋 **Fase 2:** Combate Básico com GAS (AttributeSet, ASC, Gameplay Effects)
+> - 📋 **Fase 3:** NPCs e Monsters
+> - 📋 **Fase 4:** Equipamentos e Recursos
+> - 📋 **Fase 5:** Features e Habilidades (via GAS)
+> - 📋 **Fase 6:** Skills e Saving Throws
+> - 🔮 **Fases 7-10:** Sistemas Avançados
 >
-> </details>
->
-> <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📋 Fase 3: NPCs e Monsters</summary>
->
-> > - NPCDataAsset (ability scores fixos)
-> > - MonsterDataAsset (CR, hit dice variados)
-> > - NPCComponent e MonsterComponent
->
-> </details>
->
-> <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📋 Fase 4: Equipamentos e Recursos</summary>
->
-> > - EquipmentComponent
-> > - InventoryComponent
-> > - ResourceComponent (spell slots, ki points, etc.)
->
-> </details>
->
-> <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📋 Fase 5: Features e Habilidades</summary>
->
-> > - AbilityComponent (Second Wind, Action Surge, etc.)
-> > - SpellcastingComponent
-> > - SpellDataTable
->
-> </details>
->
-> <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔮 Fase 6+: Sistemas Avançados</summary>
->
-> > - Movimento e Física
-> > - UI e Feedback
-> > - Migração para GAS
-> > - Sistemas avançados de progressão
->
-> </details>
->
-> **📖 Para roadmap completo, veja [README.md](../../README.md#-roadmap)**
+> **📖 Para roadmap completo com prazos, dependências, status detalhado e decisões arquiteturais, veja [docs/planning/roadmap.md](../planning/roadmap.md)**
 
 </details>
 

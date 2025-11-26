@@ -20,9 +20,11 @@
 
 // Project includes - Helpers
 #include "Characters/Data/Helpers/ValidationGuard.h"
+#include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
 
 // Project includes - CreateSheet
 #include "CreateSheet/PointBuy/PointBuyValidator.h"
+#include "CreateSheet/PointBuy/PointBuyValidationResult.h"
 #include "CreateSheet/Multiclass/MulticlassHelpers.h"
 #include "CreateSheet/Multiclass/MulticlassMotor.h"
 
@@ -40,118 +42,6 @@
 #pragma endregion Includes
 
 // ============================================================================
-// Local Helpers
-// ============================================================================
-#pragma region Local Helpers
-
-namespace
-{
-    /**
-     * Loga que PostEditChangeProperty chamou o handler para uma propriedade específica.
-     * Helper local para evitar duplicação de código de log.
-     *
-     * @param PropertyName Nome da propriedade que mudou
-     */
-    void LogPropertyChange(FName PropertyName)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("PostEditChangeProperty me chamou: %s mudou"), *PropertyName.ToString());
-    }
-
-    /**
-     * Valida se Asset é válido e retorna false se não for.
-     * Helper local para evitar duplicação de validação null.
-     *
-     * @param Asset Asset a validar
-     * @return true se Asset é válido, false caso contrário
-     */
-    bool ValidateAsset(UCharacterSheetDataAsset *Asset) { return Asset != nullptr; }
-
-    /**
-     * Reseta sub-raça quando raça principal muda.
-     * Extraído de HandleRaceChange para manter função focada.
-     *
-     * @param Asset Asset do personagem
-     * @param PropertyName Nome da propriedade que mudou
-     */
-    void ResetSubraceIfRaceChanged(UCharacterSheetDataAsset *Asset, FName PropertyName)
-    {
-        if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace))
-        {
-            if (Asset->SelectedSubrace != NAME_None)
-            {
-                Asset->Modify();
-                Asset->SelectedSubrace = NAME_None;
-            }
-        }
-    }
-
-    /**
-     * Loga informações sobre status dos Data Tables.
-     * Extraído de HandleDataTableChange para manter função focada.
-     *
-     * @param Asset Asset do personagem
-     */
-    void LogDataTableStatus(UCharacterSheetDataAsset *Asset)
-    {
-        bool bAllDataTablesSelected =
-            Asset->RaceDataTable != nullptr && Asset->BackgroundDataTable != nullptr && Asset->FeatDataTable != nullptr;
-
-        if (bAllDataTablesSelected)
-        {
-            UE_LOG(LogTemp, Log,
-                   TEXT("CharacterSheetDataAsset: Todos os Data Tables foram selecionados! Todas as categorias estão "
-                        "visíveis."));
-        }
-        else
-        {
-            UE_LOG(LogTemp, Warning,
-                   TEXT("CharacterSheetDataAsset: Ainda faltam Data Tables. Race: %s, Background: %s, Feat: %s"),
-                   Asset->RaceDataTable ? TEXT("OK") : TEXT("FALTANDO"),
-                   Asset->BackgroundDataTable ? TEXT("OK") : TEXT("FALTANDO"),
-                   Asset->FeatDataTable ? TEXT("OK") : TEXT("FALTANDO"));
-        }
-    }
-
-    /**
-     * Obtém nome da classe formatado para log (ou "Unknown" se vazio).
-     * Helper local para evitar duplicação de lógica de formatação.
-     *
-     * @param ClassName Nome da classe original
-     * @return Nome formatado para exibição
-     */
-    FString GetFormattedClassName(const FString &ClassName)
-    {
-        return ClassName.IsEmpty() ? TEXT("Unknown") : ClassName;
-    }
-
-    /**
-     * Reseta classe com tag de requerimento para NAME_None.
-     * Extraído de HandleMulticlassClassNameChange para manter função focada.
-     *
-     * @param Entry Entrada de multiclasse a verificar
-     * @param Index Índice da entrada no array
-     * @return true se resetou a classe, false caso contrário
-     */
-    bool ResetClassWithRequirementTag(FMulticlassEntry &Entry, int32 Index)
-    {
-        FString ClassName = Entry.ClassData.Name.ToString();
-
-        if (ClassName.StartsWith(TEXT("[")))
-        {
-            Entry.ClassData.Name = NAME_None;
-            UE_LOG(LogTemp, Warning, TEXT("Multiclass[%d] - Classe com tag de requerimento resetada: %s"), Index,
-                   *ClassName);
-            return true;
-        }
-
-        return false;
-    }
-
-} // namespace
-
-#pragma endregion Local Helpers
-
-// ============================================================================
 // Race Handlers
 // ============================================================================
 #pragma region Race Handlers
@@ -162,9 +52,9 @@ namespace
  */
 void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset *Asset, FName PropertyName)
 {
-    LogPropertyChange(PropertyName);
+    FCharacterSheetDataAssetHelpers::LogPropertyChange(PropertyName);
 
-    if (!ValidateAsset(Asset))
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
     }
@@ -173,7 +63,7 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
     FValidationGuard Guard(Asset);
 
     // Resetar sub-raça se raça mudou
-    ResetSubraceIfRaceChanged(Asset, PropertyName);
+    FCharacterSheetDataAssetHelpers::ResetSubraceIfRaceChanged(Asset, PropertyName);
 
     // Atualiza flag Variant Human e reseta escolhas se necessário
     FCharacterSheetDataAssetUpdaters::UpdateVariantHumanFlag(Asset);
@@ -205,9 +95,10 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
  */
 void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacterSheetDataAsset *Asset)
 {
-    LogPropertyChange(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyStrength));
+    FCharacterSheetDataAssetHelpers::LogPropertyChange(
+        GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyStrength));
 
-    if (!ValidateAsset(Asset))
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
     }
@@ -220,7 +111,18 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacter
     FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(Asset);
 
     // Valida Point Buy system (calcula PointsRemaining)
-    FPointBuyValidator::ValidatePointBuy(Asset);
+    FPointBuyValidationResult ValidationResult = FPointBuyValidator::ValidatePointBuy(
+        Asset->PointBuyStrength, Asset->PointBuyDexterity, Asset->PointBuyConstitution, Asset->PointBuyIntelligence,
+        Asset->PointBuyWisdom, Asset->PointBuyCharisma);
+
+    // Aplica resultado da validação no Asset
+    Asset->PointsRemaining = ValidationResult.PointsRemaining;
+
+    // Log de aviso se scores estão fora do range válido
+    if (!ValidationResult.bAllScoresValid && !ValidationResult.LogMessage.IsEmpty())
+    {
+        UE_LOG(LogTemp, Warning, TEXT("%s"), *ValidationResult.LogMessage);
+    }
 
     // Features podem depender de ability scores
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
@@ -239,9 +141,10 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacter
  */
 void FCharacterSheetDataAssetHandlers::HandleBackgroundChange(UCharacterSheetDataAsset *Asset)
 {
-    LogPropertyChange(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground));
+    FCharacterSheetDataAssetHelpers::LogPropertyChange(
+        GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground));
 
-    if (!ValidateAsset(Asset))
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
     }
@@ -269,9 +172,10 @@ void FCharacterSheetDataAssetHandlers::HandleBackgroundChange(UCharacterSheetDat
  */
 void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesChange(UCharacterSheetDataAsset *Asset)
 {
-    LogPropertyChange(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedLanguages));
+    FCharacterSheetDataAssetHelpers::LogPropertyChange(
+        GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedLanguages));
 
-    if (!ValidateAsset(Asset))
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
     }
@@ -303,9 +207,10 @@ void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesChange(UCharacterShe
  */
 void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacterSheetDataAsset *Asset)
 {
-    LogPropertyChange(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices));
+    FCharacterSheetDataAssetHelpers::LogPropertyChange(
+        GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices));
 
-    if (!ValidateAsset(Asset))
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
     }
@@ -341,9 +246,10 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
  */
 void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetDataAsset *Asset)
 {
-    LogPropertyChange(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable));
+    FCharacterSheetDataAssetHelpers::LogPropertyChange(
+        GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable));
 
-    if (!ValidateAsset(Asset))
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
     }
@@ -355,7 +261,7 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
     FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(Asset);
 
     // Log informativo sobre status dos Data Tables
-    LogDataTableStatus(Asset);
+    FCharacterSheetDataAssetHelpers::LogDataTableStatus(Asset);
 }
 
 #pragma endregion Data Table Handlers
@@ -371,7 +277,7 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
  */
 void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetDataAsset *Asset)
 {
-    if (!ValidateAsset(Asset))
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
     }
@@ -448,9 +354,9 @@ void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetD
  */
 void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacterSheetDataAsset *Asset)
 {
-    LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name));
+    FCharacterSheetDataAssetHelpers::LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name));
 
-    if (!ValidateAsset(Asset))
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
     }
@@ -462,7 +368,7 @@ void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacte
     for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
     {
         FMulticlassEntry &Entry = Asset->Multiclass[i];
-        if (ResetClassWithRequirementTag(Entry, i))
+        if (FCharacterSheetDataAssetHelpers::ResetClassWithRequirementTag(Entry, i))
         {
             Asset->Modify(); // Marca objeto como modificado apenas se resetou
         }
@@ -542,9 +448,9 @@ void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacte
  */
 void FCharacterSheetDataAssetHandlers::HandleProgressionChange(UCharacterSheetDataAsset *Asset)
 {
-    LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression));
+    FCharacterSheetDataAssetHelpers::LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression));
 
-    if (!ValidateAsset(Asset))
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
     }
@@ -567,9 +473,9 @@ void FCharacterSheetDataAssetHandlers::HandleProgressionChange(UCharacterSheetDa
  */
 void FCharacterSheetDataAssetHandlers::HandleProficienciesChange(UCharacterSheetDataAsset *Asset)
 {
-    LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies));
+    FCharacterSheetDataAssetHelpers::LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies));
 
-    if (!ValidateAsset(Asset))
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
     }

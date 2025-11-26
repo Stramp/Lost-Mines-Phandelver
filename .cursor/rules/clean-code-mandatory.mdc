@@ -6,6 +6,25 @@ alwaysApply: true
 
 # ⚠️ CRITICAL RULE - CLEAN CODE AND DESIGN PATTERNS MANDATORY ⚠️
 
+## 🚨 REGRA ZERO - VALIDAÇÃO PRÉ-CÓDIGO OBRIGATÓRIA 🚨
+
+**ANTES de escrever QUALQUER função, SEMPRE verificar:**
+
+1. **Esta função pode ser reutilizada?** → Vai para `Utils/` ou `Helpers/`
+2. **Esta função é pura (sem side effects)?** → Pode ser helper
+3. **Esta função está no lugar certo?** → Motor só tem lógica de motor, não helpers
+4. **Esta função segue Single Responsibility?** → Uma função = uma responsabilidade
+5. **Esta função está testável isoladamente?** → Se não, refatorar
+
+**🚨 REGRA CRÍTICA DE LOCALIZAÇÃO:**
+
+- **MOTOR NÃO TEM HELPERS** - Motores (`*Motor.cpp`) só contêm lógica de motor
+- **VALIDATOR NÃO TEM HELPERS** - Validators só validam
+- **UPDATER NÃO TEM HELPERS** - Updaters só atualizam
+- **HELPERS NÃO TEM LÓGICA DE MOTOR** - Helpers são funções puras e reutilizáveis
+
+**Se a função pode ser helper → CRIAR EM Helpers/, NÃO no arquivo atual**
+
 ## 🚨 ABSOLUTE RULE - NO EXCEPTIONS 🚨
 
 **ALWAYS, ALWAYS, ALWAYS** apply Clean Code and C++ Design Patterns in **ALL** situations:
@@ -31,18 +50,74 @@ alwaysApply: true
 
 **CRITICAL RULE:** Any function that can be reused MUST be in a separate helpers/utilities file.
 
+**🚨 REGRA DE LOCALIZAÇÃO ABSOLUTA:**
+
+- ❌ **NUNCA** criar helper dentro de `*Motor.cpp` (ex: `MulticlassMotor.cpp`, `PointBuyMotor.cpp`)
+- ❌ **NUNCA** criar helper dentro de `*Validator.cpp` (ex: `PointBuyValidator.cpp`)
+- ❌ **NUNCA** criar helper dentro de `*Updater.cpp`
+- ✅ **SEMPRE** criar helper em `*Helpers.h/cpp` correspondente (ex: `MulticlassHelpers.h`)
+
 **ALWAYS:**
 
 - ✅ Helper functions in `Utils/` or `Helpers/`
 - ✅ Parameterized functions (without internal state dependency)
 - ✅ Pure functions when possible
 - ✅ Functions testable in isolation
+- ✅ Static functions in helper classes/namespaces
 
 **NEVER:**
 
+- ❌ Helper functions inside Motor/Validator/Updater files
 - ❌ Helper functions inside classes when they can be reused
 - ❌ Functions coupled to internal state when they can be parameterized
 - ❌ Duplication of search/verification code
+- ❌ "Local helper" functions that could be reused
+
+**CRITICAL RULE - Namespace Helpers:**
+
+**ALWAYS** verify if a helper function in an anonymous `namespace` can be separated:
+
+- ✅ **If helper can be reused or tested separately** → Move to `Helpers/` or `Utils/` file
+- ✅ **If helper is pure/parameterized** → MUST be in separate file
+- ✅ **If helper is only used by one function** → Still move to `Helpers/` if it can be tested/validated separately
+
+**NEVER:**
+
+- ❌ Create anonymous `namespace` helpers in core/motor files when they can be separated
+- ❌ Keep helpers in core files "just because they're only used once"
+- ❌ Mix helper logic with orchestration/flow logic in the same file
+
+**CORRECT Example:**
+
+```cpp
+// MulticlassHelpers.h
+class FMulticlassHelpers {
+public:
+    static FMulticlassProficienciesEntry ConvertProficienciesEntry(const FProficienciesEntry &SourceEntry);
+};
+
+// MulticlassMotor.cpp (core - only orchestration)
+bool FMulticlassMotor::LoadClassProficiencies(...)
+{
+    // ... validation ...
+    FMulticlassProficienciesEntry ConvertedEntry = FMulticlassHelpers::ConvertProficienciesEntry(SourceEntry);
+    // ... orchestration ...
+}
+```
+
+**WRONG Example:**
+
+```cpp
+// ❌ NEVER do this - helper in core file
+namespace {
+    FMulticlassProficienciesEntry ConvertProficienciesEntry(...) { ... }
+}
+
+bool FMulticlassMotor::LoadClassProficiencies(...)
+{
+    // Uses helper from anonymous namespace
+}
+```
 
 **CORRECT Example:**
 
@@ -135,15 +210,23 @@ private:
 
 ## MANDATORY Checklist
 
-Before writing ANY code, ask:
+**BEFORE writing ANY code, ALWAYS ask (in this order):**
 
-- [ ] Can this function be reused? → Goes to `Utils/`
-- [ ] Does this function depend on internal state? → Can it be parameterized?
-- [ ] Am I duplicating code? → Extract to helper
-- [ ] Does this function have single responsibility?
-- [ ] Is this function testable in isolation?
-- [ ] Am I following Clean Code?
-- [ ] Am I following appropriate Design Patterns?
+1. **[ ] Esta função pode ser reutilizada?** → Se SIM, vai para `Utils/` ou `Helpers/`
+2. **[ ] Esta função é pura (sem side effects)?** → Se SIM, pode ser helper
+3. **[ ] Esta função está no arquivo correto?**
+   - Motor? → Só lógica de motor, SEM helpers
+   - Validator? → Só validação, SEM helpers
+   - Updater? → Só atualização, SEM helpers
+   - Helper? → Só funções puras, SEM lógica de motor
+4. **[ ] Esta função depende de estado interno?** → Pode ser parameterizada?
+5. **[ ] Estou duplicando código?** → Extrair para helper
+6. **[ ] Esta função tem single responsibility?** → Uma função = uma ação
+7. **[ ] Esta função é testável isoladamente?** → Se não, refatorar
+8. **[ ] Estou seguindo Clean Code?** → Verificar todos os princípios
+9. **[ ] Estou seguindo Design Patterns apropriados?** → Verificar padrões
+
+**Se QUALQUER resposta indicar que deve ser helper → PARAR e criar em Helpers/**
 
 ## Helpers/Utils Structure
 
@@ -180,6 +263,39 @@ Source/MyProject2/
 **NEVER** create "temporary" or "just for testing" code that violates these rules.
 
 **ALWAYS** think about reusability, testability, and maintainability.
+
+---
+
+## 📚 Referências de Documentação
+
+**Sempre consultar estas referências ao aplicar Clean Code e Design Patterns:**
+
+### Clean Code
+- **Princípios fundamentais**: Funções pequenas, nomes descritivos, responsabilidade única
+- **DRY (Don't Repeat Yourself)**: Eliminar duplicação de código
+- **Separation of Concerns**: Separar lógica de negócio de lógica auxiliar
+- **Testability**: Código deve ser testável isoladamente
+
+### C++ Design Patterns
+- **Strategy Pattern**: Para algoritmos intercambiáveis
+- **Factory Pattern**: Para criação de objetos
+- **Observer Pattern**: Para eventos e notificações
+- **RAII (Resource Acquisition Is Initialization)**: Gerenciamento automático de recursos
+- **Guard Pattern**: Para garantir limpeza de recursos (ex: `FValidationGuard`)
+
+### Unreal Engine 5.7
+- **UPROPERTY/UFUNCTION**: Macros para expor propriedades e funções ao Blueprint
+- **USTRUCT**: Para estruturas de dados
+- **Component-Based Architecture**: Separar funcionalidades em componentes
+- **Data-Driven Design**: Usar Data Tables e Data Assets ao invés de hardcode
+- **Replication**: Preparar código para multiplayer desde o início
+
+### Regras Relacionadas
+- `.cursor/rules/clean-code-mandatory.mdc` - Esta regra (máxima prioridade)
+- `.cursor/rules/execution-guard.mdc` - Proteção de integridade do projeto
+- `.cursor/rules/project-architecture.mdc` - Arquitetura do projeto
+- `.cursor/rules/unreal-engine-cpp.mdc` - Convenções C++ para Unreal Engine
+- `memorias/erros-comuns-para-evitar.md` - Erros comuns para não repetir
 
 ---
 

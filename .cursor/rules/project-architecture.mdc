@@ -303,3 +303,45 @@ Before creating new code:
 - [ ] Works in Editor? (can configure without running?)
 - [ ] Is Multiplayer-Ready? (correct replication?)
 - [ ] Separation of Responsibilities? (correct layer?)
+
+---
+
+## 📚 Referências de Documentação
+
+**Sempre consultar estas referências ao aplicar arquitetura do projeto:**
+
+### Arquitetura e Design Patterns
+- **Component-Based Architecture**: Separação de responsabilidades em camadas
+- **Data-Driven Design**: Regras vêm de Data Tables/Assets, nunca hardcoded
+- **Separation of Concerns**: Cada camada tem responsabilidade única
+- **Modularity**: Código organizado por domínio, independente
+
+### C++ Design Patterns
+- **Strategy Pattern**: Para algoritmos intercambiáveis
+- **Factory Pattern**: Para criação de objetos
+- **Observer Pattern**: Para eventos e notificações
+- **Component Pattern**: Base da arquitetura do Unreal Engine
+
+### Unreal Engine 5.7
+- `.cursor/rules/unreal-engine-cpp.mdc` - Convenções C++ para Unreal Engine
+- `.cursor/rules/unreal-actors-components.mdc` - Padrões de Actors e Components
+- `.cursor/rules/unreal-networking.mdc` - Networking e multiplayer
+- `.cursor/rules/unreal-blueprint-integration.mdc` - Integração C++ e Blueprint
+- **UDataAsset**: Para configurações complexas
+- **UDataTable**: Para dados tabulares
+- **Component-Based Architecture**: Padrão nativo do Unreal Engine
+- **Replication**: `DOREPLIFETIME`, `UFUNCTION(Server)`, `WithValidation`
+
+### Clean Code
+- `.cursor/rules/clean-code-mandatory.mdc` - Regras obrigatórias de Clean Code
+- **Single Responsibility Principle**: Cada classe/função uma responsabilidade
+- **DRY (Don't Repeat Yourself)**: Eliminar duplicação
+- **Testability**: Código deve ser testável isoladamente
+
+### Regras Relacionadas
+- `.cursor/rules/project-architecture.mdc` - Esta regra (arquitetura do projeto)
+- `.cursor/rules/clean-code-mandatory.mdc` - Clean Code obrigatório
+- `.cursor/rules/execution-guard.mdc` - Proteção de integridade do projeto
+- `.cursor/rules/code-quality.mdc` - Qualidade de código
+- `ARCHITECTURE.md` - Documentação completa da arquitetura
+- `memorias/erros-comuns-para-evitar.md` - Erros comuns para não repetir

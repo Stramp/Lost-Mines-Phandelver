@@ -147,3 +147,34 @@ Before considering code "ready":
 - [ ] Unused includes removed
 - [ ] Const used when appropriate
 - [ ] Adequate error handling
+
+---
+
+## 📚 Referências de Documentação
+
+**Sempre consultar estas referências ao garantir qualidade de código:**
+
+### Clean Code
+- `.cursor/rules/clean-code-mandatory.mdc` - Regras obrigatórias de Clean Code
+- **Princípios**: Funções pequenas, nomes descritivos, responsabilidade única, DRY
+- **Testability**: Código deve ser testável isoladamente
+
+### C++ Design Patterns
+- **Strategy Pattern**: Para algoritmos intercambiáveis
+- **Factory Pattern**: Para criação de objetos
+- **Observer Pattern**: Para eventos e notificações
+- **RAII**: Gerenciamento automático de recursos
+- **Guard Pattern**: Para garantir limpeza de recursos
+
+### Unreal Engine 5.7
+- `.cursor/rules/unreal-engine-cpp.mdc` - Convenções C++ para Unreal Engine
+- `.cursor/rules/unreal-actors-components.mdc` - Padrões de Actors e Components
+- `.cursor/rules/unreal-blueprint-integration.mdc` - Integração C++ e Blueprint
+- **UPROPERTY/UFUNCTION**: Macros para expor ao Blueprint
+- **Component-Based Architecture**: Padrão nativo do Unreal Engine
+
+### Regras Relacionadas
+- `.cursor/rules/clean-code-mandatory.mdc` - Clean Code obrigatório
+- `.cursor/rules/code-organization-pattern.mdc` - Padrão de organização de código
+- `.cursor/rules/execution-guard.mdc` - Proteção de integridade do projeto
+- `memorias/erros-comuns-para-evitar.md` - Erros comuns para não repetir

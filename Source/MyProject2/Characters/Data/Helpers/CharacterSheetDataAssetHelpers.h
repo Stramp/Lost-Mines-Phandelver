@@ -8,6 +8,8 @@
 
 // Forward declarations
 class UCharacterSheetDataAsset;
+struct FMulticlassEntry;
+struct FValidationCorrection;
 
 /**
  * Helpers for CharacterSheetDataAsset.
@@ -56,4 +58,84 @@ public:
      * @return true se a propriedade é calculada, false caso contrário
      */
     static bool IsCalculatedProperty(FName PropertyName);
+
+    /**
+     * Loga que PostEditChangeProperty chamou o handler para uma propriedade específica.
+     * Helper puro e testável para logging de mudanças de propriedade.
+     *
+     * @param PropertyName Nome da propriedade que mudou
+     */
+    static void LogPropertyChange(FName PropertyName);
+
+    /**
+     * Valida se Asset é válido e retorna false se não for.
+     * Helper puro e testável para validação de Asset.
+     *
+     * @param Asset Asset a validar
+     * @return true se Asset é válido, false caso contrário
+     */
+    static bool ValidateAsset(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Reseta sub-raça quando raça principal muda.
+     * Helper puro e testável para reset de sub-raça.
+     *
+     * @param Asset Asset do personagem
+     * @param PropertyName Nome da propriedade que mudou
+     */
+    static void ResetSubraceIfRaceChanged(UCharacterSheetDataAsset *Asset, FName PropertyName);
+
+    /**
+     * Loga informações sobre status dos Data Tables.
+     * Helper puro e testável para logging de status de Data Tables.
+     *
+     * @param Asset Asset do personagem
+     */
+    static void LogDataTableStatus(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Obtém nome da classe formatado para log (ou "Unknown" se vazio).
+     * Helper puro e testável para formatação de nomes de classe.
+     *
+     * @param ClassName Nome da classe original
+     * @return Nome formatado para exibição
+     */
+    static FString GetFormattedClassName(const FString &ClassName);
+
+    /**
+     * Reseta classe com tag de requerimento para NAME_None.
+     * Helper puro e testável para reset de classe com tag.
+     *
+     * @param Entry Entrada de multiclasse a verificar
+     * @param Index Índice da entrada no array
+     * @return true se resetou a classe, false caso contrário
+     */
+    static bool ResetClassWithRequirementTag(struct FMulticlassEntry &Entry, int32 Index);
+
+    /**
+     * Aplica correção ResetToNone para propriedade específica.
+     * Helper puro e testável para aplicação de correções.
+     *
+     * @param Asset Asset do personagem
+     * @param Correction Correção a ser aplicada
+     */
+    static void ApplyResetToNone(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
+
+    /**
+     * Aplica correção ClearArray para propriedade específica.
+     * Helper puro e testável para aplicação de correções.
+     *
+     * @param Asset Asset do personagem
+     * @param Correction Correção a ser aplicada
+     */
+    static void ApplyClearArray(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
+
+    /**
+     * Aplica correção AdjustValue para propriedade específica.
+     * Helper puro e testável para aplicação de correções.
+     *
+     * @param Asset Asset do personagem
+     * @param Correction Correção a ser aplicada
+     */
+    static void ApplyAdjustValue(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
 };

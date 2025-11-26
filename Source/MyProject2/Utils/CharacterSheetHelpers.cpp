@@ -612,6 +612,67 @@ int32 CharacterSheetHelpers::CalculateTotalPointBuyCost(const TMap<FName, int32>
     return TotalCost;
 }
 
+FString CharacterSheetHelpers::AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap, int32 MaxPoints)
+{
+    // Ordem de redução: do final da fila (Charisma -> Wisdom -> Intelligence -> Constitution -> Dexterity -> Strength)
+    TArray<FName> ReductionOrder = {TEXT("Charisma"),     TEXT("Wisdom"),    TEXT("Intelligence"),
+                                    TEXT("Constitution"), TEXT("Dexterity"), TEXT("Strength")};
+
+    // Calcula custo atual
+    TMap<FName, int32> BaseScores;
+    for (const auto &Pair : PointBuyMap)
+    {
+        BaseScores.Add(Pair.Key, 8 + Pair.Value);
+    }
+    int32 TotalCost = CalculateTotalPointBuyCost(BaseScores);
+
+    // Reduz até chegar a MaxPoints pontos
+    int32 PointsToReduce = TotalCost - MaxPoints;
+    int32 CurrentIndex = 0;
+
+    while (PointsToReduce > 0 && CurrentIndex < ReductionOrder.Num())
+    {
+        FName CurrentAttribute = ReductionOrder[CurrentIndex];
+        int32 *CurrentAllocation = PointBuyMap.Find(CurrentAttribute);
+
+        if (CurrentAllocation && *CurrentAllocation > 0)
+        {
+            // Calcula custo atual deste atributo
+            int32 CurrentBaseScore = 8 + *CurrentAllocation;
+            int32 CurrentCost = CalculatePointBuyCost(CurrentBaseScore);
+
+            // Reduz 1 ponto
+            (*CurrentAllocation)--;
+            int32 NewBaseScore = 8 + *CurrentAllocation;
+            int32 NewCost = CalculatePointBuyCost(NewBaseScore);
+
+            // Atualiza pontos a reduzir
+            PointsToReduce -= (CurrentCost - NewCost);
+
+            // Se ainda precisa reduzir, continua no mesmo atributo
+            if (PointsToReduce > 0)
+            {
+                continue;
+            }
+        }
+
+        // Próximo atributo
+        CurrentIndex++;
+    }
+
+    // Gera mensagem de feedback
+    if (PointsToReduce <= 0)
+    {
+        return FString::Printf(TEXT("Alocação ajustada: reduzido do final da fila para não exceder %d pontos"),
+                               MaxPoints);
+    }
+    else
+    {
+        return FString::Printf(TEXT("Alocação ajustada parcialmente: ainda excede %d pontos por %d"), MaxPoints,
+                               PointsToReduce);
+    }
+}
+
 // ============================================================================
 // Level Calculation Helpers
 // ============================================================================

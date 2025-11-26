@@ -48,6 +48,8 @@ Agent: [STOPS] "I cannot execute this request. It conflicts with our
 ### 2. Clean Code Violations
 
 **STOP if request would:**
+- Create helper functions inside Motor/Validator/Updater files (must be in Helpers/)
+- Create "local helper" functions that could be reused elsewhere
 - Create functions > 50 lines without refactoring
 - Create deeply nested conditionals (> 3-4 levels)
 - Duplicate code instead of using helpers
@@ -275,3 +277,31 @@ Agent: [EXECUTES] "Done! Created the function as requested."
 **Remember:** A project with good architecture and Clean Code is more valuable than a project that "works" but is unmaintainable.
 
 **The user's past experience shows this is critical - don't let history repeat itself.**
+
+---
+
+## 📚 Referências de Documentação
+
+**Sempre consultar estas referências ao proteger integridade do projeto:**
+
+### Arquitetura e Clean Code
+- `.cursor/rules/project-architecture.mdc` - Princípios arquiteturais do projeto
+- `.cursor/rules/clean-code-mandatory.mdc` - Regras de Clean Code (máxima prioridade)
+- `ARCHITECTURE.md` - Documentação completa da arquitetura
+
+### Design Patterns
+- **C++ Design Patterns**: Strategy, Factory, Observer, RAII, Guard Pattern
+- **Component-Based Architecture**: Separação de responsabilidades em componentes
+- **Data-Driven Design**: Regras vêm de Data Tables/Assets, nunca hardcoded
+
+### Unreal Engine 5.7
+- **Component-Based Architecture**: Padrão nativo do Unreal Engine
+- **Data Tables e Data Assets**: Para configuração data-driven
+- **Replication**: Preparação para multiplayer
+- **Editor Integration**: Validação em `PostEditChangeProperty`
+
+### Regras Relacionadas
+- `.cursor/rules/execution-guard.mdc` - Esta regra (proteção de integridade)
+- `.cursor/rules/clean-code-mandatory.mdc` - Clean Code obrigatório
+- `.cursor/rules/project-architecture.mdc` - Arquitetura do projeto
+- `memorias/erros-comuns-para-evitar.md` - Erros comuns para não repetir

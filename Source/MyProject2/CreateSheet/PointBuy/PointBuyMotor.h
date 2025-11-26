@@ -33,15 +33,4 @@ public:
      * @return Resultado com feedback sobre validação e ajustes realizados
      */
     static FPointBuyResult ApplyPointBuy(FCharacterSheetData &Data);
-
-private:
-    /**
-     * Ajusta alocação de Point Buy para não exceder 27 pontos.
-     * Reduz do final da fila (Charisma -> Wisdom -> Intelligence -> Constitution -> Dexterity -> Strength).
-     *
-     * @param PointBuyMap Alocação original (será modificada)
-     * @param MaxPoints Pontos máximos permitidos (padrão: 27)
-     * @return Mensagem de feedback sobre o ajuste
-     */
-    static FString AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap, int32 MaxPoints = 27);
 };

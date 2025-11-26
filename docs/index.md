@@ -16,6 +16,7 @@
 >
 > - **Design:** Regras de jogo, mecânicas D&D 5e, visão do produto final
 > - **Técnico:** Arquitetura, API, implementação, guias de desenvolvimento
+> - **Planejamento:** Roadmap completo, fases de desenvolvimento, decisões arquiteturais
 
 </details>
 
@@ -49,6 +50,19 @@
 > - **[Guias Práticos](technical/guides/)** - Guias passo a passo para desenvolvimento
 >
 > **📖 Para mais detalhes, veja [technical/index.md](technical/index.md)**
+
+</details>
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Planejamento (docs/planning/)</b></summary>
+
+> Documentação relacionada ao planejamento e roadmap do projeto.
+>
+> **Documentos Principais:**
+>
+> - **[Roadmap Completo](planning/roadmap.md)** - Roadmap completo e detalhado com todas as fases, prazos, dependências e decisões arquiteturais
+>
+> **📖 Para mais detalhes, veja [planning/index.md](planning/index.md)**
 
 </details>
 

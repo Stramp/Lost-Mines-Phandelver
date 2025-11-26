@@ -308,6 +308,17 @@ namespace CharacterSheetHelpers
      */
     int32 CalculateTotalPointBuyCost(const TMap<FName, int32> &AbilityScores);
 
+    /**
+     * Ajusta alocação de Point Buy para não exceder pontos máximos.
+     * Reduz do final da fila (Charisma -> Wisdom -> Intelligence -> Constitution -> Dexterity -> Strength).
+     * Helper puro e testável para ajuste de alocação de Point Buy.
+     *
+     * @param PointBuyMap Alocação original (será modificada)
+     * @param MaxPoints Pontos máximos permitidos (padrão: 27)
+     * @return Mensagem de feedback sobre o ajuste
+     */
+    FString AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap, int32 MaxPoints = 27);
+
     // ============================================================================
     // Level Calculation Helpers
     // ============================================================================
