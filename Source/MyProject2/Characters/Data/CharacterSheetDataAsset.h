@@ -84,8 +84,8 @@ struct MYPROJECT2_API FMulticlassProgressEntry
 {
     GENERATED_BODY()
 
-    /** Nível da classe (editável no editor) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress", meta = (ClampMin = "1", ClampMax = "20"))
+    /** Nível da classe (calculado automaticamente, não editável) */
+    UPROPERTY(BlueprintReadOnly, Category = "Progress")
     int32 Level = 1;
 
     /** Lista de features desbloqueadas neste nível */
