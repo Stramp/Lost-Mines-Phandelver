@@ -16,6 +16,9 @@
 #include "Data/Tables/ClassDataTable.h"
 #include "Data/Tables/ProficiencyDataTable.h"
 
+// Project includes - Logging
+#include "Logging/LoggingSystem.h"
+
 // Project includes - Utils
 #include "Utils/DataTableHelpers.h"
 
@@ -124,11 +127,17 @@ namespace
 
         if (!ProficiencyDataTable)
         {
-            // Se não há tabela, retorna IDs originais
+            // Se não há tabela, loga erro crítico e retorna IDs originais
+            FLogContext Context(TEXT("Multiclass"), TEXT("ResolveProficiencyIDsToNames"));
+            FLoggingSystem::LogError(
+                Context,
+                TEXT("ProficiencyDataTable não está configurado. IDs não serão resolvidos para nomes legíveis."), true);
             return ProficiencyIDs;
         }
 
         UDataTable *NonConstTable = const_cast<UDataTable *>(ProficiencyDataTable);
+        FString TableName = ProficiencyDataTable->GetName();
+        int32 UnresolvedCount = 0;
 
         for (const FName &ProficiencyID : ProficiencyIDs)
         {
@@ -150,7 +159,27 @@ namespace
             {
                 // Fallback: usa ID original se não encontrado na tabela
                 ResolvedNames.Add(ProficiencyID);
+                UnresolvedCount++;
+
+                // Loga erro de Data Table
+                FLogContext Context(TEXT("Multiclass"), TEXT("ResolveProficiencyIDsToNames"));
+                FLoggingSystem::LogDataTableError(
+                    Context, TableName, ProficiencyID.ToString(), TEXT("ProficiencyID"),
+                    FString::Printf(TEXT("Proficiência '%s' não encontrada na tabela. "
+                                         "Verifique se o JSON tem 'ProficiencyID' ao invés de "
+                                         "'p_id' e se o ID corresponde."),
+                                    *ProficiencyID.ToString()));
             }
+        }
+
+        // Loga resumo se houver IDs não resolvidos
+        if (UnresolvedCount > 0)
+        {
+            FLogContext Context(TEXT("Multiclass"), TEXT("ResolveProficiencyIDsToNames"));
+            FLoggingSystem::LogWarning(
+                Context,
+                FString::Printf(TEXT("%d proficiência(s) não foram resolvidas para nomes legíveis."), UnresolvedCount),
+                true);
         }
 
         return ResolvedNames;

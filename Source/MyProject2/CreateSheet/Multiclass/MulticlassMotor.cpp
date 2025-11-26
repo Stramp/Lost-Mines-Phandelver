@@ -17,6 +17,9 @@
 #include "CreateSheet/Multiclass/MulticlassHelpers.h"
 #include "CreateSheet/Multiclass/MulticlassTypes.h"
 
+// Project includes - Logging
+#include "Logging/LoggingSystem.h"
+
 // Project includes - Utils
 #include "Utils/DataTableHelpers.h"
 
@@ -135,9 +138,11 @@ bool FMulticlassMotor::LoadClassProficiencies(FName ClassName, int32 LevelInClas
     const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
     if (!ClassRow)
     {
-        UE_LOG(LogTemp, Warning,
-               TEXT("FMulticlassMotor::LoadClassProficiencies - Classe '%s' não encontrada na tabela"),
-               *ClassName.ToString());
+        FLogContext Context(TEXT("Multiclass"), TEXT("LoadClassProficiencies"));
+        FString TableName = ClassDataTable ? ClassDataTable->GetName() : TEXT("Unknown");
+        FLoggingSystem::LogDataTableError(
+            Context, TableName, ClassName.ToString(), TEXT("Name"),
+            FString::Printf(TEXT("Classe '%s' não encontrada na tabela."), *ClassName.ToString()));
         return false;
     }
 
@@ -177,9 +182,11 @@ bool FMulticlassMotor::LoadClassProficienciesIDs(FName ClassName, int32 LevelInC
     const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
     if (!ClassRow)
     {
-        UE_LOG(LogTemp, Warning,
-               TEXT("FMulticlassMotor::LoadClassProficienciesIDs - Classe '%s' não encontrada na tabela"),
-               *ClassName.ToString());
+        FLogContext Context(TEXT("Multiclass"), TEXT("LoadClassProficienciesIDs"));
+        FString TableName = ClassDataTable ? ClassDataTable->GetName() : TEXT("Unknown");
+        FLoggingSystem::LogDataTableError(
+            Context, TableName, ClassName.ToString(), TEXT("Name"),
+            FString::Printf(TEXT("Classe '%s' não encontrada na tabela."), *ClassName.ToString()));
         return false;
     }
 
@@ -218,9 +225,11 @@ bool FMulticlassMotor::LoadClassProficienciesRaw(FName ClassName, int32 LevelInC
     const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
     if (!ClassRow)
     {
-        UE_LOG(LogTemp, Warning,
-               TEXT("FMulticlassMotor::LoadClassProficienciesRaw - Classe '%s' não encontrada na tabela"),
-               *ClassName.ToString());
+        FLogContext Context(TEXT("Multiclass"), TEXT("LoadClassProficienciesRaw"));
+        FString TableName = ClassDataTable ? ClassDataTable->GetName() : TEXT("Unknown");
+        FLoggingSystem::LogDataTableError(
+            Context, TableName, ClassName.ToString(), TEXT("Name"),
+            FString::Printf(TEXT("Classe '%s' não encontrada na tabela."), *ClassName.ToString()));
         return false;
     }
 

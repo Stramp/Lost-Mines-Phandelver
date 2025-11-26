@@ -16,8 +16,11 @@ public class MyProject2 : ModuleRules
 		// Permite usar: #include "Utils/CharacterSheetHelpers.h" ao invés de #include "../../Utils/CharacterSheetHelpers.h"
 		PublicIncludePaths.Add(ModuleDirectory);
 
-		// Uncomment if you are using Slate UI
-		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
+		// Slate UI para notificações no editor
+		if (Target.bBuildEditor)
+		{
+			PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore", "EditorStyle" });
+		}
 
 		// Uncomment if you are using online features
 		// PrivateDependencyModuleNames.Add("OnlineSubsystem");
