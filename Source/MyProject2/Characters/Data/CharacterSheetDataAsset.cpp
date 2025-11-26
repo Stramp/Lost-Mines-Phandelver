@@ -219,6 +219,12 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
         SelectedRace, SelectedSubrace, SelectedBackground, SelectedLanguages, RaceDataTable, BackgroundDataTable);
 }
 
+TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceNames() const
+{
+    // Por enquanto retorna vazio - será implementado quando a mecânica de preencher AvailableChoices estiver pronta
+    return {};
+}
+
 TArray<FName> UCharacterSheetDataAsset::GetListClassAvaible() const
 {
     return FCharacterSheetDataAssetGetOptions::GetListClassAvaible(ClassDataTable, FinalStrength, FinalDexterity,

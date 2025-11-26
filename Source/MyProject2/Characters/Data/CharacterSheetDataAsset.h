@@ -71,6 +71,74 @@ struct MYPROJECT2_API FMulticlassProficienciesEntry
 };
 
 // ============================================================================
+// Multiclass Class Feature Choice Struct
+// ============================================================================
+
+/**
+ * Struct para armazenar uma escolha disponível de feature.
+ * Usado dentro de FMulticlassClassFeature para definir escolhas disponíveis.
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FMulticlassClassFeatureChoice
+{
+    GENERATED_BODY()
+
+    /** ID único da escolha (ex: "FC_Archery", "FC_Champion") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature Choice")
+    FName ID;
+
+    /** Nome da escolha (ex: "Archery", "Champion") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature Choice")
+    FName Name;
+
+    FMulticlassClassFeatureChoice() {}
+};
+
+// ============================================================================
+// Multiclass Class Feature Struct
+// ============================================================================
+
+/**
+ * Struct para armazenar uma feature de classe em multiclasse.
+ * Segue a estrutura do DJ_FeaturesClass.json.
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FMulticlassClassFeature
+{
+    GENERATED_BODY()
+
+    /** Nome da feature (ex: "Second Wind", "Fighting Style") */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Feature")
+    FName Name;
+
+    /** ID único da feature (ex: "FC_SecondWind", "FC_FightingStyle") */
+    UPROPERTY(BlueprintReadOnly, Category = "Feature")
+    FName FC_ID;
+
+    /** Descrição da feature */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Feature")
+    FText Description;
+
+    /** Nível em que a feature é desbloqueada */
+    UPROPERTY(BlueprintReadOnly, Category = "Feature")
+    int32 LevelUnlocked = 1;
+
+    /** Tipo da feature: "Automatic", "Choice", "SubclassSelection", "ASI", "FeatSelection" */
+    UPROPERTY(BlueprintReadOnly, Category = "Feature")
+    FName FeatureType;
+
+    /** Dados adicionais da feature (chave-valor) */
+    UPROPERTY(BlueprintReadOnly, Category = "Feature")
+    TMap<FName, FString> FeatureData;
+
+    /** Escolha selecionada (dropdown que lista os nomes das escolhas disponíveis) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature", meta = (GetOptions = "GetAvailableChoiceNames"))
+    FName AvailableChoices;
+
+    FMulticlassClassFeature() : LevelUnlocked(1), AvailableChoices(NAME_None) {}
+};
+
+// ============================================================================
 // Multiclass Progress Struct
 // ============================================================================
 
@@ -90,7 +158,7 @@ struct MYPROJECT2_API FMulticlassProgressEntry
 
     /** Lista de features desbloqueadas neste nível */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress")
-    TArray<FName> Features;
+    TArray<FMulticlassClassFeature> Features;
 
     FMulticlassProgressEntry() : Level(1) {}
 };
@@ -282,6 +350,10 @@ public:
     UFUNCTION(CallInEditor)
     TArray<FName> GetAvailableLanguageNames() const;
 
+    /** Retorna os nomes das escolhas disponíveis (para dropdown de SelectedChoice em FMulticlassClassFeature) */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetAvailableChoiceNames() const;
+
     /** Retorna todas as classes disponíveis com verificação de requisitos de atributo */
     UFUNCTION(CallInEditor)
     TArray<FName> GetListClassAvaible() const;
@@ -306,6 +378,10 @@ public:
     /** Referência ao Data Table de classes */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
     UDataTable *ClassDataTable = nullptr;
+
+    /** Referência ao Data Table de features de classe */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
+    UDataTable *ClassFeaturesDataTable = nullptr;
 
     // ============================================================================
     // Basic Info
