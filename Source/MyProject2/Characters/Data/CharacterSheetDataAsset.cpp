@@ -12,6 +12,11 @@
 #include "Characters/Data/Handlers/CharacterSheetDataAssetHandlers.h"
 #include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
 #include "Characters/Data/Initializers/CharacterSheetDataAssetInitializers.h"
+#include "Characters/Data/Validators/CharacterSheetDataAssetValidators.h"
+#include "Characters/Data/Validators/CharacterSheetDataAssetCorrectionApplier.h"
+
+// Project includes - CreateSheet
+#include "CreateSheet/Multiclass/MulticlassHelpers.h"
 
 // Project includes - Data Tables
 #include "Data/Tables/ClassDataTable.h"
@@ -113,6 +118,25 @@ void UCharacterSheetDataAsset::PostLoad()
     {
         FCharacterSheetDataAssetInitializers::InitializeAllPropertyHandlers(this);
     }
+
+#if WITH_EDITOR
+    // Protocolo de validação de boot: valida tudo e aplica correções
+    FValidationResult BootValidationResult = FCharacterSheetDataAssetValidators::ValidateAll(this);
+    if (BootValidationResult.bNeedsCorrection)
+    {
+        FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(this, BootValidationResult);
+    }
+
+    // Atualiza flags bCanEditProgression e bCanEditProficiencies para todas as entradas (após validação)
+    for (int32 i = 0; i < Multiclass.Num(); ++i)
+    {
+        const FName ClassName = Multiclass[i].ClassData.Name;
+        const int32 LevelInClass = Multiclass[i].ClassData.LevelInClass;
+        const bool bCanEdit = FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
+        Multiclass[i].ClassData.bCanEditProgression = bCanEdit;
+        Multiclass[i].ClassData.bCanEditProficiencies = bCanEdit;
+    }
+#endif
 }
 
 /**

@@ -12,6 +12,8 @@
 
 // Project includes - Validators
 #include "Characters/Data/Validators/CharacterSheetDataAssetValidators.h"
+#include "Characters/Data/Validators/CharacterSheetDataAssetCorrectionApplier.h"
+#include "Characters/Data/Validators/CharacterSheetDataAssetValidationResult.h"
 
 // Project includes - Updaters
 #include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
@@ -276,8 +278,12 @@ void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesChange(UCharacterShe
     // RAII Guard: gerencia bIsValidatingProperties automaticamente
     FValidationGuard Guard(Asset);
 
-    // Valida escolhas de idiomas
-    FCharacterSheetDataAssetValidators::ValidateLanguageChoices(Asset);
+    // Valida escolhas de idiomas e aplica correções
+    FValidationResult LanguageResult = FCharacterSheetDataAssetValidators::ValidateLanguageChoices(Asset);
+    if (LanguageResult.bNeedsCorrection)
+    {
+        FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(Asset, LanguageResult);
+    }
 
     // Recalcula idiomas finais
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
@@ -306,8 +312,12 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
     // RAII Guard: gerencia bIsValidatingProperties automaticamente
     FValidationGuard Guard(Asset);
 
-    // Valida escolhas de Variant Human
-    FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(Asset);
+    // Valida escolhas de Variant Human e aplica correções
+    FValidationResult VariantHumanResult = FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(Asset);
+    if (VariantHumanResult.bNeedsCorrection)
+    {
+        FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(Asset, VariantHumanResult);
+    }
 
     // Recalcula bônus raciais (Custom ASI afeta bônus)
     // Usa Core genérico via helper do Data Asset (aplica todos os motores)
@@ -369,8 +379,19 @@ void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetD
     FValidationGuard Guard(Asset);
 
     // Protocolo de validação: valida todas as entradas antes de processar
-    FCharacterSheetDataAssetValidators::ValidateMulticlassNameLevelConsistency(Asset);
-    FCharacterSheetDataAssetValidators::ValidateMulticlassProgression(Asset);
+    FValidationResult NameLevelResult =
+        FCharacterSheetDataAssetValidators::ValidateMulticlassNameLevelConsistency(Asset);
+    FValidationResult ProgressionResult = FCharacterSheetDataAssetValidators::ValidateMulticlassProgression(Asset);
+
+    // Aplica correções se necessário
+    if (NameLevelResult.bNeedsCorrection || ProgressionResult.bNeedsCorrection)
+    {
+        FValidationResult CombinedResult;
+        CombinedResult.Corrections.Append(NameLevelResult.Corrections);
+        CombinedResult.Corrections.Append(ProgressionResult.Corrections);
+        CombinedResult.bNeedsCorrection = true;
+        FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(Asset, CombinedResult);
+    }
 
     // Marca objeto como modificado
     Asset->Modify();
@@ -382,8 +403,12 @@ void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetD
         const FName ClassName = Entry.ClassData.Name;
         int32 LevelInClass = Entry.ClassData.LevelInClass;
 
+        // Atualiza flags bCanEditProgression e bCanEditProficiencies (desabilita botão "+" no editor)
+        Entry.ClassData.bCanEditProgression = FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
+        Entry.ClassData.bCanEditProficiencies = FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
+
         // Valida se é permitido processar Progression (usa helper puro)
-        if (!FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass))
+        if (!Entry.ClassData.bCanEditProgression)
         {
             // Se não pode processar, limpa o array e pula para próxima entrada
             Entry.ClassData.Progression.Empty();
@@ -453,13 +478,28 @@ void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacte
             // Se não há classe, seta LevelInClass para 0
             Entry.ClassData.LevelInClass = 0;
         }
+
+        // Atualiza flags bCanEditProgression e bCanEditProficiencies (desabilita botão "+" no editor)
+        Entry.ClassData.bCanEditProgression =
+            FMulticlassHelpers::CanProcessProgression(Entry.ClassData.Name, Entry.ClassData.LevelInClass);
+        Entry.ClassData.bCanEditProficiencies =
+            FMulticlassHelpers::CanProcessProgression(Entry.ClassData.Name, Entry.ClassData.LevelInClass);
     }
 
-    // Valida consistência Name/LevelInClass (delega para Validators)
-    FCharacterSheetDataAssetValidators::ValidateMulticlassNameLevelConsistency(Asset);
+    // Valida consistência Name/LevelInClass e aplica correções
+    FValidationResult NameLevelResult =
+        FCharacterSheetDataAssetValidators::ValidateMulticlassNameLevelConsistency(Asset);
+    FValidationResult ProgressionResult = FCharacterSheetDataAssetValidators::ValidateMulticlassProgression(Asset);
 
-    // Valida e limpa Progression se necessário (delega para Validators)
-    FCharacterSheetDataAssetValidators::ValidateMulticlassProgression(Asset);
+    // Aplica correções se necessário
+    if (NameLevelResult.bNeedsCorrection || ProgressionResult.bNeedsCorrection)
+    {
+        FValidationResult CombinedResult;
+        CombinedResult.Corrections.Append(NameLevelResult.Corrections);
+        CombinedResult.Corrections.Append(ProgressionResult.Corrections);
+        CombinedResult.bNeedsCorrection = true;
+        FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(Asset, CombinedResult);
+    }
 
     // Chama HandleLevelInClassChange para processar mudanças de nível (ajustar Progression, etc.)
     HandleLevelInClassChange(Asset);
@@ -481,8 +521,12 @@ void FCharacterSheetDataAssetHandlers::HandleProgressionChange(UCharacterSheetDa
     // RAII Guard: gerencia bIsValidatingProperties automaticamente
     FValidationGuard Guard(Asset);
 
-    // Protocolo de validação: delega para Validators
-    FCharacterSheetDataAssetValidators::ValidateMulticlassProgression(Asset);
+    // Protocolo de validação: valida e aplica correções
+    FValidationResult ProgressionResult = FCharacterSheetDataAssetValidators::ValidateMulticlassProgression(Asset);
+    if (ProgressionResult.bNeedsCorrection)
+    {
+        FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(Asset, ProgressionResult);
+    }
     Asset->Modify(); // Marca objeto como modificado após validação
 }
 

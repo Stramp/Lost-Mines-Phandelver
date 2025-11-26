@@ -185,6 +185,22 @@ struct MYPROJECT2_API FMulticlassClassData
     int32 LevelInClass = 0;
 
     /**
+     * Flag calculada: indica se Progression pode ser editado.
+     * true se Name != NAME_None E LevelInClass > 0, false caso contrário.
+     * Usado para desabilitar botão "+" do array Progression no editor.
+     */
+    UPROPERTY(meta = (Hidden))
+    bool bCanEditProgression = false;
+
+    /**
+     * Flag calculada: indica se Proficiencies pode ser editado.
+     * true se Name != NAME_None E LevelInClass > 0, false caso contrário.
+     * Usado para desabilitar botão "+" do array Proficiencies no editor.
+     */
+    UPROPERTY(meta = (Hidden))
+    bool bCanEditProficiencies = false;
+
+    /**
      * Requisitos de atributo para multiclasse nesta classe.
      * Formato: ["STR/13", "DEX/13"] para AND, ou ["STR/13|DEX/13"] para OR.
      * Exemplos:
@@ -198,11 +214,13 @@ struct MYPROJECT2_API FMulticlassClassData
     TArray<FString> MulticlassRequirements;
 
     /** Proficiências da classe (armas, armaduras, saving throws, skills) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    UPROPERTY(HideEditConditionToggle, EditAnywhere, BlueprintReadWrite, Category = "Class",
+              meta = (EditCondition = "bCanEditProficiencies", EditConditionHides))
     TArray<FMulticlassProficienciesEntry> Proficiencies;
 
     /** Progressão de features por nível (do nível 1 ao 20) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    UPROPERTY(HideEditConditionToggle, EditAnywhere, BlueprintReadWrite, Category = "Class",
+              meta = (EditCondition = "bCanEditProgression", EditConditionHides))
     TArray<FMulticlassProgressEntry> Progression;
 
     FMulticlassClassData() : Name(NAME_None) {}

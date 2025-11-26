@@ -3,64 +3,106 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CharacterSheetDataAssetValidationResult.h"
 
 // Forward declaration
 class UCharacterSheetDataAsset;
 
 /**
  * Validators for CharacterSheetDataAsset.
- * Handles all validation logic for character sheet data.
+ * Responsabilidade única: VALIDAR e retornar correções necessárias.
+ * NÃO aplica correções diretamente - isso é responsabilidade do CorrectionApplier.
  */
 class MYPROJECT2_API FCharacterSheetDataAssetValidators
 {
 public:
-    /**
-     * Validates Variant Human choices.
-     * Orchestrates validation of ability scores, feat, and skill.
-     */
-    static void ValidateVariantHumanChoices(UCharacterSheetDataAsset *Asset);
+    // ============================================================================
+    // Boot Protocol - Complete Validation
+    // ============================================================================
 
     /**
-     * Validates Variant Human ability score choices.
-     * Ensures CustomAbilityScoreChoices has exactly 2 valid elements.
+     * Protocolo de validação completo para boot (PostLoad).
+     * Valida todas as áreas e retorna todas as correções necessárias.
+     *
+     * @param Asset Data Asset a validar
+     * @return Resultado com todas as correções necessárias
      */
-    static void ValidateVariantHumanAbilityScoreChoices(UCharacterSheetDataAsset *Asset);
+    static FValidationResult ValidateAll(UCharacterSheetDataAsset *Asset);
+
+    // ============================================================================
+    // Variant Human Validation
+    // ============================================================================
 
     /**
-     * Validates Variant Human selected feat.
-     * Ensures SelectedFeat is available and valid.
+     * Valida todas as escolhas de Variant Human.
+     * Retorna correções necessárias.
+     *
+     * @param Asset Data Asset a validar
+     * @return Resultado com correções necessárias
      */
-    static void ValidateVariantHumanFeat(UCharacterSheetDataAsset *Asset);
+    static FValidationResult ValidateVariantHumanChoices(const UCharacterSheetDataAsset *Asset);
 
     /**
-     * Validates Variant Human selected skill.
-     * Ensures SelectedSkill is valid.
+     * Valida escolhas de ability scores para Variant Human.
+     * Retorna correções necessárias.
+     *
+     * @param Asset Data Asset a validar
+     * @return Resultado com correções necessárias
      */
-    static void ValidateVariantHumanSkill(UCharacterSheetDataAsset *Asset);
+    static FValidationResult ValidateVariantHumanAbilityScoreChoices(const UCharacterSheetDataAsset *Asset);
 
     /**
-     * Validates language choices.
-     * Ensures SelectedLanguages count doesn't exceed MaxLanguageChoices.
+     * Valida seleção de feat para Variant Human.
+     * Retorna correções necessárias.
+     *
+     * @param Asset Data Asset a validar
+     * @return Resultado com correções necessárias
      */
-    static void ValidateLanguageChoices(UCharacterSheetDataAsset *Asset);
+    static FValidationResult ValidateVariantHumanFeat(const UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Valida seleção de skill para Variant Human.
+     * Retorna correções necessárias.
+     *
+     * @param Asset Data Asset a validar
+     * @return Resultado com correções necessárias
+     */
+    static FValidationResult ValidateVariantHumanSkill(const UCharacterSheetDataAsset *Asset);
+
+    // ============================================================================
+    // Language Choices Validation
+    // ============================================================================
+
+    /**
+     * Valida escolhas de idiomas.
+     * Retorna correções necessárias.
+     *
+     * @param Asset Data Asset a validar
+     * @return Resultado com correções necessárias
+     */
+    static FValidationResult ValidateLanguageChoices(const UCharacterSheetDataAsset *Asset);
 
     // ============================================================================
     // Multiclass Validation
     // ============================================================================
 
     /**
-     * Validates and corrects consistency between Name and LevelInClass in Multiclass entries.
-     * Rule: If Name == NAME_None, LevelInClass must be 0.
+     * Valida consistência entre Name e LevelInClass em entradas de multiclasse.
+     * Regra: Se Name == NAME_None, LevelInClass deve ser 0.
+     * Retorna correções necessárias.
      *
-     * @param Asset Data Asset to validate
+     * @param Asset Data Asset a validar
+     * @return Resultado com correções necessárias
      */
-    static void ValidateMulticlassNameLevelConsistency(UCharacterSheetDataAsset *Asset);
+    static FValidationResult ValidateMulticlassNameLevelConsistency(const UCharacterSheetDataAsset *Asset);
 
     /**
-     * Validates and clears Progression array if invalid in Multiclass entries.
-     * Clears Progression if Name == NAME_None or LevelInClass == 0.
+     * Valida array Progression em entradas de multiclasse.
+     * Regra: Progression deve estar vazio se Name == NAME_None ou LevelInClass == 0.
+     * Retorna correções necessárias.
      *
-     * @param Asset Data Asset to validate
+     * @param Asset Data Asset a validar
+     * @return Resultado com correções necessárias
      */
-    static void ValidateMulticlassProgression(UCharacterSheetDataAsset *Asset);
+    static FValidationResult ValidateMulticlassProgression(const UCharacterSheetDataAsset *Asset);
 };
