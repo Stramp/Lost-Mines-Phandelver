@@ -52,12 +52,12 @@ public:
 
     /**
      * Handles changes to LevelInClass in Multiclass array.
-     * Logs the new level value when changed.
+     * Ajusta o array Progression e processa features ganhas no nível correspondente.
      */
     static void HandleLevelInClassChange(UCharacterSheetDataAsset *Asset);
 
     /**
-     * Handles changes to ClassData.FClass.Name in Multiclass array.
+     * Handles changes to ClassData.Name in Multiclass array.
      * Resets the field to NAME_None if the selected class has a requirement tag (starts with "[").
      */
     static void HandleMulticlassClassNameChange(UCharacterSheetDataAsset *Asset);

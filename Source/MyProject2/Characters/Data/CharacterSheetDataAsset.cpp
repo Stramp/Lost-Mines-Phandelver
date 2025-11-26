@@ -70,19 +70,19 @@ namespace
         // Propriedades aninhadas em Multiclass array
         // Verifica se MemberProperty é Multiclass OU se Property é LevelInClass/Name diretamente
         if (MemberPropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, Multiclass) ||
-            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassEntry, LevelInClass) ||
-            PropertyName == GET_MEMBER_NAME_CHECKED(FClassData, Name))
+            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass) ||
+            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name))
         {
-            // LevelInClass dentro de Multiclass
-            if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassEntry, LevelInClass))
+            // LevelInClass dentro de ClassData dentro de Multiclass
+            if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass))
             {
-                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassEntry, LevelInClass);
+                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass);
                 return true;
             }
-            // Name dentro de ClassData.FClass dentro de Multiclass
-            else if (PropertyName == GET_MEMBER_NAME_CHECKED(FClassData, Name))
+            // Name dentro de ClassData dentro de Multiclass
+            else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name))
             {
-                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FClassData, Name);
+                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name);
                 return true;
             }
         }
@@ -238,6 +238,5 @@ void UCharacterSheetDataAsset::SetValidatingProperties(bool bValidating) { bIsVa
 bool UCharacterSheetDataAsset::IsValidatingProperties() const { return bIsValidatingProperties; }
 
 #pragma endregion Validation Helpers
-
 
 #endif // WITH_EDITOR

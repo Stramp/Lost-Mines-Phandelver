@@ -52,9 +52,9 @@ void FCharacterSheetDataAssetInitializers::InitializeAllPropertyHandlers(UCharac
 void FCharacterSheetDataAssetInitializers::InitializeRaceHandlers(UCharacterSheetDataAsset *Asset)
 {
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedRace),
-                                 FCharacterSheetDataAssetHandlers::HandleSelectedRaceWrapper);
+                                FCharacterSheetDataAssetHandlers::HandleSelectedRaceWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSubrace),
-                                 FCharacterSheetDataAssetHandlers::HandleSelectedSubraceWrapper);
+                                FCharacterSheetDataAssetHandlers::HandleSelectedSubraceWrapper);
 }
 
 #pragma endregion Race Handlers Initialization
@@ -67,17 +67,17 @@ void FCharacterSheetDataAssetInitializers::InitializeRaceHandlers(UCharacterShee
 void FCharacterSheetDataAssetInitializers::InitializePointBuyHandlers(UCharacterSheetDataAsset *Asset)
 {
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyStrength),
-                                 FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
+                                FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyDexterity),
-                                 FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
+                                FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyConstitution),
-                                 FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
+                                FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyIntelligence),
-                                 FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
+                                FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyWisdom),
-                                 FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
+                                FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyCharisma),
-                                 FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
+                                FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationWrapper);
 }
 
 #pragma endregion Point Buy Handlers Initialization
@@ -90,7 +90,7 @@ void FCharacterSheetDataAssetInitializers::InitializePointBuyHandlers(UCharacter
 void FCharacterSheetDataAssetInitializers::InitializeBackgroundHandlers(UCharacterSheetDataAsset *Asset)
 {
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground),
-                                 FCharacterSheetDataAssetHandlers::HandleSelectedBackgroundWrapper);
+                                FCharacterSheetDataAssetHandlers::HandleSelectedBackgroundWrapper);
 }
 
 #pragma endregion Background Handlers Initialization
@@ -103,11 +103,11 @@ void FCharacterSheetDataAssetInitializers::InitializeBackgroundHandlers(UCharact
 void FCharacterSheetDataAssetInitializers::InitializeVariantHumanHandlers(UCharacterSheetDataAsset *Asset)
 {
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices),
-                                 FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
+                                FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedFeat),
-                                 FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
+                                FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSkill),
-                                 FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
+                                FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper);
 }
 
 #pragma endregion Variant Human Handlers Initialization
@@ -120,7 +120,7 @@ void FCharacterSheetDataAssetInitializers::InitializeVariantHumanHandlers(UChara
 void FCharacterSheetDataAssetInitializers::InitializeLanguageHandlers(UCharacterSheetDataAsset *Asset)
 {
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedLanguages),
-                                 FCharacterSheetDataAssetHandlers::HandleLanguageChoicesWrapper);
+                                FCharacterSheetDataAssetHandlers::HandleLanguageChoicesWrapper);
 }
 
 #pragma endregion Language Handlers Initialization
@@ -133,13 +133,13 @@ void FCharacterSheetDataAssetInitializers::InitializeLanguageHandlers(UCharacter
 void FCharacterSheetDataAssetInitializers::InitializeDataTableHandlers(UCharacterSheetDataAsset *Asset)
 {
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable),
-                                 FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
+                                FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, BackgroundDataTable),
-                                 FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
+                                FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, FeatDataTable),
-                                 FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
+                                FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable),
-                                 FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
+                                FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
 }
 
 #pragma endregion Data Table Handlers Initialization
@@ -151,10 +151,10 @@ void FCharacterSheetDataAssetInitializers::InitializeDataTableHandlers(UCharacte
 
 void FCharacterSheetDataAssetInitializers::InitializeMulticlassHandlers(UCharacterSheetDataAsset *Asset)
 {
-    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FMulticlassEntry, LevelInClass),
-                                 FCharacterSheetDataAssetHandlers::HandleLevelInClassWrapper);
-    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FClassData, Name),
-                                 FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameWrapper);
+    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass),
+                                FCharacterSheetDataAssetHandlers::HandleLevelInClassWrapper);
+    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name),
+                                FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameWrapper);
 }
 
 #pragma endregion Multiclass Handlers Initialization

@@ -22,6 +22,7 @@
 // Project includes - CreateSheet
 #include "CreateSheet/PointBuy/PointBuyValidator.h"
 #include "CreateSheet/Multiclass/MulticlassHelpers.h"
+#include "CreateSheet/Multiclass/MulticlassMotor.h"
 
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
@@ -130,11 +131,11 @@ namespace
      */
     bool ResetClassWithRequirementTag(FMulticlassEntry &Entry, int32 Index)
     {
-        FString ClassName = Entry.ClassData.FClass.Name.ToString();
+        FString ClassName = Entry.ClassData.Name.ToString();
 
         if (ClassName.StartsWith(TEXT("[")))
         {
-            Entry.ClassData.FClass.Name = NAME_None;
+            Entry.ClassData.Name = NAME_None;
             UE_LOG(LogTemp, Warning, TEXT("Multiclass[%d] - Classe com tag de requerimento resetada: %s"), Index,
                    *ClassName);
             return true;
@@ -179,7 +180,7 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
 
     // Bônus raciais mudam quando raça/sub-raça muda
     // Usa Core genérico via helper do Data Asset (aplica todos os motores)
-        FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(Asset);
+    FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(Asset);
 
     // Escolhas de idiomas podem mudar quando raça/sub-raça muda
     FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(Asset);
@@ -213,7 +214,7 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacter
 
     // Motor de Point Buy: aplica alocação nos Final Scores
     // Usa Core genérico via helper do Data Asset (aplica todos os motores)
-        FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(Asset);
+    FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(Asset);
 
     // Valida Point Buy system (calcula PointsRemaining)
     FPointBuyValidator::ValidatePointBuy(Asset);
@@ -310,7 +311,7 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
 
     // Recalcula bônus raciais (Custom ASI afeta bônus)
     // Usa Core genérico via helper do Data Asset (aplica todos os motores)
-        FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(Asset);
+    FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(Asset);
 
     // Recalcula proficiências (SelectedSkill do Variant Human afeta proficiências)
     FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
@@ -355,38 +356,56 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
 
 /**
  * Processa mudanças em LevelInClass dentro do array Multiclass.
- * Ajusta o tamanho do array Progression para corresponder ao LevelInClass.
- * Loga todos os níveis de classe quando LevelInClass mudar.
+ * Ajusta o array Progression e processa features ganhas no nível correspondente.
  */
 void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetDataAsset *Asset)
 {
-    LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassEntry, LevelInClass));
-
     if (!ValidateAsset(Asset))
     {
         return;
     }
 
-    // NÃO usa ValidationGuard aqui para não bloquear a mudança do campo
-    // O ValidationGuard bloqueia PostEditChangeProperty, o que impede a mudança de ser processada
-
-    // Marca objeto como modificado antes de alterar arrays
+    // Marca objeto como modificado
     Asset->Modify();
 
-    // Ajusta o tamanho do array Progression para todas as entradas de multiclasse
-    const int32 AdjustedCount = FMulticlassHelpers::AdjustAllMulticlassProgressionArrays(Asset);
+    // Processa mudanças de nível para todas as entradas de multiclasse
+    for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+    {
+        FMulticlassEntry &Entry = Asset->Multiclass[i];
+        const FName ClassName = Entry.ClassData.Name;
+        int32 LevelInClass = Entry.ClassData.LevelInClass;
 
-    // Log final indicando que o processo foi concluído
-    UE_LOG(LogTemp, Warning, TEXT("pronto adicionei - %d entrada(s) de multiclasse ajustada(s)"), AdjustedCount);
+        // Se LevelInClass mudou, ajusta o array Progression
+        TArray<FMulticlassProgressEntry> &Progression = Entry.ClassData.Progression;
+        if (LevelInClass >= 1 && LevelInClass <= 20)
+        {
+            Progression.SetNum(LevelInClass);
+            // Garante que cada elemento tenha o Level correto (1-based)
+            for (int32 j = 0; j < Progression.Num(); ++j)
+            {
+                Progression[j].Level = j + 1;
+            }
+        }
+        else
+        {
+            // Se LevelInClass inválido, usa tamanho do array
+            LevelInClass = Progression.Num();
+        }
+
+        if (ClassName != NAME_None && LevelInClass > 0 && Asset->ClassDataTable)
+        {
+            FMulticlassMotor::ProcessLevelChange(ClassName, LevelInClass, Asset->ClassDataTable);
+        }
+    }
 }
 
 /**
- * Processa mudanças em ClassData.FClass.Name dentro do array Multiclass.
+ * Processa mudanças em ClassData.Name dentro do array Multiclass.
  * Reseta o campo para NAME_None se a classe selecionada tiver tag de requerimento (começa com "[").
  */
 void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacterSheetDataAsset *Asset)
 {
-    LogPropertyChange(GET_MEMBER_NAME_CHECKED(FClassData, Name));
+    LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name));
 
     if (!ValidateAsset(Asset))
     {

@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "Data/Tables/ClassDataTable.h"
 #include "CharacterSheetDataAsset.generated.h"
 
 // ============================================================================
@@ -14,30 +13,156 @@
 class UDataTable;
 
 // ============================================================================
-// Class Declaration
+// Multiclass Structures
 // ============================================================================
 
-// No CharacterSheetDataAsset.h ou em um arquivo separado
+// ============================================================================
+// Multiclass Skills Struct
+// ============================================================================
+
+/**
+ * Struct para armazenar informações de skills disponíveis em multiclasse.
+ * Usado dentro de FMulticlassProficienciesEntry para definir escolhas de skills.
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FMulticlassSkills
+{
+    GENERATED_BODY()
+
+    /** Lista de skills disponíveis para escolha */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills")
+    TArray<FName> available;
+
+    /** Quantidade de skills que podem ser escolhidos */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills")
+    int32 qtdAvailable;
+};
+
+// ============================================================================
+// Multiclass Proficiencies Struct
+// ============================================================================
+
+/**
+ * Struct para armazenar proficiências de classe em multiclasse seguindo a estrutura do DJ_Class.json.
+ * Cada elemento do array contém um objeto com armas, armaduras, savingThrows ou FMulticlassSkills.
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FMulticlassProficienciesEntry
+{
+    GENERATED_BODY()
+
+    /** Lista de armas (pode estar vazia) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
+    TArray<FName> armas;
+
+    /** Lista de armaduras (pode estar vazia) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
+    TArray<FName> armaduras;
+
+    /** Lista de saving throws (pode estar vazia) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
+    TArray<FName> savingThrows;
+
+    /** Informações de skills (pode estar vazia) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
+    FMulticlassSkills FSkills;
+
+    FMulticlassProficienciesEntry() {}
+};
+
+// ============================================================================
+// Multiclass Progress Struct
+// ============================================================================
+
+/**
+ * Struct para armazenar uma entrada de progressão por nível em multiclasse.
+ * Segue a estrutura do DJ_Class.json.
+ * Define quais features são desbloqueadas em cada nível da classe.
+ */
+USTRUCT(BlueprintType, meta = (DisplayName = "Nível"))
+struct MYPROJECT2_API FMulticlassProgressEntry
+{
+    GENERATED_BODY()
+
+    /** Nível da classe (editável no editor) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress", meta = (ClampMin = "1", ClampMax = "20"))
+    int32 Level = 1;
+
+    /** Lista de features desbloqueadas neste nível */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress")
+    TArray<FName> Features;
+
+    FMulticlassProgressEntry() : Level(1) {}
+};
+
+// ============================================================================
+// Multiclass Class Data Struct
+// ============================================================================
+
+/**
+ * Struct principal para dados de classe em multiclasse seguindo a estrutura do DJ_Class.json.
+ * Contém todas as informações de uma classe D&D 5e.
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FMulticlassClassData
+{
+    GENERATED_BODY()
+
+    /** Nome da classe (ex: "Fighter", "Wizard", "Cleric", "Rogue") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class", meta = (GetOptions = "GetListClassAvaible"))
+    FName Name;
+
+    /** Nível da classe (editável no editor) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress", meta = (ClampMin = "1", ClampMax = "20"))
+    int32 LevelInClass = 1;
+
+    /**
+     * Requisitos de atributo para multiclasse nesta classe.
+     * Formato: ["STR/13", "DEX/13"] para AND, ou ["STR/13|DEX/13"] para OR.
+     * Exemplos:
+     * - Fighter: ["STR/13|DEX/13"] (STR 13 OU DEX 13)
+     * - Monk: ["DEX/13", "WIS/13"] (DEX 13 E WIS 13)
+     * - Wizard: ["INT/13"] (INT 13)
+     *
+     * Campo somente leitura: definido no JSON, não editável no editor.
+     */
+    UPROPERTY(BlueprintReadOnly, Category = "Class", meta = (Hidden))
+    TArray<FString> MulticlassRequirements;
+
+    /** Proficiências da classe (armas, armaduras, saving throws, skills) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FMulticlassProficienciesEntry> Proficiencies;
+
+    /** Progressão de features por nível (do nível 1 ao 20) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FMulticlassProgressEntry> Progression;
+
+    FMulticlassClassData() : Name(NAME_None) {}
+};
+
+// ============================================================================
+// Multiclass Entry Struct
+// ============================================================================
 
 /**
  * Struct para armazenar informações de multiclasse.
- * Contém FClassDataRow (dados da classe) + propriedades extras específicas de multiclasse.
+ * Contém FMulticlassClassData (dados da classe) diretamente.
  */
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FMulticlassEntry
 {
     GENERATED_BODY()
 
-    /** Nível nesta classe (ex: Fighter 3, Wizard 2) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Multiclass", meta = (ClampMin = "1", ClampMax = "20"))
-    int32 LevelInClass = 1;
-
-    /** Dados da classe (do ClassDataTable) */
+    /** Dados da classe (estrutura completa e independente) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Multiclass")
-    FClassDataRow ClassData;
+    FMulticlassClassData ClassData;
 
-    FMulticlassEntry() : LevelInClass(1) {}
+    FMulticlassEntry() {}
 };
+
+// ============================================================================
+// Class Declaration
+// ============================================================================
 
 /**
  * Data Asset para ficha de personagem D&D 5e.
@@ -122,7 +247,6 @@ public:
     // ============================================================================
     // Helper Methods
     // ============================================================================
-
 
     virtual void PostEditChangeProperty(FPropertyChangedEvent &PropertyChangedEvent) override;
 
@@ -395,7 +519,6 @@ protected:
     // Editor-Only Private Methods
     // ============================================================================
 private:
-
     /** Inicializa o map de handlers (chamado no construtor e PostLoad) */
     void InitializePropertyHandlers();
 
