@@ -14,6 +14,7 @@
 
 // Project includes - Data Tables
 #include "Data/Tables/ClassDataTable.h"
+#include "Data/Tables/ProficiencyDataTable.h"
 
 // Project includes - Utils
 #include "Utils/DataTableHelpers.h"
@@ -106,14 +107,71 @@ bool FMulticlassHelpers::CanProcessProgression(FName ClassName, int32 LevelInCla
 // ============================================================================
 #pragma region Proficiencies Conversion
 
-FMulticlassProficienciesEntry FMulticlassHelpers::ConvertProficienciesEntry(const FProficienciesEntry &SourceEntry)
+namespace
+{
+    /**
+     * Resolve array de IDs de proficiências para nomes legíveis.
+     * Helper local puro e testável.
+     *
+     * @param ProficiencyIDs Array de IDs de proficiências (ex: ["PW_Simple_Weapons"])
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
+     * @return Array com nomes legíveis (ex: ["Simple Weapons"]) ou IDs originais se não encontrado
+     */
+    TArray<FName> ResolveProficiencyIDsToNames(const TArray<FName> &ProficiencyIDs,
+                                               const UDataTable *ProficiencyDataTable)
+    {
+        TArray<FName> ResolvedNames;
+
+        if (!ProficiencyDataTable)
+        {
+            // Se não há tabela, retorna IDs originais
+            return ProficiencyIDs;
+        }
+
+        UDataTable *NonConstTable = const_cast<UDataTable *>(ProficiencyDataTable);
+
+        for (const FName &ProficiencyID : ProficiencyIDs)
+        {
+            if (ProficiencyID == NAME_None)
+            {
+                continue;
+            }
+
+            // Busca proficiência na tabela pelo ID
+            const FProficiencyDataRow *ProficiencyRow =
+                DataTableHelpers::FindProficiencyRowByID(ProficiencyID, NonConstTable);
+
+            if (ProficiencyRow && ProficiencyRow->Name != NAME_None)
+            {
+                // Usa nome legível se encontrado
+                ResolvedNames.Add(ProficiencyRow->Name);
+            }
+            else
+            {
+                // Fallback: usa ID original se não encontrado na tabela
+                ResolvedNames.Add(ProficiencyID);
+            }
+        }
+
+        return ResolvedNames;
+    }
+} // namespace
+
+FMulticlassProficienciesEntry FMulticlassHelpers::ConvertProficienciesEntry(const FProficienciesEntry &SourceEntry,
+                                                                            const UDataTable *ProficiencyDataTable)
 {
     FMulticlassProficienciesEntry Result;
-    Result.armas = SourceEntry.armas;
-    Result.armaduras = SourceEntry.armaduras;
+
+    // Resolve IDs de armas para nomes legíveis
+    Result.armas = ResolveProficiencyIDsToNames(SourceEntry.armas, ProficiencyDataTable);
+
+    // Resolve IDs de armaduras para nomes legíveis
+    Result.armaduras = ResolveProficiencyIDsToNames(SourceEntry.armaduras, ProficiencyDataTable);
+
+    // Saving throws não precisam resolução (já são nomes de atributos)
     Result.savingThrows = SourceEntry.savingThrows;
 
-    // Converte FSkills para FMulticlassSkills
+    // Skills não precisam resolução (já são nomes de skills)
     Result.FSkills.available = SourceEntry.FSkills.available;
     Result.FSkills.qtdAvailable = SourceEntry.FSkills.qtdAvailable;
 
@@ -122,6 +180,36 @@ FMulticlassProficienciesEntry FMulticlassHelpers::ConvertProficienciesEntry(cons
     Result.FSkills.InitialQtdAvailable = SourceEntry.FSkills.qtdAvailable;
 
     return Result;
+}
+
+FMulticlassProficienciesEntry FMulticlassHelpers::ConvertProficienciesEntryIDs(const FProficienciesEntry &SourceEntry)
+{
+    FMulticlassProficienciesEntry Result;
+
+    // Mantém IDs originais de armas
+    Result.armas = SourceEntry.armas;
+
+    // Mantém IDs originais de armaduras
+    Result.armaduras = SourceEntry.armaduras;
+
+    // Saving throws mantidos como estão
+    Result.savingThrows = SourceEntry.savingThrows;
+
+    // Skills mantidos como estão
+    Result.FSkills.available = SourceEntry.FSkills.available;
+    Result.FSkills.qtdAvailable = SourceEntry.FSkills.qtdAvailable;
+
+    // Armazena estado inicial para cálculo dinâmico de qtdAvailable
+    Result.FSkills.InitialAvailableCount = SourceEntry.FSkills.available.Num();
+    Result.FSkills.InitialQtdAvailable = SourceEntry.FSkills.qtdAvailable;
+
+    return Result;
+}
+
+FMulticlassProficienciesEntry FMulticlassHelpers::ConvertProficienciesEntryRaw(const FProficienciesEntry &SourceEntry)
+{
+    // Retorna objeto completo preservando toda estrutura original
+    return ConvertProficienciesEntryIDs(SourceEntry);
 }
 
 #pragma endregion Proficiencies Conversion

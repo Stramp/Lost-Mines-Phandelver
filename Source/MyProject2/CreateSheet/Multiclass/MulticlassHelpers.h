@@ -42,13 +42,36 @@ public:
     static bool CanProcessProgression(FName ClassName, int32 LevelInClass);
 
     /**
-     * Converte FProficienciesEntry (tabela) para FMulticlassProficienciesEntry (Data Asset).
+     * Converte FProficienciesEntry (tabela) para FMulticlassProficienciesEntry (Data Asset) retornando nomes legíveis.
+     * Resolve IDs de proficiências (ex: "PW_Simple_Weapons") para nomes legíveis (ex: "Simple Weapons").
      * Helper puro e testável para conversão de estruturas de proficiências.
      *
      * @param SourceEntry Entry da tabela
-     * @return Entry convertida para Data Asset
+     * @param ProficiencyDataTable Data Table de proficiências para resolver IDs (pode ser nullptr)
+     * @return Entry convertida para Data Asset com nomes legíveis
      */
-    static FMulticlassProficienciesEntry ConvertProficienciesEntry(const FProficienciesEntry &SourceEntry);
+    static FMulticlassProficienciesEntry ConvertProficienciesEntry(const FProficienciesEntry &SourceEntry,
+                                                                   const UDataTable *ProficiencyDataTable);
+
+    /**
+     * Converte FProficienciesEntry (tabela) para FMulticlassProficienciesEntry (Data Asset) retornando IDs.
+     * Mantém IDs originais (ex: "PW_Simple_Weapons") sem resolução.
+     * Helper puro e testável para conversão de estruturas de proficiências.
+     *
+     * @param SourceEntry Entry da tabela
+     * @return Entry convertida para Data Asset com IDs originais
+     */
+    static FMulticlassProficienciesEntry ConvertProficienciesEntryIDs(const FProficienciesEntry &SourceEntry);
+
+    /**
+     * Converte FProficienciesEntry (tabela) para FMulticlassProficienciesEntry (Data Asset) retornando objeto completo.
+     * Retorna objeto completo com todos os campos preservados.
+     * Helper puro e testável para conversão de estruturas de proficiências.
+     *
+     * @param SourceEntry Entry da tabela
+     * @return Entry convertida para Data Asset com estrutura completa
+     */
+    static FMulticlassProficienciesEntry ConvertProficienciesEntryRaw(const FProficienciesEntry &SourceEntry);
 
     /**
      * Valida parâmetros de entrada para carregamento de proficiências.

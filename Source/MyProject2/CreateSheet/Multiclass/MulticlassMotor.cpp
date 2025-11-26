@@ -118,6 +118,7 @@ void FMulticlassMotor::ProcessLevelChange(FName ClassName, int32 LevelInClass, c
 #pragma region Load Class Proficiencies
 
 bool FMulticlassMotor::LoadClassProficiencies(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
+                                              const UDataTable *ProficiencyDataTable,
                                               TArray<FMulticlassProficienciesEntry> &OutProficiencies)
 {
     // Limpa array de saída
@@ -140,10 +141,11 @@ bool FMulticlassMotor::LoadClassProficiencies(FName ClassName, int32 LevelInClas
         return false;
     }
 
-    // Converte todas as proficiências da classe
+    // Converte todas as proficiências da classe (resolve IDs para nomes legíveis)
     for (const FProficienciesEntry &SourceEntry : ClassRow->FClass.Proficiencies)
     {
-        FMulticlassProficienciesEntry ConvertedEntry = FMulticlassHelpers::ConvertProficienciesEntry(SourceEntry);
+        FMulticlassProficienciesEntry ConvertedEntry =
+            FMulticlassHelpers::ConvertProficienciesEntry(SourceEntry, ProficiencyDataTable);
         OutProficiencies.Add(ConvertedEntry);
     }
 
@@ -152,6 +154,88 @@ bool FMulticlassMotor::LoadClassProficiencies(FName ClassName, int32 LevelInClas
     {
         UE_LOG(LogTemp, Warning,
                TEXT("FMulticlassMotor::LoadClassProficiencies - Classe = %s, Proficiências carregadas = %d"),
+               *ClassName.ToString(), OutProficiencies.Num());
+    }
+
+    return true;
+}
+
+bool FMulticlassMotor::LoadClassProficienciesIDs(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
+                                                 TArray<FMulticlassProficienciesEntry> &OutProficiencies)
+{
+    // Limpa array de saída
+    OutProficiencies.Empty();
+
+    // Validação de entrada (guard clauses)
+    if (!FMulticlassHelpers::ValidateLoadProficienciesInputs(ClassName, LevelInClass, ClassDataTable))
+    {
+        return false;
+    }
+
+    // Busca dados da classe na tabela
+    UDataTable *NonConstTable = const_cast<UDataTable *>(ClassDataTable);
+    const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
+    if (!ClassRow)
+    {
+        UE_LOG(LogTemp, Warning,
+               TEXT("FMulticlassMotor::LoadClassProficienciesIDs - Classe '%s' não encontrada na tabela"),
+               *ClassName.ToString());
+        return false;
+    }
+
+    // Converte todas as proficiências da classe (mantém IDs originais)
+    for (const FProficienciesEntry &SourceEntry : ClassRow->FClass.Proficiencies)
+    {
+        FMulticlassProficienciesEntry ConvertedEntry = FMulticlassHelpers::ConvertProficienciesEntryIDs(SourceEntry);
+        OutProficiencies.Add(ConvertedEntry);
+    }
+
+    // Log quando proficiências são carregadas (ponto chave)
+    if (OutProficiencies.Num() > 0)
+    {
+        UE_LOG(LogTemp, Warning,
+               TEXT("FMulticlassMotor::LoadClassProficienciesIDs - Classe = %s, Proficiências carregadas = %d"),
+               *ClassName.ToString(), OutProficiencies.Num());
+    }
+
+    return true;
+}
+
+bool FMulticlassMotor::LoadClassProficienciesRaw(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
+                                                 TArray<FMulticlassProficienciesEntry> &OutProficiencies)
+{
+    // Limpa array de saída
+    OutProficiencies.Empty();
+
+    // Validação de entrada (guard clauses)
+    if (!FMulticlassHelpers::ValidateLoadProficienciesInputs(ClassName, LevelInClass, ClassDataTable))
+    {
+        return false;
+    }
+
+    // Busca dados da classe na tabela
+    UDataTable *NonConstTable = const_cast<UDataTable *>(ClassDataTable);
+    const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
+    if (!ClassRow)
+    {
+        UE_LOG(LogTemp, Warning,
+               TEXT("FMulticlassMotor::LoadClassProficienciesRaw - Classe '%s' não encontrada na tabela"),
+               *ClassName.ToString());
+        return false;
+    }
+
+    // Converte todas as proficiências da classe (retorna objeto completo)
+    for (const FProficienciesEntry &SourceEntry : ClassRow->FClass.Proficiencies)
+    {
+        FMulticlassProficienciesEntry ConvertedEntry = FMulticlassHelpers::ConvertProficienciesEntryRaw(SourceEntry);
+        OutProficiencies.Add(ConvertedEntry);
+    }
+
+    // Log quando proficiências são carregadas (ponto chave)
+    if (OutProficiencies.Num() > 0)
+    {
+        UE_LOG(LogTemp, Warning,
+               TEXT("FMulticlassMotor::LoadClassProficienciesRaw - Classe = %s, Proficiências carregadas = %d"),
                *ClassName.ToString(), OutProficiencies.Num());
     }
 

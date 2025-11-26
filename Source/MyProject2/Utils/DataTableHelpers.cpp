@@ -5,6 +5,7 @@
 #include "Data/Tables/ClassDataTable.h"
 #include "Data/Tables/FeatDataTable.h"
 #include "Data/Tables/BackgroundDataTable.h"
+#include "Data/Tables/ProficiencyDataTable.h"
 
 // ============================================================================
 // Race Data Table Helpers
@@ -174,4 +175,33 @@ FBackgroundDataRow *DataTableHelpers::FindBackgroundRow(FName BackgroundName, UD
     }
 
     return Row;
+}
+
+// ============================================================================
+// Proficiency Data Table Helpers
+// ============================================================================
+
+FProficiencyDataRow *DataTableHelpers::FindProficiencyRowByID(FName ProficiencyID, UDataTable *ProficiencyDataTable)
+{
+    if (!ProficiencyDataTable || ProficiencyID == NAME_None)
+    {
+        return nullptr;
+    }
+
+    // Busca manual O(n) comparando ProficiencyID de cada row
+    // (não podemos usar FindRow direto porque RowName pode ser diferente de ProficiencyID)
+    TArray<FName> RowNames = ProficiencyDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
+    {
+        if (FProficiencyDataRow *FoundRow =
+                ProficiencyDataTable->FindRow<FProficiencyDataRow>(RowName, TEXT("FindProficiencyRowByID")))
+        {
+            if (FoundRow->ProficiencyID == ProficiencyID)
+            {
+                return FoundRow;
+            }
+        }
+    }
+
+    return nullptr;
 }

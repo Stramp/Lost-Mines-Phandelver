@@ -11,6 +11,7 @@ struct FRaceDataRow;
 struct FClassDataRow;
 struct FFeatDataRow;
 struct FBackgroundDataRow;
+struct FProficiencyDataRow;
 
 /**
  * Funções helper para busca de rows em Data Tables com fallback manual.
@@ -89,4 +90,18 @@ namespace DataTableHelpers
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
     FBackgroundDataRow *FindBackgroundRow(FName BackgroundName, UDataTable *BackgroundDataTable);
+
+    // ============================================================================
+    // Proficiency Data Table Helpers
+    // ============================================================================
+
+    /**
+     * Busca row de proficiência no Data Table pelo ProficiencyID.
+     * Busca manual O(n) comparando ProficiencyID de cada row.
+     *
+     * @param ProficiencyID ID da proficiência para buscar (ex: "PW_Simple_Weapons")
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
+     * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
+     */
+    FProficiencyDataRow *FindProficiencyRowByID(FName ProficiencyID, UDataTable *ProficiencyDataTable);
 } // namespace DataTableHelpers

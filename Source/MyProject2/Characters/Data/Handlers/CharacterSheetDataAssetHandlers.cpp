@@ -393,11 +393,12 @@ void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacte
             FMulticlassHelpers::CanProcessProgression(Entry.ClassData.Name, Entry.ClassData.LevelInClass);
 
         // Carrega proficiências quando classe é escolhida e LevelInClass == 1
+        // Usa LoadClassProficiencies para obter nomes legíveis (padrão)
         if (ClassName != NAME_None && Entry.ClassData.LevelInClass == 1)
         {
             TArray<FMulticlassProficienciesEntry> LoadedProficiencies;
             if (FMulticlassMotor::LoadClassProficiencies(ClassName, Entry.ClassData.LevelInClass, Asset->ClassDataTable,
-                                                         LoadedProficiencies))
+                                                         Asset->ClassProficienciesDataTable, LoadedProficiencies))
             {
                 // Preenche array de proficiências com resultado do motor
                 Entry.ClassData.Proficiencies = LoadedProficiencies;

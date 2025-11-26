@@ -66,16 +66,46 @@ public:
     static void ProcessLevelChange(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable);
 
     /**
-     * Carrega proficiências de uma classe para multiclasse.
+     * Carrega proficiências de uma classe para multiclasse retornando nomes legíveis (PADRÃO).
      * Proficiências são ganhas apenas no nível 1 da classe.
-     * Busca na tabela e converte para estrutura do Data Asset.
+     * Resolve IDs de proficiências (ex: "PW_Simple_Weapons") para nomes legíveis (ex: "Simple Weapons").
      *
      * @param ClassName Nome da classe
      * @param LevelInClass Nível na classe (deve ser 1 para carregar proficiências)
      * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @param OutProficiencies [OUT] Array de proficiências carregadas (preenchido apenas se nível == 1)
+     * @param ProficiencyDataTable Data Table de proficiências para resolver IDs (pode ser nullptr)
+     * @param OutProficiencies [OUT] Array de proficiências carregadas com nomes legíveis
      * @return true se proficiências foram carregadas com sucesso, false caso contrário
      */
     static bool LoadClassProficiencies(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
+                                       const UDataTable *ProficiencyDataTable,
                                        TArray<FMulticlassProficienciesEntry> &OutProficiencies);
+
+    /**
+     * Carrega proficiências de uma classe para multiclasse retornando IDs originais.
+     * Proficiências são ganhas apenas no nível 1 da classe.
+     * Mantém IDs originais (ex: "PW_Simple_Weapons") sem resolução.
+     *
+     * @param ClassName Nome da classe
+     * @param LevelInClass Nível na classe (deve ser 1 para carregar proficiências)
+     * @param ClassDataTable Data Table de classes (pode ser nullptr)
+     * @param OutProficiencies [OUT] Array de proficiências carregadas com IDs originais
+     * @return true se proficiências foram carregadas com sucesso, false caso contrário
+     */
+    static bool LoadClassProficienciesIDs(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
+                                          TArray<FMulticlassProficienciesEntry> &OutProficiencies);
+
+    /**
+     * Carrega proficiências de uma classe para multiclasse retornando objeto completo/raw.
+     * Proficiências são ganhas apenas no nível 1 da classe.
+     * Retorna estrutura completa com todos os campos preservados.
+     *
+     * @param ClassName Nome da classe
+     * @param LevelInClass Nível na classe (deve ser 1 para carregar proficiências)
+     * @param ClassDataTable Data Table de classes (pode ser nullptr)
+     * @param OutProficiencies [OUT] Array de proficiências carregadas com estrutura completa
+     * @return true se proficiências foram carregadas com sucesso, false caso contrário
+     */
+    static bool LoadClassProficienciesRaw(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
+                                          TArray<FMulticlassProficienciesEntry> &OutProficiencies);
 };
