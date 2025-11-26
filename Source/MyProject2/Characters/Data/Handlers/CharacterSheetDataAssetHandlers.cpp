@@ -21,9 +21,13 @@
 
 // Project includes - CreateSheet
 #include "CreateSheet/PointBuy/PointBuyValidator.h"
+#include "CreateSheet/Multiclass/MulticlassMotor.h"
 
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
+
+// Project includes - Data Tables
+#include "Data/Tables/ClassDataTable.h"
 
 // Engine includes
 #include "Logging/LogMacros.h"
@@ -117,23 +121,6 @@ namespace
     }
 
     /**
-     * Loga todas as entradas de multiclasse com seus níveis.
-     * Extraído de HandleLevelInClassChange para manter função focada.
-     *
-     * @param Asset Asset do personagem
-     */
-    void LogAllMulticlassLevels(UCharacterSheetDataAsset *Asset)
-    {
-        for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
-        {
-            const FMulticlassEntry &Entry = Asset->Multiclass[i];
-            FString ClassName = GetFormattedClassName(Entry.ClassData.FClass.Name.ToString());
-            UE_LOG(LogTemp, Warning, TEXT("Multiclass[%d] - Class: %s, LevelInClass: %d"), i, *ClassName,
-                   Entry.LevelInClass);
-        }
-    }
-
-    /**
      * Reseta classe com tag de requerimento para NAME_None.
      * Extraído de HandleMulticlassClassNameChange para manter função focada.
      *
@@ -154,6 +141,70 @@ namespace
         }
 
         return false;
+    }
+
+    /**
+     * Ajusta o tamanho do array Progression para corresponder ao LevelInClass.
+     * Garante que cada elemento tenha o Level correto (1, 2, 3, etc.).
+     * Extraído para manter função focada e reutilizável.
+     *
+     * @param Entry Entrada de multiclasse a ajustar
+     * @return true se ajustou o array, false caso contrário
+     */
+    bool AdjustProgressionArraySize(FMulticlassEntry &Entry)
+    {
+        if (Entry.LevelInClass < 1 || Entry.LevelInClass > 20)
+        {
+            return false;
+        }
+
+        TArray<FProgressEntry> &Progression = Entry.ClassData.FClass.Progression;
+        const int32 TargetSize = Entry.LevelInClass;
+
+        // Redimensiona array para o tamanho desejado
+        Progression.SetNum(TargetSize);
+
+        // Garante que cada elemento tenha o Level correto
+        for (int32 i = 0; i < Progression.Num(); ++i)
+        {
+            Progression[i].Level = i + 1; // Level começa em 1, não em 0
+        }
+
+        return true;
+    }
+
+    /**
+     * Ajusta o array Progression para todas as entradas de multiclasse.
+     * Itera sobre todas as entradas e ajusta cada uma.
+     * Chama o motor de multiclasse para processar cada mudança de nível.
+     *
+     * @param Asset Asset do personagem
+     * @return Número de entradas ajustadas
+     */
+    int32 AdjustAllMulticlassProgressionArrays(UCharacterSheetDataAsset *Asset)
+    {
+        int32 AdjustedCount = 0;
+
+        for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+        {
+            FMulticlassEntry &Entry = Asset->Multiclass[i];
+            if (AdjustProgressionArraySize(Entry))
+            {
+                AdjustedCount++;
+
+                // Chama motor de multiclasse para processar mudança de nível
+                // Só chama se a classe estiver selecionada e a tabela estiver disponível
+                FName ClassName = Entry.ClassData.FClass.Name;
+                int32 LevelInClass = Entry.LevelInClass;
+
+                if (ClassName != NAME_None && Asset->ClassDataTable)
+                {
+                    FMulticlassMotor::ProcessLevelChange(ClassName, LevelInClass, Asset->ClassDataTable);
+                }
+            }
+        }
+
+        return AdjustedCount;
     }
 } // namespace
 
@@ -367,6 +418,7 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
 
 /**
  * Processa mudanças em LevelInClass dentro do array Multiclass.
+ * Ajusta o tamanho do array Progression para corresponder ao LevelInClass.
  * Loga todos os níveis de classe quando LevelInClass mudar.
  */
 void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetDataAsset *Asset)
@@ -381,8 +433,14 @@ void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetD
     // NÃO usa ValidationGuard aqui para não bloquear a mudança do campo
     // O ValidationGuard bloqueia PostEditChangeProperty, o que impede a mudança de ser processada
 
-    // Loga todos os níveis de classe quando LevelInClass mudar
-    LogAllMulticlassLevels(Asset);
+    // Marca objeto como modificado antes de alterar arrays
+    Asset->Modify();
+
+    // Ajusta o tamanho do array Progression para todas as entradas de multiclasse
+    const int32 AdjustedCount = AdjustAllMulticlassProgressionArrays(Asset);
+
+    // Log final indicando que o processo foi concluído
+    UE_LOG(LogTemp, Warning, TEXT("pronto adicionei - %d entrada(s) de multiclasse ajustada(s)"), AdjustedCount);
 }
 
 /**
