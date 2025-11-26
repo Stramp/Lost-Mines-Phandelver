@@ -32,6 +32,7 @@
 > **Documentos Principais:**
 >
 > - **[Game Design Document (GDD)](design/gdd.md)** - Visão completa do jogo final, objetivos, mecânicas principais
+> - **[Adaptação D&D 5e + GAS](design/gas-dnd-adaptation.md)** - Como adaptar D&D 5e para Unreal Engine 5 com GAS
 > - **[Regras D&D 5e](design/dnd-rules/)** - Documentação algorítmica das regras do D&D 5ª edição
 >
 > **📖 Para mais detalhes, veja [design/index.md](design/index.md)**
