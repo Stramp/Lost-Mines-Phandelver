@@ -7,6 +7,7 @@
 // Forward declarations
 struct FCharacterSheetData;
 class UDataTable;
+struct FMulticlassProficienciesEntry;
 
 /**
  * Motor de Multiclasse para criação de personagem.
@@ -63,4 +64,18 @@ public:
      * @param ClassDataTable Data Table de classes para buscar informações (pode ser nullptr)
      */
     static void ProcessLevelChange(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable);
+
+    /**
+     * Carrega proficiências de uma classe para multiclasse.
+     * Proficiências são ganhas apenas no nível 1 da classe.
+     * Busca na tabela e converte para estrutura do Data Asset.
+     *
+     * @param ClassName Nome da classe
+     * @param LevelInClass Nível na classe (deve ser 1 para carregar proficiências)
+     * @param ClassDataTable Data Table de classes (pode ser nullptr)
+     * @param OutProficiencies [OUT] Array de proficiências carregadas (preenchido apenas se nível == 1)
+     * @return true se proficiências foram carregadas com sucesso, false caso contrário
+     */
+    static bool LoadClassProficiencies(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
+                                       TArray<FMulticlassProficienciesEntry> &OutProficiencies);
 };

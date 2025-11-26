@@ -68,6 +68,12 @@ public:
      */
     static void HandleProgressionChange(UCharacterSheetDataAsset *Asset);
 
+    /**
+     * Handles changes to ClassData.Proficiencies in Multiclass array.
+     * Atualiza qtdAvailable dinamicamente quando skills são escolhidas/removidas.
+     */
+    static void HandleProficienciesChange(UCharacterSheetDataAsset *Asset);
+
     // ============================================================================
     // Wrapper Functions for Property Handler Map (C-style function pointers)
     // ============================================================================
@@ -84,4 +90,5 @@ public:
     static void HandleLevelInClassWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleMulticlassClassNameWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleProgressionWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleProficienciesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
 };

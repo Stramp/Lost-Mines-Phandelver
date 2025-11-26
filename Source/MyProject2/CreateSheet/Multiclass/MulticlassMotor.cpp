@@ -13,6 +13,9 @@
 // Project includes - Data Tables
 #include "Data/Tables/ClassDataTable.h"
 
+// Project includes - Characters
+#include "Characters/Data/CharacterSheetDataAsset.h"
+
 // Project includes - CreateSheet
 #include "CreateSheet/Multiclass/MulticlassHelpers.h"
 
@@ -219,3 +222,109 @@ void FMulticlassMotor::ProcessLevelChange(FName ClassName, int32 LevelInClass, c
 }
 
 #pragma endregion Process Level Change
+
+// ============================================================================
+// Load Class Proficiencies
+// ============================================================================
+#pragma region Load Class Proficiencies
+
+namespace
+{
+    /**
+     * Converte FProficienciesEntry (tabela) para FMulticlassProficienciesEntry (Data Asset).
+     * Helper local para manter LoadClassProficiencies focada.
+     *
+     * @param SourceEntry Entry da tabela
+     * @return Entry convertida para Data Asset
+     */
+    FMulticlassProficienciesEntry ConvertProficienciesEntry(const FProficienciesEntry &SourceEntry)
+    {
+        FMulticlassProficienciesEntry Result;
+        Result.armas = SourceEntry.armas;
+        Result.armaduras = SourceEntry.armaduras;
+        Result.savingThrows = SourceEntry.savingThrows;
+
+        // Converte FSkills para FMulticlassSkills
+        Result.FSkills.available = SourceEntry.FSkills.available;
+        Result.FSkills.qtdAvailable = SourceEntry.FSkills.qtdAvailable;
+
+        // Armazena estado inicial para cálculo dinâmico de qtdAvailable
+        Result.FSkills.InitialAvailableCount = SourceEntry.FSkills.available.Num();
+        Result.FSkills.InitialQtdAvailable = SourceEntry.FSkills.qtdAvailable;
+
+        return Result;
+    }
+
+    /**
+     * Valida parâmetros de entrada para LoadClassProficiencies.
+     * Proficiências são ganhas apenas no nível 1.
+     *
+     * @param ClassName Nome da classe
+     * @param LevelInClass Nível na classe (deve ser 1)
+     * @param ClassDataTable Data Table de classes
+     * @return true se parâmetros são válidos, false caso contrário
+     */
+    bool ValidateLoadProficienciesInputs(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable)
+    {
+        if (ClassName == NAME_None)
+        {
+            return false;
+        }
+
+        if (!ClassDataTable)
+        {
+            return false;
+        }
+
+        // Proficiências são ganhas apenas no nível 1
+        if (LevelInClass != 1)
+        {
+            return false;
+        }
+
+        return true;
+    }
+} // namespace
+
+bool FMulticlassMotor::LoadClassProficiencies(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
+                                              TArray<FMulticlassProficienciesEntry> &OutProficiencies)
+{
+    // Limpa array de saída
+    OutProficiencies.Empty();
+
+    // Validação de entrada (guard clauses)
+    if (!ValidateLoadProficienciesInputs(ClassName, LevelInClass, ClassDataTable))
+    {
+        return false;
+    }
+
+    // Busca dados da classe na tabela
+    UDataTable *NonConstTable = const_cast<UDataTable *>(ClassDataTable);
+    const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
+    if (!ClassRow)
+    {
+        UE_LOG(LogTemp, Warning,
+               TEXT("FMulticlassMotor::LoadClassProficiencies - Classe '%s' não encontrada na tabela"),
+               *ClassName.ToString());
+        return false;
+    }
+
+    // Converte todas as proficiências da classe
+    for (const FProficienciesEntry &SourceEntry : ClassRow->FClass.Proficiencies)
+    {
+        FMulticlassProficienciesEntry ConvertedEntry = ConvertProficienciesEntry(SourceEntry);
+        OutProficiencies.Add(ConvertedEntry);
+    }
+
+    // Log quando proficiências são carregadas (ponto chave)
+    if (OutProficiencies.Num() > 0)
+    {
+        UE_LOG(LogTemp, Warning,
+               TEXT("FMulticlassMotor::LoadClassProficiencies - Classe = %s, Proficiências carregadas = %d"),
+               *ClassName.ToString(), OutProficiencies.Num());
+    }
+
+    return true;
+}
+
+#pragma endregion Load Class Proficiencies

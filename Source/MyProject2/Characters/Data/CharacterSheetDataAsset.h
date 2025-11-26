@@ -29,13 +29,21 @@ struct MYPROJECT2_API FMulticlassSkills
 {
     GENERATED_BODY()
 
-    /** Lista de skills disponíveis para escolha */
+    /** Lista de skills disponíveis para escolha - Preenchido automaticamente pelo motor */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills")
     TArray<FName> available;
 
-    /** Quantidade de skills que podem ser escolhidos */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills")
+    /** Quantidade de skills que podem ser escolhidos - Calculado dinamicamente */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skills")
     int32 qtdAvailable;
+
+    /** Tamanho inicial de available quando proficiências foram carregadas - Usado para calcular qtdAvailable */
+    UPROPERTY(meta = (Hidden))
+    int32 InitialAvailableCount = 0;
+
+    /** Quantidade inicial que pode ser escolhida - Usado para calcular qtdAvailable */
+    UPROPERTY(meta = (Hidden))
+    int32 InitialQtdAvailable = 0;
 };
 
 // ============================================================================
@@ -51,16 +59,16 @@ struct MYPROJECT2_API FMulticlassProficienciesEntry
 {
     GENERATED_BODY()
 
-    /** Lista de armas (pode estar vazia) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
+    /** Lista de armas (pode estar vazia) - Readonly: preenchido automaticamente pelo motor */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Proficiencies")
     TArray<FName> armas;
 
-    /** Lista de armaduras (pode estar vazia) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
+    /** Lista de armaduras (pode estar vazia) - Readonly: preenchido automaticamente pelo motor */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Proficiencies")
     TArray<FName> armaduras;
 
-    /** Lista de saving throws (pode estar vazia) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
+    /** Lista de saving throws (pode estar vazia) - Readonly: preenchido automaticamente pelo motor */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Proficiencies")
     TArray<FName> savingThrows;
 
     /** Informações de skills (pode estar vazia) */

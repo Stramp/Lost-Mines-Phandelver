@@ -35,6 +35,7 @@
 // Engine includes
 #include "Logging/LogMacros.h"
 #include "UObject/UnrealType.h"
+#include "Math/UnrealMathUtility.h"
 
 #pragma endregion Includes
 
@@ -484,6 +485,36 @@ void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacte
             FMulticlassHelpers::CanProcessProgression(Entry.ClassData.Name, Entry.ClassData.LevelInClass);
         Entry.ClassData.bCanEditProficiencies =
             FMulticlassHelpers::CanProcessProgression(Entry.ClassData.Name, Entry.ClassData.LevelInClass);
+
+        // Carrega proficiências quando classe é escolhida e LevelInClass == 1
+        if (ClassName != NAME_None && Entry.ClassData.LevelInClass == 1)
+        {
+            TArray<FMulticlassProficienciesEntry> LoadedProficiencies;
+            if (FMulticlassMotor::LoadClassProficiencies(ClassName, Entry.ClassData.LevelInClass, Asset->ClassDataTable,
+                                                         LoadedProficiencies))
+            {
+                // Preenche array de proficiências com resultado do motor
+                Entry.ClassData.Proficiencies = LoadedProficiencies;
+                UE_LOG(LogTemp, Warning,
+                       TEXT("FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange - "
+                            "Proficiências carregadas para classe '%s': %d entradas"),
+                       *ClassName.ToString(), LoadedProficiencies.Num());
+            }
+            else
+            {
+                // Limpa proficiências se não foi possível carregar
+                Entry.ClassData.Proficiencies.Empty();
+                UE_LOG(LogTemp, Warning,
+                       TEXT("FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange - "
+                            "Falha ao carregar proficiências para classe '%s'"),
+                       *ClassName.ToString());
+            }
+        }
+        else
+        {
+            // Limpa proficiências se não há classe ou nível não é 1
+            Entry.ClassData.Proficiencies.Empty();
+        }
     }
 
     // Valida consistência Name/LevelInClass e aplica correções
@@ -528,6 +559,60 @@ void FCharacterSheetDataAssetHandlers::HandleProgressionChange(UCharacterSheetDa
         FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(Asset, ProgressionResult);
     }
     Asset->Modify(); // Marca objeto como modificado após validação
+}
+
+/**
+ * Processa mudanças em ClassData.Proficiencies dentro do array Multiclass.
+ * Atualiza qtdAvailable dinamicamente quando skills são escolhidas/removidas do available.
+ */
+void FCharacterSheetDataAssetHandlers::HandleProficienciesChange(UCharacterSheetDataAsset *Asset)
+{
+    LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies));
+
+    if (!ValidateAsset(Asset))
+    {
+        return;
+    }
+
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
+
+    // Atualiza qtdAvailable para todas as entradas de proficiências
+    for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+    {
+        FMulticlassEntry &Entry = Asset->Multiclass[i];
+
+        for (FMulticlassProficienciesEntry &ProficiencyEntry : Entry.ClassData.Proficiencies)
+        {
+            FMulticlassSkills &Skills = ProficiencyEntry.FSkills;
+
+            // Se não há estado inicial armazenado, inicializa com valores atuais
+            if (Skills.InitialAvailableCount == 0 && Skills.InitialQtdAvailable == 0)
+            {
+                Skills.InitialAvailableCount = Skills.available.Num();
+                Skills.InitialQtdAvailable = Skills.qtdAvailable;
+            }
+
+            // Calcula quantas skills foram escolhidas (removidas do available)
+            const int32 CurrentAvailableCount = Skills.available.Num();
+            const int32 SkillsChosen = Skills.InitialAvailableCount - CurrentAvailableCount;
+
+            // Atualiza qtdAvailable: quantidade inicial menos skills já escolhidas
+            // FMath::Max garante que qtdAvailable nunca será negativo
+            Skills.qtdAvailable = FMath::Max(0, Skills.InitialQtdAvailable - SkillsChosen);
+
+            // Validação: não pode ter mais skills escolhidas do que o permitido
+            if (SkillsChosen > Skills.InitialQtdAvailable)
+            {
+                UE_LOG(LogTemp, Warning,
+                       TEXT("FCharacterSheetDataAssetHandlers::HandleProficienciesChange - "
+                            "Aviso: Mais skills escolhidas (%d) do que o permitido (%d) para entrada %d"),
+                       SkillsChosen, Skills.InitialQtdAvailable, i);
+            }
+        }
+    }
+
+    Asset->Modify(); // Marca objeto como modificado após atualização
 }
 
 #pragma endregion Multiclass Handlers
@@ -623,6 +708,11 @@ void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameWrapper(UCharact
 void FCharacterSheetDataAssetHandlers::HandleProgressionWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
 {
     HandleProgressionChange(Asset);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleProficienciesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+{
+    HandleProficienciesChange(Asset);
 }
 
 #pragma endregion Wrapper Functions

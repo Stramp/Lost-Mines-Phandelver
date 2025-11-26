@@ -73,11 +73,13 @@ namespace
         const FName PropertyName = PropertyChangedEvent.Property->GetFName();
 
         // Propriedades aninhadas em Multiclass array
-        // Verifica se MemberProperty é Multiclass OU se Property é LevelInClass/Name/Progression diretamente
+        // Verifica se MemberProperty é Multiclass OU se Property é LevelInClass/Name/Progression/Proficiencies
+        // diretamente
         if (MemberPropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, Multiclass) ||
             PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass) ||
             PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name) ||
-            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression))
+            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression) ||
+            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies))
         {
             // LevelInClass dentro de ClassData dentro de Multiclass
             if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass))
@@ -95,6 +97,18 @@ namespace
             else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression))
             {
                 HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression);
+                return true;
+            }
+            // Proficiencies dentro de ClassData dentro de Multiclass
+            else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies))
+            {
+                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies);
+                return true;
+            }
+            // Detecta mudanças em FSkills.available (propriedade aninhada dentro de Proficiencies)
+            else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassSkills, available))
+            {
+                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies);
                 return true;
             }
         }
