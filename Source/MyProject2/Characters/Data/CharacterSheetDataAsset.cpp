@@ -13,6 +13,7 @@
 #include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
 #include "Characters/Data/Initializers/CharacterSheetDataAssetInitializers.h"
 #include "Characters/Data/Loaders/CharacterSheetDataAssetLoaders.h"
+#include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
 #include "Characters/Data/Validators/CharacterSheetDataAssetValidators.h"
 #include "Characters/Data/Validators/CharacterSheetDataAssetCorrectionApplier.h"
 
@@ -113,6 +114,10 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
     {
         (*HandlerPtr)(this, HandlerPropertyName);
     }
+
+    // Atualiza display names após qualquer mudança (para exibição no editor)
+    // Isso garante que os nomes sejam atualizados mesmo se não houver handler específico
+    FCharacterSheetDataAssetUpdaters::UpdateFeatureChoiceDisplayNames(this);
 }
 
 #pragma endregion Property Change Handling
@@ -195,6 +200,11 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
 TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceNames() const
 {
     return FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(ClassFeaturesDataTable);
+}
+
+TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceIDsForFeature(FName FeatureFC_ID) const
+{
+    return FCharacterSheetDataAssetGetOptions::GetAvailableChoiceIDsForFeature(ClassFeaturesDataTable, FeatureFC_ID);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceNamesForFeature(FName FeatureFC_ID) const

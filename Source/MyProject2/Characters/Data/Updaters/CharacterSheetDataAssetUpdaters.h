@@ -119,4 +119,13 @@ public:
      * @param Asset Asset do personagem
      */
     static void AdjustMinimumLevelForValidClasses(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Atualiza propriedades calculadas de display names para features de multiclasse.
+     * Converte IDs armazenados em AvailableChoices/SelectedChoices para Names para exibição no editor.
+     * Apenas atualiza, não valida nem carrega dados.
+     *
+     * @param Asset Asset do personagem
+     */
+    static void UpdateFeatureChoiceDisplayNames(UCharacterSheetDataAsset *Asset);
 };

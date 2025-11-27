@@ -7,12 +7,14 @@
 
 // Forward declarations
 class UDataTable;
+class UScriptStruct;
 struct FRaceDataRow;
 struct FClassDataRow;
 struct FFeatDataRow;
 struct FBackgroundDataRow;
 struct FProficiencyDataRow;
 struct FFeatureDataRow;
+struct FItemDataRow;
 
 /**
  * Funções helper para busca de rows em Data Tables com fallback manual.
@@ -77,6 +79,17 @@ namespace DataTableHelpers
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
     FFeatDataRow *FindFeatRow(FName FeatName, UDataTable *FeatDataTable);
+
+    /**
+     * Converte Name de feat para FC_ID.
+     * Busca feat pelo Name e retorna seu FC_ID.
+     * Retorna NAME_None se feat não encontrado ou Data Table inválido.
+     *
+     * @param FeatName Name do feat (ex: "Magic Initiate")
+     * @param FeatDataTable Data Table de feats (pode ser nullptr)
+     * @return FC_ID do feat (ex: "Feat_MagicInitiate") ou NAME_None se não encontrado
+     */
+    FName ConvertFeatNameToFCID(FName FeatName, UDataTable *FeatDataTable);
 
     // ============================================================================
     // Background Data Table Helpers
@@ -151,4 +164,74 @@ namespace DataTableHelpers
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
     FFeatureDataRow *FindFeatureRowByID(FName FeatureID, UDataTable *FeatureDataTable);
+
+    // ============================================================================
+    // Data Table Type Validation Helpers
+    // ============================================================================
+
+    /**
+     * Valida se DataTable tem RowStruct do tipo esperado.
+     * Compara o nome do RowStruct com o struct esperado.
+     *
+     * @param DataTable Data Table a validar (pode ser nullptr)
+     * @param ExpectedStruct Struct esperado (ex: FRaceDataRow::StaticStruct())
+     * @return true se RowStruct corresponde ao esperado, false caso contrário
+     */
+    bool ValidateDataTableRowStruct(UDataTable *DataTable, const UScriptStruct *ExpectedStruct);
+
+    /**
+     * Valida se DataTable é do tipo RaceDataTable (tem RowStruct FRaceDataRow).
+     *
+     * @param DataTable Data Table a validar (pode ser nullptr)
+     * @return true se é RaceDataTable, false caso contrário
+     */
+    bool IsRaceDataTable(UDataTable *DataTable);
+
+    /**
+     * Valida se DataTable é do tipo ClassDataTable (tem RowStruct FClassDataRow).
+     *
+     * @param DataTable Data Table a validar (pode ser nullptr)
+     * @return true se é ClassDataTable, false caso contrário
+     */
+    bool IsClassDataTable(UDataTable *DataTable);
+
+    /**
+     * Valida se DataTable é do tipo BackgroundDataTable (tem RowStruct FBackgroundDataRow).
+     *
+     * @param DataTable Data Table a validar (pode ser nullptr)
+     * @return true se é BackgroundDataTable, false caso contrário
+     */
+    bool IsBackgroundDataTable(UDataTable *DataTable);
+
+    /**
+     * Valida se DataTable é do tipo FeatDataTable (tem RowStruct FFeatDataRow).
+     *
+     * @param DataTable Data Table a validar (pode ser nullptr)
+     * @return true se é FeatDataTable, false caso contrário
+     */
+    bool IsFeatDataTable(UDataTable *DataTable);
+
+    /**
+     * Valida se DataTable é do tipo FeatureDataTable (tem RowStruct FFeatureDataRow).
+     *
+     * @param DataTable Data Table a validar (pode ser nullptr)
+     * @return true se é FeatureDataTable, false caso contrário
+     */
+    bool IsFeatureDataTable(UDataTable *DataTable);
+
+    /**
+     * Valida se DataTable é do tipo ProficiencyDataTable (tem RowStruct FProficiencyDataRow).
+     *
+     * @param DataTable Data Table a validar (pode ser nullptr)
+     * @return true se é ProficiencyDataTable, false caso contrário
+     */
+    bool IsProficiencyDataTable(UDataTable *DataTable);
+
+    /**
+     * Valida se DataTable é do tipo ItemDataTable (tem RowStruct FItemDataRow).
+     *
+     * @param DataTable Data Table a validar (pode ser nullptr)
+     * @return true se é ItemDataTable, false caso contrário
+     */
+    bool IsItemDataTable(UDataTable *DataTable);
 } // namespace DataTableHelpers

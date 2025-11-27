@@ -82,15 +82,15 @@ bool FCharacterSheetDataAssetLoaders::LoadClassProficiencies(UCharacterSheetData
         return false;
     }
 
-    // ClassProficienciesDataTable é opcional - apenas loga se faltando (não crítico)
-    if (!Asset->ClassProficienciesDataTable)
+    // ProficiencyDataTable é obrigatória para resolver IDs de proficiências
+    if (!Asset->ProficiencyDataTable)
     {
         FLogContext Context(TEXT("CharacterSheet"), TEXT("LoadClassProficiencies"));
         FLoggingSystem::LogWarning(
             Context,
             FString::Printf(
-                TEXT("Multiclass[%d] - ClassProficienciesDataTable não configurado no Data Asset. Configure a tabela "
-                     "em 'Data Tables > Class Proficiencies Data Table' para carregar proficiências."),
+                TEXT("Multiclass[%d] - ProficiencyDataTable não configurado no Data Asset. Configure a tabela "
+                     "em 'Data Tables > Proficiency Data Table' para carregar proficiências."),
                 EntryIndex),
             false);
         Entry.ClassData.Proficiencies.Empty();
@@ -100,7 +100,7 @@ bool FCharacterSheetDataAssetLoaders::LoadClassProficiencies(UCharacterSheetData
     // Carrega proficiências usando motor
     TArray<FMulticlassProficienciesEntry> LoadedProficiencies;
     if (FMulticlassMotor::LoadClassProficiencies(ClassName, LevelInClass, Asset->ClassDataTable,
-                                                 Asset->ClassProficienciesDataTable, LoadedProficiencies))
+                                                 Asset->ProficiencyDataTable, LoadedProficiencies))
     {
         Entry.ClassData.Proficiencies = LoadedProficiencies;
         return true;
@@ -168,8 +168,8 @@ void FCharacterSheetDataAssetLoaders::LogLevelChangeFeatures(UCharacterSheetData
         return;
     }
 
-    // Loga features ganhas no nível usando motor (apenas log informativo)
-    FMulticlassMotor::LogLevelChangeFeatures(ClassName, LevelInClass, Asset->ClassDataTable);
+    // Loga features ganhas no nível usando helper (apenas log informativo)
+    FMulticlassHelpers::LogLevelChangeFeatures(ClassName, LevelInClass, Asset->ClassDataTable);
 }
 
 void FCharacterSheetDataAssetLoaders::LoadAllMulticlassData(UCharacterSheetDataAsset *Asset)

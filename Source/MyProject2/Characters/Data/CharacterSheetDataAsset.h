@@ -231,8 +231,19 @@ public:
     TArray<FName> GetAvailableChoiceNames() const;
 
     /**
-     * Retorna os nomes das escolhas disponíveis filtrados por FC_ID de feature específica.
+     * Retorna os IDs das escolhas disponíveis filtrados por FC_ID de feature específica.
+     * IDs são usados para referência da máquina (armazenados em AvailableChoices/SelectedChoices).
      * Usado para dropdown filtrado em FMulticlassClassFeature.AvailableChoices.
+     *
+     * @param FeatureFC_ID FC_ID da feature para filtrar escolhas (ex: "FC_FightingStyle")
+     * @return Array com IDs de escolhas apenas da feature especificada
+     */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetAvailableChoiceIDsForFeature(FName FeatureFC_ID) const;
+
+    /**
+     * Retorna os nomes das escolhas disponíveis filtrados por FC_ID de feature específica.
+     * Names são usados para exibição na UI (propriedades calculadas).
      *
      * @param FeatureFC_ID FC_ID da feature para filtrar escolhas (ex: "FC_FightingStyle")
      * @return Array com nomes de escolhas apenas da feature especificada
@@ -268,11 +279,8 @@ public:
     /** Referência ao Data Table de features de classe */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
     UDataTable *ClassFeaturesDataTable = nullptr;
-    /** Referência ao Data Table de features de classe */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
-    UDataTable *ClassProficienciesDataTable = nullptr;
 
-    /** Referência ao Data Table de proficiências (Skills, Languages, Tools, Weapons, etc.) */
+    /** Referência ao Data Table de proficiências (Skills, Languages, Tools, Weapons, Armor, etc.) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
     UDataTable *ProficiencyDataTable = nullptr;
 

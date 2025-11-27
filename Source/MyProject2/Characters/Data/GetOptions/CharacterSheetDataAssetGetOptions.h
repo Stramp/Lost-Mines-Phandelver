@@ -113,9 +113,20 @@ public:
     static TArray<FName> GetAvailableChoiceNames(const UDataTable *FeatureDataTable);
 
     /**
+     * Returns available choice IDs filtered by specific feature FC_ID.
+     * Only returns choice IDs from the feature matching the provided FC_ID.
+     * IDs are used for machine reference (stored in AvailableChoices/SelectedChoices).
+     *
+     * @param FeatureDataTable Feature Data Table (can be nullptr)
+     * @param FeatureFC_ID FC_ID of the feature to filter choices (ex: "FC_FightingStyle")
+     * @return Array with available choice IDs only from the specified feature
+     */
+    static TArray<FName> GetAvailableChoiceIDsForFeature(const UDataTable *FeatureDataTable, FName FeatureFC_ID);
+
+    /**
      * Returns available choice names filtered by specific feature FC_ID.
-     * Only returns choices from the feature matching the provided FC_ID.
-     * Used for filtered dropdown in FMulticlassClassFeature.AvailableChoices.
+     * Only returns choice names from the feature matching the provided FC_ID.
+     * Names are used for UI display (calculated properties).
      *
      * @param FeatureDataTable Feature Data Table (can be nullptr)
      * @param FeatureFC_ID FC_ID of the feature to filter choices (ex: "FC_FightingStyle")

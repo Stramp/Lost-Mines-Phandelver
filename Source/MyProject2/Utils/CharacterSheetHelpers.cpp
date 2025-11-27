@@ -287,15 +287,15 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeatsForVariantHuman(const TMap
 
     // Variant Human pode escolher feat no nível 1 (bypassa verificação de nível)
     // Ainda valida pré-requisitos de ability scores
+    // IMPORTANTE: Retorna Name (não FC_ID) para exibição legível no dropdown
     TSet<FName> AvailableFeatsSet;
     TArray<FName> RowNames = FeatDataTable->GetRowNames();
     for (const FName &RowName : RowNames)
     {
         if (FFeatDataRow *Row = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("GetAvailableFeatsForVariantHuman")))
         {
-            // Usa FC_ID como identificador principal, fallback para Name
-            FName FeatIdentifier = Row->FC_ID != NAME_None ? Row->FC_ID : Row->Name;
-            if (FeatIdentifier == NAME_None)
+            // Retorna Name para exibição legível no dropdown (ex: "Magic Initiate" ao invés de "Feat_MagicInitiate")
+            if (Row->Name == NAME_None)
             {
                 continue;
             }
@@ -303,7 +303,7 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeatsForVariantHuman(const TMap
             // Valida apenas pré-requisitos de ability scores (sem verificação de nível)
             if (CharacterSheetHelpers::MeetsFeatPrerequisites(Row, AbilityScores))
             {
-                AvailableFeatsSet.Add(FeatIdentifier);
+                AvailableFeatsSet.Add(Row->Name);
             }
         }
     }

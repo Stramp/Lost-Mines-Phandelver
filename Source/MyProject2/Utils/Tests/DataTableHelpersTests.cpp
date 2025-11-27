@@ -11,6 +11,9 @@
 #include "Data/Tables/RaceDataTable.h"
 #include "Data/Tables/ClassDataTable.h"
 #include "Data/Tables/ProficiencyDataTable.h"
+#include "Data/Tables/BackgroundDataTable.h"
+#include "Data/Tables/FeatureDataTable.h"
+#include "Data/Tables/ItemDataTable.h"
 #include "Engine/DataTable.h"
 
 #pragma endregion Includes
@@ -488,6 +491,194 @@ void DataTableHelpersSpec::Define()
                    delete Lang3;
                    delete Weapon;
                    TestProficiencyDataTable->ConditionalBeginDestroy();
+               });
+        });
+
+    // ============================================================================
+    // Data Table Type Validation Tests
+    // ============================================================================
+    Describe(
+        "Data Table Type Validation",
+        [this]()
+        {
+            It("deve retornar true quando RaceDataTable tem RowStruct correto",
+               [this]()
+               {
+                   // Arrange
+                   UDataTable *TestRaceDataTable = NewObject<UDataTable>();
+                   TestRaceDataTable->RowStruct = FRaceDataRow::StaticStruct();
+
+                   // Act
+                   bool Result = DataTableHelpers::IsRaceDataTable(TestRaceDataTable);
+
+                   // Assert
+                   TestTrue("IsRaceDataTable deve retornar true para RaceDataTable correto", Result);
+
+                   // Cleanup
+                   TestRaceDataTable->ConditionalBeginDestroy();
+               });
+
+            It("deve retornar false quando DataTable não é RaceDataTable",
+               [this]()
+               {
+                   // Arrange
+                   UDataTable *TestClassDataTable = NewObject<UDataTable>();
+                   TestClassDataTable->RowStruct = FClassDataRow::StaticStruct();
+
+                   // Act
+                   bool Result = DataTableHelpers::IsRaceDataTable(TestClassDataTable);
+
+                   // Assert
+                   TestFalse("IsRaceDataTable deve retornar false para ClassDataTable", Result);
+
+                   // Cleanup
+                   TestClassDataTable->ConditionalBeginDestroy();
+               });
+
+            It("deve retornar false quando DataTable é nullptr",
+               [this]()
+               {
+                   // Act
+                   bool Result = DataTableHelpers::IsRaceDataTable(nullptr);
+
+                   // Assert
+                   TestFalse("IsRaceDataTable deve retornar false para nullptr", Result);
+               });
+
+            It("deve retornar true quando ClassDataTable tem RowStruct correto",
+               [this]()
+               {
+                   // Arrange
+                   UDataTable *TestClassDataTable = NewObject<UDataTable>();
+                   TestClassDataTable->RowStruct = FClassDataRow::StaticStruct();
+
+                   // Act
+                   bool Result = DataTableHelpers::IsClassDataTable(TestClassDataTable);
+
+                   // Assert
+                   TestTrue("IsClassDataTable deve retornar true para ClassDataTable correto", Result);
+
+                   // Cleanup
+                   TestClassDataTable->ConditionalBeginDestroy();
+               });
+
+            It("deve retornar false quando DataTable não é ClassDataTable",
+               [this]()
+               {
+                   // Arrange
+                   UDataTable *TestRaceDataTable = NewObject<UDataTable>();
+                   TestRaceDataTable->RowStruct = FRaceDataRow::StaticStruct();
+
+                   // Act
+                   bool Result = DataTableHelpers::IsClassDataTable(TestRaceDataTable);
+
+                   // Assert
+                   TestFalse("IsClassDataTable deve retornar false para RaceDataTable", Result);
+
+                   // Cleanup
+                   TestRaceDataTable->ConditionalBeginDestroy();
+               });
+
+            It("deve retornar true quando BackgroundDataTable tem RowStruct correto",
+               [this]()
+               {
+                   // Arrange
+                   UDataTable *TestBackgroundDataTable = NewObject<UDataTable>();
+                   TestBackgroundDataTable->RowStruct = FBackgroundDataRow::StaticStruct();
+
+                   // Act
+                   bool Result = DataTableHelpers::IsBackgroundDataTable(TestBackgroundDataTable);
+
+                   // Assert
+                   TestTrue("IsBackgroundDataTable deve retornar true para BackgroundDataTable correto", Result);
+
+                   // Cleanup
+                   TestBackgroundDataTable->ConditionalBeginDestroy();
+               });
+
+            It("deve retornar true quando FeatDataTable tem RowStruct correto",
+               [this]()
+               {
+                   // Arrange
+                   UDataTable *TestFeatDataTable = NewObject<UDataTable>();
+                   TestFeatDataTable->RowStruct = FFeatDataRow::StaticStruct();
+
+                   // Act
+                   bool Result = DataTableHelpers::IsFeatDataTable(TestFeatDataTable);
+
+                   // Assert
+                   TestTrue("IsFeatDataTable deve retornar true para FeatDataTable correto", Result);
+
+                   // Cleanup
+                   TestFeatDataTable->ConditionalBeginDestroy();
+               });
+
+            It("deve retornar true quando FeatureDataTable tem RowStruct correto",
+               [this]()
+               {
+                   // Arrange
+                   UDataTable *TestFeatureDataTable = NewObject<UDataTable>();
+                   TestFeatureDataTable->RowStruct = FFeatureDataRow::StaticStruct();
+
+                   // Act
+                   bool Result = DataTableHelpers::IsFeatureDataTable(TestFeatureDataTable);
+
+                   // Assert
+                   TestTrue("IsFeatureDataTable deve retornar true para FeatureDataTable correto", Result);
+
+                   // Cleanup
+                   TestFeatureDataTable->ConditionalBeginDestroy();
+               });
+
+            It("deve retornar true quando ProficiencyDataTable tem RowStruct correto",
+               [this]()
+               {
+                   // Arrange
+                   UDataTable *TestProficiencyDataTable = NewObject<UDataTable>();
+                   TestProficiencyDataTable->RowStruct = FProficiencyDataRow::StaticStruct();
+
+                   // Act
+                   bool Result = DataTableHelpers::IsProficiencyDataTable(TestProficiencyDataTable);
+
+                   // Assert
+                   TestTrue("IsProficiencyDataTable deve retornar true para ProficiencyDataTable correto", Result);
+
+                   // Cleanup
+                   TestProficiencyDataTable->ConditionalBeginDestroy();
+               });
+
+            It("deve retornar true quando ItemDataTable tem RowStruct correto",
+               [this]()
+               {
+                   // Arrange
+                   UDataTable *TestItemDataTable = NewObject<UDataTable>();
+                   TestItemDataTable->RowStruct = FItemDataRow::StaticStruct();
+
+                   // Act
+                   bool Result = DataTableHelpers::IsItemDataTable(TestItemDataTable);
+
+                   // Assert
+                   TestTrue("IsItemDataTable deve retornar true para ItemDataTable correto", Result);
+
+                   // Cleanup
+                   TestItemDataTable->ConditionalBeginDestroy();
+               });
+
+            It("deve retornar false quando DataTable não tem RowStruct configurado",
+               [this]()
+               {
+                   // Arrange
+                   UDataTable *TestDataTable = NewObject<UDataTable>();
+                   // Não configura RowStruct
+
+                   // Act
+                   bool Result = DataTableHelpers::IsRaceDataTable(TestDataTable);
+
+                   // Assert
+                   TestFalse("IsRaceDataTable deve retornar false quando RowStruct não está configurado", Result);
+
+                   // Cleanup
+                   TestDataTable->ConditionalBeginDestroy();
                });
         });
 }

@@ -22,6 +22,7 @@
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/DnDConstants.h"
+#include "Utils/DataTableHelpers.h"
 
 // Project includes - Logging
 #include "Logging/LoggingSystem.h"
@@ -30,9 +31,11 @@
 #include "Logging/LogMacros.h"
 #include "Math/UnrealMathUtility.h"
 #include "UObject/UnrealType.h"
+#include "UObject/PropertyAccessUtil.h"
 
 #if WITH_EDITOR
 #include "PropertyEditorModule.h"
+#include "Editor.h"
 #endif
 
 #pragma endregion Includes
@@ -180,8 +183,12 @@ void FCharacterSheetDataAssetHelpers::LogDataTableStatus(UCharacterSheetDataAsse
     }
 
     // Verifica se todos os Data Tables obrigatórios foram selecionados
+    // Todas as 6 tabelas são obrigatórias: RaceDataTable, BackgroundDataTable, ClassDataTable,
+    // FeatDataTable, ClassFeaturesDataTable, ProficiencyDataTable
     bool bAllDataTablesSelected = Asset->RaceDataTable != nullptr && Asset->BackgroundDataTable != nullptr &&
-                                  Asset->ClassDataTable != nullptr && Asset->FeatDataTable != nullptr;
+                                  Asset->ClassDataTable != nullptr && Asset->FeatDataTable != nullptr &&
+                                  Asset->ClassFeaturesDataTable != nullptr &&
+                                  Asset->ProficiencyDataTable != nullptr;
 
     FLogContext Context(TEXT("CharacterSheet"), TEXT("LogDataTableStatus"));
     if (bAllDataTablesSelected)
@@ -193,10 +200,14 @@ void FCharacterSheetDataAssetHelpers::LogDataTableStatus(UCharacterSheetDataAsse
     {
         // Aviso informativo - não requer ação imediata (sem popup)
         FLoggingSystem::LogWarning(Context,
-                                   FString::Printf(TEXT("Ainda faltam Data Tables. Race: %s, Background: %s, Feat: %s"),
+                                   FString::Printf(TEXT("Ainda faltam Data Tables. Race: %s, Background: %s, Class: %s, "
+                                                        "Feat: %s, ClassFeatures: %s, Proficiency: %s"),
                                                    Asset->RaceDataTable ? TEXT("OK") : TEXT("FALTANDO"),
                                                    Asset->BackgroundDataTable ? TEXT("OK") : TEXT("FALTANDO"),
-                                                   Asset->FeatDataTable ? TEXT("OK") : TEXT("FALTANDO")),
+                                                   Asset->ClassDataTable ? TEXT("OK") : TEXT("FALTANDO"),
+                                                   Asset->FeatDataTable ? TEXT("OK") : TEXT("FALTANDO"),
+                                                   Asset->ClassFeaturesDataTable ? TEXT("OK") : TEXT("FALTANDO"),
+                                                   Asset->ProficiencyDataTable ? TEXT("OK") : TEXT("FALTANDO")),
                                    false);
     }
 }
@@ -291,189 +302,6 @@ bool FCharacterSheetDataAssetHelpers::IsValidClassWithoutTag(FName ClassName)
 #pragma endregion Handler Helpers
 
 // ============================================================================
-// Correction Application Helpers
-// ============================================================================
-#pragma region Correction Application Helpers
-
-void FCharacterSheetDataAssetHelpers::ApplyResetToNone(UCharacterSheetDataAsset *Asset,
-                                                       const FValidationCorrection &Correction)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    const FName PropertyName = Correction.PropertyName;
-
-    if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedFeat))
-    {
-        Asset->SelectedFeat = NAME_None;
-    }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedSkill))
-    {
-        Asset->SelectedSkill = NAME_None;
-    }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name))
-    {
-        // Name está dentro de Multiclass array
-        const int32 ArrayIndex = Correction.ArrayIndex;
-        if (ArrayIndex >= 0 && ArrayIndex < Asset->Multiclass.Num())
-        {
-            // Reseta Name e LevelInClass (quando Name é resetado, LevelInClass também deve ser 0)
-            Asset->Multiclass[ArrayIndex].ClassData.Name = NAME_None;
-            Asset->Multiclass[ArrayIndex].ClassData.LevelInClass = 0;
-        }
-    }
-    else
-    {
-        FLogContext Context(TEXT("CharacterSheet"), TEXT("ApplyResetToNone"));
-        FLoggingSystem::LogWarning(
-            Context, FString::Printf(TEXT("ResetToNone não implementado para %s"), *PropertyName.ToString()), true);
-    }
-}
-
-void FCharacterSheetDataAssetHelpers::ApplyClearArray(UCharacterSheetDataAsset *Asset,
-                                                      const FValidationCorrection &Correction)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    const FName PropertyName = Correction.PropertyName;
-    const int32 ArrayIndex = Correction.ArrayIndex;
-    const int32 NewValue = Correction.NewValue; // Para SetNum quando NewValue > 0
-
-    if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedLanguages))
-    {
-        // Se NewValue > 0, reduz array para esse tamanho, senão limpa completamente
-        if (NewValue > 0)
-        {
-            Asset->SelectedLanguages.SetNum(NewValue);
-        }
-        else
-        {
-            Asset->SelectedLanguages.Empty();
-        }
-    }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression))
-    {
-        // Progression está dentro de Multiclass array
-        if (ArrayIndex >= 0 && ArrayIndex < Asset->Multiclass.Num())
-        {
-            Asset->Multiclass[ArrayIndex].ClassData.Progression.Empty();
-            // Atualiza flag após limpar
-            const FName ClassName = Asset->Multiclass[ArrayIndex].ClassData.Name;
-            const int32 LevelInClass = Asset->Multiclass[ArrayIndex].ClassData.LevelInClass;
-            const bool bCanEdit = FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
-            Asset->Multiclass[ArrayIndex].ClassData.bCanEditProgression = bCanEdit;
-            Asset->Multiclass[ArrayIndex].ClassData.bCanEditProficiencies = bCanEdit;
-            FLogContext Context(TEXT("CharacterSheet"), TEXT("ApplyClearArray"));
-            FLoggingSystem::LogInfo(
-                Context, FString::Printf(TEXT("Progression limpo para Multiclass[%d] (bCanEditProgression = %s)"),
-                                         ArrayIndex, bCanEdit ? TEXT("true") : TEXT("false")));
-        }
-    }
-    else
-    {
-        FLogContext Context(TEXT("CharacterSheet"), TEXT("ApplyClearArray"));
-        FLoggingSystem::LogWarning(
-            Context, FString::Printf(TEXT("ClearArray não implementado para %s"), *PropertyName.ToString()), true);
-    }
-}
-
-void FCharacterSheetDataAssetHelpers::ApplyAdjustValue(UCharacterSheetDataAsset *Asset,
-                                                       const FValidationCorrection &Correction)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    const FName PropertyName = Correction.PropertyName;
-    const int32 ArrayIndex = Correction.ArrayIndex;
-    const int32 NewValue = Correction.NewValue;
-
-    if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass))
-    {
-        // LevelInClass está dentro de Multiclass array
-        if (ArrayIndex >= 0 && ArrayIndex < Asset->Multiclass.Num())
-        {
-            Asset->Multiclass[ArrayIndex].ClassData.LevelInClass = NewValue;
-            // Atualiza flags bCanEditProgression e bCanEditProficiencies após ajustar LevelInClass
-            const FName ClassName = Asset->Multiclass[ArrayIndex].ClassData.Name;
-            const bool bCanEdit = FMulticlassHelpers::CanProcessProgression(ClassName, NewValue);
-            Asset->Multiclass[ArrayIndex].ClassData.bCanEditProgression = bCanEdit;
-            Asset->Multiclass[ArrayIndex].ClassData.bCanEditProficiencies = bCanEdit;
-        }
-    }
-    else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassSkills, qtdAvailable))
-    {
-        // qtdAvailable está dentro de FSkills dentro de Proficiencies array dentro de Multiclass array
-        if (ArrayIndex >= 0 && ArrayIndex < Asset->Multiclass.Num())
-        {
-            // Ajusta qtdAvailable para todas as proficiências da entrada
-            for (FMulticlassProficienciesEntry &ProficiencyEntry :
-                 Asset->Multiclass[ArrayIndex].ClassData.Proficiencies)
-            {
-                ProficiencyEntry.FSkills.qtdAvailable = NewValue;
-            }
-        }
-    }
-    else
-    {
-        FLogContext Context(TEXT("CharacterSheet"), TEXT("ApplyAdjustValue"));
-        FLoggingSystem::LogWarning(
-            Context, FString::Printf(TEXT("AdjustValue não implementado para %s"), *PropertyName.ToString()), true);
-    }
-}
-
-void FCharacterSheetDataAssetHelpers::ApplyRemoveInvalid(UCharacterSheetDataAsset *Asset,
-                                                         const FValidationCorrection &Correction)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    const FName PropertyName = Correction.PropertyName;
-    const TArray<int32> &InvalidIndices = Correction.InvalidIndices;
-
-    if (InvalidIndices.Num() == 0)
-    {
-        return;
-    }
-
-    if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices))
-    {
-        // Remove elementos inválidos do array (em ordem reversa para manter índices válidos)
-        TArray<int32> SortedIndices = InvalidIndices;
-        SortedIndices.Sort([](const int32 &A, const int32 &B) { return A > B; }); // Ordem decrescente
-
-        for (int32 Index : SortedIndices)
-        {
-            if (Index >= 0 && Index < Asset->CustomAbilityScoreChoices.Num())
-            {
-                Asset->CustomAbilityScoreChoices.RemoveAt(Index);
-            }
-        }
-
-        FLogContext Context(TEXT("CharacterSheet"), TEXT("ApplyRemoveInvalid"));
-        FLoggingSystem::LogInfo(Context,
-                                FString::Printf(TEXT("Removidos %d elementos inválidos de CustomAbilityScoreChoices"),
-                                                InvalidIndices.Num()));
-    }
-    else
-    {
-        FLogContext Context(TEXT("CharacterSheet"), TEXT("ApplyRemoveInvalid"));
-        FLoggingSystem::LogWarning(
-            Context, FString::Printf(TEXT("RemoveInvalid não implementado para %s"), *PropertyName.ToString()), true);
-    }
-}
-
-#pragma endregion Correction Application Helpers
-
-// ============================================================================
 // Multiclass Helpers
 // ============================================================================
 #pragma region Multiclass Helpers
@@ -551,6 +379,18 @@ bool FCharacterSheetDataAssetHelpers::DetectNestedMulticlassProperty(const FProp
             HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassSkills, Selected);
             return true;
         }
+        // Detecta mudanças em FMulticlassClassFeature.AvailableChoiceToAdd (dropdown - propriedade aninhada dentro de Features)
+        else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassFeature, AvailableChoiceToAdd))
+        {
+            HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassFeature, AvailableChoiceToAdd);
+            return true;
+        }
+        // Detecta mudanças em FMulticlassClassFeature.SelectedChoices (array - propriedade aninhada dentro de Features)
+        else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassFeature, SelectedChoices))
+        {
+            HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassFeature, SelectedChoices);
+            return true;
+        }
     }
 
     return false;
@@ -571,3 +411,164 @@ bool FCharacterSheetDataAssetHelpers::DetectLevelInClassCorrections(const FValid
 }
 
 #pragma endregion Multiclass Helpers
+
+// ============================================================================
+// Data Table Type Validation Helpers
+// ============================================================================
+#pragma region Data Table Type Validation Helpers
+
+bool FCharacterSheetDataAssetHelpers::ValidateDataTableType(UCharacterSheetDataAsset *Asset, UDataTable *DataTable,
+                                                            const FName &PropertyName, const FString &ExpectedTypeName,
+                                                            bool (*ValidationFunction)(UDataTable *))
+{
+    if (!DataTable)
+    {
+        // nullptr é válido (tabela não foi atribuída ainda)
+        return true;
+    }
+
+    if (!ValidationFunction(DataTable))
+    {
+        FLogContext Context(TEXT("CharacterSheet"), TEXT("ValidateDataTableType"));
+        FString ErrorMessage = FString::Printf(
+            TEXT("Data Table '%s' tem tipo incorreto. Esperado: %s. A tabela foi resetada para None."),
+            *PropertyName.ToString(), *ExpectedTypeName);
+        FLoggingSystem::LogErrorWithThrottledPopup(Context, ErrorMessage, 0.5f);
+
+        // Reset tabela para nullptr se tipo incorreto (validação restritiva)
+        if (Asset)
+        {
+            Asset->Modify();
+            // Usa reflexão para resetar a propriedade para nullptr
+            if (FProperty *Property = FindFieldChecked<FProperty>(Asset->GetClass(), PropertyName))
+            {
+                if (FObjectProperty *ObjectProperty = CastField<FObjectProperty>(Property))
+                {
+                    void *PropertyValue = Property->ContainerPtrToValuePtr<void>(Asset);
+                    ObjectProperty->SetObjectPropertyValue(PropertyValue, nullptr);
+
+                    // Notifica editor sobre mudança
+                    FPropertyChangedEvent PropertyChangedEvent(Property, EPropertyChangeType::ValueSet);
+                    Asset->PostEditChangeProperty(PropertyChangedEvent);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    return true;
+}
+
+#pragma endregion Data Table Type Validation Helpers
+
+// ============================================================================
+// Multiple Choice Feature Helpers
+// ============================================================================
+#pragma region Multiple Choice Feature Helpers
+
+void FCharacterSheetDataAssetHelpers::ForEachMultipleChoiceFeature(
+    UCharacterSheetDataAsset *Asset,
+    TFunctionRef<void(FMulticlassClassFeature &Feature, const TArray<FName> &ValidChoices)> Callback)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    // Itera por todas as entradas de multiclasse
+    for (FMulticlassEntry &Entry : Asset->Multiclass)
+    {
+        // Itera por todas as features em todas as progressões
+        for (FMulticlassProgressEntry &ProgressEntry : Entry.ClassData.Progression)
+        {
+            for (FMulticlassClassFeature &Feature : ProgressEntry.Features)
+            {
+                // Processa apenas features do Tipo 3 (Escolhas Múltiplas)
+                if (!Feature.bHasAvailableChoices || !Feature.bIsMultipleChoice)
+                {
+                    continue;
+                }
+
+                // Obtém lista de IDs de escolhas válidas para esta feature (filtradas por FC_ID)
+                TArray<FName> ValidChoices = Asset->GetAvailableChoiceIDsForFeature(Feature.FC_ID);
+
+                // Executa callback
+                Callback(Feature, ValidChoices);
+            }
+        }
+    }
+}
+
+int32 FCharacterSheetDataAssetHelpers::GetMaxChoicesLimit(const FMulticlassClassFeature &Feature)
+{
+    // Busca MaxChoices em FeatureData
+    if (Feature.FeatureData.Contains(TEXT("MaxChoices")))
+    {
+        const FString &MaxChoicesStr = Feature.FeatureData[TEXT("MaxChoices")];
+        int32 MaxChoices = FCString::Atoi(*MaxChoicesStr);
+        return MaxChoices > 0 ? MaxChoices : -1; // Retorna -1 se valor inválido
+    }
+
+    // Sem limite definido
+    return -1;
+}
+
+bool FCharacterSheetDataAssetHelpers::CanAddChoice(FName Choice, const TArray<FName> &ValidChoices,
+                                                    const TArray<FName> &SelectedChoices, int32 MaxChoices)
+{
+    // Verifica se escolha está na lista válida
+    if (!ValidChoices.Contains(Choice))
+    {
+        return false;
+    }
+
+    // Verifica se escolha já não foi escolhida (evita duplicatas)
+    if (SelectedChoices.Contains(Choice))
+    {
+        return false;
+    }
+
+    // Verifica se não excede limite (se houver)
+    if (MaxChoices > 0 && SelectedChoices.Num() >= MaxChoices)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool FCharacterSheetDataAssetHelpers::CleanInvalidAndDuplicateChoices(TArray<FName> &SelectedChoices,
+                                                                      const TArray<FName> &ValidChoices)
+{
+    bool bAnyChange = false;
+
+    // Remove escolhas inválidas e duplicatas em um único loop otimizado
+    TSet<FName> UniqueChoices;
+    TArray<FName> CleanedChoices;
+    CleanedChoices.Reserve(SelectedChoices.Num());
+
+    for (const FName &Choice : SelectedChoices)
+    {
+        // Verifica se é válida e não é duplicata
+        if (ValidChoices.Contains(Choice) && !UniqueChoices.Contains(Choice))
+        {
+            UniqueChoices.Add(Choice);
+            CleanedChoices.Add(Choice);
+        }
+        else
+        {
+            bAnyChange = true; // Houve remoção
+        }
+    }
+
+    // Atualiza array apenas se houve mudanças
+    if (bAnyChange)
+    {
+        SelectedChoices = CleanedChoices;
+    }
+
+    return bAnyChange;
+}
+
+#pragma endregion Multiple Choice Feature Helpers

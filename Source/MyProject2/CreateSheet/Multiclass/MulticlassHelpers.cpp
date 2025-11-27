@@ -326,28 +326,54 @@ FMulticlassClassFeature FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature
     Result.FeatureType = FeatureRow.FeatureType;
     Result.FeatureData = FeatureRow.FeatureData;
 
-    // Popula AvailableChoices com nomes das escolhas disponíveis (se houver)
-    // Para features do tipo "Choice" ou "SubclassSelection", preenche com nomes das escolhas
-    if (FeatureRow.FeatureType == TEXT("Choice") || FeatureRow.FeatureType == TEXT("SubclassSelection"))
+    // Calcula flags baseado em dados da tabela (fonte de verdade)
+    const bool bIsChoiceType = (FeatureRow.FeatureType == TEXT("Choice") ||
+                                 FeatureRow.FeatureType == TEXT("SubclassSelection"));
+    const int32 ChoicesCount = FeatureRow.AvailableChoices.Num();
+    const bool bHasChoicesInTable = bIsChoiceType && (ChoicesCount > 0);
+
+    // bIsMultipleChoice é determinado por bAllowMultipleChoices, não pela quantidade de opções
+    // Tipo 2 (Escolha Única): bAllowMultipleChoices = false → usa AvailableChoices (dropdown)
+    // Tipo 3 (Escolhas Múltiplas): bAllowMultipleChoices = true → usa SelectedChoices (array)
+    const bool bIsMultiple = bHasChoicesInTable && FeatureRow.bAllowMultipleChoices;
+
+    // Define flags calculadas
+    Result.bHasAvailableChoices = bHasChoicesInTable;
+    Result.bIsMultipleChoice = bIsMultiple;
+
+    // Popula AvailableChoices ou SelectedChoices baseado no tipo
+    if (bHasChoicesInTable)
     {
-        if (FeatureRow.AvailableChoices.Num() > 0)
+        if (bIsMultiple)
         {
-            // Usa o primeiro nome como padrão (jogador pode mudar no editor)
-            Result.AvailableChoices = FeatureRow.AvailableChoices[0].Name;
+            // Tipo 3: Escolhas Múltiplas - usa AvailableChoiceToAdd + SelectedChoices (array)
+            Result.AvailableChoices = NAME_None; // Não usado para múltiplas escolhas
+            Result.AvailableChoiceToAdd = NAME_None; // Dropdown para adicionar ao array
+            Result.SelectedChoices.Empty(); // Inicia vazio para jogador escolher
         }
         else
         {
-            Result.AvailableChoices = NAME_None;
+            // Tipo 2: Escolha Única - usa AvailableChoices (dropdown)
+            // Se houver apenas 1 opção, preenche automaticamente com ID; caso contrário, deixa vazio para jogador escolher
+            if (ChoicesCount == 1)
+            {
+                Result.AvailableChoices = FeatureRow.AvailableChoices[0].ID; // Armazena ID, não Name
+            }
+            else
+            {
+                Result.AvailableChoices = NAME_None; // Jogador escolhe no dropdown
+            }
+            Result.AvailableChoiceToAdd = NAME_None; // Não usado para escolha única
+            Result.SelectedChoices.Empty(); // Não usado para escolha única
         }
     }
     else
     {
-        // Para features automáticas, AvailableChoices não é usado
+        // Tipo 1: Feature Automático - nenhuma escolha disponível
         Result.AvailableChoices = NAME_None;
+        Result.AvailableChoiceToAdd = NAME_None;
+        Result.SelectedChoices.Empty();
     }
-
-    // Calcula flag bHasAvailableChoices usando helper
-    Result.bHasAvailableChoices = FeatureHasAvailableChoices(Result);
 
     return Result;
 }
@@ -476,10 +502,51 @@ bool FMulticlassHelpers::FeatureHasAvailableChoices(const FMulticlassClassFeatur
         return false;
     }
 
-    // Verifica se AvailableChoices está preenchido (não é NAME_None)
-    return Feature.AvailableChoices != NAME_None;
+    // Verifica se feature tem escolhas disponíveis (flag já calculada na conversão)
+    // Esta função é mantida para compatibilidade e validações futuras
+    // A flag bHasAvailableChoices é calculada em ConvertFeatureRowToMulticlassFeature usando dados da tabela
+    return Feature.bHasAvailableChoices;
 }
 
 #pragma endregion Feature Has Available Choices Helper
 
 #pragma endregion Feature Conversion Helpers
+
+// ============================================================================
+// Logging Helpers
+// ============================================================================
+#pragma region Logging Helpers
+
+void FMulticlassHelpers::LogLevelChangeFeatures(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable)
+{
+    // Validação de entrada (guard clauses)
+    if (!ValidateProcessLevelChangeInputs(ClassName, LevelInClass, ClassDataTable))
+    {
+        return;
+    }
+
+    // Busca dados da classe na tabela
+    const FClassDataRow *ClassRow = FindAndValidateClassRow(ClassName, ClassDataTable);
+    if (!ClassRow)
+    {
+        return;
+    }
+
+    // Extrai features do nível específico
+    const FProgressEntry *LevelEntry = nullptr;
+    if (!ExtractLevelFeatures(ClassRow->FClass.Progression, LevelInClass, LevelEntry))
+    {
+        return;
+    }
+
+    // Log apenas quando há features ganhas (ponto chave)
+    if (LevelEntry->Features.Num() > 0)
+    {
+        FString FeaturesString = BuildFeaturesString(LevelEntry->Features);
+        FLogContext Context(TEXT("Multiclass"), TEXT("LogLevelChangeFeatures"));
+        FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("Classe '%s' nível %d: features ganhas = [%s]"),
+                                                         *ClassName.ToString(), LevelInClass, *FeaturesString));
+    }
+}
+
+#pragma endregion Logging Helpers

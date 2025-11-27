@@ -56,11 +56,28 @@ struct MYPROJECT2_API FProficiencyDataRow : public FTableRowBase
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiency")
     FText Description;
 
+    /**
+     * Dados estruturados opcionais da proficiência.
+     * Permite armazenar informações programáticas além da descrição.
+     *
+     * Exemplos de uso:
+     * - Weapons: {"Damage": "1d4", "DamageType": "Bludgeoning", "Properties": "Light,Finesse"}
+     * - Armor: {"AC": "15", "MaxDexBonus": "2", "StealthDisadvantage": "true"}
+     * - Tools: {"UsesPerRest": "1", "ActionType": "Action"}
+     * - Skills: {"AbilityModifier": "DEX"} (para skills que usam modificador específico)
+     *
+     * Vazio para proficiências passivas (Languages, SavingThrows básicos).
+     * Preparado para migração futura para GAS (Gameplay Ability System).
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiency")
+    TMap<FName, FString> ProficiencyData;
+
     FProficiencyDataRow()
         : Name(NAME_None)
         , ProficiencyID(NAME_None)
         , Type(NAME_None)
         , Description(FText::GetEmpty())
+        , ProficiencyData()  // Inicializa vazio (backward compatible)
     {
     }
 
@@ -70,6 +87,7 @@ struct MYPROJECT2_API FProficiencyDataRow : public FTableRowBase
         , ProficiencyID(InProficiencyID)
         , Type(InType)
         , Description(InDescription)
+        , ProficiencyData()  // Inicializa vazio (backward compatible)
     {
     }
 };

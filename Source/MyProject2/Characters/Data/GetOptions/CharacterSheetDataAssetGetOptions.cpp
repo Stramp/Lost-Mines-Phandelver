@@ -10,6 +10,7 @@
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/DataTableHelpers.h"
+#include "Utils/FeatureChoiceHelpers.h"
 
 // Project includes - CreateSheet Motors
 #include "CreateSheet/Multiclass/MulticlassMotor.h"
@@ -174,7 +175,6 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(const 
 
     // Itera por todas as features na tabela
     TArray<FName> RowNames = FeatureDataTable->GetRowNames();
-    UDataTable *NonConstTable = const_cast<UDataTable *>(FeatureDataTable);
 
     for (const FName &RowName : RowNames)
     {
@@ -199,46 +199,26 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(const 
 }
 
 /**
- * Retorna nomes de escolhas disponíveis filtrados por FC_ID de feature específica.
- * Apenas retorna escolhas da feature que corresponde ao FC_ID fornecido.
+ * Retorna IDs de escolhas disponíveis filtrados por FC_ID de feature específica.
+ * Apenas retorna IDs de escolhas da feature que corresponde ao FC_ID fornecido.
+ * IDs são usados para referência da máquina (armazenados em AvailableChoices/SelectedChoices).
  * Usado para dropdown filtrado em FMulticlassClassFeature.AvailableChoices.
+ */
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceIDsForFeature(const UDataTable *FeatureDataTable,
+                                                                                   FName FeatureFC_ID)
+{
+    return FeatureChoiceHelpers::GetAvailableChoiceIDsForFeature(FeatureDataTable, FeatureFC_ID);
+}
+
+/**
+ * Retorna nomes de escolhas disponíveis filtrados por FC_ID de feature específica.
+ * Apenas retorna nomes de escolhas da feature que corresponde ao FC_ID fornecido.
+ * Names são usados para exibição na UI (propriedades calculadas).
  */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNamesForFeature(const UDataTable *FeatureDataTable,
                                                                                     FName FeatureFC_ID)
 {
-    TArray<FName> Result;
-
-    if (!FeatureDataTable || FeatureFC_ID == NAME_None)
-    {
-        return Result;
-    }
-
-    // Itera por todas as features na tabela procurando pelo FC_ID
-    TArray<FName> RowNames = FeatureDataTable->GetRowNames();
-
-    for (const FName &RowName : RowNames)
-    {
-        if (const FFeatureDataRow *FeatureRow =
-                FeatureDataTable->FindRow<FFeatureDataRow>(RowName, TEXT("GetAvailableChoiceNamesForFeature")))
-        {
-            // Verifica se esta feature corresponde ao FC_ID procurado
-            if (FeatureRow->FC_ID == FeatureFC_ID)
-            {
-                // Adiciona apenas os nomes de escolhas disponíveis desta feature específica
-                for (const FFeatureChoice &Choice : FeatureRow->AvailableChoices)
-                {
-                    if (Choice.Name != NAME_None)
-                    {
-                        Result.Add(Choice.Name);
-                    }
-                }
-                // Encontrou a feature, não precisa continuar iterando
-                break;
-            }
-        }
-    }
-
-    return Result;
+    return FeatureChoiceHelpers::GetAvailableChoiceNamesForFeature(FeatureDataTable, FeatureFC_ID);
 }
 
 #pragma endregion Feature Choice Options

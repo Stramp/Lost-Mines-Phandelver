@@ -161,7 +161,7 @@ void FCharacterSheetDataAssetInitializers::InitializeDataTableHandlers(UCharacte
                                 FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassFeaturesDataTable),
                                 FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
-    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassProficienciesDataTable),
+    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ProficiencyDataTable),
                                 FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
 }
 
@@ -186,6 +186,10 @@ void FCharacterSheetDataAssetInitializers::InitializeMulticlassHandlers(UCharact
                                 FCharacterSheetDataAssetHandlers::HandleAvailableSkillWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FMulticlassSkills, Selected),
                                 FCharacterSheetDataAssetHandlers::HandleSelectedSkillsWrapper);
+    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FMulticlassClassFeature, AvailableChoiceToAdd),
+                                FCharacterSheetDataAssetHandlers::HandleAvailableChoiceToAddWrapper);
+    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FMulticlassClassFeature, SelectedChoices),
+                                FCharacterSheetDataAssetHandlers::HandleSelectedChoicesWrapper);
 }
 
 #pragma endregion Multiclass Handlers Initialization

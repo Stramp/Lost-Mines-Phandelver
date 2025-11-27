@@ -37,18 +37,6 @@ public:
                                              int32 FinalDexterity, int32 FinalConstitution, int32 FinalIntelligence,
                                              int32 FinalWisdom, int32 FinalCharisma);
 
-
-    /**
-     * Loga features ganhas em um nível específico de uma classe.
-     * Busca informações da classe na tabela e registra no log quais features foram ganhas no nível.
-     * Apenas loga informações, não carrega nem processa dados.
-     *
-     * @param ClassName Nome da classe
-     * @param LevelInClass Nível na classe (1-20)
-     * @param ClassDataTable Data Table de classes para buscar informações (pode ser nullptr)
-     */
-    static void LogLevelChangeFeatures(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable);
-
     /**
      * Carrega proficiências de uma classe para multiclasse retornando nomes legíveis.
      * Proficiências são ganhas apenas no nível 1 da classe.

@@ -111,12 +111,27 @@ struct MYPROJECT2_API FFeatureDataRow : public FTableRowBase
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
     TArray<FFeatureChoice> AvailableChoices;
 
+    /**
+     * Indica se a feature permite que o jogador escolha múltiplas opções.
+     *
+     * Comportamento:
+     * - false (padrão): Jogador escolhe apenas 1 opção (ex: Fighting Style, Subclass Selection)
+     * - true: Jogador pode escolher múltiplas opções (ex: Manobras, Metamagic)
+     *
+     * Apenas relevante quando FeatureType é "Choice" ou "SubclassSelection" e há escolhas disponíveis.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature",
+              meta = (EditCondition = "FeatureType == \"Choice\" || FeatureType == \"SubclassSelection\"",
+                      EditConditionHides))
+    bool bAllowMultipleChoices = false;
+
     FFeatureDataRow()
         : Name(NAME_None)
         , FC_ID(NAME_None)
         , Description(FText::GetEmpty())
         , LevelUnlocked(1)
         , FeatureType(NAME_None)
+        , bAllowMultipleChoices(false)
     {
     }
 
@@ -127,6 +142,7 @@ struct MYPROJECT2_API FFeatureDataRow : public FTableRowBase
         , Description(InDescription)
         , LevelUnlocked(InLevelUnlocked)
         , FeatureType(InFeatureType)
+        , bAllowMultipleChoices(false)
     {
     }
 };

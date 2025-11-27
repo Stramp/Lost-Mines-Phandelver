@@ -171,12 +171,25 @@ public:
 
     /**
      * Verifica se uma feature tem escolhas disponíveis para o jogador.
-     * Retorna true apenas se FeatureType é "Choice" ou "SubclassSelection" E AvailableChoices não é NAME_None.
+     * Retorna true se FeatureType é "Choice" ou "SubclassSelection" E bHasAvailableChoices é true.
      * Helper puro e testável, sem side effects.
-     * Usado para controlar visibilidade do campo AvailableChoices no editor.
+     * Usado para validações e verificações futuras.
+     * Nota: A flag bHasAvailableChoices é calculada em ConvertFeatureRowToMulticlassFeature usando dados da tabela.
      *
      * @param Feature Feature a verificar
      * @return true se feature tem escolhas disponíveis, false caso contrário
      */
     static bool FeatureHasAvailableChoices(const FMulticlassClassFeature &Feature);
+
+    /**
+     * Loga features ganhas em um nível específico de uma classe.
+     * Busca informações da classe na tabela e registra no log quais features foram ganhas no nível.
+     * Apenas loga informações, não carrega nem processa dados.
+     * Helper de logging para multiclasse.
+     *
+     * @param ClassName Nome da classe
+     * @param LevelInClass Nível na classe (1-20)
+     * @param ClassDataTable Data Table de classes para buscar informações (pode ser nullptr)
+     */
+    static void LogLevelChangeFeatures(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable);
 };

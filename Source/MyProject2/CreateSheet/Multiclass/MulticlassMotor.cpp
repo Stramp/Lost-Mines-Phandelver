@@ -54,46 +54,6 @@ TArray<FName> FMulticlassMotor::GetAvailableClasses(const UDataTable *ClassDataT
 
 #pragma endregion Get Available Classes
 
-
-// ============================================================================
-// Log Level Change Features
-// ============================================================================
-#pragma region Log Level Change Features
-
-void FMulticlassMotor::LogLevelChangeFeatures(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable)
-{
-    // Validação de entrada (guard clauses)
-    if (!FMulticlassHelpers::ValidateProcessLevelChangeInputs(ClassName, LevelInClass, ClassDataTable))
-    {
-        return;
-    }
-
-    // Busca dados da classe na tabela
-    const FClassDataRow *ClassRow = FMulticlassHelpers::FindAndValidateClassRow(ClassName, ClassDataTable);
-    if (!ClassRow)
-    {
-        return;
-    }
-
-    // Extrai features do nível específico
-    const FProgressEntry *LevelEntry = nullptr;
-    if (!FMulticlassHelpers::ExtractLevelFeatures(ClassRow->FClass.Progression, LevelInClass, LevelEntry))
-    {
-        return;
-    }
-
-    // Log apenas quando há features ganhas (ponto chave)
-    if (LevelEntry->Features.Num() > 0)
-    {
-        FString FeaturesString = FMulticlassHelpers::BuildFeaturesString(LevelEntry->Features);
-        FLogContext Context(TEXT("Multiclass"), TEXT("LogLevelChangeFeatures"));
-        FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("Classe '%s' nível %d: features ganhas = [%s]"),
-                                                         *ClassName.ToString(), LevelInClass, *FeaturesString));
-    }
-}
-
-#pragma endregion Log Level Change Features
-
 // ============================================================================
 // Load Class Proficiencies
 // ============================================================================

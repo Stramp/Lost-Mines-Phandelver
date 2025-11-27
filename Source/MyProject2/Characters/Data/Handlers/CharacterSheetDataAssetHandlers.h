@@ -46,9 +46,12 @@ public:
 
     /**
      * Handles changes to Data Tables (RaceDataTable, BackgroundDataTable, FeatDataTable, ClassDataTable).
-     * Updates sheet visibility based on Data Tables selection and logs status.
+     * Validates Data Table type and updates sheet visibility based on Data Tables selection.
+     *
+     * @param Asset Data Asset
+     * @param PropertyName Name of the property that changed (to identify which Data Table was modified)
      */
-    static void HandleDataTableChange(UCharacterSheetDataAsset *Asset);
+    static void HandleDataTableChange(UCharacterSheetDataAsset *Asset, FName PropertyName);
 
     /**
      * Handles changes to LevelInClass in Multiclass array.
@@ -89,6 +92,20 @@ public:
      */
     static void HandleSelectedSkillsChange(UCharacterSheetDataAsset *Asset);
 
+    /**
+     * Handles changes to FMulticlassClassFeature.AvailableChoiceToAdd (dropdown) in Multiclass array.
+     * Quando uma escolha é selecionada no dropdown, adiciona ao SelectedChoices e reseta AvailableChoiceToAdd.
+     * Usado para features do Tipo 3 (Escolhas Múltiplas) como Manobras e Metamagic.
+     */
+    static void HandleAvailableChoiceToAddChange(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Handles changes to FMulticlassClassFeature.SelectedChoices (array) in Multiclass array.
+     * Valida escolhas quando são adicionadas/removidas do SelectedChoices.
+     * Usado para features do Tipo 3 (Escolhas Múltiplas) como Manobras e Metamagic.
+     */
+    static void HandleSelectedChoicesChange(UCharacterSheetDataAsset *Asset);
+
     // ============================================================================
     // Wrapper Functions for Property Handler Map (C-style function pointers)
     // ============================================================================
@@ -108,4 +125,6 @@ public:
     static void HandleProficienciesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleAvailableSkillWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleSelectedSkillsWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleAvailableChoiceToAddWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleSelectedChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
 };

@@ -132,9 +132,8 @@ public:
 
     /**
      * Valida se todas as Data Tables obrigatórias foram cadastradas no Data Asset.
-     * Tabelas obrigatórias: RaceDataTable, BackgroundDataTable, ClassDataTable.
-     * FeatDataTable é obrigatória apenas se personagem é Variant Human.
-     * ClassFeaturesDataTable e ClassProficienciesDataTable são opcionais.
+     * Todas as 6 tabelas são obrigatórias: RaceDataTable, BackgroundDataTable, ClassDataTable,
+     * FeatDataTable, ClassFeaturesDataTable, ProficiencyDataTable.
      *
      * Exibe alertas popup via LoggingSystem quando tabelas obrigatórias estão faltando.
      *

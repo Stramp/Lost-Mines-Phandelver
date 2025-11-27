@@ -24,4 +24,45 @@ public:
      * @param ValidationResult Resultado da validação com correções
      */
     static void ApplyCorrections(UCharacterSheetDataAsset *Asset, const FValidationResult &ValidationResult);
+
+    // ============================================================================
+    // Correction Application Helpers
+    // ============================================================================
+
+    /**
+     * Aplica correção ResetToNone para propriedade específica.
+     * Helper puro e testável para aplicação de correções.
+     *
+     * @param Asset Asset do personagem
+     * @param Correction Correção a ser aplicada
+     */
+    static void ApplyResetToNone(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
+
+    /**
+     * Aplica correção ClearArray para propriedade específica.
+     * Helper puro e testável para aplicação de correções.
+     *
+     * @param Asset Asset do personagem
+     * @param Correction Correção a ser aplicada
+     */
+    static void ApplyClearArray(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
+
+    /**
+     * Aplica correção AdjustValue para propriedade específica.
+     * Helper puro e testável para aplicação de correções.
+     *
+     * @param Asset Asset do personagem
+     * @param Correction Correção a ser aplicada
+     */
+    static void ApplyAdjustValue(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
+
+    /**
+     * Aplica correção RemoveInvalid para propriedade específica.
+     * Remove elementos inválidos de arrays baseado em índices fornecidos.
+     * Helper puro e testável para aplicação de correções.
+     *
+     * @param Asset Asset do personagem
+     * @param Correction Correção a ser aplicada (deve conter índices inválidos em ArrayIndex ou NewValue)
+     */
+    static void ApplyRemoveInvalid(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
 };

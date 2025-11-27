@@ -23,6 +23,7 @@
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/CalculationHelpers.h"
+#include "Utils/FeatureChoiceHelpers.h"
 
 // Project includes - Data Tables
 #include "Data/Tables/RaceDataTable.h"
@@ -234,11 +235,11 @@ void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetData
 
     // Verifica se todos os Data Tables obrigatórios foram selecionados
     // Todas as 6 tabelas são obrigatórias: RaceDataTable, BackgroundDataTable, ClassDataTable,
-    // FeatDataTable, ClassFeaturesDataTable, ClassProficienciesDataTable
+    // FeatDataTable, ClassFeaturesDataTable, ProficiencyDataTable
     bool bAllDataTablesSelected = Asset->RaceDataTable != nullptr && Asset->BackgroundDataTable != nullptr &&
                                   Asset->ClassDataTable != nullptr && Asset->FeatDataTable != nullptr &&
                                   Asset->ClassFeaturesDataTable != nullptr &&
-                                  Asset->ClassProficienciesDataTable != nullptr;
+                                  Asset->ProficiencyDataTable != nullptr;
 
     // bCanShowSheet = false significa mostrar todas as categorias
     // bCanShowSheet = true significa mostrar apenas Data Tables
@@ -428,6 +429,75 @@ void FCharacterSheetDataAssetUpdaters::UpdateMulticlassFlags(UCharacterSheetData
 }
 
 #pragma endregion Multiclass Flags Update
+
+// ============================================================================
+// Feature Choice Display Names Update
+// ============================================================================
+#pragma region Feature Choice Display Names Update
+
+/**
+ * Atualiza propriedades calculadas de display names para features de multiclasse.
+ * Converte IDs armazenados em AvailableChoices/SelectedChoices para Names para exibição no editor.
+ */
+void FCharacterSheetDataAssetUpdaters::UpdateFeatureChoiceDisplayNames(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset || !Asset->ClassFeaturesDataTable)
+    {
+        return;
+    }
+
+#if WITH_EDITOR
+    // Itera por todas as entradas de multiclasse
+    for (FMulticlassEntry &Entry : Asset->Multiclass)
+    {
+        // Itera por todas as features em todas as progressões
+        for (FMulticlassProgressEntry &ProgressEntry : Entry.ClassData.Progression)
+        {
+            for (FMulticlassClassFeature &Feature : ProgressEntry.Features)
+            {
+                // Atualiza AvailableChoicesDisplayName (Tipo 2: Escolha Única)
+                if (Feature.bHasAvailableChoices && !Feature.bIsMultipleChoice && Feature.AvailableChoices != NAME_None)
+                {
+                    Feature.AvailableChoicesDisplayName =
+                        FeatureChoiceHelpers::FindChoiceNameByID(Asset->ClassFeaturesDataTable, Feature.FC_ID,
+                                                                 Feature.AvailableChoices);
+                }
+                else
+                {
+                    Feature.AvailableChoicesDisplayName = NAME_None;
+                }
+
+                // Atualiza AvailableChoiceToAddDisplayName (Tipo 3: Escolhas Múltiplas - dropdown)
+                if (Feature.bHasAvailableChoices && Feature.bIsMultipleChoice &&
+                    Feature.AvailableChoiceToAdd != NAME_None)
+                {
+                    Feature.AvailableChoiceToAddDisplayName =
+                        FeatureChoiceHelpers::FindChoiceNameByID(Asset->ClassFeaturesDataTable, Feature.FC_ID,
+                                                                 Feature.AvailableChoiceToAdd);
+                }
+                else
+                {
+                    Feature.AvailableChoiceToAddDisplayName = NAME_None;
+                }
+
+                // Atualiza SelectedChoicesDisplayNames (Tipo 3: Escolhas Múltiplas - array)
+                if (Feature.bHasAvailableChoices && Feature.bIsMultipleChoice && Feature.SelectedChoices.Num() > 0)
+                {
+                    Feature.SelectedChoicesDisplayNames =
+                        FeatureChoiceHelpers::ConvertChoiceIDsToNames(Asset->ClassFeaturesDataTable, Feature.FC_ID,
+                                                                       Feature.SelectedChoices);
+                }
+                else
+                {
+                    Feature.SelectedChoicesDisplayNames.Empty();
+                }
+            }
+        }
+    }
+#endif
+}
+
+#pragma endregion Feature Choice Display Names Update
 
 // ============================================================================
 // Multiclass Proficiency Choices Update

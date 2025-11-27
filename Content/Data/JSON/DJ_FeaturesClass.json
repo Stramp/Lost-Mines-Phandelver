@@ -9,7 +9,8 @@
       "UsesPerRest": "1",
       "Type": "BonusAction"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Fighting Style",
@@ -43,7 +44,8 @@
         "ID": "FC_Two_Weapon_Fighting",
         "Name": "Two-Weapon Fighting"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Action Surge",
@@ -56,7 +58,8 @@
       "AdditionalUsesPerInstance": "1",
       "Description": "Each instance of this feature adds +1 use per rest. Total uses = BaseUsesPerRest + (AdditionalUsesPerInstance × number of instances)"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Martial Archetype",
@@ -78,7 +81,8 @@
         "ID": "FC_Eldritch_Knight",
         "Name": "Eldritch Knight"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Ability Score Improvement",
@@ -87,7 +91,8 @@
     "LevelUnlocked": 4,
     "FeatureType": "ASI",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Indomitable",
@@ -100,7 +105,8 @@
       "AdditionalUsesPerInstance": "1",
       "Description": "Each instance of this feature adds +1 use per long rest. Total uses = BaseUsesPerLongRest + (AdditionalUsesPerInstance × number of instances)"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Feat Selection",
@@ -112,7 +118,8 @@
       "Source": "FeatDataTable",
       "AlternativeTo": "FC_ASI"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Arcane Recovery",
@@ -124,7 +131,8 @@
       "UsesPerDay": "1",
       "MaxSlotLevel": "5"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Arcane Tradition",
@@ -166,7 +174,8 @@
         "ID": "FC_Transmutation",
         "Name": "School of Transmutation"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Spell Mastery",
@@ -177,7 +186,8 @@
     "FeatureData": {
       "SpellsAtWill": "2"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Signature Spells",
@@ -189,7 +199,8 @@
       "SpellsPrepared": "2",
       "UsesPerRest": "1"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Rage",
@@ -201,7 +212,8 @@
       "RagesPerLongRest": "2",
       "Type": "BonusAction"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Unarmored Defense",
@@ -212,7 +224,8 @@
     "FeatureData": {
       "ACFormula": "10 + DEX + CON"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Reckless Attack",
@@ -223,7 +236,8 @@
     "FeatureData": {
       "Type": "OnDemand"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Danger Sense",
@@ -232,7 +246,8 @@
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Primal Path",
@@ -250,7 +265,8 @@
         "ID": "FC_PathOfTheTotemWarrior",
         "Name": "Path of the Totem Warrior"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Extra Attack",
@@ -263,7 +279,8 @@
       "ExtraAttacksPerInstance": "1",
       "Description": "Each instance of this feature adds +1 attack. Total attacks = BaseAttacks + (ExtraAttacksPerInstance × number of instances)"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Fast Movement",
@@ -274,7 +291,8 @@
     "FeatureData": {
       "SpeedBonus": "10"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Feral Instinct",
@@ -283,7 +301,8 @@
     "LevelUnlocked": 7,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Brutal Critical",
@@ -296,7 +315,8 @@
       "AdditionalDicePerInstance": "1",
       "Description": "Each instance of this feature adds +1 damage die on critical hits. Total dice = BaseAdditionalDice + (AdditionalDicePerInstance × number of instances)"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Relentless Rage",
@@ -308,7 +328,8 @@
       "BaseDC": "10",
       "DCIncrease": "5"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Persistent Rage",
@@ -317,7 +338,8 @@
     "LevelUnlocked": 15,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Indomitable Might",
@@ -326,7 +348,8 @@
     "LevelUnlocked": 18,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Primal Champion",
@@ -338,7 +361,8 @@
       "AbilityScoreIncrease": "4",
       "MaxScore": "24"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Spellcasting",
@@ -347,7 +371,8 @@
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Bardic Inspiration",
@@ -360,7 +385,8 @@
       "Range": "60",
       "DieType": "d6"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Jack of All Trades",
@@ -369,7 +395,8 @@
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Song of Rest",
@@ -383,7 +410,8 @@
       "DieAtLevel13": "d10",
       "DieAtLevel17": "d12"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Bard College",
@@ -401,7 +429,8 @@
         "ID": "FC_CollegeOfValor",
         "Name": "College of Valor"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Expertise",
@@ -413,7 +442,8 @@
       "SkillsPerInstance": "2",
       "Description": "Each instance of this feature allows you to choose 2 skills to gain double proficiency bonus. Total skills with expertise = SkillsPerInstance × number of instances"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Font of Inspiration",
@@ -422,7 +452,8 @@
     "LevelUnlocked": 5,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Countercharm",
@@ -434,7 +465,8 @@
       "Type": "Action",
       "Range": "30"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Magical Secrets",
@@ -446,7 +478,8 @@
       "SpellsPerInstance": "2",
       "Description": "Each instance of this feature allows you to choose 2 spells from any class. Total spells learned = SpellsPerInstance × number of instances"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Superior Inspiration",
@@ -455,7 +488,8 @@
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Divine Domain",
@@ -493,7 +527,8 @@
         "ID": "FC_WarDomain",
         "Name": "War Domain"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Channel Divinity",
@@ -504,7 +539,8 @@
     "FeatureData": {
       "UsesPerRest": "1"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Destroy Undead",
@@ -516,7 +552,8 @@
       "CRThresholdByLevel": "0.5@5,1@8,2@11,3@14,4@17",
       "Description": "The maximum CR of undead that can be destroyed increases with cleric level. Each instance of this feature represents an improvement in the feature's power."
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Divine Intervention",
@@ -530,7 +567,8 @@
       "AutoSuccessAtLevel20": "true",
       "Description": "At 10th level, roll percentile dice (success if roll <= cleric level). At 20th level, automatically succeeds. Each instance represents an improvement in the feature's reliability."
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Druidic",
@@ -539,7 +577,8 @@
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Wild Shape",
@@ -551,7 +590,8 @@
       "Type": "Action",
       "UsesPerRest": "2"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Druid Circle",
@@ -569,7 +609,8 @@
         "ID": "FC_CircleOfTheMoon",
         "Name": "Circle of the Moon"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Timeless Body",
@@ -578,7 +619,8 @@
     "LevelUnlocked": 18,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Beast Spells",
@@ -587,7 +629,8 @@
     "LevelUnlocked": 18,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Archdruid",
@@ -596,7 +639,8 @@
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Martial Arts",
@@ -607,7 +651,8 @@
     "FeatureData": {
       "DieType": "d4"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Ki",
@@ -618,7 +663,8 @@
     "FeatureData": {
       "KiPoints": "2"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Unarmored Movement",
@@ -633,7 +679,8 @@
       "SpeedBonusAtLevel14": "25",
       "SpeedBonusAtLevel18": "30"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Monastic Tradition",
@@ -655,7 +702,8 @@
         "ID": "FC_WayOfTheFourElements",
         "Name": "Way of the Four Elements"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Deflect Missiles",
@@ -667,7 +715,8 @@
       "Type": "Reaction",
       "KiCost": "1"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Slow Fall",
@@ -678,7 +727,8 @@
     "FeatureData": {
       "Type": "Reaction"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Stunning Strike",
@@ -689,7 +739,8 @@
     "FeatureData": {
       "KiCost": "1"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Ki-Empowered Strikes",
@@ -698,7 +749,8 @@
     "LevelUnlocked": 6,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Evasion",
@@ -707,7 +759,8 @@
     "LevelUnlocked": 7,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Stillness of Mind",
@@ -718,7 +771,8 @@
     "FeatureData": {
       "Type": "Action"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Purity of Body",
@@ -727,7 +781,8 @@
     "LevelUnlocked": 10,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Tongue of the Sun and Moon",
@@ -736,7 +791,8 @@
     "LevelUnlocked": 13,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Diamond Soul",
@@ -747,7 +803,8 @@
     "FeatureData": {
       "KiCost": "1"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Empty Body",
@@ -760,7 +817,8 @@
       "KiCostInvisibility": "4",
       "KiCostAstralProjection": "8"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Perfect Self",
@@ -771,7 +829,8 @@
     "FeatureData": {
       "KiPointsRegained": "4"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Divine Sense",
@@ -784,7 +843,8 @@
       "Range": "60",
       "UsesPerLongRest": "1 + CHA"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Lay on Hands",
@@ -796,7 +856,8 @@
       "Type": "Action",
       "PoolSize": "Level × 5"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Divine Smite",
@@ -809,7 +870,8 @@
       "MaxDamage": "5d8",
       "MaxDamageVsUndeadFiend": "6d8"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Sacred Oath",
@@ -831,7 +893,8 @@
         "ID": "FC_OathOfVengeance",
         "Name": "Oath of Vengeance"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Divine Health",
@@ -840,7 +903,8 @@
     "LevelUnlocked": 3,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Aura of Protection",
@@ -852,7 +916,8 @@
       "RangeAtLevel6": "10",
       "RangeAtLevel18": "30"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Improved Divine Smite",
@@ -863,7 +928,8 @@
     "FeatureData": {
       "ExtraDamage": "1d8"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Aura of Courage",
@@ -875,7 +941,8 @@
       "RangeAtLevel10": "10",
       "RangeAtLevel18": "30"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Cleansing Touch",
@@ -887,7 +954,8 @@
       "Type": "Action",
       "UsesPerLongRest": "CHA modifier (min 1)"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Aura Improvements",
@@ -898,7 +966,8 @@
     "FeatureData": {
       "NewRange": "30"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Favored Enemy",
@@ -911,7 +980,8 @@
       "LanguagesPerInstance": "1",
       "Description": "Each instance of this feature allows you to choose 1 favored enemy type and learn 1 associated language. Total favored enemies = EnemiesPerInstance × number of instances"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Natural Explorer",
@@ -923,7 +993,8 @@
       "TerrainsPerInstance": "1",
       "Description": "Each instance of this feature allows you to choose 1 favored terrain type. Total favored terrains = TerrainsPerInstance × number of instances"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Ranger Archetype",
@@ -941,7 +1012,8 @@
         "ID": "FC_BeastMaster",
         "Name": "Beast Master"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Primeval Awareness",
@@ -953,7 +1025,8 @@
       "Type": "Action",
       "Range": "1 mile (6 miles in favored terrain)"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Hide in Plain Sight",
@@ -964,7 +1037,8 @@
     "FeatureData": {
       "StealthBonus": "+10"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Foe Slayer",
@@ -973,7 +1047,8 @@
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Sneak Attack",
@@ -984,7 +1059,8 @@
     "FeatureData": {
       "BaseDamage": "1d6"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Thieves' Cant",
@@ -993,7 +1069,8 @@
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Cunning Action",
@@ -1004,7 +1081,8 @@
     "FeatureData": {
       "Type": "BonusAction"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Roguish Archetype",
@@ -1026,7 +1104,8 @@
         "ID": "FC_ArcaneTrickster",
         "Name": "Arcane Trickster"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Uncanny Dodge",
@@ -1037,7 +1116,8 @@
     "FeatureData": {
       "Type": "Reaction"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Reliable Talent",
@@ -1046,7 +1126,8 @@
     "LevelUnlocked": 11,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Blindsense",
@@ -1057,7 +1138,8 @@
     "FeatureData": {
       "Range": "10"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Slippery Mind",
@@ -1066,7 +1148,8 @@
     "LevelUnlocked": 15,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Stroke of Luck",
@@ -1077,7 +1160,8 @@
     "FeatureData": {
       "UsesPerRest": "1"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Sorcerous Origin",
@@ -1095,7 +1179,8 @@
         "ID": "FC_WildMagic",
         "Name": "Wild Magic"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Font of Magic",
@@ -1106,7 +1191,8 @@
     "FeatureData": {
       "SorceryPoints": "2"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Metamagic",
@@ -1119,7 +1205,8 @@
       "OptionsPerSubsequentInstance": "1",
       "Description": "First instance gives 2 Metamagic options. Each subsequent instance adds 1 option. Total options = OptionsAtFirstInstance + (OptionsPerSubsequentInstance × (number of instances - 1))"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": true
   },
   {
     "Name": "Sorcerous Restoration",
@@ -1130,7 +1217,8 @@
     "FeatureData": {
       "SorceryPointsRegained": "4"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Otherworldly Patron",
@@ -1152,7 +1240,8 @@
         "ID": "FC_TheArchfey",
         "Name": "The Archfey"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Pact Magic",
@@ -1161,7 +1250,8 @@
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
     "FeatureData": {},
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Eldritch Invocations",
@@ -1174,7 +1264,8 @@
       "InvocationsPerSubsequentInstance": "1",
       "Description": "First instance gives 2 Eldritch Invocations. Each subsequent instance adds 1 invocation. Total invocations = InvocationsAtFirstInstance + (InvocationsPerSubsequentInstance × (number of instances - 1))"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": true
   },
   {
     "Name": "Pact Boon",
@@ -1196,7 +1287,8 @@
         "ID": "FC_PactOfTheTome",
         "Name": "Pact of the Tome"
       }
-    ]
+    ],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Mystic Arcanum",
@@ -1209,7 +1301,8 @@
       "SpellLevelsByInstance": "6@11,7@13,8@15,9@17",
       "Description": "Each instance of this feature allows you to choose 1 Mystic Arcanum spell. The spell level increases with each instance: 6th, 7th, 8th, 9th. Total spells = SpellsPerInstance × number of instances"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   },
   {
     "Name": "Eldritch Master",
@@ -1220,6 +1313,7 @@
     "FeatureData": {
       "Cooldown": "Long Rest"
     },
-    "AvailableChoices": []
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false
   }
 ]

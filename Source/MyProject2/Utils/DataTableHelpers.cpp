@@ -7,6 +7,7 @@
 #include "Data/Tables/BackgroundDataTable.h"
 #include "Data/Tables/ProficiencyDataTable.h"
 #include "Data/Tables/FeatureDataTable.h"
+#include "Data/Tables/ItemDataTable.h"
 
 // Project includes - Logging
 #include "Logging/LoggingSystem.h"
@@ -169,6 +170,23 @@ FFeatDataRow *DataTableHelpers::FindFeatRow(FName FeatName, UDataTable *FeatData
     return Row;
 }
 
+FName DataTableHelpers::ConvertFeatNameToFCID(FName FeatName, UDataTable *FeatDataTable)
+{
+    if (!FeatDataTable || FeatName == NAME_None)
+    {
+        return NAME_None;
+    }
+
+    // Busca feat pelo Name
+    if (FFeatDataRow *Row = DataTableHelpers::FindFeatRow(FeatName, FeatDataTable))
+    {
+        // Retorna FC_ID se disponível, senão retorna Name (fallback)
+        return Row->FC_ID != NAME_None ? Row->FC_ID : Row->Name;
+    }
+
+    return NAME_None;
+}
+
 // ============================================================================
 // Background Data Table Helpers
 // ============================================================================
@@ -309,4 +327,63 @@ FFeatureDataRow *DataTableHelpers::FindFeatureRowByID(FName FeatureID, UDataTabl
     }
 
     return nullptr;
+}
+
+// ============================================================================
+// Data Table Type Validation Helpers
+// ============================================================================
+
+bool DataTableHelpers::ValidateDataTableRowStruct(UDataTable *DataTable, const UScriptStruct *ExpectedStruct)
+{
+    if (!DataTable || !ExpectedStruct)
+    {
+        return false;
+    }
+
+    const UScriptStruct *RowStruct = DataTable->GetRowStruct();
+    if (!RowStruct)
+    {
+        return false;
+    }
+
+    // Compara o nome do struct para verificar se corresponde ao esperado
+    const FName RowStructName = RowStruct->GetFName();
+    const FName ExpectedStructName = ExpectedStruct->GetFName();
+
+    return RowStructName == ExpectedStructName;
+}
+
+bool DataTableHelpers::IsRaceDataTable(UDataTable *DataTable)
+{
+    return ValidateDataTableRowStruct(DataTable, FRaceDataRow::StaticStruct());
+}
+
+bool DataTableHelpers::IsClassDataTable(UDataTable *DataTable)
+{
+    return ValidateDataTableRowStruct(DataTable, FClassDataRow::StaticStruct());
+}
+
+bool DataTableHelpers::IsBackgroundDataTable(UDataTable *DataTable)
+{
+    return ValidateDataTableRowStruct(DataTable, FBackgroundDataRow::StaticStruct());
+}
+
+bool DataTableHelpers::IsFeatDataTable(UDataTable *DataTable)
+{
+    return ValidateDataTableRowStruct(DataTable, FFeatDataRow::StaticStruct());
+}
+
+bool DataTableHelpers::IsFeatureDataTable(UDataTable *DataTable)
+{
+    return ValidateDataTableRowStruct(DataTable, FFeatureDataRow::StaticStruct());
+}
+
+bool DataTableHelpers::IsProficiencyDataTable(UDataTable *DataTable)
+{
+    return ValidateDataTableRowStruct(DataTable, FProficiencyDataRow::StaticStruct());
+}
+
+bool DataTableHelpers::IsItemDataTable(UDataTable *DataTable)
+{
+    return ValidateDataTableRowStruct(DataTable, FItemDataRow::StaticStruct());
 }

@@ -165,43 +165,6 @@ public:
     static bool IsValidClassWithoutTag(FName ClassName);
 
     /**
-     * Aplica correção ResetToNone para propriedade específica.
-     * Helper puro e testável para aplicação de correções.
-     *
-     * @param Asset Asset do personagem
-     * @param Correction Correção a ser aplicada
-     */
-    static void ApplyResetToNone(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
-
-    /**
-     * Aplica correção ClearArray para propriedade específica.
-     * Helper puro e testável para aplicação de correções.
-     *
-     * @param Asset Asset do personagem
-     * @param Correction Correção a ser aplicada
-     */
-    static void ApplyClearArray(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
-
-    /**
-     * Aplica correção AdjustValue para propriedade específica.
-     * Helper puro e testável para aplicação de correções.
-     *
-     * @param Asset Asset do personagem
-     * @param Correction Correção a ser aplicada
-     */
-    static void ApplyAdjustValue(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
-
-    /**
-     * Aplica correção RemoveInvalid para propriedade específica.
-     * Remove elementos inválidos de arrays baseado em índices fornecidos.
-     * Helper puro e testável para aplicação de correções.
-     *
-     * @param Asset Asset do personagem
-     * @param Correction Correção a ser aplicada (deve conter índices inválidos em ArrayIndex ou NewValue)
-     */
-    static void ApplyRemoveInvalid(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
-
-    /**
      * Ajusta array de Progression manualmente como fallback quando LoadClassProgression falha.
      * Helper puro e testável para ajuste de Progression.
      *
@@ -230,4 +193,73 @@ public:
      * @return true se LevelInClass foi ajustado, false caso contrário
      */
     static bool DetectLevelInClassCorrections(const struct FValidationResult &ValidationResult);
+
+    // ============================================================================
+    // Data Table Type Validation Helpers
+    // ============================================================================
+
+    /**
+     * Valida tipo de Data Table específica e exibe popup de erro se tipo incorreto.
+     * Helper reutilizável para validação de tipo de Data Tables.
+     *
+     * @param Asset Data Asset
+     * @param DataTable Data Table a validar (pode ser nullptr)
+     * @param PropertyName Nome da propriedade (para mensagem de erro)
+     * @param ExpectedTypeName Nome do tipo esperado (ex: "FRaceDataRow")
+     * @param ValidationFunction Função de validação (ex: DataTableHelpers::IsRaceDataTable)
+     * @return true se tipo é válido ou DataTable é nullptr, false se tipo incorreto
+     */
+    static bool ValidateDataTableType(UCharacterSheetDataAsset *Asset, class UDataTable *DataTable,
+                                      const FName &PropertyName, const FString &ExpectedTypeName,
+                                      bool (*ValidationFunction)(class UDataTable *));
+
+    // ============================================================================
+    // Multiple Choice Feature Helpers
+    // ============================================================================
+
+    /**
+     * Itera por todas as features de múltiplas escolhas (Tipo 3) em todas as entradas de multiclasse.
+     * Helper reutilizável para evitar duplicação de código (DRY).
+     * Executa callback para cada feature que atende aos critérios.
+     *
+     * @param Asset Data Asset
+     * @param Callback Função a ser executada para cada feature (recebe Feature e ValidChoices)
+     */
+    static void ForEachMultipleChoiceFeature(
+        UCharacterSheetDataAsset *Asset,
+        TFunctionRef<void(struct FMulticlassClassFeature &Feature, const TArray<FName> &ValidChoices)> Callback);
+
+    /**
+     * Obtém limite máximo de escolhas para uma feature (MaxChoices).
+     * Busca em FeatureData["MaxChoices"] ou retorna -1 se não definido (sem limite).
+     * Helper puro e testável para obtenção de limites.
+     *
+     * @param Feature Feature a verificar
+     * @return Limite máximo de escolhas, ou -1 se não há limite definido
+     */
+    static int32 GetMaxChoicesLimit(const struct FMulticlassClassFeature &Feature);
+
+    /**
+     * Valida se uma escolha pode ser adicionada (não excede limite, não é duplicata).
+     * Helper puro e testável para validação de escolhas.
+     *
+     * @param Choice Escolha a validar
+     * @param ValidChoices Lista de escolhas válidas para a feature
+     * @param SelectedChoices Lista de escolhas já selecionadas
+     * @param MaxChoices Limite máximo de escolhas (-1 = sem limite)
+     * @return true se pode adicionar, false caso contrário
+     */
+    static bool CanAddChoice(FName Choice, const TArray<FName> &ValidChoices,
+                             const TArray<FName> &SelectedChoices, int32 MaxChoices);
+
+    /**
+     * Remove escolhas inválidas e duplicatas de SelectedChoices.
+     * Helper puro e testável para limpeza de array de escolhas.
+     * Retorna true se houve mudanças.
+     *
+     * @param SelectedChoices [IN/OUT] Array de escolhas (será modificado)
+     * @param ValidChoices Lista de escolhas válidas para a feature
+     * @return true se houve mudanças (escolhas removidas), false caso contrário
+     */
+    static bool CleanInvalidAndDuplicateChoices(TArray<FName> &SelectedChoices, const TArray<FName> &ValidChoices);
 };

@@ -17,6 +17,7 @@
 
 // Project includes - Updaters
 #include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
+#include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
 
 // Project includes - Helpers
 #include "Characters/Data/Helpers/ValidationGuard.h"
@@ -32,6 +33,8 @@
 
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
+#include "Utils/DataTableHelpers.h"
+#include "Utils/FeatureChoiceHelpers.h"
 
 // Project includes - Data Tables
 #include "Data/Tables/ClassDataTable.h"
@@ -206,6 +209,18 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
     // RAII Guard: gerencia bIsValidatingProperties automaticamente
     FValidationGuard Guard(Asset);
 
+    // Converte SelectedFeat de Name para FC_ID se necessário
+    // Dropdown retorna Name (ex: "Magic Initiate"), mas código espera FC_ID (ex: "Feat_MagicInitiate")
+    if (Asset->SelectedFeat != NAME_None && Asset->FeatDataTable)
+    {
+        FName FeatFC_ID = DataTableHelpers::ConvertFeatNameToFCID(Asset->SelectedFeat, Asset->FeatDataTable);
+        if (FeatFC_ID != NAME_None && FeatFC_ID != Asset->SelectedFeat)
+        {
+            // Converte Name para FC_ID
+            Asset->SelectedFeat = FeatFC_ID;
+        }
+    }
+
     // Valida escolhas de Variant Human e aplica correções
     FValidationResult VariantHumanResult = FCharacterSheetDataAssetValidators::ValidateVariantHumanChoices(Asset);
     if (VariantHumanResult.bNeedsCorrection)
@@ -227,11 +242,15 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
 // ============================================================================
 #pragma region Data Table Handlers
 
+
 /**
  * Processa mudanças em Data Tables (RaceDataTable, BackgroundDataTable, FeatDataTable, ClassDataTable).
- * Atualiza visibilidade da ficha e loga status dos Data Tables.
+ * Valida tipo de Data Table e atualiza visibilidade da ficha.
+ *
+ * @param Asset Data Asset
+ * @param PropertyName Nome da propriedade que mudou (para identificar qual Data Table foi modificada)
  */
-void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetDataAsset *Asset)
+void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetDataAsset *Asset, FName PropertyName)
 {
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
@@ -241,10 +260,48 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
     // RAII Guard: gerencia bIsValidatingProperties automaticamente
     FValidationGuard Guard(Asset);
 
+    // Valida tipo de Data Table específica que foi alterada
+    // Usa GET_MEMBER_NAME_CHECKED para comparar com PropertyName
+    if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable))
+    {
+        FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->RaceDataTable, PropertyName,
+                                                                TEXT("FRaceDataRow"), DataTableHelpers::IsRaceDataTable);
+    }
+    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable))
+    {
+        FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->ClassDataTable, PropertyName,
+                                                                TEXT("FClassDataRow"), DataTableHelpers::IsClassDataTable);
+    }
+    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, BackgroundDataTable))
+    {
+        FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->BackgroundDataTable, PropertyName,
+                                                                TEXT("FBackgroundDataRow"),
+                                                                DataTableHelpers::IsBackgroundDataTable);
+    }
+    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, FeatDataTable))
+    {
+        FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->FeatDataTable, PropertyName,
+                                                                TEXT("FFeatDataRow"), DataTableHelpers::IsFeatDataTable);
+    }
+    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassFeaturesDataTable))
+    {
+        FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->ClassFeaturesDataTable, PropertyName,
+                                                                TEXT("FFeatureDataRow"),
+                                                                DataTableHelpers::IsFeatureDataTable);
+    }
+    else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ProficiencyDataTable))
+    {
+        FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->ProficiencyDataTable, PropertyName,
+                                                                TEXT("FProficiencyDataRow"),
+                                                                DataTableHelpers::IsProficiencyDataTable);
+    }
+
     // Valida se todas as Data Tables obrigatórias estão cadastradas (exibe popup se faltando)
+    // NOTA: Esta validação não verifica tipo, apenas se estão preenchidas (lógica de visibilidade)
     FCharacterSheetDataAssetValidators::ValidateDataTables(Asset);
 
     // Atualiza visibilidade da ficha baseado na seleção de Data Tables
+    // NOTA: Esta lógica não deve ser alterada - apenas verifica se != nullptr
     FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(Asset);
 
     // Log informativo sobre status dos Data Tables
@@ -518,6 +575,170 @@ void FCharacterSheetDataAssetHandlers::HandleSelectedSkillsChange(UCharacterShee
     Asset->Modify(); // Marca objeto como modificado após atualização e validação
 }
 
+/**
+ * Processa mudanças em FMulticlassClassFeature.AvailableChoiceToAdd (dropdown) dentro do array Multiclass.
+ * Quando uma escolha é selecionada no dropdown, adiciona ao SelectedChoices e reseta AvailableChoiceToAdd.
+ * Usado para features do Tipo 3 (Escolhas Múltiplas) como Manobras e Metamagic.
+ *
+ * Fluxo:
+ * 1. Itera por todas as features de múltiplas escolhas usando helper reutilizável
+ * 2. Valida escolha (válida, não duplicata, não excede limite)
+ * 3. Adiciona ao SelectedChoices se válida
+ * 4. Exibe feedback ao usuário se inválida
+ * 5. Reseta AvailableChoiceToAdd para permitir nova seleção
+ */
+void FCharacterSheetDataAssetHandlers::HandleAvailableChoiceToAddChange(UCharacterSheetDataAsset *Asset)
+{
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
+    {
+        return;
+    }
+
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
+
+    bool bAnyChange = false;
+    FLogContext Context(TEXT("CharacterSheet"), TEXT("HandleAvailableChoiceToAddChange"));
+
+    // Usa helper reutilizável para iterar por todas as features de múltiplas escolhas
+    FCharacterSheetDataAssetHelpers::ForEachMultipleChoiceFeature(
+        Asset,
+        [Asset, &bAnyChange, &Context](FMulticlassClassFeature &Feature, const TArray<FName> &ValidChoices)
+        {
+            // Processa apenas se AvailableChoiceToAdd foi selecionado (não é NAME_None)
+            if (Feature.AvailableChoiceToAdd == NAME_None)
+            {
+                return;
+            }
+
+            // Obtém limite máximo de escolhas (se houver)
+            int32 MaxChoices = FCharacterSheetDataAssetHelpers::GetMaxChoicesLimit(Feature);
+
+            // Valida se pode adicionar escolha
+            if (FCharacterSheetDataAssetHelpers::CanAddChoice(Feature.AvailableChoiceToAdd, ValidChoices,
+                                                              Feature.SelectedChoices, MaxChoices))
+            {
+                // Adiciona ao SelectedChoices
+                Feature.SelectedChoices.Add(Feature.AvailableChoiceToAdd);
+                bAnyChange = true;
+            }
+            else
+            {
+                // Feedback ao usuário sobre por que escolha não foi adicionada
+                // Converte ID para Name para melhor UX (usuário vê "Archery" ao invés de "FC_Archery")
+                FName ChoiceDisplayName = FeatureChoiceHelpers::FindChoiceNameByID(
+                    Asset->ClassFeaturesDataTable, Feature.FC_ID, Feature.AvailableChoiceToAdd);
+                FString ChoiceDisplayString = (ChoiceDisplayName != NAME_None)
+                                                 ? ChoiceDisplayName.ToString()
+                                                 : Feature.AvailableChoiceToAdd.ToString();
+
+                FString Reason;
+                if (!ValidChoices.Contains(Feature.AvailableChoiceToAdd))
+                {
+                    Reason = FString::Printf(TEXT("Escolha '%s' não é válida para feature '%s'"),
+                                             *ChoiceDisplayString, *Feature.Name.ToString());
+                }
+                else if (Feature.SelectedChoices.Contains(Feature.AvailableChoiceToAdd))
+                {
+                    Reason = FString::Printf(TEXT("Escolha '%s' já foi selecionada para feature '%s'"),
+                                             *ChoiceDisplayString, *Feature.Name.ToString());
+                }
+                else if (MaxChoices > 0 && Feature.SelectedChoices.Num() >= MaxChoices)
+                {
+                    Reason = FString::Printf(TEXT("Limite máximo de %d escolhas atingido para feature '%s'"),
+                                             MaxChoices, *Feature.Name.ToString());
+                }
+
+                if (!Reason.IsEmpty())
+                {
+                    FLoggingSystem::LogWarningWithThrottledPopup(Context, Reason, 0.5f);
+                }
+            }
+
+            // Sempre reseta AvailableChoiceToAdd para permitir nova seleção (independente de validação)
+            Feature.AvailableChoiceToAdd = NAME_None;
+        });
+
+    // Marca objeto como modificado apenas se houve mudança
+    if (bAnyChange)
+    {
+        Asset->Modify();
+    }
+
+    // Atualiza display names para exibição no editor
+    FCharacterSheetDataAssetUpdaters::UpdateFeatureChoiceDisplayNames(Asset);
+}
+
+/**
+ * Processa mudanças em FMulticlassClassFeature.SelectedChoices (array) dentro do array Multiclass.
+ * Valida escolhas quando são adicionadas/removidas do SelectedChoices.
+ * Usado para features do Tipo 3 (Escolhas Múltiplas) como Manobras e Metamagic.
+ *
+ * Fluxo:
+ * 1. Itera por todas as features de múltiplas escolhas usando helper reutilizável
+ * 2. Remove escolhas inválidas e duplicatas usando helper otimizado
+ * 3. Valida limite máximo (se houver) e remove escolhas excedentes
+ * 4. Exibe feedback ao usuário se escolhas foram removidas
+ */
+void FCharacterSheetDataAssetHandlers::HandleSelectedChoicesChange(UCharacterSheetDataAsset *Asset)
+{
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
+    {
+        return;
+    }
+
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
+
+    bool bAnyChange = false;
+    FLogContext Context(TEXT("CharacterSheet"), TEXT("HandleSelectedChoicesChange"));
+
+    // Usa helper reutilizável para iterar por todas as features de múltiplas escolhas
+    FCharacterSheetDataAssetHelpers::ForEachMultipleChoiceFeature(
+        Asset,
+        [&bAnyChange, &Context](FMulticlassClassFeature &Feature, const TArray<FName> &ValidChoices)
+        {
+            // Remove escolhas inválidas e duplicatas usando helper otimizado
+            bool bCleaned = FCharacterSheetDataAssetHelpers::CleanInvalidAndDuplicateChoices(
+                Feature.SelectedChoices, ValidChoices);
+
+            if (bCleaned)
+            {
+                bAnyChange = true;
+                FLoggingSystem::LogWarningWithThrottledPopup(
+                    Context,
+                    FString::Printf(TEXT("Escolhas inválidas ou duplicatas foram removidas de feature '%s'"),
+                                    *Feature.Name.ToString()),
+                    0.5f);
+            }
+
+            // Valida limite máximo de escolhas (se houver)
+            int32 MaxChoices = FCharacterSheetDataAssetHelpers::GetMaxChoicesLimit(Feature);
+            if (MaxChoices > 0 && Feature.SelectedChoices.Num() > MaxChoices)
+            {
+                // Remove escolhas excedentes (mantém as primeiras)
+                int32 ExcessCount = Feature.SelectedChoices.Num() - MaxChoices;
+                Feature.SelectedChoices.SetNum(MaxChoices);
+                bAnyChange = true;
+
+                FLoggingSystem::LogWarningWithThrottledPopup(
+                    Context,
+                    FString::Printf(TEXT("Limite máximo de %d escolhas para feature '%s' excedido. %d escolhas foram removidas."),
+                                    MaxChoices, *Feature.Name.ToString(), ExcessCount),
+                    0.5f);
+            }
+        });
+
+    // Marca objeto como modificado apenas se houve mudança
+    if (bAnyChange)
+    {
+        Asset->Modify();
+    }
+
+    // Atualiza display names para exibição no editor
+    FCharacterSheetDataAssetUpdaters::UpdateFeatureChoiceDisplayNames(Asset);
+}
+
 #pragma endregion Multiclass Handlers
 
 // ============================================================================
@@ -590,7 +811,7 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesWrapper(UCharact
 
 void FCharacterSheetDataAssetHandlers::HandleDataTableWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
 {
-    HandleDataTableChange(Asset);
+    HandleDataTableChange(Asset, PropertyName);
 }
 
 // ============================================================================
@@ -626,6 +847,17 @@ void FCharacterSheetDataAssetHandlers::HandleAvailableSkillWrapper(UCharacterShe
 void FCharacterSheetDataAssetHandlers::HandleSelectedSkillsWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
 {
     HandleSelectedSkillsChange(Asset);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleAvailableChoiceToAddWrapper(UCharacterSheetDataAsset *Asset,
+                                                                          FName PropertyName)
+{
+    HandleAvailableChoiceToAddChange(Asset);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleSelectedChoicesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+{
+    HandleSelectedChoicesChange(Asset);
 }
 
 #pragma endregion Wrapper Functions
