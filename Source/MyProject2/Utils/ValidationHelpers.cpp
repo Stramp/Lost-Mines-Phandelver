@@ -119,74 +119,6 @@ bool ValidationHelpers::ValidateAbilityScoreChoicesPure(const TArray<FName> &Cho
     return OutInvalidIndices.Num() == 0 && !OutHasDuplicates && !OutExceedsMax;
 }
 
-bool ValidationHelpers::ValidateAbilityScoreChoices(TArray<FName> &Choices, const TArray<FName> &ValidNames,
-                                                    int32 MaxChoices)
-{
-    // [DEPRECATED] Versão legada que aplica correções diretamente
-    // Permite elementos NAME_None temporariamente (para permitir adicionar itens no editor)
-    // Remove duplicatas apenas de elementos válidos (não-NAME_None)
-    TArray<FName> ValidChoices; // Elementos válidos (não-NAME_None e não-duplicados)
-    TArray<FName> NoneChoices;  // Elementos NAME_None (permitidos temporariamente)
-
-    for (FName Choice : Choices)
-    {
-        if (Choice == NAME_None)
-        {
-            // Permite NAME_None temporariamente (usuário pode adicionar e depois escolher)
-            NoneChoices.Add(Choice);
-        }
-        else if (!ValidChoices.Contains(Choice))
-        {
-            // Adiciona elemento válido se não for duplicata
-            ValidChoices.Add(Choice);
-        }
-        // Ignora duplicatas de elementos válidos
-    }
-
-    // Limita quantidade total (validos + NAME_None) a MaxChoices
-    int32 TotalCount = ValidChoices.Num() + NoneChoices.Num();
-    if (TotalCount > MaxChoices)
-    {
-        // Remove NAME_None primeiro (são temporários)
-        int32 NoneToRemove = TotalCount - MaxChoices;
-        NoneChoices.SetNum(FMath::Max(0, NoneChoices.Num() - NoneToRemove));
-
-        // Se ainda exceder, remove elementos válidos
-        if (ValidChoices.Num() + NoneChoices.Num() > MaxChoices)
-        {
-            ValidChoices.SetNum(MaxChoices - NoneChoices.Num());
-        }
-    }
-
-    // Valida que todos os elementos não-NAME_None são válidos
-    bool bAllValid = true;
-    for (FName &Choice : ValidChoices)
-    {
-        if (!ValidNames.Contains(Choice))
-        {
-            // Corrige valor inválido para primeiro válido (ou NAME_None se não houver)
-            if (ValidNames.Num() > 0)
-            {
-                Choice = ValidNames[0];
-            }
-            else
-            {
-                Choice = NAME_None;
-            }
-            bAllValid = false;
-        }
-    }
-
-    // Reconstrói array: elementos válidos primeiro, depois NAME_None
-    Choices.Empty();
-    Choices.Append(ValidChoices);
-    Choices.Append(NoneChoices);
-
-    // Retorna true se válido (todos os elementos não-NAME_None são válidos e quantidade <= MaxChoices)
-    // Permite array vazio ou com apenas NAME_None (usuário ainda está editando)
-    return bAllValid && Choices.Num() <= MaxChoices;
-}
-
 // ============================================================================
 // Selection Validation
 // ============================================================================
@@ -201,26 +133,6 @@ bool ValidationHelpers::ValidateFeatSelectionPure(FName SelectedFeat, const TArr
 
     // Verifica se está na lista de feats disponíveis
     return AvailableFeats.Contains(SelectedFeat);
-}
-
-bool ValidationHelpers::ValidateFeatSelection(FName &SelectedFeat, const TArray<FName> &AvailableFeats)
-{
-    // [DEPRECATED] Versão legada que aplica correções diretamente
-    // NAME_None é válido (nenhum feat selecionado)
-    if (SelectedFeat == NAME_None)
-    {
-        return true;
-    }
-
-    // Verifica se está na lista de feats disponíveis
-    if (AvailableFeats.Contains(SelectedFeat))
-    {
-        return true;
-    }
-
-    // Reset se inválido
-    SelectedFeat = NAME_None;
-    return false;
 }
 
 bool ValidationHelpers::ValidateSkillSelectionPure(FName SelectedSkill, const TArray<FName> &ValidSkills)
