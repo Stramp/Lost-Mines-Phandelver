@@ -12,15 +12,47 @@
 ## 📋 Guias Disponíveis
 
 <details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚙️ Setup e Configuração</b></summary>
+
+> **Guias para configurar o projeto do zero:**
+>
+> - **[Setup Completo](setup.md)** - Configurar ambiente de desenvolvimento (NOVO)
+>   - Instalar Unreal Engine 5.7
+>   - Configurar Visual Studio
+>   - Gerar arquivos do projeto
+>   - Compilar e verificar
+> - **[Data Tables Setup](data-tables-setup.md)** - Criar e configurar Data Tables (NOVO)
+>   - Race Data Table
+>   - Class Data Table
+>   - Background Data Table
+>   - Feat Data Table
+
+</details>
+
+<details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🚀 Getting Started</b></summary>
 
 > **[getting-started.md](getting-started.md)** - Guia completo para criar e configurar um personagem:
 >
-> - Configurar Data Tables
+> - Configurar Data Tables (pré-requisito)
 > - Preencher ficha do personagem
 > - Configurar Actor no mapa
 > - Testar e validar
 > - Exemplos de código
+
+</details>
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔄 Fluxos Principais</b></summary>
+
+> **[workflows.md](workflows.md)** - Documentação dos fluxos principais do sistema (NOVO):
+>
+> - Criação completa de personagem (end-to-end)
+> - Point Buy System
+> - Multiclassing
+> - Variant Human
+> - Validação e correção automática
+> - Diagramas de fluxo
 
 </details>
 
@@ -34,6 +66,8 @@
 > - BackgroundDataTable
 > - FeatDataTable
 > - Estrutura e relacionamentos
+>
+> **📖 Para criar Data Tables, veja [Data Tables Setup](data-tables-setup.md)**
 
 </details>
 

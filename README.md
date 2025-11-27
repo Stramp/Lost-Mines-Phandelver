@@ -73,14 +73,17 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > │       ├── ValidationHelpers  # Validações reutilizáveis
 > │       ├── FormattingHelpers  # Formatação de dados
 > │       ├── ComponentHelpers   # Helpers de componentes
-> │       └── Tests/             # Testes automatizados (138 testes)
-> │           ├── CalculationHelpersTests.cpp (28 testes)
-> │           ├── ValidationHelpersTests.cpp (35 testes)
-> │           ├── CharacterSheetHelpersTests.cpp (36 testes)
-> │           ├── DataTableHelpersTests.cpp (13 testes)
-> │           ├── FormattingHelpersTests.cpp (10 testes)
-> │           ├── ChoiceHelpersTests.cpp (7 testes)
-> │           └── ComponentHelpersTests.cpp (3 testes)
+> │       └── Tests/             # Testes automatizados
+> │           ├── Unit/          # Testes unitários (próximos ao código)
+> │           │   ├── CalculationHelpersTests.cpp (28 testes)
+> │           │   ├── ValidationHelpersTests.cpp (35 testes)
+> │           │   ├── CharacterSheetHelpersTests.cpp (36 testes)
+> │           │   ├── DataTableHelpersTests.cpp (13 testes)
+> │           │   ├── FormattingHelpersTests.cpp (10 testes)
+> │           │   ├── ChoiceHelpersTests.cpp (7 testes)
+> │           │   └── ComponentHelpersTests.cpp (3 testes)
+> │           └── Integration/  # Testes end-to-end (fluxos completos)
+> │               └── CharacterCreationE2ETests.cpp (4 testes)
 > ├── Content/                    # Assets (Blueprints, Texturas, Modelos)
 > ├── Config/                     # Configurações (.ini)
 > ├── .cursor/                    # Regras e configurações do Cursor
@@ -110,6 +113,8 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > # File → Open Workspace from File → MyProject2.code-workspace
 > ```
 >
+> **📖 Para instruções completas de setup, veja [docs/technical/guides/setup.md](docs/technical/guides/setup.md)**
+>
 > ### 2. Gerar Arquivos do Projeto
 >
 > Se for usar Visual Studio ou gerar arquivos do projeto:
@@ -118,9 +123,15 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > # No Unreal Editor:
 > # Tools → Refresh Visual Studio Project
 >
-> # Ou via linha de comando:
-> "C:\Program Files\Epic Games\UE_5.7\Engine\Build\BatchFiles\RunUBT.bat" -projectfiles -project="F:\UNREAL GAME\MyProject2\MyProject2.uproject" -game -engine
+> # Ou via linha de comando (substitua os caminhos pelos seus):
+> # Descubra o caminho do Unreal Engine (geralmente em C:\Program Files\Epic Games\UE_5.7)
+> # Substitua "SEU_CAMINHO_UE" pelo caminho real do Unreal Engine 5.7
+> # Substitua "SEU_CAMINHO_PROJETO" pelo caminho real do projeto
+>
+> "SEU_CAMINHO_UE\Engine\Build\BatchFiles\RunUBT.bat" -projectfiles -project="SEU_CAMINHO_PROJETO\MyProject2.uproject" -game -engine
 > ```
+>
+> **📖 Para instruções completas de setup, veja [docs/technical/guides/setup.md](docs/technical/guides/setup.md)**
 >
 > ### 3. Compilar o Projeto
 >
@@ -133,14 +144,29 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >
 > - Abra o projeto, o editor compilará automaticamente
 >
-> ### 4. Configurar um Personagem
+> ### 4. Configurar Data Tables
 >
-> 1. Crie um Actor no editor
-> 2. Adicione os componentes:
->    - `CharacterDataComponent`
->    - `CharacterSheetComponent`
-> 3. No `CharacterSheetComponent`, atribua um `CharacterSheetDataAsset`
-> 4. O sistema inicializará automaticamente no `BeginPlay`
+> **📖 Para instruções completas, veja [docs/technical/guides/data-tables-setup.md](docs/technical/guides/data-tables-setup.md)**
+>
+> Resumo rápido:
+>
+> 1. Crie os 4 Data Tables necessários (Race, Class, Background, Feat)
+> 2. Configure a estrutura de cada um
+> 3. Preencha com dados válidos
+>
+> ### 5. Configurar um Personagem
+>
+> **📖 Para guia completo, veja [docs/technical/guides/getting-started.md](docs/technical/guides/getting-started.md)**
+>
+> Resumo rápido:
+>
+> 1. Crie um `CharacterSheetDataAsset`
+> 2. Atribua os Data Tables
+> 3. Preencha a ficha do personagem
+> 4. Crie um Actor no editor
+> 5. Adicione os componentes (`CharacterDataComponent`, `CharacterSheetComponent`)
+> 6. Atribua o Data Asset ao `CharacterSheetComponent`
+> 7. O sistema inicializará automaticamente no `BeginPlay`
 
 </details>
 
@@ -412,7 +438,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >
 > - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Resumo da arquitetura (veja [completo](docs/technical/architecture.md))
 > - **[GDD](docs/design/gdd.md)** - Game Design Document (visão do jogo final)
-> - **[API Reference](docs/technical/api.md)** - Referência completa da API
+> - **[API Reference](docs/technical/api.md)** - Referência completa da API (inclui sistema de logging)
 > - **[CHANGELOG.md](CHANGELOG.md)** - Histórico de mudanças
 > - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guia para contribuidores
 > - **[.cursor/rules/](.cursor/rules/)** - Regras de código e padrões
@@ -465,9 +491,11 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >
 > ### Testes Automatizados
 >
-> **Status:** ✅ 138 testes implementados e funcionando
+> **Status:** ✅ 170+ testes implementados e funcionando
 >
 > O projeto utiliza o **Automation Test Framework** do Unreal Engine 5.7 para testes automatizados:
+>
+> **Testes Unitários** (próximos ao código testado):
 >
 > - ✅ **CalculationHelpers** - 28 testes (modificadores, proficiência, cálculos)
 > - ✅ **ValidationHelpers** - 35 testes (validações de ability scores, point buy, escolhas)
@@ -477,11 +505,19 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > - ✅ **ChoiceHelpers** - 7 testes (parsing e formatação de escolhas)
 > - ✅ **FeatDataTable** - 6 testes (pré-requisitos de feats)
 > - ✅ **ComponentHelpers** - 3 testes (busca de componentes)
+> - ✅ **MulticlassHelpers** - Testes de conversão de features e flags
+> - ✅ **MulticlassMotor** - Testes de carregamento de progressão multiclass
+> - ✅ **CharacterSheetDataAssetLoaders** - Testes de loaders de dados
+>
+> **Testes de Integração End-to-End** (fluxos completos):
+>
+> - ✅ **CharacterCreationE2E** - 4 testes (criação completa de personagem)
 >
 > **Executar Testes:**
 >
 > - **No Editor:** Window → Developer Tools → Automation Tool
 > - **Linha de Comando:** `run_tests.bat` ou `run_tests_quick.bat`
+> - **Testes de Integração:** `run_tests.bat MyProject2.Integration`
 >
 > **📖 Para documentação completa, veja [docs/technical/guides/testing.md](docs/technical/guides/testing.md)**
 >

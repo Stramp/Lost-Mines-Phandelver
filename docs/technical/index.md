@@ -43,10 +43,18 @@
 
 > **[guides/](guides/)** - Guias passo a passo:
 >
+> **Setup e Configuração:**
+> - Setup Completo - Configurar ambiente do zero
+> - Data Tables Setup - Criar e configurar Data Tables
+>
+> **Uso:**
 > - Getting Started - Criar primeiro personagem
+> - Workflows - Fluxos principais do sistema
 > - Data Tables - Estrutura e uso
-> - Troubleshooting - Problemas comuns
+>
+> **Técnico:**
 > - Testes Automatizados - Implementação e execução de testes
+> - Troubleshooting - Problemas comuns
 >
 > **📖 Para mais detalhes, veja [guides/index.md](guides/index.md)**
 

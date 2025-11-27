@@ -2,7 +2,9 @@
 
 ## ✅ Status
 
-**Todos os 24 testes estão implementados e compilando corretamente!**
+**170+ testes implementados e funcionando:**
+- ✅ **Testes Unitários:** 166+ testes (funções isoladas)
+- ✅ **Testes de Integração:** 4 testes (fluxos completos end-to-end)
 
 ## 🚀 Métodos de Execução
 
@@ -13,10 +15,18 @@
 3. **Na aba "Tests":**
    - Filtre por `MyProject2` na busca
    - Você verá:
-     - `MyProject2.Data.Tables.FeatDataTable` (6 testes)
-     - `MyProject2.Utils.DataTableHelpers` (5 testes)
-     - `MyProject2.Utils.CharacterSheetHelpers` (10 testes)
-     - `MyProject2.Utils.ComponentHelpers` (3 testes)
+     - **Testes Unitários:**
+       - `MyProject2.Data.Tables.FeatDataTable` (6 testes)
+       - `MyProject2.Utils.DataTableHelpers` (13 testes)
+       - `MyProject2.Utils.CharacterSheetHelpers` (36 testes)
+       - `MyProject2.Utils.ComponentHelpers` (3 testes)
+       - `MyProject2.Utils.CalculationHelpers` (28 testes)
+       - `MyProject2.Utils.ValidationHelpers` (35 testes)
+       - `MyProject2.Utils.FormattingHelpers` (10 testes)
+       - `MyProject2.Utils.ChoiceHelpers` (7 testes)
+       - E mais...
+     - **Testes de Integração:**
+       - `MyProject2.Integration.CharacterCreation` (4 testes)
 4. **Selecione os testes desejados**
 5. **Clique em "Start Tests"**
 
@@ -26,8 +36,14 @@
 # Todos os testes
 run_tests.bat
 
-# Teste específico
+# Teste específico (unitário)
 run_tests.bat MyProject2.Data.Tables.FeatDataTable
+
+# Testes de integração end-to-end
+run_tests.bat MyProject2.Integration
+
+# Teste de integração específico
+run_tests.bat MyProject2.Integration.CharacterCreation
 
 # Versão rápida (otimizada)
 run_tests_quick.bat
@@ -46,7 +62,19 @@ run_tests_quick.bat
 
 ## 📊 Testes Disponíveis
 
-### FeatDataTable (6 testes)
+### Testes de Integração End-to-End
+
+#### CharacterCreationE2E (4 testes)
+- ✅ Personagem básico com raça e background
+- ✅ Variant Human completo (feat, skill, custom ability scores)
+- ✅ Multiclasse básico (múltiplas classes)
+- ✅ Tratamento de erros (DataAsset nullptr)
+
+**📖 Para mais detalhes, veja [Tests/Integration/README.md](Source/MyProject2/Tests/Integration/README.md)**
+
+### Testes Unitários
+
+#### FeatDataTable (6 testes)
 - ✅ GetPrerequisites com FeatureData vazio
 - ✅ GetPrerequisites com string vazia
 - ✅ GetPrerequisites com string única
@@ -85,7 +113,10 @@ run_tests_quick.bat
 1. Abra o Editor
 2. Window → Developer Tools → Automation Tool
 3. Procure por "MyProject2" na busca
-4. Se aparecerem 4 grupos de testes, está tudo OK! ✅
+4. Você deve ver:
+   - Múltiplos grupos de testes unitários (Utils, Data.Tables, etc.)
+   - Grupo `MyProject2.Integration` com testes de integração
+5. Se aparecerem todos os grupos, está tudo OK! ✅
 
 ## 🔍 Troubleshooting
 

@@ -1194,6 +1194,9 @@ graph TB
 > │   │   └── SecondWindComponent.cpp
 > │   └── Data/
 > │       └── (componentes de dados genéricos)
+> ├── Logging/
+> │   ├── LoggingSystem.h
+> │   └── LoggingSystem.cpp
 > ├── Data/
 > │   ├── Tables/
 > │   │   ├── RaceDataTable.h
@@ -1336,6 +1339,14 @@ graph TB
 > - `GetClassNames()` - Retorna nomes de classes
 > - `GetAbilityScoreNames()` - Retorna nomes dos 6 atributos
 > - `GetAvailableFeatNames()` - Retorna feats disponíveis
+> - `GetAvailableChoiceNames()` - Retorna todas as escolhas de todas as features
+> - `GetAvailableChoiceNamesForFeature(FName FeatureFC_ID)` - Retorna escolhas filtradas por FC_ID de feature específica
+>
+> **Filtro por Feature:**
+> - `GetAvailableChoiceNamesForFeature()` filtra escolhas por `FC_ID` da feature
+> - Usado em `FMulticlassClassFeature.AvailableChoices` para mostrar apenas escolhas da feature específica
+> - Meta tag: `GetOptionsFunctionParams = "FC_ID"` passa o FC_ID automaticamente
+> - Exemplo: Fighting Style mostra apenas estilos de luta, não todas as escolhas de todas as features
 >
 > **Nota:** As funções `UFUNCTION(CallInEditor)` devem permanecer na classe `UCharacterSheetDataAsset` (requisito do Unreal Engine), mas a lógica foi extraída para este módulo.
 >
@@ -1376,6 +1387,53 @@ graph TB
 > - **Extensibilidade:** Fácil adicionar novos handlers, validators ou updaters
 > - **Clean Code:** Funções pequenas (< 50 linhas), focadas, reutilizáveis
 > - **Performance:** Lookup table com ponteiros de função estáticos (sem overhead de std::function)
+
+</details>
+
+---
+
+## Sistema de Logging
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📝 FLoggingSystem - Sistema Centralizado de Logging</b></summary>
+
+> **Caminho:** `Source/MyProject2/Logging/LoggingSystem.h`
+>
+> **Responsabilidade:** Sistema centralizado de logging com suporte a popups no editor e throttle para evitar poluição visual.
+>
+> ### Arquitetura do Sistema
+>
+> O sistema de logging segue uma arquitetura em camadas:
+>
+> 1. **Camada de Interface:** Métodos públicos (`LogError`, `LogWarning`, etc.)
+> 2. **Camada de Formatação:** Formatação de mensagens com contexto
+> 3. **Camada de Output:** `UE_LOG` (sempre imediato) + Popups no editor (opcional, com throttle)
+>
+> ### Métodos Padrão vs Métodos com Throttle
+>
+> **Métodos Padrão:**
+> - `LogError()`, `LogWarning()`, `LogFatal()` - Popup imediato
+> - Usados para erros únicos e críticos
+>
+> **Métodos com Throttle:**
+> - `LogErrorWithThrottledPopup()`, `LogWarningWithThrottledPopup()` - Popup throttled
+> - Log (UE_LOG) sempre imediato, popup visual limitado a 0.5s entre chamadas
+> - Usados em loops de validação que podem gerar múltiplos erros
+>
+> ### Implementação do Throttle
+>
+> O throttle usa `FTimerHandle` estático compartilhado:
+> - Cancela popup anterior quando nova chamada é feita
+> - Mostra apenas o último popup após delay (padrão: 0.5s)
+> - Mantém logging imediato (UE_LOG não é afetado)
+>
+> **Benefícios:**
+> - ✅ Editor não fica poluído com múltiplos popups
+> - ✅ Logging sempre imediato (não perde informações)
+> - ✅ Configurável (delay ajustável)
+> - ✅ Nomes descritivos indicam comportamento exato
+>
+> **📖 Para documentação completa da API, veja [docs/technical/api.md](api.md#sistema-de-logging-floggingsystem)**
 
 </details>
 

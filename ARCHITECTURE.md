@@ -105,7 +105,7 @@
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Status dos Testes</b></summary>
 
-> **Total:** 138 testes automatizados implementados e funcionando
+> **Total:** 170+ testes automatizados implementados e funcionando
 >
 > **Cobertura:**
 >
@@ -144,12 +144,21 @@
 > - ✅ **ComponentHelpers** - 3 testes
 >   - `FindCharacterDataComponent()` - 3 testes
 >
+> **Testes de Integração End-to-End:**
+>
+> - ✅ **CharacterCreationE2E** - 4 testes (criação completa de personagem)
+>   - Personagem básico com raça e background
+>   - Variant Human completo
+>   - Multiclasse básico
+>   - Tratamento de erros
+>
 > **Melhorias Aplicadas:**
 >
 > - ✅ Supressão de warnings esperados (`FScopedLogCategorySuppression`)
 > - ✅ Mensagens descritivas em português
 > - ✅ Logs informativos com `AddInfo()` para melhor UX
 > - ✅ Cobertura completa de casos críticos
+> - ✅ Testes de integração para fluxos completos
 >
 > **📖 Para documentação completa de testes, veja [docs/technical/guides/testing.md](docs/technical/guides/testing.md)**
 
