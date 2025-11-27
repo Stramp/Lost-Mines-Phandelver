@@ -30,8 +30,17 @@
 ## 🏗️ Estrutura dos Data Tables
 
 <details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📐 Estruturas de Dados</b></summary>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📐 Filosofia de Estrutura</b></summary>
 
+> **Princípios Fundamentais:**
+>
+> - **Estrutura "Flat" (Plana)**: JSONs relacionais e planos, não profundamente aninhados
+>   - O importador do Unreal Engine quebra com estruturas muito aninhadas
+>   - Use referências por ID ao invés de estruturas aninhadas complexas
+> - **Padrão "ID + Tags + Payload"**: Cada entrada tem um ID único, tags para categorização, e payload com dados específicos
+> - **Separação Static/Dynamic**: Data Tables contêm apenas definições estáticas (o que o item "é"), não estado dinâmico
+> - **Composição sobre Herança**: Use composição de componentes ao invés de árvores de herança
+>
 > **📖 Para estruturas completas, veja:**
 >
 > - **[RaceDataTable.h](../../../Source/MyProject2/Data/Tables/RaceDataTable.h)** - Estrutura `FRaceDataRow`
@@ -39,7 +48,10 @@
 > - **[BackgroundDataTable.h](../../../Source/MyProject2/Data/Tables/BackgroundDataTable.h)** - Estrutura `FBackgroundDataRow`
 > - **[FeatDataTable.h](../../../Source/MyProject2/Data/Tables/FeatDataTable.h)** - Estrutura `FFeatDataRow`
 >
-> **Nota:** Cada Data Table usa uma struct específica definida no código C++.
+> **📖 Para mais detalhes sobre arquitetura de dados, veja:**
+>
+> - [Estrutura de Dados Ideal](../data-architecture/ideal-data-structure-report.md)
+> - [Arquiteturas de Alta Performance](../data-architecture/high-performance-architectures-report.md)
 
 </details>
 

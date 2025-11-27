@@ -46,8 +46,9 @@
 >
 > **Documentos Principais:**
 >
-> - **[Arquitetura Técnica](technical/architecture.md)** - Arquitetura completa do projeto, princípios, camadas, motores
+> - **[Arquitetura Técnica](technical/architecture.md)** - Arquitetura completa do projeto, princípios, camadas, motores, Data-Oriented Design e ECS
 > - **[API Reference](technical/api.md)** - Referência completa da API das classes principais
+> - **[Arquitetura de Dados](technical/data-architecture/)** - Organização de dados, DOD, ECS, estrutura ideal (estilo Baldur's Gate 3)
 > - **[Guias Práticos](technical/guides/)** - Guias passo a passo para desenvolvimento
 >
 > **📖 Para mais detalhes, veja [technical/index.md](technical/index.md)**

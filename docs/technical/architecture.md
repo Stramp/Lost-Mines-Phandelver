@@ -46,7 +46,7 @@ Este documento descreve a arquitetura do projeto, baseada em princípios de desi
 > <details>
 > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🧩 2. Modularidade</summary>
 >
-> > **Conceito:** Código organizado por domínio, cada parte com responsabilidade única e clara.
+> > **Conceito:** Código organizado por domínio, cada parte com responsabilidade única e clara. Baseado em **Composição sobre Herança** e **Data-Oriented Design**.
 > >
 > > **Benefícios:**
 > >
@@ -54,6 +54,14 @@ Este documento descreve a arquitetura do projeto, baseada em princípios de desi
 > > - ✅ Fácil expansão
 > > - ✅ Código limpo e organizado
 > > - ✅ Reutilização de componentes
+> > - ✅ Performance otimizada (layout de memória eficiente)
+> > - ✅ Flexibilidade através de composição
+> >
+> > **Filosofia:**
+> >
+> > - **Composição sobre Herança**: Use composição de componentes ao invés de árvores de herança complexas
+> > - **Separação Static/Dynamic**: Definições em Data Tables (static), estado em componentes runtime (dynamic)
+> > - **Data-Oriented Design**: Organize dados por layout de memória, não por hierarquia de classes
 > >
 > > **Estrutura de Diretórios:**
 > >
@@ -689,6 +697,43 @@ graph TB
 > ```
 >
 > **📖 Para mais detalhes sobre a implementação, veja os arquivos em `Source/MyProject2/CreateSheet/`**
+
+</details>
+
+---
+
+## 🎯 Data-Oriented Design e ECS
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Princípios de Performance e Arquitetura</b></summary>
+
+> O projeto segue princípios de **Data-Oriented Design (DOD)** e está preparado para evoluir para um padrão **Entity Component System (ECS)** quando necessário.
+> >
+> **Filosofia Fundamental:**
+> >
+> - **Composição sobre Herança**: Use composição de componentes ao invés de árvores de herança complexas
+> - **Separação Static/Dynamic**: Definições em Data Tables (o que o item "é"), estado em componentes runtime (o que o item "tem" agora)
+> - **Padrão "ID + Tags + Payload"**: Identificador único + metadados + dados específicos
+> - **Estrutura "Flat"**: JSONs planos e relacionais, não profundamente aninhados
+> >
+> **Benefícios:**
+> >
+> - ✅ Performance otimizada (layout de memória eficiente, cache-friendly)
+> - ✅ Flexibilidade através de composição
+> - ✅ Escalabilidade para sistemas complexos (estilo Baldur's Gate 3)
+> - ✅ Facilita migração futura para ECS completo
+> >
+> **Aplicação no Projeto:**
+> >
+> - Data Tables contêm apenas definições estáticas (raça, classe, traits)
+> - Componentes runtime contêm estado dinâmico (HP atual, buffs ativos, escolhas do jogador)
+> - Referências por ID, nunca por string/Name
+> - Estruturas JSON planas e relacionais
+> >
+> **📖 Para detalhes completos sobre DOD, ECS e arquiteturas de alta performance, veja:**
+> >
+> - [Relatório de Arquiteturas de Alta Performance](data-architecture/high-performance-architectures-report.md)
+> - [Relatório de Estrutura de Dados Ideal](data-architecture/ideal-data-structure-report.md)
 
 </details>
 

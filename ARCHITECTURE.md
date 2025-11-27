@@ -8,10 +8,11 @@
 > **Princípios Fundamentais:**
 >
 > - ✅ **Data-Driven:** Todas as regras vêm de Data Tables/Assets
-> - ✅ **Modularidade:** Código organizado por responsabilidade única
+> - ✅ **Modularidade:** Código organizado por responsabilidade única (Composição sobre Herança)
 > - ✅ **Editor-Friendly:** Configuração completa no editor
 > - ✅ **Multiplayer-Ready:** Preparado para replicação desde o início
 > - ✅ **Clean Code:** Seguindo princípios de código limpo e design patterns
+> - ✅ **Data-Oriented Design:** Separação Static/Dynamic, estrutura "flat", padrão "ID + Tags + Payload"
 
 </details>
 

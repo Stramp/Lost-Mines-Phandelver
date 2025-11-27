@@ -212,3 +212,33 @@ Finalmente, a organização de dados no "tempo de design" (Design-Time) é tão 
 
 Este relatório consolida o estado da arte em engenharia de dados para sistemas de alta complexidade. A chave para lidar com "infinitas camadas" não é apenas escolher o banco de dados "mais rápido", mas arquitetar o fluxo de dados para que ele respeite a hierarquia de memória, a física do armazenamento e a necessidade inevitável de evolução estrutural ao longo do tempo.
 
+---
+
+## 📚 Referências
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔗 Fontes e Recursos</b></summary>
+
+> **Entity Component System:**
+>
+> - [The Entity-Component-System Design Pattern - UMLBoard](https://www.umlboard.com/design-patterns/entity-component-system.html)
+> - [Entity Component System is all you need? - Mark Saroufim (Medium)](https://marksaroufim.medium.com/entity-component-system-is-all-you-need-884f972bd867)
+> - [Entity Component System | Game Engine series - YouTube](https://www.youtube.com/watch?v=Z-CILn2w9K0)
+> - [ECS: Rules, dos and don'ts and best practices for Systems - Reddit](https://www.reddit.com/r/gamedev/comments/yctgea/ecs_rules_dos_and_donts_and_best_practices_for/)
+> - [RPG Stats using an ECS? - Reddit](https://www.reddit.com/r/rust_gamedev/comments/isjklr/rpg_stats_using_an_ecs/)
+> - [Let's build an Entity Component System from scratch (part 1) - Hexops' devlog](https://devlog.hexops.com/2022/lets-build-ecs-part-1/)
+>
+> **Baldur's Gate 3 e Larian Studios:**
+>
+> - [Converting an old save to the new custom difficulty - Reddit](https://www.reddit.com/r/BaldursGate3/comments/18ad6qd/converting_an_old_save_to_the_new_custom/)
+> - [Reversing BG3 "NewAge" - GitHub Issue #127](https://github.com/Norbyte/lslib/issues/127)
+> - [Technical: How to back up save games in BG3 (on PC) - Reddit](https://www.reddit.com/r/BaldursGate3/comments/1bktzhv/technical_how_to_back_up_save_games_in_bg3_on_pc/)
+> - [How do I unpack the .lsv save files so I can edit? - Larian Studios forums](https://forums.larian.com/ubbthreads.php?ubb=showflat&Number=583097)
+> - [Community Update #23: Here's To You - Larian Studios forums](https://forums.larian.com/ubbthreads.php?ubb=showflat&Number=878768)
+>
+> **Persistência e Serialização:**
+>
+> - [Best Approach for Saving a Large Open-World Game with ~100 NPCs in Godot? - Reddit](https://www.reddit.com/r/godot/comments/1gzialh/best_approach_for_saving_a_large_openworld_game/)
+> - [How are Bethesda RPG save files structured ??? (Or other large RPGS) - Reddit](https://www.reddit.com/r/gamedev/comments/czvt1l/how_are_bethesda_rpg_save_files_structured_or/)
+
+</details>

@@ -1,5 +1,40 @@
 # Relatório: Estrutura de Dados Ideal para Projeto AAA (Estilo Baldur's Gate 3)
 
+## 🎯 Filosofia Fundamental: Composição sobre Herança
+
+Para iniciar uma "estrutura perfeita" no Unreal Engine 5 (UE5) para um jogo complexo como Baldur's Gate 3, você deve seguir o princípio da **Composição sobre Herança** e a **Separação entre Definição (Static) e Estado (Dynamic)**.
+
+### ⚠️ O Erro Mais Comum
+
+O erro mais comum é tentar criar uma única Struct gigante com todos os campos possíveis (Dano, Cura, Armadura, Texto de Lore, etc.). Isso cria dados "sujos" e pesados.
+
+### ✅ A Arquitetura Ideal
+
+Abaixo apresento a arquitetura de dados ideal. Você terá:
+
+- **Tabelas de Definição (Static)**: O que o item "é" - dados imutáveis armazenados em Data Tables
+- **Estruturas de Instância (Dynamic)**: O que o item "tem" agora - dados mutáveis em runtime
+
+### 📋 O Padrão "ID + Tags + Payload"
+
+No Unreal Engine, JSON é apenas o meio de transporte. A estrutura real na engine deve usar:
+
+- **Data Tables** para dados estáticos (definições)
+- **Structs leves** para dados dinâmicos (estado em runtime)
+
+**Filosofia:**
+- **ID**: Identificador único (ex: `RaceID`, `ClassID`, `ItemID`)
+- **Tags**: Metadados e categorização (ex: `Tags: ["Vision", "Racial"]`)
+- **Payload**: Dados específicos do item (ex: `TraitData`, `FeatureData`)
+
+### 📐 Estrutura JSON "Flat" (Plana)
+
+Ao invés de um JSON profundo e aninhado (que o importador do Unreal odeia e quebra frequentemente), use uma estrutura relacional **"flat" (plana)**.
+
+**Exemplo:** `DT_MasterItemDatabase.json` - Esta é a tabela mestra. Ela não contém stats de combate, apenas identidade e visual.
+
+---
+
 ## Análise Completa dos JSONs Existentes
 
 ### Arquivos Encontrados
@@ -65,6 +100,15 @@
 ## Estrutura Ideal (Projeto Zerado)
 
 ### Arquitetura Baseada em ECS + Data-Oriented Design
+
+**Princípios Fundamentais:**
+
+1. **Data-Oriented Design (DOD)**: Organizar dados por layout de memória, não por hierarquia de classes
+2. **Entity Component System (ECS)**: Desacoplar identidade de dados e comportamento
+3. **Separação Static/Dynamic**: Definições em Data Tables, estado em componentes runtime
+4. **Composição sobre Herança**: Usar composição de componentes ao invés de árvores de herança
+
+**Para mais detalhes sobre DOD e ECS, veja [high-performance-architectures-report.md](./high-performance-architectures-report.md)**
 
 ## Tabelas de Referência (Master Data) - Prioridade 1
 
@@ -477,4 +521,3 @@ ITM_<Category>_<Name> → ITM_ARM_ChainMail (já existe)
 ## Conclusão
 
 Esta estrutura suporta projetos AAA como Baldur's Gate 3, com milhares de spells, items, classes, diálogos e estados, mantendo dados organizados, escaláveis e performáticos. A chave é a normalização completa, uso consistente de IDs, e preparação para escalabilidade massiva desde o início.
-

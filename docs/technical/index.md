@@ -17,6 +17,7 @@
 > **[architecture.md](architecture.md)** - Documentação completa da arquitetura:
 >
 > - Princípios de design (Data-Driven, Modularidade, Editor-Friendly, Multiplayer-Ready)
+> - Data-Oriented Design e ECS (Composição sobre Herança, Separação Static/Dynamic)
 > - Arquitetura em 4 camadas
 > - Motores desacoplados (CreateSheet/)
 > - Preparação para GAS
@@ -35,6 +36,22 @@
 > - CharacterSheetDataAsset
 > - CreateSheet - Motores de Criação
 > - Helpers e Utilitários
+
+</details>
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Arquitetura de Dados</b></summary>
+
+> **[data-architecture/](data-architecture/)** - Documentação sobre organização de dados:
+>
+> - Relatório de Arquiteturas de Alta Performance (DOD, ECS, Baldur's Gate 3)
+> - Estrutura de Dados Ideal para Projetos AAA (Padrão "ID + Tags + Payload")
+> - Filosofia: Composição sobre Herança, Separação Static/Dynamic
+> - Estrutura "Flat" (JSONs planos e relacionais)
+> - Normalização e Tabelas de Referência
+> - Serialização e Persistência (Serialização Diferencial, Formatos Binários)
+>
+> **📖 Para mais detalhes, veja [data-architecture/index.md](data-architecture/index.md)**
 
 </details>
 
@@ -70,6 +87,7 @@
 
 > - **[Arquitetura](architecture.md)** - Arquitetura completa
 > - **[API Reference](api.md)** - Referência de classes
+> - **[Arquitetura de Dados](data-architecture/)** - Organização de dados e tabelas
 > - **[Guias Práticos](guides/)** - Guias passo a passo
 > - **[Documentação de Design](../design/)** - Regras D&D 5e e GDD
 > - **[README Principal](../../README.md)** - Visão geral do projeto

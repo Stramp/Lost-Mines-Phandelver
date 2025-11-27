@@ -6,6 +6,18 @@ Guia completo sobre a estrutura, criação e uso dos Data Tables no sistema de f
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Visão Geral</b></summary>
 
 > Os Data Tables armazenam dados estruturados de D&D 5e (raças, classes, backgrounds, feats) em formato JSON, permitindo que designers modifiquem regras sem alterar código.
+> >
+> **Filosofia de Estrutura:**
+> >
+> - **Estrutura "Flat" (Plana)**: JSONs relacionais e planos, não profundamente aninhados (o importador do Unreal quebra com estruturas muito aninhadas)
+> - **Padrão "ID + Tags + Payload"**: Cada entrada tem um ID único, tags para categorização, e payload com dados específicos
+> - **Separação Static/Dynamic**: Data Tables contêm apenas definições estáticas (o que o item "é"), não estado dinâmico (o que o item "tem" agora)
+> - **Composição sobre Herança**: Use referências por ID ao invés de estruturas aninhadas complexas
+> >
+> **📖 Para mais detalhes sobre arquitetura de dados, veja:**
+> >
+> - [Estrutura de Dados Ideal](../data-architecture/ideal-data-structure-report.md)
+> - [Arquiteturas de Alta Performance](../data-architecture/high-performance-architectures-report.md)
 
 </details>
 
