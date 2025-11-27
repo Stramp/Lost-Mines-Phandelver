@@ -7,8 +7,17 @@ Referência completa da API das classes principais do sistema de fichas de perso
 - [CharacterDataComponent](#characterdatacomponent)
 - [CharacterSheetComponent](#charactersheetcomponent)
 - [CharacterSheetDataAsset](#charactersheetdataasset)
+- [Estruturas Relacionadas](#estruturas-relacionadas)
+  - [FFeatDataRow](#ffeatdatarow) - 6 testes
 - [CreateSheet - Motores de Criação](#createsheet---motores-de-criação)
 - [Helpers e Utilitários](#helpers-e-utilitários)
+  - [ComponentHelpers](#componenthelpers) - 3 testes
+  - [ValidationHelpers](#validationhelpers) - 35 testes
+  - [CalculationHelpers](#calculationhelpers) - 28 testes
+  - [DataTableHelpers](#datatablehelpers) - 13 testes
+  - [FormattingHelpers](#formattinghelpers) - 10 testes
+  - [ChoiceHelpers](#choicehelpers) - 7 testes
+  - [CharacterSheetHelpers](#charactersheethelpers) - 36 testes
 
 ---
 
@@ -377,6 +386,38 @@ O `CharacterSheetDataAsset` valida dados automaticamente no editor via `PostEdit
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📦 Structs e Tipos de Dados</b></summary>
 
 > Estruturas auxiliares usadas no sistema de fichas:
+
+### FFeatDataRow
+
+**Caminho:** `Source/MyProject2/Data/Tables/FeatDataTable.h`
+
+Struct principal para dados de feats D&D 5e. Herda de `FTableRowBase` para uso em `UDataTable`.
+
+**Status de Testes:** ✅ 6 testes implementados (`FeatDataTableTests.cpp`)
+
+**Propriedades Principais:**
+
+- `Name` - Nome do feat (ex: "Alert", "Magic Initiate")
+- `FC_ID` - ID único (ex: "Feat_Alert")
+- `Description` - Descrição textual (localizável)
+- `LevelUnlocked` - Nível mínimo para adquirir (padrão: 4)
+- `FeatureType` - Tipo da feature ("Feat")
+- `FeatureData` - Dados estruturados (Prerequisites, Benefits, etc.)
+- `AvailableChoices` - Escolhas disponíveis (geralmente vazio)
+
+**Métodos:**
+
+#### GetPrerequisites()
+
+```cpp
+TArray<FName> GetPrerequisites() const;
+```
+
+Retorna array de pré-requisitos do feat parseados de `FeatureData["Prerequisites"]`.
+
+**Uso:** Usado para validar se personagem pode adquirir o feat.
+
+---
 >
 > ### FAbilityScoreEntry
 
@@ -651,6 +692,8 @@ struct MYPROJECT2_API FAbilityScoreEntry
 
 **Caminho:** `Source/MyProject2/Utils/ComponentHelpers.h`
 
+**Status de Testes:** ✅ 3 testes implementados (`ComponentHelpersTests.cpp`)
+
 ```cpp
 namespace ComponentHelpers
 {
@@ -679,6 +722,8 @@ Busca `CharacterDataComponent` em um Actor.
 **Caminho:** `Source/MyProject2/Utils/ValidationHelpers.h`
 
 Funções helper para validação de dados de personagem D&D 5e.
+
+**Status de Testes:** ✅ 35 testes implementados (`ValidationHelpersTests.cpp`)
 
 <details>
 <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Point Buy Validation</summary>
@@ -830,6 +875,8 @@ Funções helper para validação de dados de personagem D&D 5e.
 
 Funções helper para cálculos de dados de personagem D&D 5e.
 
+**Status de Testes:** ✅ 28 testes implementados (`CalculationHelpersTests.cpp`)
+
 <details>
 <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Ability Score Calculations</summary>
 
@@ -970,6 +1017,8 @@ Funções helper para cálculos de dados de personagem D&D 5e.
 
 Funções helper para busca de rows em Data Tables com fallback manual.
 
+**Status de Testes:** ✅ 13 testes implementados (`DataTableHelpersTests.cpp`) - Melhorados com supressão de logs e mensagens descritivas
+
 <details>
 <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Race Data Table Helpers</summary>
 
@@ -1031,6 +1080,8 @@ Funções helper para busca de rows em Data Tables com fallback manual.
 
 Funções helper para formatação de dados de personagem D&D 5e.
 
+**Status de Testes:** ✅ 10 testes implementados (`FormattingHelpersTests.cpp`)
+
 **FormatRaceDisplay()**
 ```cpp
 FString FormatRaceDisplay(FName RaceName, FName SubraceName);
@@ -1050,6 +1101,30 @@ FString FormatAbilityScores(const TMap<FName, int32> &AbilityScores);
 Formata ability scores para log/display. Retorna string formatada com todos os ability scores em ordem padrão.
 
 **Uso:** Usadas em `CharacterDataComponent::LogCharacterSheet()` e podem ser reutilizadas em widgets de UI para formatação de display.
+
+---
+
+### ChoiceHelpers
+
+**Caminho:** `Source/MyProject2/Utils/ChoiceHelpers.h`
+
+Funções helper para parsing e formatação de strings de escolhas (opções separadas por vírgulas).
+
+**Status de Testes:** ✅ 7 testes implementados (`ChoiceHelpersTests.cpp`)
+
+**ParseOptionsString()**
+```cpp
+TArray<FName> ParseOptionsString(const FString &OptionsString);
+```
+Parseia string de opções separadas por vírgulas em array de FName. Remove espaços em branco e ignora strings vazias.
+
+**FormatOptionsString()**
+```cpp
+FString FormatOptionsString(const TArray<FName> &Options);
+```
+Formata array de opções em string separada por vírgulas. Retorna string vazia se array estiver vazio.
+
+**Uso:** Usadas para processar escolhas de features de classes (ex: Fighting Style options).
 
 ---
 
@@ -1098,6 +1173,8 @@ Funções helper para leitura, filtragem e validação de Data Tables de D&D 5e.
 <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Ability Score Helpers</summary>
 
 > - `GetAbilityScoreNames()` - Retorna array estático com os 6 nomes de ability scores padrão D&D 5e
+> - `CreatePointBuyMapFromData()` - Helper para criar TMap de Point Buy eliminando duplicação de código
+> - `CreateBaseScoresFromPointBuy()` - Helper para criar BaseScores usando loop com GetAbilityScoreNames()
 
 </details>
 
@@ -1111,8 +1188,11 @@ Funções helper para leitura, filtragem e validação de Data Tables de D&D 5e.
 <details>
 <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Point Buy System Helpers</summary>
 
+> - `CreatePointBuyMapFromData()` - Cria TMap de Point Buy a partir de valores individuais (elimina duplicação)
+> - `CreateBaseScoresFromPointBuy()` - Cria TMap de BaseScores (BASE_ABILITY_SCORE + PointBuy) a partir de PointBuyMap
 > - `CalculatePointBuyCost()` - Calcula custo em pontos do Point Buy para um score específico
 > - `CalculateTotalPointBuyCost()` - Calcula custo total do Point Buy para todos os scores
+> - `AdjustPointBuyAllocation()` - Ajusta alocação de Point Buy para não exceder pontos máximos
 
 </details>
 
@@ -1124,6 +1204,8 @@ Funções helper para leitura, filtragem e validação de Data Tables de D&D 5e.
 </details>
 
 > **Uso:** Usadas em `CharacterSheetDataAsset` para funções `GetOptions` e podem ser reutilizadas em widgets e outras mecânicas.
+
+**Status de Testes:** ✅ 36 testes implementados (`CharacterSheetHelpersTests.cpp`)
 
 </details>
 

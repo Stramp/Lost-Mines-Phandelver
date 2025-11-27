@@ -51,7 +51,7 @@
 >
 > > **Status:** 🔄 Em desenvolvimento
 > >
-> > **Progresso:** ~75% completo
+> > **Progresso:** ~80% completo (testes automatizados adicionados)
 > >
 > > **Objetivo:** Sistema completo de criação de personagens D&D 5e
 > >
@@ -187,6 +187,16 @@
 > >
 > > **4. Validação e Testes:**
 > >
+> > - ✅ **Testes Automatizados** - 138 testes implementados
+> >   - CalculationHelpers (28 testes) - Modificadores, proficiência e cálculos
+> >   - ValidationHelpers (35 testes) - Validações críticas e escolhas
+> >   - CharacterSheetHelpers (36 testes) - Feats, pré-requisitos e helpers
+> >   - DataTableHelpers (13 testes) - Busca em Data Tables
+> >   - FormattingHelpers (10 testes) - Formatação de dados (novo)
+> >   - ChoiceHelpers (7 testes) - Parsing e formatação de escolhas (novo)
+> >   - FeatDataTable (6 testes) - Pré-requisitos de feats
+> >   - ComponentHelpers (3 testes) - Busca de componentes
+> >   - Melhorias aplicadas: Supressão de logs, mensagens descritivas
 > > - ⚠️ Validação completa do sistema de Multiclasse (testes end-to-end)
 > > - ⚠️ Conferir criação de feat no editor no config do Data Asset
 > > - ⚠️ Validar integridade de dados completa
@@ -215,6 +225,8 @@
 > >    - Ou manter separado (atual)?
 > >
 > > 4. **Testes End-to-End:**
+> >    - ✅ Testes unitários de helpers críticos (138 testes implementados)
+> >    - ⚠️ Testes de integração do sistema completo
 > >    - Criar personagem completo no editor
 > >    - Validar todas as escolhas
 > >    - Testar multiclasse com múltiplas classes
@@ -629,7 +641,8 @@
 >    - ❌ Implementar ValidateMulticlassRequirements (TODO linha 60)
 >    - ❌ Implementar ApplyMulticlassRules (TODO linha 73)
 >    - ⚠️ Decidir integração MulticlassMotor no CharacterSheetCore
->    - ⚠️ Testes end-to-end completos
+>    - ✅ **Testes unitários de helpers críticos (138 testes implementados)**
+>    - ⚠️ Testes de integração end-to-end completos
 >    - ⚠️ Validar criação de feat no editor
 >    - 📋 Implementar sistema de itens iniciais
 >    - 📋 Criar boilerplate de inventário (estruturas modulares)

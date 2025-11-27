@@ -61,6 +61,13 @@
 > - Casos de teste obrigatórios
 > - Integração com CI/CD
 >
+> **[testing-implementation-plan.md](testing-implementation-plan.md)** - Plano de implementação:
+>
+> - Status atual dos testes
+> - Testes prioritários para implementar
+> - Scripts de execução
+> - Rotina de segurança antes de commit
+>
 </details>
 
 ---

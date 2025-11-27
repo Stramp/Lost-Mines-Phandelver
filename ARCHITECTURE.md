@@ -100,6 +100,63 @@
 
 ---
 
+## 🧪 Testes Automatizados
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Status dos Testes</b></summary>
+
+> **Total:** 138 testes automatizados implementados e funcionando
+>
+> **Cobertura:**
+>
+> - ✅ **CalculationHelpers** - 28 testes
+>   - `CalculateAbilityModifier()` - 8 testes
+>   - `CalculateProficiencyBonus()` - 9 testes
+>   - Outros cálculos - 11 testes
+>
+> - ✅ **ValidationHelpers** - 35 testes
+>   - `ValidateAbilityScoreRange()` - 6 testes
+>   - `ValidatePointBuy()` - 6 testes
+>   - `ValidatePointBuyAllocation()` - 3 testes
+>   - Outras validações - 20 testes
+>
+> - ✅ **CharacterSheetHelpers** - 36 testes
+>   - `MeetsFeatPrerequisites()` - 6 testes
+>   - `ValidateAbilityScorePrerequisite()` - 4 testes
+>   - Outros helpers - 26 testes
+>
+> - ✅ **DataTableHelpers** - 13 testes (melhorados)
+>   - `FindFeatRow()` - 5 testes com supressão de logs
+>   - Outras funções de busca - 8 testes
+>
+> - ✅ **FormattingHelpers** - 10 testes (novo)
+>   - `FormatRaceDisplay()` - 4 testes
+>   - `FormatProficienciesList()` - 3 testes
+>   - `FormatAbilityScores()` - 3 testes
+>
+> - ✅ **ChoiceHelpers** - 7 testes (novo)
+>   - `ParseOptionsString()` - 4 testes
+>   - `FormatOptionsString()` - 3 testes
+>
+> - ✅ **FeatDataTable** - 6 testes
+>   - `GetPrerequisites()` - 6 testes
+>
+> - ✅ **ComponentHelpers** - 3 testes
+>   - `FindCharacterDataComponent()` - 3 testes
+>
+> **Melhorias Aplicadas:**
+>
+> - ✅ Supressão de warnings esperados (`FScopedLogCategorySuppression`)
+> - ✅ Mensagens descritivas em português
+> - ✅ Logs informativos com `AddInfo()` para melhor UX
+> - ✅ Cobertura completa de casos críticos
+>
+> **📖 Para documentação completa de testes, veja [docs/technical/guides/testing.md](docs/technical/guides/testing.md)**
+
+</details>
+
+---
+
 ## ✅ Checklist de Arquitetura
 
 <details>
@@ -112,6 +169,7 @@
 > - [ ] Funciona no Editor? (pode configurar sem rodar?)
 > - [ ] É Multiplayer-Ready? (replicação correta?)
 > - [ ] Separação de Responsabilidades? (camada correta?)
+> - [ ] Tem testes? (funções helper críticas devem ter testes)
 >
 > **📖 Para checklist completo e regras de implementação, veja [docs/technical/architecture.md](docs/technical/architecture.md#regras-de-implementação)**
 

@@ -132,7 +132,7 @@
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📅 Histórico de Reorganização</b></summary>
 
-> **Última Reorganização:** 2024-12-XX
+> **Última Atualização:** 2024-12-XX
 >
 > - ✅ Estrutura hierárquica tipo iceberg implementada
 > - ✅ Separação clara entre design e técnico
@@ -140,5 +140,8 @@
 > - ✅ Regras D&D 5e integradas em `docs/design/dnd-rules/`
 > - ✅ Arquitetura técnica movida para `docs/technical/`
 > - ✅ README e ARCHITECTURE na raiz atualizados (resumidos)
+> - ✅ Documentação atualizada seguindo padrões de markdown-organization.mdc
+> - ✅ **138 testes automatizados implementados** (CalculationHelpers, ValidationHelpers, CharacterSheetHelpers, DataTableHelpers, FormattingHelpers, ChoiceHelpers, FeatDataTable, ComponentHelpers)
+> - ✅ Documentação de testes atualizada com todos os testes implementados
 
 </details>

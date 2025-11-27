@@ -42,10 +42,16 @@
 >
 > **Exemplos no projeto:**
 >
-> - `GetPrerequisites()` em `FeatDataTable.cpp`
-> - `FindFeatRow()` em `DataTableHelpers.cpp`
-> - `MeetsFeatPrerequisites()` em `CharacterSheetHelpers.cpp`
-> - `ValidateAbilityScorePrerequisite()` em `CharacterSheetHelpers.cpp`
+> - `GetPrerequisites()` em `FeatDataTable.cpp` - ✅ 6 testes
+> - `FindFeatRow()` em `DataTableHelpers.cpp` - ✅ 13 testes (melhorados)
+> - `MeetsFeatPrerequisites()` em `CharacterSheetHelpers.cpp` - ✅ 36 testes
+> - `CalculateAbilityModifier()` em `CalculationHelpers.cpp` - ✅ 28 testes
+> - `CalculateProficiencyBonus()` em `CalculationHelpers.cpp` - ✅ 28 testes
+> - `ValidateAbilityScoreRange()` em `ValidationHelpers.cpp` - ✅ 35 testes
+> - `ValidatePointBuy()` em `ValidationHelpers.cpp` - ✅ 35 testes
+> - `FormatRaceDisplay()` em `FormattingHelpers.cpp` - ✅ 10 testes
+> - `ParseOptionsString()` em `ChoiceHelpers.cpp` - ✅ 7 testes
+> - `FindCharacterDataComponent()` em `ComponentHelpers.cpp` - ✅ 3 testes
 
 </details>
 
@@ -235,11 +241,39 @@
 > 3. Selecione os testes desejados
 > 4. Clique em **Start Tests**
 >
-> **Método 2: Commandlet (Linha de Comando)**
+> **Método 2: Linha de Comando (Terminal)**
+>
+> **Comando oficial da Epic Games:**
+>
+> ```batch
+> UnrealEditor-Cmd.exe "F:\UNREAL GAME\MyProject2\MyProject2.uproject" ^
+>     -ExecCmds="Automation RunTests MyProject2" ^
+>     -unattended ^
+>     -nopause ^
+>     -nullrhi ^
+>     -NoSound ^
+>     -NoSplash ^
+>     -testexit="Automation Test Queue Empty" ^
+>     -log ^
+>     -stdout
+> ```
+>
+> **Scripts do projeto:**
 >
 > ```bash
-> UnrealEditor.exe "F:\UNREAL GAME\MyProject2\MyProject2.uproject" -game -test="MyProject2.Utils.ComponentHelpers" -unattended -nopause -nullrhi
+> # Todos os testes
+> run_tests.bat
+>
+> # Teste específico
+> run_tests.bat MyProject2.Data.Tables.FeatDataTable
+>
+> # Versão rápida otimizada
+> run_tests_quick.bat
 > ```
+>
+> **Nota:** A inicialização do Unreal Engine pode levar 1-2 minutos. Isso é normal.
+>
+> **Referência:** [Write C++ Tests](https://dev.epicgames.com/documentation/en-us/unreal-engine/write-cplusplus-tests-in-unreal-engine)
 
 </details>
 
@@ -251,13 +285,17 @@
 > ```yaml
 > - name: Run Tests
 >   run: |
->     "C:\Program Files\Epic Games\UE_5.7\Engine\Binaries\Win64\UnrealEditor.exe"
+>     "C:\Program Files\Epic Games\UE_5.7\Engine\Binaries\Win64\UnrealEditor-Cmd.exe"
 >       "F:\UNREAL GAME\MyProject2\MyProject2.uproject"
->       -game
->       -test="MyProject2"
+>       -ExecCmds="Automation RunTests MyProject2"
 >       -unattended
 >       -nopause
 >       -nullrhi
+>       -NoSound
+>       -NoSplash
+>       -testexit="Automation Test Queue Empty"
+>       -log
+>       -stdout
 > ```
 
 </details>
@@ -391,16 +429,23 @@
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Checklist de Implementação</b></summary>
 
-> **Para começar a implementar testes:**
+> **Status atual:**
 >
-> - [ ] Configurar módulo de testes no `.Build.cs`
-> - [ ] Criar estrutura de pastas `Tests/` em cada módulo
-> - [ ] Implementar testes para helpers críticos:
->   - [ ] `GetPrerequisites()` em `FeatDataTable`
->   - [ ] `FindFeatRow()` em `DataTableHelpers`
->   - [ ] `MeetsFeatPrerequisites()` em `CharacterSheetHelpers`
-> - [ ] Executar testes no Editor
-> - [ ] Integrar testes no CI/CD
+> - [x] Configurar módulo de testes no `.Build.cs` (AutomationTest adicionado)
+> - [x] Criar estrutura de pastas `Tests/` em cada módulo
+> - [x] Implementar testes para helpers críticos:
+>   - [x] `CalculationHelpers` - ✅ 28 testes
+>   - [x] `ValidationHelpers` - ✅ 35 testes
+>   - [x] `CharacterSheetHelpers` - ✅ 36 testes
+>   - [x] `DataTableHelpers` - ✅ 13 testes
+>   - [x] `FormattingHelpers` - ✅ 10 testes
+>   - [x] `ChoiceHelpers` - ✅ 7 testes
+>   - [x] `FeatDataTable` - ✅ 6 testes
+>   - [x] `ComponentHelpers` - ✅ 3 testes
+> - [x] Executar testes no Editor (Automation Tool)
+> - [ ] Integrar testes no CI/CD (planejado)
+>
+> **Total:** 138 testes implementados e funcionando
 
 </details>
 

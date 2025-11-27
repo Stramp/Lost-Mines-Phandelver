@@ -72,7 +72,15 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > │       ├── DataTableHelpers   # Busca centralizada em Data Tables
 > │       ├── ValidationHelpers  # Validações reutilizáveis
 > │       ├── FormattingHelpers  # Formatação de dados
-> │       └── ComponentHelpers   # Helpers de componentes
+> │       ├── ComponentHelpers   # Helpers de componentes
+> │       └── Tests/             # Testes automatizados (138 testes)
+> │           ├── CalculationHelpersTests.cpp (28 testes)
+> │           ├── ValidationHelpersTests.cpp (35 testes)
+> │           ├── CharacterSheetHelpersTests.cpp (36 testes)
+> │           ├── DataTableHelpersTests.cpp (13 testes)
+> │           ├── FormattingHelpersTests.cpp (10 testes)
+> │           ├── ChoiceHelpersTests.cpp (7 testes)
+> │           └── ComponentHelpersTests.cpp (3 testes)
 > ├── Content/                    # Assets (Blueprints, Texturas, Modelos)
 > ├── Config/                     # Configurações (.ini)
 > ├── .cursor/                    # Regras e configurações do Cursor
@@ -455,6 +463,28 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > - Configurações disponíveis: Debug, DebugGame, Development, Test, Shipping
 > - **SEMPRE** verifique se compila antes de commitar
 >
+> ### Testes Automatizados
+>
+> **Status:** ✅ 138 testes implementados e funcionando
+>
+> O projeto utiliza o **Automation Test Framework** do Unreal Engine 5.7 para testes automatizados:
+>
+> - ✅ **CalculationHelpers** - 28 testes (modificadores, proficiência, cálculos)
+> - ✅ **ValidationHelpers** - 35 testes (validações de ability scores, point buy, escolhas)
+> - ✅ **CharacterSheetHelpers** - 36 testes (feats, pré-requisitos, helpers de fichas)
+> - ✅ **DataTableHelpers** - 13 testes (busca em Data Tables)
+> - ✅ **FormattingHelpers** - 10 testes (formatação de dados)
+> - ✅ **ChoiceHelpers** - 7 testes (parsing e formatação de escolhas)
+> - ✅ **FeatDataTable** - 6 testes (pré-requisitos de feats)
+> - ✅ **ComponentHelpers** - 3 testes (busca de componentes)
+>
+> **Executar Testes:**
+>
+> - **No Editor:** Window → Developer Tools → Automation Tool
+> - **Linha de Comando:** `run_tests.bat` ou `run_tests_quick.bat`
+>
+> **📖 Para documentação completa, veja [docs/technical/guides/testing.md](docs/technical/guides/testing.md)**
+>
 > ### Checklist Antes de Commitar
 >
 > - [ ] Código segue Clean Code e Design Patterns?
@@ -463,6 +493,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > - [ ] Segue padrões de nomenclatura?
 > - [ ] Está documentado?
 > - [ ] Testado no editor?
+> - [ ] Testes passam? (se adicionou/modificou helpers críticos)
 
 </details>
 
