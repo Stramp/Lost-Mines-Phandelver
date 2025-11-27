@@ -7,7 +7,10 @@
 
 #include "Misc/AutomationTest.h"
 #include "Utils/CharacterSheetHelpers.h"
+#include "Utils/DataTableHelpers.h"
 #include "Data/Tables/FeatDataTable.h"
+#include "Data/Tables/ProficiencyDataTable.h"
+#include "Engine/DataTable.h"
 
 #pragma endregion Includes
 
@@ -537,6 +540,125 @@ void CharacterSheetHelpersSpec::Define()
                         TestEqual("Strength should be 11", Result.FindRef(TEXT("Strength")), 11);
                     });
              });
+
+    Describe("GetSkillNames",
+             [this]()
+             {
+                 It("deve retornar array hardcoded quando ProficiencyDataTable é nullptr",
+                    [this]()
+                    {
+                        AddInfo(TEXT("Testando GetSkillNames com ProficiencyDataTable nullptr (fallback hardcoded)"));
+
+                        // Act
+                        TArray<FName> Result = CharacterSheetHelpers::GetSkillNames(nullptr);
+
+                        // Assert
+                        TestEqual("GetSkillNames deve retornar 18 skills hardcoded quando Data Table é nulo",
+                                  Result.Num(), 18);
+                        TestTrue("Result deve conter Acrobatics (hardcoded)", Result.Contains(TEXT("Acrobatics")));
+                        TestTrue("Result deve conter Athletics (hardcoded)", Result.Contains(TEXT("Athletics")));
+                        TestTrue("Result deve conter Stealth (hardcoded)", Result.Contains(TEXT("Stealth")));
+                        AddInfo(TEXT("✅ Teste passou: GetSkillNames retornou array hardcoded corretamente"));
+                    });
+
+                 It("deve retornar skills do Data Table quando ProficiencyDataTable é fornecido",
+                    [this]()
+                    {
+                        AddInfo(TEXT("Testando GetSkillNames com ProficiencyDataTable (Data-Driven)"));
+
+                        // Arrange
+                        UDataTable *TestProficiencyDataTable = NewObject<UDataTable>();
+                        TestProficiencyDataTable->RowStruct = FProficiencyDataRow::StaticStruct();
+
+                        // Adicionar 2 skills de teste
+                        FProficiencyDataRow *Skill1 = new FProficiencyDataRow();
+                        Skill1->Name = TEXT("Acrobatics");
+                        Skill1->ProficiencyID = TEXT("PSK_Acrobatics");
+                        Skill1->Type = TEXT("Skill");
+                        TestProficiencyDataTable->AddRow(TEXT("PSK_Acrobatics"), *Skill1);
+
+                        FProficiencyDataRow *Skill2 = new FProficiencyDataRow();
+                        Skill2->Name = TEXT("Athletics");
+                        Skill2->ProficiencyID = TEXT("PSK_Athletics");
+                        Skill2->Type = TEXT("Skill");
+                        TestProficiencyDataTable->AddRow(TEXT("PSK_Athletics"), *Skill2);
+
+                        // Act
+                        TArray<FName> Result = CharacterSheetHelpers::GetSkillNames(TestProficiencyDataTable);
+
+                        // Assert
+                        TestEqual("GetSkillNames deve retornar 2 skills do Data Table", Result.Num(), 2);
+                        TestTrue("Result deve conter Acrobatics (do Data Table)", Result.Contains(TEXT("Acrobatics")));
+                        TestTrue("Result deve conter Athletics (do Data Table)", Result.Contains(TEXT("Athletics")));
+                        AddInfo(TEXT("✅ Teste passou: GetSkillNames retornou skills do Data Table corretamente"));
+
+                        // Cleanup
+                        delete Skill1;
+                        delete Skill2;
+                        TestProficiencyDataTable->ConditionalBeginDestroy();
+                    });
+             });
+
+    Describe(
+        "GetAvailableLanguageNames",
+        [this]()
+        {
+            It("deve retornar array hardcoded quando ProficiencyDataTable é nullptr",
+               [this]()
+               {
+                   AddInfo(TEXT(
+                       "Testando GetAvailableLanguageNames com ProficiencyDataTable nullptr (fallback hardcoded)"));
+
+                   // Act
+                   TArray<FName> Result = CharacterSheetHelpers::GetAvailableLanguageNames(nullptr);
+
+                   // Assert
+                   TestEqual("GetAvailableLanguageNames deve retornar languages hardcoded quando Data Table é nulo",
+                             Result.Num(), 16);
+                   TestTrue("Result deve conter Common (hardcoded)", Result.Contains(TEXT("Common")));
+                   TestTrue("Result deve conter Elvish (hardcoded)", Result.Contains(TEXT("Elvish")));
+                   TestTrue("Result deve conter Draconic (hardcoded)", Result.Contains(TEXT("Draconic")));
+                   AddInfo(TEXT("✅ Teste passou: GetAvailableLanguageNames retornou array hardcoded corretamente"));
+               });
+
+            It("deve retornar languages do Data Table quando ProficiencyDataTable é fornecido",
+               [this]()
+               {
+                   AddInfo(TEXT("Testando GetAvailableLanguageNames com ProficiencyDataTable (Data-Driven)"));
+
+                   // Arrange
+                   UDataTable *TestProficiencyDataTable = NewObject<UDataTable>();
+                   TestProficiencyDataTable->RowStruct = FProficiencyDataRow::StaticStruct();
+
+                   // Adicionar 2 languages de teste
+                   FProficiencyDataRow *Lang1 = new FProficiencyDataRow();
+                   Lang1->Name = TEXT("Common");
+                   Lang1->ProficiencyID = TEXT("PL_Common");
+                   Lang1->Type = TEXT("Language");
+                   TestProficiencyDataTable->AddRow(TEXT("PL_Common"), *Lang1);
+
+                   FProficiencyDataRow *Lang2 = new FProficiencyDataRow();
+                   Lang2->Name = TEXT("Elvish");
+                   Lang2->ProficiencyID = TEXT("PL_Elvish");
+                   Lang2->Type = TEXT("Language");
+                   TestProficiencyDataTable->AddRow(TEXT("PL_Elvish"), *Lang2);
+
+                   // Act
+                   TArray<FName> Result = CharacterSheetHelpers::GetAvailableLanguageNames(TestProficiencyDataTable);
+
+                   // Assert
+                   TestEqual("GetAvailableLanguageNames deve retornar 2 languages do Data Table", Result.Num(), 2);
+                   TestTrue("Result deve conter Common (do Data Table)", Result.Contains(TEXT("Common")));
+                   TestTrue("Result deve conter Elvish (do Data Table)", Result.Contains(TEXT("Elvish")));
+                   AddInfo(TEXT(
+                       "✅ Teste passou: GetAvailableLanguageNames retornou languages do Data Table corretamente"));
+
+                   // Cleanup
+                   delete Lang1;
+                   delete Lang2;
+                   TestProficiencyDataTable->ConditionalBeginDestroy();
+               });
+        });
 }
 
 #pragma endregion CharacterSheetHelpers Tests

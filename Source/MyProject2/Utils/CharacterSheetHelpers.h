@@ -107,10 +107,6 @@ namespace CharacterSheetHelpers
      * @return true se pode selecionar subclasse (nível >= 3), false caso contrário
      */
     bool CanSelectSubclass(FName ClassName, int32 ClassLevel, UDataTable *ClassDataTable);
-    // Estrutura antiga (FClassFeature, FClassFeatureChoice) não existe mais
-    // Funções comentadas:
-    // - GetFeaturesAtLevel
-    // - GetAvailableChoicesForClassLevel
 
     // ============================================================================
     // Background Data Table Helpers
@@ -197,30 +193,32 @@ namespace CharacterSheetHelpers
     // ============================================================================
 
     /**
-     * Retorna array estático com os 18 nomes de skills padrão D&D 5e.
+     * Retorna array com os nomes de skills disponíveis.
+     * Se ProficiencyDataTable for fornecido, busca skills do Data Table (Data-Driven).
+     * Caso contrário, retorna array hardcoded com os 18 skills padrão D&D 5e (fallback).
+     *
      * Ordem alfabética: Acrobatics, Animal Handling, Arcana, Athletics, Deception,
      * History, Insight, Intimidation, Investigation, Medicine, Nature, Perception,
      * Performance, Persuasion, Religion, Sleight of Hand, Stealth, Survival
      *
-     * NOTA: Futuramente pode ser migrado para SkillDataTable seguindo o princípio
-     * Data-Driven completo. Por enquanto, hardcoded porque são constantes do sistema
-     * D&D 5e (assim como Ability Scores são hardcoded).
-     *
-     * @return Array com os 18 nomes de skills
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr para fallback hardcoded)
+     * @return Array com nomes de skills (do Data Table ou hardcoded)
      */
-    TArray<FName> GetSkillNames();
+    TArray<FName> GetSkillNames(UDataTable *ProficiencyDataTable = nullptr);
 
     // ============================================================================
     // Language Helpers
     // ============================================================================
 
     /**
-     * Retorna array estático com os nomes de idiomas padrão D&D 5e.
-     * NOTA: Futuramente pode ser migrado para LanguageDataTable para permitir customização.
-     * Por enquanto, hardcoded porque são constantes do sistema D&D 5e.
-     * @return Array com nomes de idiomas disponíveis
+     * Retorna array com os nomes de idiomas disponíveis.
+     * Se ProficiencyDataTable for fornecido, busca languages do Data Table (Data-Driven).
+     * Caso contrário, retorna array hardcoded com os idiomas padrão D&D 5e (fallback).
+     *
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr para fallback hardcoded)
+     * @return Array com nomes de idiomas (do Data Table ou hardcoded)
      */
-    TArray<FName> GetAvailableLanguageNames();
+    TArray<FName> GetAvailableLanguageNames(UDataTable *ProficiencyDataTable = nullptr);
 
     /**
      * Detecta se raça/sub-raça permite escolha de idiomas via TraitData.
@@ -266,13 +264,16 @@ namespace CharacterSheetHelpers
      * @param RaceName Nome da raça selecionada (pode ser NAME_None)
      * @param SubraceName Nome da sub-raça selecionada (pode ser NAME_None)
      * @param BackgroundName Nome do background selecionado (pode ser NAME_None)
+     * @param SelectedLanguages Array com idiomas já selecionados pelo jogador
      * @param RaceDataTable Data Table de raças (pode ser nullptr)
      * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr para fallback hardcoded)
      * @return Array com idiomas disponíveis para escolha (excluindo já conhecidos)
      */
     TArray<FName> GetAvailableLanguagesForChoice(FName RaceName, FName SubraceName, FName BackgroundName,
                                                  const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
-                                                 UDataTable *BackgroundDataTable);
+                                                 UDataTable *BackgroundDataTable,
+                                                 UDataTable *ProficiencyDataTable = nullptr);
 
     // ============================================================================
     // Point Buy System Helpers
@@ -281,12 +282,12 @@ namespace CharacterSheetHelpers
     /**
      * Calcula o custo em pontos do Point Buy para um ability score específico.
      * Segue tabela oficial D&D 5e:
-     * - Score 8: 0 pontos
-     * - Score 9-13: (score - 8) pontos
-     * - Score 14: 7 pontos
-     * - Score 15: 9 pontos
+     * - Score MIN_POINT_BUY_SCORE: 0 pontos
+     * - Score (MIN_POINT_BUY_SCORE+1) até (MAX_POINT_BUY_SCORE-2): (score - BASE_ABILITY_SCORE) pontos
+     * - Score INTERMEDIATE_POINT_BUY_SCORE: POINT_BUY_COST_14 pontos
+     * - Score MAX_POINT_BUY_SCORE: POINT_BUY_COST_15 pontos
      *
-     * @param Score Ability score (deve estar entre 8 e 15)
+     * @param Score Ability score (deve estar entre MIN_POINT_BUY_SCORE e MAX_POINT_BUY_SCORE)
      * @return Custo em pontos, ou 0 se score inválido
      */
     int32 CalculatePointBuyCost(int32 Score);
@@ -330,10 +331,11 @@ namespace CharacterSheetHelpers
      * Helper puro e testável para ajuste de alocação de Point Buy.
      *
      * @param PointBuyMap Alocação original (será modificada)
-     * @param MaxPoints Pontos máximos permitidos (padrão: 27)
+     * @param MaxPoints Pontos máximos permitidos (padrão: DnDConstants::MAX_POINT_BUY_POINTS)
      * @return Mensagem de feedback sobre o ajuste
      */
-    FString AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap, int32 MaxPoints = 27);
+    FString AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap,
+                                     int32 MaxPoints = 27); // DnDConstants::MAX_POINT_BUY_POINTS
 
     // ============================================================================
     // Level Calculation Helpers
@@ -347,31 +349,4 @@ namespace CharacterSheetHelpers
      */
     int32 CalculateTotalLevel(const TArray<FClassLevelEntry> &ClassLevels);
 
-    // ============================================================================
-    // Multiclassing Helpers
-    // ============================================================================
-
-    /**
-     * Retorna opções disponíveis para uma escolha específica.
-     * Usado pela UI para popular dropdowns dinâmicos.
-     *
-     * @param ChoiceID ID único da escolha (ex: "Fighter_FightingStyle_1")
-     * @param ClassName Nome da classe
-     * @param ClassLevel Nível da classe
-     * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @return Array com opções disponíveis, ou array vazio se não encontrado
-     */
-    TArray<FName> GetChoiceOptions(FName ChoiceID, FName ClassName, int32 ClassLevel, UDataTable *ClassDataTable);
-
-    /**
-     * Verifica se uma escolha é válida baseado em dependências.
-     *
-     * @param ChoiceID ID único da escolha
-     * @param SelectedValues Valores escolhidos pelo jogador
-     * @param ClassLevels Array com níveis de classe do personagem
-     * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @return true se a escolha é válida, false caso contrário
-     */
-    bool IsChoiceValid(FName ChoiceID, const TArray<FName> &SelectedValues, const TArray<FClassLevelEntry> &ClassLevels,
-                       UDataTable *ClassDataTable);
 } // namespace CharacterSheetHelpers

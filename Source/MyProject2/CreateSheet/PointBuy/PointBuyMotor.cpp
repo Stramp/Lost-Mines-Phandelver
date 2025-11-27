@@ -1,23 +1,36 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "PointBuyMotor.h"
+
+// Project includes - Data Structures
 #include "Data/Structures/FCharacterSheetData.h"
+
+// Project includes - Utils
 #include "Utils/CalculationHelpers.h"
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/DnDConstants.h"
+
 // Project includes - Logging
 #include "Logging/LoggingSystem.h"
 
 // Engine includes
 #include "Logging/LogMacros.h"
 
+#pragma endregion Includes
+
 FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
 {
+    FLogContext Context(TEXT("PointBuy"), TEXT("ApplyPointBuy"));
+
     // Valida referências de saída
     if (!Data.FinalStrength || !Data.FinalDexterity || !Data.FinalConstitution || !Data.FinalIntelligence ||
         !Data.FinalWisdom || !Data.FinalCharisma)
     {
-        FLogContext Context(TEXT("PointBuy"), TEXT("ApplyPointBuy"));
         FLoggingSystem::LogError(Context, TEXT("Referências de Final Scores inválidas"), true);
         return FPointBuyResult();
     }
@@ -39,7 +52,7 @@ FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
     int32 TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
     int32 PointsRemaining = MaxPoints - TotalCost;
 
-    // Se excedeu MAX_POINT_BUY_POINTS, ajusta automaticamente
+    // Se excedeu MAX_POINT_BUY_POINTS, ajusta automaticamente (sistema ajusta - sem popup)
     if (PointsRemaining < 0)
     {
         FeedbackMessage = CharacterSheetHelpers::AdjustPointBuyAllocation(PointBuyMap, MaxPoints);
@@ -50,9 +63,8 @@ FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
         TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
         PointsRemaining = MaxPoints - TotalCost;
 
-        FLogContext Context(TEXT("PointBuy"), TEXT("ApplyPointBuy"));
         FLoggingSystem::LogWarning(
-            Context, FString::Printf(TEXT("Alocação ajustada automaticamente. %s"), *FeedbackMessage), true);
+            Context, FString::Printf(TEXT("Alocação ajustada automaticamente. %s"), *FeedbackMessage), false);
     }
     else if (PointsRemaining == 0)
     {

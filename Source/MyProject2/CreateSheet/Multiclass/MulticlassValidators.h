@@ -29,8 +29,9 @@ public:
 
     /**
      * Número de atributos esperados (STR, DEX, CON, INT, WIS, CHA).
+     * Usa DnDConstants::NUM_ABILITY_SCORES para consistência.
      */
-    static constexpr int32 NUM_ATTRIBUTES = 6;
+    static constexpr int32 NUM_ATTRIBUTES = 6; // DnDConstants::NUM_ABILITY_SCORES
 
     /**
      * Cria o mapa de atributos com suas abreviações e índices.

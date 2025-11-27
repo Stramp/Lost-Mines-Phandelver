@@ -83,8 +83,6 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
 
     // Escolhas de idiomas podem mudar quando raça/sub-raça muda
     FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(Asset);
-
-    // Nota: UpdateCalculatedFields foi removido - campos calculados são atualizados por funções específicas
 }
 
 #pragma endregion Race Handlers
@@ -129,8 +127,6 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacter
         FLogContext Context(TEXT("CharacterSheet"), TEXT("HandlePointBuyAllocationChange"));
         FLoggingSystem::LogWarning(Context, ValidationResult.LogMessage, false);
     }
-
-    // Nota: UpdateCalculatedFields foi removido - campos calculados são atualizados por funções específicas
 }
 
 #pragma endregion Point Buy Handlers
@@ -156,9 +152,6 @@ void FCharacterSheetDataAssetHandlers::HandleBackgroundChange(UCharacterSheetDat
 
     // Escolhas de idiomas podem mudar quando background muda
     FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(Asset);
-
-    // Proficiências de background mudam
-    // Nota: UpdateCalculatedFields foi removido - campos calculados são atualizados por funções específicas
 }
 
 #pragma endregion Background Handlers
@@ -190,7 +183,6 @@ void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesChange(UCharacterShe
     }
 
     // Recalcula idiomas finais
-    // Nota: UpdateCalculatedFields foi removido - campos calculados são atualizados por funções específicas
 }
 
 #pragma endregion Language Handlers
@@ -226,7 +218,6 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
     FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(Asset);
 
     // Recalcula proficiências (SelectedSkill do Variant Human afeta proficiências)
-    // Nota: UpdateCalculatedFields foi removido - campos calculados são atualizados por funções específicas
 }
 
 #pragma endregion Variant Human Handlers

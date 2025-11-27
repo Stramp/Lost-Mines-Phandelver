@@ -6,6 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "CharacterDataComponent.generated.h"
 
+// Forward declarations
+struct FLogContext;
+
 /**
  * Componente de dados do personagem em runtime.
  *
@@ -110,4 +113,80 @@ public:
      */
     UFUNCTION(BlueprintCallable, Category = "Character Data")
     void LogCharacterSheet() const;
+
+private:
+    // ============================================================================
+    // Validation Helpers
+    // ============================================================================
+
+    /**
+     * Valida integridade dos Ability Scores.
+     * Verifica se todos os 6 atributos estão presentes e com valores válidos.
+     *
+     * @param Context Contexto de log para mensagens de erro
+     * @return true se todos os ability scores são válidos, false caso contrário
+     */
+    bool ValidateAbilityScoresIntegrity(const FLogContext &Context) const;
+
+    /**
+     * Valida dados básicos do personagem (Raça, Background, Nome).
+     *
+     * @param Context Contexto de log para mensagens de erro
+     * @return true se dados básicos são válidos, false caso contrário
+     */
+    bool ValidateBasicDataIntegrity(const FLogContext &Context) const;
+
+    /**
+     * Valida nível total do personagem.
+     *
+     * @param Context Contexto de log para mensagens de erro
+     * @return true se nível é válido, false caso contrário
+     */
+    bool ValidateLevelIntegrity(const FLogContext &Context) const;
+
+    // ============================================================================
+    // Logging Helpers
+    // ============================================================================
+
+    /**
+     * Faz log das informações básicas do personagem.
+     *
+     * @param Context Contexto de log
+     */
+    void LogBasicInfo(const FLogContext &Context) const;
+
+    /**
+     * Faz log das escolhas de Variant Human (se aplicável).
+     *
+     * @param Context Contexto de log
+     */
+    void LogVariantHumanChoices(const FLogContext &Context) const;
+
+    /**
+     * Faz log dos Ability Scores.
+     *
+     * @param Context Contexto de log
+     */
+    void LogAbilityScores(const FLogContext &Context) const;
+
+    /**
+     * Faz log de proficiências e idiomas.
+     *
+     * @param Context Contexto de log
+     */
+    void LogProficienciesAndLanguages(const FLogContext &Context) const;
+
+    /**
+     * Faz log das features disponíveis.
+     *
+     * @param Context Contexto de log
+     */
+    void LogAvailableFeatures(const FLogContext &Context) const;
+
+    /**
+     * Faz log do resultado da validação de integridade.
+     *
+     * @param Context Contexto de log
+     */
+    void LogDataIntegrityResult(const FLogContext &Context) const;
 };

@@ -183,21 +183,21 @@ void FCharacterSheetDataAssetHelpers::LogDataTableStatus(UCharacterSheetDataAsse
     bool bAllDataTablesSelected = Asset->RaceDataTable != nullptr && Asset->BackgroundDataTable != nullptr &&
                                   Asset->ClassDataTable != nullptr && Asset->FeatDataTable != nullptr;
 
+    FLogContext Context(TEXT("CharacterSheet"), TEXT("LogDataTableStatus"));
     if (bAllDataTablesSelected)
     {
-        FLogContext Context(TEXT("CharacterSheet"), TEXT("LogDataTableStatus"));
         FLoggingSystem::LogInfo(Context,
                                 TEXT("Todos os Data Tables foram selecionados! Todas as categorias estão visíveis."));
     }
     else
     {
-        FLogContext Context(TEXT("CharacterSheet"), TEXT("LogDataTableStatus"));
+        // Aviso informativo - não requer ação imediata (sem popup)
         FLoggingSystem::LogWarning(Context,
                                    FString::Printf(TEXT("Ainda faltam Data Tables. Race: %s, Background: %s, Feat: %s"),
                                                    Asset->RaceDataTable ? TEXT("OK") : TEXT("FALTANDO"),
                                                    Asset->BackgroundDataTable ? TEXT("OK") : TEXT("FALTANDO"),
                                                    Asset->FeatDataTable ? TEXT("OK") : TEXT("FALTANDO")),
-                                   true);
+                                   false);
     }
 }
 

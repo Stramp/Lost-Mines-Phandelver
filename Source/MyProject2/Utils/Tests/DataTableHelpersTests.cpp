@@ -10,6 +10,7 @@
 #include "Data/Tables/FeatDataTable.h"
 #include "Data/Tables/RaceDataTable.h"
 #include "Data/Tables/ClassDataTable.h"
+#include "Data/Tables/ProficiencyDataTable.h"
 #include "Engine/DataTable.h"
 
 #pragma endregion Includes
@@ -287,6 +288,208 @@ void DataTableHelpersSpec::Define()
                         TestClassDataTable->ConditionalBeginDestroy();
                     });
              });
+
+    Describe("GetAllSkillNames",
+             [this]()
+             {
+                 It("deve retornar array vazio quando ProficiencyDataTable é nullptr",
+                    [this]()
+                    {
+                        AddInfo(TEXT("Testando GetAllSkillNames com Data Table nulo"));
+
+                        // Act
+                        TArray<FName> Result = DataTableHelpers::GetAllSkillNames(nullptr);
+
+                        // Assert
+                        TestEqual("GetAllSkillNames deve retornar array vazio quando Data Table é nulo", Result.Num(),
+                                  0);
+                        AddInfo(TEXT("✅ Teste passou: GetAllSkillNames retornou array vazio corretamente"));
+                    });
+
+                 It("deve retornar array vazio quando Data Table não tem skills",
+                    [this]()
+                    {
+                        AddInfo(TEXT("Testando GetAllSkillNames com Data Table sem skills"));
+
+                        // Arrange
+                        UDataTable *TestProficiencyDataTable = NewObject<UDataTable>();
+                        TestProficiencyDataTable->RowStruct = FProficiencyDataRow::StaticStruct();
+
+                        // Adicionar apenas uma proficiência que não é Skill
+                        FProficiencyDataRow *TestRow = new FProficiencyDataRow();
+                        TestRow->Name = TEXT("Simple Weapons");
+                        TestRow->ProficiencyID = TEXT("PW_Simple_Weapons");
+                        TestRow->Type = TEXT("Weapon");
+                        TestProficiencyDataTable->AddRow(TEXT("PW_Simple_Weapons"), *TestRow);
+
+                        // Act
+                        TArray<FName> Result = DataTableHelpers::GetAllSkillNames(TestProficiencyDataTable);
+
+                        // Assert
+                        TestEqual("GetAllSkillNames deve retornar array vazio quando não há skills", Result.Num(), 0);
+                        AddInfo(TEXT("✅ Teste passou: GetAllSkillNames retornou array vazio quando não há skills"));
+
+                        // Cleanup
+                        delete TestRow;
+                        TestProficiencyDataTable->ConditionalBeginDestroy();
+                    });
+
+                 It("deve retornar todas as skills quando Data Table tem skills",
+                    [this]()
+                    {
+                        AddInfo(TEXT("Testando GetAllSkillNames com Data Table contendo skills"));
+
+                        // Arrange
+                        UDataTable *TestProficiencyDataTable = NewObject<UDataTable>();
+                        TestProficiencyDataTable->RowStruct = FProficiencyDataRow::StaticStruct();
+
+                        // Adicionar 3 skills de teste
+                        FProficiencyDataRow *Skill1 = new FProficiencyDataRow();
+                        Skill1->Name = TEXT("Acrobatics");
+                        Skill1->ProficiencyID = TEXT("PSK_Acrobatics");
+                        Skill1->Type = TEXT("Skill");
+                        TestProficiencyDataTable->AddRow(TEXT("PSK_Acrobatics"), *Skill1);
+
+                        FProficiencyDataRow *Skill2 = new FProficiencyDataRow();
+                        Skill2->Name = TEXT("Athletics");
+                        Skill2->ProficiencyID = TEXT("PSK_Athletics");
+                        Skill2->Type = TEXT("Skill");
+                        TestProficiencyDataTable->AddRow(TEXT("PSK_Athletics"), *Skill2);
+
+                        FProficiencyDataRow *Skill3 = new FProficiencyDataRow();
+                        Skill3->Name = TEXT("Stealth");
+                        Skill3->ProficiencyID = TEXT("PSK_Stealth");
+                        Skill3->Type = TEXT("Skill");
+                        TestProficiencyDataTable->AddRow(TEXT("PSK_Stealth"), *Skill3);
+
+                        // Adicionar uma proficiência que não é Skill (para garantir que filtra corretamente)
+                        FProficiencyDataRow *Weapon = new FProficiencyDataRow();
+                        Weapon->Name = TEXT("Simple Weapons");
+                        Weapon->ProficiencyID = TEXT("PW_Simple_Weapons");
+                        Weapon->Type = TEXT("Weapon");
+                        TestProficiencyDataTable->AddRow(TEXT("PW_Simple_Weapons"), *Weapon);
+
+                        // Act
+                        TArray<FName> Result = DataTableHelpers::GetAllSkillNames(TestProficiencyDataTable);
+
+                        // Assert
+                        TestEqual("GetAllSkillNames deve retornar 3 skills", Result.Num(), 3);
+                        TestTrue("Result deve conter Acrobatics", Result.Contains(TEXT("Acrobatics")));
+                        TestTrue("Result deve conter Athletics", Result.Contains(TEXT("Athletics")));
+                        TestTrue("Result deve conter Stealth", Result.Contains(TEXT("Stealth")));
+                        TestFalse("Result não deve conter Simple Weapons (não é Skill)",
+                                  Result.Contains(TEXT("Simple Weapons")));
+                        AddInfo(TEXT("✅ Teste passou: GetAllSkillNames retornou todas as skills corretamente"));
+
+                        // Cleanup
+                        delete Skill1;
+                        delete Skill2;
+                        delete Skill3;
+                        delete Weapon;
+                        TestProficiencyDataTable->ConditionalBeginDestroy();
+                    });
+             });
+
+    Describe(
+        "GetAllLanguageNames",
+        [this]()
+        {
+            It("deve retornar array vazio quando ProficiencyDataTable é nullptr",
+               [this]()
+               {
+                   AddInfo(TEXT("Testando GetAllLanguageNames com Data Table nulo"));
+
+                   // Act
+                   TArray<FName> Result = DataTableHelpers::GetAllLanguageNames(nullptr);
+
+                   // Assert
+                   TestEqual("GetAllLanguageNames deve retornar array vazio quando Data Table é nulo", Result.Num(), 0);
+                   AddInfo(TEXT("✅ Teste passou: GetAllLanguageNames retornou array vazio corretamente"));
+               });
+
+            It("deve retornar array vazio quando Data Table não tem languages",
+               [this]()
+               {
+                   AddInfo(TEXT("Testando GetAllLanguageNames com Data Table sem languages"));
+
+                   // Arrange
+                   UDataTable *TestProficiencyDataTable = NewObject<UDataTable>();
+                   TestProficiencyDataTable->RowStruct = FProficiencyDataRow::StaticStruct();
+
+                   // Adicionar apenas uma proficiência que não é Language
+                   FProficiencyDataRow *TestRow = new FProficiencyDataRow();
+                   TestRow->Name = TEXT("Simple Weapons");
+                   TestRow->ProficiencyID = TEXT("PW_Simple_Weapons");
+                   TestRow->Type = TEXT("Weapon");
+                   TestProficiencyDataTable->AddRow(TEXT("PW_Simple_Weapons"), *TestRow);
+
+                   // Act
+                   TArray<FName> Result = DataTableHelpers::GetAllLanguageNames(TestProficiencyDataTable);
+
+                   // Assert
+                   TestEqual("GetAllLanguageNames deve retornar array vazio quando não há languages", Result.Num(), 0);
+                   AddInfo(TEXT("✅ Teste passou: GetAllLanguageNames retornou array vazio quando não há languages"));
+
+                   // Cleanup
+                   delete TestRow;
+                   TestProficiencyDataTable->ConditionalBeginDestroy();
+               });
+
+            It("deve retornar todos os languages quando Data Table tem languages",
+               [this]()
+               {
+                   AddInfo(TEXT("Testando GetAllLanguageNames com Data Table contendo languages"));
+
+                   // Arrange
+                   UDataTable *TestProficiencyDataTable = NewObject<UDataTable>();
+                   TestProficiencyDataTable->RowStruct = FProficiencyDataRow::StaticStruct();
+
+                   // Adicionar 3 languages de teste
+                   FProficiencyDataRow *Lang1 = new FProficiencyDataRow();
+                   Lang1->Name = TEXT("Common");
+                   Lang1->ProficiencyID = TEXT("PL_Common");
+                   Lang1->Type = TEXT("Language");
+                   TestProficiencyDataTable->AddRow(TEXT("PL_Common"), *Lang1);
+
+                   FProficiencyDataRow *Lang2 = new FProficiencyDataRow();
+                   Lang2->Name = TEXT("Elvish");
+                   Lang2->ProficiencyID = TEXT("PL_Elvish");
+                   Lang2->Type = TEXT("Language");
+                   TestProficiencyDataTable->AddRow(TEXT("PL_Elvish"), *Lang2);
+
+                   FProficiencyDataRow *Lang3 = new FProficiencyDataRow();
+                   Lang3->Name = TEXT("Draconic");
+                   Lang3->ProficiencyID = TEXT("PL_Draconic");
+                   Lang3->Type = TEXT("Language");
+                   TestProficiencyDataTable->AddRow(TEXT("PL_Draconic"), *Lang3);
+
+                   // Adicionar uma proficiência que não é Language (para garantir que filtra corretamente)
+                   FProficiencyDataRow *Weapon = new FProficiencyDataRow();
+                   Weapon->Name = TEXT("Simple Weapons");
+                   Weapon->ProficiencyID = TEXT("PW_Simple_Weapons");
+                   Weapon->Type = TEXT("Weapon");
+                   TestProficiencyDataTable->AddRow(TEXT("PW_Simple_Weapons"), *Weapon);
+
+                   // Act
+                   TArray<FName> Result = DataTableHelpers::GetAllLanguageNames(TestProficiencyDataTable);
+
+                   // Assert
+                   TestEqual("GetAllLanguageNames deve retornar 3 languages", Result.Num(), 3);
+                   TestTrue("Result deve conter Common", Result.Contains(TEXT("Common")));
+                   TestTrue("Result deve conter Elvish", Result.Contains(TEXT("Elvish")));
+                   TestTrue("Result deve conter Draconic", Result.Contains(TEXT("Draconic")));
+                   TestFalse("Result não deve conter Simple Weapons (não é Language)",
+                             Result.Contains(TEXT("Simple Weapons")));
+                   AddInfo(TEXT("✅ Teste passou: GetAllLanguageNames retornou todos os languages corretamente"));
+
+                   // Cleanup
+                   delete Lang1;
+                   delete Lang2;
+                   delete Lang3;
+                   delete Weapon;
+                   TestProficiencyDataTable->ConditionalBeginDestroy();
+               });
+        });
 }
 
 #pragma endregion DataTableHelpers Tests

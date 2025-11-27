@@ -168,4 +168,15 @@ public:
      */
     static bool LoadClassBasicInfo(FName ClassName, const UDataTable *ClassDataTable,
                                    TArray<FString> &OutMulticlassRequirements);
+
+    /**
+     * Verifica se uma feature tem escolhas disponíveis para o jogador.
+     * Retorna true apenas se FeatureType é "Choice" ou "SubclassSelection" E AvailableChoices não é NAME_None.
+     * Helper puro e testável, sem side effects.
+     * Usado para controlar visibilidade do campo AvailableChoices no editor.
+     *
+     * @param Feature Feature a verificar
+     * @return true se feature tem escolhas disponíveis, false caso contrário
+     */
+    static bool FeatureHasAvailableChoices(const FMulticlassClassFeature &Feature);
 };

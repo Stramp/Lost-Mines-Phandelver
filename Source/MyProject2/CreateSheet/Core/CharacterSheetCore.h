@@ -13,8 +13,8 @@
  * Genérico: funciona tanto no Data Asset quanto no Widget de criação.
  * Princípio: "Program to an interface, not an implementation" (Design Patterns)
  *
- * Orquestrador: reseta para base (8) e aplica cada motor independente sequencialmente.
- * Fórmula: FinalScore = 8 + RacialBonus + PointBuyAllocation
+ * Orquestrador: reseta para base (BASE_ABILITY_SCORE) e aplica cada motor independente sequencialmente.
+ * Fórmula: FinalScore = BASE_ABILITY_SCORE + RacialBonus + PointBuyAllocation
  *
  * @see FCharacterSheetData - Estrutura genérica de dados
  */
@@ -23,8 +23,8 @@ class MYPROJECT2_API FCharacterSheetCore
 public:
     /**
      * Recalcula Final Scores aplicando todos os motores sequencialmente.
-     * Orquestrador: reseta para base (8) e aplica cada motor independente.
-     * Fórmula: FinalScore = 8 + RacialBonus + PointBuyAllocation
+     * Orquestrador: reseta para base (BASE_ABILITY_SCORE) e aplica cada motor independente.
+     * Fórmula: FinalScore = BASE_ABILITY_SCORE + RacialBonus + PointBuyAllocation
      *
      * Genérico: recebe FCharacterSheetData (dados puros), não objetos concretos.
      * Permite reutilização tanto no Data Asset quanto no Widget.

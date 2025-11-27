@@ -1,23 +1,38 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "RaceBonusMotor.h"
 #include "RaceBonusHelpers.h"
+
+// Project includes - Data Structures
 #include "Data/Structures/FCharacterSheetData.h"
+
+// Project includes - Data Tables
 #include "Data/Tables/RaceDataTable.h"
+
+// Project includes - Utils
 #include "Utils/DataTableHelpers.h"
+
 // Project includes - Logging
 #include "Logging/LoggingSystem.h"
 
 // Engine includes
 #include "Logging/LogMacros.h"
 
+#pragma endregion Includes
+
 void FRaceBonusMotor::ApplyRacialBonuses(FCharacterSheetData &Data)
 {
+    FLogContext Context(TEXT("RaceBonus"), TEXT("ApplyRacialBonuses"));
+
     // Valida referências de saída
     if (!Data.FinalStrength || !Data.FinalDexterity || !Data.FinalConstitution || !Data.FinalIntelligence ||
         !Data.FinalWisdom || !Data.FinalCharisma)
     {
-        FLogContext Context(TEXT("RaceBonus"), TEXT("ApplyRacialBonuses"));
         FLoggingSystem::LogError(Context, TEXT("Referências de Final Scores inválidas"), true);
         return;
     }
@@ -38,14 +53,13 @@ void FRaceBonusMotor::ApplyRacialBonuses(FCharacterSheetData &Data)
 
             if (!bSubraceValid)
             {
-                // Aviso: sub-raça inválida (validação deve ser feita pelo caller - Data Asset ou Widget)
-                FLogContext Context(TEXT("RaceBonus"), TEXT("ApplyRacialBonuses"));
+                // Aviso: sub-raça inválida (sistema ajusta automaticamente - sem popup)
                 FLoggingSystem::LogWarning(
                     Context,
                     FString::Printf(
                         TEXT("Sub-raça '%s' não pertence à raça '%s'. Bônus de sub-raça não será aplicado."),
                         *Data.SelectedSubrace.ToString(), *Data.SelectedRace.ToString()),
-                    true);
+                    false);
             }
             else
             {
@@ -54,11 +68,11 @@ void FRaceBonusMotor::ApplyRacialBonuses(FCharacterSheetData &Data)
 
                 if (!SubraceRow)
                 {
-                    FLogContext Context(TEXT("RaceBonus"), TEXT("ApplyRacialBonuses"));
+                    // Aviso: sub-raça não encontrada (sistema ajusta automaticamente - sem popup)
                     FLoggingSystem::LogWarning(Context,
                                                FString::Printf(TEXT("Sub-raça '%s' não encontrada no RaceDataTable"),
                                                                *Data.SelectedSubrace.ToString()),
-                                               true);
+                                               false);
                 }
             }
         }

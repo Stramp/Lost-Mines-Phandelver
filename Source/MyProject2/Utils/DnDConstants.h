@@ -33,6 +33,33 @@ namespace DnDConstants
     /** Valor mínimo de Ability Score no Point Buy (8) */
     constexpr int32 MIN_POINT_BUY_SCORE = 8;
 
+    /** Valor intermediário de Ability Score no Point Buy (14) - custa 7 pontos */
+    constexpr int32 INTERMEDIATE_POINT_BUY_SCORE = 14;
+
+    /** Custo em pontos do Point Buy para score 14 (7 pontos) */
+    constexpr int32 POINT_BUY_COST_14 = 7;
+
+    /** Custo em pontos do Point Buy para score 15 (9 pontos) */
+    constexpr int32 POINT_BUY_COST_15 = 9;
+
+    /** Valor base para cálculo de modificador de ability score (10) */
+    constexpr int32 ABILITY_MODIFIER_BASE = 10;
+
+    /** Divisor para cálculo de modificador de ability score (2) */
+    constexpr float ABILITY_MODIFIER_DIVISOR = 2.0f;
+
+    /** Divisor para cálculo de proficiency bonus (4) */
+    constexpr float PROFICIENCY_BONUS_DIVISOR = 4.0f;
+
+    /** Divisor para cálculo de HP médio por nível (2) */
+    constexpr float HP_AVERAGE_DIVISOR = 2.0f;
+
+    /** Valor base para cálculo de proficiency bonus (1) */
+    constexpr int32 PROFICIENCY_BONUS_BASE = 1;
+
+    /** HP mínimo que um personagem pode ter (1) */
+    constexpr int32 MIN_HP = 1;
+
     /** Número de Ability Scores (6: STR, DEX, CON, INT, WIS, CHA) */
     constexpr int32 NUM_ABILITY_SCORES = 6;
 

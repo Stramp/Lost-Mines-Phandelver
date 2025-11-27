@@ -28,19 +28,22 @@ namespace ValidationHelpers
      *
      * @param BaseScores Map com ability scores base (chave: FName do atributo, valor: score)
      * @param PointsRemaining [OUT] Pontos restantes após alocação (pode ser negativo se excedeu)
-     * @param MaxPoints Pontos máximos disponíveis (padrão: 27 para D&D 5e)
-     * @return true se todos os scores estão no range válido [8, 15], false caso contrário
+     * @param MaxPoints Pontos máximos disponíveis (padrão: DnDConstants::MAX_POINT_BUY_POINTS)
+     * @return true se todos os scores estão no range válido [MIN_POINT_BUY_SCORE, MAX_POINT_BUY_SCORE], false caso
+     * contrário
      */
-    bool ValidatePointBuy(const TMap<FName, int32> &BaseScores, int32 &PointsRemaining, int32 MaxPoints = 27);
+    bool ValidatePointBuy(const TMap<FName, int32> &BaseScores, int32 &PointsRemaining,
+                          int32 MaxPoints = 27); // DnDConstants::MAX_POINT_BUY_POINTS
 
     /**
      * Valida alocação completa de Point Buy (range + pontos).
      *
      * @param BaseScores Map com ability scores base
-     * @param MaxPoints Pontos máximos disponíveis (padrão: 27)
+     * @param MaxPoints Pontos máximos disponíveis (padrão: DnDConstants::MAX_POINT_BUY_POINTS)
      * @return true se válido (range correto E exatamente MaxPoints gastos), false caso contrário
      */
-    bool ValidatePointBuyAllocation(const TMap<FName, int32> &BaseScores, int32 MaxPoints = 27);
+    bool ValidatePointBuyAllocation(const TMap<FName, int32> &BaseScores,
+                                    int32 MaxPoints = 27); // DnDConstants::MAX_POINT_BUY_POINTS
 
     // ============================================================================
     // Level Validation
@@ -51,19 +54,20 @@ namespace ValidationHelpers
      *
      * @param ClassLevels Array com entradas de nível por classe
      * @param TotalLevel [OUT] Nível total calculado
-     * @param MaxLevel Nível máximo permitido (padrão: 20 para D&D 5e)
+     * @param MaxLevel Nível máximo permitido (padrão: DnDConstants::MAX_LEVEL)
      * @return true se nível total <= MaxLevel, false caso contrário
      */
-    bool ValidateTotalLevel(const TArray<FClassLevelEntry> &ClassLevels, int32 &TotalLevel, int32 MaxLevel = 20);
+    bool ValidateTotalLevel(const TArray<FClassLevelEntry> &ClassLevels, int32 &TotalLevel,
+                            int32 MaxLevel = 20); // DnDConstants::MAX_LEVEL
 
     /**
      * Valida se um nível total está dentro do range permitido.
      *
      * @param Level Nível total a validar
-     * @param MaxLevel Nível máximo permitido (padrão: 20)
-     * @return true se 1 <= Level <= MaxLevel, false caso contrário
+     * @param MaxLevel Nível máximo permitido (padrão: DnDConstants::MAX_LEVEL)
+     * @return true se MIN_LEVEL <= Level <= MaxLevel, false caso contrário
      */
-    bool ValidateTotalLevelRange(int32 Level, int32 MaxLevel = 20);
+    bool ValidateTotalLevelRange(int32 Level, int32 MaxLevel = 20); // DnDConstants::MAX_LEVEL
 
     // ============================================================================
     // Ability Score Validation
@@ -73,11 +77,12 @@ namespace ValidationHelpers
      * Valida se um ability score está dentro do range permitido.
      *
      * @param Score Ability score a validar
-     * @param Min Valor mínimo permitido (padrão: 1)
-     * @param Max Valor máximo permitido (padrão: 30)
+     * @param Min Valor mínimo permitido (padrão: DnDConstants::MIN_ABILITY_SCORE)
+     * @param Max Valor máximo permitido (padrão: DnDConstants::MAX_ABILITY_SCORE)
      * @return true se Min <= Score <= Max, false caso contrário
      */
-    bool ValidateAbilityScoreRange(int32 Score, int32 Min = 1, int32 Max = 30);
+    bool ValidateAbilityScoreRange(int32 Score, int32 Min = 1,
+                                   int32 Max = 30); // DnDConstants::MIN_ABILITY_SCORE, MAX_ABILITY_SCORE
 
     /**
      * Valida escolhas de ability scores (ex: Variant Human) - VERSÃO PURA.

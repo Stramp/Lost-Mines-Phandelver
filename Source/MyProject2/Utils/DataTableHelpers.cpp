@@ -235,6 +235,55 @@ FProficiencyDataRow *DataTableHelpers::FindProficiencyRowByID(FName ProficiencyI
 }
 
 // ============================================================================
+// Proficiency Data Table Helpers - GetProficiencyNamesByType (Generic Helper)
+// ============================================================================
+
+TArray<FName> DataTableHelpers::GetProficiencyNamesByType(UDataTable *ProficiencyDataTable, FName ProficiencyType)
+{
+    TArray<FName> ProficiencyNames;
+
+    if (!ProficiencyDataTable || ProficiencyType == NAME_None)
+    {
+        return ProficiencyNames; // Retorna array vazio
+    }
+
+    // Itera sobre todas as rows do Data Table
+    TArray<FName> RowNames = ProficiencyDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
+    {
+        if (FProficiencyDataRow *Row =
+                ProficiencyDataTable->FindRow<FProficiencyDataRow>(RowName, TEXT("GetProficiencyNamesByType")))
+        {
+            // Filtra apenas proficiências do tipo especificado
+            if (Row->Type == ProficiencyType && Row->Name != NAME_None)
+            {
+                ProficiencyNames.Add(Row->Name);
+            }
+        }
+    }
+
+    return ProficiencyNames;
+}
+
+// ============================================================================
+// Proficiency Data Table Helpers - GetAllSkillNames (Wrapper)
+// ============================================================================
+
+TArray<FName> DataTableHelpers::GetAllSkillNames(UDataTable *ProficiencyDataTable)
+{
+    return GetProficiencyNamesByType(ProficiencyDataTable, TEXT("Skill"));
+}
+
+// ============================================================================
+// Proficiency Data Table Helpers - GetAllLanguageNames (Wrapper)
+// ============================================================================
+
+TArray<FName> DataTableHelpers::GetAllLanguageNames(UDataTable *ProficiencyDataTable)
+{
+    return GetProficiencyNamesByType(ProficiencyDataTable, TEXT("Language"));
+}
+
+// ============================================================================
 // Feature Data Table Helpers
 // ============================================================================
 

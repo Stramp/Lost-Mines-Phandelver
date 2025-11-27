@@ -243,7 +243,7 @@ bool CharacterSheetHelpers::MeetsFeatPrerequisites(const FFeatDataRow *Row, cons
 TArray<FName> CharacterSheetHelpers::GetAvailableFeats(int32 TotalLevel, const TMap<FName, int32> &AbilityScores,
                                                        UDataTable *FeatDataTable)
 {
-    if (!FeatDataTable || TotalLevel < 1)
+    if (!FeatDataTable || TotalLevel < DnDConstants::MIN_LEVEL)
     {
         return TArray<FName>();
     }
@@ -328,17 +328,18 @@ TArray<FName> CharacterSheetHelpers::GetAbilityScoreNames()
 // Skill Helpers
 // ============================================================================
 
-TArray<FName> CharacterSheetHelpers::GetSkillNames()
+TArray<FName> CharacterSheetHelpers::GetSkillNames(UDataTable *ProficiencyDataTable)
 {
-    // Retorna array estático com os 18 nomes de skills padrão D&D 5e
+    // Se ProficiencyDataTable for fornecido, busca do Data Table (Data-Driven)
+    if (ProficiencyDataTable)
+    {
+        return DataTableHelpers::GetAllSkillNames(ProficiencyDataTable);
+    }
+
+    // Fallback: Retorna array hardcoded com os 18 nomes de skills padrão D&D 5e
     // Ordem alfabética: Acrobatics, Animal Handling, Arcana, Athletics, Deception,
     // History, Insight, Intimidation, Investigation, Medicine, Nature, Perception,
     // Performance, Persuasion, Religion, Sleight of Hand, Stealth, Survival
-    //
-    // TODO: Futuramente migrar para SkillDataTable seguindo o princípio Data-Driven completo.
-    // Por enquanto, hardcoded porque são constantes do sistema D&D 5e (assim como Ability Scores).
-    // Quando implementado SkillDataTable, criar função GetAllSkillNames(UDataTable* SkillDataTable)
-    // similar a GetAllRaceNames() e GetAllClassNames().
     return TArray<FName>{TEXT("Acrobatics"),    TEXT("Animal Handling"), TEXT("Arcana"),   TEXT("Athletics"),
                          TEXT("Deception"),     TEXT("History"),         TEXT("Insight"),  TEXT("Intimidation"),
                          TEXT("Investigation"), TEXT("Medicine"),        TEXT("Nature"),   TEXT("Perception"),
@@ -346,12 +347,15 @@ TArray<FName> CharacterSheetHelpers::GetSkillNames()
                          TEXT("Stealth"),       TEXT("Survival")};
 }
 
-TArray<FName> CharacterSheetHelpers::GetAvailableLanguageNames()
+TArray<FName> CharacterSheetHelpers::GetAvailableLanguageNames(UDataTable *ProficiencyDataTable)
 {
-    // TODO: Futuramente migrar para LanguageDataTable seguindo o princípio Data-Driven completo.
-    // Por enquanto, hardcoded porque são constantes do sistema D&D 5e.
-    // Quando implementado LanguageDataTable, criar função GetAllLanguageNames(UDataTable* LanguageDataTable)
-    // similar a GetAllRaceNames() e GetAllClassNames().
+    // Se ProficiencyDataTable for fornecido, busca do Data Table (Data-Driven)
+    if (ProficiencyDataTable)
+    {
+        return DataTableHelpers::GetAllLanguageNames(ProficiencyDataTable);
+    }
+
+    // Fallback: Retorna array hardcoded com os idiomas padrão D&D 5e
     return TArray<FName>{TEXT("Common"),   TEXT("Dwarvish"),   TEXT("Elvish"),   TEXT("Giant"),
                          TEXT("Gnomish"),  TEXT("Goblin"),     TEXT("Halfling"), TEXT("Orc"),
                          TEXT("Abyssal"),  TEXT("Celestial"),  TEXT("Draconic"), TEXT("Deep Speech"),
@@ -495,14 +499,14 @@ TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName
     return AutomaticLanguagesSet.Array();
 }
 
-TArray<FName> CharacterSheetHelpers::GetAvailableLanguagesForChoice(FName RaceName, FName SubraceName,
-                                                                    FName BackgroundName,
-                                                                    const TArray<FName> &SelectedLanguages,
-                                                                    UDataTable *RaceDataTable,
-                                                                    UDataTable *BackgroundDataTable)
+TArray<FName>
+CharacterSheetHelpers::GetAvailableLanguagesForChoice(FName RaceName, FName SubraceName, FName BackgroundName,
+                                                      const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
+                                                      UDataTable *BackgroundDataTable, UDataTable *ProficiencyDataTable)
 {
     // Obtém todos os idiomas disponíveis
-    TArray<FName> AllLanguages = GetAvailableLanguageNames();
+    // Usa ProficiencyDataTable se fornecido (Data-Driven), caso contrário usa fallback hardcoded
+    TArray<FName> AllLanguages = GetAvailableLanguageNames(ProficiencyDataTable);
 
     // Calcula idiomas automáticos já conhecidos
     TArray<FName> AutomaticLanguages =
@@ -552,17 +556,18 @@ int32 CharacterSheetHelpers::CalculatePointBuyCost(int32 Score)
     {
         return 0;
     }
-    else if (Score >= 9 && Score <= 13)
+    else if (Score >= (DnDConstants::MIN_POINT_BUY_SCORE + 1) && Score <= (DnDConstants::MAX_POINT_BUY_SCORE - 2))
     {
+        // Scores 9-13: custo = (score - BASE_ABILITY_SCORE)
         return Score - DnDConstants::BASE_ABILITY_SCORE;
     }
-    else if (Score == 14)
+    else if (Score == DnDConstants::INTERMEDIATE_POINT_BUY_SCORE)
     {
-        return 7;
+        return DnDConstants::POINT_BUY_COST_14;
     }
     else if (Score == DnDConstants::MAX_POINT_BUY_SCORE)
     {
-        return 9;
+        return DnDConstants::POINT_BUY_COST_15;
     }
 
     return 0;
@@ -590,9 +595,9 @@ TMap<FName, int32> CharacterSheetHelpers::CreatePointBuyMapFromData(int32 PointB
     TArray<int32> Values = {PointBuyStrength,     PointBuyDexterity, PointBuyConstitution,
                             PointBuyIntelligence, PointBuyWisdom,    PointBuyCharisma};
 
-    // Garante que temos exatamente 6 atributos
-    check(AbilityNames.Num() == 6);
-    check(Values.Num() == 6);
+    // Garante que temos exatamente NUM_ABILITY_SCORES atributos
+    check(AbilityNames.Num() == DnDConstants::NUM_ABILITY_SCORES);
+    check(Values.Num() == DnDConstants::NUM_ABILITY_SCORES);
 
     for (int32 i = 0; i < AbilityNames.Num() && i < Values.Num(); ++i)
     {
@@ -689,48 +694,4 @@ int32 CharacterSheetHelpers::CalculateTotalLevel(const TArray<FClassLevelEntry> 
     }
 
     return TotalLevel;
-}
-
-// ============================================================================
-// Multiclassing Helpers
-// ============================================================================
-
-TArray<FName> CharacterSheetHelpers::GetChoiceOptions(FName ChoiceID, FName ClassName, int32 ClassLevel,
-                                                      UDataTable *ClassDataTable)
-{
-    TArray<FName> Options;
-
-    if (!ClassDataTable || ChoiceID == NAME_None || ClassName == NAME_None)
-    {
-        return Options;
-    }
-
-    FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, ClassDataTable);
-    if (!ClassRow)
-    {
-        return Options;
-    }
-
-    return Options;
-}
-
-bool CharacterSheetHelpers::IsChoiceValid(FName ChoiceID, const TArray<FName> &SelectedValues,
-                                          const TArray<FClassLevelEntry> &ClassLevels, UDataTable *ClassDataTable)
-{
-    if (ChoiceID == NAME_None || SelectedValues.Num() == 0 || !ClassDataTable)
-    {
-        return false;
-    }
-
-    // Busca a escolha no Data Table
-    for (const FClassLevelEntry &Entry : ClassLevels)
-    {
-        FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(Entry.ClassName, ClassDataTable);
-        if (!ClassRow)
-        {
-            continue;
-        }
-    }
-
-    return false;
 }

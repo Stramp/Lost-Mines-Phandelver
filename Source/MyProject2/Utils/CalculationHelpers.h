@@ -27,15 +27,15 @@ namespace CalculationHelpers
 
     /**
      * Calcula o modificador de ability score (Ability Modifier).
-     * Fórmula D&D 5e: floor((Score - 10) / 2)
+     * Fórmula D&D 5e: floor((Score - ABILITY_MODIFIER_BASE) / ABILITY_MODIFIER_DIVISOR)
      *
-     * @param Score Ability score (1-30)
+     * @param Score Ability score (MIN_ABILITY_SCORE - MAX_ABILITY_SCORE)
      * @return Modificador calculado (pode ser negativo)
      */
     int32 CalculateAbilityModifier(int32 Score);
 
     /**
-     * Reseta Final Scores para valor base (8).
+     * Reseta Final Scores para valor base (BASE_ABILITY_SCORE).
      * Função pura que apenas reseta valores.
      *
      * @param FinalStrength [IN/OUT] Score final de Strength
@@ -70,9 +70,9 @@ namespace CalculationHelpers
 
     /**
      * Calcula o bônus de proficiência baseado no nível total.
-     * Fórmula D&D 5e: 1 + floor((TotalLevel - 1) / 4)
+     * Fórmula D&D 5e: PROFICIENCY_BONUS_BASE + floor((TotalLevel - MIN_LEVEL) / PROFICIENCY_BONUS_DIVISOR)
      *
-     * @param TotalLevel Nível total do personagem (1-20)
+     * @param TotalLevel Nível total do personagem (MIN_LEVEL - MAX_LEVEL)
      * @return Bônus de proficiência
      */
     int32 CalculateProficiencyBonus(int32 TotalLevel);
@@ -118,11 +118,11 @@ namespace CalculationHelpers
     /**
      * Calcula HP ganho em um nível específico de uma classe.
      * Fórmula D&D 5e:
-     * - Level 1: HitDie + CON modifier
-     * - Level 2+: (HitDie/2 + 1) + CON modifier (média do dado, arredondado para cima)
+     * - Level MIN_LEVEL: HitDie + CON modifier
+     * - Level 2+: ceil(HitDie/HP_AVERAGE_DIVISOR) + CON modifier (média do dado, arredondado para cima)
      *
-     * @param HitDie Dado de vida da classe (6, 8, 10 ou 12)
-     * @param Level Nível na classe (1-20)
+     * @param HitDie Dado de vida da classe (MIN_HIT_DIE - MAX_HIT_DIE)
+     * @param Level Nível na classe (MIN_LEVEL - MAX_LEVEL)
      * @param ConstitutionModifier Modificador de Constitution
      * @return HP ganho neste nível
      */

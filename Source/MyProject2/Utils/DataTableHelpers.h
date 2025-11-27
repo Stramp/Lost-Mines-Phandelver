@@ -106,6 +106,38 @@ namespace DataTableHelpers
      */
     FProficiencyDataRow *FindProficiencyRowByID(FName ProficiencyID, UDataTable *ProficiencyDataTable);
 
+    /**
+     * Retorna todos os nomes de proficiências de um tipo específico no ProficiencyDataTable.
+     * Função genérica que filtra proficiências por tipo (ex: "Skill", "Language", "Weapon", etc.).
+     * Helper interno reutilizável para evitar duplicação de código (DRY).
+     *
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
+     * @param ProficiencyType Tipo de proficiência para filtrar (ex: "Skill", "Language")
+     * @return Array com nomes de todas as proficiências do tipo especificado, ou array vazio se Data Table inválido ou
+     * sem proficiências do tipo
+     */
+    TArray<FName> GetProficiencyNamesByType(UDataTable *ProficiencyDataTable, FName ProficiencyType);
+
+    /**
+     * Retorna todos os nomes de skills disponíveis no ProficiencyDataTable.
+     * Filtra apenas proficiências do tipo "Skill".
+     * Wrapper que chama GetProficiencyNamesByType com tipo "Skill".
+     *
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
+     * @return Array com nomes de todas as skills, ou array vazio se Data Table inválido ou sem skills
+     */
+    TArray<FName> GetAllSkillNames(UDataTable *ProficiencyDataTable);
+
+    /**
+     * Retorna todos os nomes de languages disponíveis no ProficiencyDataTable.
+     * Filtra apenas proficiências do tipo "Language".
+     * Wrapper que chama GetProficiencyNamesByType com tipo "Language".
+     *
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
+     * @return Array com nomes de todos os languages, ou array vazio se Data Table inválido ou sem languages
+     */
+    TArray<FName> GetAllLanguageNames(UDataTable *ProficiencyDataTable);
+
     // ============================================================================
     // Feature Data Table Helpers
     // ============================================================================

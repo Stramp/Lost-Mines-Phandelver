@@ -79,8 +79,8 @@ void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetData
                                                                BackgroundLanguageCount);
     }
 
-    // Soma total de escolhas disponíveis (raça + background)
-    // NOTA: Futuramente, quando feats forem implementados, adicionar aqui também
+    // Soma total de escolhas disponíveis (raça + background + feats)
+    // Feats já estão implementados e podem conceder escolhas de idiomas
     Asset->MaxLanguageChoices = RaceLanguageCount + BackgroundLanguageCount;
     bool bNewHasLanguageChoices = (Asset->MaxLanguageChoices > 0);
 

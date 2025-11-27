@@ -115,16 +115,16 @@ bool FMulticlassHelpers::CanProcessProgression(FName ClassName, int32 LevelInCla
 TArray<FName> FMulticlassHelpers::ResolveProficiencyIDsToNames(const TArray<FName> &ProficiencyIDs,
                                                                const UDataTable *ProficiencyDataTable)
 {
+    FLogContext Context(TEXT("Multiclass"), TEXT("ResolveProficiencyIDsToNames"));
     TArray<FName> ResolvedNames;
     ResolvedNames.Reserve(ProficiencyIDs.Num()); // Otimização: pre-aloca memória
 
     if (!ProficiencyDataTable)
     {
         // Se não há tabela, loga erro crítico e retorna IDs originais
-        FLogContext Context(TEXT("Multiclass"), TEXT("ResolveProficiencyIDsToNames"));
         FLoggingSystem::LogError(
-            Context,
-            TEXT("ProficiencyDataTable não está configurado. IDs não serão resolvidos para nomes legíveis."), true);
+            Context, TEXT("ProficiencyDataTable não está configurado. IDs não serão resolvidos para nomes legíveis."),
+            true);
         return ProficiencyIDs;
     }
 
@@ -155,7 +155,6 @@ TArray<FName> FMulticlassHelpers::ResolveProficiencyIDsToNames(const TArray<FNam
             UnresolvedCount++;
 
             // Loga erro de Data Table
-            FLogContext Context(TEXT("Multiclass"), TEXT("ResolveProficiencyIDsToNames"));
             FLoggingSystem::LogDataTableError(
                 Context, TableName, ProficiencyID.ToString(), TEXT("ProficiencyID"),
                 FString::Printf(TEXT("Proficiência '%s' não encontrada na tabela. "
@@ -165,14 +164,13 @@ TArray<FName> FMulticlassHelpers::ResolveProficiencyIDsToNames(const TArray<FNam
         }
     }
 
-    // Loga resumo se houver IDs não resolvidos
+    // Loga resumo se houver IDs não resolvidos (sistema ajusta automaticamente - sem popup)
     if (UnresolvedCount > 0)
     {
-        FLogContext Context(TEXT("Multiclass"), TEXT("ResolveProficiencyIDsToNames"));
         FLoggingSystem::LogWarning(
             Context,
             FString::Printf(TEXT("%d proficiência(s) não foram resolvidas para nomes legíveis."), UnresolvedCount),
-            true);
+            false);
     }
 
     return ResolvedNames;
@@ -201,7 +199,6 @@ FMulticlassProficienciesEntry FMulticlassHelpers::ConvertProficienciesEntry(cons
 
     return Result;
 }
-
 
 #pragma endregion Proficiencies Conversion
 
@@ -317,7 +314,7 @@ bool FMulticlassHelpers::ExtractLevelFeatures(const TArray<FProgressEntry> &Prog
 #pragma region Feature Conversion Helpers
 
 FMulticlassClassFeature FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature(const FFeatureDataRow &FeatureRow,
-                                                                                  int32 LevelUnlocked)
+                                                                                 int32 LevelUnlocked)
 {
     FMulticlassClassFeature Result;
 
@@ -349,20 +346,22 @@ FMulticlassClassFeature FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature
         Result.AvailableChoices = NAME_None;
     }
 
+    // Calcula flag bHasAvailableChoices usando helper
+    Result.bHasAvailableChoices = FeatureHasAvailableChoices(Result);
+
     return Result;
 }
 
 bool FMulticlassHelpers::LoadFeaturesForLevel(const TArray<FName> &FeatureIDs, const UDataTable *FeatureDataTable,
-                                               int32 LevelUnlocked, TArray<FMulticlassClassFeature> &OutFeatures)
+                                              int32 LevelUnlocked, TArray<FMulticlassClassFeature> &OutFeatures)
 {
+    FLogContext Context(TEXT("Multiclass"), TEXT("LoadFeaturesForLevel"));
     OutFeatures.Empty();
 
     if (!FeatureDataTable)
     {
-        FLogContext Context(TEXT("Multiclass"), TEXT("LoadFeaturesForLevel"));
         FLoggingSystem::LogError(
-            Context,
-            TEXT("ClassFeaturesDataTable não está configurado. Features não serão carregadas."), true);
+            Context, TEXT("ClassFeaturesDataTable não está configurado. Features não serão carregadas."), true);
         return false;
     }
 
@@ -390,8 +389,7 @@ bool FMulticlassHelpers::LoadFeaturesForLevel(const TArray<FName> &FeatureIDs, c
         if (FeatureRow)
         {
             // Converte para FMulticlassClassFeature
-            FMulticlassClassFeature ConvertedFeature =
-                ConvertFeatureRowToMulticlassFeature(*FeatureRow, LevelUnlocked);
+            FMulticlassClassFeature ConvertedFeature = ConvertFeatureRowToMulticlassFeature(*FeatureRow, LevelUnlocked);
             OutFeatures.Add(ConvertedFeature);
             LoadedCount++;
         }
@@ -400,28 +398,25 @@ bool FMulticlassHelpers::LoadFeaturesForLevel(const TArray<FName> &FeatureIDs, c
             // Feature não encontrada na tabela
             NotFoundCount++;
 
-            FLogContext Context(TEXT("Multiclass"), TEXT("LoadFeaturesForLevel"));
             FLoggingSystem::LogDataTableError(
                 Context, TableName, FeatureID.ToString(), TEXT("FC_ID"),
                 FString::Printf(TEXT("Feature '%s' não encontrada na tabela. Verifique se o ID corresponde."),
-                               *FeatureID.ToString()));
+                                *FeatureID.ToString()));
         }
     }
 
-    // Log resumo se houver features não encontradas
+    // Log resumo se houver features não encontradas (sistema ajusta automaticamente - sem popup)
     if (NotFoundCount > 0)
     {
-        FLogContext Context(TEXT("Multiclass"), TEXT("LoadFeaturesForLevel"));
         FLoggingSystem::LogWarning(
-            Context,
-            FString::Printf(TEXT("%d feature(s) não foram encontradas na tabela."), NotFoundCount), true);
+            Context, FString::Printf(TEXT("%d feature(s) não foram encontradas na tabela."), NotFoundCount), false);
     }
 
     return LoadedCount > 0;
 }
 
 const FClassDataRow *FMulticlassHelpers::FindClassRowWithErrorLogging(FName ClassName, const UDataTable *ClassDataTable,
-                                                                       const FString &FunctionName)
+                                                                      const FString &FunctionName)
 {
     if (!ClassDataTable || ClassName == NAME_None)
     {
@@ -444,7 +439,7 @@ const FClassDataRow *FMulticlassHelpers::FindClassRowWithErrorLogging(FName Clas
 }
 
 bool FMulticlassHelpers::LoadClassBasicInfo(FName ClassName, const UDataTable *ClassDataTable,
-                                             TArray<FString> &OutMulticlassRequirements)
+                                            TArray<FString> &OutMulticlassRequirements)
 {
     OutMulticlassRequirements.Empty();
 
@@ -454,8 +449,7 @@ bool FMulticlassHelpers::LoadClassBasicInfo(FName ClassName, const UDataTable *C
     }
 
     // Busca dados da classe na tabela (com logging de erro automático)
-    const FClassDataRow *ClassRow =
-        FindClassRowWithErrorLogging(ClassName, ClassDataTable, TEXT("LoadClassBasicInfo"));
+    const FClassDataRow *ClassRow = FindClassRowWithErrorLogging(ClassName, ClassDataTable, TEXT("LoadClassBasicInfo"));
     if (!ClassRow)
     {
         return false;
@@ -466,5 +460,26 @@ bool FMulticlassHelpers::LoadClassBasicInfo(FName ClassName, const UDataTable *C
 
     return true;
 }
+
+#pragma endregion Load Class Basic Info
+
+// ============================================================================
+// Feature Has Available Choices Helper
+// ============================================================================
+#pragma region Feature Has Available Choices Helper
+
+bool FMulticlassHelpers::FeatureHasAvailableChoices(const FMulticlassClassFeature &Feature)
+{
+    // Apenas features do tipo "Choice" ou "SubclassSelection" podem ter escolhas disponíveis
+    if (Feature.FeatureType != TEXT("Choice") && Feature.FeatureType != TEXT("SubclassSelection"))
+    {
+        return false;
+    }
+
+    // Verifica se AvailableChoices está preenchido (não é NAME_None)
+    return Feature.AvailableChoices != NAME_None;
+}
+
+#pragma endregion Feature Has Available Choices Helper
 
 #pragma endregion Feature Conversion Helpers

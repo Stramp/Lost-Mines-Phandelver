@@ -17,8 +17,8 @@
 
 int32 CalculationHelpers::CalculateAbilityModifier(int32 Score)
 {
-    // Fórmula D&D 5e: floor((Score - 10) / 2)
-    return FMath::FloorToInt((Score - 10) / 2.0f);
+    // Fórmula D&D 5e: floor((Score - ABILITY_MODIFIER_BASE) / ABILITY_MODIFIER_DIVISOR)
+    return FMath::FloorToInt((Score - DnDConstants::ABILITY_MODIFIER_BASE) / DnDConstants::ABILITY_MODIFIER_DIVISOR);
 }
 
 void CalculationHelpers::ResetFinalScoresToBase(int32 &FinalStrength, int32 &FinalDexterity, int32 &FinalConstitution,
@@ -53,12 +53,13 @@ void CalculationHelpers::IncrementFinalScoresWithPointBuy(const TMap<FName, int3
 
 int32 CalculationHelpers::CalculateProficiencyBonus(int32 TotalLevel)
 {
-    // Fórmula D&D 5e: 1 + floor((TotalLevel - 1) / 4)
-    if (TotalLevel < 1)
+    // Fórmula D&D 5e: PROFICIENCY_BONUS_BASE + floor((TotalLevel - MIN_LEVEL) / PROFICIENCY_BONUS_DIVISOR)
+    if (TotalLevel < DnDConstants::MIN_LEVEL)
     {
         return 0;
     }
-    return 1 + FMath::FloorToInt((TotalLevel - 1) / 4.0f);
+    return DnDConstants::PROFICIENCY_BONUS_BASE +
+           FMath::FloorToInt((TotalLevel - DnDConstants::MIN_LEVEL) / DnDConstants::PROFICIENCY_BONUS_DIVISOR);
 }
 
 // ============================================================================
@@ -177,28 +178,28 @@ TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName Subra
 
 int32 CalculationHelpers::CalculateHPGainForLevel(int32 HitDie, int32 Level, int32 ConstitutionModifier)
 {
-    if (Level < 1)
+    if (Level < DnDConstants::MIN_LEVEL)
     {
         return 0;
     }
 
     int32 HPGain = 0;
 
-    if (Level == 1)
+    if (Level == DnDConstants::MIN_LEVEL)
     {
         // Level 1: HitDie + CON modifier
         HPGain = HitDie + ConstitutionModifier;
     }
     else
     {
-        // Level 2+: (HitDie/2 + 1) + CON modifier (média do dado, arredondado para cima)
-        // Fórmula: ceil(HitDie/2) + CON modifier
+        // Level 2+: (HitDie/HP_AVERAGE_DIVISOR + 1) + CON modifier (média do dado, arredondado para cima)
+        // Fórmula: ceil(HitDie/HP_AVERAGE_DIVISOR) + CON modifier
         // Exemplo: HitDie 10 → ceil(10/2) = 5 + CON modifier
-        HPGain = FMath::CeilToInt(HitDie / 2.0f) + ConstitutionModifier;
+        HPGain = FMath::CeilToInt(HitDie / DnDConstants::HP_AVERAGE_DIVISOR) + ConstitutionModifier;
     }
 
-    // HP nunca pode ser negativo (mínimo 1)
-    return FMath::Max(1, HPGain);
+    // HP nunca pode ser negativo (mínimo MIN_HP)
+    return FMath::Max(DnDConstants::MIN_HP, HPGain);
 }
 
 int32 CalculationHelpers::CalculateMaxHP(const TArray<FName> &ClassNames, const TArray<int32> &LevelsInClass,
@@ -217,7 +218,7 @@ int32 CalculationHelpers::CalculateMaxHP(const TArray<FName> &ClassNames, const 
         const FName &ClassName = ClassNames[i];
         const int32 LevelInClass = LevelsInClass[i];
 
-        if (ClassName == NAME_None || LevelInClass < 1)
+        if (ClassName == NAME_None || LevelInClass < DnDConstants::MIN_LEVEL)
         {
             continue;
         }
@@ -237,12 +238,12 @@ int32 CalculationHelpers::CalculateMaxHP(const TArray<FName> &ClassNames, const 
         }
 
         // Calcula HP para cada nível desta classe
-        for (int32 Level = 1; Level <= LevelInClass; ++Level)
+        for (int32 Level = DnDConstants::MIN_LEVEL; Level <= LevelInClass; ++Level)
         {
             TotalHP += CalculateHPGainForLevel(HitDie, Level, ConstitutionModifier);
         }
     }
 
-    // HP nunca pode ser negativo (mínimo 1)
-    return FMath::Max(1, TotalHP);
+    // HP nunca pode ser negativo (mínimo MIN_HP)
+    return FMath::Max(DnDConstants::MIN_HP, TotalHP);
 }
