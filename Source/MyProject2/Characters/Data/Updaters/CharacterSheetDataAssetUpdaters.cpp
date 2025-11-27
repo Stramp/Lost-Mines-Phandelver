@@ -268,10 +268,12 @@ void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetData
     }
 
     // Verifica se todos os Data Tables obrigatórios foram selecionados
-    // Tabelas obrigatórias: RaceDataTable, BackgroundDataTable, ClassDataTable
-    // FeatDataTable é obrigatória apenas se Variant Human, mas verificamos sempre para manter consistência
+    // Todas as 6 tabelas são obrigatórias: RaceDataTable, BackgroundDataTable, ClassDataTable,
+    // FeatDataTable, ClassFeaturesDataTable, ClassProficienciesDataTable
     bool bAllDataTablesSelected = Asset->RaceDataTable != nullptr && Asset->BackgroundDataTable != nullptr &&
-                                  Asset->ClassDataTable != nullptr && Asset->FeatDataTable != nullptr;
+                                  Asset->ClassDataTable != nullptr && Asset->FeatDataTable != nullptr &&
+                                  Asset->ClassFeaturesDataTable != nullptr &&
+                                  Asset->ClassProficienciesDataTable != nullptr;
 
     // bCanShowSheet = false significa mostrar todas as categorias
     // bCanShowSheet = true significa mostrar apenas Data Tables

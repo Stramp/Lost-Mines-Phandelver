@@ -561,32 +561,20 @@ FValidationResult FCharacterSheetDataAssetValidators::ValidateDataTables(const U
         MissingTables.Add(TEXT("FeatDataTable (obrigatória para Variant Human)"));
     }
 
-    // Se há tabelas faltando, exibe alerta popup
-    if (MissingTables.Num() > 0)
-    {
-        FString MissingTablesList = FString::Join(MissingTables, TEXT(", "));
-        FString WarningMessage = FString::Printf(
-            TEXT("Data Tables obrigatórias não cadastradas: %s. Configure no Data Asset para funcionamento correto."),
-            *MissingTablesList);
-
-        FLoggingSystem::LogWarning(Context, WarningMessage, true);
-    }
-
-    // Tabelas opcionais (apenas informa se faltando, sem alerta crítico)
+    // ClassFeaturesDataTable e ClassProficienciesDataTable são obrigatórias
     if (!Asset->ClassFeaturesDataTable)
     {
-        FLoggingSystem::LogInfo(Context, TEXT("ClassFeaturesDataTable não cadastrada (opcional). Algumas "
-                                              "funcionalidades podem não estar disponíveis."));
+        MissingTables.Add(TEXT("ClassFeaturesDataTable"));
     }
 
     if (!Asset->ClassProficienciesDataTable)
     {
-        FLoggingSystem::LogInfo(Context, TEXT("ClassProficienciesDataTable não cadastrada (opcional). Algumas "
-                                              "funcionalidades podem não estar disponíveis."));
+        MissingTables.Add(TEXT("ClassProficienciesDataTable"));
     }
 
-    // Nota: Esta validação não retorna correções (não há como corrigir automaticamente)
-    // Apenas alerta o usuário para configurar manualmente no editor
+    // Nota: A verificação de visibilidade (UpdateSheetVisibility) já fornece feedback visual forte
+    // quando tabelas estão faltando (esconde todas as props). Não é necessário popup adicional.
+    // Esta validação não retorna correções (não há como corrigir automaticamente)
     return Result;
 }
 
