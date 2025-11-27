@@ -107,19 +107,43 @@ void CalculationHelpersSpec::Define()
                         AddInfo(TEXT("✅ Teste passou: modificador máximo absoluto calculado corretamente"));
                     });
 
-                 It("deve calcular modificador correto para scores ímpares (floor)",
+                 It("deve calcular modificador correto para score 11 (modificador 0, floor)",
                     [this]()
                     {
-                        AddInfo(TEXT("Testando CalculateAbilityModifier com scores ímpares (deve fazer floor)"));
+                        AddInfo(TEXT("Testando CalculateAbilityModifier com score 11 (deve fazer floor para 0)"));
 
-                        // Act & Assert
-                        TestEqual("Modificador para score 11 deve ser 0 (floor)",
-                                  CalculationHelpers::CalculateAbilityModifier(11), 0);
-                        TestEqual("Modificador para score 13 deve ser +1 (floor)",
-                                  CalculationHelpers::CalculateAbilityModifier(13), 1);
-                        TestEqual("Modificador para score 17 deve ser +3 (floor)",
-                                  CalculationHelpers::CalculateAbilityModifier(17), 3);
-                        AddInfo(TEXT("✅ Teste passou: floor aplicado corretamente para scores ímpares"));
+                        // Act
+                        int32 Result = CalculationHelpers::CalculateAbilityModifier(11);
+
+                        // Assert
+                        TestEqual("Modificador para score 11 deve ser 0 (floor)", Result, 0);
+                        AddInfo(TEXT("✅ Teste passou: floor aplicado corretamente para score 11"));
+                    });
+
+                 It("deve calcular modificador correto para score 13 (modificador +1, floor)",
+                    [this]()
+                    {
+                        AddInfo(TEXT("Testando CalculateAbilityModifier com score 13 (deve fazer floor para +1)"));
+
+                        // Act
+                        int32 Result = CalculationHelpers::CalculateAbilityModifier(13);
+
+                        // Assert
+                        TestEqual("Modificador para score 13 deve ser +1 (floor)", Result, 1);
+                        AddInfo(TEXT("✅ Teste passou: floor aplicado corretamente para score 13"));
+                    });
+
+                 It("deve calcular modificador correto para score 17 (modificador +3, floor)",
+                    [this]()
+                    {
+                        AddInfo(TEXT("Testando CalculateAbilityModifier com score 17 (deve fazer floor para +3)"));
+
+                        // Act
+                        int32 Result = CalculationHelpers::CalculateAbilityModifier(17);
+
+                        // Assert
+                        TestEqual("Modificador para score 17 deve ser +3 (floor)", Result, 3);
+                        AddInfo(TEXT("✅ Teste passou: floor aplicado corretamente para score 17"));
                     });
              });
 
