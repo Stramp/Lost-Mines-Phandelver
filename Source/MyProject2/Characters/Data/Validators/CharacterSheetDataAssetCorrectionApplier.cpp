@@ -13,6 +13,9 @@
 // Project includes - Helpers
 #include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
 
+// Project includes - Logging
+#include "Logging/LoggingSystem.h"
+
 // Engine includes
 #include "Logging/LogMacros.h"
 #include "UObject/UnrealType.h"
@@ -52,18 +55,18 @@ void FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(UCharacterSheet
             break;
 
         case EValidationCorrectionType::RemoveInvalid:
-            // TODO: Implementar quando necessário
-            UE_LOG(LogTemp, Warning, TEXT("CorrectionApplier: RemoveInvalid não implementado ainda"));
+            FCharacterSheetDataAssetHelpers::ApplyRemoveInvalid(Asset, Correction);
             break;
 
         default:
             break;
         }
 
-        // Log da mensagem se disponível
+        // Log da mensagem se disponível (sem alert, apenas warning no log)
         if (!Correction.LogMessage.IsEmpty())
         {
-            UE_LOG(LogTemp, Warning, TEXT("%s"), *Correction.LogMessage);
+            FLogContext Context(TEXT("CharacterSheet"), TEXT("ApplyCorrections"));
+            FLoggingSystem::LogWarning(Context, Correction.LogMessage, false); // false = sem alert (popup)
         }
     }
 }

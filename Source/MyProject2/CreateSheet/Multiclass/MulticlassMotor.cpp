@@ -8,20 +8,23 @@
 #include "CreateSheet/Multiclass/MulticlassMotor.h"
 
 // Project includes - Core
-#include "CreateSheet/Core/CharacterSheetData.h"
+#include "Data/Structures/FCharacterSheetData.h"
 
 // Project includes - Data Tables
 #include "Data/Tables/ClassDataTable.h"
+#include "Data/Tables/FeatureDataTable.h"
 
 // Project includes - CreateSheet
 #include "CreateSheet/Multiclass/MulticlassHelpers.h"
-#include "CreateSheet/Multiclass/MulticlassTypes.h"
+#include "Data/Structures/MulticlassTypes.h"
+#include "CreateSheet/Multiclass/MulticlassValidators.h"
 
 // Project includes - Logging
 #include "Logging/LoggingSystem.h"
 
 // Project includes - Utils
 #include "Utils/DataTableHelpers.h"
+#include "Utils/DnDConstants.h"
 
 // Engine includes
 #include "Engine/DataTable.h"
@@ -58,7 +61,17 @@ TArray<FName> FMulticlassMotor::GetAvailableClasses(const UDataTable *ClassDataT
 
 bool FMulticlassMotor::ValidateMulticlassRequirements(const FCharacterSheetData &Data, FName DesiredClassName)
 {
-    // TODO: Implementar validação de requisitos de atributo
+    // Nota: Esta função foi planejada para validação genérica, mas atualmente a validação
+    // de requisitos é feita automaticamente em GetAvailableClasses que já usa os validators.
+    //
+    // Se no futuro precisar de validação genérica (fora do contexto de GetAvailableClasses),
+    // será necessário adicionar ClassDataTable ao FCharacterSheetData ou passar como parâmetro.
+    // Por enquanto, retorna true para não quebrar código existente que pode chamá-la.
+    //
+    // A validação real está implementada em:
+    // - FMulticlassValidators::ValidateMulticlassRequirements (valida requisitos)
+    // - FMulticlassMotor::GetAvailableClasses (usa validators para filtrar classes)
+
     return true;
 }
 
@@ -71,7 +84,12 @@ bool FMulticlassMotor::ValidateMulticlassRequirements(const FCharacterSheetData 
 
 void FMulticlassMotor::ApplyMulticlassRules(FCharacterSheetData &Data)
 {
-    // TODO: Implementar aplicação de regras de multiclasse
+    // Nota: Aplicação de regras de multiclasse é feita pelos Handlers no Data Asset.
+    // Esta função foi planejada para uso genérico, mas atualmente as regras são aplicadas
+    // automaticamente pelos handlers quando classes são selecionadas ou níveis mudam.
+    //
+    // Se no futuro precisar de aplicação genérica (fora do Data Asset), implementar aqui.
+    // Por enquanto, mantém vazia para não quebrar código existente que pode chamá-la.
 }
 
 #pragma endregion Apply Multiclass Rules
@@ -107,9 +125,10 @@ void FMulticlassMotor::ProcessLevelChange(FName ClassName, int32 LevelInClass, c
     if (LevelEntry->Features.Num() > 0)
     {
         FString FeaturesString = FMulticlassHelpers::BuildFeaturesString(LevelEntry->Features);
-        UE_LOG(LogTemp, Warning,
-               TEXT("FMulticlassMotor::ProcessLevelChange - Classe = %s, Level = %d, Features = [%s]"),
-               *ClassName.ToString(), LevelInClass, *FeaturesString);
+        FLogContext Context(TEXT("Multiclass"), TEXT("ProcessLevelChange"));
+        FLoggingSystem::LogInfo(
+            Context, FString::Printf(TEXT("Classe '%s' nível %d: features ganhas = [%s]"), *ClassName.ToString(),
+                                     LevelInClass, *FeaturesString));
     }
 }
 
@@ -133,16 +152,11 @@ bool FMulticlassMotor::LoadClassProficiencies(FName ClassName, int32 LevelInClas
         return false;
     }
 
-    // Busca dados da classe na tabela
-    UDataTable *NonConstTable = const_cast<UDataTable *>(ClassDataTable);
-    const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
+    // Busca dados da classe na tabela (com logging de erro automático)
+    const FClassDataRow *ClassRow =
+        FMulticlassHelpers::FindClassRowWithErrorLogging(ClassName, ClassDataTable, TEXT("LoadClassProficiencies"));
     if (!ClassRow)
     {
-        FLogContext Context(TEXT("Multiclass"), TEXT("LoadClassProficiencies"));
-        FString TableName = ClassDataTable ? ClassDataTable->GetName() : TEXT("Unknown");
-        FLoggingSystem::LogDataTableError(
-            Context, TableName, ClassName.ToString(), TEXT("Name"),
-            FString::Printf(TEXT("Classe '%s' não encontrada na tabela."), *ClassName.ToString()));
         return false;
     }
 
@@ -157,98 +171,80 @@ bool FMulticlassMotor::LoadClassProficiencies(FName ClassName, int32 LevelInClas
     // Log quando proficiências são carregadas (ponto chave)
     if (OutProficiencies.Num() > 0)
     {
-        UE_LOG(LogTemp, Warning,
-               TEXT("FMulticlassMotor::LoadClassProficiencies - Classe = %s, Proficiências carregadas = %d"),
-               *ClassName.ToString(), OutProficiencies.Num());
+        FLogContext Context(TEXT("Multiclass"), TEXT("LoadClassProficiencies"));
+        FLoggingSystem::LogInfo(
+            Context, FString::Printf(TEXT("Classe '%s': %d proficiência(s) carregada(s) com sucesso."),
+                                     *ClassName.ToString(), OutProficiencies.Num()));
     }
 
     return true;
 }
 
-bool FMulticlassMotor::LoadClassProficienciesIDs(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
-                                                 TArray<FMulticlassProficienciesEntry> &OutProficiencies)
-{
-    // Limpa array de saída
-    OutProficiencies.Empty();
-
-    // Validação de entrada (guard clauses)
-    if (!FMulticlassHelpers::ValidateLoadProficienciesInputs(ClassName, LevelInClass, ClassDataTable))
-    {
-        return false;
-    }
-
-    // Busca dados da classe na tabela
-    UDataTable *NonConstTable = const_cast<UDataTable *>(ClassDataTable);
-    const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
-    if (!ClassRow)
-    {
-        FLogContext Context(TEXT("Multiclass"), TEXT("LoadClassProficienciesIDs"));
-        FString TableName = ClassDataTable ? ClassDataTable->GetName() : TEXT("Unknown");
-        FLoggingSystem::LogDataTableError(
-            Context, TableName, ClassName.ToString(), TEXT("Name"),
-            FString::Printf(TEXT("Classe '%s' não encontrada na tabela."), *ClassName.ToString()));
-        return false;
-    }
-
-    // Converte todas as proficiências da classe (mantém IDs originais)
-    for (const FProficienciesEntry &SourceEntry : ClassRow->FClass.Proficiencies)
-    {
-        FMulticlassProficienciesEntry ConvertedEntry = FMulticlassHelpers::ConvertProficienciesEntryIDs(SourceEntry);
-        OutProficiencies.Add(ConvertedEntry);
-    }
-
-    // Log quando proficiências são carregadas (ponto chave)
-    if (OutProficiencies.Num() > 0)
-    {
-        UE_LOG(LogTemp, Warning,
-               TEXT("FMulticlassMotor::LoadClassProficienciesIDs - Classe = %s, Proficiências carregadas = %d"),
-               *ClassName.ToString(), OutProficiencies.Num());
-    }
-
-    return true;
-}
-
-bool FMulticlassMotor::LoadClassProficienciesRaw(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
-                                                 TArray<FMulticlassProficienciesEntry> &OutProficiencies)
-{
-    // Limpa array de saída
-    OutProficiencies.Empty();
-
-    // Validação de entrada (guard clauses)
-    if (!FMulticlassHelpers::ValidateLoadProficienciesInputs(ClassName, LevelInClass, ClassDataTable))
-    {
-        return false;
-    }
-
-    // Busca dados da classe na tabela
-    UDataTable *NonConstTable = const_cast<UDataTable *>(ClassDataTable);
-    const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
-    if (!ClassRow)
-    {
-        FLogContext Context(TEXT("Multiclass"), TEXT("LoadClassProficienciesRaw"));
-        FString TableName = ClassDataTable ? ClassDataTable->GetName() : TEXT("Unknown");
-        FLoggingSystem::LogDataTableError(
-            Context, TableName, ClassName.ToString(), TEXT("Name"),
-            FString::Printf(TEXT("Classe '%s' não encontrada na tabela."), *ClassName.ToString()));
-        return false;
-    }
-
-    // Converte todas as proficiências da classe (retorna objeto completo)
-    for (const FProficienciesEntry &SourceEntry : ClassRow->FClass.Proficiencies)
-    {
-        FMulticlassProficienciesEntry ConvertedEntry = FMulticlassHelpers::ConvertProficienciesEntryRaw(SourceEntry);
-        OutProficiencies.Add(ConvertedEntry);
-    }
-
-    // Log quando proficiências são carregadas (ponto chave)
-    if (OutProficiencies.Num() > 0)
-    {
-        UE_LOG(LogTemp, Warning,
-               TEXT("FMulticlassMotor::LoadClassProficienciesRaw - Classe = %s, Proficiências carregadas = %d"),
-               *ClassName.ToString(), OutProficiencies.Num());
-    }
-
-    return true;
-}
 
 #pragma endregion Load Class Proficiencies
+
+// ============================================================================
+// Load Class Progression
+// ============================================================================
+#pragma region Load Class Progression
+
+bool FMulticlassMotor::LoadClassProgression(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
+                                            const UDataTable *FeatureDataTable,
+                                            TArray<FMulticlassProgressEntry> &OutProgression)
+{
+    // Limpa array de saída
+    OutProgression.Empty();
+
+    // Validação de entrada (guard clauses)
+    if (!FMulticlassHelpers::ValidateProcessLevelChangeInputs(ClassName, LevelInClass, ClassDataTable))
+    {
+        return false;
+    }
+
+    // Busca dados da classe na tabela (com logging de erro automático)
+    const FClassDataRow *ClassRow =
+        FMulticlassHelpers::FindClassRowWithErrorLogging(ClassName, ClassDataTable, TEXT("LoadClassProgression"));
+    if (!ClassRow)
+    {
+        return false;
+    }
+
+    // Popula Progression para cada nível de 1 até LevelInClass
+    for (int32 Level = DnDConstants::MIN_LEVEL; Level <= LevelInClass; ++Level)
+    {
+        FMulticlassProgressEntry ProgressEntry;
+        ProgressEntry.Level = Level;
+
+        // Extrai features do nível específico
+        const FProgressEntry *LevelEntry = nullptr;
+        if (!FMulticlassHelpers::ExtractLevelFeatures(ClassRow->FClass.Progression, Level, LevelEntry))
+        {
+            // Nível sem entrada na progressão é válido (alguns níveis não têm features)
+            // Cria entrada vazia para manter consistência
+            OutProgression.Add(ProgressEntry);
+            continue;
+        }
+
+        // Carrega features detalhadas do ClassFeaturesDataTable
+        TArray<FMulticlassClassFeature> Features;
+        if (FMulticlassHelpers::LoadFeaturesForLevel(LevelEntry->Features, FeatureDataTable, Level, Features))
+        {
+            ProgressEntry.Features = Features;
+        }
+
+        OutProgression.Add(ProgressEntry);
+    }
+
+    // Log quando progressão é carregada (ponto chave)
+    if (OutProgression.Num() > 0)
+    {
+        FLogContext Context(TEXT("Multiclass"), TEXT("LoadClassProgression"));
+        FLoggingSystem::LogInfo(
+            Context, FString::Printf(TEXT("Classe '%s': %d nível(is) de progressão carregado(s) com sucesso."),
+                                     *ClassName.ToString(), OutProgression.Num()));
+    }
+
+    return true;
+}
+
+#pragma endregion Load Class Progression

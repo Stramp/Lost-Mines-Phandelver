@@ -16,6 +16,25 @@
 // Project includes - Handlers
 #include "Characters/Data/Handlers/CharacterSheetDataAssetHandlers.h"
 
+// Project includes - Loaders
+#include "Characters/Data/Loaders/CharacterSheetDataAssetLoaders.h"
+
+// Project includes - Updaters
+#include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
+
+// Project includes - Validators
+#include "Characters/Data/Validators/CharacterSheetDataAssetValidators.h"
+
+// Project includes - Helpers
+#include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
+#include "Characters/Data/Helpers/ValidationGuard.h"
+
+// Project includes - Correction Applier
+#include "Characters/Data/Validators/CharacterSheetDataAssetCorrectionApplier.h"
+
+// Project includes - Logging
+#include "Logging/LoggingSystem.h"
+
 // Engine includes
 #include "UObject/UnrealType.h"
 
@@ -162,3 +181,58 @@ void FCharacterSheetDataAssetInitializers::InitializeMulticlassHandlers(UCharact
 }
 
 #pragma endregion Multiclass Handlers Initialization
+
+// ============================================================================
+// Boot Protocol Initialization
+// ============================================================================
+#pragma region Boot Protocol Initialization
+
+void FCharacterSheetDataAssetInitializers::InitializeBootProtocol(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    // FASE 1: Preparar condições (ajustar LevelInClass ANTES de carregar)
+    FCharacterSheetDataAssetUpdaters::AdjustLevelInClassForClassName(Asset);
+
+    // FASE 2: Carregar dados (com condições corretas)
+    FCharacterSheetDataAssetLoaders::LoadAllMulticlassData(Asset);
+
+    // FASE 3: Validar estado
+    FValidationResult BootValidationResult = FCharacterSheetDataAssetValidators::ValidateAll(Asset);
+
+    // FASE 4: Corrigir se necessário (com Guard Pattern)
+    if (BootValidationResult.bNeedsCorrection)
+    {
+        // Detecta se LevelInClass foi alterado (função pura, testável)
+        bool bLevelInClassWasAdjusted = FCharacterSheetDataAssetHelpers::DetectLevelInClassCorrections(BootValidationResult);
+
+        // Protege contra PostEditChangeProperty durante correções
+        FValidationGuard Guard(Asset);
+        FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(Asset, BootValidationResult);
+
+        // FASE 5: Recarregar se correção alterou condições críticas (Strategy Pattern)
+        if (bLevelInClassWasAdjusted)
+        {
+            FCharacterSheetDataAssetLoaders::ReloadMulticlassDataIfNeeded(Asset, true);
+        }
+
+        // Valida novamente após correções (defesa em profundidade)
+        FValidationResult PostCorrectionResult = FCharacterSheetDataAssetValidators::ValidateAll(Asset);
+        if (PostCorrectionResult.bNeedsCorrection)
+        {
+            FLogContext Context(TEXT("CharacterSheet"), TEXT("InitializeBootProtocol"));
+            FLoggingSystem::LogWarning(
+                Context,
+                TEXT("Ainda há problemas após aplicar correções. Verifique manualmente."),
+                true);
+        }
+    }
+
+    // FASE 6: Finalizar (atualizar flags usando Updater)
+    FCharacterSheetDataAssetUpdaters::UpdateMulticlassFlags(Asset);
+}
+
+#pragma endregion Boot Protocol Initialization

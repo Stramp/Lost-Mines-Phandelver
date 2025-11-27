@@ -6,6 +6,10 @@
 #include "Data/Tables/FeatDataTable.h"
 #include "Data/Tables/BackgroundDataTable.h"
 #include "Data/Tables/ProficiencyDataTable.h"
+#include "Data/Tables/FeatureDataTable.h"
+
+// Project includes - Logging
+#include "Logging/LoggingSystem.h"
 
 // ============================================================================
 // Race Data Table Helpers
@@ -83,25 +87,46 @@ FClassDataRow *DataTableHelpers::FindClassRow(FName ClassName, UDataTable *Class
         return nullptr;
     }
 
-    // Tenta FindRow direto primeiro (otimização)
+    // Otimização: Tenta FindRow direto primeiro (pode funcionar se RowName == ClassName)
     FClassDataRow *Row = ClassDataTable->FindRow<FClassDataRow>(ClassName, TEXT("FindClassRow"));
 
-    // Fallback: busca manual O(n) se FindRow não encontrou
-    if (!Row)
+    if (Row)
     {
-        TArray<FName> RowNames = ClassDataTable->GetRowNames();
-        for (const FName &RowName : RowNames)
+        return Row;
+    }
+
+    // Otimização: Tenta com prefixo "Class_" (padrão comum em DataTables)
+    FName ClassRowName = FName(*FString::Printf(TEXT("Class_%s"), *ClassName.ToString()));
+    Row = ClassDataTable->FindRow<FClassDataRow>(ClassRowName, TEXT("FindClassRow"));
+
+    if (Row)
+    {
+        return Row;
+    }
+
+    // Fallback: busca manual O(n) se FindRow não encontrou (último recurso)
+    TArray<FName> RowNames = ClassDataTable->GetRowNames();
+
+    for (const FName &RowName : RowNames)
+    {
+        if (FClassDataRow *FoundRow = ClassDataTable->FindRow<FClassDataRow>(RowName, TEXT("FindClassRow")))
         {
-            if (FClassDataRow *FoundRow = ClassDataTable->FindRow<FClassDataRow>(RowName, TEXT("FindClassRow")))
+            // Usa FClass.Name da nova estrutura
+            if (FoundRow->FClass.Name == ClassName)
             {
-                // Usa FClass.Name da nova estrutura
-                if (FoundRow->FClass.Name == ClassName)
-                {
-                    Row = FoundRow;
-                    break;
-                }
+                Row = FoundRow;
+                break;
             }
         }
+    }
+
+    if (!Row)
+    {
+        FLogContext ErrorContext(TEXT("DataTable"), TEXT("FindClassRow"));
+        FString TableName = ClassDataTable ? ClassDataTable->GetName() : TEXT("Unknown");
+        FLoggingSystem::LogDataTableError(
+            ErrorContext, TableName, ClassName.ToString(), TEXT("Name"),
+            FString::Printf(TEXT("Classe '%s' não encontrada na tabela após todas as tentativas (direto, Class_ prefixo, busca manual)."), *ClassName.ToString()));
     }
 
     return Row;
@@ -197,6 +222,35 @@ FProficiencyDataRow *DataTableHelpers::FindProficiencyRowByID(FName ProficiencyI
                 ProficiencyDataTable->FindRow<FProficiencyDataRow>(RowName, TEXT("FindProficiencyRowByID")))
         {
             if (FoundRow->ProficiencyID == ProficiencyID)
+            {
+                return FoundRow;
+            }
+        }
+    }
+
+    return nullptr;
+}
+
+// ============================================================================
+// Feature Data Table Helpers
+// ============================================================================
+
+FFeatureDataRow *DataTableHelpers::FindFeatureRowByID(FName FeatureID, UDataTable *FeatureDataTable)
+{
+    if (!FeatureDataTable || FeatureID == NAME_None)
+    {
+        return nullptr;
+    }
+
+    // Busca manual O(n) comparando FC_ID de cada row
+    // (não podemos usar FindRow direto porque RowName pode ser diferente de FC_ID)
+    TArray<FName> RowNames = FeatureDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
+    {
+        if (FFeatureDataRow *FoundRow =
+                FeatureDataTable->FindRow<FFeatureDataRow>(RowName, TEXT("FindFeatureRowByID")))
+        {
+            if (FoundRow->FC_ID == FeatureID)
             {
                 return FoundRow;
             }
