@@ -174,9 +174,6 @@ void FCharacterSheetDataAssetHandlers::HandleBackgroundChange(UCharacterSheetDat
  */
 void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesChange(UCharacterSheetDataAsset *Asset)
 {
-    FCharacterSheetDataAssetHelpers::LogPropertyChange(
-        GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedLanguages));
-
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
@@ -209,9 +206,6 @@ void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesChange(UCharacterShe
  */
 void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacterSheetDataAsset *Asset)
 {
-    FCharacterSheetDataAssetHelpers::LogPropertyChange(
-        GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, CustomAbilityScoreChoices));
-
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
@@ -248,9 +242,6 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
  */
 void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetDataAsset *Asset)
 {
-    FCharacterSheetDataAssetHelpers::LogPropertyChange(
-        GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable));
-
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
@@ -346,8 +337,6 @@ void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetD
  */
 void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacterSheetDataAsset *Asset)
 {
-    FCharacterSheetDataAssetHelpers::LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name));
-
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
@@ -412,8 +401,6 @@ void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacte
  */
 void FCharacterSheetDataAssetHandlers::HandleProgressionChange(UCharacterSheetDataAsset *Asset)
 {
-    FCharacterSheetDataAssetHelpers::LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression));
-
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
@@ -437,8 +424,6 @@ void FCharacterSheetDataAssetHandlers::HandleProgressionChange(UCharacterSheetDa
  */
 void FCharacterSheetDataAssetHandlers::HandleProficienciesChange(UCharacterSheetDataAsset *Asset)
 {
-    FCharacterSheetDataAssetHelpers::LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies));
-
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
@@ -466,8 +451,6 @@ void FCharacterSheetDataAssetHandlers::HandleProficienciesChange(UCharacterSheet
  */
 void FCharacterSheetDataAssetHandlers::HandleAvailableSkillChange(UCharacterSheetDataAsset *Asset)
 {
-    FCharacterSheetDataAssetHelpers::LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassSkills, available));
-
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
@@ -523,8 +506,6 @@ void FCharacterSheetDataAssetHandlers::HandleAvailableSkillChange(UCharacterShee
  */
 void FCharacterSheetDataAssetHandlers::HandleSelectedSkillsChange(UCharacterSheetDataAsset *Asset)
 {
-    FCharacterSheetDataAssetHelpers::LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassSkills, Selected));
-
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
