@@ -1,0 +1,445 @@
+# Guia de Testes Automatizados - MyProject2
+
+<details open>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🧪 Visão Geral</b></summary>
+
+> Este guia explica como implementar e executar testes automatizados no projeto MyProject2 usando o **Automation Test Framework** do Unreal Engine 5.7.
+
+</details>
+
+---
+
+## 📚 Referências Oficiais
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔗 Documentação Epic Games</b></summary>
+
+> **Links principais da documentação oficial:**
+>
+> - **[Automation Test Framework](https://dev.epicgames.com/documentation/en-us/unreal-engine/automation-test-framework-in-unreal-engine)** - Visão geral do framework de testes
+> - **[Escrevendo Testes em C++](https://dev.epicgames.com/documentation/en-us/unreal-engine/write-cplusplus-tests-in-unreal-engine)** - Guia completo para escrever testes em C++
+> - **[Automation System Overview](https://dev.epicgames.com/documentation/en-us/unreal-engine/automation-system-in-unreal-engine)** - Visão geral do sistema de automação
+> - **[Automation Specs (BDD-style)](https://dev.epicgames.com/documentation/en-us/unreal-engine/automation-specs-in-unreal-engine)** - Testes estilo BDD com Describe/It
+>
+> **Base de navegação:** `dev.epicgames.com/documentation/en-us/unreal-engine/`
+
+</details>
+
+---
+
+## 🎯 O Que Testar
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Sempre Testar</b></summary>
+
+> **ALWAYS test:**
+>
+> - ✅ Helper/utility functions (em `Utils/`)
+> - ✅ Funções puras (sem side effects)
+> - ✅ Lógica de cálculo complexa
+> - ✅ Validações e edge cases
+> - ✅ Funções críticas de gameplay
+>
+> **Exemplos no projeto:**
+>
+> - `GetPrerequisites()` em `FeatDataTable.cpp`
+> - `FindFeatRow()` em `DataTableHelpers.cpp`
+> - `MeetsFeatPrerequisites()` em `CharacterSheetHelpers.cpp`
+> - `ValidateAbilityScorePrerequisite()` em `CharacterSheetHelpers.cpp`
+
+</details>
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>❌ Não Precisa Testar</b></summary>
+
+> **Don't need to test:**
+>
+> - ❌ Simple Getters/Setters
+> - ❌ Simple wrappers de Unreal API
+> - ❌ Código gerado automaticamente
+
+</details>
+
+---
+
+## 🏗️ Estrutura de Testes
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📁 Organização de Arquivos</b></summary>
+
+> **Estrutura de diretórios:**
+>
+> ```
+> Source/MyProject2/
+> ├── Utils/
+> │   ├── ComponentHelpers.h
+> │   ├── ComponentHelpers.cpp
+> │   └── Tests/
+> │       └── ComponentHelpersTests.cpp
+> ├── Data/Tables/
+> │   ├── FeatDataTable.h
+> │   ├── FeatDataTable.cpp
+> │   └── Tests/
+> │       └── FeatDataTableTests.cpp
+> ```
+>
+> **Padrão:** Cada módulo tem uma pasta `Tests/` com seus arquivos de teste.
+
+</details>
+
+---
+
+## 💻 Padrões de Teste
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔧 Padrão 1: IMPLEMENT_SIMPLE_AUTOMATION_TEST</b></summary>
+
+> **Para testes simples/unitários:**
+>
+> ```cpp
+> #include "Misc/AutomationTest.h"
+> #include "Utils/ComponentHelpers.h"
+>
+> IMPLEMENT_SIMPLE_AUTOMATION_TEST(
+>     FComponentHelpersTest,
+>     "MyProject2.Utils.ComponentHelpers.FindCharacterDataComponent",
+>     EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter
+> )
+>
+> bool FComponentHelpersTest::RunTest(const FString& Parameters)
+> {
+>     // Arrange
+>     AActor* TestActor = NewObject<AActor>();
+>     UCharacterDataComponent* ExpectedComponent = NewObject<UCharacterDataComponent>(TestActor);
+>     TestActor->AddComponent(ExpectedComponent);
+>
+>     // Act
+>     UCharacterDataComponent* Result = ComponentHelpers::FindCharacterDataComponent(TestActor);
+>
+>     // Assert
+>     TestNotNull("Result should not be null", Result);
+>     TestEqual("Result should be the same component", Result, ExpectedComponent);
+>
+>     return true;
+> }
+> ```
+
+</details>
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔧 Padrão 2: BEGIN_DEFINE_SPEC (BDD-style)</b></summary>
+
+> **Para testes estilo BDD (Describe/It):**
+>
+> ```cpp
+> #include "Misc/AutomationTest.h"
+> #include "Utils/ComponentHelpers.h"
+>
+> BEGIN_DEFINE_SPEC(ComponentHelpersSpec, "MyProject2.Utils.ComponentHelpers",
+>     EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+>
+>     AActor* TestActor;
+>     UCharacterDataComponent* TestComponent;
+>
+> END_DEFINE_SPEC(ComponentHelpersSpec)
+>
+> void ComponentHelpersSpec::Define()
+> {
+>     BeforeEach([this]()
+>     {
+>         // Arrange: Criar Actor e Component para cada teste
+>         TestActor = NewObject<AActor>();
+>         TestComponent = NewObject<UCharacterDataComponent>(TestActor);
+>         TestActor->AddComponent(TestComponent);
+>     });
+>
+>     AfterEach([this]()
+>     {
+>         // Cleanup após cada teste
+>         if (TestActor)
+>         {
+>             TestActor->ConditionalBeginDestroy();
+>         }
+>     });
+>
+>     Describe("FindCharacterDataComponent", [this]()
+>     {
+>         It("should return component when owner has it", [this]()
+>         {
+>             // Act
+>             UCharacterDataComponent* Result = ComponentHelpers::FindCharacterDataComponent(TestActor);
+>
+>             // Assert
+>             TestNotNull("Result should not be null", Result);
+>             TestEqual("Result should be the same component", Result, TestComponent);
+>         });
+>
+>         It("should return nullptr when owner is null", [this]()
+>         {
+>             // Act
+>             UCharacterDataComponent* Result = ComponentHelpers::FindCharacterDataComponent(nullptr);
+>
+>             // Assert
+>             TestNull("Result should be null", Result);
+>         });
+>     });
+> }
+> ```
+
+</details>
+
+---
+
+## 🎯 Padrão AAA (Arrange-Act-Assert)
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Estrutura de Teste</b></summary>
+
+> **Todo teste deve seguir o padrão AAA:**
+>
+> 1. **Arrange** - Preparar dados e contexto
+> 2. **Act** - Executar a função sendo testada
+> 3. **Assert** - Verificar o resultado
+>
+> **Exemplo:**
+>
+> ```cpp
+> It("should return prerequisites from FeatureData", [this]()
+> {
+>     // Arrange
+>     FFeatDataRow TestRow;
+>     TestRow.FeatureData.Add(TEXT("Prerequisites"), TEXT("Strength 13"));
+>
+>     // Act
+>     TArray<FName> Prerequisites = TestRow.GetPrerequisites();
+>
+>     // Assert
+>     TestEqual("Should have one prerequisite", Prerequisites.Num(), 1);
+>     TestEqual("Prerequisite should be Strength 13", Prerequisites[0], FName(TEXT("Strength 13")));
+> });
+> ```
+
+</details>
+
+---
+
+## 🏃 Executando Testes
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🖥️ No Editor</b></summary>
+
+> **Método 1: Automation Tool (GUI)**
+>
+> 1. Abra o Editor
+> 2. Menu: **Window → Developer Tools → Automation Tool**
+> 3. Selecione os testes desejados
+> 4. Clique em **Start Tests**
+>
+> **Método 2: Commandlet (Linha de Comando)**
+>
+> ```bash
+> UnrealEditor.exe "F:\UNREAL GAME\MyProject2\MyProject2.uproject" -game -test="MyProject2.Utils.ComponentHelpers" -unattended -nopause -nullrhi
+> ```
+
+</details>
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔄 CI/CD</b></summary>
+
+> **Integração com GitHub Actions:**
+>
+> ```yaml
+> - name: Run Tests
+>   run: |
+>     "C:\Program Files\Epic Games\UE_5.7\Engine\Binaries\Win64\UnrealEditor.exe"
+>       "F:\UNREAL GAME\MyProject2\MyProject2.uproject"
+>       -game
+>       -test="MyProject2"
+>       -unattended
+>       -nopause
+>       -nullrhi
+> ```
+
+</details>
+
+---
+
+## 📝 Nomenclatura de Testes
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🏷️ Formato</b></summary>
+
+> **Formato:** `<TestSuite>.<FunctionName>_<Scenario>_<ExpectedResult>`
+>
+> **Exemplos:**
+>
+> - `MyProject2.Utils.ComponentHelpers.FindCharacterDataComponent_WithValidOwner_ReturnsComponent`
+> - `MyProject2.Utils.ComponentHelpers.FindCharacterDataComponent_WithNullOwner_ReturnsNullptr`
+> - `MyProject2.Data.Tables.FeatDataTable.GetPrerequisites_WithSinglePrerequisite_ReturnsArray`
+> - `MyProject2.Data.Tables.FeatDataTable.GetPrerequisites_WithMultiplePrerequisites_ReturnsArray`
+>
+> **Padrão:** `<Módulo>.<Classe>.<Função>_<Condição>_<ResultadoEsperado>`
+
+</details>
+
+---
+
+## ✅ Casos de Teste Obrigatórios
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Para Helper Functions</b></summary>
+
+> **ALWAYS test:**
+>
+> 1. **Valid case/happy path**
+>    - Função funciona com entrada válida
+>
+> 2. **Nullptr/null input**
+>    - Função lida corretamente com nullptr
+>
+> 3. **Not found case**
+>    - Função retorna valor apropriado quando não encontra
+>
+> **Exemplo para `FindFeatRow()`:**
+>
+> - ✅ Com FeatName válido → retorna row
+> - ✅ Com FeatName nullptr → retorna nullptr
+> - ✅ Com FeatName inexistente → retorna nullptr
+> - ✅ Com FeatDataTable nullptr → retorna nullptr
+
+</details>
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Para Funções de Cálculo</b></summary>
+
+> **ALWAYS test:**
+>
+> 1. **Valores normais**
+>    - Função funciona com valores típicos
+>
+> 2. **Valores extremos**
+>    - 0, máximo, negativo (se aplicável)
+>
+> 3. **Valores inválidos**
+>    - nullptr, valores fora de range
+>
+> **Exemplo para `GetPrerequisites()`:**
+>
+> - ✅ Com string única → retorna array com 1 item
+> - ✅ Com múltiplas strings (vírgula) → retorna array com N itens
+> - ✅ Com string vazia → retorna array vazio
+> - ✅ Sem chave "Prerequisites" → retorna array vazio
+
+</details>
+
+---
+
+## 🎯 Regras de Teste
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Princípios Fundamentais</b></summary>
+
+> **1. Testes Independentes**
+>
+> - Cada teste deve poder rodar isoladamente
+> - Não depender de ordem de execução
+> - Estado limpo entre testes
+>
+> **2. Testes Rápidos**
+>
+> - Evitar operações lentas (I/O, network)
+> - Usar mocks quando necessário
+> - Unit tests < 1 segundo cada
+>
+> **3. Testes Determinísticos**
+>
+> - Sempre produzem o mesmo resultado
+> - Não usar valores aleatórios sem seed fixo
+> - Evitar dependências de tempo/data
+>
+> **4. Um Teste = Uma Coisa**
+>
+> - Testar uma funcionalidade por vez
+> - Nome do teste deve deixar claro o que está sendo testado
+> - Se precisa testar múltiplas coisas, criar múltiplos testes
+
+</details>
+
+---
+
+## 📚 Referências do Projeto
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔗 Links Internos</b></summary>
+
+> **Regras e Padrões:**
+>
+> - **[Regras de Teste](../../../.cursor/rules/testing.mdc)** - Regras completas de teste do projeto
+> - **[Clean Code](../../../.cursor/rules/clean-code-mandatory.mdc)** - Princípios de Clean Code
+> - **[Arquitetura](../architecture.md)** - Arquitetura técnica do projeto
+>
+> **Exemplos:**
+>
+> - `Source/MyProject2/Utils/Tests/ComponentHelpersTests.cpp.example` - Exemplo de teste
+
+</details>
+
+---
+
+## 🚀 Próximos Passos
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Checklist de Implementação</b></summary>
+
+> **Para começar a implementar testes:**
+>
+> - [ ] Configurar módulo de testes no `.Build.cs`
+> - [ ] Criar estrutura de pastas `Tests/` em cada módulo
+> - [ ] Implementar testes para helpers críticos:
+>   - [ ] `GetPrerequisites()` em `FeatDataTable`
+>   - [ ] `FindFeatRow()` em `DataTableHelpers`
+>   - [ ] `MeetsFeatPrerequisites()` em `CharacterSheetHelpers`
+> - [ ] Executar testes no Editor
+> - [ ] Integrar testes no CI/CD
+
+</details>
+
+---
+
+## 💡 Dicas
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎯 Boas Práticas</b></summary>
+
+> **Quando escrever testes:**
+>
+> - ✅ Criar nova função helper em `Utils/`
+> - ✅ Implementar lógica de cálculo complexa
+> - ✅ Refatorar código crítico
+> - ✅ Corrigir bug (adicionar teste que reproduz o bug)
+>
+> **Quando pular testes:**
+>
+> - ❌ Código muito simples (getter/setter)
+> - ❌ Wrapper direto de Unreal API
+> - ❌ Código temporário (mas lembre-se: não deveria ter código temporário!)
+
+</details>
+
+---
+
+## 📖 Benefícios
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Por Que Testar?</b></summary>
+
+> **Benefícios:**
+>
+> - ✅ Detecta bugs antes de commitar
+> - ✅ Confiança ao refatorar
+> - ✅ Documentação viva (testes mostram como usar)
+> - ✅ Facilita CI/CD
+> - ✅ Melhora qualidade do código
+> - ✅ Reduz regressões
+
+</details>

@@ -46,6 +46,7 @@
 > - Getting Started - Criar primeiro personagem
 > - Data Tables - Estrutura e uso
 > - Troubleshooting - Problemas comuns
+> - Testes Automatizados - Implementação e execução de testes
 >
 > **📖 Para mais detalhes, veja [guides/index.md](guides/index.md)**
 

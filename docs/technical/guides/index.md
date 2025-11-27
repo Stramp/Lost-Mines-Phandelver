@@ -49,6 +49,20 @@
 
 </details>
 
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🧪 Testes Automatizados</b></summary>
+
+> **[testing.md](testing.md)** - Guia completo de testes automatizados:
+>
+> - Referências oficiais da Epic Games
+> - Padrões de teste (IMPLEMENT_SIMPLE_AUTOMATION_TEST, BEGIN_DEFINE_SPEC)
+> - Estrutura e organização
+> - Como executar testes
+> - Casos de teste obrigatórios
+> - Integração com CI/CD
+>
+</details>
+
 ---
 
 ## 🔗 Referências
