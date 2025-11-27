@@ -1,0 +1,386 @@
+[
+  {
+    "Name": "Simple Weapons",
+    "ProficiencyID": "PW_Simple_Weapons",
+    "type": "Weapon",
+    "description": "Simple Weapons are the most basic weapons, they are easy to use and easy to learn, they are also the most common weapons in the game."
+  },
+  {
+    "Name": "Martial Weapons",
+    "ProficiencyID": "PW_Martial_Weapons",
+    "type": "Weapon",
+    "description": "Martial Weapons are the more advanced weapons, they are harder to use and harder to learn, they are also the most powerful weapons in the game."
+  },
+  {
+    "Name": "Light Armor",
+    "ProficiencyID": "PA_Light_Armor",
+    "type": "Armor",
+    "description": "Light Armor are the lightest armor, they are easy to wear and easy to move in, they are also the most common armor in the game."
+  },
+  {
+    "Name": "Medium Armor",
+    "ProficiencyID": "PA_Medium_Armor",
+    "type": "Armor",
+    "description": "Medium Armor are the medium weight armor, they are harder to wear and harder to move in, they are also the most common armor in the game."
+  },
+  {
+    "Name": "Heavy Armor",
+    "ProficiencyID": "PA_Heavy_Armor",
+    "type": "Armor",
+    "description": "Heavy Armor are the heaviest armor, they are hard to wear and hard to move in, they are also the most common armor in the game."
+  },
+  {
+    "Name": "Shields",
+    "ProficiencyID": "PS_Shields",
+    "type": "Shield",
+    "description": "Shields are the defensive equipment, they are used to block attacks and to protect the user from damage."
+  },
+  {
+    "Name": "Thieves' Tools",
+    "ProficiencyID": "PT_Thieves_Tools",
+    "type": "Tool",
+    "description": "Tools for picking locks and disarming traps. Essential for rogues and those who need to bypass security."
+  },
+  {
+    "Name": "Herbalism Kit",
+    "ProficiencyID": "PT_Herbalism_Kit",
+    "type": "Tool",
+    "description": "Kit for creating potions and herbal remedies. Used to identify and prepare medicinal plants."
+  },
+  {
+    "Name": "Disguise Kit",
+    "ProficiencyID": "PT_Disguise_Kit",
+    "type": "Tool",
+    "description": "Kit for creating disguises and impersonating others. Includes cosmetics, wigs, and props."
+  },
+  {
+    "Name": "Forgery Kit",
+    "ProficiencyID": "PT_Forgery_Kit",
+    "type": "Tool",
+    "description": "Kit for creating fake documents and signatures. Includes various inks, papers, and seals."
+  },
+  {
+    "Name": "Poisoner's Kit",
+    "ProficiencyID": "PT_Poisoners_Kit",
+    "type": "Tool",
+    "description": "Kit for creating and applying poisons. Includes vials, ingredients, and mixing tools."
+  },
+  {
+    "Name": "Alchemist's Supplies",
+    "ProficiencyID": "PT_Alchemists_Supplies",
+    "type": "Tool",
+    "description": "Equipment for creating alchemical items, potions, and magical substances."
+  },
+  {
+    "Name": "Brewer's Supplies",
+    "ProficiencyID": "PT_Brewers_Supplies",
+    "type": "Tool",
+    "description": "Equipment for brewing ale, wine, and other alcoholic beverages."
+  },
+  {
+    "Name": "Calligrapher's Supplies",
+    "ProficiencyID": "PT_Calligraphers_Supplies",
+    "type": "Tool",
+    "description": "Inks, pens, and papers for creating beautiful written works and scrolls."
+  },
+  {
+    "Name": "Carpenter's Tools",
+    "ProficiencyID": "PT_Carpenters_Tools",
+    "type": "Tool",
+    "description": "Hammers, saws, and other tools for working with wood and constructing structures."
+  },
+  {
+    "Name": "Cartographer's Tools",
+    "ProficiencyID": "PT_Cartographers_Tools",
+    "type": "Tool",
+    "description": "Equipment for creating and reading maps, charts, and navigational aids."
+  },
+  {
+    "Name": "Cobbler's Tools",
+    "ProficiencyID": "PT_Cobblers_Tools",
+    "type": "Tool",
+    "description": "Tools for repairing and crafting footwear and leather goods."
+  },
+  {
+    "Name": "Cook's Utensils",
+    "ProficiencyID": "PT_Cooks_Utensils",
+    "type": "Tool",
+    "description": "Pots, pans, and cooking equipment for preparing meals and identifying ingredients."
+  },
+  {
+    "Name": "Glassblower's Tools",
+    "ProficiencyID": "PT_Glassblowers_Tools",
+    "type": "Tool",
+    "description": "Equipment for shaping glass into various objects and containers."
+  },
+  {
+    "Name": "Jeweler's Tools",
+    "ProficiencyID": "PT_Jewelers_Tools",
+    "type": "Tool",
+    "description": "Precision tools for working with gems, jewelry, and precious metals."
+  },
+  {
+    "Name": "Leatherworker's Tools",
+    "ProficiencyID": "PT_Leatherworkers_Tools",
+    "type": "Tool",
+    "description": "Tools for crafting and repairing leather armor, clothing, and accessories."
+  },
+  {
+    "Name": "Mason's Tools",
+    "ProficiencyID": "PT_Masons_Tools",
+    "type": "Tool",
+    "description": "Hammers, chisels, and tools for working with stone and masonry."
+  },
+  {
+    "Name": "Painter's Supplies",
+    "ProficiencyID": "PT_Painters_Supplies",
+    "type": "Tool",
+    "description": "Brushes, paints, and canvases for creating artwork and visual representations."
+  },
+  {
+    "Name": "Potter's Tools",
+    "ProficiencyID": "PT_Potters_Tools",
+    "type": "Tool",
+    "description": "Equipment for shaping clay into pottery, containers, and ceramic items."
+  },
+  {
+    "Name": "Smith's Tools",
+    "ProficiencyID": "PT_Smiths_Tools",
+    "type": "Tool",
+    "description": "Hammers, anvils, and forges for working with metal and crafting weapons and armor."
+  },
+  {
+    "Name": "Tinker's Tools",
+    "ProficiencyID": "PT_Tinkers_Tools",
+    "type": "Tool",
+    "description": "Small tools and materials for repairing and modifying mechanical devices."
+  },
+  {
+    "Name": "Weaver's Tools",
+    "ProficiencyID": "PT_Weavers_Tools",
+    "type": "Tool",
+    "description": "Looms, needles, and threads for creating textiles and fabric goods."
+  },
+  {
+    "Name": "Woodcarver's Tools",
+    "ProficiencyID": "PT_Woodcarvers_Tools",
+    "type": "Tool",
+    "description": "Knives, chisels, and tools for carving wood into decorative and functional items."
+  },
+  {
+    "Name": "Navigator's Tools",
+    "ProficiencyID": "PT_Navigators_Tools",
+    "type": "Tool",
+    "description": "Compasses, sextants, and charts for navigation and determining position."
+  },
+  {
+    "Name": "Musical Instrument",
+    "ProficiencyID": "PT_Musical_Instrument",
+    "type": "Tool",
+    "description": "Various musical instruments such as lutes, flutes, drums, and more."
+  },
+  {
+    "Name": "Acrobatics",
+    "ProficiencyID": "PSK_Acrobatics",
+    "type": "Skill",
+    "description": "Your Dexterity (Acrobatics) check covers your attempt to stay on your feet in a tricky situation, such as when you're trying to run across a sheet of ice, balance on a tightrope, or stay upright on a rocking ship's deck."
+  },
+  {
+    "Name": "Animal Handling",
+    "ProficiencyID": "PSK_Animal_Handling",
+    "type": "Skill",
+    "description": "When there is any question whether you can calm down a domesticated animal, keep a mount from getting spooked, or intuit an animal's intentions, the GM might call for a Wisdom (Animal Handling) check."
+  },
+  {
+    "Name": "Arcana",
+    "ProficiencyID": "PSK_Arcana",
+    "type": "Skill",
+    "description": "Your Intelligence (Arcana) check measures your ability to recall lore about spells, magic items, eldritch symbols, magical traditions, the planes of existence, and the inhabitants of those planes."
+  },
+  {
+    "Name": "Athletics",
+    "ProficiencyID": "PSK_Athletics",
+    "type": "Skill",
+    "description": "Your Strength (Athletics) check covers difficult situations you encounter while climbing, jumping, or swimming."
+  },
+  {
+    "Name": "Deception",
+    "ProficiencyID": "PSK_Deception",
+    "type": "Skill",
+    "description": "Your Charisma (Deception) check determines whether you can convincingly hide the truth, either verbally or through your actions."
+  },
+  {
+    "Name": "History",
+    "ProficiencyID": "PSK_History",
+    "type": "Skill",
+    "description": "Your Intelligence (History) check measures your ability to recall lore about historical events, legendary people, ancient kingdoms, past disputes, recent wars, and lost civilizations."
+  },
+  {
+    "Name": "Insight",
+    "ProficiencyID": "PSK_Insight",
+    "type": "Skill",
+    "description": "Your Wisdom (Insight) check decides whether you can determine the true intentions of a creature, such as when searching out a lie or predicting someone's next move."
+  },
+  {
+    "Name": "Intimidation",
+    "ProficiencyID": "PSK_Intimidation",
+    "type": "Skill",
+    "description": "When you attempt to influence someone through overt threats, hostile actions, and physical violence, the GM might ask you to make a Charisma (Intimidation) check."
+  },
+  {
+    "Name": "Investigation",
+    "ProficiencyID": "PSK_Investigation",
+    "type": "Skill",
+    "description": "When you look around for clues and make deductions based on those clues, you make an Intelligence (Investigation) check."
+  },
+  {
+    "Name": "Medicine",
+    "ProficiencyID": "PSK_Medicine",
+    "type": "Skill",
+    "description": "A Wisdom (Medicine) check lets you try to stabilize a dying companion or diagnose an illness."
+  },
+  {
+    "Name": "Nature",
+    "ProficiencyID": "PSK_Nature",
+    "type": "Skill",
+    "description": "Your Intelligence (Nature) check measures your ability to recall lore about terrain, plants and animals, the weather, and natural cycles."
+  },
+  {
+    "Name": "Perception",
+    "ProficiencyID": "PSK_Perception",
+    "type": "Skill",
+    "description": "Your Wisdom (Perception) check lets you spot, hear, or otherwise detect the presence of something. It measures your general awareness of your surroundings and the keenness of your senses."
+  },
+  {
+    "Name": "Performance",
+    "ProficiencyID": "PSK_Performance",
+    "type": "Skill",
+    "description": "Your Charisma (Performance) check determines how well you can delight an audience with music, dance, acting, storytelling, or some other form of entertainment."
+  },
+  {
+    "Name": "Persuasion",
+    "ProficiencyID": "PSK_Persuasion",
+    "type": "Skill",
+    "description": "When you attempt to influence someone or a group of people with tact, social graces, or good nature, the GM might ask you to make a Charisma (Persuasion) check."
+  },
+  {
+    "Name": "Religion",
+    "ProficiencyID": "PSK_Religion",
+    "type": "Skill",
+    "description": "Your Intelligence (Religion) check measures your ability to recall lore about deities, rites and prayers, religious hierarchies, holy symbols, and the practices of secret cults."
+  },
+  {
+    "Name": "Sleight of Hand",
+    "ProficiencyID": "PSK_Sleight_of_Hand",
+    "type": "Skill",
+    "description": "Whenever you attempt an act of legerdemain or manual trickery, such as planting something on someone else or concealing an object on your person, make a Dexterity (Sleight of Hand) check."
+  },
+  {
+    "Name": "Stealth",
+    "ProficiencyID": "PSK_Stealth",
+    "type": "Skill",
+    "description": "Make a Dexterity (Stealth) check when you attempt to conceal yourself from enemies, slink past guards, slip away without being noticed, or sneak up on someone without being seen or heard."
+  },
+  {
+    "Name": "Survival",
+    "ProficiencyID": "PSK_Survival",
+    "type": "Skill",
+    "description": "The GM might ask you to make a Wisdom (Survival) check to follow tracks, hunt wild game, guide your group through frozen wastelands, identify signs that owlbears live nearby, predict the weather, or avoid quicksand and other natural hazards."
+  },
+  {
+    "Name": "Common",
+    "ProficiencyID": "PL_Common",
+    "type": "Language",
+    "description": "The most widely spoken language in the world of D&D. Most races speak Common as their native tongue, and it serves as the lingua franca for trade and diplomacy."
+  },
+  {
+    "Name": "Dwarvish",
+    "ProficiencyID": "PL_Dwarvish",
+    "type": "Language",
+    "description": "The language of the dwarves, known for its guttural sounds and complex runic script. Dwarvish is often used in crafting and engineering contexts."
+  },
+  {
+    "Name": "Elvish",
+    "ProficiencyID": "PL_Elvish",
+    "type": "Language",
+    "description": "The elegant and flowing language of the elves. Elvish script is beautiful and often used in magical texts and poetry."
+  },
+  {
+    "Name": "Giant",
+    "ProficiencyID": "PL_Giant",
+    "type": "Language",
+    "description": "The language spoken by giants. It is a deep, rumbling tongue that echoes the power of these massive creatures."
+  },
+  {
+    "Name": "Gnomish",
+    "ProficiencyID": "PL_Gnomish",
+    "type": "Language",
+    "description": "The language of gnomes, known for its technical vocabulary and precise grammar. Gnomish is often used in discussions of mechanics and invention."
+  },
+  {
+    "Name": "Goblin",
+    "ProficiencyID": "PL_Goblin",
+    "type": "Language",
+    "description": "The harsh, guttural language of goblins and hobgoblins. Goblin is a simple language with few words for abstract concepts."
+  },
+  {
+    "Name": "Halfling",
+    "ProficiencyID": "PL_Halfling",
+    "type": "Language",
+    "description": "The warm and friendly language of halflings. Halfling is often described as sounding like Common spoken with a cheerful accent."
+  },
+  {
+    "Name": "Orc",
+    "ProficiencyID": "PL_Orc",
+    "type": "Language",
+    "description": "The brutal and direct language of orcs. Orc is a language of few words, focused on action and dominance."
+  },
+  {
+    "Name": "Abyssal",
+    "ProficiencyID": "PL_Abyssal",
+    "type": "Language",
+    "description": "The language of demons and the Abyss. Abyssal is a harsh, guttural tongue that sounds like curses and threats even when speaking pleasantries."
+  },
+  {
+    "Name": "Celestial",
+    "ProficiencyID": "PL_Celestial",
+    "type": "Language",
+    "description": "The language of angels and the Upper Planes. Celestial is a beautiful, harmonious language that sounds like music to those who understand it."
+  },
+  {
+    "Name": "Draconic",
+    "ProficiencyID": "PL_Draconic",
+    "type": "Language",
+    "description": "The ancient language of dragons. Draconic is one of the oldest languages and is often used in magical research and ancient texts."
+  },
+  {
+    "Name": "Deep Speech",
+    "ProficiencyID": "PL_Deep_Speech",
+    "type": "Language",
+    "description": "The alien language of aberrations and mind flayers. Deep Speech has no alphabet and is difficult for non-aberrations to learn."
+  },
+  {
+    "Name": "Infernal",
+    "ProficiencyID": "PL_Infernal",
+    "type": "Language",
+    "description": "The language of devils and the Nine Hells. Infernal is a precise, legalistic language used in contracts and formal agreements."
+  },
+  {
+    "Name": "Primordial",
+    "ProficiencyID": "PL_Primordial",
+    "type": "Language",
+    "description": "The ancient language of elementals. Primordial has four dialects: Aquan (water), Auran (air), Ignan (fire), and Terran (earth)."
+  },
+  {
+    "Name": "Sylvan",
+    "ProficiencyID": "PL_Sylvan",
+    "type": "Language",
+    "description": "The language of fey creatures and the Feywild. Sylvan is a musical language that sounds like nature itself."
+  },
+  {
+    "Name": "Undercommon",
+    "ProficiencyID": "PL_Undercommon",
+    "type": "Language",
+    "description": "A trade language spoken in the Underdark. Undercommon is a blend of surface languages adapted for use in the dark, dangerous depths."
+  }
+]
