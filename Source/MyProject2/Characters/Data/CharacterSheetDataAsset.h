@@ -6,7 +6,7 @@
 #include "Engine/DataAsset.h"
 
 // Project includes - CreateSheet
-#include "CreateSheet/Multiclass/MulticlassTypes.h"
+#include "Data/Structures/MulticlassTypes.h"
 
 #include "CharacterSheetDataAsset.generated.h"
 
@@ -15,103 +15,6 @@
 // ============================================================================
 
 class UDataTable;
-
-// ============================================================================
-// Multiclass Structures
-// ============================================================================
-
-// ============================================================================
-// Multiclass Class Feature Choice Struct
-// ============================================================================
-
-/**
- * Struct para armazenar uma escolha disponível de feature.
- * Usado dentro de FMulticlassClassFeature para definir escolhas disponíveis.
- */
-USTRUCT(BlueprintType)
-struct MYPROJECT2_API FMulticlassClassFeatureChoice
-{
-    GENERATED_BODY()
-
-    /** ID único da escolha (ex: "FC_Archery", "FC_Champion") */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature Choice")
-    FName ID;
-
-    /** Nome da escolha (ex: "Archery", "Champion") */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature Choice")
-    FName Name;
-
-    FMulticlassClassFeatureChoice() {}
-};
-
-// ============================================================================
-// Multiclass Class Feature Struct
-// ============================================================================
-
-/**
- * Struct para armazenar uma feature de classe em multiclasse.
- * Segue a estrutura do DJ_FeaturesClass.json.
- */
-USTRUCT(BlueprintType)
-struct MYPROJECT2_API FMulticlassClassFeature
-{
-    GENERATED_BODY()
-
-    /** Nome da feature (ex: "Second Wind", "Fighting Style") */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Feature")
-    FName Name;
-
-    /** ID único da feature (ex: "FC_SecondWind", "FC_FightingStyle") */
-    UPROPERTY(BlueprintReadOnly, Category = "Feature")
-    FName FC_ID;
-
-    /** Descrição da feature */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Feature")
-    FText Description;
-
-    /** Nível em que a feature é desbloqueada */
-    UPROPERTY(BlueprintReadOnly, Category = "Feature")
-    int32 LevelUnlocked = 1;
-
-    /** Tipo da feature: "Automatic", "Choice", "SubclassSelection", "ASI", "FeatSelection" */
-    UPROPERTY(BlueprintReadOnly, Category = "Feature")
-    FName FeatureType;
-
-    /** Dados adicionais da feature (chave-valor) */
-    UPROPERTY(BlueprintReadOnly, Category = "Feature")
-    TMap<FName, FString> FeatureData;
-
-    /** Escolha selecionada (dropdown que lista os nomes das escolhas disponíveis) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature", meta = (GetOptions = "GetAvailableChoiceNames"))
-    FName AvailableChoices;
-
-    FMulticlassClassFeature() : LevelUnlocked(1), AvailableChoices(NAME_None) {}
-};
-
-// ============================================================================
-// Multiclass Progress Struct
-// ============================================================================
-
-/**
- * Struct para armazenar uma entrada de progressão por nível em multiclasse.
- * Segue a estrutura do DJ_Class.json.
- * Define quais features são desbloqueadas em cada nível da classe.
- */
-USTRUCT(BlueprintType, meta = (DisplayName = "Nível"))
-struct MYPROJECT2_API FMulticlassProgressEntry
-{
-    GENERATED_BODY()
-
-    /** Nível da classe (calculado automaticamente, não editável) */
-    UPROPERTY(BlueprintReadOnly, Category = "Progress")
-    int32 Level = 1;
-
-    /** Lista de features desbloqueadas neste nível */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress")
-    TArray<FMulticlassClassFeature> Features;
-
-    FMulticlassProgressEntry() : Level(1) {}
-};
 
 // ============================================================================
 // Multiclass Class Data Struct
@@ -131,7 +34,8 @@ struct MYPROJECT2_API FMulticlassClassData
     FName Name;
 
     /** Nível da classe (editável no editor) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress", meta = (ClampMin = "0", ClampMax = "20"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress",
+              meta = (ClampMin = "0", ClampMax = "20")) // MAX_LEVEL (definido em DnDConstants.h)
     int32 LevelInClass = 0;
 
     /**
@@ -377,6 +281,16 @@ public:
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
     int32 ProficiencyBonus = 2;
 
+    /** HP máximo do personagem (calculado automaticamente baseado em HitDie + Constitution modifier) */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Info",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
+    int32 MaxHealth = 0;
+
+    /** HP atual do personagem (inicialmente igual a MaxHealth, editável para simular dano) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Basic | Info",
+              meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides, ClampMin = "0"))
+    int32 CurrentHealth = 0;
+
     // ============================================================================
     // Final Attributes (8 + RacialBonus + PointBuyAllocation)
     // ============================================================================
@@ -474,7 +388,7 @@ public:
     // ============================================================================
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability Scores",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    int32 PointsRemaining = 27;
+    int32 PointsRemaining = 27; // MAX_POINT_BUY_POINTS (definido em DnDConstants.h)
 
     /** Pontos alocados em Strength (0-7) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",

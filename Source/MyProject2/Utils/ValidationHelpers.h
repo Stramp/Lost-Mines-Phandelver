@@ -80,8 +80,26 @@ namespace ValidationHelpers
     bool ValidateAbilityScoreRange(int32 Score, int32 Min = 1, int32 Max = 30);
 
     /**
-     * Valida escolhas de ability scores (ex: Variant Human).
-     * Remove duplicatas, valida nomes e limita quantidade.
+     * Valida escolhas de ability scores (ex: Variant Human) - VERSÃO PURA.
+     * Apenas valida, não aplica correções. Retorna informações sobre problemas encontrados.
+     *
+     * @param Choices Array de escolhas a validar (não modificado)
+     * @param ValidNames Array com nomes válidos de ability scores
+     * @param MaxChoices Número máximo de escolhas permitidas (padrão: 2)
+     * @param OutInvalidIndices [OUT] Índices dos elementos inválidos encontrados
+     * @param OutHasDuplicates [OUT] true se há duplicatas, false caso contrário
+     * @param OutExceedsMax [OUT] true se excede MaxChoices, false caso contrário
+     * @return true se válido (todos os nomes são válidos, sem duplicatas, quantidade <= MaxChoices), false caso
+     * contrário
+     */
+    bool ValidateAbilityScoreChoicesPure(const TArray<FName> &Choices, const TArray<FName> &ValidNames,
+                                         int32 MaxChoices, TArray<int32> &OutInvalidIndices, bool &OutHasDuplicates,
+                                         bool &OutExceedsMax);
+
+    /**
+     * Valida escolhas de ability scores (ex: Variant Human) - VERSÃO LEGADA.
+     * Remove duplicatas, valida nomes e limita quantidade (APLICA correções).
+     * [DEPRECATED] Use ValidateAbilityScoreChoicesPure + CorrectionApplier ao invés desta função.
      *
      * @param Choices [IN/OUT] Array de escolhas (será modificado: duplicatas removidas, valores inválidos corrigidos)
      * @param ValidNames Array com nomes válidos de ability scores
@@ -95,7 +113,18 @@ namespace ValidationHelpers
     // ============================================================================
 
     /**
-     * Valida se uma seleção de feat está disponível.
+     * Valida se uma seleção de feat está disponível - VERSÃO PURA.
+     * Apenas valida, não aplica correções.
+     *
+     * @param SelectedFeat Feat selecionado a validar (não modificado)
+     * @param AvailableFeats Array com feats disponíveis
+     * @return true se SelectedFeat está em AvailableFeats ou é NAME_None, false caso contrário
+     */
+    bool ValidateFeatSelectionPure(FName SelectedFeat, const TArray<FName> &AvailableFeats);
+
+    /**
+     * Valida se uma seleção de feat está disponível - VERSÃO LEGADA.
+     * [DEPRECATED] Use ValidateFeatSelectionPure + CorrectionApplier ao invés desta função.
      *
      * @param SelectedFeat [IN/OUT] Feat selecionado (será resetado para NAME_None se inválido)
      * @param AvailableFeats Array com feats disponíveis
@@ -104,7 +133,18 @@ namespace ValidationHelpers
     bool ValidateFeatSelection(FName &SelectedFeat, const TArray<FName> &AvailableFeats);
 
     /**
-     * Valida se uma seleção de skill é válida.
+     * Valida se uma seleção de skill é válida - VERSÃO PURA.
+     * Apenas valida, não aplica correções.
+     *
+     * @param SelectedSkill Skill selecionado a validar (não modificado)
+     * @param ValidSkills Array com skills válidas
+     * @return true se SelectedSkill está em ValidSkills ou é NAME_None, false caso contrário
+     */
+    bool ValidateSkillSelectionPure(FName SelectedSkill, const TArray<FName> &ValidSkills);
+
+    /**
+     * Valida se uma seleção de skill é válida - VERSÃO LEGADA.
+     * [DEPRECATED] Use ValidateSkillSelectionPure + CorrectionApplier ao invés desta função.
      *
      * @param SelectedSkill [IN/OUT] Skill selecionado (será resetado para NAME_None se inválido)
      * @param ValidSkills Array com skills válidas

@@ -5,6 +5,8 @@
 #include "Utils/ValidationHelpers.h"
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/FormattingHelpers.h"
+#include "Utils/DnDConstants.h"
+#include "Logging/LoggingSystem.h"
 
 UCharacterDataComponent::UCharacterDataComponent() { PrimaryComponentTick.bCanEverTick = false; }
 
@@ -47,18 +49,24 @@ bool UCharacterDataComponent::ValidateDataIntegrity() const
     {
         if (!AbilityScores.Contains(AbilityName))
         {
-            UE_LOG(LogTemp, Error, TEXT("CharacterDataComponent: Ability Score '%s' está faltando!"),
-                   *AbilityName.ToString());
+            FLogContext Context(TEXT("CharacterDataComponent"), TEXT("ValidateDataIntegrity"));
+            FLoggingSystem::LogError(
+                Context, FString::Printf(TEXT("Ability Score '%s' está faltando!"), *AbilityName.ToString()), true);
             bIsValid = false;
         }
         else
         {
             int32 Score = AbilityScores[AbilityName];
-            if (!ValidationHelpers::ValidateAbilityScoreRange(Score, 1, 30))
+            if (!ValidationHelpers::ValidateAbilityScoreRange(Score, DnDConstants::MIN_ABILITY_SCORE,
+                                                              DnDConstants::MAX_ABILITY_SCORE))
             {
-                UE_LOG(LogTemp, Error,
-                       TEXT("CharacterDataComponent: Ability Score '%s' tem valor inválido: %d (deve ser 1-30)"),
-                       *AbilityName.ToString(), Score);
+                FLogContext Context(TEXT("CharacterDataComponent"), TEXT("ValidateDataIntegrity"));
+                FLoggingSystem::LogError(
+                    Context,
+                    FString::Printf(TEXT("Ability Score '%s' tem valor inválido: %d (deve ser %d-%d)"),
+                                    *AbilityName.ToString(), Score, DnDConstants::MIN_ABILITY_SCORE,
+                                    DnDConstants::MAX_ABILITY_SCORE),
+                    true);
                 bIsValid = false;
             }
         }
@@ -67,29 +75,35 @@ bool UCharacterDataComponent::ValidateDataIntegrity() const
     // Validação 2: Raça deve estar selecionada
     if (SelectedRace == NAME_None)
     {
-        UE_LOG(LogTemp, Error, TEXT("CharacterDataComponent: Raça não foi selecionada!"));
+        FLogContext Context(TEXT("CharacterDataComponent"), TEXT("ValidateDataIntegrity"));
+        FLoggingSystem::LogError(Context, TEXT("Raça não foi selecionada!"), true);
         bIsValid = false;
     }
 
     // Validação 3: Background deve estar selecionado
     if (SelectedBackground == NAME_None)
     {
-        UE_LOG(LogTemp, Error, TEXT("CharacterDataComponent: Background não foi selecionado!"));
+        FLogContext Context(TEXT("CharacterDataComponent"), TEXT("ValidateDataIntegrity"));
+        FLoggingSystem::LogError(Context, TEXT("Background não foi selecionado!"), true);
         bIsValid = false;
     }
 
     // Validação 4: Nível total deve ser válido (1-20)
-    if (!ValidationHelpers::ValidateTotalLevelRange(CharacterTotalLvl, 20))
+    if (!ValidationHelpers::ValidateTotalLevelRange(CharacterTotalLvl, DnDConstants::MAX_LEVEL))
     {
-        UE_LOG(LogTemp, Error, TEXT("CharacterDataComponent: Nível total inválido: %d (deve ser 1-20)"),
-               CharacterTotalLvl);
+        FLogContext Context(TEXT("CharacterDataComponent"), TEXT("ValidateDataIntegrity"));
+        FLoggingSystem::LogError(Context,
+                                 FString::Printf(TEXT("Nível total inválido: %d (deve ser %d-%d)"), CharacterTotalLvl,
+                                                 DnDConstants::MIN_LEVEL, DnDConstants::MAX_LEVEL),
+                                 true);
         bIsValid = false;
     }
 
     // Validação 5: Nome não deve estar vazio
     if (CharacterName == NAME_None)
     {
-        UE_LOG(LogTemp, Warning, TEXT("CharacterDataComponent: Nome do personagem não foi definido!"));
+        FLogContext Context(TEXT("CharacterDataComponent"), TEXT("ValidateDataIntegrity"));
+        FLoggingSystem::LogWarning(Context, TEXT("Nome do personagem não foi definido!"), true);
         // Não é erro crítico, apenas warning
     }
 
@@ -98,20 +112,23 @@ bool UCharacterDataComponent::ValidateDataIntegrity() const
 
 void UCharacterDataComponent::LogCharacterSheet() const
 {
-    UE_LOG(LogTemp, Warning, TEXT("=== Character Sheet ==="));
-    UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *CharacterName.ToString());
-    UE_LOG(LogTemp, Warning, TEXT("Description: %s"), *CharacterDescription.ToString());
-    UE_LOG(LogTemp, Warning, TEXT("Level Total: %d"), CharacterTotalLvl);
+    FLogContext Context(TEXT("CharacterDataComponent"), TEXT("LogCharacterSheet"));
+
+    // Função de debug - usa LogInfo para logs informativos
+    FLoggingSystem::LogInfo(Context, TEXT("=== Character Sheet ==="));
+    FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("Name: %s"), *CharacterName.ToString()));
+    FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("Description: %s"), *CharacterDescription.ToString()));
+    FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("Level Total: %d"), CharacterTotalLvl));
 
     // Race & Background (usa FormattingHelpers)
     FString RaceDisplay = FormattingHelpers::FormatRaceDisplay(SelectedRace, SelectedSubrace);
-    UE_LOG(LogTemp, Warning, TEXT("Race: %s"), *RaceDisplay);
-    UE_LOG(LogTemp, Warning, TEXT("Background: %s"), *SelectedBackground.ToString());
+    FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("Race: %s"), *RaceDisplay));
+    FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("Background: %s"), *SelectedBackground.ToString()));
 
     // Variant Human Choices (se aplicável)
     if (SelectedSubrace == TEXT("Variant Human"))
     {
-        UE_LOG(LogTemp, Warning, TEXT("--- Variant Human Choices ---"));
+        FLoggingSystem::LogInfo(Context, TEXT("--- Variant Human Choices ---"));
 
         // Custom Ability Score Choices
         if (CustomAbilityScoreChoices.Num() > 0)
@@ -125,88 +142,90 @@ void UCharacterDataComponent::LogCharacterSheet() const
                     ChoicesStr += TEXT(", ");
                 }
             }
-            UE_LOG(LogTemp, Warning, TEXT("  Custom Ability Score Choices: %s"), *ChoicesStr);
+            FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("  Custom Ability Score Choices: %s"), *ChoicesStr));
         }
 
         // Selected Feat
         if (SelectedFeat != NAME_None)
         {
-            UE_LOG(LogTemp, Warning, TEXT("  Selected Feat: %s"), *SelectedFeat.ToString());
+            FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("  Selected Feat: %s"), *SelectedFeat.ToString()));
         }
 
         // Selected Skill
         if (SelectedSkill != NAME_None)
         {
-            UE_LOG(LogTemp, Warning, TEXT("  Selected Skill: %s"), *SelectedSkill.ToString());
+            FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("  Selected Skill: %s"), *SelectedSkill.ToString()));
         }
     }
 
     // Race Traits
     if (RaceTraits.Num() > 0)
     {
-        UE_LOG(LogTemp, Warning, TEXT("--- Race Traits (%d) ---"), RaceTraits.Num());
+        FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("--- Race Traits (%d) ---"), RaceTraits.Num()));
         FString TraitsList = FormattingHelpers::FormatProficienciesList(RaceTraits);
-        UE_LOG(LogTemp, Warning, TEXT("  %s"), *TraitsList);
+        FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("  %s"), *TraitsList));
     }
 
     // Ability Scores (usa FormattingHelpers)
-    UE_LOG(LogTemp, Warning, TEXT("--- Ability Scores ---"));
+    FLoggingSystem::LogInfo(Context, TEXT("--- Ability Scores ---"));
     TArray<FName> AbilityOrder = CharacterSheetHelpers::GetAbilityScoreNames();
     for (const FName &AbilityName : AbilityOrder)
     {
         if (AbilityScores.Contains(AbilityName))
         {
-            UE_LOG(LogTemp, Warning, TEXT("  %s: %d"), *AbilityName.ToString(), AbilityScores[AbilityName]);
+            FLoggingSystem::LogInfo(
+                Context, FString::Printf(TEXT("  %s: %d"), *AbilityName.ToString(), AbilityScores[AbilityName]));
         }
         else
         {
-            UE_LOG(LogTemp, Error, TEXT("  %s: FALTANDO!"), *AbilityName.ToString());
+            FLoggingSystem::LogError(Context, FString::Printf(TEXT("  %s: FALTANDO!"), *AbilityName.ToString()), true);
         }
     }
 
     // Proficiencies (usa FormattingHelpers)
     if (Proficiencies.Num() > 0)
     {
-        UE_LOG(LogTemp, Warning, TEXT("--- Proficiencies (%d) ---"), Proficiencies.Num());
+        FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("--- Proficiencies (%d) ---"), Proficiencies.Num()));
         FString ProficienciesList = FormattingHelpers::FormatProficienciesList(Proficiencies);
-        UE_LOG(LogTemp, Warning, TEXT("  %s"), *ProficienciesList);
+        FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("  %s"), *ProficienciesList));
     }
     else
     {
-        UE_LOG(LogTemp, Warning, TEXT("--- Proficiencies: Nenhuma ---"));
+        FLoggingSystem::LogInfo(Context, TEXT("--- Proficiencies: Nenhuma ---"));
     }
 
     // Languages (usa FormattingHelpers)
     if (Languages.Num() > 0)
     {
-        UE_LOG(LogTemp, Warning, TEXT("--- Languages (%d) ---"), Languages.Num());
+        FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("--- Languages (%d) ---"), Languages.Num()));
         FString LanguagesList = FormattingHelpers::FormatProficienciesList(Languages);
-        UE_LOG(LogTemp, Warning, TEXT("  %s"), *LanguagesList);
+        FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("  %s"), *LanguagesList));
     }
     else
     {
-        UE_LOG(LogTemp, Warning, TEXT("--- Languages: Nenhuma ---"));
+        FLoggingSystem::LogInfo(Context, TEXT("--- Languages: Nenhuma ---"));
     }
 
     // Available Features
     if (AvailableFeatures.Num() > 0)
     {
-        UE_LOG(LogTemp, Warning, TEXT("--- Available Features (%d) ---"), AvailableFeatures.Num());
+        FLoggingSystem::LogInfo(Context,
+                                FString::Printf(TEXT("--- Available Features (%d) ---"), AvailableFeatures.Num()));
         FString FeaturesList = FormattingHelpers::FormatProficienciesList(AvailableFeatures);
-        UE_LOG(LogTemp, Warning, TEXT("  %s"), *FeaturesList);
+        FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("  %s"), *FeaturesList));
     }
 
     // Validação de integridade
-    UE_LOG(LogTemp, Warning, TEXT("--- Data Integrity ---"));
+    FLoggingSystem::LogInfo(Context, TEXT("--- Data Integrity ---"));
     bool bIsValid = ValidateDataIntegrity();
     if (bIsValid)
     {
-        UE_LOG(LogTemp, Warning, TEXT("  ✅ Todos os dados estão válidos e organizados corretamente"));
+        FLoggingSystem::LogInfo(Context, TEXT("  ✅ Todos os dados estão válidos e organizados corretamente"));
     }
     else
     {
-        UE_LOG(LogTemp, Error, TEXT("  ❌ Dados inválidos ou incompletos! Verifique os erros acima."));
+        FLoggingSystem::LogError(Context, TEXT("  ❌ Dados inválidos ou incompletos! Verifique os erros acima."), true);
     }
 
-    UE_LOG(LogTemp, Warning, TEXT("======================"));
+    FLoggingSystem::LogInfo(Context, TEXT("======================"));
 }

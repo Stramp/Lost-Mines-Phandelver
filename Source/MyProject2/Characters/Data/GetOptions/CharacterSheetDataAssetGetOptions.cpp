@@ -9,9 +9,13 @@
 
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
+#include "Utils/DataTableHelpers.h"
 
 // Project includes - CreateSheet Motors
 #include "CreateSheet/Multiclass/MulticlassMotor.h"
+
+// Project includes - Data Tables
+#include "Data/Tables/FeatureDataTable.h"
 
 // Engine includes
 #include "Engine/DataTable.h"
@@ -102,10 +106,7 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAbilityScoreNames()
 /**
  * Retorna todos os nomes de skills de D&D 5e.
  */
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetSkillNames()
-{
-    return CharacterSheetHelpers::GetSkillNames();
-}
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetSkillNames() { return CharacterSheetHelpers::GetSkillNames(); }
 
 /**
  * Retorna todos os feats disponíveis para Variant Human baseado nos ability scores.
@@ -145,3 +146,51 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetListClassAvaible(const UDat
 }
 
 #pragma endregion Multiclass Options
+
+// ============================================================================
+// Feature Choice Options
+// ============================================================================
+#pragma region Feature Choice Options
+
+/**
+ * Retorna todos os nomes de escolhas disponíveis de todas as features no ClassFeaturesDataTable.
+ * Coleta todas as AvailableChoices de todas as features na tabela.
+ * Usado para dropdown em FMulticlassClassFeature.AvailableChoices.
+ */
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(const UDataTable *FeatureDataTable)
+{
+    TArray<FName> Result;
+    TSet<FName> UniqueChoices; // Usa TSet para evitar duplicatas
+
+    if (!FeatureDataTable)
+    {
+        return Result;
+    }
+
+    // Itera por todas as features na tabela
+    TArray<FName> RowNames = FeatureDataTable->GetRowNames();
+    UDataTable *NonConstTable = const_cast<UDataTable *>(FeatureDataTable);
+
+    for (const FName &RowName : RowNames)
+    {
+        if (const FFeatureDataRow *FeatureRow =
+                FeatureDataTable->FindRow<FFeatureDataRow>(RowName, TEXT("GetAvailableChoiceNames")))
+        {
+            // Adiciona todos os nomes de escolhas disponíveis desta feature
+            for (const FFeatureChoice &Choice : FeatureRow->AvailableChoices)
+            {
+                if (Choice.Name != NAME_None)
+                {
+                    UniqueChoices.Add(Choice.Name);
+                }
+            }
+        }
+    }
+
+    // Converte TSet para TArray
+    Result = UniqueChoices.Array();
+
+    return Result;
+}
+
+#pragma endregion Feature Choice Options

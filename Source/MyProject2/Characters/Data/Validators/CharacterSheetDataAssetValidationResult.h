@@ -38,6 +38,9 @@ struct FValidationCorrection
     /** Valor a ser ajustado (para AdjustValue) */
     int32 NewValue = 0;
 
+    /** Índices múltiplos (para RemoveInvalid quando há múltiplos elementos a remover) */
+    TArray<int32> InvalidIndices;
+
     /** Mensagem de log para a correção */
     FString LogMessage;
 
@@ -47,6 +50,13 @@ struct FValidationCorrection
                           int32 InNewValue = 0, const FString &InLogMessage = TEXT(""))
         : CorrectionType(InType), PropertyName(InPropertyName), ArrayIndex(InArrayIndex), NewValue(InNewValue),
           LogMessage(InLogMessage)
+    {
+    }
+
+    FValidationCorrection(EValidationCorrectionType InType, FName InPropertyName, const TArray<int32> &InInvalidIndices,
+                          const FString &InLogMessage = TEXT(""))
+        : CorrectionType(InType), PropertyName(InPropertyName), ArrayIndex(-1), NewValue(0),
+          InvalidIndices(InInvalidIndices), LogMessage(InLogMessage)
     {
     }
 };

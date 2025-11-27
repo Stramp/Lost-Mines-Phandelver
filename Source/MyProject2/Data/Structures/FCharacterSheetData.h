@@ -2,12 +2,30 @@
 
 #pragma once
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
 
-// Forward declarations
+#pragma endregion Includes
+
+// ============================================================================
+// Forward Declarations
+// ============================================================================
+#pragma region Forward Declarations
+
 class UDataTable;
 struct FRaceDataRow;
+
+#pragma endregion Forward Declarations
+
+// ============================================================================
+// Character Sheet Data Struct
+// ============================================================================
+#pragma region Character Sheet Data Struct
 
 /**
  * Estrutura genérica de dados para criação de ficha.
@@ -123,3 +141,5 @@ struct MYPROJECT2_API FCharacterSheetData
     {
     }
 };
+
+#pragma endregion Character Sheet Data Struct

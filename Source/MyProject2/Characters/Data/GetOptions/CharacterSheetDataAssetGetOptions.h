@@ -91,4 +91,14 @@ public:
     static TArray<FName> GetListClassAvaible(const UDataTable *ClassDataTable, int32 FinalStrength,
                                              int32 FinalDexterity, int32 FinalConstitution, int32 FinalIntelligence,
                                              int32 FinalWisdom, int32 FinalCharisma);
+
+    /**
+     * Returns all available choice names from ClassFeaturesDataTable.
+     * Collects all AvailableChoices from all features in the table.
+     * Used for dropdown in FMulticlassClassFeature.AvailableChoices.
+     *
+     * @param FeatureDataTable Feature Data Table (can be nullptr)
+     * @return Array with all available choice names from all features
+     */
+    static TArray<FName> GetAvailableChoiceNames(const UDataTable *FeatureDataTable);
 };

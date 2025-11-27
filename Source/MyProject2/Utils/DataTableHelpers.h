@@ -12,6 +12,7 @@ struct FClassDataRow;
 struct FFeatDataRow;
 struct FBackgroundDataRow;
 struct FProficiencyDataRow;
+struct FFeatureDataRow;
 
 /**
  * Funções helper para busca de rows em Data Tables com fallback manual.
@@ -104,4 +105,18 @@ namespace DataTableHelpers
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
     FProficiencyDataRow *FindProficiencyRowByID(FName ProficiencyID, UDataTable *ProficiencyDataTable);
+
+    // ============================================================================
+    // Feature Data Table Helpers
+    // ============================================================================
+
+    /**
+     * Busca row de feature no Data Table pelo FC_ID.
+     * Busca manual O(n) comparando FC_ID de cada row.
+     *
+     * @param FeatureID ID da feature para buscar (ex: "FC_SecondWind", "FC_FightingStyle")
+     * @param FeatureDataTable Data Table de features (pode ser nullptr)
+     * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
+     */
+    FFeatureDataRow *FindFeatureRowByID(FName FeatureID, UDataTable *FeatureDataTable);
 } // namespace DataTableHelpers

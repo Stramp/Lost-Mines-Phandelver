@@ -10,6 +10,8 @@ struct FProficienciesEntry;
 struct FMulticlassProficienciesEntry;
 struct FClassDataRow;
 struct FProgressEntry;
+struct FFeatureDataRow;
+struct FMulticlassClassFeature;
 
 /**
  * Helpers para estrutura de dados de multiclasse.
@@ -42,6 +44,17 @@ public:
     static bool CanProcessProgression(FName ClassName, int32 LevelInClass);
 
     /**
+     * Resolve array de IDs de proficiências para nomes legíveis.
+     * Helper puro e testável para resolução de IDs de proficiências.
+     *
+     * @param ProficiencyIDs Array de IDs de proficiências (ex: ["PW_Simple_Weapons"])
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
+     * @return Array com nomes legíveis (ex: ["Simple Weapons"]) ou IDs originais se não encontrado
+     */
+    static TArray<FName> ResolveProficiencyIDsToNames(const TArray<FName> &ProficiencyIDs,
+                                                      const UDataTable *ProficiencyDataTable);
+
+    /**
      * Converte FProficienciesEntry (tabela) para FMulticlassProficienciesEntry (Data Asset) retornando nomes legíveis.
      * Resolve IDs de proficiências (ex: "PW_Simple_Weapons") para nomes legíveis (ex: "Simple Weapons").
      * Helper puro e testável para conversão de estruturas de proficiências.
@@ -52,26 +65,6 @@ public:
      */
     static FMulticlassProficienciesEntry ConvertProficienciesEntry(const FProficienciesEntry &SourceEntry,
                                                                    const UDataTable *ProficiencyDataTable);
-
-    /**
-     * Converte FProficienciesEntry (tabela) para FMulticlassProficienciesEntry (Data Asset) retornando IDs.
-     * Mantém IDs originais (ex: "PW_Simple_Weapons") sem resolução.
-     * Helper puro e testável para conversão de estruturas de proficiências.
-     *
-     * @param SourceEntry Entry da tabela
-     * @return Entry convertida para Data Asset com IDs originais
-     */
-    static FMulticlassProficienciesEntry ConvertProficienciesEntryIDs(const FProficienciesEntry &SourceEntry);
-
-    /**
-     * Converte FProficienciesEntry (tabela) para FMulticlassProficienciesEntry (Data Asset) retornando objeto completo.
-     * Retorna objeto completo com todos os campos preservados.
-     * Helper puro e testável para conversão de estruturas de proficiências.
-     *
-     * @param SourceEntry Entry da tabela
-     * @return Entry convertida para Data Asset com estrutura completa
-     */
-    static FMulticlassProficienciesEntry ConvertProficienciesEntryRaw(const FProficienciesEntry &SourceEntry);
 
     /**
      * Valida parâmetros de entrada para carregamento de proficiências.
@@ -126,4 +119,53 @@ public:
      */
     static bool ExtractLevelFeatures(const TArray<struct FProgressEntry> &Progression, int32 LevelInClass,
                                      const struct FProgressEntry *&OutLevelEntry);
+
+    /**
+     * Converte FFeatureDataRow (tabela) para FMulticlassClassFeature (Data Asset).
+     * Helper puro e testável para conversão de features.
+     *
+     * @param FeatureRow Row da feature da tabela
+     * @param LevelUnlocked Nível em que a feature é desbloqueada
+     * @return Feature convertida para Data Asset
+     */
+    static FMulticlassClassFeature ConvertFeatureRowToMulticlassFeature(const FFeatureDataRow &FeatureRow,
+                                                                        int32 LevelUnlocked);
+
+    /**
+     * Carrega features de um nível específico e converte para FMulticlassClassFeature.
+     * Busca features no ClassFeaturesDataTable usando os IDs do array Features.
+     * Helper puro e testável, sem side effects.
+     *
+     * @param FeatureIDs Array de IDs de features (ex: ["FC_SecondWind", "FC_FightingStyle"])
+     * @param FeatureDataTable Data Table de features (pode ser nullptr)
+     * @param LevelUnlocked Nível em que as features são desbloqueadas
+     * @param OutFeatures [OUT] Array de features convertidas
+     * @return true se pelo menos uma feature foi carregada, false caso contrário
+     */
+    static bool LoadFeaturesForLevel(const TArray<FName> &FeatureIDs, const UDataTable *FeatureDataTable,
+                                     int32 LevelUnlocked, TArray<FMulticlassClassFeature> &OutFeatures);
+
+    /**
+     * Busca e valida classe na tabela, logando erro se não encontrada.
+     * Helper puro e testável para evitar duplicação de código de busca e log.
+     *
+     * @param ClassName Nome da classe
+     * @param ClassDataTable Data Table de classes (pode ser nullptr)
+     * @param FunctionName Nome da função chamadora para contexto de log
+     * @return Row da classe encontrada, ou nullptr se não encontrada
+     */
+    static const FClassDataRow *FindClassRowWithErrorLogging(FName ClassName, const UDataTable *ClassDataTable,
+                                                             const FString &FunctionName);
+
+    /**
+     * Carrega informações básicas da classe (MulticlassRequirements) do ClassDataTable.
+     * Helper puro e testável para carregar dados automáticos da classe.
+     *
+     * @param ClassName Nome da classe
+     * @param ClassDataTable Data Table de classes (pode ser nullptr)
+     * @param OutMulticlassRequirements [OUT] Requisitos de multiclasse carregados
+     * @return true se informações foram carregadas com sucesso, false caso contrário
+     */
+    static bool LoadClassBasicInfo(FName ClassName, const UDataTable *ClassDataTable,
+                                   TArray<FString> &OutMulticlassRequirements);
 };

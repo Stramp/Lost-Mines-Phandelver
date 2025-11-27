@@ -2,9 +2,14 @@
 
 #include "CharacterSheetCore.h"
 #include "CreateSheet/PointBuy/PointBuyMotor.h"
-#include "CreateSheet/PointBuy/PointBuyResult.h"
+#include "Data/Structures/FPointBuyResult.h"
 #include "CreateSheet/RaceBonus/RaceBonusMotor.h"
 #include "Utils/CalculationHelpers.h"
+#include "Utils/DnDConstants.h"
+// Project includes - Logging
+#include "Logging/LoggingSystem.h"
+
+// Engine includes
 #include "Logging/LogMacros.h"
 
 void FCharacterSheetCore::RecalculateFinalScores(FCharacterSheetData &Data, FPointBuyResult *OutPointBuyResult)
@@ -13,12 +18,13 @@ void FCharacterSheetCore::RecalculateFinalScores(FCharacterSheetData &Data, FPoi
     if (!Data.FinalStrength || !Data.FinalDexterity || !Data.FinalConstitution || !Data.FinalIntelligence ||
         !Data.FinalWisdom || !Data.FinalCharisma)
     {
-        UE_LOG(LogTemp, Error, TEXT("CharacterSheetCore: Referências de Final Scores inválidas"));
+        FLogContext Context(TEXT("CharacterSheetCore"), TEXT("RecalculateFinalScores"));
+        FLoggingSystem::LogError(Context, TEXT("Referências de Final Scores inválidas"), true);
         return;
     }
 
     // Orquestrador: reseta para base (8) e aplica cada motor independente
-    // Fórmula: FinalScore = 8 + RacialBonus + PointBuyAllocation
+    // Fórmula: FinalScore = BASE_ABILITY_SCORE + RacialBonus + PointBuyAllocation
 
     // 1. Reset para base (8)
     CalculationHelpers::ResetFinalScoresToBase(*Data.FinalStrength, *Data.FinalDexterity, *Data.FinalConstitution,

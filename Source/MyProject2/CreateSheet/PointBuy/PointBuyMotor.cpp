@@ -1,9 +1,14 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "PointBuyMotor.h"
-#include "CreateSheet/Core/CharacterSheetData.h"
+#include "Data/Structures/FCharacterSheetData.h"
 #include "Utils/CalculationHelpers.h"
 #include "Utils/CharacterSheetHelpers.h"
+#include "Utils/DnDConstants.h"
+// Project includes - Logging
+#include "Logging/LoggingSystem.h"
+
+// Engine includes
 #include "Logging/LogMacros.h"
 
 FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
@@ -12,7 +17,8 @@ FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
     if (!Data.FinalStrength || !Data.FinalDexterity || !Data.FinalConstitution || !Data.FinalIntelligence ||
         !Data.FinalWisdom || !Data.FinalCharisma)
     {
-        UE_LOG(LogTemp, Error, TEXT("PointBuyMotor: Referências de Final Scores inválidas"));
+        FLogContext Context(TEXT("PointBuy"), TEXT("ApplyPointBuy"));
+        FLoggingSystem::LogError(Context, TEXT("Referências de Final Scores inválidas"), true);
         return FPointBuyResult();
     }
 
@@ -27,18 +33,18 @@ FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
     PointBuyMap.Add(TEXT("Charisma"), Data.PointBuyCharisma);
 
     // Valida e ajusta se necessário (máximo 27 pontos)
-    const int32 MaxPoints = 27;
+    const int32 MaxPoints = DnDConstants::MAX_POINT_BUY_POINTS;
     FString FeedbackMessage;
     bool bWasAdjusted = false;
 
     // Calcula custo total dos scores base (8 + PointBuy)
     TMap<FName, int32> BaseScores;
-    BaseScores.Add(TEXT("Strength"), 8 + PointBuyMap.FindRef(TEXT("Strength")));
-    BaseScores.Add(TEXT("Dexterity"), 8 + PointBuyMap.FindRef(TEXT("Dexterity")));
-    BaseScores.Add(TEXT("Constitution"), 8 + PointBuyMap.FindRef(TEXT("Constitution")));
-    BaseScores.Add(TEXT("Intelligence"), 8 + PointBuyMap.FindRef(TEXT("Intelligence")));
-    BaseScores.Add(TEXT("Wisdom"), 8 + PointBuyMap.FindRef(TEXT("Wisdom")));
-    BaseScores.Add(TEXT("Charisma"), 8 + PointBuyMap.FindRef(TEXT("Charisma")));
+    BaseScores.Add(TEXT("Strength"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Strength")));
+    BaseScores.Add(TEXT("Dexterity"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Dexterity")));
+    BaseScores.Add(TEXT("Constitution"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Constitution")));
+    BaseScores.Add(TEXT("Intelligence"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Intelligence")));
+    BaseScores.Add(TEXT("Wisdom"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Wisdom")));
+    BaseScores.Add(TEXT("Charisma"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Charisma")));
 
     int32 TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
     int32 PointsRemaining = MaxPoints - TotalCost;
@@ -51,21 +57,26 @@ FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
 
         // Recalcula após ajuste
         BaseScores.Empty();
-        BaseScores.Add(TEXT("Strength"), 8 + PointBuyMap.FindRef(TEXT("Strength")));
-        BaseScores.Add(TEXT("Dexterity"), 8 + PointBuyMap.FindRef(TEXT("Dexterity")));
-        BaseScores.Add(TEXT("Constitution"), 8 + PointBuyMap.FindRef(TEXT("Constitution")));
-        BaseScores.Add(TEXT("Intelligence"), 8 + PointBuyMap.FindRef(TEXT("Intelligence")));
-        BaseScores.Add(TEXT("Wisdom"), 8 + PointBuyMap.FindRef(TEXT("Wisdom")));
-        BaseScores.Add(TEXT("Charisma"), 8 + PointBuyMap.FindRef(TEXT("Charisma")));
+        BaseScores.Add(TEXT("Strength"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Strength")));
+        BaseScores.Add(TEXT("Dexterity"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Dexterity")));
+        BaseScores.Add(TEXT("Constitution"),
+                       DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Constitution")));
+        BaseScores.Add(TEXT("Intelligence"),
+                       DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Intelligence")));
+        BaseScores.Add(TEXT("Wisdom"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Wisdom")));
+        BaseScores.Add(TEXT("Charisma"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Charisma")));
 
         TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
         PointsRemaining = MaxPoints - TotalCost;
 
-        UE_LOG(LogTemp, Warning, TEXT("PointBuyMotor: Alocação ajustada automaticamente. %s"), *FeedbackMessage);
+        FLogContext Context(TEXT("PointBuy"), TEXT("ApplyPointBuy"));
+        FLoggingSystem::LogWarning(
+            Context, FString::Printf(TEXT("Alocação ajustada automaticamente. %s"), *FeedbackMessage), true);
     }
     else if (PointsRemaining == 0)
     {
-        FeedbackMessage = TEXT("Todos os pontos foram alocados (27/27)");
+        FeedbackMessage = FString::Printf(TEXT("Todos os pontos foram alocados (%d/%d)"),
+                                          DnDConstants::MAX_POINT_BUY_POINTS, DnDConstants::MAX_POINT_BUY_POINTS);
     }
     else
     {

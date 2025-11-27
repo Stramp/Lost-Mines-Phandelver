@@ -3,10 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CharacterSheetData.h"
-
-// Forward declaration
-struct FPointBuyResult;
+#include "Data/Structures/FCharacterSheetData.h"
+#include "Data/Structures/FPointBuyResult.h"
 
 /**
  * Core genérico de criação de ficha - Orquestrador de motores.

@@ -6,6 +6,7 @@
 #include "Utils/ComponentHelpers.h"
 #include "Utils/DataTableHelpers.h"
 #include "Data/Tables/RaceDataTable.h"
+#include "Logging/LoggingSystem.h"
 #include "GameFramework/Actor.h"
 
 UCharacterSheetComponent::UCharacterSheetComponent() { PrimaryComponentTick.bCanEverTick = false; }
@@ -17,7 +18,8 @@ void UCharacterSheetComponent::BeginPlay()
     AActor *Owner = GetOwner();
     if (!Owner)
     {
-        UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: Owner não encontrado"));
+        FLogContext Context(TEXT("CharacterSheetComponent"), TEXT("BeginPlay"));
+        FLoggingSystem::LogError(Context, TEXT("Owner não encontrado"), true);
         return;
     }
 
@@ -26,8 +28,9 @@ void UCharacterSheetComponent::BeginPlay()
     if (!CharacterDataComponent)
     {
         FString OwnerName = Owner ? Owner->GetName() : TEXT("Desconhecido");
-        UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: CharacterDataComponent não encontrado no Actor %s"),
-               *OwnerName);
+        FLogContext Context(TEXT("CharacterSheetComponent"), TEXT("BeginPlay"));
+        FLoggingSystem::LogError(
+            Context, FString::Printf(TEXT("CharacterDataComponent não encontrado no Actor %s"), *OwnerName), true);
         return;
     }
 
@@ -52,7 +55,8 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
         AActor *Owner = GetOwner();
         if (!Owner)
         {
-            UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: Owner não encontrado"));
+            FLogContext Context(TEXT("CharacterSheetComponent"), TEXT("InitializeFromDataAsset"));
+            FLoggingSystem::LogError(Context, TEXT("Owner não encontrado"), true);
             return;
         }
 
@@ -60,8 +64,9 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
         if (!CharacterDataComponent)
         {
             FString OwnerName = Owner ? Owner->GetName() : TEXT("Desconhecido");
-            UE_LOG(LogTemp, Error, TEXT("CharacterSheetComponent: CharacterDataComponent não encontrado no Actor %s"),
-                   *OwnerName);
+            FLogContext Context(TEXT("CharacterSheetComponent"), TEXT("InitializeFromDataAsset"));
+            FLoggingSystem::LogError(
+                Context, FString::Printf(TEXT("CharacterDataComponent não encontrado no Actor %s"), *OwnerName), true);
             return;
         }
     }
@@ -136,6 +141,7 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     // Salva referência ao Data Asset
     SourceDataAsset = DataAsset;
 
-    UE_LOG(LogTemp, Log, TEXT("CharacterSheetComponent: Dados inicializados do Data Asset '%s'"),
-           *DataAsset->GetName());
+    FLogContext Context(TEXT("CharacterSheetComponent"), TEXT("InitializeFromDataAsset"));
+    FLoggingSystem::LogInfo(Context,
+                            FString::Printf(TEXT("Dados inicializados do Data Asset '%s'"), *DataAsset->GetName()));
 }

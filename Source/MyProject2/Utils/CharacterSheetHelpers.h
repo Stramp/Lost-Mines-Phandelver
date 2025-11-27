@@ -96,26 +96,17 @@ namespace CharacterSheetHelpers
     TArray<FName> GetAllClassNames(UDataTable *ClassDataTable);
 
     /**
-     * Retorna todas as subclasses disponíveis para uma classe específica.
-     *
-     * @param ClassName Nome da classe para buscar subclasses
-     * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @return Array com nomes das subclasses, ou array vazio se não encontrado ou Data Table inválido
-     */
-    TArray<FName> GetAvailableSubclasses(FName ClassName, UDataTable *ClassDataTable);
-
-    /**
      * Verifica se o jogador pode selecionar uma subclasse para a classe especificada no nível dado.
      * Em D&D 5e, subclasses são geralmente escolhidas no nível 3.
+     * Nota: Atualmente apenas verifica o nível mínimo. Verificação de subclasses disponíveis
+     * será implementada quando necessário usando a nova estrutura FClassData.FProgress.
      *
      * @param ClassName Nome da classe
      * @param ClassLevel Nível atual na classe
-     * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @return true se pode selecionar subclasse, false caso contrário
+     * @param ClassDataTable Data Table de classes (pode ser nullptr, não usado atualmente)
+     * @return true se pode selecionar subclasse (nível >= 3), false caso contrário
      */
     bool CanSelectSubclass(FName ClassName, int32 ClassLevel, UDataTable *ClassDataTable);
-
-    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
     // Estrutura antiga (FClassFeature, FClassFeatureChoice) não existe mais
     // Funções comentadas:
     // - GetFeaturesAtLevel

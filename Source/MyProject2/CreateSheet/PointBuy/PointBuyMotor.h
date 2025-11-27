@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PointBuyResult.h"
+#include "Data/Structures/FPointBuyResult.h"
 
 // Forward declaration
 struct FCharacterSheetData;

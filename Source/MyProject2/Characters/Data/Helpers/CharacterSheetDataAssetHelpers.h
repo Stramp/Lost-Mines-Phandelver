@@ -40,6 +40,21 @@ public:
                                                      int32 FinalIntelligence, int32 FinalWisdom, int32 FinalCharisma);
 
     /**
+     * Creates array of attributes in order [STR, DEX, CON, INT, WIS, CHA].
+     * Helper puro e testável para conversão de atributos individuais para array.
+     *
+     * @param FinalStrength Final Strength score
+     * @param FinalDexterity Final Dexterity score
+     * @param FinalConstitution Final Constitution score
+     * @param FinalIntelligence Final Intelligence score
+     * @param FinalWisdom Final Wisdom score
+     * @param FinalCharisma Final Charisma score
+     * @return Array of attributes in standard order [STR, DEX, CON, INT, WIS, CHA]
+     */
+    static TArray<int32> CreateAttributesArray(int32 FinalStrength, int32 FinalDexterity, int32 FinalConstitution,
+                                               int32 FinalIntelligence, int32 FinalWisdom, int32 FinalCharisma);
+
+    /**
      * Updates Point Buy allocation values from adjusted allocation map.
      * Uses GetAbilityScoreNames() to ensure data-driven approach.
      *
@@ -103,14 +118,52 @@ public:
     static FString GetFormattedClassName(const FString &ClassName);
 
     /**
-     * Reseta classe com tag de requerimento para NAME_None.
-     * Helper puro e testável para reset de classe com tag.
+     * Extrai tag de requerimento do nome da classe.
+     * Exemplo: "[INT +3] Wizard" -> "[INT +3]"
      *
-     * @param Entry Entrada de multiclasse a verificar
-     * @param Index Índice da entrada no array
-     * @return true se resetou a classe, false caso contrário
+     * @param ClassName Nome completo da classe (pode conter tag)
+     * @param OutTag [OUT] Tag extraída (ex: "[INT +3]")
+     * @return true se encontrou tag, false caso contrário
      */
-    static bool ResetClassWithRequirementTag(struct FMulticlassEntry &Entry, int32 Index);
+    static bool ExtractRequirementTag(const FString &ClassName, FString &OutTag);
+
+    /**
+     * Parseia tag de requerimento para obter atributo e valor faltante.
+     * Exemplo: "[INT +3]" -> "INT", 3
+     *
+     * @param Tag Tag de requerimento (ex: "[INT +3]")
+     * @param OutAttributeAbbr [OUT] Abreviação do atributo (ex: "INT")
+     * @param OutMissingValue [OUT] Valor faltante (ex: 3)
+     * @return true se parseou com sucesso, false caso contrário
+     */
+    static bool ParseRequirementTag(const FString &Tag, FString &OutAttributeAbbr, int32 &OutMissingValue);
+
+    /**
+     * Obtém nome completo do atributo a partir da abreviação.
+     * Exemplo: "INT" -> "Intelligence"
+     *
+     * @param AttributeAbbr Abreviação do atributo (ex: "INT")
+     * @return Nome completo do atributo (ex: "Intelligence") ou vazio se não encontrado
+     */
+    static FString GetFullAttributeName(const FString &AttributeAbbr);
+
+    /**
+     * Verifica se o nome da classe contém tag de requerimento.
+     * Exemplo: "[INT +3] Wizard" -> true, "Wizard" -> false
+     *
+     * @param ClassName Nome da classe (FName)
+     * @return true se contém tag de requerimento, false caso contrário
+     */
+    static bool HasRequirementTag(FName ClassName);
+
+    /**
+     * Verifica se a classe é válida sem tag de requerimento.
+     * Classe válida = não é NAME_None e não tem tag de requerimento.
+     *
+     * @param ClassName Nome da classe (FName)
+     * @return true se é classe válida sem tag, false caso contrário
+     */
+    static bool IsValidClassWithoutTag(FName ClassName);
 
     /**
      * Aplica correção ResetToNone para propriedade específica.
@@ -138,4 +191,44 @@ public:
      * @param Correction Correção a ser aplicada
      */
     static void ApplyAdjustValue(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
+
+    /**
+     * Aplica correção RemoveInvalid para propriedade específica.
+     * Remove elementos inválidos de arrays baseado em índices fornecidos.
+     * Helper puro e testável para aplicação de correções.
+     *
+     * @param Asset Asset do personagem
+     * @param Correction Correção a ser aplicada (deve conter índices inválidos em ArrayIndex ou NewValue)
+     */
+    static void ApplyRemoveInvalid(UCharacterSheetDataAsset *Asset, const struct FValidationCorrection &Correction);
+
+    /**
+     * Ajusta array de Progression manualmente como fallback quando LoadClassProgression falha.
+     * Helper puro e testável para ajuste de Progression.
+     *
+     * @param Progression Array de Progression a ajustar
+     * @param LevelInClass Nível na classe (1-20)
+     */
+    static void AdjustProgressionFallback(TArray<struct FMulticlassProgressEntry> *Progression, int32 LevelInClass);
+
+    /**
+     * Detecta se a propriedade mudada é uma propriedade aninhada dentro do array Multiclass.
+     * Helper puro e testável para detecção de propriedades aninhadas.
+     *
+     * @param PropertyChangedEvent Evento de mudança de propriedade
+     * @param HandlerPropertyName [OUT] Nome da propriedade do handler (pode ser diferente de PropertyName)
+     * @return true se é propriedade aninhada que precisa de handler específico, false caso contrário
+     */
+    static bool DetectNestedMulticlassProperty(const struct FPropertyChangedEvent &PropertyChangedEvent,
+                                               FName &HandlerPropertyName);
+
+    /**
+     * Detecta se correções alteraram LevelInClass.
+     * Função pura e testável, sem side effects.
+     * Usado para determinar se dados devem ser recarregados após correções.
+     *
+     * @param ValidationResult Resultado da validação a analisar
+     * @return true se LevelInClass foi ajustado, false caso contrário
+     */
+    static bool DetectLevelInClassCorrections(const struct FValidationResult &ValidationResult);
 };

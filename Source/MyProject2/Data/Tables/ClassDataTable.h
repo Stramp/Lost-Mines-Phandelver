@@ -9,100 +9,11 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "Data/Structures/FProficienciesEntry.h"
+#include "Data/Structures/FProgressEntry.h"
 #include "ClassDataTable.generated.h"
 
 #pragma endregion Includes
-
-// ============================================================================
-// Skills Struct
-// ============================================================================
-#pragma region Skills Struct
-
-/**
- * Struct para armazenar informações de skills disponíveis.
- * Usado dentro de FProficienciesEntry para definir escolhas de skills.
- */
-USTRUCT(BlueprintType)
-struct MYPROJECT2_API FSkills
-{
-    // Falso positivo do lint: GENERATED_BODY() é uma macro do Unreal que expande durante compilação
-    GENERATED_BODY()
-
-    /** Lista de skills disponíveis para escolha */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills")
-    TArray<FName> available;
-
-    /** Quantidade de skills que podem ser escolhidos */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills")
-    int32 qtdAvailable;
-};
-
-#pragma endregion Skills Struct
-
-// ============================================================================
-// Proficiencies Struct
-// ============================================================================
-#pragma region Proficiencies Struct
-
-/**
- * Struct para armazenar proficiências de classe seguindo a estrutura do DJ_Class.json.
- * Cada elemento do array FProficiencies contém um objeto com armas, armaduras, savingThrows ou FSkills.
- */
-USTRUCT(BlueprintType)
-struct MYPROJECT2_API FProficienciesEntry
-{
-    // Falso positivo do lint: GENERATED_BODY() é uma macro do Unreal que expande durante compilação
-    GENERATED_BODY()
-
-    /** Lista de armas (pode estar vazia) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
-    TArray<FName> armas;
-
-    /** Lista de armaduras (pode estar vazia) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
-    TArray<FName> armaduras;
-
-    /** Lista de saving throws (pode estar vazia) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
-    TArray<FName> savingThrows;
-
-    /** Informações de skills (pode estar vazia) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
-    FSkills FSkills;
-
-    FProficienciesEntry() {}
-};
-
-#pragma endregion Proficiencies Struct
-
-// ============================================================================
-// Progress Struct
-// ============================================================================
-#pragma region Progress Struct
-
-/**
- * Struct para armazenar uma entrada de progressão por nível.
- * Segue a estrutura do DJ_Class.json.
- * Define quais features são desbloqueadas em cada nível da classe.
- */
-USTRUCT(BlueprintType)
-struct MYPROJECT2_API FProgressEntry
-{
-    // Falso positivo do lint: GENERATED_BODY() é uma macro do Unreal que expande durante compilação
-    GENERATED_BODY()
-
-    /** Nível da classe (calculado automaticamente, não editável) */
-    UPROPERTY(BlueprintReadOnly, Category = "Progress")
-    int32 Level = 1;
-
-    /** Lista de features desbloqueadas neste nível */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress")
-    TArray<FName> Features;
-
-    FProgressEntry() : Level(1) {}
-};
-
-#pragma endregion Progress Struct
 
 // ============================================================================
 // Class Data Struct
@@ -121,9 +32,17 @@ struct MYPROJECT2_API FClassData
     GENERATED_BODY()
 
     /** Nome da classe (ex: "Fighter", "Wizard", "Cleric", "Rogue") */
-    UPROPERTY( EditAnywhere, BlueprintReadWrite, Category = "Class",
-		meta = (GetOptions = "GetListClassAvaible") )
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class", meta = (GetOptions = "GetListClassAvaible"))
     FName Name;
+
+    /**
+     * Dado de vida da classe (Hit Die).
+     * Valores possíveis: 6 (Wizard, Sorcerer), 8 (Bard, Cleric, etc), 10 (Fighter, Paladin, Ranger), 12 (Barbarian).
+     * Usado para calcular HP máximo do personagem.
+     * Campo somente leitura: definido no JSON, não editável no editor.
+     */
+    UPROPERTY(BlueprintReadOnly, Category = "Class", meta = (Hidden))
+    int32 HitDie = 6;
 
     /**
      * Requisitos de atributo para multiclasse nesta classe.
@@ -146,7 +65,15 @@ struct MYPROJECT2_API FClassData
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
     TArray<FProgressEntry> Progression;
 
-    FClassData() : Name(NAME_None) {}
+    /** Equipamentos iniciais da classe (FNames de itens) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FName> StartingEquipment;
+
+    /** Ouro inicial alternativo (se jogador escolher ouro ao invés de equipamentos) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    int32 StartingGold = 0;
+
+    FClassData() : Name(NAME_None), StartingGold(0) {}
 };
 
 #pragma endregion Class Data Struct

@@ -8,6 +8,7 @@
 struct FCharacterSheetData;
 class UDataTable;
 struct FMulticlassProficienciesEntry;
+struct FMulticlassProgressEntry;
 
 /**
  * Motor de Multiclasse para criação de personagem.
@@ -47,26 +48,18 @@ public:
     static bool ValidateMulticlassRequirements(const FCharacterSheetData &Data, FName DesiredClassName);
 
     /**
-     * Aplica regras de multiclasse.
-     * Calcula e aplica todas as regras relacionadas a multiclasse (proficiências, features, etc.).
+     * Loga features ganhas em um nível específico de uma classe.
+     * Busca informações da classe na tabela e registra no log quais features foram ganhas no nível.
+     * Apenas loga informações, não carrega nem processa dados.
      *
-     * @param Data Estrutura genérica com dados de classe e referências necessárias
-     */
-    static void ApplyMulticlassRules(FCharacterSheetData &Data);
-
-    /**
-     * Processa mudança de nível em uma classe específica.
-     * Chamado quando LevelInClass é alterado no editor.
-     * Busca informações da classe na tabela e loga features ganhas no nível.
-     *
-     * @param ClassName Nome da classe que teve o nível alterado
-     * @param LevelInClass Novo nível na classe (1-20)
+     * @param ClassName Nome da classe
+     * @param LevelInClass Nível na classe (1-20)
      * @param ClassDataTable Data Table de classes para buscar informações (pode ser nullptr)
      */
-    static void ProcessLevelChange(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable);
+    static void LogLevelChangeFeatures(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable);
 
     /**
-     * Carrega proficiências de uma classe para multiclasse retornando nomes legíveis (PADRÃO).
+     * Carrega proficiências de uma classe para multiclasse retornando nomes legíveis.
      * Proficiências são ganhas apenas no nível 1 da classe.
      * Resolve IDs de proficiências (ex: "PW_Simple_Weapons") para nomes legíveis (ex: "Simple Weapons").
      *
@@ -82,30 +75,18 @@ public:
                                        TArray<FMulticlassProficienciesEntry> &OutProficiencies);
 
     /**
-     * Carrega proficiências de uma classe para multiclasse retornando IDs originais.
-     * Proficiências são ganhas apenas no nível 1 da classe.
-     * Mantém IDs originais (ex: "PW_Simple_Weapons") sem resolução.
+     * Carrega progressão de features de uma classe para multiclasse.
+     * Popula array Progression com features detalhadas do ClassFeaturesDataTable.
+     * Para cada nível de 1 até LevelInClass, busca features do ClassDataTable e converte para FMulticlassClassFeature.
      *
      * @param ClassName Nome da classe
-     * @param LevelInClass Nível na classe (deve ser 1 para carregar proficiências)
+     * @param LevelInClass Nível na classe (1-20)
      * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @param OutProficiencies [OUT] Array de proficiências carregadas com IDs originais
-     * @return true se proficiências foram carregadas com sucesso, false caso contrário
+     * @param FeatureDataTable Data Table de features (pode ser nullptr)
+     * @param OutProgression [OUT] Array de progressão populada com features detalhadas
+     * @return true se progressão foi carregada com sucesso, false caso contrário
      */
-    static bool LoadClassProficienciesIDs(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
-                                          TArray<FMulticlassProficienciesEntry> &OutProficiencies);
-
-    /**
-     * Carrega proficiências de uma classe para multiclasse retornando objeto completo/raw.
-     * Proficiências são ganhas apenas no nível 1 da classe.
-     * Retorna estrutura completa com todos os campos preservados.
-     *
-     * @param ClassName Nome da classe
-     * @param LevelInClass Nível na classe (deve ser 1 para carregar proficiências)
-     * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @param OutProficiencies [OUT] Array de proficiências carregadas com estrutura completa
-     * @return true se proficiências foram carregadas com sucesso, false caso contrário
-     */
-    static bool LoadClassProficienciesRaw(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
-                                          TArray<FMulticlassProficienciesEntry> &OutProficiencies);
+    static bool LoadClassProgression(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
+                                     const UDataTable *FeatureDataTable,
+                                     TArray<FMulticlassProgressEntry> &OutProgression);
 };

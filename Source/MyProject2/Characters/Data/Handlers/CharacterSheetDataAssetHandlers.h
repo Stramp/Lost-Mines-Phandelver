@@ -53,8 +53,11 @@ public:
     /**
      * Handles changes to LevelInClass in Multiclass array.
      * Ajusta o array Progression e processa features ganhas no nível correspondente.
+     *
+     * @param Asset Asset do personagem
+     * @param bSkipGuard Se true, não cria FValidationGuard (útil quando chamado de outro handler que já tem Guard)
      */
-    static void HandleLevelInClassChange(UCharacterSheetDataAsset *Asset);
+    static void HandleLevelInClassChange(UCharacterSheetDataAsset *Asset, bool bSkipGuard = false);
 
     /**
      * Handles changes to ClassData.Name in Multiclass array.

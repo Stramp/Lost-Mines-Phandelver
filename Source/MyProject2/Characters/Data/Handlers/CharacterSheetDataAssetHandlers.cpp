@@ -24,15 +24,20 @@
 
 // Project includes - CreateSheet
 #include "CreateSheet/PointBuy/PointBuyValidator.h"
-#include "CreateSheet/PointBuy/PointBuyValidationResult.h"
+#include "Data/Structures/FPointBuyValidationResult.h"
 #include "CreateSheet/Multiclass/MulticlassHelpers.h"
-#include "CreateSheet/Multiclass/MulticlassMotor.h"
+
+// Project includes - Loaders
+#include "Characters/Data/Loaders/CharacterSheetDataAssetLoaders.h"
 
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 
 // Project includes - Data Tables
 #include "Data/Tables/ClassDataTable.h"
+
+// Project includes - Logging
+#include "Logging/LoggingSystem.h"
 
 // Engine includes
 #include "Logging/LogMacros.h"
@@ -75,6 +80,9 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
     // Usa Core genérico via helper do Data Asset (aplica todos os motores)
     FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(Asset);
 
+    // HP muda quando Constitution muda (via RecalculateFinalScores)
+    FCharacterSheetDataAssetUpdaters::RecalculateMaxHP(Asset);
+
     // Escolhas de idiomas podem mudar quando raça/sub-raça muda
     FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(Asset);
 
@@ -110,18 +118,22 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacter
     // Usa Core genérico via helper do Data Asset (aplica todos os motores)
     FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(Asset);
 
+    // HP muda quando Constitution muda (via RecalculateFinalScores)
+    FCharacterSheetDataAssetUpdaters::RecalculateMaxHP(Asset);
+
     // Valida Point Buy system (calcula PointsRemaining)
     FPointBuyValidationResult ValidationResult = FPointBuyValidator::ValidatePointBuy(
         Asset->PointBuyStrength, Asset->PointBuyDexterity, Asset->PointBuyConstitution, Asset->PointBuyIntelligence,
         Asset->PointBuyWisdom, Asset->PointBuyCharisma);
 
-    // Aplica resultado da validação no Asset
-    Asset->PointsRemaining = ValidationResult.PointsRemaining;
+    // Aplica resultado da validação no Asset (delega para Updater)
+    FCharacterSheetDataAssetUpdaters::ApplyPointBuyValidationResult(Asset, ValidationResult.PointsRemaining);
 
-    // Log de aviso se scores estão fora do range válido
+    // Log de aviso se scores estão fora do range válido (não crítico - sistema ajusta automaticamente)
     if (!ValidationResult.bAllScoresValid && !ValidationResult.LogMessage.IsEmpty())
     {
-        UE_LOG(LogTemp, Warning, TEXT("%s"), *ValidationResult.LogMessage);
+        FLogContext Context(TEXT("CharacterSheet"), TEXT("HandlePointBuyAllocationChange"));
+        FLoggingSystem::LogWarning(Context, ValidationResult.LogMessage, false);
     }
 
     // Features podem depender de ability scores
@@ -257,6 +269,9 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
     // RAII Guard: gerencia bIsValidatingProperties automaticamente
     FValidationGuard Guard(Asset);
 
+    // Valida se todas as Data Tables obrigatórias estão cadastradas (exibe popup se faltando)
+    FCharacterSheetDataAssetValidators::ValidateDataTables(Asset);
+
     // Atualiza visibilidade da ficha baseado na seleção de Data Tables
     FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(Asset);
 
@@ -275,7 +290,7 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
  * Processa mudanças em LevelInClass dentro do array Multiclass.
  * Ajusta o array Progression e processa features ganhas no nível correspondente.
  */
-void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetDataAsset *Asset)
+void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetDataAsset *Asset, bool bSkipGuard)
 {
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
@@ -283,7 +298,13 @@ void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetD
     }
 
     // RAII Guard: gerencia bIsValidatingProperties automaticamente
-    FValidationGuard Guard(Asset);
+    // Se bSkipGuard é true, não cria Guard (útil quando chamado de outro handler que já tem Guard)
+    FValidationGuard *GuardPtr = nullptr;
+    FValidationGuard Guard(bSkipGuard ? nullptr : Asset);
+    if (!bSkipGuard)
+    {
+        GuardPtr = &Guard;
+    }
 
     // Protocolo de validação: valida todas as entradas antes de processar
     FValidationResult NameLevelResult =
@@ -300,51 +321,32 @@ void FCharacterSheetDataAssetHandlers::HandleLevelInClassChange(UCharacterSheetD
         FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(Asset, CombinedResult);
     }
 
-    // Marca objeto como modificado
-    Asset->Modify();
+    // Ajusta nível mínimo para classes válidas (delega para Updater)
+    FCharacterSheetDataAssetUpdaters::AdjustMinimumLevelForValidClasses(Asset);
+
+    // Atualiza flags para todas as entradas (apenas atualiza flags)
+    FCharacterSheetDataAssetUpdaters::UpdateMulticlassFlags(Asset);
 
     // Processa mudanças de nível para todas as entradas de multiclasse
     for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
     {
-        FMulticlassEntry &Entry = Asset->Multiclass[i];
-        const FName ClassName = Entry.ClassData.Name;
-        int32 LevelInClass = Entry.ClassData.LevelInClass;
-
-        // Atualiza flags bCanEditProgression e bCanEditProficiencies (desabilita botão "+" no editor)
-        Entry.ClassData.bCanEditProgression = FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
-        Entry.ClassData.bCanEditProficiencies = FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
-
-        // Valida se é permitido processar Progression (usa helper puro)
-        if (!Entry.ClassData.bCanEditProgression)
+        // Carrega progressão usando Loader (responsabilidade única: carregar)
+        // O Loader já limpa o array se não pode processar Progression
+        bool bLoaded = FCharacterSheetDataAssetLoaders::LoadClassProgression(Asset, i);
+        if (!bLoaded)
         {
-            // Se não pode processar, limpa o array e pula para próxima entrada
-            Entry.ClassData.Progression.Empty();
-            continue;
+            // Se falhou ao carregar, ajusta array manualmente (fallback)
+            FMulticlassEntry &Entry = Asset->Multiclass[i];
+            FCharacterSheetDataAssetHelpers::AdjustProgressionFallback(&Entry.ClassData.Progression,
+                                                                       Entry.ClassData.LevelInClass);
         }
 
-        // Se LevelInClass mudou, ajusta o array Progression
-        TArray<FMulticlassProgressEntry> &Progression = Entry.ClassData.Progression;
-        if (LevelInClass >= 1 && LevelInClass <= 20)
-        {
-            Progression.SetNum(LevelInClass);
-            // Garante que cada elemento tenha o Level correto (1-based)
-            for (int32 j = 0; j < Progression.Num(); ++j)
-            {
-                Progression[j].Level = j + 1;
-            }
-        }
-        else
-        {
-            // Se LevelInClass inválido, usa tamanho do array
-            LevelInClass = Progression.Num();
-        }
-
-        // Processa features do nível apenas se há classe válida e nível válido
-        if (Asset->ClassDataTable)
-        {
-            FMulticlassMotor::ProcessLevelChange(ClassName, LevelInClass, Asset->ClassDataTable);
-        }
+        // Loga features ganhas no nível usando Loader (apenas log informativo)
+        FCharacterSheetDataAssetLoaders::LogLevelChangeFeatures(Asset, i);
     }
+
+    // Recalcula HP máximo quando níveis de classe mudam
+    FCharacterSheetDataAssetUpdaters::RecalculateMaxHP(Asset);
 }
 
 /**
@@ -364,64 +366,31 @@ void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacte
     // RAII Guard: gerencia bIsValidatingProperties automaticamente
     FValidationGuard Guard(Asset);
 
-    // Verifica todas as entradas de multiclasse e reseta se tiver tag de requerimento
+    // Valida classes com tags de requerimento e aplica correções (delega para Validator + CorrectionApplier)
+    FValidationResult RequirementTagsResult =
+        FCharacterSheetDataAssetValidators::ValidateMulticlassRequirementTags(Asset);
+    if (RequirementTagsResult.bNeedsCorrection)
+    {
+        FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(Asset, RequirementTagsResult);
+    }
+
+    // Ajusta LevelInClass baseado na presença de ClassName (delega para Updater)
+    FCharacterSheetDataAssetUpdaters::AdjustLevelInClassForClassName(Asset);
+
+    // Atualiza flags para todas as entradas (apenas atualiza flags)
+    FCharacterSheetDataAssetUpdaters::UpdateMulticlassFlags(Asset);
+
+    // Carrega dados para todas as entradas usando Loaders (responsabilidade única: carregar)
     for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
     {
-        FMulticlassEntry &Entry = Asset->Multiclass[i];
-        if (FCharacterSheetDataAssetHelpers::ResetClassWithRequirementTag(Entry, i))
-        {
-            Asset->Modify(); // Marca objeto como modificado apenas se resetou
-        }
-
-        // Ajusta LevelInClass baseado na presença de classe
-        const FName ClassName = Entry.ClassData.Name;
-        if (ClassName != NAME_None)
-        {
-            // Se há classe, seta LevelInClass para 1
-            Entry.ClassData.LevelInClass = 1;
-        }
-        else
-        {
-            // Se não há classe, seta LevelInClass para 0
-            Entry.ClassData.LevelInClass = 0;
-        }
-
-        // Atualiza flags bCanEditProgression e bCanEditProficiencies (desabilita botão "+" no editor)
-        Entry.ClassData.bCanEditProgression =
-            FMulticlassHelpers::CanProcessProgression(Entry.ClassData.Name, Entry.ClassData.LevelInClass);
-        Entry.ClassData.bCanEditProficiencies =
-            FMulticlassHelpers::CanProcessProgression(Entry.ClassData.Name, Entry.ClassData.LevelInClass);
+        // Carrega informações básicas da classe (MulticlassRequirements)
+        FCharacterSheetDataAssetLoaders::LoadClassBasicInfo(Asset, i);
 
         // Carrega proficiências quando classe é escolhida e LevelInClass == 1
-        // Usa LoadClassProficiencies para obter nomes legíveis (padrão)
-        if (ClassName != NAME_None && Entry.ClassData.LevelInClass == 1)
-        {
-            TArray<FMulticlassProficienciesEntry> LoadedProficiencies;
-            if (FMulticlassMotor::LoadClassProficiencies(ClassName, Entry.ClassData.LevelInClass, Asset->ClassDataTable,
-                                                         Asset->ClassProficienciesDataTable, LoadedProficiencies))
-            {
-                // Preenche array de proficiências com resultado do motor
-                Entry.ClassData.Proficiencies = LoadedProficiencies;
-                UE_LOG(LogTemp, Warning,
-                       TEXT("FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange - "
-                            "Proficiências carregadas para classe '%s': %d entradas"),
-                       *ClassName.ToString(), LoadedProficiencies.Num());
-            }
-            else
-            {
-                // Limpa proficiências se não foi possível carregar
-                Entry.ClassData.Proficiencies.Empty();
-                UE_LOG(LogTemp, Warning,
-                       TEXT("FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange - "
-                            "Falha ao carregar proficiências para classe '%s'"),
-                       *ClassName.ToString());
-            }
-        }
-        else
-        {
-            // Limpa proficiências se não há classe ou nível não é 1
-            Entry.ClassData.Proficiencies.Empty();
-        }
+        FCharacterSheetDataAssetLoaders::LoadClassProficiencies(Asset, i);
+
+        // Carrega progressão quando classe é escolhida (delega para Loader)
+        FCharacterSheetDataAssetLoaders::LoadClassProgression(Asset, i);
     }
 
     // Valida consistência Name/LevelInClass e aplica correções
@@ -440,7 +409,11 @@ void FCharacterSheetDataAssetHandlers::HandleMulticlassClassNameChange(UCharacte
     }
 
     // Chama HandleLevelInClassChange para processar mudanças de nível (ajustar Progression, etc.)
-    HandleLevelInClassChange(Asset);
+    // Passa bSkipGuard=true porque já estamos dentro de um Guard
+    HandleLevelInClassChange(Asset, true);
+
+    // Recalcula HP máximo quando classe é adicionada/removida
+    FCharacterSheetDataAssetUpdaters::RecalculateMaxHP(Asset);
 }
 
 /**
@@ -470,7 +443,7 @@ void FCharacterSheetDataAssetHandlers::HandleProgressionChange(UCharacterSheetDa
 
 /**
  * Processa mudanças em ClassData.Proficiencies dentro do array Multiclass.
- * Atualiza qtdAvailable dinamicamente quando skills são escolhidas/removidas do available.
+ * Delega atualização de qtdAvailable para Updater.
  */
 void FCharacterSheetDataAssetHandlers::HandleProficienciesChange(UCharacterSheetDataAsset *Asset)
 {
@@ -484,42 +457,17 @@ void FCharacterSheetDataAssetHandlers::HandleProficienciesChange(UCharacterSheet
     // RAII Guard: gerencia bIsValidatingProperties automaticamente
     FValidationGuard Guard(Asset);
 
-    // Atualiza qtdAvailable para todas as entradas de proficiências
-    for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+    // Atualiza qtdAvailable dinamicamente (delega para Updater - responsabilidade única: atualizar)
+    FCharacterSheetDataAssetUpdaters::UpdateMulticlassProficiencyChoices(Asset);
+
+    // Valida escolhas de proficiências e aplica correções se necessário
+    FValidationResult ProficienciesResult = FCharacterSheetDataAssetValidators::ValidateMulticlassProficiencies(Asset);
+    if (ProficienciesResult.bNeedsCorrection)
     {
-        FMulticlassEntry &Entry = Asset->Multiclass[i];
-
-        for (FMulticlassProficienciesEntry &ProficiencyEntry : Entry.ClassData.Proficiencies)
-        {
-            FMulticlassSkills &Skills = ProficiencyEntry.FSkills;
-
-            // Se não há estado inicial armazenado, inicializa com valores atuais
-            if (Skills.InitialAvailableCount == 0 && Skills.InitialQtdAvailable == 0)
-            {
-                Skills.InitialAvailableCount = Skills.available.Num();
-                Skills.InitialQtdAvailable = Skills.qtdAvailable;
-            }
-
-            // Calcula quantas skills foram escolhidas (removidas do available)
-            const int32 CurrentAvailableCount = Skills.available.Num();
-            const int32 SkillsChosen = Skills.InitialAvailableCount - CurrentAvailableCount;
-
-            // Atualiza qtdAvailable: quantidade inicial menos skills já escolhidas
-            // FMath::Max garante que qtdAvailable nunca será negativo
-            Skills.qtdAvailable = FMath::Max(0, Skills.InitialQtdAvailable - SkillsChosen);
-
-            // Validação: não pode ter mais skills escolhidas do que o permitido
-            if (SkillsChosen > Skills.InitialQtdAvailable)
-            {
-                UE_LOG(LogTemp, Warning,
-                       TEXT("FCharacterSheetDataAssetHandlers::HandleProficienciesChange - "
-                            "Aviso: Mais skills escolhidas (%d) do que o permitido (%d) para entrada %d"),
-                       SkillsChosen, Skills.InitialQtdAvailable, i);
-            }
-        }
+        FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(Asset, ProficienciesResult);
     }
 
-    Asset->Modify(); // Marca objeto como modificado após atualização
+    Asset->Modify(); // Marca objeto como modificado após atualização e validação
 }
 
 #pragma endregion Multiclass Handlers

@@ -159,6 +159,10 @@ void FCharacterSheetDataAssetInitializers::InitializeDataTableHandlers(UCharacte
                                 FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable),
                                 FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
+    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassFeaturesDataTable),
+                                FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
+    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassProficienciesDataTable),
+                                FCharacterSheetDataAssetHandlers::HandleDataTableWrapper);
 }
 
 #pragma endregion Data Table Handlers Initialization
@@ -207,7 +211,8 @@ void FCharacterSheetDataAssetInitializers::InitializeBootProtocol(UCharacterShee
     if (BootValidationResult.bNeedsCorrection)
     {
         // Detecta se LevelInClass foi alterado (função pura, testável)
-        bool bLevelInClassWasAdjusted = FCharacterSheetDataAssetHelpers::DetectLevelInClassCorrections(BootValidationResult);
+        bool bLevelInClassWasAdjusted =
+            FCharacterSheetDataAssetHelpers::DetectLevelInClassCorrections(BootValidationResult);
 
         // Protege contra PostEditChangeProperty durante correções
         FValidationGuard Guard(Asset);
@@ -224,10 +229,8 @@ void FCharacterSheetDataAssetInitializers::InitializeBootProtocol(UCharacterShee
         if (PostCorrectionResult.bNeedsCorrection)
         {
             FLogContext Context(TEXT("CharacterSheet"), TEXT("InitializeBootProtocol"));
-            FLoggingSystem::LogWarning(
-                Context,
-                TEXT("Ainda há problemas após aplicar correções. Verifique manualmente."),
-                true);
+            FLoggingSystem::LogWarning(Context,
+                                       TEXT("Ainda há problemas após aplicar correções. Verifique manualmente."), true);
         }
     }
 

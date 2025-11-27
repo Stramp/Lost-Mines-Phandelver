@@ -2,7 +2,19 @@
 
 #pragma once
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CoreMinimal.h"
+
+#pragma endregion Includes
+
+// ============================================================================
+// Point Buy Validation Result Struct
+// ============================================================================
+#pragma region Point Buy Validation Result Struct
 
 /**
  * Resultado da validação de Point Buy.
@@ -31,3 +43,5 @@ struct MYPROJECT2_API FPointBuyValidationResult
     {
     }
 };
+
+#pragma endregion Point Buy Validation Result Struct

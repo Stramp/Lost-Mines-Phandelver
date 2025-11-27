@@ -110,4 +110,35 @@ namespace CalculationHelpers
     TArray<FName> CalculateLanguages(FName RaceName, FName SubraceName, FName BackgroundName,
                                      const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
                                      UDataTable *BackgroundDataTable);
+
+    // ============================================================================
+    // Hit Points Calculations
+    // ============================================================================
+
+    /**
+     * Calcula HP ganho em um nível específico de uma classe.
+     * Fórmula D&D 5e:
+     * - Level 1: HitDie + CON modifier
+     * - Level 2+: (HitDie/2 + 1) + CON modifier (média do dado, arredondado para cima)
+     *
+     * @param HitDie Dado de vida da classe (6, 8, 10 ou 12)
+     * @param Level Nível na classe (1-20)
+     * @param ConstitutionModifier Modificador de Constitution
+     * @return HP ganho neste nível
+     */
+    int32 CalculateHPGainForLevel(int32 HitDie, int32 Level, int32 ConstitutionModifier);
+
+    /**
+     * Calcula HP total máximo do personagem baseado em todas as classes e seus níveis.
+     * Soma HP de cada nível de cada classe.
+     * Fórmula: Soma de CalculateHPGainForLevel para cada nível de cada classe.
+     *
+     * @param ClassNames Array com nomes das classes (ordem deve corresponder a LevelsInClass)
+     * @param LevelsInClass Array com níveis em cada classe (ordem deve corresponder a ClassNames)
+     * @param ConstitutionModifier Modificador de Constitution (mesmo para todas as classes)
+     * @param ClassDataTable Data Table de classes para buscar HitDie (pode ser nullptr)
+     * @return HP máximo total do personagem
+     */
+    int32 CalculateMaxHP(const TArray<FName> &ClassNames, const TArray<int32> &LevelsInClass,
+                         int32 ConstitutionModifier, UDataTable *ClassDataTable);
 } // namespace CalculationHelpers

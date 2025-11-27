@@ -2,8 +2,20 @@
 
 #pragma once
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CoreMinimal.h"
 #include "Containers/Map.h"
+
+#pragma endregion Includes
+
+// ============================================================================
+// Point Buy Result Struct
+// ============================================================================
+#pragma region Point Buy Result Struct
 
 /**
  * Resultado da aplicação de Point Buy pelo motor.
@@ -32,3 +44,5 @@ struct MYPROJECT2_API FPointBuyResult
     {
     }
 };
+
+#pragma endregion Point Buy Result Struct

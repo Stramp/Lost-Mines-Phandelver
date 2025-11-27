@@ -105,4 +105,41 @@ public:
      * @return Resultado com correções necessárias
      */
     static FValidationResult ValidateMulticlassProgression(const UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Valida escolhas de proficiências em entradas de multiclasse.
+     * Regra: Não pode ter mais skills escolhidas do que o permitido (InitialQtdAvailable).
+     * Retorna correções necessárias.
+     *
+     * @param Asset Data Asset a validar
+     * @return Resultado com correções necessárias
+     */
+    static FValidationResult ValidateMulticlassProficiencies(const UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Valida classes com tags de requerimento em entradas de multiclasse.
+     * Regra: Se classe tem tag [ATRIBUTO +N] e personagem não atende requisito, deve resetar para NAME_None.
+     * Retorna correções necessárias.
+     *
+     * @param Asset Data Asset a validar
+     * @return Resultado com correções necessárias
+     */
+    static FValidationResult ValidateMulticlassRequirementTags(const UCharacterSheetDataAsset *Asset);
+
+    // ============================================================================
+    // Data Tables Validation
+    // ============================================================================
+
+    /**
+     * Valida se todas as Data Tables obrigatórias foram cadastradas no Data Asset.
+     * Tabelas obrigatórias: RaceDataTable, BackgroundDataTable, ClassDataTable.
+     * FeatDataTable é obrigatória apenas se personagem é Variant Human.
+     * ClassFeaturesDataTable e ClassProficienciesDataTable são opcionais.
+     *
+     * Exibe alertas popup via LoggingSystem quando tabelas obrigatórias estão faltando.
+     *
+     * @param Asset Data Asset a validar
+     * @return Resultado com correções necessárias (vazio, apenas valida e alerta)
+     */
+    static FValidationResult ValidateDataTables(const UCharacterSheetDataAsset *Asset);
 };

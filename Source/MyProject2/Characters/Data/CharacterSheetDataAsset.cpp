@@ -12,6 +12,7 @@
 #include "Characters/Data/Handlers/CharacterSheetDataAssetHandlers.h"
 #include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
 #include "Characters/Data/Initializers/CharacterSheetDataAssetInitializers.h"
+#include "Characters/Data/Loaders/CharacterSheetDataAssetLoaders.h"
 #include "Characters/Data/Validators/CharacterSheetDataAssetValidators.h"
 #include "Characters/Data/Validators/CharacterSheetDataAssetCorrectionApplier.h"
 
@@ -20,6 +21,9 @@
 
 // Project includes - Data Tables
 #include "Data/Tables/ClassDataTable.h"
+
+// Project includes - Logging
+#include "Logging/LoggingSystem.h"
 
 #if WITH_EDITOR
 #include "Editor.h"
@@ -48,76 +52,8 @@ UCharacterSheetDataAsset::UCharacterSheetDataAsset()
 #if WITH_EDITOR
 
 // ============================================================================
-// Local Helpers
+// Property Change Handling
 // ============================================================================
-#pragma region Local Helpers
-
-namespace
-{
-    /**
-     * Detecta se a propriedade mudada é uma propriedade aninhada dentro do array Multiclass.
-     * Extraído de PostEditChangeProperty para manter função focada.
-     *
-     * @param PropertyChangedEvent Evento de mudança de propriedade
-     * @param HandlerPropertyName [OUT] Nome da propriedade do handler (pode ser diferente de PropertyName)
-     * @return true se é propriedade aninhada que precisa de handler específico, false caso contrário
-     */
-    bool DetectNestedMulticlassProperty(const FPropertyChangedEvent &PropertyChangedEvent, FName &HandlerPropertyName)
-    {
-        if (!PropertyChangedEvent.MemberProperty || !PropertyChangedEvent.Property)
-        {
-            return false;
-        }
-
-        const FName MemberPropertyName = PropertyChangedEvent.MemberProperty->GetFName();
-        const FName PropertyName = PropertyChangedEvent.Property->GetFName();
-
-        // Propriedades aninhadas em Multiclass array
-        // Verifica se MemberProperty é Multiclass OU se Property é LevelInClass/Name/Progression/Proficiencies
-        // diretamente
-        if (MemberPropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, Multiclass) ||
-            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass) ||
-            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name) ||
-            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression) ||
-            PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies))
-        {
-            // LevelInClass dentro de ClassData dentro de Multiclass
-            if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass))
-            {
-                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, LevelInClass);
-                return true;
-            }
-            // Name dentro de ClassData dentro de Multiclass
-            else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name))
-            {
-                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Name);
-                return true;
-            }
-            // Progression dentro de ClassData dentro de Multiclass
-            else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression))
-            {
-                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Progression);
-                return true;
-            }
-            // Proficiencies dentro de ClassData dentro de Multiclass
-            else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies))
-            {
-                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies);
-                return true;
-            }
-            // Detecta mudanças em FSkills.available (propriedade aninhada dentro de Proficiencies)
-            else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassSkills, available))
-            {
-                HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies);
-                return true;
-            }
-        }
-
-        return false;
-    }
-} // namespace
-
-#pragma endregion Local Helpers
 
 // ============================================================================
 // Property Change Handling
@@ -134,22 +70,8 @@ void UCharacterSheetDataAsset::PostLoad()
     }
 
 #if WITH_EDITOR
-    // Protocolo de validação de boot: valida tudo e aplica correções
-    FValidationResult BootValidationResult = FCharacterSheetDataAssetValidators::ValidateAll(this);
-    if (BootValidationResult.bNeedsCorrection)
-    {
-        FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(this, BootValidationResult);
-    }
-
-    // Atualiza flags bCanEditProgression e bCanEditProficiencies para todas as entradas (após validação)
-    for (int32 i = 0; i < Multiclass.Num(); ++i)
-    {
-        const FName ClassName = Multiclass[i].ClassData.Name;
-        const int32 LevelInClass = Multiclass[i].ClassData.LevelInClass;
-        const bool bCanEdit = FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
-        Multiclass[i].ClassData.bCanEditProgression = bCanEdit;
-        Multiclass[i].ClassData.bCanEditProficiencies = bCanEdit;
-    }
+    // Delega toda a lógica de inicialização para Initializers (Template Method Pattern)
+    FCharacterSheetDataAssetInitializers::InitializeBootProtocol(this);
 #endif
 }
 
@@ -182,7 +104,7 @@ void UCharacterSheetDataAsset::PostEditChangeProperty(FPropertyChangedEvent &Pro
     FName HandlerPropertyName = PropertyName;
 
     // Detecta propriedades aninhadas que precisam de handler específico
-    DetectNestedMulticlassProperty(PropertyChangedEvent, HandlerPropertyName);
+    FCharacterSheetDataAssetHelpers::DetectNestedMulticlassProperty(PropertyChangedEvent, HandlerPropertyName);
 
     // Chama handler se encontrado
     // IMPORTANTE: Handler é chamado DEPOIS que a propriedade já foi alterada
@@ -266,8 +188,7 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
 
 TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceNames() const
 {
-    // Por enquanto retorna vazio - será implementado quando a mecânica de preencher AvailableChoices estiver pronta
-    return {};
+    return FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(ClassFeaturesDataTable);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetListClassAvaible() const

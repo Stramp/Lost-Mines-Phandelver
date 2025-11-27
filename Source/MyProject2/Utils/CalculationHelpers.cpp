@@ -5,7 +5,9 @@
 #include "DataTableHelpers.h"
 #include "Data/Tables/RaceDataTable.h"
 #include "Data/Tables/BackgroundDataTable.h"
+#include "Data/Tables/ClassDataTable.h"
 #include "Characters/Data/CharacterSheetDataAsset.h"
+#include "Utils/DnDConstants.h"
 #include "Logging/LogVerbosity.h"
 #include "Math/UnrealMathUtility.h"
 
@@ -22,7 +24,7 @@ int32 CalculationHelpers::CalculateAbilityModifier(int32 Score)
 void CalculationHelpers::ResetFinalScoresToBase(int32 &FinalStrength, int32 &FinalDexterity, int32 &FinalConstitution,
                                                 int32 &FinalIntelligence, int32 &FinalWisdom, int32 &FinalCharisma)
 {
-    const int32 BaseScore = 8;
+    const int32 BaseScore = DnDConstants::BASE_ABILITY_SCORE;
     FinalStrength = BaseScore;
     FinalDexterity = BaseScore;
     FinalConstitution = BaseScore;
@@ -168,4 +170,80 @@ TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName Subra
 
     // Converte TSet para TArray (ordem não importa para idiomas)
     return LanguagesSet.Array();
+}
+
+// ============================================================================
+// Hit Points Calculations
+// ============================================================================
+
+int32 CalculationHelpers::CalculateHPGainForLevel(int32 HitDie, int32 Level, int32 ConstitutionModifier)
+{
+    if (Level < 1)
+    {
+        return 0;
+    }
+
+    int32 HPGain = 0;
+
+    if (Level == 1)
+    {
+        // Level 1: HitDie + CON modifier
+        HPGain = HitDie + ConstitutionModifier;
+    }
+    else
+    {
+        // Level 2+: (HitDie/2 + 1) + CON modifier (média do dado, arredondado para cima)
+        // Fórmula: ceil(HitDie/2) + CON modifier
+        // Exemplo: HitDie 10 → ceil(10/2) = 5 + CON modifier
+        HPGain = FMath::CeilToInt(HitDie / 2.0f) + ConstitutionModifier;
+    }
+
+    // HP nunca pode ser negativo (mínimo 1)
+    return FMath::Max(1, HPGain);
+}
+
+int32 CalculationHelpers::CalculateMaxHP(const TArray<FName> &ClassNames, const TArray<int32> &LevelsInClass,
+                                         int32 ConstitutionModifier, UDataTable *ClassDataTable)
+{
+    if (!ClassDataTable || ClassNames.Num() != LevelsInClass.Num() || ClassNames.Num() == 0)
+    {
+        return 0;
+    }
+
+    int32 TotalHP = 0;
+    UDataTable *NonConstTable = ClassDataTable;
+
+    for (int32 i = 0; i < ClassNames.Num(); ++i)
+    {
+        const FName &ClassName = ClassNames[i];
+        const int32 LevelInClass = LevelsInClass[i];
+
+        if (ClassName == NAME_None || LevelInClass < 1)
+        {
+            continue;
+        }
+
+        // Busca dados da classe para obter HitDie
+        const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
+        if (!ClassRow)
+        {
+            continue;
+        }
+
+        const int32 HitDie = ClassRow->FClass.HitDie;
+        if (HitDie <= 0)
+        {
+            // HitDie inválido, pula esta classe
+            continue;
+        }
+
+        // Calcula HP para cada nível desta classe
+        for (int32 Level = 1; Level <= LevelInClass; ++Level)
+        {
+            TotalHP += CalculateHPGainForLevel(HitDie, Level, ConstitutionModifier);
+        }
+    }
+
+    // HP nunca pode ser negativo (mínimo 1)
+    return FMath::Max(1, TotalHP);
 }

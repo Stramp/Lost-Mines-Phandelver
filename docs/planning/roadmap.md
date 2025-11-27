@@ -142,6 +142,22 @@
 > > - ✅ GetListClassAvaible (filtrado por requisitos de atributo)
 > > - ✅ GetAvailableLanguageNames
 > >
+> > **6. Itens Iniciais e Boilerplate de Inventário (📋 Planejado):**
+> >
+> > - 📋 **Sistema de Itens Iniciais** - Planejado
+> >   - StartingEquipment por classe (TArray<FName>)
+> >   - StartingGold alternativo (int32)
+> >   - Integração com Background equipment
+> >   - Validação de peso (Carrying Capacity)
+> >   - **📖 Plano Detalhado:** [roadmap-tecnico-itens-iniciais.md](roadmap-tecnico-itens-iniciais.md)
+> >
+> > - 📋 **Boilerplate de Inventário** - Planejado
+> >   - Estruturas modulares: `FInventorySlot`, `FInventoryContainer`
+> >   - Mockup hardcoded: 1 slot de corpo + 1 container (mochila)
+> >   - Helpers básicos em `Utils/InventoryHelpers`
+> >   - Preparação para módulo `Inventory/` completo (Fase 4)
+> >   - **📖 Plano Detalhado:** [roadmap-tecnico-inventario-boilerplate.md](roadmap-tecnico-inventario-boilerplate.md)
+> >
 > > **O Que Está Faltando:**
 > >
 > > **1. MulticlassMotor - Funções Críticas (20% Faltando):**
@@ -174,6 +190,13 @@
 > > - ⚠️ Validação completa do sistema de Multiclasse (testes end-to-end)
 > > - ⚠️ Conferir criação de feat no editor no config do Data Asset
 > > - ⚠️ Validar integridade de dados completa
+> >
+> > **5. Itens Iniciais e Inventário:**
+> >
+> > - 📋 Implementar sistema de itens iniciais (classe + background)
+> > - 📋 Criar boilerplate de inventário (estruturas modulares)
+> > - 📋 Mockup hardcoded para finalizar criação de ficha
+> > - 📋 Preparar estruturas para módulo `Inventory/` completo (Fase 4)
 > >
 > > **Próximos Passos Imediatos:**
 > >
@@ -318,13 +341,17 @@
 > >   - Slots de equipamento (Main Hand, Off Hand, Armor, etc.)
 > >   - Integração com GAS (Gameplay Effects para bônus)
 > >
-> > - 📋 **InventoryComponent**
+> > - 📋 **InventoryComponent** (Módulo Completo)
+> >   - Componente runtime, replicável
 > >   - Inventário com peso (Carrying Capacity)
-> >   - Gerenciamento de itens
+> >   - Gerenciamento de itens e containers
+> >   - Reutiliza estruturas do boilerplate (Fase 1)
+> >   - **📖 Plano Detalhado:** [roadmap-tecnico-inventario-boilerplate.md](roadmap-tecnico-inventario-boilerplate.md) (Fase 2)
 > >
 > > - 📋 **ItemDataTable**
 > >   - Itens D&D 5e (armas, armaduras, consumíveis)
 > >   - Propriedades e bônus
+> >   - MaxSlots e MaxWeight para containers (já preparado no boilerplate)
 > >
 > > - 📋 **ResourceComponent** (ou via GAS Attributes)
 > >   - Spell Slots (por nível)
@@ -333,6 +360,7 @@
 > >
 > > **Dependências:**
 > >
+> > - ✅ Fase 1 (Sistema de Fichas) - Boilerplate de inventário já criado
 > > - ✅ Fase 2 (Combate Básico) - Para integração com armas
 > > - ✅ Fase 3 (NPCs/Monsters) - Para loot e drops
 >
@@ -603,6 +631,8 @@
 >    - ⚠️ Decidir integração MulticlassMotor no CharacterSheetCore
 >    - ⚠️ Testes end-to-end completos
 >    - ⚠️ Validar criação de feat no editor
+>    - 📋 Implementar sistema de itens iniciais
+>    - 📋 Criar boilerplate de inventário (estruturas modulares)
 >
 > 2. **Iniciar Fase 2:**
 >    - 📋 Configurar GAS no projeto

@@ -78,28 +78,11 @@ bool FMulticlassMotor::ValidateMulticlassRequirements(const FCharacterSheetData 
 #pragma endregion Validate Multiclass Requirements
 
 // ============================================================================
-// Apply Multiclass Rules
+// Log Level Change Features
 // ============================================================================
-#pragma region Apply Multiclass Rules
+#pragma region Log Level Change Features
 
-void FMulticlassMotor::ApplyMulticlassRules(FCharacterSheetData &Data)
-{
-    // Nota: Aplicação de regras de multiclasse é feita pelos Handlers no Data Asset.
-    // Esta função foi planejada para uso genérico, mas atualmente as regras são aplicadas
-    // automaticamente pelos handlers quando classes são selecionadas ou níveis mudam.
-    //
-    // Se no futuro precisar de aplicação genérica (fora do Data Asset), implementar aqui.
-    // Por enquanto, mantém vazia para não quebrar código existente que pode chamá-la.
-}
-
-#pragma endregion Apply Multiclass Rules
-
-// ============================================================================
-// Process Level Change
-// ============================================================================
-#pragma region Process Level Change
-
-void FMulticlassMotor::ProcessLevelChange(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable)
+void FMulticlassMotor::LogLevelChangeFeatures(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable)
 {
     // Validação de entrada (guard clauses)
     if (!FMulticlassHelpers::ValidateProcessLevelChangeInputs(ClassName, LevelInClass, ClassDataTable))
@@ -125,14 +108,13 @@ void FMulticlassMotor::ProcessLevelChange(FName ClassName, int32 LevelInClass, c
     if (LevelEntry->Features.Num() > 0)
     {
         FString FeaturesString = FMulticlassHelpers::BuildFeaturesString(LevelEntry->Features);
-        FLogContext Context(TEXT("Multiclass"), TEXT("ProcessLevelChange"));
-        FLoggingSystem::LogInfo(
-            Context, FString::Printf(TEXT("Classe '%s' nível %d: features ganhas = [%s]"), *ClassName.ToString(),
-                                     LevelInClass, *FeaturesString));
+        FLogContext Context(TEXT("Multiclass"), TEXT("LogLevelChangeFeatures"));
+        FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("Classe '%s' nível %d: features ganhas = [%s]"),
+                                                         *ClassName.ToString(), LevelInClass, *FeaturesString));
     }
 }
 
-#pragma endregion Process Level Change
+#pragma endregion Log Level Change Features
 
 // ============================================================================
 // Load Class Proficiencies
@@ -172,14 +154,13 @@ bool FMulticlassMotor::LoadClassProficiencies(FName ClassName, int32 LevelInClas
     if (OutProficiencies.Num() > 0)
     {
         FLogContext Context(TEXT("Multiclass"), TEXT("LoadClassProficiencies"));
-        FLoggingSystem::LogInfo(
-            Context, FString::Printf(TEXT("Classe '%s': %d proficiência(s) carregada(s) com sucesso."),
-                                     *ClassName.ToString(), OutProficiencies.Num()));
+        FLoggingSystem::LogInfo(Context,
+                                FString::Printf(TEXT("Classe '%s': %d proficiência(s) carregada(s) com sucesso."),
+                                                *ClassName.ToString(), OutProficiencies.Num()));
     }
 
     return true;
 }
-
 
 #pragma endregion Load Class Proficiencies
 

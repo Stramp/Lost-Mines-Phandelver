@@ -7,6 +7,7 @@
 #include "Data/Tables/BackgroundDataTable.h"
 #include "Data/Tables/FeatDataTable.h"
 #include "Characters/Data/CharacterSheetDataAsset.h"
+#include "Utils/DnDConstants.h"
 
 // ============================================================================
 // Race Data Table Helpers
@@ -102,65 +103,19 @@ TArray<FName> CharacterSheetHelpers::GetAllClassNames(UDataTable *ClassDataTable
     return ClassNamesSet.Array();
 }
 
-TArray<FName> CharacterSheetHelpers::GetAvailableSubclasses(FName ClassName, UDataTable *ClassDataTable)
-{
-    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
-    // Estrutura antiga (ClassRow->SubclassNames) não existe mais
-    /*
-    if (!ClassDataTable || ClassName == NAME_None)
-    {
-        return TArray<FName>();
-    }
-
-    // Usa DataTableHelpers para buscar row de classe (otimização: remove loop O(n²))
-    if (FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, ClassDataTable))
-    {
-        return ClassRow->SubclassNames;
-    }
-    */
-
-    return TArray<FName>();
-}
-
 bool CharacterSheetHelpers::CanSelectSubclass(FName ClassName, int32 ClassLevel, UDataTable *ClassDataTable)
 {
-    if (!ClassDataTable || ClassName == NAME_None || ClassLevel < 1)
+    // Validação básica
+    if (ClassName == NAME_None || ClassLevel < DnDConstants::MIN_LEVEL)
     {
         return false;
     }
 
     // Em D&D 5e, subclasses são escolhidas no nível 3
-    const int32 SubclassSelectionLevel = 3;
-
-    if (ClassLevel < SubclassSelectionLevel)
-    {
-        return false;
-    }
-
-    // Verifica se a classe tem subclasses disponíveis
-    TArray<FName> Subclasses = GetAvailableSubclasses(ClassName, ClassDataTable);
-    return Subclasses.Num() > 0;
+    // Nota: Verificação de subclasses disponíveis será implementada quando necessário
+    // usando a nova estrutura FClassData.FProgress
+    return ClassLevel >= DnDConstants::SUBCLASS_SELECTION_LEVEL;
 }
-
-// TODO: Reimplementar usando nova estrutura FClassData.FProgress
-// Funções comentadas porque não existem mais no header
-/*
-TArray<FClassFeature> CharacterSheetHelpers::GetFeaturesAtLevel(FName ClassName, int32 Level,
-                                                                UDataTable *ClassDataTable)
-{
-    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
-    // Estrutura antiga (ClassRow->Features) não existe mais
-    return TArray<FClassFeature>();
-}
-
-TArray<FClassFeatureChoice> CharacterSheetHelpers::GetAvailableChoicesForClassLevel(FName ClassName, int32 ClassLevel,
-                                                                                    UDataTable *ClassDataTable)
-{
-    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
-    // Estrutura antiga não existe mais
-    return TArray<FClassFeatureChoice>();
-}
-*/
 
 // ============================================================================
 // Background Data Table Helpers
@@ -198,8 +153,14 @@ TArray<FName> CharacterSheetHelpers::GetAllBackgroundNames(UDataTable *Backgroun
 bool CharacterSheetHelpers::CanTakeFeatAtLevel(int32 TotalLevel)
 {
     // Em D&D 5e, feats podem ser escolhidos nos níveis 4, 8, 12, 16, 19 (ou ao invés de ASI)
-    TArray<int32> FeatLevels = {4, 8, 12, 16, 19};
-    return FeatLevels.Contains(TotalLevel);
+    for (int32 i = 0; i < DnDConstants::NUM_FEAT_LEVELS; ++i)
+    {
+        if (DnDConstants::FEAT_LEVELS[i] == TotalLevel)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool CharacterSheetHelpers::ValidateAbilityScorePrerequisite(const FName &Prerequisite,
@@ -712,36 +673,6 @@ TArray<FName> CharacterSheetHelpers::GetChoiceOptions(FName ChoiceID, FName Clas
         return Options;
     }
 
-    // TODO: Reimplementar usando nova estrutura FClassData.FProgress
-    // Estrutura antiga (ClassRow->Features) não existe mais
-    /*
-    // Busca a feature que contém esta escolha
-    for (const FClassFeature &Feature : ClassRow->Features)
-    {
-        if (Feature.LevelUnlocked > ClassLevel)
-        {
-            continue; // Feature ainda não desbloqueada
-        }
-
-        // Verifica se esta feature tem a escolha procurada
-        for (const FClassFeatureChoice &Choice : Feature.Choices)
-        {
-            if (Choice.ChoiceID == ChoiceID)
-            {
-                // Verifica dependências
-                if (Choice.DependsOnChoiceID != NAME_None)
-                {
-                    // TODO: Implementar verificação de dependências
-                    // Por enquanto, retorna opções mesmo com dependências
-                }
-
-                Options = Choice.AvailableOptions;
-                return Options;
-            }
-        }
-    }
-    */
-
     return Options;
 }
 
@@ -761,43 +692,6 @@ bool CharacterSheetHelpers::IsChoiceValid(FName ChoiceID, const TArray<FName> &S
         {
             continue;
         }
-
-        // TODO: Reimplementar usando nova estrutura FClassData.FProgress
-        // Estrutura antiga (ClassRow->Features) não existe mais
-        /*
-        for (const FClassFeature &Feature : ClassRow->Features)
-        {
-            for (const FClassFeatureChoice &Choice : Feature.Choices)
-            {
-                if (Choice.ChoiceID == ChoiceID)
-                {
-                    // Verifica quantidade de escolhas
-                    if (SelectedValues.Num() > Choice.ChoicesAllowed)
-                    {
-                        return false;
-                    }
-
-                    // Verifica se todas as opções escolhidas estão disponíveis
-                    for (const FName &SelectedValue : SelectedValues)
-                    {
-                        if (!Choice.AvailableOptions.Contains(SelectedValue))
-                        {
-                            return false;
-                        }
-                    }
-
-                    // Verifica dependências
-                    if (Choice.DependsOnChoiceID != NAME_None)
-                    {
-                        // TODO: Implementar verificação de dependências
-                        // Por enquanto, assume válido se quantidade e opções estão corretas
-                    }
-
-                    return true;
-                }
-            }
-        }
-        */
     }
 
     return false;

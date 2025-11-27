@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PointBuyValidationResult.h"
+#include "Data/Structures/FPointBuyValidationResult.h"
 
 /**
  * Validador de Point Buy para criação de personagem.

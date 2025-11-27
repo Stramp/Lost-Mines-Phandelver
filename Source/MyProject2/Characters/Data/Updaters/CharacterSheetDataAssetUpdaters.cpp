@@ -9,11 +9,13 @@
 
 // Project includes - Data Asset
 #include "Characters/Data/CharacterSheetDataAsset.h"
+#include "Data/Structures/MulticlassTypes.h"
 
 // Project includes - CreateSheet
 #include "CreateSheet/Core/CharacterSheetCore.h"
-#include "CreateSheet/Core/CharacterSheetData.h"
-#include "CreateSheet/PointBuy/PointBuyResult.h"
+#include "Data/Structures/FCharacterSheetData.h"
+#include "Data/Structures/FPointBuyResult.h"
+#include "CreateSheet/Multiclass/MulticlassHelpers.h"
 
 // Project includes - Helpers
 #include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
@@ -26,8 +28,12 @@
 #include "Data/Tables/RaceDataTable.h"
 #include "Data/Tables/BackgroundDataTable.h"
 
+// Project includes - Logging
+#include "Logging/LoggingSystem.h"
+
 // Engine includes
 #include "Logging/LogMacros.h"
+#include "Math/UnrealMathUtility.h"
 
 #if WITH_EDITOR
 #include "Editor.h"
@@ -42,9 +48,21 @@
 #pragma region Calculated Fields Update
 
 /**
- * Atualiza campos calculados (proficiências, idiomas, etc.).
- * Nota: Proficiencies e Languages foram removidos do Data Asset.
- * Eles são calculados diretamente no CharacterDataComponent quando necessário.
+ * Atualiza campos calculados do Data Asset.
+ *
+ * Nota: Esta função foi mantida como stub para compatibilidade com handlers existentes.
+ * Proficiencies e Languages foram removidos do Data Asset e são calculados diretamente
+ * no CharacterDataComponent quando necessário.
+ *
+ * Campos calculados que ainda podem ser atualizados aqui:
+ * - CharacterTotalLvl (calculado automaticamente pelos handlers)
+ * - MaxHealth/CurrentHealth (calculado por RecalculateMaxHP)
+ * - Final Ability Scores (calculado por RecalculateFinalScores)
+ *
+ * Esta função não faz nada atualmente porque todos os campos calculados são atualizados
+ * por funções específicas (RecalculateFinalScores, RecalculateMaxHP, etc.).
+ *
+ * @param Asset Asset do personagem (pode ser nullptr)
  */
 void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDataAsset *Asset)
 {
@@ -53,10 +71,8 @@ void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDat
         return;
     }
 
-    // Nota: bIsValidatingProperties deve ser gerenciado pelo caller (handler)
-    // Esta função assume que a flag já está setada corretamente
-    // Nota: Proficiencies e Languages foram removidos do Data Asset
-    // Eles são calculados diretamente no CharacterDataComponent quando necessário
+    // Stub intencional: campos calculados são atualizados por funções específicas
+    // Mantida para compatibilidade com handlers que chamam esta função
 }
 
 #pragma endregion Calculated Fields Update
@@ -69,7 +85,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDat
 /**
  * Atualiza detecção de escolhas de idiomas (bHasLanguageChoices, MaxLanguageChoices).
  * Detecta se raça/background/feat permite escolhas de idiomas.
- * Ajusta SelectedLanguages se o máximo diminuiu.
+ * NOTA: Não remove itens do array - isso é responsabilidade de Validators/CorrectionApplier.
  */
 void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetDataAsset *Asset)
 {
@@ -103,19 +119,6 @@ void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetData
     Asset->MaxLanguageChoices = RaceLanguageCount + BackgroundLanguageCount;
     bool bNewHasLanguageChoices = (Asset->MaxLanguageChoices > 0);
 
-    // Ajusta array SelectedLanguages se o máximo diminuiu
-    // Remove itens extras do final quando MaxLanguageChoices < SelectedLanguages.Num()
-    if (Asset->SelectedLanguages.Num() > Asset->MaxLanguageChoices)
-    {
-        Asset->Modify(); // Marca objeto como modificado
-
-        int32 ItemsToRemove = Asset->SelectedLanguages.Num() - Asset->MaxLanguageChoices;
-        Asset->SelectedLanguages.SetNum(Asset->MaxLanguageChoices);
-
-        UE_LOG(LogTemp, Log, TEXT("UpdateLanguageChoices: Removidos %d idioma(s) do array (máximo permitido: %d)"),
-               ItemsToRemove, Asset->MaxLanguageChoices);
-    }
-
     // Atualiza flag bHasLanguageChoices e notifica editor se mudou
     if (Asset->GetHasLanguageChoices() != bNewHasLanguageChoices)
     {
@@ -137,11 +140,8 @@ void FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(UCharacterSheetData
 #endif
     }
 
-    // Se não há mais escolhas disponíveis, limpa SelectedLanguages
-    if (!Asset->GetHasLanguageChoices())
-    {
-        Asset->SelectedLanguages.Empty();
-    }
+    // NOTA: Não remove itens do array aqui - isso é responsabilidade de Validators/CorrectionApplier.
+    // Esta função apenas atualiza as flags e detecta disponibilidade de escolhas.
 }
 
 #pragma endregion Language Choices Update
@@ -267,9 +267,11 @@ void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetData
         return;
     }
 
-    // Verifica se todos os Data Tables foram selecionados
-    bool bAllDataTablesSelected =
-        Asset->RaceDataTable != nullptr && Asset->BackgroundDataTable != nullptr && Asset->FeatDataTable != nullptr;
+    // Verifica se todos os Data Tables obrigatórios foram selecionados
+    // Tabelas obrigatórias: RaceDataTable, BackgroundDataTable, ClassDataTable
+    // FeatDataTable é obrigatória apenas se Variant Human, mas verificamos sempre para manter consistência
+    bool bAllDataTablesSelected = Asset->RaceDataTable != nullptr && Asset->BackgroundDataTable != nullptr &&
+                                  Asset->ClassDataTable != nullptr && Asset->FeatDataTable != nullptr;
 
     // bCanShowSheet = false significa mostrar todas as categorias
     // bCanShowSheet = true significa mostrar apenas Data Tables
@@ -301,6 +303,10 @@ void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetData
 // ============================================================================
 #pragma region Final Scores Calculation
 
+/**
+ * Recalcula scores finais usando Core genérico (aplica todos os motores).
+ * Atualiza PointsRemaining e ajusta alocação se necessário.
+ */
 void FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(UCharacterSheetDataAsset *Asset)
 {
     if (!Asset)
@@ -309,12 +315,11 @@ void FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(UCharacterSheetDat
     }
 
     // Cria estrutura de dados para o Core genérico
-    FCharacterSheetData Data(Asset->PointBuyStrength, Asset->PointBuyDexterity, Asset->PointBuyConstitution,
-                             Asset->PointBuyIntelligence, Asset->PointBuyWisdom, Asset->PointBuyCharisma,
-                             Asset->SelectedRace, Asset->SelectedSubrace, Asset->CustomAbilityScoreChoices,
-                             Asset->RaceDataTable, &Asset->FinalStrength, &Asset->FinalDexterity,
-                             &Asset->FinalConstitution, &Asset->FinalIntelligence, &Asset->FinalWisdom,
-                             &Asset->FinalCharisma);
+    FCharacterSheetData Data(
+        Asset->PointBuyStrength, Asset->PointBuyDexterity, Asset->PointBuyConstitution, Asset->PointBuyIntelligence,
+        Asset->PointBuyWisdom, Asset->PointBuyCharisma, Asset->SelectedRace, Asset->SelectedSubrace,
+        Asset->CustomAbilityScoreChoices, Asset->RaceDataTable, &Asset->FinalStrength, &Asset->FinalDexterity,
+        &Asset->FinalConstitution, &Asset->FinalIntelligence, &Asset->FinalWisdom, &Asset->FinalCharisma);
 
     // Recalcula scores finais usando Core genérico (aplica todos os motores)
     FPointBuyResult PointBuyResult;
@@ -323,13 +328,234 @@ void FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(UCharacterSheetDat
     // Atualiza pontos restantes
     Asset->PointsRemaining = PointBuyResult.PointsRemaining;
 
-    // Se houve ajuste automático, atualiza alocação e loga aviso
+    // Se houve ajuste automático, atualiza alocação e loga aviso (não crítico - sistema ajusta automaticamente)
     if (PointBuyResult.bWasAdjusted)
     {
         Asset->Modify();
         FCharacterSheetDataAssetHelpers::UpdatePointBuyFromAdjustedAllocation(Asset, PointBuyResult.AdjustedAllocation);
-        UE_LOG(LogTemp, Warning, TEXT("CharacterSheetDataAsset: %s"), *PointBuyResult.FeedbackMessage);
+        FLogContext Context(TEXT("CharacterSheet"), TEXT("RecalculateFinalScores"));
+        FLoggingSystem::LogWarning(Context, PointBuyResult.FeedbackMessage, false);
     }
 }
 
+/**
+ * Aplica resultado da validação do Point Buy no Asset.
+ * Atualiza PointsRemaining com o valor calculado pela validação.
+ */
+void FCharacterSheetDataAssetUpdaters::ApplyPointBuyValidationResult(UCharacterSheetDataAsset *Asset,
+                                                                     int32 PointsRemaining)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    Asset->PointsRemaining = PointsRemaining;
+}
+
 #pragma endregion Final Scores Calculation
+
+// ============================================================================
+// Max HP Calculation
+// ============================================================================
+#pragma region Max HP Calculation
+
+/**
+ * Recalcula HP máximo do personagem baseado em todas as classes e seus níveis.
+ * Usa HitDie de cada classe e Constitution modifier.
+ * Atualiza MaxHealth e CurrentHealth (se CurrentHealth > MaxHealth, ajusta para MaxHealth).
+ */
+void FCharacterSheetDataAssetUpdaters::RecalculateMaxHP(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    // Valida se há tabela de classes configurada
+    if (!Asset->ClassDataTable)
+    {
+        Asset->MaxHealth = 0;
+        Asset->CurrentHealth = 0;
+        return;
+    }
+
+    // Coleta informações de todas as classes
+    TArray<FName> ClassNames;
+    TArray<int32> LevelsInClass;
+
+    for (const FMulticlassEntry &Entry : Asset->Multiclass)
+    {
+        if (Entry.ClassData.Name != NAME_None && Entry.ClassData.LevelInClass > 0)
+        {
+            ClassNames.Add(Entry.ClassData.Name);
+            LevelsInClass.Add(Entry.ClassData.LevelInClass);
+        }
+    }
+
+    // Se não há classes, HP é 0
+    if (ClassNames.Num() == 0)
+    {
+        Asset->MaxHealth = 0;
+        Asset->CurrentHealth = 0;
+        return;
+    }
+
+    // Calcula Constitution modifier
+    const int32 ConstitutionModifier = CalculationHelpers::CalculateAbilityModifier(Asset->FinalConstitution);
+
+    // Calcula HP máximo usando helper
+    const int32 NewMaxHealth =
+        CalculationHelpers::CalculateMaxHP(ClassNames, LevelsInClass, ConstitutionModifier, Asset->ClassDataTable);
+
+    // Atualiza MaxHealth
+    Asset->MaxHealth = NewMaxHealth;
+
+    // Ajusta CurrentHealth se necessário (não pode ser maior que MaxHealth)
+    if (Asset->CurrentHealth > Asset->MaxHealth)
+    {
+        Asset->CurrentHealth = Asset->MaxHealth;
+    }
+    // Se CurrentHealth é 0 e MaxHealth > 0, inicializa com MaxHealth
+    else if (Asset->CurrentHealth == 0 && Asset->MaxHealth > 0)
+    {
+        Asset->CurrentHealth = Asset->MaxHealth;
+    }
+}
+
+#pragma endregion Max HP Calculation
+
+// ============================================================================
+// Multiclass Flags Update
+// ============================================================================
+#pragma region Multiclass Flags Update
+
+/**
+ * Atualiza flags bCanEditProgression e bCanEditProficiencies para todas as entradas de multiclasse.
+ * Apenas atualiza flags, não carrega nem valida dados.
+ */
+void FCharacterSheetDataAssetUpdaters::UpdateMulticlassFlags(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+    {
+        FMulticlassEntry &Entry = Asset->Multiclass[i];
+        const FName ClassName = Entry.ClassData.Name;
+        const int32 LevelInClass = Entry.ClassData.LevelInClass;
+
+        // Atualiza flags usando helper puro
+        const bool bCanEdit = FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
+        Entry.ClassData.bCanEditProgression = bCanEdit;
+        Entry.ClassData.bCanEditProficiencies = bCanEdit;
+
+        // Garante que Progression está vazio quando não pode processar
+        if (!bCanEdit)
+        {
+            Entry.ClassData.Progression.Empty();
+        }
+    }
+}
+
+#pragma endregion Multiclass Flags Update
+
+// ============================================================================
+// Multiclass Proficiency Choices Update
+// ============================================================================
+#pragma region Multiclass Proficiency Choices Update
+
+/**
+ * Atualiza qtdAvailable dinamicamente quando skills são escolhidas/removidas do available.
+ * Apenas atualiza, não valida nem carrega dados.
+ */
+void FCharacterSheetDataAssetUpdaters::UpdateMulticlassProficiencyChoices(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+    {
+        FMulticlassEntry &Entry = Asset->Multiclass[i];
+
+        for (FMulticlassProficienciesEntry &ProficiencyEntry : Entry.ClassData.Proficiencies)
+        {
+            FMulticlassSkills &Skills = ProficiencyEntry.FSkills;
+
+            // Se não há estado inicial armazenado, inicializa com valores atuais
+            if (Skills.InitialAvailableCount == 0 && Skills.InitialQtdAvailable == 0)
+            {
+                Skills.InitialAvailableCount = Skills.available.Num();
+                Skills.InitialQtdAvailable = Skills.qtdAvailable;
+            }
+
+            // Calcula quantas skills foram escolhidas (removidas do available)
+            const int32 CurrentAvailableCount = Skills.available.Num();
+            const int32 SkillsChosen = Skills.InitialAvailableCount - CurrentAvailableCount;
+
+            // Atualiza qtdAvailable: quantidade inicial menos skills já escolhidas
+            // FMath::Max garante que qtdAvailable nunca será negativo
+            Skills.qtdAvailable = FMath::Max(0, Skills.InitialQtdAvailable - SkillsChosen);
+        }
+    }
+}
+
+#pragma endregion Multiclass Proficiency Choices Update
+
+// ============================================================================
+// Multiclass Level Adjustment
+// ============================================================================
+#pragma region Multiclass Level Adjustment
+
+/**
+ * Ajusta LevelInClass baseado na presença de ClassName.
+ * Se ClassName != NAME_None, LevelInClass = 1. Caso contrário, LevelInClass = 0.
+ * Apenas atualiza, não valida nem carrega dados.
+ */
+void FCharacterSheetDataAssetUpdaters::AdjustLevelInClassForClassName(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+    {
+        FMulticlassEntry &Entry = Asset->Multiclass[i];
+        const FName ClassName = Entry.ClassData.Name;
+
+        // Ajusta LevelInClass baseado na presença de classe (lógica simples)
+        Entry.ClassData.LevelInClass = (ClassName != NAME_None) ? 1 : 0;
+    }
+}
+
+/**
+ * Ajusta nível mínimo para classes válidas (sem tag de requerimento).
+ * Se tem classe válida e LevelInClass == 0, ajusta para 1.
+ * Apenas atualiza, não valida nem carrega dados.
+ */
+void FCharacterSheetDataAssetUpdaters::AdjustMinimumLevelForValidClasses(UCharacterSheetDataAsset *Asset)
+{
+    if (!Asset)
+    {
+        return;
+    }
+
+    for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+    {
+        FMulticlassEntry &Entry = Asset->Multiclass[i];
+        const FName ClassName = Entry.ClassData.Name;
+
+        // Se tem classe válida (não é None e não tem tag), nível mínimo é 1
+        if (FCharacterSheetDataAssetHelpers::IsValidClassWithoutTag(ClassName) && Entry.ClassData.LevelInClass == 0)
+        {
+            Entry.ClassData.LevelInClass = 1;
+        }
+    }
+}
+
+#pragma endregion Multiclass Level Adjustment

@@ -75,24 +75,23 @@ bool FCharacterSheetDataAssetLoaders::LoadClassProficiencies(UCharacterSheetData
         return false;
     }
 
-    // Valida tabelas configuradas (com logging de erro)
+    // ClassDataTable é obrigatória e já validada em ValidateDataTables (não precisa validar aqui)
     if (!Asset->ClassDataTable)
     {
-        FLogContext Context(TEXT("CharacterSheet"), TEXT("LoadClassProficiencies"));
-        FLoggingSystem::LogWarning(
-            Context,
-            FString::Printf(TEXT("Multiclass[%d] - ClassDataTable não configurado no Data Asset."), EntryIndex),
-            false);
         Entry.ClassData.Proficiencies.Empty();
         return false;
     }
 
+    // ClassProficienciesDataTable é opcional - apenas loga se faltando (não crítico)
     if (!Asset->ClassProficienciesDataTable)
     {
         FLogContext Context(TEXT("CharacterSheet"), TEXT("LoadClassProficiencies"));
         FLoggingSystem::LogWarning(
             Context,
-            FString::Printf(TEXT("Multiclass[%d] - ClassProficienciesDataTable não configurado no Data Asset. Configure a tabela em 'Data Tables > Class Proficiencies Data Table' para carregar proficiências."), EntryIndex),
+            FString::Printf(
+                TEXT("Multiclass[%d] - ClassProficienciesDataTable não configurado no Data Asset. Configure a tabela "
+                     "em 'Data Tables > Class Proficiencies Data Table' para carregar proficiências."),
+                EntryIndex),
             false);
         Entry.ClassData.Proficiencies.Empty();
         return false;
@@ -109,11 +108,11 @@ bool FCharacterSheetDataAssetLoaders::LoadClassProficiencies(UCharacterSheetData
 
     // Log de falha (motor não conseguiu carregar)
     FLogContext Context(TEXT("CharacterSheet"), TEXT("LoadClassProficiencies"));
-    FLoggingSystem::LogWarning(
-        Context,
-        FString::Printf(TEXT("Multiclass[%d] - Falha ao carregar proficiências para classe '%s'. Verifique se a classe existe no ClassDataTable."),
-                       EntryIndex, *ClassName.ToString()),
-        false);
+    FLoggingSystem::LogWarning(Context,
+                               FString::Printf(TEXT("Multiclass[%d] - Falha ao carregar proficiências para classe "
+                                                    "'%s'. Verifique se a classe existe no ClassDataTable."),
+                                               EntryIndex, *ClassName.ToString()),
+                               false);
     Entry.ClassData.Proficiencies.Empty();
     return false;
 }
@@ -152,7 +151,7 @@ bool FCharacterSheetDataAssetLoaders::LoadClassProgression(UCharacterSheetDataAs
     return false;
 }
 
-void FCharacterSheetDataAssetLoaders::ProcessLevelChange(UCharacterSheetDataAsset *Asset, int32 EntryIndex)
+void FCharacterSheetDataAssetLoaders::LogLevelChangeFeatures(UCharacterSheetDataAsset *Asset, int32 EntryIndex)
 {
     if (!Asset || EntryIndex < 0 || EntryIndex >= Asset->Multiclass.Num())
     {
@@ -163,14 +162,14 @@ void FCharacterSheetDataAssetLoaders::ProcessLevelChange(UCharacterSheetDataAsse
     const FName ClassName = Entry.ClassData.Name;
     const int32 LevelInClass = Entry.ClassData.LevelInClass;
 
-    // Só processa se há classe válida e tabela configurada
+    // Só loga se há classe válida e tabela configurada
     if (ClassName == NAME_None || !Asset->ClassDataTable)
     {
         return;
     }
 
-    // Processa mudanças de nível usando motor (apenas log)
-    FMulticlassMotor::ProcessLevelChange(ClassName, LevelInClass, Asset->ClassDataTable);
+    // Loga features ganhas no nível usando motor (apenas log informativo)
+    FMulticlassMotor::LogLevelChangeFeatures(ClassName, LevelInClass, Asset->ClassDataTable);
 }
 
 void FCharacterSheetDataAssetLoaders::LoadAllMulticlassData(UCharacterSheetDataAsset *Asset)
@@ -194,7 +193,8 @@ void FCharacterSheetDataAssetLoaders::LoadAllMulticlassData(UCharacterSheetDataA
     }
 }
 
-void FCharacterSheetDataAssetLoaders::ReloadMulticlassDataIfNeeded(UCharacterSheetDataAsset *Asset, bool bLevelInClassWasAdjusted)
+void FCharacterSheetDataAssetLoaders::ReloadMulticlassDataIfNeeded(UCharacterSheetDataAsset *Asset,
+                                                                   bool bLevelInClassWasAdjusted)
 {
     if (!Asset || !bLevelInClassWasAdjusted)
     {

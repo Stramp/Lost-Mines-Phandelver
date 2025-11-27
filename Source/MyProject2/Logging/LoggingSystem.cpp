@@ -14,6 +14,9 @@
 #include "Framework/Notifications/NotificationManager.h"
 #include "Widgets/Notifications/SNotificationList.h"
 #include "EditorStyleSet.h"
+#include "Framework/Notifications/NotificationManager.h"
+#include "Styling/SlateStyle.h"
+#include "Styling/CoreStyle.h"
 #endif
 
 #pragma endregion Includes
@@ -204,14 +207,33 @@ void FLoggingSystem::ShowEditorFeedback(const FLogContext &Context, const FStrin
 {
     // Cria notificação no editor
     FNotificationInfo NotificationInfo(FText::FromString(Message));
-    NotificationInfo.bFireAndForget = false;
-    NotificationInfo.bUseLargeFont = (Severity == ELogSeverity::Error || Severity == ELogSeverity::Fatal);
-    NotificationInfo.ExpireDuration =
-        (Severity == ELogSeverity::Error || Severity == ELogSeverity::Fatal) ? 10.0f : 5.0f;
 
-    // Define cor baseada na severidade
-    // Nota: Imagens podem ser adicionadas depois se necessário
-    // Por enquanto, o texto e duração já indicam a severidade
+    // Para Warning e Error, não fecha automaticamente (usuário precisa ver)
+    if (Severity == ELogSeverity::Warning || Severity == ELogSeverity::Error || Severity == ELogSeverity::Fatal)
+    {
+        NotificationInfo.bFireAndForget = false;
+        NotificationInfo.bUseThrobber = false;
+        NotificationInfo.bUseSuccessFailIcons = true;
+    }
+    else
+    {
+        // Info fecha automaticamente após 3 segundos
+        NotificationInfo.bFireAndForget = true;
+        NotificationInfo.ExpireDuration = 3.0f;
+    }
+
+    // Configurações visuais baseadas na severidade
+    NotificationInfo.bUseLargeFont = (Severity == ELogSeverity::Error || Severity == ELogSeverity::Fatal);
+
+    // Define imagem baseada na severidade
+    if (Severity == ELogSeverity::Warning)
+    {
+        NotificationInfo.Image = FCoreStyle::Get().GetBrush(TEXT("MessageLog.Warning"));
+    }
+    else if (Severity == ELogSeverity::Error || Severity == ELogSeverity::Fatal)
+    {
+        NotificationInfo.Image = FCoreStyle::Get().GetBrush(TEXT("MessageLog.Error"));
+    }
 
     // Adiciona detalhes do contexto
     FString DetailText = FString::Printf(TEXT("Module: %s\nFunction: %s"), *Context.Module, *Context.Function);
@@ -221,8 +243,44 @@ void FLoggingSystem::ShowEditorFeedback(const FLogContext &Context, const FStrin
     }
     NotificationInfo.HyperlinkText = FText::FromString(DetailText);
 
-    // Mostra notificação
-    FSlateNotificationManager::Get().AddNotification(NotificationInfo);
+    // Cria weak pointer compartilhado que será atualizado após AddNotification
+    // Usa TSharedPtr para gerenciar o weak pointer de forma segura
+    struct FNotificationWeakPtrWrapper
+    {
+        TWeakPtr<SNotificationItem> WeakPtr;
+    };
+    TSharedPtr<FNotificationWeakPtrWrapper> WeakPtrWrapper = MakeShareable(new FNotificationWeakPtrWrapper());
+
+    // Adiciona botão de fechar usando weak pointer para evitar referência circular
+    NotificationInfo.ButtonDetails.Add(
+        FNotificationButtonInfo(FText::FromString(TEXT("Fechar")), FText::FromString(TEXT("Fecha esta notificação")),
+                                FSimpleDelegate::CreateLambda(
+                                    [WeakPtrWrapper]()
+                                    {
+                                        if (TSharedPtr<SNotificationItem> PinnedPtr = WeakPtrWrapper->WeakPtr.Pin())
+                                        {
+                                            PinnedPtr->ExpireAndFadeout();
+                                        }
+                                    })));
+
+    // Mostra notificação e captura o ponteiro real
+    TSharedPtr<SNotificationItem> NotificationPtr = FSlateNotificationManager::Get().AddNotification(NotificationInfo);
+
+    // Atualiza o weak pointer com o ponteiro real
+    WeakPtrWrapper->WeakPtr = NotificationPtr;
+
+    // Para Warning/Error, força exibição imediata e não fecha automaticamente
+    if (NotificationPtr.IsValid() &&
+        (Severity == ELogSeverity::Warning || Severity == ELogSeverity::Error || Severity == ELogSeverity::Fatal))
+    {
+        NotificationPtr->SetCompletionState(SNotificationItem::CS_Pending);
+        // Garante que notificação permanece visível até usuário fechar
+        NotificationPtr->SetExpireDuration(0.0f);
+    }
+
+    // Debug: Log que notificação foi criada
+    UE_LOG(LogMyProject2DataTable, Log, TEXT("[ShowEditorFeedback] Notificação criada: %s (Severity: %d)"), *Message,
+           (int32)Severity);
 }
 
 #endif // WITH_EDITOR

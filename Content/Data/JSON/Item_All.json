@@ -1,0 +1,530 @@
+[
+  {
+    "ItemID": "ITM_ARM_ChainMail",
+    "ItemName": "Chain Mail",
+    "ItemType": "Armor",
+    "Weight": 55.0,
+    "Value": 75,
+    "Description": "Made of interlocking metal rings, chain mail includes a layer of quilted fabric worn underneath the mail to prevent chafing and to cushion the impact of blows. The suit includes gauntlets."
+  },
+  {
+    "ItemID": "ITM_ARM_Shield",
+    "ItemName": "Shield",
+    "ItemType": "Armor",
+    "Weight": 6.0,
+    "Value": 10,
+    "Description": "A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time."
+  },
+  {
+    "ItemID": "ITM_ARM_LeatherArmor",
+    "ItemName": "Leather Armor",
+    "ItemType": "Armor",
+    "Weight": 10.0,
+    "Value": 10,
+    "Description": "The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials."
+  },
+  {
+    "ItemID": "ITM_ARM_ScaleMail",
+    "ItemName": "Scale Mail",
+    "ItemType": "Armor",
+    "Weight": 45.0,
+    "Value": 50,
+    "Description": "This armor consists of a coat and leggings (and perhaps a separate skirt) of leather covered with overlapping pieces of metal, much like the scales of a fish. The suit includes gauntlets."
+  },
+  {
+    "ItemID": "ITM_WPN_Handaxe",
+    "ItemName": "Handaxe",
+    "ItemType": "Weapon",
+    "Weight": 2.0,
+    "Value": 5,
+    "Description": "A light axe designed for one-handed use."
+  },
+  {
+    "ItemID": "ITM_WPN_Quarterstaff",
+    "ItemName": "Quarterstaff",
+    "ItemType": "Weapon",
+    "Weight": 4.0,
+    "Value": 2,
+    "Description": "A simple wooden staff, often used as a walking stick or weapon."
+  },
+  {
+    "ItemID": "ITM_WPN_Mace",
+    "ItemName": "Mace",
+    "ItemType": "Weapon",
+    "Weight": 4.0,
+    "Value": 5,
+    "Description": "A simple weapon with a heavy head on a handle."
+  },
+  {
+    "ItemID": "ITM_WPN_Rapier",
+    "ItemName": "Rapier",
+    "ItemType": "Weapon",
+    "Weight": 2.0,
+    "Value": 25,
+    "Description": "A thin, light sword with a sharp point, designed for thrusting attacks."
+  },
+  {
+    "ItemID": "ITM_WPN_Shortsword",
+    "ItemName": "Shortsword",
+    "ItemType": "Weapon",
+    "Weight": 2.0,
+    "Value": 10,
+    "Description": "A short, light sword designed for quick strikes."
+  },
+  {
+    "ItemID": "ITM_WPN_Shortbow",
+    "ItemName": "Shortbow",
+    "ItemType": "Weapon",
+    "Weight": 2.0,
+    "Value": 25,
+    "Description": "A small bow designed for short-range combat."
+  },
+  {
+    "ItemID": "ITM_WPN_Longbow",
+    "ItemName": "Longbow",
+    "ItemType": "Weapon",
+    "Weight": 2.0,
+    "Value": 50,
+    "Description": "A large bow designed for long-range combat."
+  },
+  {
+    "ItemID": "ITM_WPN_LightCrossbow",
+    "ItemName": "Light Crossbow",
+    "ItemType": "Weapon",
+    "Weight": 5.0,
+    "Value": 25,
+    "Description": "A small crossbow that fires bolts."
+  },
+  {
+    "ItemID": "ITM_WPN_Scimitar",
+    "ItemName": "Scimitar",
+    "ItemType": "Weapon",
+    "Weight": 3.0,
+    "Value": 25,
+    "Description": "A curved sword with a single sharp edge."
+  },
+  {
+    "ItemID": "ITM_WPN_Greataxe",
+    "ItemName": "Greataxe",
+    "ItemType": "Weapon",
+    "Weight": 7.0,
+    "Value": 30,
+    "Description": "A large, two-handed axe designed for powerful strikes."
+  },
+  {
+    "ItemID": "ITM_WPN_Staff",
+    "ItemName": "Staff",
+    "ItemType": "Weapon",
+    "Weight": 4.0,
+    "Value": 2,
+    "Description": "A simple wooden staff."
+  },
+  {
+    "ItemID": "ITM_WPN_MartialWeapon",
+    "ItemName": "Martial Weapon",
+    "ItemType": "Weapon",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A placeholder for a choice of martial weapon. This will be resolved during character creation."
+  },
+  {
+    "ItemID": "ITM_OTH_ComponentPouch",
+    "ItemName": "Component Pouch",
+    "ItemType": "Other",
+    "Weight": 2.0,
+    "Value": 25,
+    "Description": "A small, watertight leather belt pouch that has compartments to hold all the material components and other special items you need to cast your spells, except for those components that have a specific cost (as indicated in a spell's description)."
+  },
+  {
+    "ItemID": "ITM_OTH_Spellbook",
+    "ItemName": "Spellbook",
+    "ItemType": "Other",
+    "Weight": 3.0,
+    "Value": 50,
+    "Description": "Essential for wizards, a spellbook is a leather-bound tome with 100 blank vellum pages suitable for recording spells."
+  },
+  {
+    "ItemID": "ITM_OTH_HolySymbol",
+    "ItemName": "Holy Symbol",
+    "ItemType": "Other",
+    "Weight": 1.0,
+    "Value": 5,
+    "Description": "A holy symbol is a representation of a god or pantheon. It might be an amulet depicting a symbol representing a deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic."
+  },
+  {
+    "ItemID": "ITM_OTH_DruidicFocus",
+    "ItemName": "Druidic Focus",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals."
+  },
+  {
+    "ItemID": "ITM_PCK_DungeoneersPack",
+    "ItemName": "Dungeoneer's Pack",
+    "ItemType": "Pack",
+    "Weight": 61.5,
+    "Value": 12,
+    "Description": "Includes a backpack, a crowbar, a hammer, 10 pitons, 10 torches, a tinderbox, a waterskin, and 10 days of rations."
+  },
+  {
+    "ItemID": "ITM_PCK_ScholarsPack",
+    "ItemName": "Scholar's Pack",
+    "ItemType": "Pack",
+    "Weight": 0.0,
+    "Value": 40,
+    "Description": "Includes a backpack, a book of lore, a bottle of ink, an ink pen, 10 sheets of parchment, a little bag of sand, and a small knife."
+  },
+  {
+    "ItemID": "ITM_PCK_PriestsPack",
+    "ItemName": "Priest's Pack",
+    "ItemType": "Pack",
+    "Weight": 0.0,
+    "Value": 19,
+    "Description": "Includes a backpack, a blanket, 10 candles, a tinderbox, an alms box, 2 blocks of incense, a censer, vestments, 2 days of rations, and a waterskin."
+  },
+  {
+    "ItemID": "ITM_PCK_BurglarsPack",
+    "ItemName": "Burglar's Pack",
+    "ItemType": "Pack",
+    "Weight": 0.0,
+    "Value": 16,
+    "Description": "Includes a backpack, a bag of 1,000 ball bearings, 10 feet of string, a bell, 5 candles, a crowbar, a hammer, 10 pitons, a hooded lantern, 2 flasks of oil, 5 days of rations, a tinderbox, and a waterskin. The pack also has 50 feet of hempen rope strapped to the side of it."
+  },
+  {
+    "ItemID": "ITM_PCK_DiplomatsPack",
+    "ItemName": "Diplomat's Pack",
+    "ItemType": "Pack",
+    "Weight": 0.0,
+    "Value": 39,
+    "Description": "Includes a chest, 2 cases for maps and scrolls, a fine clothes outfit, a bottle of ink, an ink pen, a lamp, 2 flasks of oil, 5 sheets of parchment, a vial of perfume, sealing wax, and soap."
+  },
+  {
+    "ItemID": "ITM_PCK_ExplorersPack",
+    "ItemName": "Explorer's Pack",
+    "ItemType": "Pack",
+    "Weight": 0.0,
+    "Value": 10,
+    "Description": "Includes a backpack, a bedroll, a mess kit, a tinderbox, 10 torches, 10 days of rations, and a waterskin. The pack also has 50 feet of hempen rope strapped to the side of it."
+  },
+  {
+    "ItemID": "ITM_OTH_PrayerBook",
+    "ItemName": "Prayer Book",
+    "ItemType": "Other",
+    "Weight": 5.0,
+    "Value": 25,
+    "Description": "A book containing prayers and religious texts."
+  },
+  {
+    "ItemID": "ITM_CNM_Incense",
+    "ItemName": "Incense",
+    "ItemType": "Consumable",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "Fragrant material used in religious ceremonies."
+  },
+  {
+    "ItemID": "ITM_OTH_Vestments",
+    "ItemName": "Vestments",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "Religious clothing worn during ceremonies."
+  },
+  {
+    "ItemID": "ITM_OTH_CommonClothes",
+    "ItemName": "Common Clothes",
+    "ItemType": "Other",
+    "Weight": 3.0,
+    "Value": 5,
+    "Description": "Simple, everyday clothing suitable for common folk."
+  },
+  {
+    "ItemID": "ITM_OTH_DarkCommonClothes",
+    "ItemName": "Dark Common Clothes",
+    "ItemType": "Other",
+    "Weight": 3.0,
+    "Value": 5,
+    "Description": "Common clothes in dark colors, suitable for blending into shadows."
+  },
+  {
+    "ItemID": "ITM_TOL_Crowbar",
+    "ItemName": "Crowbar",
+    "ItemType": "Tool",
+    "Weight": 5.0,
+    "Value": 2,
+    "Description": "Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied."
+  },
+  {
+    "ItemID": "ITM_TOL_ArtisansTools",
+    "ItemName": "Artisan's Tools",
+    "ItemType": "Tool",
+    "Weight": 5.0,
+    "Value": 0,
+    "Description": "A set of tools used by artisans. The specific type varies by profession."
+  },
+  {
+    "ItemID": "ITM_TOL_Shovel",
+    "ItemName": "Shovel",
+    "ItemType": "Tool",
+    "Weight": 5.0,
+    "Value": 2,
+    "Description": "A tool for digging."
+  },
+  {
+    "ItemID": "ITM_OTH_IronPot",
+    "ItemName": "Iron Pot",
+    "ItemType": "Other",
+    "Weight": 10.0,
+    "Value": 2,
+    "Description": "A sturdy iron cooking pot."
+  },
+  {
+    "ItemID": "ITM_OTH_FineClothes",
+    "ItemName": "Fine Clothes",
+    "ItemType": "Other",
+    "Weight": 6.0,
+    "Value": 15,
+    "Description": "Elegant clothing suitable for nobility and formal occasions."
+  },
+  {
+    "ItemID": "ITM_OTH_SignetRing",
+    "ItemName": "Signet Ring",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 5,
+    "Description": "A ring bearing a family seal or coat of arms."
+  },
+  {
+    "ItemID": "ITM_OTH_ScrollOfPedigree",
+    "ItemName": "Scroll of Pedigree",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A document proving noble lineage."
+  },
+  {
+    "ItemID": "ITM_OTH_Purse",
+    "ItemName": "Purse",
+    "ItemType": "Other",
+    "Weight": 1.0,
+    "Value": 5,
+    "Description": "A small bag for carrying coins."
+  },
+  {
+    "ItemID": "ITM_OTH_BottleOfBlackInk",
+    "ItemName": "Bottle of Black Ink",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 10,
+    "Description": "A small bottle of black ink for writing."
+  },
+  {
+    "ItemID": "ITM_OTH_Quill",
+    "ItemName": "Quill",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A writing implement made from a feather."
+  },
+  {
+    "ItemID": "ITM_OTH_SmallKnife",
+    "ItemName": "Small Knife",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A small utility knife."
+  },
+  {
+    "ItemID": "ITM_OTH_LetterFromDeadColleague",
+    "ItemName": "Letter from a Dead Colleague",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A letter from a deceased colleague, possibly containing important information."
+  },
+  {
+    "ItemID": "ITM_OTH_InsigniaOfRank",
+    "ItemName": "Insignia of Rank",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A badge or symbol indicating military rank."
+  },
+  {
+    "ItemID": "ITM_OTH_TrophyFromFallenEnemy",
+    "ItemName": "Trophy from Fallen Enemy",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A memento taken from a defeated enemy."
+  },
+  {
+    "ItemID": "ITM_OTH_SetOfBoneDice",
+    "ItemName": "Set of Bone Dice",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A set of dice made from bone, used for games of chance."
+  },
+  {
+    "ItemID": "ITM_OTH_ScrollCase",
+    "ItemName": "Scroll Case",
+    "ItemType": "Other",
+    "Weight": 1.0,
+    "Value": 1,
+    "Description": "A cylindrical leather case for holding scrolls."
+  },
+  {
+    "ItemID": "ITM_OTH_WinterBlanket",
+    "ItemName": "Winter Blanket",
+    "ItemType": "Other",
+    "Weight": 3.0,
+    "Value": 5,
+    "Description": "A warm blanket suitable for cold weather."
+  },
+  {
+    "ItemID": "ITM_TOL_HerbalismKit",
+    "ItemName": "Herbalism Kit",
+    "ItemType": "Tool",
+    "Weight": 3.0,
+    "Value": 5,
+    "Description": "This kit contains a variety of instruments such as clippers, mortar and pestle, and pouches and vials used by herbalists to create remedies and potions."
+  },
+  {
+    "ItemID": "ITM_OTH_MusicalInstrument",
+    "ItemName": "Musical Instrument",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A musical instrument. The specific type varies."
+  },
+  {
+    "ItemID": "ITM_OTH_Costume",
+    "ItemName": "Costume",
+    "ItemType": "Other",
+    "Weight": 4.0,
+    "Value": 5,
+    "Description": "A theatrical costume for performances."
+  },
+  {
+    "ItemID": "ITM_OTH_Pouch",
+    "ItemName": "Pouch",
+    "ItemType": "Other",
+    "Weight": 1.0,
+    "Value": 5,
+    "Description": "A small leather pouch for carrying small items."
+  },
+  {
+    "ItemID": "ITM_OTH_LetterOfIntroductionFromGuild",
+    "ItemName": "Letter of Introduction from Guild",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A letter introducing the bearer as a member of a guild."
+  },
+  {
+    "ItemID": "ITM_OTH_TravelersClothes",
+    "ItemName": "Traveler's Clothes",
+    "ItemType": "Other",
+    "Weight": 4.0,
+    "Value": 2,
+    "Description": "Sturdy clothing suitable for long journeys."
+  },
+  {
+    "ItemID": "ITM_OTH_HuntingTrap",
+    "ItemName": "Hunting Trap",
+    "ItemType": "Other",
+    "Weight": 25.0,
+    "Value": 5,
+    "Description": "When you use your action to set it, this trap forms a saw-toothed steel ring that snaps shut when a creature steps on a pressure plate in the center. The trap is affixed by a heavy chain to an immobile object, such as a tree or a spike driven into the ground."
+  },
+  {
+    "ItemID": "ITM_OTH_TrophyFromAnimal",
+    "ItemName": "Trophy from Animal",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A memento from a hunted animal."
+  },
+  {
+    "ItemID": "ITM_TOL_DisguiseKit",
+    "ItemName": "Disguise Kit",
+    "ItemType": "Tool",
+    "Weight": 3.0,
+    "Value": 25,
+    "Description": "This pouch of cosmetics, hair dye, and small props lets you create disguises that change your physical appearance."
+  },
+  {
+    "ItemID": "ITM_OTH_ToolsOfTheCon",
+    "ItemName": "Tools of the Con",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "Various items used to facilitate confidence tricks and scams."
+  },
+  {
+    "ItemID": "ITM_OTH_BelayingPin",
+    "ItemName": "Belaying Pin",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A wooden or metal pin used on ships to secure ropes."
+  },
+  {
+    "ItemID": "ITM_OTH_50FeetOfSilkRope",
+    "ItemName": "50 feet of Silk Rope",
+    "ItemType": "Other",
+    "Weight": 5.0,
+    "Value": 10,
+    "Description": "Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check."
+  },
+  {
+    "ItemID": "ITM_OTH_LuckyCharm",
+    "ItemName": "Lucky Charm",
+    "ItemType": "Other",
+    "Weight": 0.0,
+    "Value": 0,
+    "Description": "A small trinket believed to bring good luck."
+  },
+  {
+    "ItemID": "ITM_OTH_Lute",
+    "ItemName": "Lute",
+    "ItemType": "Other",
+    "Weight": 2.0,
+    "Value": 35,
+    "Description": "A stringed musical instrument."
+  },
+  {
+    "ItemID": "ITM_GOLD_10gp",
+    "ItemName": "10 gp",
+    "ItemType": "Gold",
+    "Weight": 0.0,
+    "Value": 10,
+    "Description": "Ten gold pieces."
+  },
+  {
+    "ItemID": "ITM_GOLD_15gp",
+    "ItemName": "15 gp",
+    "ItemType": "Gold",
+    "Weight": 0.0,
+    "Value": 15,
+    "Description": "Fifteen gold pieces."
+  },
+  {
+    "ItemID": "ITM_GOLD_25gp",
+    "ItemName": "25 gp",
+    "ItemType": "Gold",
+    "Weight": 0.0,
+    "Value": 25,
+    "Description": "Twenty-five gold pieces."
+  },
+  {
+    "ItemID": "ITM_GOLD_5gp",
+    "ItemName": "5 gp",
+    "ItemType": "Gold",
+    "Weight": 0.0,
+    "Value": 5,
+    "Description": "Five gold pieces."
+  }
+]

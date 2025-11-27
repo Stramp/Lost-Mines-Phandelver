@@ -8,7 +8,7 @@
     "LanguageChoices": {
       "Count": 2
     },
-    "Equipment": ["Holy Symbol", "Prayer Book", "Incense", "Vestments", "Common Clothes", "15 gp"],
+    "Equipment": ["ITM_OTH_HolySymbol", "ITM_OTH_PrayerBook", "ITM_CNM_Incense", "ITM_OTH_Vestments", "ITM_OTH_CommonClothes", "ITM_GOLD_15gp"],
     "FeatureName": "Shelter of the Faithful",
     "FeatureDescription": "As an acolyte, you command the respect of those who share your faith, and you can perform the religious ceremonies of your deity. You and your adventuring companions can expect to receive free healing and care at a temple, shrine, or other established presence of your faith, though you must provide any material components needed for spells. Those who share your religion will support you (but only you) at a modest lifestyle."
   },
@@ -21,7 +21,7 @@
     "LanguageChoices": {
       "Count": 0
     },
-    "Equipment": ["Crowbar", "Dark Common Clothes", "15 gp"],
+    "Equipment": ["ITM_TOL_Crowbar", "ITM_OTH_DarkCommonClothes", "ITM_GOLD_15gp"],
     "FeatureName": "Criminal Contact",
     "FeatureDescription": "You have a reliable and trustworthy contact who acts as your liaison to a network of other criminals. You know how to get messages to and from your contact, even over great distances; specifically, you know the local messengers, corrupt caravan masters, and seedy sailors who can deliver messages for you."
   },
@@ -34,7 +34,7 @@
     "LanguageChoices": {
       "Count": 0
     },
-    "Equipment": ["Artisan's Tools", "Shovel", "Iron Pot", "Common Clothes", "10 gp"],
+    "Equipment": ["ITM_TOL_ArtisansTools", "ITM_TOL_Shovel", "ITM_OTH_IronPot", "ITM_OTH_CommonClothes", "ITM_GOLD_10gp"],
     "FeatureName": "Rustic Hospitality",
     "FeatureDescription": "Since you come from the ranks of the common folk, you fit in among them with ease. You can find a place to hide, rest, or recuperate among other commoners, unless you have shown yourself to be a danger to them. They will shield you from the law or anyone else searching for you, though they will not risk their lives for you."
   },
@@ -47,7 +47,7 @@
     "LanguageChoices": {
       "Count": 1
     },
-    "Equipment": ["Fine Clothes", "Signet Ring", "Scroll of Pedigree", "Purse", "25 gp"],
+    "Equipment": ["ITM_OTH_FineClothes", "ITM_OTH_SignetRing", "ITM_OTH_ScrollOfPedigree", "ITM_OTH_Purse", "ITM_GOLD_25gp"],
     "FeatureName": "Position of Privilege",
     "FeatureDescription": "Thanks to your noble birth, people are inclined to think the best of you. You are welcome in high society, and people assume you have the right to be wherever you are. The common folk make every effort to accommodate you and avoid your displeasure, and other people of high birth treat you as a member of the same social sphere. You can secure an audience with a local noble if you need to."
   },
@@ -60,7 +60,7 @@
     "LanguageChoices": {
       "Count": 2
     },
-    "Equipment": ["Bottle of Black Ink", "Quill", "Small Knife", "Letter from a Dead Colleague", "Common Clothes", "10 gp"],
+    "Equipment": ["ITM_OTH_BottleOfBlackInk", "ITM_OTH_Quill", "ITM_OTH_SmallKnife", "ITM_OTH_LetterFromDeadColleague", "ITM_OTH_CommonClothes", "ITM_GOLD_10gp"],
     "FeatureName": "Researcher",
     "FeatureDescription": "When you attempt to learn or recall a piece of lore, if you do not know that information, you often know where and from whom you can obtain it. Usually, this information comes from a library, scriptorium, university, or a sage or other learned person or creature. Your DM might rule that the knowledge you seek is secreted away in an almost inaccessible place, or that it simply cannot be found. Unearthing the deepest secrets of the multiverse can require an adventure or even a whole campaign."
   },
@@ -73,7 +73,7 @@
     "LanguageChoices": {
       "Count": 0
     },
-    "Equipment": ["Insignia of Rank", "Trophy from Fallen Enemy", "Set of Bone Dice", "Common Clothes", "10 gp"],
+    "Equipment": ["ITM_OTH_InsigniaOfRank", "ITM_OTH_TrophyFromFallenEnemy", "ITM_OTH_SetOfBoneDice", "ITM_OTH_CommonClothes", "ITM_GOLD_10gp"],
     "FeatureName": "Military Rank",
     "FeatureDescription": "You have a military rank from your career as a soldier. Soldiers loyal to your former military organization still recognize your authority and influence, and they defer to you if they are of a lower rank. You can invoke your rank to exert influence over other soldiers and requisition simple equipment or horses for temporary use. You can also usually gain access to friendly military encampments and fortresses where your rank is recognized."
   },
@@ -86,7 +86,7 @@
     "LanguageChoices": {
       "Count": 1
     },
-    "Equipment": ["Scroll Case", "Winter Blanket", "Common Clothes", "Herbalism Kit", "5 gp"],
+    "Equipment": ["ITM_OTH_ScrollCase", "ITM_OTH_WinterBlanket", "ITM_OTH_CommonClothes", "ITM_TOL_HerbalismKit", "ITM_GOLD_5gp"],
     "FeatureName": "Discovery",
     "FeatureDescription": "The quiet seclusion of your extended hermitage gave you access to a unique and powerful discovery. The exact nature of this revelation depends on the nature of your seclusion. It might be a great truth about the cosmos, the deities, the powerful beings of the outer planes, or the forces of nature. It could be a site that no one else has ever seen. You might have uncovered a fact that has long been forgotten, or unearthed some relic of the past that could rewrite history. It might be information that would be damaging to the people who or consigned you to exile, and hence the reason for your return to society."
   },
@@ -99,7 +99,7 @@
     "LanguageChoices": {
       "Count": 0
     },
-    "Equipment": ["Musical Instrument", "Costume", "Pouch", "15 gp"],
+    "Equipment": ["ITM_OTH_MusicalInstrument", "ITM_OTH_Costume", "ITM_OTH_Pouch", "ITM_GOLD_15gp"],
     "FeatureName": "By Popular Demand",
     "FeatureDescription": "You can always find a place to perform, usually in an inn or tavern but possibly with a circus, at a theater, or even in a noble's court. At such a place, you receive free lodging and food of a modest or comfortable standard (depending on the quality of the establishment), as long as you perform each night. In addition, your performance makes you something of a local figure. When strangers recognize you in a town where you have performed, they typically take a liking to you."
   },
@@ -112,7 +112,7 @@
     "LanguageChoices": {
       "Count": 1
     },
-    "Equipment": ["Artisan's Tools", "Letter of Introduction from Guild", "Traveler's Clothes", "15 gp"],
+    "Equipment": ["ITM_TOL_ArtisansTools", "ITM_OTH_LetterOfIntroductionFromGuild", "ITM_OTH_TravelersClothes", "ITM_GOLD_15gp"],
     "FeatureName": "Guild Membership",
     "FeatureDescription": "As an established and respected member of a guild, you can rely on certain benefits that membership provides. Your fellow guild members will provide you with lodging and food if necessary, and pay for your funeral if needed. In some cities and towns, a guildhall offers a central place to meet other members of your profession, which can be a good place to meet potential patrons, allies, or hirelings."
   },
@@ -125,7 +125,7 @@
     "LanguageChoices": {
       "Count": 1
     },
-    "Equipment": ["Staff", "Hunting Trap", "Trophy from Animal", "Traveler's Clothes", "10 gp"],
+    "Equipment": ["ITM_WPN_Staff", "ITM_OTH_HuntingTrap", "ITM_OTH_TrophyFromAnimal", "ITM_OTH_TravelersClothes", "ITM_GOLD_10gp"],
     "FeatureName": "Wanderer",
     "FeatureDescription": "You have an excellent memory for maps and geography, and you can always recall the general layout of terrain, settlements, and other features around you. In addition, you can find food and fresh water for yourself and up to five other people each day, provided that the land offers berries, small game, water, and so forth."
   },
@@ -138,7 +138,7 @@
     "LanguageChoices": {
       "Count": 0
     },
-    "Equipment": ["Fine Clothes", "Disguise Kit", "Tools of the Con", "15 gp"],
+    "Equipment": ["ITM_OTH_FineClothes", "ITM_TOL_DisguiseKit", "ITM_OTH_ToolsOfTheCon", "ITM_GOLD_15gp"],
     "FeatureName": "False Identity",
     "FeatureDescription": "You have created a second identity that includes documentation, established acquaintances, and disguises that allow you to assume that persona. Additionally, you can forge documents including official papers and personal letters, as long as you have seen an example of the kind of document or the handwriting you are trying to copy."
   },
@@ -151,7 +151,7 @@
     "LanguageChoices": {
       "Count": 0
     },
-    "Equipment": ["Belaying Pin", "50 feet of Silk Rope", "Lucky Charm", "Common Clothes", "10 gp"],
+    "Equipment": ["ITM_OTH_BelayingPin", "ITM_OTH_50FeetOfSilkRope", "ITM_OTH_LuckyCharm", "ITM_OTH_CommonClothes", "ITM_GOLD_10gp"],
     "FeatureName": "Ship's Passage",
     "FeatureDescription": "When you need to, you can secure free passage on a sailing ship for yourself and your adventuring companions. You might sail on the ship you served on, or another ship you have good relations with (perhaps one captained by a former crewmate). Because you're calling in a favor, you can't be certain of a schedule or route that will meet your every need. Your DM will determine how long it takes to get where you need to go. In return for your free passage, you and your companions are expected to assist the crew during the voyage."
   }

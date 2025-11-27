@@ -37,7 +37,9 @@
         {"Level": 18, "Features":["FC_MartialArchetype"]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_ExtraAtack"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 125
     }
   },
   {
@@ -78,7 +80,9 @@
         {"Level": 18, "Features":["FC_SpellMastery", "FC_ArcaneTradition"]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_SignatureSpells"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 40
     }
   },
   {
@@ -119,7 +123,9 @@
         {"Level": 18, "Features":["FC_IndomitableMight"]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_PrimalChampion"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 0
     }
   },
   {
@@ -160,7 +166,9 @@
         {"Level": 18, "Features":["FC_MagicalSecrets"]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_SuperiorInspiration"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 0
     }
   },
   {
@@ -201,7 +209,9 @@
         {"Level": 18, "Features":[]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_DivineIntervention"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 0
     }
   },
   {
@@ -242,7 +252,9 @@
         {"Level": 18, "Features":["FC_TimelessBody", "FC_BeastSpells"]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_Archdruid"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 0
     }
   },
   {
@@ -283,7 +295,9 @@
         {"Level": 18, "Features":["FC_EmptyBody"]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_PerfectSelf"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 0
     }
   },
   {
@@ -324,7 +338,9 @@
         {"Level": 18, "Features":["FC_AuraImprovements"]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_SacredOath"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 0
     }
   },
   {
@@ -365,7 +381,9 @@
         {"Level": 18, "Features":[]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_FoeSlayer"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 0
     }
   },
   {
@@ -406,7 +424,9 @@
         {"Level": 18, "Features":[]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_StrokeOfLuck"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 0
     }
   },
   {
@@ -447,7 +467,9 @@
         {"Level": 18, "Features":["FC_SorcerousOrigin"]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_SorcerousRestoration"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 0
     }
   },
   {
@@ -488,7 +510,9 @@
         {"Level": 18, "Features":["FC_EldritchInvocations"]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 20, "Features":["FC_EldritchMaster"]}
-      ]
+      ],
+      "StartingEquipment": [],
+      "StartingGold": 0
     }
   }
 ]

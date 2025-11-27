@@ -31,6 +31,20 @@
 
 </details>
 
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔧 Planos Técnicos Detalhados</b></summary>
+
+> **[roadmap-tecnico-itens-iniciais.md](roadmap-tecnico-itens-iniciais.md)** - Plano técnico detalhado para implementação do sistema de itens iniciais:
+>
+> - Análise das regras D&D 5e
+> - Arquitetura proposta seguindo padrões do projeto
+> - Implementação detalhada fase por fase
+> - Decisões de design
+> - Estratégia de testes
+> - Estimativa de tempo
+
+</details>
+
 ---
 
 ## 🎯 Navegação
@@ -39,6 +53,8 @@
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔗 Links Rápidos</b></summary>
 
 > - **[Roadmap Completo](roadmap.md)** - Planejamento detalhado
+> - **[Plano Técnico: Itens Iniciais](roadmap-tecnico-itens-iniciais.md)** - Implementação detalhada
+> - **[Plano Técnico: Boilerplate de Inventário](roadmap-tecnico-inventario-boilerplate.md)** - Estruturas modulares
 > - **[GDD](../design/gdd.md)** - Visão do jogo final
 > - **[Arquitetura Técnica](../technical/architecture.md)** - Decisões técnicas
 > - **[README Principal](../../README.md)** - Visão geral do projeto
