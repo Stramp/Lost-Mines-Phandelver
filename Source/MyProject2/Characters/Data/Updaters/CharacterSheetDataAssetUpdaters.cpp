@@ -43,41 +43,6 @@
 #pragma endregion Includes
 
 // ============================================================================
-// Calculated Fields Update
-// ============================================================================
-#pragma region Calculated Fields Update
-
-/**
- * Atualiza campos calculados do Data Asset.
- *
- * Nota: Esta função foi mantida como stub para compatibilidade com handlers existentes.
- * Proficiencies e Languages foram removidos do Data Asset e são calculados diretamente
- * no CharacterDataComponent quando necessário.
- *
- * Campos calculados que ainda podem ser atualizados aqui:
- * - CharacterTotalLvl (calculado automaticamente pelos handlers)
- * - MaxHealth/CurrentHealth (calculado por RecalculateMaxHP)
- * - Final Ability Scores (calculado por RecalculateFinalScores)
- *
- * Esta função não faz nada atualmente porque todos os campos calculados são atualizados
- * por funções específicas (RecalculateFinalScores, RecalculateMaxHP, etc.).
- *
- * @param Asset Asset do personagem (pode ser nullptr)
- */
-void FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(UCharacterSheetDataAsset *Asset)
-{
-    if (!Asset)
-    {
-        return;
-    }
-
-    // Stub intencional: campos calculados são atualizados por funções específicas
-    // Mantida para compatibilidade com handlers que chamam esta função
-}
-
-#pragma endregion Calculated Fields Update
-
-// ============================================================================
 // Language Choices Update
 // ============================================================================
 #pragma region Language Choices Update

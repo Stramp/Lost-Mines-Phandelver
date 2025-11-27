@@ -16,18 +16,6 @@ class MYPROJECT2_API FCharacterSheetDataAssetUpdaters
 {
 public:
     // ============================================================================
-    // Calculated Fields Update
-    // ============================================================================
-
-    /**
-     * Atualiza campos calculados do Data Asset.
-     * Stub intencional: campos calculados são atualizados por funções específicas.
-     *
-     * @param Asset Asset do personagem (pode ser nullptr)
-     */
-    static void UpdateCalculatedFields(UCharacterSheetDataAsset *Asset);
-
-    // ============================================================================
     // Flag Updates
     // ============================================================================
 

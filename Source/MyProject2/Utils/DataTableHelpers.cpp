@@ -124,9 +124,10 @@ FClassDataRow *DataTableHelpers::FindClassRow(FName ClassName, UDataTable *Class
     {
         FLogContext ErrorContext(TEXT("DataTable"), TEXT("FindClassRow"));
         FString TableName = ClassDataTable ? ClassDataTable->GetName() : TEXT("Unknown");
-        FLoggingSystem::LogDataTableError(
-            ErrorContext, TableName, ClassName.ToString(), TEXT("Name"),
-            FString::Printf(TEXT("Classe '%s' não encontrada na tabela após todas as tentativas (direto, Class_ prefixo, busca manual)."), *ClassName.ToString()));
+        FLoggingSystem::LogDataTableError(ErrorContext, TableName, ClassName.ToString(), TEXT("Name"),
+                                          FString::Printf(TEXT("Classe '%s' não encontrada na tabela após todas as "
+                                                               "tentativas (direto, Class_ prefixo, busca manual)."),
+                                                          *ClassName.ToString()));
     }
 
     return Row;
@@ -147,6 +148,7 @@ FFeatDataRow *DataTableHelpers::FindFeatRow(FName FeatName, UDataTable *FeatData
     FFeatDataRow *Row = FeatDataTable->FindRow<FFeatDataRow>(FeatName, TEXT("FindFeatRow"));
 
     // Fallback: busca manual O(n) se FindRow não encontrou
+    // Procura por FC_ID primeiro, depois por Name
     if (!Row)
     {
         TArray<FName> RowNames = FeatDataTable->GetRowNames();
@@ -154,7 +156,8 @@ FFeatDataRow *DataTableHelpers::FindFeatRow(FName FeatName, UDataTable *FeatData
         {
             if (FFeatDataRow *FoundRow = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("FindFeatRow")))
             {
-                if (FoundRow->FeatName == FeatName)
+                // Verifica FC_ID primeiro (identificador principal), depois Name
+                if (FoundRow->FC_ID == FeatName || FoundRow->Name == FeatName)
                 {
                     Row = FoundRow;
                     break;
@@ -247,8 +250,7 @@ FFeatureDataRow *DataTableHelpers::FindFeatureRowByID(FName FeatureID, UDataTabl
     TArray<FName> RowNames = FeatureDataTable->GetRowNames();
     for (const FName &RowName : RowNames)
     {
-        if (FFeatureDataRow *FoundRow =
-                FeatureDataTable->FindRow<FFeatureDataRow>(RowName, TEXT("FindFeatureRowByID")))
+        if (FFeatureDataRow *FoundRow = FeatureDataTable->FindRow<FFeatureDataRow>(RowName, TEXT("FindFeatureRowByID")))
         {
             if (FoundRow->FC_ID == FeatureID)
             {

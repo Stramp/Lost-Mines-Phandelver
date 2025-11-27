@@ -8,7 +8,9 @@
 #include "PointBuyValidator.h"
 
 // Project includes - Utils
+#include "Utils/CharacterSheetHelpers.h"
 #include "Utils/ValidationHelpers.h"
+#include "Utils/DnDConstants.h"
 
 // Engine includes
 #include "Logging/LogMacros.h"
@@ -24,18 +26,17 @@ FPointBuyValidationResult FPointBuyValidator::ValidatePointBuy(int32 PointBuyStr
                                                                int32 PointBuyConstitution, int32 PointBuyIntelligence,
                                                                int32 PointBuyWisdom, int32 PointBuyCharisma)
 {
-    // Converte alocação de Point Buy (0-7) para score base (8-15) para validação
-    TMap<FName, int32> BaseScores;
-    BaseScores.Add(TEXT("Strength"), 8 + PointBuyStrength);
-    BaseScores.Add(TEXT("Dexterity"), 8 + PointBuyDexterity);
-    BaseScores.Add(TEXT("Constitution"), 8 + PointBuyConstitution);
-    BaseScores.Add(TEXT("Intelligence"), 8 + PointBuyIntelligence);
-    BaseScores.Add(TEXT("Wisdom"), 8 + PointBuyWisdom);
-    BaseScores.Add(TEXT("Charisma"), 8 + PointBuyCharisma);
+    // Converte alocação de Point Buy (0-7) para score base (BASE_ABILITY_SCORE + PointBuy) para validação
+    // Usa helpers puros para eliminar duplicação e magic numbers (DRY + Clean Code)
+    TMap<FName, int32> PointBuyMap =
+        CharacterSheetHelpers::CreatePointBuyMapFromData(PointBuyStrength, PointBuyDexterity, PointBuyConstitution,
+                                                         PointBuyIntelligence, PointBuyWisdom, PointBuyCharisma);
+    TMap<FName, int32> BaseScores = CharacterSheetHelpers::CreateBaseScoresFromPointBuy(PointBuyMap);
 
     // Usa ValidationHelpers para validar e calcular pontos restantes
     int32 PointsRemaining = 0;
-    bool bAllScoresValid = ValidationHelpers::ValidatePointBuy(BaseScores, PointsRemaining, 27);
+    bool bAllScoresValid =
+        ValidationHelpers::ValidatePointBuy(BaseScores, PointsRemaining, DnDConstants::MAX_POINT_BUY_POINTS);
 
     // Determina se a alocação está completamente válida
     bool bIsValid = (PointsRemaining == 0 && bAllScoresValid);
@@ -44,12 +45,14 @@ FPointBuyValidationResult FPointBuyValidator::ValidatePointBuy(int32 PointBuyStr
     FString LogMessage;
     if (!bAllScoresValid)
     {
-        LogMessage = TEXT("CharacterSheetDataAsset: Alguns ability scores estão fora do range válido [8, 15]");
+        LogMessage =
+            FString::Printf(TEXT("CharacterSheetDataAsset: Alguns ability scores estão fora do range válido [%d, %d]"),
+                            DnDConstants::MIN_POINT_BUY_SCORE, DnDConstants::MAX_POINT_BUY_SCORE);
     }
 
     // Se PointsRemaining != 0 ou scores inválidos, a alocação está incorreta
-    // PointsRemaining negativo = pontos excedidos (mais de 27 gastos)
-    // PointsRemaining positivo = pontos não gastos (menos de 27 gastos)
+    // PointsRemaining negativo = pontos excedidos (mais de MAX_POINT_BUY_POINTS gastos)
+    // PointsRemaining positivo = pontos não gastos (menos de MAX_POINT_BUY_POINTS gastos)
     // Não clampa para evitar mascarar estado inválido
 
     return FPointBuyValidationResult(PointsRemaining, bAllScoresValid, bIsValid, LogMessage);

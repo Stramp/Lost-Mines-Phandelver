@@ -17,7 +17,8 @@ class MYPROJECT2_API FPointBuyValidator
 public:
     /**
      * Valida Point Buy system.
-     * Calcula pontos gastos e valida ability scores estão dentro do range válido [8, 15].
+     * Calcula pontos gastos e valida ability scores estão dentro do range válido [MIN_POINT_BUY_SCORE,
+     * MAX_POINT_BUY_SCORE].
      *
      * Função pura: recebe dados, retorna resultado, não modifica nada.
      *

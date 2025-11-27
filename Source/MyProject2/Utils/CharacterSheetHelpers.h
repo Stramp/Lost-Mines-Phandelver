@@ -300,6 +300,22 @@ namespace CharacterSheetHelpers
     int32 CalculateTotalPointBuyCost(const TMap<FName, int32> &AbilityScores);
 
     /**
+     * Cria TMap de PointBuy a partir de valores individuais.
+     * Helper puro para eliminar duplicação de código.
+     *
+     * @param PointBuyStrength Pontos alocados para Strength (0-7)
+     * @param PointBuyDexterity Pontos alocados para Dexterity (0-7)
+     * @param PointBuyConstitution Pontos alocados para Constitution (0-7)
+     * @param PointBuyIntelligence Pontos alocados para Intelligence (0-7)
+     * @param PointBuyWisdom Pontos alocados para Wisdom (0-7)
+     * @param PointBuyCharisma Pontos alocados para Charisma (0-7)
+     * @return Map com valores de Point Buy (chave: FName do atributo, valor: pontos de Point Buy)
+     */
+    TMap<FName, int32> CreatePointBuyMapFromData(int32 PointBuyStrength, int32 PointBuyDexterity,
+                                                 int32 PointBuyConstitution, int32 PointBuyIntelligence,
+                                                 int32 PointBuyWisdom, int32 PointBuyCharisma);
+
+    /**
      * Cria TMap de BaseScores (BASE_ABILITY_SCORE + PointBuy) a partir de PointBuyMap.
      * Helper puro para eliminar duplicação de código.
      *

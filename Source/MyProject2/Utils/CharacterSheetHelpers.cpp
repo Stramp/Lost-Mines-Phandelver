@@ -218,15 +218,18 @@ bool CharacterSheetHelpers::MeetsFeatPrerequisites(const FFeatDataRow *Row, cons
         return false;
     }
 
+    // Extrai pré-requisitos de FeatureData usando helper
+    TArray<FName> Prerequisites = Row->GetPrerequisites();
+
     // Se não há pré-requisitos, o feat está disponível
-    if (Row->Prerequisites.Num() == 0)
+    if (Prerequisites.Num() == 0)
     {
         return true;
     }
 
     // Valida cada pré-requisito
     // Todos os pré-requisitos devem ser atendidos (AND lógico)
-    for (const FName &Prerequisite : Row->Prerequisites)
+    for (const FName &Prerequisite : Prerequisites)
     {
         if (!ValidateAbilityScorePrerequisite(Prerequisite, AbilityScores))
         {
@@ -256,14 +259,16 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeats(int32 TotalLevel, const T
     {
         if (FFeatDataRow *Row = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("GetAvailableFeats")))
         {
-            if (Row->FeatName == NAME_None)
+            // Usa FC_ID como identificador principal, fallback para Name
+            FName FeatIdentifier = Row->FC_ID != NAME_None ? Row->FC_ID : Row->Name;
+            if (FeatIdentifier == NAME_None)
             {
                 continue;
             }
 
             if (CharacterSheetHelpers::MeetsFeatPrerequisites(Row, AbilityScores))
             {
-                AvailableFeatsSet.Add(Row->FeatName);
+                AvailableFeatsSet.Add(FeatIdentifier);
             }
         }
     }
@@ -288,7 +293,9 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeatsForVariantHuman(const TMap
     {
         if (FFeatDataRow *Row = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("GetAvailableFeatsForVariantHuman")))
         {
-            if (Row->FeatName == NAME_None)
+            // Usa FC_ID como identificador principal, fallback para Name
+            FName FeatIdentifier = Row->FC_ID != NAME_None ? Row->FC_ID : Row->Name;
+            if (FeatIdentifier == NAME_None)
             {
                 continue;
             }
@@ -296,7 +303,7 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeatsForVariantHuman(const TMap
             // Valida apenas pré-requisitos de ability scores (sem verificação de nível)
             if (CharacterSheetHelpers::MeetsFeatPrerequisites(Row, AbilityScores))
             {
-                AvailableFeatsSet.Add(Row->FeatName);
+                AvailableFeatsSet.Add(FeatIdentifier);
             }
         }
     }
@@ -534,26 +541,26 @@ TArray<FName> CharacterSheetHelpers::GetAvailableLanguagesForChoice(FName RaceNa
 
 int32 CharacterSheetHelpers::CalculatePointBuyCost(int32 Score)
 {
-    // Validação: scores devem estar entre 8 e 15
-    if (Score < 8 || Score > 15)
+    // Validação: scores devem estar entre MIN_POINT_BUY_SCORE e MAX_POINT_BUY_SCORE
+    if (Score < DnDConstants::MIN_POINT_BUY_SCORE || Score > DnDConstants::MAX_POINT_BUY_SCORE)
     {
         return 0;
     }
 
     // Tabela oficial D&D 5e Point Buy
-    if (Score == 8)
+    if (Score == DnDConstants::MIN_POINT_BUY_SCORE)
     {
         return 0;
     }
     else if (Score >= 9 && Score <= 13)
     {
-        return Score - 8;
+        return Score - DnDConstants::BASE_ABILITY_SCORE;
     }
     else if (Score == 14)
     {
         return 7;
     }
-    else if (Score == 15)
+    else if (Score == DnDConstants::MAX_POINT_BUY_SCORE)
     {
         return 9;
     }
@@ -573,15 +580,38 @@ int32 CharacterSheetHelpers::CalculateTotalPointBuyCost(const TMap<FName, int32>
     return TotalCost;
 }
 
+TMap<FName, int32> CharacterSheetHelpers::CreatePointBuyMapFromData(int32 PointBuyStrength, int32 PointBuyDexterity,
+                                                                    int32 PointBuyConstitution,
+                                                                    int32 PointBuyIntelligence, int32 PointBuyWisdom,
+                                                                    int32 PointBuyCharisma)
+{
+    TMap<FName, int32> PointBuyMap;
+    TArray<FName> AbilityNames = GetAbilityScoreNames();
+    TArray<int32> Values = {PointBuyStrength,     PointBuyDexterity, PointBuyConstitution,
+                            PointBuyIntelligence, PointBuyWisdom,    PointBuyCharisma};
+
+    // Garante que temos exatamente 6 atributos
+    check(AbilityNames.Num() == 6);
+    check(Values.Num() == 6);
+
+    for (int32 i = 0; i < AbilityNames.Num() && i < Values.Num(); ++i)
+    {
+        PointBuyMap.Add(AbilityNames[i], Values[i]);
+    }
+
+    return PointBuyMap;
+}
+
 TMap<FName, int32> CharacterSheetHelpers::CreateBaseScoresFromPointBuy(const TMap<FName, int32> &PointBuyMap)
 {
     TMap<FName, int32> BaseScores;
-    BaseScores.Add(TEXT("Strength"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Strength")));
-    BaseScores.Add(TEXT("Dexterity"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Dexterity")));
-    BaseScores.Add(TEXT("Constitution"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Constitution")));
-    BaseScores.Add(TEXT("Intelligence"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Intelligence")));
-    BaseScores.Add(TEXT("Wisdom"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Wisdom")));
-    BaseScores.Add(TEXT("Charisma"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Charisma")));
+    TArray<FName> AbilityNames = GetAbilityScoreNames();
+
+    for (const FName &AbilityName : AbilityNames)
+    {
+        BaseScores.Add(AbilityName, DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(AbilityName));
+    }
+
     return BaseScores;
 }
 

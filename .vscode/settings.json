@@ -13,6 +13,8 @@
     "source.organizeImports": "explicit",
     "source.fixAll": "explicit"
   },
+  "files.autoSave": "off",
+  "files.autoSaveDelay": 1000,
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
@@ -47,10 +49,17 @@
     "**/Saved/**": true,
     "**/.vscode/unreal-clangd/**": true
   },
-  "unreal-clangd.creation.overwrite": "incremental",
+  "unreal-clangd.creation.overwrite": "partial",
   "unreal-clangd.utility.createProjectOnStartup": false,
+  "unreal-clangd.utility.autoCreateProject": false,
+  "unreal-clangd.utility.notifyOnNewFiles": false,
   "C_Cpp.autocomplete": "disabled",
   "C_Cpp.formatting": "disabled",
+  "C_Cpp.updateChannel": "Default",
+  "C_Cpp.configurationWarnings": "disabled",
+  "C_Cpp.workspaceParsing": "disabled",
+  "C_Cpp.default.browse.limitSymbolsToIncludedHeaders": false,
+  "C_Cpp.default.systemIncludePath": [],
   "unreal-clangd.creation.compilerPath": "c:\\Program Files\\LLVM\\bin\\clang-cl.exe",
   "editor.suggest.snippetsPreventQuickSuggestions": false,
   "clangd.path": "c:\\Program Files\\LLVM\\bin\\clangd.exe",
@@ -63,9 +72,11 @@
     "-limit-references=2000",
     "-completion-style=detailed",
     "-function-arg-placeholders=true",
-    "-log=info"
+    "-log=error"
   ],
   "clangd.detectExtensionConflicts": false,
+  "clangd.onConfigChanged": "ignore",
+  "clangd.checkUpdates": false,
   "files.associations": {
     "*.clangd": "yaml",
     "*.clang-format": "yaml",

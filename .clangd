@@ -95,7 +95,6 @@ Diagnostics:
   # Ignora arquivos gerados pelo Unreal Engine (não analisa esses arquivos)
   IgnoreRegex: '.*\.generated\.h$'
   # Desabilita diagnóstico de tipo ausente (falso positivo com GENERATED_BODY)
-  UnusedIncludes: None
   ClangTidy:
     Remove:
       - clang-diagnostic-missing-type-specifier

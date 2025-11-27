@@ -5,6 +5,7 @@
 #include "CharacterDataComponent.h"
 #include "Utils/ComponentHelpers.h"
 #include "Utils/DataTableHelpers.h"
+#include "Utils/CharacterSheetHelpers.h"
 #include "Data/Tables/RaceDataTable.h"
 #include "Logging/LoggingSystem.h"
 #include "GameFramework/Actor.h"
@@ -130,13 +131,21 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     }
 
     // Copia ability scores (valores finais dos campos dedicados)
+    // Usa helper GetAbilityScoreNames para eliminar duplicação (DRY)
     CharacterDataComponent->AbilityScores.Empty();
-    CharacterDataComponent->AbilityScores.Add(TEXT("Strength"), DataAsset->FinalStrength);
-    CharacterDataComponent->AbilityScores.Add(TEXT("Dexterity"), DataAsset->FinalDexterity);
-    CharacterDataComponent->AbilityScores.Add(TEXT("Constitution"), DataAsset->FinalConstitution);
-    CharacterDataComponent->AbilityScores.Add(TEXT("Intelligence"), DataAsset->FinalIntelligence);
-    CharacterDataComponent->AbilityScores.Add(TEXT("Wisdom"), DataAsset->FinalWisdom);
-    CharacterDataComponent->AbilityScores.Add(TEXT("Charisma"), DataAsset->FinalCharisma);
+    TArray<FName> AbilityNames = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<int32 *> AbilityValues = {&DataAsset->FinalStrength,     &DataAsset->FinalDexterity,
+                                     &DataAsset->FinalConstitution, &DataAsset->FinalIntelligence,
+                                     &DataAsset->FinalWisdom,       &DataAsset->FinalCharisma};
+
+    // Garante que temos exatamente 6 atributos
+    check(AbilityNames.Num() == 6);
+    check(AbilityValues.Num() == 6);
+
+    for (int32 i = 0; i < AbilityNames.Num() && i < AbilityValues.Num(); ++i)
+    {
+        CharacterDataComponent->AbilityScores.Add(AbilityNames[i], *AbilityValues[i]);
+    }
 
     // Salva referência ao Data Asset
     SourceDataAsset = DataAsset;

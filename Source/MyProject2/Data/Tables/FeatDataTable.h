@@ -2,17 +2,40 @@
 
 #pragma once
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "Data/Tables/FeatureDataTable.h"
 #include "FeatDataTable.generated.h"
+
+#pragma endregion Includes
+
+// ============================================================================
+// Feat Data Struct
+// ============================================================================
+#pragma region Feat Data Struct
 
 /**
  * Struct principal para dados de feats gerais D&D 5e.
  * Herda de FTableRowBase para ser usada em UDataTable.
- * Contém todas as informações necessárias para um feat: nome, descrição, pré-requisitos e benefícios.
+ * Segue o padrão de FFeatureDataRow para consistência estrutural.
+ * Contém todas as informações necessárias para um feat: nome, descrição, tipo, nível e dados estruturados.
  *
  * Feats são habilidades especiais que personagens podem adquirir ao invés de aumentar
  * Ability Scores. Exemplos: Alert, Magic Initiate, War Caster, Sharpshooter.
+ *
+ * Estrutura alinhada com DJ_FeatsGerais.json:
+ * - Name: Nome do feat
+ * - FC_ID: ID único (ex: "Feat_Alert", "Feat_MagicInitiate")
+ * - Description: Descrição textual
+ * - LevelUnlocked: Nível mínimo (padrão: 4)
+ * - FeatureType: "Feat"
+ * - FeatureData: Dados estruturados (Prerequisites, Benefits, etc.)
+ * - AvailableChoices: Escolhas disponíveis (geralmente vazio para feats)
  */
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FFeatDataRow : public FTableRowBase
@@ -21,32 +44,73 @@ struct MYPROJECT2_API FFeatDataRow : public FTableRowBase
 
     /** Nome do feat (ex: "Alert", "Magic Initiate", "War Caster", "Sharpshooter") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
-    FName FeatName;
+    FName Name;
+
+    /** ID único do feat (ex: "Feat_Alert", "Feat_MagicInitiate", "Feat_WarCaster") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
+    FName FC_ID;
 
     /** Descrição textual do feat (localizável, para exibição na UI) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
     FText Description;
 
-    /**
-     * Pré-requisitos para adquirir o feat.
-     * Array de strings descrevendo os requisitos (ex: "Strength 13", "Proficiency in Heavy Armor").
-     * Pode ser array vazio se o feat não tiver pré-requisitos.
-     */
+    /** Nível em que o feat é desbloqueado (padrão: 4, nível mínimo para feats em D&D 5e) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
-    TArray<FName> Prerequisites;
+    int32 LevelUnlocked = 4;
 
     /**
-     * Benefícios estruturados do feat (dados programáticos).
+     * Tipo da feature: "Feat"
+     * Mantido para consistência com FFeatureDataRow.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
+    FName FeatureType;
+
+    /**
+     * Dados estruturados do feat (dados programáticos).
      * Permite armazenar informações programáticas além da descrição textual.
-     * Exemplo: {"InitiativeBonus": "5", "CannotBeSurprised": "true"} para Alert
-     * Exemplo: {"SpellcastingAbility": "Intelligence", "Cantrips": "2", "FirstLevelSpells": "1"} para Magic Initiate
+     *
+     * Estrutura esperada:
+     * - "Prerequisites": String ou array de pré-requisitos (ex: "Strength 13" ou ["Strength 13", "Dexterity 15"])
+     * - Benefícios específicos do feat (ex: "InitiativeBonus": "5", "CannotBeSurprised": "true")
+     *
+     * Exemplo para Alert:
+     * {"InitiativeBonus": "5", "CannotBeSurprised": "true", "NoAdvantageFromHidden": "true"}
+     *
+     * Exemplo para Magic Initiate:
+     * {"SpellcastingAbility": "Intelligence", "Cantrips": "2", "FirstLevelSpells": "1"}
+     *
+     * Exemplo para Defensive Duelist:
+     * {"Prerequisites": "Dexterity 13", "ReactionACBonus": "proficiency", "RequiresFinesseWeapon": "true"}
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
-    TMap<FName, FString> Benefits;
+    TMap<FName, FString> FeatureData;
 
-    FFeatDataRow() : FeatName(NAME_None), Description(FText::GetEmpty()) {}
+    /**
+     * Escolhas disponíveis para feats que permitem escolhas (geralmente vazio).
+     * Array vazio para a maioria dos feats.
+     * Pode conter escolhas para feats especiais que permitem seleção.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
+    TArray<FFeatureChoice> AvailableChoices;
 
-    FFeatDataRow(const FName &InFeatName, const FText &InDescription) : FeatName(InFeatName), Description(InDescription)
+    FFeatDataRow()
+        : Name(NAME_None), FC_ID(NAME_None), Description(FText::GetEmpty()), LevelUnlocked(4), FeatureType(NAME_None)
     {
     }
+
+    FFeatDataRow(const FName &InName, const FName &InFC_ID, const FText &InDescription, int32 InLevelUnlocked = 4,
+                 const FName &InFeatureType = TEXT("Feat"))
+        : Name(InName), FC_ID(InFC_ID), Description(InDescription), LevelUnlocked(InLevelUnlocked),
+          FeatureType(InFeatureType)
+    {
+    }
+
+    /**
+     * Helper: Extrai pré-requisitos de FeatureData.
+     * Prerequisites podem estar como string única ou array de strings separadas por vírgula.
+     * Retorna array de FName para compatibilidade com código existente.
+     */
+    TArray<FName> GetPrerequisites() const;
 };
+
+#pragma endregion Feat Data Struct

@@ -12,6 +12,12 @@ public class MyProject2 : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
+		// Automation Test Framework para testes unitários
+		if (Target.bBuildEditor)
+		{
+			PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd", "AutomationTest" });
+		}
+
 		// Adiciona raiz do módulo como include path para evitar includes relativos (../../)
 		// Permite usar: #include "Utils/CharacterSheetHelpers.h" ao invés de #include "../../Utils/CharacterSheetHelpers.h"
 		PublicIncludePaths.Add(ModuleDirectory);

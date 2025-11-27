@@ -24,25 +24,22 @@ FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
 
     // Motor converte propriedades diretas para TMap<FName, int32> antes de passar para helpers
     // Isso mantém os helpers recebendo dados puros e o motor encapsulando a transformação
-    TMap<FName, int32> PointBuyMap;
-    PointBuyMap.Add(TEXT("Strength"), Data.PointBuyStrength);
-    PointBuyMap.Add(TEXT("Dexterity"), Data.PointBuyDexterity);
-    PointBuyMap.Add(TEXT("Constitution"), Data.PointBuyConstitution);
-    PointBuyMap.Add(TEXT("Intelligence"), Data.PointBuyIntelligence);
-    PointBuyMap.Add(TEXT("Wisdom"), Data.PointBuyWisdom);
-    PointBuyMap.Add(TEXT("Charisma"), Data.PointBuyCharisma);
+    // Usa helper puro para eliminar duplicação (DRY)
+    TMap<FName, int32> PointBuyMap = CharacterSheetHelpers::CreatePointBuyMapFromData(
+        Data.PointBuyStrength, Data.PointBuyDexterity, Data.PointBuyConstitution, Data.PointBuyIntelligence,
+        Data.PointBuyWisdom, Data.PointBuyCharisma);
 
-    // Valida e ajusta se necessário (máximo 27 pontos)
+    // Valida e ajusta se necessário (máximo MAX_POINT_BUY_POINTS)
     const int32 MaxPoints = DnDConstants::MAX_POINT_BUY_POINTS;
     FString FeedbackMessage;
     bool bWasAdjusted = false;
 
-    // Calcula custo total dos scores base (8 + PointBuy) usando helper puro
+    // Calcula custo total dos scores base (BASE_ABILITY_SCORE + PointBuy) usando helper puro
     TMap<FName, int32> BaseScores = CharacterSheetHelpers::CreateBaseScoresFromPointBuy(PointBuyMap);
     int32 TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
     int32 PointsRemaining = MaxPoints - TotalCost;
 
-    // Se excedeu 27 pontos, ajusta automaticamente
+    // Se excedeu MAX_POINT_BUY_POINTS, ajusta automaticamente
     if (PointsRemaining < 0)
     {
         FeedbackMessage = CharacterSheetHelpers::AdjustPointBuyAllocation(PointBuyMap, MaxPoints);
