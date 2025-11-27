@@ -1,0 +1,437 @@
+---
+description: CRITICAL RULE - Test-Driven Development (TDD) methodology. Write tests BEFORE implementation for critical code.
+globs: ["*.cpp", "*.h"]
+alwaysApply: true
+---
+
+# 🧪 Test-Driven Development (TDD) Rule
+
+## 🎯 Objetivo
+
+**ALWAYS** seguir o paradigma Test-Driven Development (TDD) para código crítico e reutilizável, garantindo que testes sejam escritos **ANTES** da implementação, seguindo o ciclo **Red-Green-Refactor**.
+
+## 🚨 REGRA PRINCIPAL - TEST-FIRST 🚨
+
+**ALWAYS** escrever testes **ANTES** da implementação quando:
+
+- ✅ **Criando nova função helper/utility** (em `Utils/` ou `Helpers/`)
+- ✅ **Implementando lógica de negócio** (cálculos, validações, transformações)
+- ✅ **Criando novos motores** (`*Motor.cpp` - PointBuy, Multiclass, RaceBonus)
+- ✅ **Criando novos validators** (`*Validator.cpp`)
+- ✅ **Adicionando cálculos complexos** (modificadores, proficiências, atributos)
+- ✅ **Implementando regras de negócio** (regras D&D, multiclassing, point buy)
+- ✅ **Refatorando código crítico** (escrever testes primeiro para garantir comportamento)
+
+**NEVER** implementar código crítico sem testes correspondentes.
+
+## 🔄 O Ciclo Red-Green-Refactor
+
+### 1. Red: Escrever Teste que Falha
+
+**ALWAYS** começar escrevendo o teste que define o comportamento esperado:
+
+```cpp
+// ✅ CORRETO - Teste primeiro
+BEGIN_DEFINE_SPEC(FPointBuyMotorSpec, "MyProject2.CreateSheet.PointBuy",
+                  EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
+    FPointBuyMotor* Motor;
+END_DEFINE_SPEC(FPointBuyMotorSpec)
+
+void FPointBuyMotorSpec::Define()
+{
+    Describe("CalculatePointBuyCost", [this]()
+    {
+        It("deve calcular custo correto para score 15 (9 pontos)", [this]()
+        {
+            // Arrange
+            int32 Score = 15;
+
+            // Act
+            int32 Result = FPointBuyMotor::CalculatePointBuyCost(Score);
+
+            // Assert
+            TestEqual("Custo para score 15 deve ser 9", Result, 9);
+        });
+    });
+}
+```
+
+**Por que começar pelo teste:**
+- Define o contrato antes da implementação
+- Força pensar na interface primeiro
+- Garante que o teste pode detectar erros
+- Confirma que a infraestrutura de teste funciona
+
+### 2. Green: Implementação Mínima
+
+**ALWAYS** implementar a solução mais simples que faz o teste passar:
+
+```cpp
+// Implementação mínima para passar no teste
+int32 FPointBuyMotor::CalculatePointBuyCost(int32 Score)
+{
+    if (Score == 15) return 9;  // Implementação mínima
+    return 0;
+}
+```
+
+**Por que implementação mínima:**
+- Foca em fazer o teste passar
+- Evita over-engineering
+- Permite evoluir incrementalmente
+- Mantém o ciclo rápido
+
+### 3. Refactor: Melhorar com Segurança
+
+**ALWAYS** refatorar com testes verdes garantindo que nada quebra:
+
+```cpp
+// Refatoração com testes garantindo comportamento
+int32 FPointBuyMotor::CalculatePointBuyCost(int32 Score)
+{
+    // Lógica completa, mas testes garantem que funciona
+    if (Score < DnDConstants::MIN_POINT_BUY_SCORE || Score > DnDConstants::MAX_POINT_BUY_SCORE)
+    {
+        return 0;
+    }
+
+    // Tabela de custos D&D 5e
+    const TMap<int32, int32> CostTable = {
+        {8, 0}, {9, 1}, {10, 2}, {11, 3}, {12, 4},
+        {13, 5}, {14, 7}, {15, 9}
+    };
+
+    return CostTable.Contains(Score) ? CostTable[Score] : 0;
+}
+```
+
+**Por que refatorar com testes:**
+- Testes garantem que comportamento não muda
+- Permite refatorações agressivas sem medo
+- Detecta regressões imediatamente
+- Mantém código limpo e eficiente
+
+## 📋 Checklist TDD Obrigatório
+
+**BEFORE escrever QUALQUER código crítico, SEMPRE verificar:**
+
+1. **[ ] Escrevi o teste que falha (Red)?**
+   - Teste define comportamento esperado?
+   - Teste pode detectar erros?
+   - Teste compila (mesmo que função não exista ainda)?
+
+2. **[ ] O teste é atômico e focado?**
+   - Testa uma única coisa?
+   - Nome descritivo (`<Scenario>_<Condition>_<ExpectedResult>`)?
+   - Independente de outros testes?
+
+3. **[ ] A função será testável isoladamente?**
+   - Sem dependências ocultas?
+   - Parâmetros claros?
+   - Retorno verificável?
+
+4. **[ ] Implementação mínima faz teste passar (Green)?**
+   - Solução mais simples possível?
+   - Teste fica verde?
+   - Comportamento básico funciona?
+
+5. **[ ] Refatorei com segurança (Refactor)?**
+   - Testes ainda passam?
+   - Código melhorado sem quebrar comportamento?
+   - Clean Code aplicado?
+
+**Se QUALQUER resposta for NÃO → PARAR e corrigir antes de continuar**
+
+## ⚠️ Exceções: Quando Test-After é Aceitável
+
+**Test-After (escrever teste depois) é aceitável quando:**
+
+- ❌ **Getters/Setters simples** (sem lógica)
+  ```cpp
+  // Não precisa de teste primeiro
+  float GetHealth() const { return Health; }
+  void SetHealth(float NewHealth) { Health = NewHealth; }
+  ```
+
+- ❌ **Wrappers diretos de API Unreal** (sem lógica customizada)
+  ```cpp
+  // Wrapper simples, testar depois se necessário
+  UDataTable* GetRaceDataTable() const { return RaceDataTable; }
+  ```
+
+- ❌ **Integração com Blueprint** (testar depois pode ser mais prático)
+  ```cpp
+  // Integração complexa, testar depois
+  UFUNCTION(BlueprintCallable)
+  void InitializeFromBlueprint(UCharacterSheetDataAsset* Asset);
+  ```
+
+- ❌ **Mudanças muito pequenas** (< 5 linhas, sem lógica complexa)
+  ```cpp
+  // Ajuste simples, não precisa de teste primeiro
+  void LogMessage(const FString& Message) { UE_LOG(LogTemp, Warning, TEXT("%s"), *Message); }
+  ```
+
+- ❌ **Correções de bugs** (escrever teste que reproduz bug, depois corrigir)
+  ```cpp
+  // Bug fix: escrever teste que reproduz, depois corrigir
+  It("deve corrigir bug X", [this]() { /* reproduz bug */ });
+  ```
+
+**IMPORTANTE:** Mesmo em exceções, **SEMPRE** escrever testes quando código for crítico ou reutilizável.
+
+## 🎯 Quando Aplicar TDD Rigorosamente
+
+### 1. Helpers e Utils (SEMPRE TDD)
+
+**ALWAYS** test-first para funções em `Utils/` ou `Helpers/`:
+
+```cpp
+// ✅ CORRETO - Teste primeiro
+// 1. Red: Escrever teste
+It("deve calcular modificador correto para score 10 (modificador 0)", [this]()
+{
+    int32 Result = CalculationHelpers::CalculateAbilityModifier(10);
+    TestEqual("Modificador para score 10 deve ser 0", Result, 0);
+});
+
+// 2. Green: Implementação mínima
+int32 CalculationHelpers::CalculateAbilityModifier(int32 Score)
+{
+    return (Score - 10) / 2;  // Fórmula D&D
+}
+
+// 3. Refactor: Melhorar (com testes garantindo)
+```
+
+### 2. Motores (SEMPRE TDD)
+
+**ALWAYS** test-first para lógica de motores:
+
+```cpp
+// ✅ CORRETO - Teste primeiro para motor
+Describe("PointBuyMotor", [this]()
+{
+    It("deve validar alocação que gasta exatamente 27 pontos", [this]()
+    {
+        // Teste define comportamento esperado
+        TMap<FName, int32> BaseScores;
+        // ... setup ...
+        bool Result = FPointBuyMotor::ValidateAllocation(BaseScores, 27);
+        TestTrue("Alocação válida deve ser aceita", Result);
+    });
+});
+```
+
+### 3. Validators (SEMPRE TDD)
+
+**ALWAYS** test-first para regras de validação:
+
+```cpp
+// ✅ CORRETO - Teste primeiro para validator
+Describe("ValidateAbilityScoreRange", [this]()
+{
+    It("deve validar score dentro do range padrão (1-30)", [this]()
+    {
+        bool Result = ValidationHelpers::ValidateAbilityScoreRange(15);
+        TestTrue("Score 15 deve ser válido", Result);
+    });
+
+    It("deve rejeitar score fora do range (0 ou negativo)", [this]()
+    {
+        bool Result = ValidationHelpers::ValidateAbilityScoreRange(0);
+        TestFalse("Score 0 deve ser inválido", Result);
+    });
+});
+```
+
+## 🔗 Integração com Outras Regras
+
+### Clean Code Mandatory
+
+**TDD força testabilidade, que é um princípio de Clean Code:**
+
+- ✅ Funções testáveis são desacopladas
+- ✅ Testes forçam Single Responsibility
+- ✅ TDD elimina dependências ocultas
+- ✅ Testes documentam comportamento esperado
+
+**SINERGIA:** TDD + Clean Code = Código de alta qualidade
+
+### Execution Guard
+
+**STOP execution se código crítico não tiver testes:**
+
+```
+🛑 EXECUTION STOPPED - Missing Tests
+
+I cannot implement this critical function without tests first.
+According to TDD rule, all helpers/motors/validators must have
+tests written BEFORE implementation.
+
+**Missing:**
+- Test for CalculatePointBuyCost()
+- Test for ValidateMulticlassRequirements()
+
+**Correct Approach:**
+1. Write tests that define expected behavior (Red)
+2. Implement minimal solution (Green)
+3. Refactor with tests ensuring nothing breaks (Refactor)
+
+**Reference:**
+- TDD Rule: Test-First for critical code
+- Clean Code: Testability principle
+```
+
+### Testing Rules
+
+**Complementa `testing.mdc`:**
+
+- `testing.mdc`: **COMO** testar (estrutura, padrões, organização)
+- `test-driven-development.mdc`: **QUANDO** testar (antes ou depois) e **POR QUÊ**
+
+## 📚 Referências e Documentação
+
+### Documentação do Projeto
+
+- `memorias/TDD.md` - Relatório completo sobre TDD na Unreal Engine
+- `docs/technical/guides/testing.md` - Guia de testes do projeto
+- `docs/technical/guides/testing-implementation-plan.md` - Plano de implementação
+
+### Conceitos Fundamentais
+
+**Red-Green-Refactor:**
+1. **Red**: Escrever teste que falha (define contrato)
+2. **Green**: Implementação mínima (faz teste passar)
+3. **Refactor**: Melhorar código (com testes garantindo)
+
+**Testability:**
+- Funções puras (sem side effects)
+- Parâmetros claros (sem dependências ocultas)
+- Retornos verificáveis (não void sem efeitos observáveis)
+
+**Automation Spec (Unreal Engine):**
+- `BEGIN_DEFINE_SPEC` / `END_DEFINE_SPEC` para classes de teste
+- `Describe` / `It` para especificações hierárquicas
+- `BeforeEach` / `AfterEach` para setup/teardown
+- Flags: `ProductFilter`, `ApplicationContextMask`
+
+## ✅ Checklist Final
+
+Antes de considerar código "pronto" com TDD:
+
+- [ ] Teste foi escrito ANTES da implementação (Red)?
+- [ ] Teste define comportamento esperado claramente?
+- [ ] Implementação mínima faz teste passar (Green)?
+- [ ] Código foi refatorado com testes garantindo (Refactor)?
+- [ ] Testes cobrem casos válidos, inválidos e edge cases?
+- [ ] Testes são independentes e rápidos (< 1 segundo cada)?
+- [ ] Nomes de testes são descritivos (`<Scenario>_<Condition>_<ExpectedResult>`)?
+- [ ] Testes servem como documentação viva do comportamento?
+
+## 🎓 Benefícios do TDD
+
+- ✅ **Documentação Viva**: Testes documentam comportamento esperado
+- ✅ **Confiança em Refatoração**: Testes garantem que nada quebra
+- ✅ **Detecção Precoce de Bugs**: Testes falham imediatamente quando algo quebra
+- ✅ **Design Melhor**: TDD força interfaces claras e desacopladas
+- ✅ **Redução de Dívida Técnica**: Código testado é mais fácil de manter
+- ✅ **Facilita CI/CD**: Testes automatizados permitem integração contínua
+
+## 🚫 O Que NÃO Fazer
+
+- ❌ **NUNCA** implementar código crítico sem testes
+- ❌ **NUNCA** escrever testes depois "só para cobrir"
+- ❌ **NUNCA** pular o ciclo Red-Green-Refactor
+- ❌ **NUNCA** criar testes que dependem de ordem de execução
+- ❌ **NUNCA** criar testes lentos ou não determinísticos
+- ❌ **NUNCA** aceitar código crítico sem testes correspondentes
+
+## 🔄 Fluxo de Trabalho TDD
+
+```
+1. Escrever Teste (Red)
+   ↓
+2. Verificar que Teste Falha
+   ↓
+3. Implementação Mínima (Green)
+   ↓
+4. Verificar que Teste Passa
+   ↓
+5. Refatorar (Refactor)
+   ↓
+6. Verificar que Testes Ainda Passam
+   ↓
+7. Próximo Teste (voltar ao passo 1)
+```
+
+## 📝 Exemplo Completo: TDD de Helper
+
+### Passo 1: Red (Teste que Falha)
+
+```cpp
+// CalculationHelpersTests.cpp
+Describe("CalculateProficiencyBonus", [this]()
+{
+    It("deve calcular bônus correto para nível 1 (bônus +2)", [this]()
+    {
+        // Arrange
+        int32 Level = 1;
+
+        // Act
+        int32 Result = CalculationHelpers::CalculateProficiencyBonus(Level);
+
+        // Assert
+        TestEqual("Bônus de proficiência para nível 1 deve ser +2", Result, 2);
+    });
+});
+```
+
+### Passo 2: Green (Implementação Mínima)
+
+```cpp
+// CalculationHelpers.cpp
+int32 CalculationHelpers::CalculateProficiencyBonus(int32 Level)
+{
+    if (Level == 1) return 2;  // Implementação mínima
+    return 0;
+}
+```
+
+### Passo 3: Refactor (Melhorar com Segurança)
+
+```cpp
+// CalculationHelpers.cpp
+int32 CalculationHelpers::CalculateProficiencyBonus(int32 Level)
+{
+    // Fórmula D&D 5e: +2 a cada 4 níveis (arredondado para cima)
+    // Nível 1-4: +2, 5-8: +3, 9-12: +4, etc.
+    return 2 + ((Level - 1) / 4);
+}
+```
+
+**Testes garantem que comportamento não muda durante refatoração!**
+
+---
+
+## 🎯 Resumo Executivo
+
+**TDD é OBRIGATÓRIO para:**
+- ✅ Helpers/Utils
+- ✅ Motores
+- ✅ Validators
+- ✅ Lógica de negócio crítica
+
+**TDD é OPCIONAL para:**
+- ❌ Getters/Setters simples
+- ❌ Wrappers de API
+- ❌ Integração Blueprint
+- ❌ Mudanças muito pequenas
+
+**Ciclo sempre: Red → Green → Refactor**
+
+**Benefício principal:** Código testável, desacoplado e confiável.
+
+---
+
+**This rule has HIGH priority and integrates with `clean-code-mandatory.mdc` and `testing.mdc`.**

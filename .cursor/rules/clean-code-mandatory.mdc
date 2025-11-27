@@ -292,6 +292,7 @@ Source/MyProject2/
 
 ### Regras Relacionadas
 - `.cursor/rules/clean-code-mandatory.mdc` - Esta regra (máxima prioridade)
+- `.cursor/rules/test-driven-development.mdc` - TDD obrigatório para código crítico
 - `.cursor/rules/execution-guard.mdc` - Proteção de integridade do projeto
 - `.cursor/rules/project-architecture.mdc` - Arquitetura do projeto
 - `.cursor/rules/unreal-engine-cpp.mdc` - Convenções C++ para Unreal Engine

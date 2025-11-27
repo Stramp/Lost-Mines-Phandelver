@@ -199,3 +199,14 @@ Before considering code "ready":
 - ✅ Living documentation (tests show how to use)
 - ✅ Facilitates continuous integration (CI/CD)
 - ✅ Improves code quality
+
+## Integration with TDD
+
+**This rule (`testing.mdc`) defines HOW to test.**
+
+**For WHEN to test (before or after implementation), see:**
+- `.cursor/rules/test-driven-development.mdc` - TDD methodology (test-first for critical code)
+
+**TDD Rule complements this rule:**
+- `testing.mdc`: Structure, patterns, organization (HOW)
+- `test-driven-development.mdc`: Timing and methodology (WHEN and WHY)
