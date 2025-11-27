@@ -329,69 +329,79 @@ It("deve retornar true quando feature tem AvailableChoices preenchido", [this]()
 
 ### ✅ SEMPRE TDD (Obrigatório)
 
-**Aplicar TDD rigorosamente quando:**
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Aplicar TDD Rigorosamente Quando</b></summary>
 
-1. **Helpers e Utils** (`Utils/`, `Helpers/`)
-   - Funções reutilizáveis
-   - Funções puras (sem side effects)
-   - Cálculos e transformações
+> **Aplicar TDD rigorosamente quando:**
+>
+> 1. **Helpers e Utils** (`Utils/`, `Helpers/`)
+>    - Funções reutilizáveis
+>    - Funções puras (sem side effects)
+>    - Cálculos e transformações
+>
+> 2. **Motores** (`*Motor.cpp`)
+>    - Lógica de negócio complexa
+>    - PointBuy, Multiclass, RaceBonus
+>    - Orquestração de regras
+>
+> 3. **Validators** (`*Validator.cpp`)
+>    - Regras de validação
+>    - Validação de dados
+>    - Edge cases
+>
+> 4. **Cálculos Complexos**
+>    - Modificadores de ability scores
+>    - Cálculo de proficiência
+>    - Cálculo de HP
+>    - Cálculo de AC
+>
+> 5. **Regras de Negócio**
+>    - Regras D&D 5e
+>    - Multiclassing
+>    - Point Buy System
+>    - Validações de Variant Human
 
-2. **Motores** (`*Motor.cpp`)
-   - Lógica de negócio complexa
-   - PointBuy, Multiclass, RaceBonus
-   - Orquestração de regras
-
-3. **Validators** (`*Validator.cpp`)
-   - Regras de validação
-   - Validação de dados
-   - Edge cases
-
-4. **Cálculos Complexos**
-   - Modificadores de ability scores
-   - Cálculo de proficiência
-   - Cálculo de HP
-   - Cálculo de AC
-
-5. **Regras de Negócio**
-   - Regras D&D 5e
-   - Multiclassing
-   - Point Buy System
-   - Validações de Variant Human
+</details>
 
 ### ⚠️ Test-After Aceitável (Exceções)
 
-**Escrever teste depois é aceitável quando:**
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Escrever Teste Depois é Aceitável Quando</b></summary>
 
-1. **Getters/Setters Simples**
-   ```cpp
-   // Não precisa de teste primeiro
-   float GetHealth() const { return Health; }
-   ```
+> **Escrever teste depois é aceitável quando:**
+>
+> 1. **Getters/Setters Simples**
+>    ```cpp
+>    // Não precisa de teste primeiro
+>    float GetHealth() const { return Health; }
+>    ```
+>
+> 2. **Wrappers de API Unreal**
+>    ```cpp
+>    // Wrapper simples, testar depois se necessário
+>    UDataTable* GetRaceDataTable() const { return RaceDataTable; }
+>    ```
+>
+> 3. **Integração com Blueprint**
+>    ```cpp
+>    // Integração complexa, testar depois pode ser mais prático
+>    UFUNCTION(BlueprintCallable)
+>    void InitializeFromBlueprint(UCharacterSheetDataAsset* Asset);
+>    ```
+>
+> 4. **Mudanças Muito Pequenas** (< 5 linhas, sem lógica complexa)
+>    ```cpp
+>    // Ajuste simples
+>    void LogMessage(const FString& Message) { UE_LOG(LogTemp, Warning, TEXT("%s"), *Message); }
+>    ```
 
-2. **Wrappers de API Unreal**
-   ```cpp
-   // Wrapper simples, testar depois se necessário
-   UDataTable* GetRaceDataTable() const { return RaceDataTable; }
-   ```
-
-3. **Integração com Blueprint**
-   ```cpp
-   // Integração complexa, testar depois pode ser mais prático
-   UFUNCTION(BlueprintCallable)
-   void InitializeFromBlueprint(UCharacterSheetDataAsset* Asset);
-   ```
-
-4. **Mudanças Muito Pequenas** (< 5 linhas, sem lógica complexa)
-   ```cpp
-   // Ajuste simples
-   void LogMessage(const FString& Message) { UE_LOG(LogTemp, Warning, TEXT("%s"), *Message); }
-   ```
-
-5. **Correções de Bugs**
-   ```cpp
-   // Bug fix: escrever teste que reproduz bug, depois corrigir
-   It("deve corrigir bug X", [this]() { /* reproduz bug */ });
-   ```
+> 5. **Correções de Bugs**
+>    ```cpp
+>    // Bug fix: escrever teste que reproduz bug, depois corrigir
+>    It("deve corrigir bug X", [this]() { /* reproduz bug */ });
+>    ```
+>
+</details>
 
 ---
 
@@ -924,27 +934,30 @@ It("deve processar após cooldown", [this]()
 
 ## 🎓 Recursos de Aprendizado
 
-### Repositórios e Tutoriais
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📚 Repositórios e Tutoriais</b></summary>
 
-1. **[Aprenda TDD na Prática](https://github.com/PauloGoncalvesBH/aprenda-tdd-na-pratica)**
-   - Tutorial prático em JavaScript
-   - Exemplo de calculadora de troco
-   - Demonstra ciclo Red-Green-Refactor
+> 1. **[Aprenda TDD na Prática](https://github.com/PauloGoncalvesBH/aprenda-tdd-na-pratica)**
+>    - Tutorial prático em JavaScript
+>    - Exemplo de calculadora de troco
+>    - Demonstra ciclo Red-Green-Refactor
+>
+> 2. **[Agile Data - TDD Essay](https://agiledata.org/essays/tdd.html)**
+>    - Conceitos fundamentais
+>    - Benefícios e desafios
+>    - Práticas recomendadas
+>
+> 3. **[Microsoft Learn - TDD](https://learn.microsoft.com/en-us/visualstudio/test/quick-start-test-driven-development-with-test-explorer)**
+>    - TDD no Visual Studio
+>    - Test Explorer
+>    - Integração com .NET
+>
+> 4. **[EnactJS - TDD Guide](https://enactjs.com/docs/developer-guide/testing-components/test-driven-development/)**
+>    - TDD para componentes React
+>    - Padrões e práticas
+>    - Exemplos práticos
 
-2. **[Agile Data - TDD Essay](https://agiledata.org/essays/tdd.html)**
-   - Conceitos fundamentais
-   - Benefícios e desafios
-   - Práticas recomendadas
-
-3. **[Microsoft Learn - TDD](https://learn.microsoft.com/en-us/visualstudio/test/quick-start-test-driven-development-with-test-explorer)**
-   - TDD no Visual Studio
-   - Test Explorer
-   - Integração com .NET
-
-4. **[EnactJS - TDD Guide](https://enactjs.com/docs/developer-guide/testing-components/test-driven-development/)**
-   - TDD para componentes React
-   - Padrões e práticas
-   - Exemplos práticos
+</details>
 
 ### Livros Recomendados
 
@@ -986,19 +999,29 @@ It("deve processar após cooldown", [this]()
 
 ### Benefícios Principais
 
-1. **Documentação Viva** - Testes documentam comportamento
-2. **Confiança em Refatoração** - Testes garantem que nada quebra
-3. **Detecção Precoce de Bugs** - Testes falham imediatamente
-4. **Design Melhor** - TDD força interfaces claras
-5. **Redução de Dívida Técnica** - Código testado é mais fácil de manter
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Benefícios do TDD</b></summary>
+
+> 1. **Documentação Viva** - Testes documentam comportamento
+> 2. **Confiança em Refatoração** - Testes garantem que nada quebra
+> 3. **Detecção Precoce de Bugs** - Testes falham imediatamente
+> 4. **Design Melhor** - TDD força interfaces claras
+> 5. **Redução de Dívida Técnica** - Código testado é mais fácil de manter
+
+</details>
 
 ### Princípios Fundamentais
 
-1. **Um teste = uma coisa**
-2. **Teste comportamento, não implementação**
-3. **Testes independentes e rápidos**
-4. **Nomes descritivos**
-5. **Padrão AAA (Arrange-Act-Assert)**
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Princípios Fundamentais do TDD</b></summary>
+
+> 1. **Um teste = uma coisa**
+> 2. **Teste comportamento, não implementação**
+> 3. **Testes independentes e rápidos**
+> 4. **Nomes descritivos**
+> 5. **Padrão AAA (Arrange-Act-Assert)**
+
+</details>
 
 ---
 

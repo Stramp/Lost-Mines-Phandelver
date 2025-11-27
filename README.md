@@ -61,7 +61,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > │   │   ├── RaceBonus/         # Motor de bônus raciais
 > │   │   ├── PointBuy/          # Motor de Point Buy
 > │   │   ├── Multiclass/         # Motor de multiclassing
-> │   │   └── Choices/           # Motor de escolhas de classe
+> │   │   └── (Choices/ - 🔮 Planejado)
 > │   ├── Components/            # Componentes reutilizáveis
 > │   ├── Data/                  # Data Assets e Data Tables
 > │   │   └── Tables/            # Data Tables (Race, Class, Background, Feat)
@@ -232,7 +232,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > > - Herda de `UActorComponent`
 > > - Cada um gerencia uma feature específica
 > > - Podem ser migrados para GAS Abilities no futuro
-> > - Exemplos: `USpellcastingComponent`, `USecondWindComponent`, `UActionSurgeComponent`
+> > - Exemplos planejados (Fase 5): `USpellcastingComponent`, `USecondWindComponent`, `UActionSurgeComponent`
 >
 > </details>
 >
@@ -255,10 +255,10 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >         RD1[UCharacterDataComponent<br/>💾 Dados Replicáveis<br/>📊 Atributos Finais]
 >     end
 >
->     subgraph Layer4["Camada 4: Features"]
->         F1[USpellcastingComponent]
->         F2[USecondWindComponent]
->         F3[UActionSurgeComponent]
+>     subgraph Layer4["Camada 4: Features (Planejado)"]
+>         F1[USpellcastingComponent<br/>🔮 Planejado]
+>         F2[USecondWindComponent<br/>🔮 Planejado]
+>         F3[UActionSurgeComponent<br/>🔮 Planejado]
 >     end
 >
 >     DA1 -->|InitializeFromDataAsset| BC1
@@ -293,7 +293,6 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > - **`FRaceBonusMotor`** - Motor independente para bônus raciais ✅ Implementado
 > - **`FPointBuyMotor`** - Motor independente para alocação de Point Buy ✅ Implementado
 > - **`FMulticlassMotor`** - Motor independente para cálculo de multiclassing ✅ Implementado
-> - **`FChoiceMotor`** - Motor independente para processar escolhas de classe 🔮 Planejado
 >
 > **Fórmula de Cálculo:**
 >
@@ -491,7 +490,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >
 > ### Testes Automatizados
 >
-> **Status:** ✅ 170+ testes implementados e funcionando
+> **Status:** ✅ 275+ testes implementados e funcionando
 >
 > O projeto utiliza o **Automation Test Framework** do Unreal Engine 5.7 para testes automatizados:
 >
@@ -508,10 +507,15 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > - ✅ **MulticlassHelpers** - Testes de conversão de features e flags
 > - ✅ **MulticlassMotor** - Testes de carregamento de progressão multiclass
 > - ✅ **CharacterSheetDataAssetLoaders** - Testes de loaders de dados
+> - ✅ **CharacterSheetDataAssetValidators** - Testes de validadores (Variant Human)
+> - ✅ **ProficiencyHelpers** - Testes de helpers de proficiência
+> - ✅ **ProficiencyDataTable** - Testes de Data Table de proficiências
+> - ✅ **CharacterCreation Steps** - Testes por etapa de criação (Step 1-5)
 >
 > **Testes de Integração End-to-End** (fluxos completos):
 >
 > - ✅ **CharacterCreationE2E** - 4 testes (criação completa de personagem)
+> - ✅ **CompleteCharacterCreationE2E** - Testes completos de criação
 >
 > **Executar Testes:**
 >
@@ -557,7 +561,11 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >
 > **Status Atual:**
 >
-> - ✅ **Fase 1:** Sistema de Fichas (Completo)
+> - ✅ **Fase 1:** Sistema de Fichas (Core Completo - 80%)
+>   - ✅ Motores básicos (RaceBonus, PointBuy, Multiclass)
+>   - ✅ Sistema de validação completo
+>   - ✅ Variant Human completo
+>   - ⚠️ Itens iniciais e inventário (planejado)
 > - 📋 **Fase 2:** Combate Básico com GAS (Próxima - 2-3 semanas)
 > - 📋 **Fases 3-10:** Planejadas
 >

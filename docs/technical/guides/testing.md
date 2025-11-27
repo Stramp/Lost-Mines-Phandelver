@@ -576,7 +576,7 @@
 > - [x] Executar testes no Editor (Automation Tool)
 > - [ ] Integrar testes no CI/CD (planejado)
 >
-> **Total:** 138 testes implementados e funcionando
+> **Total:** 275+ testes implementados e funcionando
 
 </details>
 

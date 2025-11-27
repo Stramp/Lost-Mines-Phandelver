@@ -40,7 +40,7 @@
 > - ✅ `ComponentHelpers` - 3 casos de teste
 >   - `FindCharacterDataComponent()` - 3 testes
 >
-> **Total:** 138 casos de teste implementados
+> **Total:** 275+ casos de teste implementados
 >
 > **Melhorias Aplicadas:**
 >

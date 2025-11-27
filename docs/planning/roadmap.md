@@ -47,11 +47,11 @@
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🚀 Fases Imediatas</b></summary>
 
 > <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔄 Fase 1: Sistema de Fichas (75% Completo - Em Andamento)</summary>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔄 Fase 1: Sistema de Fichas (Core Completo - 80%)</summary>
 >
 > > **Status:** 🔄 Em desenvolvimento
 > >
-> > **Progresso:** ~80% completo (testes automatizados adicionados)
+> > **Progresso:** ~80% completo (core funcional, itens iniciais pendentes)
 > >
 > > **Objetivo:** Sistema completo de criação de personagens D&D 5e
 > >
@@ -109,7 +109,7 @@
 > > - ✅ Handlers dedicados
 > > - ✅ Reset automático quando não é mais Variant Human
 > >
-> > **4. Multiclasse - Estrutura (80% Completo):**
+> > **4. Multiclasse - Estrutura (✅ Completo):**
 > >
 > > - ✅ **ProcessLevelChange** - Funcional
 > >   - Carrega features do nível específico da tabela
@@ -160,34 +160,32 @@
 > >
 > > **O Que Está Faltando:**
 > >
-> > **1. MulticlassMotor - Funções Críticas (20% Faltando):**
+> > **1. MulticlassMotor - Status Atual:**
 > >
-> > - ❌ **ValidateMulticlassRequirements** - TODO (linha 60)
-> >   - Atualmente retorna `true` sempre
-> >   - **Precisa:** Implementar validação usando FMulticlassValidators já existente
-> >   - **Impacto:** Não valida requisitos ao adicionar nova classe
-> >
-> > - ❌ **ApplyMulticlassRules** - TODO (linha 73)
-> >   - Atualmente vazio
-> >   - **Precisa:** Implementar aplicação de regras de multiclasse
-> >   - **Impacto:** Regras de multiclasse não são aplicadas automaticamente
+> > - ✅ **GetAvailableClasses** - Implementado e funcional
+> > - ✅ **LoadClassProficiencies** - Implementado e funcional
+> > - ✅ **LoadClassProgression** - Implementado e funcional
+> > - ✅ **ValidateMulticlassRequirements** - Implementado em `FMulticlassValidators` (não no Motor)
+> >   - Validação de requisitos funciona via `FMulticlassValidators::ValidateMulticlassRequirements()`
+> >   - Usado por `GetAvailableClasses()` para filtrar classes disponíveis
 > >
 > > **2. Integração MulticlassMotor:**
 > >
-> > - ⚠️ **Não integrado no CharacterSheetCore**
-> >   - Apenas RaceBonus + PointBuy são orquestrados
-> >   - Multiclass roda separadamente via handlers
-> >   - **Precisa:** Decidir se integra no Core ou mantém separado
+> > - ✅ **Decisão arquitetural tomada:** Multiclass roda separadamente via handlers
+> >   - RaceBonus + PointBuy são orquestrados pelo Core (ability scores)
+> >   - Multiclass tem lógica diferente (proficiências, features, níveis)
+> >   - **Status:** Funcional e correto - não precisa integrar no Core
 > >
-> > **3. ChoiceMotor:**
+> > **3. ChoiceMotor (🔮 Planejado):**
 > >
-> > - ⚠️ **Pasta `CreateSheet/Choices/` existe mas está vazia**
-> >   - Atualmente escolhas gerenciadas por handlers/validators
-> >   - **Precisa:** Decidir se cria motor dedicado ou mantém handlers
+> > - 🔮 **Motor dedicado para escolhas de classe** - Planejado para implementação futura
+> >   - Atualmente escolhas são gerenciadas por handlers/validators (funcional)
+> >   - Motor dedicado pode ser criado se necessário para centralizar lógica
+> >   - **Status:** Não crítico - sistema atual funciona via handlers
 > >
 > > **4. Validação e Testes:**
 > >
-> > - ✅ **Testes Automatizados** - 138 testes implementados
+> > - ✅ **Testes Automatizados** - 275+ testes implementados
 > >   - CalculationHelpers (28 testes) - Modificadores, proficiência e cálculos
 > >   - ValidationHelpers (35 testes) - Validações críticas e escolhas
 > >   - CharacterSheetHelpers (36 testes) - Feats, pré-requisitos e helpers
@@ -638,8 +636,8 @@
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Ações Imediatas</b></summary>
 
 > 1. **Finalizar Fase 1 (Sistema de Fichas):**
->    - ❌ Implementar ValidateMulticlassRequirements (TODO linha 60)
->    - ❌ Implementar ApplyMulticlassRules (TODO linha 73)
+>    - ✅ ValidateMulticlassRequirements implementado em FMulticlassValidators
+>    - ✅ MulticlassMotor funcional (GetAvailableClasses, LoadClassProficiencies, LoadClassProgression)
 >    - ⚠️ Decidir integração MulticlassMotor no CharacterSheetCore
 >    - ✅ **Testes unitários de helpers críticos (138 testes implementados)**
 >    - ⚠️ Testes de integração end-to-end completos

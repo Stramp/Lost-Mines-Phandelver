@@ -146,12 +146,18 @@ bool ValidateDataIntegrity() const;
 
 **Descrição:** Valida integridade dos dados do personagem. Verifica se todos os dados necessários estão presentes e consistentes.
 
-**Validações realizadas:**
-1. **Ability Scores:** Verifica se todos os 6 atributos estão presentes e com valores válidos (1-30)
-2. **Raça:** Verifica se `SelectedRace` não é `NAME_None`
-3. **Background:** Verifica se `SelectedBackground` não é `NAME_None`
-4. **Nível Total:** Verifica se está entre 1 e 20
-5. **Nome:** Avisa se `CharacterName` está vazio (warning, não erro)
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📋 Validações Realizadas</summary>
+
+> **Validações realizadas:**
+>
+> 1. **Ability Scores:** Verifica se todos os 6 atributos estão presentes e com valores válidos (1-30)
+> 2. **Raça:** Verifica se `SelectedRace` não é `NAME_None`
+> 3. **Background:** Verifica se `SelectedBackground` não é `NAME_None`
+> 4. **Nível Total:** Verifica se está entre 1 e 20
+> 5. **Nome:** Avisa se `CharacterName` está vazio (warning, não erro)
+
+</details>
 
 **Retorno:**
 - `true` - Todos os dados estão válidos
@@ -303,14 +309,20 @@ void InitializeFromDataAsset(UCharacterSheetDataAsset *DataAsset);
 
 **Descrição:** Inicializa o componente a partir de um Data Asset. Lê os dados do Data Asset e copia para o `CharacterDataComponent`.
 
-**Fluxo:**
-1. Valida Data Asset (não pode ser nullptr)
-2. Busca `CharacterDataComponent` no Actor
-3. Copia dados do Data Asset para Runtime Component:
-   - Nome, descrição, nível total
-   - Raça, sub-raça, background
-   - Proficiências
-   - Ability scores (valores finais)
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔄 Fluxo de Inicialização</summary>
+
+> **Fluxo:**
+>
+> 1. Valida Data Asset (não pode ser nullptr)
+> 2. Busca `CharacterDataComponent` no Actor
+> 3. Copia dados do Data Asset para Runtime Component:
+>    - Nome, descrição, nível total
+>    - Raça, sub-raça, background
+>    - Proficiências
+>    - Ability scores (valores finais)
+
+</details>
 
 **Chamado automaticamente:**
 - No `BeginPlay()` se `SourceDataAsset` estiver atribuído

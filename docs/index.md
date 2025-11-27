@@ -141,9 +141,9 @@
 > - ✅ Arquitetura técnica movida para `docs/technical/`
 > - ✅ README e ARCHITECTURE na raiz atualizados (resumidos)
 > - ✅ Documentação atualizada seguindo padrões de markdown-organization.mdc
-> - ✅ **170+ testes automatizados implementados** (Unit + Integration)
->   - Testes Unitários: 166+ testes (CalculationHelpers, ValidationHelpers, CharacterSheetHelpers, DataTableHelpers, FormattingHelpers, ChoiceHelpers, FeatDataTable, ComponentHelpers, MulticlassHelpers, MulticlassMotor, CharacterSheetDataAssetLoaders)
->   - Testes de Integração: 4 testes (CharacterCreationE2E)
+> - ✅ **275+ testes automatizados implementados** (Unit + Integration)
+>   - Testes Unitários: 271+ testes (CalculationHelpers, ValidationHelpers, CharacterSheetHelpers, DataTableHelpers, FormattingHelpers, ChoiceHelpers, FeatDataTable, ComponentHelpers, MulticlassHelpers, MulticlassMotor, CharacterSheetDataAssetLoaders, CharacterSheetDataAssetValidators, ProficiencyHelpers, ProficiencyDataTable, CharacterCreation Steps)
+>   - Testes de Integração: 4+ testes (CharacterCreationE2E, CompleteCharacterCreationE2E)
 > - ✅ Documentação de testes atualizada com todos os testes implementados
 > - ✅ Guias de setup completos criados (setup.md, data-tables-setup.md)
 > - ✅ Guia de workflows principais criado (workflows.md)

@@ -34,9 +34,9 @@
 > - Armazena dados do personagem em runtime
 > - Exemplo: `UCharacterDataComponent`
 >
-> **Camada 4: Feature Components (Lógica Específica)**
+> **Camada 4: Feature Components (Lógica Específica)** - 🔮 Planejado para Fase 5
 > - Gerencia features específicas de classes
-> - Exemplos: `USpellcastingComponent`, `USecondWindComponent`
+> - Exemplos planejados: `USpellcastingComponent`, `USecondWindComponent`, `UActionSurgeComponent`
 >
 > **📖 Para diagramas e detalhes completos, veja [docs/technical/architecture.md](docs/technical/architecture.md#arquitetura-em-camadas)**
 
@@ -52,10 +52,9 @@
 > Sistema modular com motores desacoplados para cálculo de ability scores:
 >
 > - **`FCharacterSheetCore`** - Orquestrador genérico
-> - **`FRaceBonusMotor`** - Bônus raciais
-> - **`FPointBuyMotor`** - Point Buy
-> - **`FMulticlassMotor`** - Multiclassing
-> - **`FChoiceMotor`** - Escolhas de classe (planejado)
+> - **`FRaceBonusMotor`** - Bônus raciais ✅ Implementado
+> - **`FPointBuyMotor`** - Point Buy ✅ Implementado
+> - **`FMulticlassMotor`** - Multiclassing ✅ Implementado
 >
 > **📖 Para detalhes completos, veja [docs/technical/architecture.md](docs/technical/architecture.md#arquitetura-createsheet)**
 
@@ -105,7 +104,7 @@
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Status dos Testes</b></summary>
 
-> **Total:** 170+ testes automatizados implementados e funcionando
+> **Total:** 275+ testes automatizados implementados e funcionando
 >
 > **Cobertura:**
 >
@@ -144,6 +143,14 @@
 > - ✅ **ComponentHelpers** - 3 testes
 >   - `FindCharacterDataComponent()` - 3 testes
 >
+> - ✅ **MulticlassHelpers** - Testes de conversão de features e flags
+> - ✅ **MulticlassMotor** - Testes de carregamento de progressão multiclass
+> - ✅ **CharacterSheetDataAssetLoaders** - Testes de loaders de dados
+> - ✅ **CharacterSheetDataAssetValidators** - Testes de validadores (Variant Human)
+> - ✅ **ProficiencyHelpers** - Testes de helpers de proficiência
+> - ✅ **ProficiencyDataTable** - Testes de Data Table de proficiências
+> - ✅ **CharacterCreation Steps** - Testes por etapa de criação (Step 1-5)
+>
 > **Testes de Integração End-to-End:**
 >
 > - ✅ **CharacterCreationE2E** - 4 testes (criação completa de personagem)
@@ -151,6 +158,7 @@
 >   - Variant Human completo
 >   - Multiclasse básico
 >   - Tratamento de erros
+> - ✅ **CompleteCharacterCreationE2E** - Testes completos de criação
 >
 > **Melhorias Aplicadas:**
 >

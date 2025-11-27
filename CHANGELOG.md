@@ -116,7 +116,16 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Testes Automatizados
 >
-> > 1. Commit [`16f6461`] - Implementar e corrigir testes unitários
+> > 1. Commit [`c87468c`] - Adicionar testes para Variant Human e refatorar testes existentes
+> >    - Adicionados testes completos para validação de `CustomAbilityScoreChoices` (Variant Human)
+> >    - Testes cobrem: limite máximo (2 itens), duplicatas, elementos inválidos, casos combinados
+> >    - Refatorados testes para remover lógica interna e focar em comportamento público
+> >    - Separados testes com múltiplas responsabilidades em testes individuais (SRP)
+> >    - Garantido que testes falham quando código está errado (sem lógica interna)
+> >    - Aplicados princípios de Clean Code e TDD rigorosamente
+> >    - Corrigido `ApplyClearArray` para `CustomAbilityScoreChoices` (truncar ou limpar corretamente)
+>
+> > 2. Commit [`16f6461`] - Implementar e corrigir testes unitários
 > >    - Implementação de testes unitários para Utils
 > >    - Correções em testes existentes
 > >    - Melhoria na cobertura de testes
@@ -125,11 +134,38 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > </details>
 >
 > <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📋 Rules</summary>
+>
+> > Regras do Projeto
+>
+> > 1. Commit [`9a45bfd`] - Adicionar regra crítica de lógica interna em testes
+> >    - Adicionada seção crítica em `test-driven-development.mdc`
+> >    - **Regra de Ouro:** "Se você pode remover a função sendo testada e o teste ainda passa, o teste está errado"
+> >    - Testes nunca podem ter lógica interna (valor esperado deve ser hardcoded)
+> >    - Mocks apenas simulam dados, não implementam lógica
+> >    - Teste deve falhar se código estiver errado
+> >    - Exemplos práticos de uso correto e incorreto
+> >    - Checklist obrigatório atualizado com 5 itens críticos
+> >    - Integração com Clean Code e TDD
+>
+> </details>
+>
+> <details>
 > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📚 Docs</summary>
 >
 > > Documentação
 >
-> > 1. Commit [`c36ee16`] - Atualizar toda documentação com números corretos de testes
+> > 1. Commit [`57e4149`] - Adicionar guia TDD completo e atualizar documentação de testes
+> >    - Adicionado guia completo de TDD (`tdd-complete-guide.md`) consolidando todo conhecimento
+> >    - Adicionada regra crítica: testes nunca podem ter lógica interna
+> >    - Adicionado guia algorítmico de criação de ficha D&D (`algorithmic/character-creation.md`)
+> >    - Alinhada ordem de criação com D&D Beyond (ordem oficial vs técnica)
+> >    - Adicionadas referências cruzadas em toda documentação
+> >    - Atualizados README, CHANGELOG e CONTRIBUTING com links corretos
+> >    - Documentação de testes atualizada com regra crítica de lógica interna
+> >    - Exemplos práticos de uso correto e incorreto de mocks em testes
+>
+> > 2. Commit [`c36ee16`] - Atualizar toda documentação com números corretos de testes
 > >    - Corrigido total de testes: 56 → 138 testes implementados
 > >    - Adicionados FormattingHelpers (10 testes) e ChoiceHelpers (7 testes)
 > >    - Atualizados números corretos por módulo:

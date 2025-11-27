@@ -323,7 +323,7 @@ Este documento descreve a arquitetura do projeto, baseada em princípios de desi
 > > - Herda de `UActorComponent`
 > > - Cada um gerencia uma feature específica
 > > - Podem ser migrados para GAS Abilities no futuro
-> > - Exemplos: `USpellcastingComponent`, `USecondWindComponent`, `UActionSurgeComponent`
+> > - Exemplos planejados (Fase 5): `USpellcastingComponent`, `USecondWindComponent`, `UActionSurgeComponent`
 > >
 > > **Padrão de Implementação:**
 > >
@@ -371,10 +371,10 @@ Este documento descreve a arquitetura do projeto, baseada em princípios de desi
 >         RD1[UCharacterDataComponent<br/>💾 Dados Replicáveis<br/>📊 Atributos Finais]
 >     end
 >
->     subgraph Layer4["Camada 4: Features"]
->         F1[USpellcastingComponent]
->         F2[USecondWindComponent]
->         F3[UActionSurgeComponent]
+>     subgraph Layer4["Camada 4: Features (Planejado)"]
+>         F1[USpellcastingComponent<br/>🔮 Planejado]
+>         F2[USecondWindComponent<br/>🔮 Planejado]
+>         F3[UActionSurgeComponent<br/>🔮 Planejado]
 >     end
 >
 >     DA1 -->|InitializeFromDataAsset| BC1
@@ -539,59 +539,31 @@ graph TB
 > </details>
 >
 > <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">FChoiceMotor - Motor de Escolhas de Classe</summary>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔮 FChoiceMotor - Motor de Escolhas de Classe (Planejado)</summary>
 >
-> > **Localização:** `Source/MyProject2/CreateSheet/Choices/ChoiceMotor.h`
+> > **Status:** 🔮 Planejado para implementação futura
 > >
-> > **Responsabilidade:** Processar escolhas de classe (subclasses, fighting styles, etc.) baseadas em `FClassFeatureChoice` do DataTable.
+> > **Localização Planejada:** `Source/MyProject2/CreateSheet/Choices/ChoiceMotor.h`
 > >
-> > **Características:**
+> > **Responsabilidade Planejada:** Processar escolhas de classe (subclasses, fighting styles, etc.) baseadas em `FClassFeatureChoice` do DataTable.
 > >
-> > - Coleta escolhas disponíveis para uma classe até um determinado nível
-> > - Busca features do tipo "Choice" ou "SubclassSelection" no DataTable
-> > - Valida escolhas contra regras do DataTable
-> > - Resolve dependências entre escolhas
-> > - Converte `FClassFeatureChoice` (do DataTable) para `FClassChoice` (do Data Asset)
+> > **Nota:** Atualmente, escolhas são gerenciadas por handlers/validators. Um motor dedicado pode ser criado no futuro se necessário.
 > >
-> > **Funções Principais:**
+> > **Características Planejadas:**
 > >
-> > - `CollectAvailableChoices()` - Coleta todas as escolhas disponíveis
-> > - `ValidateChoice()` - Valida uma escolha contra as regras
-> > - `ResolveDependencies()` - Resolve dependências entre escolhas
+> > - Coletar escolhas disponíveis para uma classe até um determinado nível
+> > - Buscar features do tipo "Choice" ou "SubclassSelection" no DataTable
+> > - Validar escolhas contra regras do DataTable
+> > - Resolver dependências entre escolhas
+> > - Converter `FClassFeatureChoice` (do DataTable) para `FClassChoice` (do Data Asset)
 > >
-> > **Estrutura de Dados FClassChoice:**
+> > **Funções Planejadas:**
 > >
-> > ```cpp
-> > FMultClass {
-> >   ClassName: "Fighter",
-> >   Level: 5,
-> >   Choices: [
-> >     FClassChoice {
-> >       ChoiceID: "Fighter_Archetype_3",           // INVISÍVEL no editor
-> >       ChoiceName: "Arquetipos guerreiro",        // VISÍVEL
-> >       ChoiceType: "SubclassSelection",           // VISÍVEL
-> >       AvailableSingleChoices: ["Battle Master", "Champion", ...],  // VISÍVEL quando tem conteúdo
-> >       AvailableMultChoice: [],                   // INVISÍVEL quando vazio, VISÍVEL quando preenchido
-> >       Level: 3                                    // VISÍVEL
-> >     }
-> >   ]
-> > }
-> > ```
+> > - `CollectAvailableChoices()` - Coletar todas as escolhas disponíveis
+> > - `ValidateChoice()` - Validar uma escolha contra as regras
+> > - `ResolveDependencies()` - Resolver dependências entre escolhas
 > >
-> > **Visibilidade Dinâmica no Editor:**
-> >
-> > - `ChoiceID`: **SEMPRE INVISÍVEL** - Gerado automaticamente, não editável pelo usuário
-> > - `ChoiceName`: **SEMPRE VISÍVEL** - Nome da escolha exibido ao usuário
-> > - `ChoiceType`: **SEMPRE VISÍVEL** - Tipo da escolha (Simple, Multiple, SubclassSelection, ASI, Scalable)
-> > - `AvailableSingleChoices`: **VISÍVEL quando tem conteúdo** - Opções para escolhas simples
-> > - `AvailableMultChoice`: **INVISÍVEL quando vazio, VISÍVEL quando preenchido** - Preenchido dinamicamente baseado na escolha de `AvailableSingleChoices`
-> > - `Level`: **SEMPRE VISÍVEL** - Nível da classe quando a escolha foi desbloqueada
-> >
-> > **Comportamento Dinâmico:**
-> >
-> > - `AvailableMultChoice` é preenchido automaticamente quando o usuário escolhe uma opção em `AvailableSingleChoices`
-> > - Exemplo: Se escolher "Battle Master" em `AvailableSingleChoices`, `AvailableMultChoice` será preenchido com as manobras do Battle Master
-> > - Isso permite escolhas dependentes (ex: escolher subclass primeiro, depois escolher features da subclass)
+> > **📖 Para mais detalhes sobre planejamento, veja [docs/planning/roadmap.md](../../planning/roadmap.md)**
 >
 > </details>
 >
@@ -714,7 +686,6 @@ graph TB
 >     style RaceMotor fill:#c8e6c9
 >     style PointBuyMotor fill:#c8e6c9
 >     style MulticlassMotor fill:#c8e6c9
->     style ChoiceMotor fill:#c8e6c9
 > ```
 >
 > **📖 Para mais detalhes sobre a implementação, veja os arquivos em `Source/MyProject2/CreateSheet/`**
@@ -1105,9 +1076,9 @@ graph TB
 >     CreateSheet --> CreateSheetRace[RaceBonus/<br/>RaceBonusMotor<br/>RaceBonusHelpers]
 >     CreateSheet --> CreateSheetPointBuy[PointBuy/<br/>PointBuyMotor<br/>PointBuyValidator]
 >     CreateSheet --> CreateSheetMulticlass[Multiclass/<br/>MulticlassMotor<br/>MulticlassHelpers]
->     CreateSheet --> CreateSheetChoices[Choices/<br/>ChoiceMotor]
+>     CreateSheet --> CreateSheetChoices[Choices/<br/>🔮 Planejado]
 >
->     Comp --> CompFeat[Features/<br/>SpellcastingComponent<br/>SecondWindComponent]
+>     Comp --> CompFeat[Features/<br/>🔮 Planejado<br/>SpellcastingComponent<br/>SecondWindComponent]
 >     Comp --> CompData[Data/]
 >
 >     Data --> DataTab[Tables/<br/>RaceDataTable<br/>ClassDataTable]
@@ -1183,15 +1154,13 @@ graph TB
 > │   │   ├── MulticlassMotor.cpp
 > │   │   ├── MulticlassHelpers.h
 > │   │   └── MulticlassHelpers.cpp
-> │   └── Choices/
-> │       ├── ChoiceMotor.h
-> │       └── ChoiceMotor.cpp
+> │   └── (Choices/ - 🔮 Planejado)
 > ├── Components/
-> │   ├── Features/
-> │   │   ├── SpellcastingComponent.h
-> │   │   ├── SpellcastingComponent.cpp
-> │   │   ├── SecondWindComponent.h
-> │   │   └── SecondWindComponent.cpp
+> │   ├── (Features/ - 🔮 Planejado para Fase 5)
+> │   │   │   ├── SpellcastingComponent.h
+> │   │   │   ├── SpellcastingComponent.cpp
+> │   │   │   ├── SecondWindComponent.h
+> │   │   │   └── SecondWindComponent.cpp
 > │   └── Data/
 > │       └── (componentes de dados genéricos)
 > ├── Logging/

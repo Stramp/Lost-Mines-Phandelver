@@ -79,7 +79,7 @@
 >
 > **Status Atual:**
 >
-> - ✅ **Fase 1:** Sistema de Fichas (Completo)
+> - ✅ **Fase 1:** Sistema de Fichas (Core Completo - 80%)
 > - 📋 **Fase 2:** Combate Básico com GAS (Próxima)
 > - 📋 **Fases 3-10:** Planejadas
 >

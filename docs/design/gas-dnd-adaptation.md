@@ -12,8 +12,8 @@
 
 **🔮 Planejado (Futuro):**
 - Migração para GAS (Gameplay Ability System) - este documento explica como será implementado
-- Feature Components: `USpellcastingComponent`, `USecondWindComponent`, `UActionSurgeComponent`
-- Motor de escolhas: `FChoiceMotor` (pasta `Choices/` existe mas motor ainda não implementado)
+- Feature Components (Fase 5): `USpellcastingComponent`, `USecondWindComponent`, `UActionSurgeComponent`
+- Motor de escolhas: `FChoiceMotor` (🔮 Planejado - escolhas atualmente gerenciadas por handlers/validators)
 
 **Referências:**
 
