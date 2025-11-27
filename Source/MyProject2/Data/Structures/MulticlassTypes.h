@@ -154,8 +154,7 @@ struct MYPROJECT2_API FMulticlassClassFeature
 
     /** Escolha selecionada (dropdown que lista os nomes das escolhas disponíveis) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature",
-              meta = (GetOptions = "GetAvailableChoiceNamesForFeature",
-                      GetOptionsFunctionParams = "FC_ID",
+              meta = (GetOptions = "GetAvailableChoiceNamesForFeature", GetOptionsFunctionParams = "FC_ID",
                       EditCondition = "bHasAvailableChoices", EditConditionHides))
     FName AvailableChoices;
 

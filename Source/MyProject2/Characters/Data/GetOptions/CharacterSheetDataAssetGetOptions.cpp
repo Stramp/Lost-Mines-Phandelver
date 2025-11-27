@@ -204,7 +204,7 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(const 
  * Usado para dropdown filtrado em FMulticlassClassFeature.AvailableChoices.
  */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNamesForFeature(const UDataTable *FeatureDataTable,
-                                                                                     FName FeatureFC_ID)
+                                                                                    FName FeatureFC_ID)
 {
     TArray<FName> Result;
 
