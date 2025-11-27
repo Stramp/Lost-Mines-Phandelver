@@ -53,6 +53,21 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Referências oficiais da Epic Games
 > >    - Documentação de Automation Spec e Low-Level Tests
 >
+> > 4. Commit [`e2fe4dd`] - Implementar sistema de logging com throttle
+> >    - Adicionado `LogWarningWithThrottledPopup()` - Warning com popup throttled
+> >    - Adicionado `LogErrorWithThrottledPopup()` - Error com popup throttled
+> >    - Throttle limita frequência de popups no editor (padrão: 0.5s)
+> >    - Log (UE_LOG) sempre imediato, apenas popup visual é throttled
+> >    - Previne poluição do editor com múltiplos popups em loops de validação
+> >    - Aplicado em validações de ability scores e multiclass requirements
+>
+> > 5. Commit [`8c090b5`] - Implementar GetOptions filtrado por feature
+> >    - Adicionado `GetAvailableChoiceNamesForFeature()` - Filtra escolhas por FC_ID
+> >    - Dropdown de Available Choices agora mostra apenas escolhas da feature específica
+> >    - Fighting Style mostra apenas estilos de luta, não todas as escolhas
+> >    - Meta tag atualizado: `GetOptionsFunctionParams = "FC_ID"`
+> >    - Função original `GetAvailableChoiceNames()` mantida intacta
+>
 > </details>
 >
 > <details>
@@ -94,7 +109,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Implementação de testes unitários para Utils
 > >    - Correções em testes existentes
 > >    - Melhoria na cobertura de testes
-> >    - Total de 138 testes implementados
+> >    - Total de 166 testes implementados (atualizado de 138)
 >
 > </details>
 >
