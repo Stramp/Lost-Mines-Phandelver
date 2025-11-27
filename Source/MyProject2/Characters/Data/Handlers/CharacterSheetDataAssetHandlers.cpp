@@ -86,8 +86,7 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
     // Escolhas de idiomas podem mudar quando raça/sub-raça muda
     FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(Asset);
 
-    // Proficiências de raça mudam
-    FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
+    // Nota: UpdateCalculatedFields foi removido - campos calculados são atualizados por funções específicas
 }
 
 #pragma endregion Race Handlers
@@ -136,8 +135,7 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacter
         FLoggingSystem::LogWarning(Context, ValidationResult.LogMessage, false);
     }
 
-    // Features podem depender de ability scores
-    FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
+    // Nota: UpdateCalculatedFields foi removido - campos calculados são atualizados por funções específicas
 }
 
 #pragma endregion Point Buy Handlers
@@ -168,7 +166,7 @@ void FCharacterSheetDataAssetHandlers::HandleBackgroundChange(UCharacterSheetDat
     FCharacterSheetDataAssetUpdaters::UpdateLanguageChoices(Asset);
 
     // Proficiências de background mudam
-    FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
+    // Nota: UpdateCalculatedFields foi removido - campos calculados são atualizados por funções específicas
 }
 
 #pragma endregion Background Handlers
@@ -203,7 +201,7 @@ void FCharacterSheetDataAssetHandlers::HandleLanguageChoicesChange(UCharacterShe
     }
 
     // Recalcula idiomas finais
-    FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
+    // Nota: UpdateCalculatedFields foi removido - campos calculados são atualizados por funções específicas
 }
 
 #pragma endregion Language Handlers
@@ -242,7 +240,7 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
     FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(Asset);
 
     // Recalcula proficiências (SelectedSkill do Variant Human afeta proficiências)
-    FCharacterSheetDataAssetUpdaters::UpdateCalculatedFields(Asset);
+    // Nota: UpdateCalculatedFields foi removido - campos calculados são atualizados por funções específicas
 }
 
 #pragma endregion Variant Human Handlers
@@ -470,6 +468,92 @@ void FCharacterSheetDataAssetHandlers::HandleProficienciesChange(UCharacterSheet
     Asset->Modify(); // Marca objeto como modificado após atualização e validação
 }
 
+/**
+ * Processa mudanças em FSkills.available (dropdown) dentro do array Multiclass.
+ * Quando uma skill é selecionada no dropdown, adiciona ao Selected e reseta available.
+ */
+void FCharacterSheetDataAssetHandlers::HandleAvailableSkillChange(UCharacterSheetDataAsset *Asset)
+{
+    FCharacterSheetDataAssetHelpers::LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassSkills, available));
+
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
+    {
+        return;
+    }
+
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
+
+    bool bAnyChange = false;
+
+    // Itera por todas as entradas de multiclasse
+    for (int32 i = 0; i < Asset->Multiclass.Num(); ++i)
+    {
+        FMulticlassEntry &Entry = Asset->Multiclass[i];
+
+        for (FMulticlassProficienciesEntry &ProficiencyEntry : Entry.ClassData.Proficiencies)
+        {
+            FMulticlassSkills &Skills = ProficiencyEntry.FSkills;
+
+            // Se available foi selecionado (não é NAME_None)
+            if (Skills.available != NAME_None)
+            {
+                // Verifica se a skill está na lista InitialAvailable (validação)
+                if (Skills.InitialAvailable.Contains(Skills.available))
+                {
+                    // Verifica se a skill já não foi escolhida (evita duplicatas)
+                    if (!Skills.Selected.Contains(Skills.available))
+                    {
+                        // Adiciona ao Selected
+                        Skills.Selected.Add(Skills.available);
+                        bAnyChange = true;
+                    }
+                }
+
+                // Sempre reseta available para permitir nova seleção (independente de validação)
+                Skills.available = NAME_None;
+            }
+        }
+    }
+
+    // Atualiza qtdAvailable apenas se houve mudança (delega para Updater - responsabilidade única)
+    if (bAnyChange)
+    {
+        FCharacterSheetDataAssetUpdaters::UpdateMulticlassProficiencyChoices(Asset);
+    }
+
+    Asset->Modify(); // Marca objeto como modificado
+}
+
+/**
+ * Processa mudanças em FSkills.Selected (array) dentro do array Multiclass.
+ * Recalcula qtdAvailable quando skills são adicionadas/removidas do Selected.
+ */
+void FCharacterSheetDataAssetHandlers::HandleSelectedSkillsChange(UCharacterSheetDataAsset *Asset)
+{
+    FCharacterSheetDataAssetHelpers::LogPropertyChange(GET_MEMBER_NAME_CHECKED(FMulticlassSkills, Selected));
+
+    if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
+    {
+        return;
+    }
+
+    // RAII Guard: gerencia bIsValidatingProperties automaticamente
+    FValidationGuard Guard(Asset);
+
+    // Atualiza qtdAvailable dinamicamente (delega para Updater - responsabilidade única: atualizar)
+    FCharacterSheetDataAssetUpdaters::UpdateMulticlassProficiencyChoices(Asset);
+
+    // Valida escolhas de proficiências e aplica correções se necessário
+    FValidationResult ProficienciesResult = FCharacterSheetDataAssetValidators::ValidateMulticlassProficiencies(Asset);
+    if (ProficienciesResult.bNeedsCorrection)
+    {
+        FCharacterSheetDataAssetCorrectionApplier::ApplyCorrections(Asset, ProficienciesResult);
+    }
+
+    Asset->Modify(); // Marca objeto como modificado após atualização e validação
+}
+
 #pragma endregion Multiclass Handlers
 
 // ============================================================================
@@ -568,6 +652,16 @@ void FCharacterSheetDataAssetHandlers::HandleProgressionWrapper(UCharacterSheetD
 void FCharacterSheetDataAssetHandlers::HandleProficienciesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
 {
     HandleProficienciesChange(Asset);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleAvailableSkillWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+{
+    HandleAvailableSkillChange(Asset);
+}
+
+void FCharacterSheetDataAssetHandlers::HandleSelectedSkillsWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName)
+{
+    HandleSelectedSkillsChange(Asset);
 }
 
 #pragma endregion Wrapper Functions

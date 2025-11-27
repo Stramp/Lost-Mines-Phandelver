@@ -192,12 +192,11 @@ FMulticlassProficienciesEntry FMulticlassHelpers::ConvertProficienciesEntry(cons
     // Saving throws não precisam resolução (já são nomes de atributos)
     Result.savingThrows = SourceEntry.savingThrows;
 
-    // Skills não precisam resolução (já são nomes de skills)
-    Result.FSkills.available = SourceEntry.FSkills.available;
-    Result.FSkills.qtdAvailable = SourceEntry.FSkills.qtdAvailable;
-
-    // Armazena estado inicial para cálculo dinâmico de qtdAvailable
-    Result.FSkills.InitialAvailableCount = SourceEntry.FSkills.available.Num();
+    // Skills: popula InitialAvailable com lista original, reseta available (dropdown) e Selected (array)
+    Result.FSkills.InitialAvailable = SourceEntry.FSkills.available; // Array original de skills disponíveis
+    Result.FSkills.available = NAME_None;                            // Dropdown inicia vazio
+    Result.FSkills.Selected.Empty();                                 // Array de escolhas inicia vazio
+    Result.FSkills.qtdAvailable = SourceEntry.FSkills.qtdAvailable;  // Quantidade inicial disponível
     Result.FSkills.InitialQtdAvailable = SourceEntry.FSkills.qtdAvailable;
 
     return Result;

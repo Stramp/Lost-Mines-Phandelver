@@ -545,10 +545,16 @@ bool FCharacterSheetDataAssetHelpers::DetectNestedMulticlassProperty(const FProp
             HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies);
             return true;
         }
-        // Detecta mudanças em FSkills.available (propriedade aninhada dentro de Proficiencies)
+        // Detecta mudanças em FSkills.available (dropdown - propriedade aninhada dentro de Proficiencies)
         else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassSkills, available))
         {
-            HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies);
+            HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassSkills, available);
+            return true;
+        }
+        // Detecta mudanças em FSkills.Selected (array - propriedade aninhada dentro de Proficiencies)
+        else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassSkills, Selected))
+        {
+            HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassSkills, Selected);
             return true;
         }
     }

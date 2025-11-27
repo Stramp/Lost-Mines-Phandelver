@@ -28,17 +28,22 @@ struct MYPROJECT2_API FMulticlassSkills
 {
     GENERATED_BODY()
 
-    /** Lista de skills disponíveis para escolha - Preenchido automaticamente pelo motor */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills")
-    TArray<FName> available;
+    /** Skill selecionada no dropdown - Editável apenas quando qtdAvailable > 0 */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills",
+              meta = (GetOptions = "GetAvailableSkills", EditCondition = "qtdAvailable > 0"))
+    FName available;
 
-    /** Quantidade de skills que podem ser escolhidos - Calculado dinamicamente */
+    /** Array de skills escolhidas - Preenchido quando available é selecionado */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills")
+    TArray<FName> Selected;
+
+    /** Quantidade de skills que ainda podem ser escolhidos - Calculado dinamicamente */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skills")
     int32 qtdAvailable;
 
-    /** Tamanho inicial de available quando proficiências foram carregadas - Usado para calcular qtdAvailable */
+    /** Lista inicial de skills disponíveis quando proficiências foram carregadas - Usado para popular dropdown */
     UPROPERTY(meta = (Hidden))
-    int32 InitialAvailableCount = 0;
+    TArray<FName> InitialAvailable;
 
     /** Quantidade inicial que pode ser escolhida - Usado para calcular qtdAvailable */
     UPROPERTY(meta = (Hidden))

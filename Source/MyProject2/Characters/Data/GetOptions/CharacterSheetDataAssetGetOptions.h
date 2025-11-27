@@ -101,4 +101,13 @@ public:
      * @return Array with all available choice names from all features
      */
     static TArray<FName> GetAvailableChoiceNames(const UDataTable *FeatureDataTable);
+
+    /**
+     * Returns all available skill names from D&D 5e.
+     * Used for dropdown in FMulticlassSkills.available.
+     * Note: The handler will filter based on InitialAvailable and Selected arrays.
+     *
+     * @return Array with all D&D 5e skill names
+     */
+    static TArray<FName> GetAvailableSkills();
 };

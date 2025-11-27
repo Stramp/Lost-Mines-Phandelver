@@ -77,6 +77,18 @@ public:
      */
     static void HandleProficienciesChange(UCharacterSheetDataAsset *Asset);
 
+    /**
+     * Handles changes to FSkills.available (dropdown) in Multiclass array.
+     * Quando uma skill é selecionada no dropdown, adiciona ao Selected e reseta available.
+     */
+    static void HandleAvailableSkillChange(UCharacterSheetDataAsset *Asset);
+
+    /**
+     * Handles changes to FSkills.Selected (array) in Multiclass array.
+     * Recalcula qtdAvailable quando skills são adicionadas/removidas do Selected.
+     */
+    static void HandleSelectedSkillsChange(UCharacterSheetDataAsset *Asset);
+
     // ============================================================================
     // Wrapper Functions for Property Handler Map (C-style function pointers)
     // ============================================================================
@@ -94,4 +106,6 @@ public:
     static void HandleMulticlassClassNameWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleProgressionWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
     static void HandleProficienciesWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleAvailableSkillWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
+    static void HandleSelectedSkillsWrapper(UCharacterSheetDataAsset *Asset, FName PropertyName);
 };

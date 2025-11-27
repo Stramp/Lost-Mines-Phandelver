@@ -470,7 +470,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateMulticlassFlags(UCharacterSheetData
 #pragma region Multiclass Proficiency Choices Update
 
 /**
- * Atualiza qtdAvailable dinamicamente quando skills são escolhidas/removidas do available.
+ * Atualiza qtdAvailable dinamicamente quando skills são adicionadas/removidas do Selected.
  * Apenas atualiza, não valida nem carrega dados.
  */
 void FCharacterSheetDataAssetUpdaters::UpdateMulticlassProficiencyChoices(UCharacterSheetDataAsset *Asset)
@@ -488,20 +488,9 @@ void FCharacterSheetDataAssetUpdaters::UpdateMulticlassProficiencyChoices(UChara
         {
             FMulticlassSkills &Skills = ProficiencyEntry.FSkills;
 
-            // Se não há estado inicial armazenado, inicializa com valores atuais
-            if (Skills.InitialAvailableCount == 0 && Skills.InitialQtdAvailable == 0)
-            {
-                Skills.InitialAvailableCount = Skills.available.Num();
-                Skills.InitialQtdAvailable = Skills.qtdAvailable;
-            }
-
-            // Calcula quantas skills foram escolhidas (removidas do available)
-            const int32 CurrentAvailableCount = Skills.available.Num();
-            const int32 SkillsChosen = Skills.InitialAvailableCount - CurrentAvailableCount;
-
-            // Atualiza qtdAvailable: quantidade inicial menos skills já escolhidas
+            // Calcula qtdAvailable: quantidade inicial menos skills já escolhidas (Selected.Num())
             // FMath::Max garante que qtdAvailable nunca será negativo
-            Skills.qtdAvailable = FMath::Max(0, Skills.InitialQtdAvailable - SkillsChosen);
+            Skills.qtdAvailable = FMath::Max(0, Skills.InitialQtdAvailable - Skills.Selected.Num());
         }
     }
 }

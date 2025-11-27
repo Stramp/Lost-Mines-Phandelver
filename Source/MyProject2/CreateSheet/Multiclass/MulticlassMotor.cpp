@@ -54,28 +54,6 @@ TArray<FName> FMulticlassMotor::GetAvailableClasses(const UDataTable *ClassDataT
 
 #pragma endregion Get Available Classes
 
-// ============================================================================
-// Validate Multiclass Requirements
-// ============================================================================
-#pragma region Validate Multiclass Requirements
-
-bool FMulticlassMotor::ValidateMulticlassRequirements(const FCharacterSheetData &Data, FName DesiredClassName)
-{
-    // Nota: Esta função foi planejada para validação genérica, mas atualmente a validação
-    // de requisitos é feita automaticamente em GetAvailableClasses que já usa os validators.
-    //
-    // Se no futuro precisar de validação genérica (fora do contexto de GetAvailableClasses),
-    // será necessário adicionar ClassDataTable ao FCharacterSheetData ou passar como parâmetro.
-    // Por enquanto, retorna true para não quebrar código existente que pode chamá-la.
-    //
-    // A validação real está implementada em:
-    // - FMulticlassValidators::ValidateMulticlassRequirements (valida requisitos)
-    // - FMulticlassMotor::GetAvailableClasses (usa validators para filtrar classes)
-
-    return true;
-}
-
-#pragma endregion Validate Multiclass Requirements
 
 // ============================================================================
 // Log Level Change Features

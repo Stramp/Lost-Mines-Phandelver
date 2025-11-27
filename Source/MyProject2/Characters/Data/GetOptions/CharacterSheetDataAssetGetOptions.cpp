@@ -194,3 +194,20 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(const 
 }
 
 #pragma endregion Feature Choice Options
+
+// ============================================================================
+// Skills Options
+// ============================================================================
+#pragma region Skills Options
+
+/**
+ * Retorna todos os nomes de skills de D&D 5e.
+ * Usado para dropdown em FMulticlassSkills.available.
+ * Nota: O handler filtrará baseado em InitialAvailable e Selected arrays.
+ */
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableSkills()
+{
+    return CharacterSheetHelpers::GetSkillNames();
+}
+
+#pragma endregion Skills Options

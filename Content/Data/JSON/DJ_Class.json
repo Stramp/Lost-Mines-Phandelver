@@ -8,7 +8,7 @@
       "Proficiencies": [
         {
           "armas":["PW_Simple_Weapons", "PW_Martial_Weapons"],
-          "armaduras":["PA_Light_Armor", "PA_Medium_Armor", "PA_Heavy_Armor"],
+          "armaduras":["PA_Light_Armor", "PA_Medium_Armor", "PA_Heavy_Armor", "PS_Shields"],
           "savingThrows":["Strength", "Constitution"],
           "FSkills":{
             "available":["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival"],
@@ -21,13 +21,13 @@
         {"Level": 2, "Features":["FC_ActionSurge"]},
         {"Level": 3, "Features":["FC_MartialArchetype"]},
         {"Level": 4, "Features":["FC_ASI","Feature_Geral"]},
-        {"Level": 5, "Features":["FC_ExtraAtack"]},
+        {"Level": 5, "Features":["FC_ExtraAttack"]},
         {"Level": 6, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 7, "Features":["FC_MartialArchetype"]},
         {"Level": 8, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 9, "Features":["FC_Indomitable"]},
         {"Level": 10, "Features":["FC_MartialArchetype"]},
-        {"Level": 11, "Features":["FC_ExtraAtack"]},
+        {"Level": 11, "Features":["FC_ExtraAttack"]},
         {"Level": 12, "Features":["FC_ASI","Feature_Geral"]},
         {"Level": 13, "Features":["FC_Indomitable"]},
         {"Level": 14, "Features":["FC_ASI","Feature_Geral"]},
@@ -36,7 +36,7 @@
         {"Level": 17, "Features":["FC_ActionSurge"]},
         {"Level": 18, "Features":["FC_MartialArchetype"]},
         {"Level": 19, "Features":["FC_ASI","Feature_Geral"]},
-        {"Level": 20, "Features":["FC_ExtraAtack"]}
+        {"Level": 20, "Features":["FC_ExtraAttack"]}
       ],
       "StartingEquipment": [],
       "StartingGold": 125

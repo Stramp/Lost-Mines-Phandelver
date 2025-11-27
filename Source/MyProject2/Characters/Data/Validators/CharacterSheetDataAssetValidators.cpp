@@ -375,20 +375,18 @@ FCharacterSheetDataAssetValidators::ValidateMulticlassProficiencies(const UChara
             const FMulticlassSkills &Skills = ProficiencyEntry.FSkills;
 
             // Se não há estado inicial armazenado, pula validação (ainda não foi carregado)
-            if (Skills.InitialAvailableCount == 0 && Skills.InitialQtdAvailable == 0)
+            if (Skills.InitialAvailable.Num() == 0 && Skills.InitialQtdAvailable == 0)
             {
                 continue;
             }
 
-            // Calcula quantas skills foram escolhidas (removidas do available)
-            const int32 CurrentAvailableCount = Skills.available.Num();
-            const int32 SkillsChosen = Skills.InitialAvailableCount - CurrentAvailableCount;
+            // Calcula quantas skills foram escolhidas (tamanho do array Selected)
+            const int32 SkillsChosen = Skills.Selected.Num();
 
             // Validação: não pode ter mais skills escolhidas do que o permitido
             if (SkillsChosen > Skills.InitialQtdAvailable)
             {
-                // Ajusta qtdAvailable diretamente (não usa CorrectionApplier pois é propriedade aninhada)
-                // A correção será aplicada diretamente no Handler após validação
+                // Gera correção para ajustar qtdAvailable (aplicada pelo CorrectionApplier no Handler)
                 FValidationCorrection Correction(
                     EValidationCorrectionType::AdjustValue, GET_MEMBER_NAME_CHECKED(FMulticlassSkills, qtdAvailable), i,
                     Skills.InitialQtdAvailable,
@@ -510,8 +508,8 @@ FCharacterSheetDataAssetValidators::ValidateMulticlassRequirementTags(const UCha
                 FString::Printf(TEXT("Multiclass[%d] - Classe com tag de requerimento resetada: %s"), i, *Message));
             Result.AddCorrection(Correction);
 
-            // Log informativo (não crítico - sistema já corrigiu automaticamente)
-            FLoggingSystem::LogWarning(Context, Message, false);
+            // Alerta popup crítico: jogador escolheu classe que não pode
+            FLoggingSystem::LogWarning(Context, Message, true);
         }
     }
 

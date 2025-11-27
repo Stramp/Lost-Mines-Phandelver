@@ -182,6 +182,10 @@ void FCharacterSheetDataAssetInitializers::InitializeMulticlassHandlers(UCharact
                                 FCharacterSheetDataAssetHandlers::HandleProgressionWrapper);
     Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FMulticlassClassData, Proficiencies),
                                 FCharacterSheetDataAssetHandlers::HandleProficienciesWrapper);
+    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FMulticlassSkills, available),
+                                FCharacterSheetDataAssetHandlers::HandleAvailableSkillWrapper);
+    Asset->PropertyHandlers.Add(GET_MEMBER_NAME_CHECKED(FMulticlassSkills, Selected),
+                                FCharacterSheetDataAssetHandlers::HandleSelectedSkillsWrapper);
 }
 
 #pragma endregion Multiclass Handlers Initialization

@@ -573,18 +573,26 @@ int32 CharacterSheetHelpers::CalculateTotalPointBuyCost(const TMap<FName, int32>
     return TotalCost;
 }
 
+TMap<FName, int32> CharacterSheetHelpers::CreateBaseScoresFromPointBuy(const TMap<FName, int32> &PointBuyMap)
+{
+    TMap<FName, int32> BaseScores;
+    BaseScores.Add(TEXT("Strength"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Strength")));
+    BaseScores.Add(TEXT("Dexterity"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Dexterity")));
+    BaseScores.Add(TEXT("Constitution"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Constitution")));
+    BaseScores.Add(TEXT("Intelligence"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Intelligence")));
+    BaseScores.Add(TEXT("Wisdom"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Wisdom")));
+    BaseScores.Add(TEXT("Charisma"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Charisma")));
+    return BaseScores;
+}
+
 FString CharacterSheetHelpers::AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap, int32 MaxPoints)
 {
     // Ordem de redução: do final da fila (Charisma -> Wisdom -> Intelligence -> Constitution -> Dexterity -> Strength)
     TArray<FName> ReductionOrder = {TEXT("Charisma"),     TEXT("Wisdom"),    TEXT("Intelligence"),
                                     TEXT("Constitution"), TEXT("Dexterity"), TEXT("Strength")};
 
-    // Calcula custo atual
-    TMap<FName, int32> BaseScores;
-    for (const auto &Pair : PointBuyMap)
-    {
-        BaseScores.Add(Pair.Key, 8 + Pair.Value);
-    }
+    // Calcula custo atual usando helper puro (elimina duplicação e magic number)
+    TMap<FName, int32> BaseScores = CreateBaseScoresFromPointBuy(PointBuyMap);
     int32 TotalCost = CalculateTotalPointBuyCost(BaseScores);
 
     // Reduz até chegar a MaxPoints pontos
@@ -599,12 +607,12 @@ FString CharacterSheetHelpers::AdjustPointBuyAllocation(TMap<FName, int32> &Poin
         if (CurrentAllocation && *CurrentAllocation > 0)
         {
             // Calcula custo atual deste atributo
-            int32 CurrentBaseScore = 8 + *CurrentAllocation;
+            int32 CurrentBaseScore = DnDConstants::BASE_ABILITY_SCORE + *CurrentAllocation;
             int32 CurrentCost = CalculatePointBuyCost(CurrentBaseScore);
 
             // Reduz 1 ponto
             (*CurrentAllocation)--;
-            int32 NewBaseScore = 8 + *CurrentAllocation;
+            int32 NewBaseScore = DnDConstants::BASE_ABILITY_SCORE + *CurrentAllocation;
             int32 NewCost = CalculatePointBuyCost(NewBaseScore);
 
             // Atualiza pontos a reduzir

@@ -37,15 +37,6 @@ public:
                                              int32 FinalDexterity, int32 FinalConstitution, int32 FinalIntelligence,
                                              int32 FinalWisdom, int32 FinalCharisma);
 
-    /**
-     * Valida requisitos de atributo para multiclasse.
-     * Verifica se o personagem atende aos requisitos mínimos de atributo para pegar uma nova classe.
-     *
-     * @param Data Estrutura genérica com dados de classe e atributos finais
-     * @param DesiredClassName Nome da classe desejada para multiclasse
-     * @return true se requisitos atendidos, false caso contrário
-     */
-    static bool ValidateMulticlassRequirements(const FCharacterSheetData &Data, FName DesiredClassName);
 
     /**
      * Loga features ganhas em um nível específico de uma classe.

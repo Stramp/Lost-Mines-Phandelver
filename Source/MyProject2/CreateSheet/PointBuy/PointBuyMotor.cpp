@@ -37,15 +37,8 @@ FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
     FString FeedbackMessage;
     bool bWasAdjusted = false;
 
-    // Calcula custo total dos scores base (8 + PointBuy)
-    TMap<FName, int32> BaseScores;
-    BaseScores.Add(TEXT("Strength"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Strength")));
-    BaseScores.Add(TEXT("Dexterity"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Dexterity")));
-    BaseScores.Add(TEXT("Constitution"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Constitution")));
-    BaseScores.Add(TEXT("Intelligence"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Intelligence")));
-    BaseScores.Add(TEXT("Wisdom"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Wisdom")));
-    BaseScores.Add(TEXT("Charisma"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Charisma")));
-
+    // Calcula custo total dos scores base (8 + PointBuy) usando helper puro
+    TMap<FName, int32> BaseScores = CharacterSheetHelpers::CreateBaseScoresFromPointBuy(PointBuyMap);
     int32 TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
     int32 PointsRemaining = MaxPoints - TotalCost;
 
@@ -55,17 +48,8 @@ FPointBuyResult FPointBuyMotor::ApplyPointBuy(FCharacterSheetData &Data)
         FeedbackMessage = CharacterSheetHelpers::AdjustPointBuyAllocation(PointBuyMap, MaxPoints);
         bWasAdjusted = true;
 
-        // Recalcula após ajuste
-        BaseScores.Empty();
-        BaseScores.Add(TEXT("Strength"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Strength")));
-        BaseScores.Add(TEXT("Dexterity"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Dexterity")));
-        BaseScores.Add(TEXT("Constitution"),
-                       DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Constitution")));
-        BaseScores.Add(TEXT("Intelligence"),
-                       DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Intelligence")));
-        BaseScores.Add(TEXT("Wisdom"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Wisdom")));
-        BaseScores.Add(TEXT("Charisma"), DnDConstants::BASE_ABILITY_SCORE + PointBuyMap.FindRef(TEXT("Charisma")));
-
+        // Recalcula após ajuste usando helper (elimina duplicação)
+        BaseScores = CharacterSheetHelpers::CreateBaseScoresFromPointBuy(PointBuyMap);
         TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
         PointsRemaining = MaxPoints - TotalCost;
 

@@ -218,6 +218,10 @@ public:
     UFUNCTION(CallInEditor)
     TArray<FName> GetSkillNames() const;
 
+    /** Retorna todos os nomes de skills disponíveis para escolha em multiclasse */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetAvailableSkills() const;
+
     /** Retorna todos os nomes de idiomas disponíveis (para dropdown de escolhas de idiomas) */
     UFUNCTION(CallInEditor)
     TArray<FName> GetAvailableLanguageNames() const;

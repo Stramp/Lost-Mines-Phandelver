@@ -180,6 +180,11 @@ TArray<FName> UCharacterSheetDataAsset::GetSkillNames() const
     return FCharacterSheetDataAssetGetOptions::GetSkillNames();
 }
 
+TArray<FName> UCharacterSheetDataAsset::GetAvailableSkills() const
+{
+    return FCharacterSheetDataAssetGetOptions::GetAvailableSkills();
+}
+
 TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
 {
     return FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
