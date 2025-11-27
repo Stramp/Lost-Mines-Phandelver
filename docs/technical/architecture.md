@@ -1442,7 +1442,19 @@ graph TB
 ## Referências
 
 <details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📚 Links e Documentação Externa</b></summary>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📚 Documentação do Projeto</b></summary>
+
+> - **[README Principal](../../README.md)** - Visão geral do projeto
+> - **[ARCHITECTURE.md](../../ARCHITECTURE.md)** - Resumo da arquitetura
+> - **[CHANGELOG.md](../../CHANGELOG.md)** - Histórico de mudanças
+> - **[Índice de Documentação](../index.md)** - Organização completa da documentação
+> - **[API Reference](api.md)** - Referência completa da API
+> - **[Guias Práticos](guides/)** - Guias passo a passo
+
+</details>
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔗 Links e Documentação Externa</b></summary>
 
 > - [Unreal Engine 5.7 Documentation](https://docs.unrealengine.com/5.7/)
 > - [Replication Documentation](https://docs.unrealengine.com/5.7/en-US/replication-in-unreal-engine/)

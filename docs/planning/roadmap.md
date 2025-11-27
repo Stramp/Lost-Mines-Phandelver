@@ -672,5 +672,8 @@
 > - **[Arquitetura Técnica](../technical/architecture.md)** - Decisões técnicas e preparação GAS
 > - **[Regras D&D 5e](../design/dnd-rules/)** - Regras implementadas
 > - **[README Principal](../../README.md)** - Visão geral do projeto
+> - **[ARCHITECTURE.md](../../ARCHITECTURE.md)** - Resumo da arquitetura
+> - **[CHANGELOG.md](../../CHANGELOG.md)** - Histórico de mudanças
+> - **[Índice de Documentação](../index.md)** - Organização completa
 
 </details>

@@ -58,5 +58,8 @@
 > - **[GDD](../design/gdd.md)** - Visão do jogo final
 > - **[Arquitetura Técnica](../technical/architecture.md)** - Decisões técnicas
 > - **[README Principal](../../README.md)** - Visão geral do projeto
+> - **[ARCHITECTURE.md](../../ARCHITECTURE.md)** - Resumo da arquitetura
+> - **[CHANGELOG.md](../../CHANGELOG.md)** - Histórico de mudanças
+> - **[Índice de Documentação](../index.md)** - Organização completa
 
 </details>

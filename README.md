@@ -519,7 +519,9 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > - **Linha de Comando:** `run_tests.bat` ou `run_tests_quick.bat`
 > - **Testes de Integração:** `run_tests.bat MyProject2.Integration`
 >
-> **📖 Para documentação completa, veja [docs/technical/guides/testing.md](docs/technical/guides/testing.md)**
+> **📖 Documentação:**
+- **[Guia de Testes](docs/technical/guides/testing.md)** - Implementação e execução de testes
+- **[TDD Complete Guide](docs/technical/guides/tdd-complete-guide.md)** - Guia completo de Test-Driven Development
 >
 > ### Checklist Antes de Commitar
 >

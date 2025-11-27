@@ -74,5 +74,8 @@
 > - **[Regras D&D 5e](dnd-rules/)** - Referência de regras
 > - **[Documentação Técnica](../technical/)** - Arquitetura e implementação
 > - **[README Principal](../../README.md)** - Visão geral do projeto
+> - **[ARCHITECTURE.md](../../ARCHITECTURE.md)** - Resumo da arquitetura
+> - **[CHANGELOG.md](../../CHANGELOG.md)** - Histórico de mudanças
+> - **[Índice de Documentação](../index.md)** - Organização completa
 
 </details>

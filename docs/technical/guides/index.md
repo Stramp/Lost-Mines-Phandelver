@@ -84,6 +84,23 @@
 </details>
 
 <details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📐 Guias Algorítmicos</b></summary>
+
+> **[algorithmic/character-creation.md](algorithmic/character-creation.md)** - Guia algorítmico completo de criação de ficha D&D 5e:
+>
+> - Processo de criação passo a passo (Template Method Pattern)
+> - Algoritmos de cada etapa (Race, Class, Ability Scores, Equipment, etc.)
+> - Design Patterns aplicados (Builder, Strategy, Factory, Observer, Chain of Responsibility)
+> - Regras de negócio (Business Rules)
+> - Estruturas de dados
+> - Validações críticas
+> - Pseudo-código completo e detalhado
+>
+> **📖 Este guia serve como referência para implementação das regras D&D 5e no projeto.**
+
+</details>
+
+<details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🧪 Testes Automatizados</b></summary>
 
 > **[testing.md](testing.md)** - Guia completo de testes automatizados:
@@ -94,6 +111,16 @@
 > - Como executar testes
 > - Casos de teste obrigatórios
 > - Integração com CI/CD
+>
+> **[tdd-complete-guide.md](tdd-complete-guide.md)** - Guia completo de TDD (Test-Driven Development):
+>
+> - Ciclo Red-Green-Refactor
+> - Princípios fundamentais do TDD
+> - Quando aplicar TDD vs Test-After
+> - TDD na Unreal Engine 5.7
+> - Erros comuns e anti-padrões
+> - Benefícios e boas práticas
+> - Recursos de aprendizado
 >
 > **[testing-implementation-plan.md](testing-implementation-plan.md)** - Plano de implementação:
 >

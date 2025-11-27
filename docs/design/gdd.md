@@ -163,5 +163,8 @@
 > - **[Arquitetura Técnica](../technical/architecture.md)** - Como está implementado
 > - **[API Reference](../technical/api.md)** - Classes e funções disponíveis
 > - **[README Principal](../../README.md)** - Visão geral do projeto
+> - **[ARCHITECTURE.md](../../ARCHITECTURE.md)** - Resumo da arquitetura
+> - **[CHANGELOG.md](../../CHANGELOG.md)** - Histórico de mudanças
+> - **[Índice de Documentação](../index.md)** - Organização completa
 
 </details>

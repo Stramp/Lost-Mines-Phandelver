@@ -68,6 +68,14 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Meta tag atualizado: `GetOptionsFunctionParams = "FC_ID"`
 > >    - Função original `GetAvailableChoiceNames()` mantida intacta
 >
+> > 6. Enhancement de ProficiencyDataTable
+> >    - Adicionado campo `ProficiencyData` (TMap<FName, FString>) em `FProficiencyDataRow` para suportar regras complexas de proficiências
+> >    - Criado `ProficiencyHelpers` namespace com funções helper para ler ProficiencyData
+> >    - Adicionados testes para `ProficiencyDataTable` (4 testes) e `ProficiencyHelpers` (12 testes)
+> >    - Corrigido JSON `DJ_Proficiencie.json`: `type` → `Type`, `description` → `Description` (case-sensitive)
+> >    - Estrutura backward compatible (proficiências sem ProficiencyData continuam funcionando)
+> >    - Preparação para migração futura para GAS (Gameplay Ability System)
+>
 > </details>
 >
 > <details>
@@ -75,7 +83,10 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Mudanças em Funcionalidades Existentes
 >
-> > 1. Commit [`be8dbcd`] - Tornar todas as 6 tabelas obrigatórias e remover popup
+> > 1. Enhancement de ProficiencyDataTable
+> >    - Corrigido JSON `DJ_Proficiencie.json`: `type` → `Type`, `description` → `Description` (case-sensitive para compatibilidade com Unreal Engine)
+>
+> > 2. Commit [`be8dbcd`] - Tornar todas as 6 tabelas obrigatórias e remover popup
 > >    - Todas as 6 Data Tables agora são obrigatórias para visibilidade da ficha
 > >    - Removidos popups de alerta para tabelas faltantes
 > >    - Sistema usa apenas efeito visual de esconder propriedades
@@ -705,5 +716,21 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - **Removed** - Funcionalidades removidas
 - **Fixed** - Correções de bugs
 - **Security** - Correções de segurança
+
+</details>
+
+---
+
+## 🔗 Referências
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📚 Documentação Relacionada</b></summary>
+
+> - **[README.md](README.md)** - Visão geral do projeto
+> - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Resumo da arquitetura
+> - **[Documentação Completa](docs/index.md)** - Índice completo da documentação
+> - **[Arquitetura Técnica](docs/technical/architecture.md)** - Arquitetura detalhada
+> - **[API Reference](docs/technical/api.md)** - Referência completa da API
+> - **[Guias Práticos](docs/technical/guides/)** - Guias passo a passo
 
 </details>

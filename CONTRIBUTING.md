@@ -280,9 +280,11 @@ Este projeto segue princípios de Clean Code, Design Patterns e arquitetura bem 
 >
 > - [ARCHITECTURE.md](ARCHITECTURE.md) - Arquitetura do projeto
 > - [README.md](README.md) - Visão geral do projeto
+> - [CHANGELOG.md](CHANGELOG.md) - Histórico de mudanças
 > - [.cursor/rules/](.cursor/rules/) - Regras de código
-> - [API.md](docs/API.md) - Referência da API
-> - [getting-started.md](docs/GUIDES/getting-started.md) - Guia de início
+> - [API Reference](docs/technical/api.md) - Referência completa da API
+> - [Guia de Início Rápido](docs/technical/guides/getting-started.md) - Guia passo a passo
+> - [Documentação Completa](docs/index.md) - Índice completo da documentação
 
 </details>
 

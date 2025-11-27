@@ -9,6 +9,7 @@ Referência completa da API das classes principais do sistema de fichas de perso
 - [CharacterSheetDataAsset](#charactersheetdataasset)
 - [Estruturas Relacionadas](#estruturas-relacionadas)
   - [FFeatDataRow](#ffeatdatarow) - 6 testes
+  - [FProficiencyDataRow](#fproficiencydatarow) - 4 testes
 - [CreateSheet - Motores de Criação](#createsheet---motores-de-criação)
 - [Helpers e Utilitários](#helpers-e-utilitários)
   - [ComponentHelpers](#componenthelpers) - 3 testes
@@ -18,6 +19,24 @@ Referência completa da API das classes principais do sistema de fichas de perso
   - [FormattingHelpers](#formattinghelpers) - 10 testes
   - [ChoiceHelpers](#choicehelpers) - 7 testes
   - [CharacterSheetHelpers](#charactersheethelpers) - 36 testes
+  - [CharacterSheetDataAssetHelpers](#charactersheetdataassethelpers) - 18 testes
+  - [ProficiencyHelpers](#proficiencyhelpers) - 12 testes
+
+---
+
+## 🔗 Referências
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📚 Documentação do Projeto</b></summary>
+
+> - **[README Principal](../../README.md)** - Visão geral do projeto
+> - **[ARCHITECTURE.md](../../ARCHITECTURE.md)** - Resumo da arquitetura
+> - **[CHANGELOG.md](../../CHANGELOG.md)** - Histórico de mudanças
+> - **[Índice de Documentação](../index.md)** - Organização completa
+> - **[Arquitetura Técnica](architecture.md)** - Arquitetura detalhada
+> - **[Guias Práticos](guides/)** - Guias passo a passo
+
+</details>
 
 ---
 
@@ -379,11 +398,30 @@ Funções `UFUNCTION(CallInEditor)` para popular dropdowns no editor:
 
 O `CharacterSheetDataAsset` valida dados automaticamente no editor via `PostEditChangeProperty()`:
 
+- **Validação de Tipo de Data Tables:** Verifica se cada Data Table atribuída tem o RowStruct correto (ex: RaceDataTable deve ter `FRaceDataRow`). Exibe popup de erro com throttle se tipo incorreto for detectado.
 - Valida Point Buy (27 pontos, scores 8-15)
 - Valida nível total (máximo 20)
 - Valida escolhas de Variant Human
 - Atualiza bônus raciais automaticamente
 - Atualiza campos calculados (proficiências, features)
+
+**Validação de Tipo de Data Tables:**
+
+Quando o usuário atribui uma Data Table no editor, o sistema valida automaticamente se o tipo está correto:
+
+- **RaceDataTable** → Deve ter RowStruct `FRaceDataRow`
+- **ClassDataTable** → Deve ter RowStruct `FClassDataRow`
+- **BackgroundDataTable** → Deve ter RowStruct `FBackgroundDataRow`
+- **FeatDataTable** → Deve ter RowStruct `FFeatDataRow`
+- **ClassFeaturesDataTable** → Deve ter RowStruct `FFeatureDataRow`
+- **ClassProficienciesDataTable** → Deve ter RowStruct `FProficiencyDataRow`
+- **ProficiencyDataTable** → Deve ter RowStruct `FProficiencyDataRow`
+
+**Comportamento:**
+- Validação ocorre em `HandleDataTableChange()` quando Data Table é atribuída
+- Validação também ocorre em `ValidateDataTables()` para todas as tabelas já atribuídas
+- Popup de erro é exibido com throttle (0.5s) para evitar poluição visual
+- Lógica de visibilidade (`UpdateSheetVisibility`) **não é afetada** - apenas verifica se tabelas são `!= nullptr`
 
 ---
 
@@ -423,6 +461,36 @@ TArray<FName> GetPrerequisites() const;
 Retorna array de pré-requisitos do feat parseados de `FeatureData["Prerequisites"]`.
 
 **Uso:** Usado para validar se personagem pode adquirir o feat.
+
+---
+
+> ### FProficiencyDataRow
+>
+> **Caminho:** `Source/MyProject2/Data/Tables/ProficiencyDataTable.h`
+>
+> Struct principal para dados de proficiências D&D 5e. Herda de `FTableRowBase` para uso em `UDataTable`.
+>
+> **Status de Testes:** ✅ 4 testes implementados (`ProficiencyDataTableTests.cpp`)
+>
+> **Propriedades Principais:**
+>
+> - `Name` - Nome da proficiência (ex: "Simple Weapons", "Thieves' Tools", "Acrobatics")
+> - `ProficiencyID` - ID único (ex: "PW_Simple_Weapons", "PT_Thieves_Tools", "PSK_Acrobatics")
+> - `Type` - Tipo da proficiência ("Weapon", "Armor", "Shield", "Tool", "Skill", "SavingThrow", "Language")
+> - `Description` - Descrição textual (localizável)
+> - `ProficiencyData` - Dados estruturados opcionais para regras complexas (TMap<FName, FString>)
+>
+> **ProficiencyData:**
+>
+> Campo opcional que permite armazenar informações programáticas além da descrição textual.
+>
+> **Exemplos de uso:**
+> - **Weapons:** `{"Damage": "1d4", "DamageType": "Bludgeoning", "Properties": "Light,Finesse"}`
+> - **Armor:** `{"AC": "15", "MaxDexBonus": "2", "StealthDisadvantage": "true"}`
+> - **Tools:** `{"UsesPerRest": "1", "ActionType": "Action"}`
+> - **Skills:** `{"AbilityModifier": "DEX"}` (para skills que usam modificador específico)
+>
+> **Uso:** Vazio para proficiências passivas (Languages, SavingThrows básicos). Preparado para migração futura para GAS (Gameplay Ability System).
 
 ---
 >
@@ -1024,7 +1092,7 @@ Funções helper para cálculos de dados de personagem D&D 5e.
 
 Funções helper para busca de rows em Data Tables com fallback manual.
 
-**Status de Testes:** ✅ 13 testes implementados (`DataTableHelpersTests.cpp`) - Melhorados com supressão de logs e mensagens descritivas
+**Status de Testes:** ✅ 23 testes implementados (`DataTableHelpersTests.cpp`) - Inclui validação de tipo de Data Tables
 
 <details>
 <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Race Data Table Helpers</summary>
@@ -1078,6 +1146,117 @@ Funções helper para busca de rows em Data Tables com fallback manual.
 </details>
 
 **Uso:** Centraliza lógica de busca que pode falhar com `FindRow` direto. Reutilizável em qualquer lugar que precise buscar rows em Data Tables.
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Data Table Type Validation</summary>
+
+> **Validação de Tipo de Data Tables**
+>
+> Funções para validar se uma Data Table tem o RowStruct correto. Usadas para prevenir erros quando o usuário atribui uma Data Table do tipo incorreto no editor.
+>
+> **ValidateDataTableRowStruct()**
+>
+> ```cpp
+> bool ValidateDataTableRowStruct(UDataTable* DataTable, const UScriptStruct* ExpectedStruct);
+> ```
+>
+> Valida se DataTable tem RowStruct do tipo esperado. Compara o nome do RowStruct com o struct esperado.
+>
+> **Parâmetros:**
+> - `DataTable` - Data Table a validar (pode ser nullptr)
+> - `ExpectedStruct` - Struct esperado (ex: `FRaceDataRow::StaticStruct()`)
+>
+> **Retorno:** `true` se RowStruct corresponde ao esperado, `false` caso contrário
+>
+> **Uso:** Função base para todas as validações de tipo específicas.
+>
+> ---
+>
+> **IsRaceDataTable()**
+>
+> ```cpp
+> bool IsRaceDataTable(UDataTable* DataTable);
+> ```
+>
+> Valida se DataTable é do tipo RaceDataTable (tem RowStruct `FRaceDataRow`).
+>
+> **Retorno:** `true` se é RaceDataTable, `false` caso contrário
+>
+> ---
+>
+> **IsClassDataTable()**
+>
+> ```cpp
+> bool IsClassDataTable(UDataTable* DataTable);
+> ```
+>
+> Valida se DataTable é do tipo ClassDataTable (tem RowStruct `FClassDataRow`).
+>
+> **Retorno:** `true` se é ClassDataTable, `false` caso contrário
+>
+> ---
+>
+> **IsBackgroundDataTable()**
+>
+> ```cpp
+> bool IsBackgroundDataTable(UDataTable* DataTable);
+> ```
+>
+> Valida se DataTable é do tipo BackgroundDataTable (tem RowStruct `FBackgroundDataRow`).
+>
+> **Retorno:** `true` se é BackgroundDataTable, `false` caso contrário
+>
+> ---
+>
+> **IsFeatDataTable()**
+>
+> ```cpp
+> bool IsFeatDataTable(UDataTable* DataTable);
+> ```
+>
+> Valida se DataTable é do tipo FeatDataTable (tem RowStruct `FFeatDataRow`).
+>
+> **Retorno:** `true` se é FeatDataTable, `false` caso contrário
+>
+> ---
+>
+> **IsFeatureDataTable()**
+>
+> ```cpp
+> bool IsFeatureDataTable(UDataTable* DataTable);
+> ```
+>
+> Valida se DataTable é do tipo FeatureDataTable (tem RowStruct `FFeatureDataRow`).
+>
+> **Retorno:** `true` se é FeatureDataTable, `false` caso contrário
+>
+> ---
+>
+> **IsProficiencyDataTable()**
+>
+> ```cpp
+> bool IsProficiencyDataTable(UDataTable* DataTable);
+> ```
+>
+> Valida se DataTable é do tipo ProficiencyDataTable (tem RowStruct `FProficiencyDataRow`).
+>
+> **Retorno:** `true` se é ProficiencyDataTable, `false` caso contrário
+>
+> ---
+>
+> **IsItemDataTable()**
+>
+> ```cpp
+> bool IsItemDataTable(UDataTable* DataTable);
+> ```
+>
+> Valida se DataTable é do tipo ItemDataTable (tem RowStruct `FItemDataRow`).
+>
+> **Retorno:** `true` se é ItemDataTable, `false` caso contrário
+>
+> **Uso:** Todas as funções de validação são usadas em `CharacterSheetDataAssetHandlers` e `CharacterSheetDataAssetValidators` para validar tipo de Data Tables atribuídas no editor. Quando tipo incorreto é detectado, exibe popup de erro com throttle para evitar poluição visual.
+
+</details>
 
 ---
 
@@ -1215,6 +1394,132 @@ Funções helper para leitura, filtragem e validação de Data Tables de D&D 5e.
 **Status de Testes:** ✅ 36 testes implementados (`CharacterSheetHelpersTests.cpp`)
 
 </details>
+
+---
+
+### CharacterSheetDataAssetHelpers
+
+**Caminho:** `Source/MyProject2/Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h`
+
+Funções helper reutilizáveis para `CharacterSheetDataAsset`, seguindo princípios de Clean Code e Design Patterns.
+
+**Status de Testes:** ✅ 18 testes implementados (`CharacterSheetDataAssetHelpersTests.cpp`)
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Data Table Type Validation Helpers</summary>
+
+> **ValidateDataTableType()**
+>
+> ```cpp
+> static bool ValidateDataTableType(UCharacterSheetDataAsset* Asset, UDataTable* DataTable,
+>                                   const FName& PropertyName, const FString& ExpectedTypeName,
+>                                   bool (*ValidationFunction)(UDataTable*));
+> ```
+>
+> Valida tipo de Data Table específica e exibe popup de erro se tipo incorreto.
+> Helper reutilizável para validação de tipo de Data Tables.
+>
+> **Parâmetros:**
+> - `Asset` - Data Asset
+> - `DataTable` - Data Table a validar (pode ser nullptr)
+> - `PropertyName` - Nome da propriedade (para mensagem de erro)
+> - `ExpectedTypeName` - Nome do tipo esperado (ex: "FRaceDataRow")
+> - `ValidationFunction` - Função de validação (ex: `DataTableHelpers::IsRaceDataTable`)
+>
+> **Retorno:** `true` se tipo é válido ou DataTable é nullptr, `false` se tipo incorreto
+>
+> **Uso:** Usado em `HandleDataTableChange()` para validar tipo quando Data Table é atribuída no editor.
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Multiple Choice Feature Helpers</summary>
+
+> **ForEachMultipleChoiceFeature()**
+>
+> ```cpp
+> static void ForEachMultipleChoiceFeature(
+>     UCharacterSheetDataAsset* Asset,
+>     TFunctionRef<void(FMulticlassClassFeature& Feature, const TArray<FName>& ValidChoices)> Callback);
+> ```
+>
+> Itera por todas as features de múltiplas escolhas (Tipo 3) em todas as entradas de multiclasse.
+> Helper reutilizável para evitar duplicação de código (DRY).
+>
+> **Parâmetros:**
+> - `Asset` - Data Asset
+> - `Callback` - Função a ser executada para cada feature (recebe Feature e ValidChoices)
+>
+> **Uso:** Usado em `HandleAvailableChoiceToAddChange()` e `HandleSelectedChoicesChange()` para processar features de múltiplas escolhas.
+>
+> ---
+>
+> **GetMaxChoicesLimit()**
+>
+> ```cpp
+> static int32 GetMaxChoicesLimit(const FMulticlassClassFeature& Feature);
+> ```
+>
+> Obtém limite máximo de escolhas para uma feature (MaxChoices).
+> Busca em `FeatureData["MaxChoices"]` ou retorna -1 se não definido (sem limite).
+>
+> **Parâmetros:**
+> - `Feature` - Feature a verificar
+>
+> **Retorno:** Limite máximo de escolhas, ou -1 se não há limite definido
+>
+> **Uso:** Usado para validar se escolha pode ser adicionada sem exceder limite.
+>
+> ---
+>
+> **CanAddChoice()**
+>
+> ```cpp
+> static bool CanAddChoice(FName Choice, const TArray<FName>& ValidChoices,
+>                          const TArray<FName>& SelectedChoices, int32 MaxChoices);
+> ```
+>
+> Valida se uma escolha pode ser adicionada (não excede limite, não é duplicata).
+> Helper puro e testável para validação de escolhas.
+>
+> **Parâmetros:**
+> - `Choice` - Escolha a validar
+> - `ValidChoices` - Lista de escolhas válidas para a feature
+> - `SelectedChoices` - Lista de escolhas já selecionadas
+> - `MaxChoices` - Limite máximo de escolhas (-1 = sem limite)
+>
+> **Retorno:** `true` se pode adicionar, `false` caso contrário
+>
+> **Validações:**
+> - Escolha deve estar em `ValidChoices`
+> - Escolha não deve estar em `SelectedChoices` (evita duplicatas)
+> - Número de escolhas selecionadas não deve exceder `MaxChoices` (se houver limite)
+>
+> ---
+>
+> **CleanInvalidAndDuplicateChoices()**
+>
+> ```cpp
+> static bool CleanInvalidAndDuplicateChoices(TArray<FName>& SelectedChoices,
+>                                             const TArray<FName>& ValidChoices);
+> ```
+>
+> Remove escolhas inválidas e duplicatas de `SelectedChoices`.
+> Helper puro e testável para limpeza de array de escolhas.
+>
+> **Parâmetros:**
+> - `SelectedChoices` - [IN/OUT] Array de escolhas (será modificado)
+> - `ValidChoices` - Lista de escolhas válidas para a feature
+>
+> **Retorno:** `true` se houve mudanças (escolhas removidas), `false` caso contrário
+>
+> **Otimização:** Remove inválidas e duplicatas em um único loop otimizado usando `TSet` para detecção de duplicatas.
+>
+> **Uso:** Usado em `HandleSelectedChoicesChange()` para validar e limpar escolhas quando array é modificado.
+
+</details>
+
+**Uso:** Helpers reutilizáveis para `CharacterSheetDataAsset`, seguindo princípios de Clean Code (DRY, Single Responsibility, Testability).
 
 ---
 
@@ -1356,6 +1661,128 @@ Funções helper para leitura, filtragem e validação de Data Tables de D&D 5e.
 > - `LogMyProject2Multiclass` - Para módulos de multiclass
 >
 > **Status de Testes:** Sistema de logging não requer testes (wrapper de UE_LOG e notificações do editor)
+
+</details>
+
+---
+
+### ProficiencyHelpers
+
+**Caminho:** `Source/MyProject2/Utils/ProficiencyHelpers.h`
+
+Funções helper para ler e processar `ProficiencyData` de proficiências. Funções puras e reutilizáveis seguindo princípios de Clean Code.
+
+**Status de Testes:** ✅ 12 testes implementados (`ProficiencyHelpersTests.cpp`)
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">ProficiencyData Access Functions</summary>
+
+> **GetProficiencyDataValue()**
+>
+> ```cpp
+> FString GetProficiencyDataValue(const FProficiencyDataRow& ProficiencyRow, const FName& Key);
+> ```
+>
+> Obtém valor de ProficiencyData como FString. Retorna string vazia se chave não existe.
+>
+> **Parâmetros:**
+> - `ProficiencyRow` - Row da proficiência
+> - `Key` - Chave a buscar (ex: "Damage", "AC")
+>
+> **Retorno:** Valor da chave ou string vazia se não existe
+>
+> **Exemplo:**
+> ```cpp
+> FString Damage = ProficiencyHelpers::GetProficiencyDataValue(Row, TEXT("Damage"));
+> // Retorna "1d4" se existe, "" se não existe
+> ```
+>
+> ---
+>
+> **HasProficiencyData()**
+>
+> ```cpp
+> bool HasProficiencyData(const FProficiencyDataRow& ProficiencyRow);
+> ```
+>
+> Verifica se ProficiencyData não está vazio.
+>
+> **Parâmetros:**
+> - `ProficiencyRow` - Row da proficiência
+>
+> **Retorno:** `true` se ProficiencyData tem pelo menos uma entrada, `false` caso contrário
+>
+> **Exemplo:**
+> ```cpp
+> if (ProficiencyHelpers::HasProficiencyData(Row))
+> {
+>     // Processar dados estruturados
+> }
+> ```
+>
+> ---
+>
+> **GetProficiencyDataAsInt()**
+>
+> ```cpp
+> int32 GetProficiencyDataAsInt(const FProficiencyDataRow& ProficiencyRow, const FName& Key, int32 DefaultValue = -1);
+> ```
+>
+> Obtém valor de ProficiencyData como int32. Retorna DefaultValue se chave não existe ou valor não é numérico.
+>
+> **Parâmetros:**
+> - `ProficiencyRow` - Row da proficiência
+> - `Key` - Chave a buscar (ex: "AC", "MaxDexBonus")
+> - `DefaultValue` - Valor padrão se chave não existe ou inválida (padrão: -1)
+>
+> **Retorno:** Valor convertido para int32 ou DefaultValue
+>
+> **Exemplo:**
+> ```cpp
+> int32 AC = ProficiencyHelpers::GetProficiencyDataAsInt(Row, TEXT("AC"), 10);
+> // Retorna 15 se existe e é numérico, 10 (default) se não existe ou inválido
+> ```
+>
+> ---
+>
+> **GetProficiencyDataAsFloat()**
+>
+> ```cpp
+> float GetProficiencyDataAsFloat(const FProficiencyDataRow& ProficiencyRow, const FName& Key, float DefaultValue = 0.0f);
+> ```
+>
+> Obtém valor de ProficiencyData como float. Retorna DefaultValue se chave não existe ou valor não é numérico.
+>
+> **Parâmetros:**
+> - `ProficiencyRow` - Row da proficiência
+> - `Key` - Chave a buscar
+> - `DefaultValue` - Valor padrão se chave não existe ou inválida (padrão: 0.0f)
+>
+> **Retorno:** Valor convertido para float ou DefaultValue
+>
+> ---
+>
+> **GetProficiencyDataAsBool()**
+>
+> ```cpp
+> bool GetProficiencyDataAsBool(const FProficiencyDataRow& ProficiencyRow, const FName& Key, bool DefaultValue = false);
+> ```
+>
+> Obtém valor de ProficiencyData como bool. Retorna DefaultValue se chave não existe.
+> Valores válidos: "true", "True", "1" → true | "false", "False", "0" → false
+>
+> **Parâmetros:**
+> - `ProficiencyRow` - Row da proficiência
+> - `Key` - Chave a buscar (ex: "StealthDisadvantage")
+> - `DefaultValue` - Valor padrão se chave não existe (padrão: false)
+>
+> **Retorno:** Valor convertido para bool ou DefaultValue
+>
+> **Exemplo:**
+> ```cpp
+> bool HasDisadvantage = ProficiencyHelpers::GetProficiencyDataAsBool(Row, TEXT("StealthDisadvantage"), false);
+> // Retorna true se valor é "true" ou "1", false caso contrário
+> ```
 
 </details>
 

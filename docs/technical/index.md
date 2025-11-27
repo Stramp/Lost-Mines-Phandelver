@@ -54,6 +54,7 @@
 >
 > **Técnico:**
 > - Testes Automatizados - Implementação e execução de testes
+> - TDD Complete Guide - Guia completo de Test-Driven Development
 > - Troubleshooting - Problemas comuns
 >
 > **📖 Para mais detalhes, veja [guides/index.md](guides/index.md)**
@@ -72,5 +73,8 @@
 > - **[Guias Práticos](guides/)** - Guias passo a passo
 > - **[Documentação de Design](../design/)** - Regras D&D 5e e GDD
 > - **[README Principal](../../README.md)** - Visão geral do projeto
+> - **[ARCHITECTURE.md](../../ARCHITECTURE.md)** - Resumo da arquitetura
+> - **[CHANGELOG.md](../../CHANGELOG.md)** - Histórico de mudanças
+> - **[Índice de Documentação](../index.md)** - Organização completa
 
 </details>
