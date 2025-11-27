@@ -57,8 +57,6 @@
  */
 void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset *Asset, FName PropertyName)
 {
-    FCharacterSheetDataAssetHelpers::LogPropertyChange(PropertyName);
-
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
@@ -102,9 +100,6 @@ void FCharacterSheetDataAssetHandlers::HandleRaceChange(UCharacterSheetDataAsset
  */
 void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacterSheetDataAsset *Asset)
 {
-    FCharacterSheetDataAssetHelpers::LogPropertyChange(
-        GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, PointBuyStrength));
-
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
@@ -151,9 +146,6 @@ void FCharacterSheetDataAssetHandlers::HandlePointBuyAllocationChange(UCharacter
  */
 void FCharacterSheetDataAssetHandlers::HandleBackgroundChange(UCharacterSheetDataAsset *Asset)
 {
-    FCharacterSheetDataAssetHelpers::LogPropertyChange(
-        GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, SelectedBackground));
-
     if (!FCharacterSheetDataAssetHelpers::ValidateAsset(Asset))
     {
         return;
