@@ -80,7 +80,6 @@ public:
      *
      * @param PropertyName Nome da propriedade que mudou
      */
-    static void LogPropertyChange(FName PropertyName);
 
     /**
      * Valida se Asset é válido e retorna false se não for.

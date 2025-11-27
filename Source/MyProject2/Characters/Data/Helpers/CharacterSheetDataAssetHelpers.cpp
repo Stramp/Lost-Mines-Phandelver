@@ -153,12 +153,6 @@ bool FCharacterSheetDataAssetHelpers::IsCalculatedProperty(FName PropertyName)
 // ============================================================================
 #pragma region Handler Helpers
 
-void FCharacterSheetDataAssetHelpers::LogPropertyChange(FName PropertyName)
-{
-    // Log removido - não é necessário para produção
-    // Mantido apenas para debug se necessário no futuro
-}
-
 bool FCharacterSheetDataAssetHelpers::ValidateAsset(UCharacterSheetDataAsset *Asset) { return Asset != nullptr; }
 
 void FCharacterSheetDataAssetHelpers::ResetSubraceIfRaceChanged(UCharacterSheetDataAsset *Asset, FName PropertyName)
