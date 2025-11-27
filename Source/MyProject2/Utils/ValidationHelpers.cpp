@@ -146,23 +146,3 @@ bool ValidationHelpers::ValidateSkillSelectionPure(FName SelectedSkill, const TA
     // Verifica se está na lista de skills válidas
     return ValidSkills.Contains(SelectedSkill);
 }
-
-bool ValidationHelpers::ValidateSkillSelection(FName &SelectedSkill, const TArray<FName> &ValidSkills)
-{
-    // [DEPRECATED] Versão legada que aplica correções diretamente
-    // NAME_None é válido (nenhuma skill selecionada)
-    if (SelectedSkill == NAME_None)
-    {
-        return true;
-    }
-
-    // Verifica se está na lista de skills válidas
-    if (ValidSkills.Contains(SelectedSkill))
-    {
-        return true;
-    }
-
-    // Reset se inválido
-    SelectedSkill = NAME_None;
-    return false;
-}

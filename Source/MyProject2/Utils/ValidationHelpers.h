@@ -96,18 +96,6 @@ namespace ValidationHelpers
                                          int32 MaxChoices, TArray<int32> &OutInvalidIndices, bool &OutHasDuplicates,
                                          bool &OutExceedsMax);
 
-    /**
-     * Valida escolhas de ability scores (ex: Variant Human) - VERSÃO LEGADA.
-     * Remove duplicatas, valida nomes e limita quantidade (APLICA correções).
-     * [DEPRECATED] Use ValidateAbilityScoreChoicesPure + CorrectionApplier ao invés desta função.
-     *
-     * @param Choices [IN/OUT] Array de escolhas (será modificado: duplicatas removidas, valores inválidos corrigidos)
-     * @param ValidNames Array com nomes válidos de ability scores
-     * @param MaxChoices Número máximo de escolhas permitidas (padrão: 2)
-     * @return true se válido (1 <= Choices.Num() <= MaxChoices e todos os nomes são válidos), false caso contrário
-     */
-    bool ValidateAbilityScoreChoices(TArray<FName> &Choices, const TArray<FName> &ValidNames, int32 MaxChoices = 2);
-
     // ============================================================================
     // Selection Validation
     // ============================================================================
@@ -123,16 +111,6 @@ namespace ValidationHelpers
     bool ValidateFeatSelectionPure(FName SelectedFeat, const TArray<FName> &AvailableFeats);
 
     /**
-     * Valida se uma seleção de feat está disponível - VERSÃO LEGADA.
-     * [DEPRECATED] Use ValidateFeatSelectionPure + CorrectionApplier ao invés desta função.
-     *
-     * @param SelectedFeat [IN/OUT] Feat selecionado (será resetado para NAME_None se inválido)
-     * @param AvailableFeats Array com feats disponíveis
-     * @return true se SelectedFeat está em AvailableFeats ou é NAME_None, false caso contrário
-     */
-    bool ValidateFeatSelection(FName &SelectedFeat, const TArray<FName> &AvailableFeats);
-
-    /**
      * Valida se uma seleção de skill é válida - VERSÃO PURA.
      * Apenas valida, não aplica correções.
      *
@@ -142,13 +120,4 @@ namespace ValidationHelpers
      */
     bool ValidateSkillSelectionPure(FName SelectedSkill, const TArray<FName> &ValidSkills);
 
-    /**
-     * Valida se uma seleção de skill é válida - VERSÃO LEGADA.
-     * [DEPRECATED] Use ValidateSkillSelectionPure + CorrectionApplier ao invés desta função.
-     *
-     * @param SelectedSkill [IN/OUT] Skill selecionado (será resetado para NAME_None se inválido)
-     * @param ValidSkills Array com skills válidas
-     * @return true se SelectedSkill está em ValidSkills ou é NAME_None, false caso contrário
-     */
-    bool ValidateSkillSelection(FName &SelectedSkill, const TArray<FName> &ValidSkills);
 } // namespace ValidationHelpers

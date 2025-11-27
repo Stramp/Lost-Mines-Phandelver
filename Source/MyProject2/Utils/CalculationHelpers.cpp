@@ -99,8 +99,7 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
     }
 
     // NOTA: Proficiências de raça podem vir de Traits especiais (ex: Dwarf Stonecunning)
-    // Por enquanto, não implementado. Se necessário no futuro, adicionar lógica aqui
-    // para extrair proficiências de Traits específicos da raça/sub-raça.
+    // Se necessário no futuro, adicionar lógica aqui para extrair proficiências de Traits específicos da raça/sub-raça.
 
     // Converte TSet para TArray (ordem não importa para proficiências)
     return ProficienciesSet.Array();
