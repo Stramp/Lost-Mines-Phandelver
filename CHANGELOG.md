@@ -26,7 +26,120 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 > 🔄 Mudanças em desenvolvimento
 >
-> Melhorias contínuas de qualidade de código e novas funcionalidades.
+> Melhorias contínuas de qualidade de código, implementação de TDD, testes automatizados e novas funcionalidades.
+
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">➕ Added</summary>
+>
+> > Novas Funcionalidades
+>
+> > 1. Commit [`302c25c`] - Adicionar regra de Test-Driven Development (TDD)
+> >    - Criada regra `test-driven-development.mdc` com metodologia TDD completa
+> >    - Definido ciclo Red-Green-Refactor obrigatório para código crítico
+> >    - Test-first obrigatório para Helpers/Utils, Motores, Validators e lógica de negócio
+> >    - Exceções pragmáticas para casos simples (getters, wrappers, etc.)
+> >    - Checklist TDD obrigatório integrado ao clean-code-mandatory
+> >    - Integração com testing.mdc (HOW vs WHEN)
+> >    - Referências ao TDD.md e documentação do projeto
+> >    - Exemplos práticos de implementação TDD
+> >    - Fluxo de trabalho completo documentado
+>
+> > 2. Commit [`7824315`] - Adicionar DJ_FeatsGerais.json e padronizar class features
+> >    - Adicionado arquivo JSON com feats gerais D&D 5e
+> >    - Padronização de class features
+>
+> > 3. Commit [`62c32e4`] - Adicionar guia completo de testes com referências oficiais Epic Games
+> >    - Guia abrangente de testes automatizados
+> >    - Referências oficiais da Epic Games
+> >    - Documentação de Automation Spec e Low-Level Tests
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔄 Changed</summary>
+>
+> > Mudanças em Funcionalidades Existentes
+>
+> > 1. Commit [`be8dbcd`] - Tornar todas as 6 tabelas obrigatórias e remover popup
+> >    - Todas as 6 Data Tables agora são obrigatórias para visibilidade da ficha
+> >    - Removidos popups de alerta para tabelas faltantes
+> >    - Sistema usa apenas efeito visual de esconder propriedades
+> >    - Popups mantidos apenas para erros críticos (ex: classe sem requisitos)
+>
+> > 2. Commit [`013bc58`] - Remover funções obsoletas e refatorar handlers
+> >    - Remoção de funções obsoletas e depreciadas
+> >    - Refatoração completa de handlers seguindo Clean Code
+> >    - Melhor separação de responsabilidades
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⚡ Performance</summary>
+>
+> > Melhorias de Performance
+>
+> > 1. Commit [`f331765`] - Otimizar FindClassRow e melhorar logs de proficiências
+> >    - Otimização de busca em Data Tables
+> >    - Melhorias nos logs de proficiências
+> >    - Performance aprimorada em operações críticas
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🧪 Test</summary>
+>
+> > Testes Automatizados
+>
+> > 1. Commit [`16f6461`] - Implementar e corrigir testes unitários
+> >    - Implementação de testes unitários para Utils
+> >    - Correções em testes existentes
+> >    - Melhoria na cobertura de testes
+> >    - Total de 138 testes implementados
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📚 Docs</summary>
+>
+> > Documentação
+>
+> > 1. Commit [`c36ee16`] - Atualizar toda documentação com números corretos de testes
+> >    - Corrigido total de testes: 56 → 138 testes implementados
+> >    - Adicionados FormattingHelpers (10 testes) e ChoiceHelpers (7 testes)
+> >    - Atualizados números corretos por módulo:
+> >      - CalculationHelpers: 28 testes
+> >      - ValidationHelpers: 35 testes
+> >      - CharacterSheetHelpers: 36 testes
+> >      - DataTableHelpers: 13 testes
+> >      - FormattingHelpers: 10 testes
+> >      - ChoiceHelpers: 7 testes
+> >      - FeatDataTable: 6 testes
+> >      - ComponentHelpers: 3 testes
+> >    - Atualizado ARCHITECTURE.md com seção completa de testes
+> >    - Atualizado README.md com estrutura completa de testes
+> >    - Atualizado docs/planning/roadmap.md com progresso ~80%
+> >    - Atualizado docs/technical/api.md com status de testes de todos os helpers
+> >    - Atualizado docs/technical/guides/testing*.md com números corretos
+> >    - Adicionado FFeatDataRow na documentação da API
+> >    - Atualizado docs/index.md com histórico correto
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">♻️ Refactor</summary>
+>
+> > Refatorações
+>
+> > 1. Commit [`9539f94`] - Remover chamada obsoleta LogPropertyChange
+> >    - Removida chamada a LogPropertyChange em HandleRaceChange
+> >    - Parte da limpeza de código obsoleto
+>
+> > 2. Commit [`e09672b`] - Remover função obsoleta LogPropertyChange
+> >    - Removida declaração e implementação de LogPropertyChange
+> >    - Função estava vazia/comentada e não é mais necessária
+> >    - Limpeza de código obsoleto seguindo Clean Code
+>
+> </details>
 
 </details>
 
