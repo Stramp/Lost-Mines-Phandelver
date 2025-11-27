@@ -194,6 +194,30 @@ public:
     static void LogDataTableWarning(const FLogContext &Context, const FString &TableName, const FString &RowName,
                                     const FString &WarningMessage);
 
+    /**
+     * Log de aviso com popup throttled (limita frequência de popups no editor).
+     * Usado quando múltiplos warnings podem ser disparados rapidamente (ex: loops de validação).
+     * O log (UE_LOG) é imediato, mas o popup visual é throttled para evitar poluição do editor.
+     *
+     * @param Context Contexto do log
+     * @param Message Mensagem do log
+     * @param ThrottleDelay Delay em segundos entre popups (padrão: 0.5s)
+     */
+    static void LogWarningWithThrottledPopup(const FLogContext &Context, const FString &Message,
+                                             float ThrottleDelay = 0.5f);
+
+    /**
+     * Log de erro com popup throttled (limita frequência de popups no editor).
+     * Usado quando múltiplos erros podem ser disparados rapidamente (ex: loops de validação).
+     * O log (UE_LOG) é imediato, mas o popup visual é throttled para evitar poluição do editor.
+     *
+     * @param Context Contexto do log
+     * @param Message Mensagem do log
+     * @param ThrottleDelay Delay em segundos entre popups (padrão: 0.5s)
+     */
+    static void LogErrorWithThrottledPopup(const FLogContext &Context, const FString &Message,
+                                           float ThrottleDelay = 0.5f);
+
 private:
     /**
      * Helper interno: formata mensagem completa com contexto.
@@ -224,6 +248,19 @@ private:
      * @param Severity Severidade do log
      */
     static void ShowEditorFeedback(const FLogContext &Context, const FString &Message, ELogSeverity Severity);
+
+    /**
+     * Helper interno: mostra feedback visual no editor com throttle.
+     * Agenda popup para depois de um delay, cancelando popups anteriores do mesmo tipo.
+     * Apenas compilado em builds com editor.
+     *
+     * @param Context Contexto do log
+     * @param Message Mensagem do log
+     * @param Severity Severidade do log
+     * @param ThrottleDelay Delay em segundos antes de mostrar o popup
+     */
+    static void ShowEditorFeedbackWithThrottle(const FLogContext &Context, const FString &Message,
+                                               ELogSeverity Severity, float ThrottleDelay);
 #endif
 };
 

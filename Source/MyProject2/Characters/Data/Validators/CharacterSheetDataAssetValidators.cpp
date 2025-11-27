@@ -181,6 +181,7 @@ FValidationResult FCharacterSheetDataAssetValidators::ValidateVariantHumanSkill(
         return Result;
     }
 
+    // Usa ProficiencyDataTable do Asset se disponível (Data-Driven), caso contrário usa fallback hardcoded
     TArray<FName> ValidSkills = Asset->GetSkillNames();
     bool bIsValid = ValidationHelpers::ValidateSkillSelectionPure(Asset->SelectedSkill, ValidSkills);
 
@@ -240,7 +241,8 @@ FValidationResult FCharacterSheetDataAssetValidators::ValidateLanguageChoices(co
     }
 
     // Valida nomes: todos devem ser válidos
-    TArray<FName> ValidLanguages = CharacterSheetHelpers::GetAvailableLanguageNames();
+    // Usa ProficiencyDataTable do Asset se disponível (Data-Driven), caso contrário usa fallback hardcoded
+    TArray<FName> ValidLanguages = CharacterSheetHelpers::GetAvailableLanguageNames(Asset->ProficiencyDataTable);
     for (int32 i = 0; i < Asset->SelectedLanguages.Num(); ++i)
     {
         const FName &Language = Asset->SelectedLanguages[i];
@@ -509,7 +511,8 @@ FCharacterSheetDataAssetValidators::ValidateMulticlassRequirementTags(const UCha
             Result.AddCorrection(Correction);
 
             // Alerta popup crítico: jogador escolheu classe que não pode
-            FLoggingSystem::LogWarning(Context, Message, true);
+            // Usa throttle para evitar múltiplos popups quando há vários erros em loop
+            FLoggingSystem::LogWarningWithThrottledPopup(Context, Message, 0.5f);
         }
     }
 

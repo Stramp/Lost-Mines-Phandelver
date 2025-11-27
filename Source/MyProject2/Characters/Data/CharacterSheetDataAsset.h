@@ -230,6 +230,16 @@ public:
     UFUNCTION(CallInEditor)
     TArray<FName> GetAvailableChoiceNames() const;
 
+    /**
+     * Retorna os nomes das escolhas disponíveis filtrados por FC_ID de feature específica.
+     * Usado para dropdown filtrado em FMulticlassClassFeature.AvailableChoices.
+     *
+     * @param FeatureFC_ID FC_ID da feature para filtrar escolhas (ex: "FC_FightingStyle")
+     * @return Array com nomes de escolhas apenas da feature especificada
+     */
+    UFUNCTION(CallInEditor)
+    TArray<FName> GetAvailableChoiceNamesForFeature(FName FeatureFC_ID) const;
+
     /** Retorna todas as classes disponíveis com verificação de requisitos de atributo */
     UFUNCTION(CallInEditor)
     TArray<FName> GetListClassAvaible() const;
@@ -261,6 +271,10 @@ public:
     /** Referência ao Data Table de features de classe */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
     UDataTable *ClassProficienciesDataTable = nullptr;
+
+    /** Referência ao Data Table de proficiências (Skills, Languages, Tools, Weapons, etc.) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
+    UDataTable *ProficiencyDataTable = nullptr;
 
     // ============================================================================
     // Basic Info
@@ -296,36 +310,36 @@ public:
     int32 CurrentHealth = 0;
 
     // ============================================================================
-    // Final Attributes (8 + RacialBonus + PointBuyAllocation)
+    // Final Attributes (BASE_ABILITY_SCORE + RacialBonus + PointBuyAllocation)
     // ============================================================================
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    int32 FinalStrength = 8;
+    int32 FinalStrength = 8; // DnDConstants::BASE_ABILITY_SCORE
 
     /** Dexterity final - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    int32 FinalDexterity = 8;
+    int32 FinalDexterity = 8; // DnDConstants::BASE_ABILITY_SCORE
 
     /** Constitution final - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    int32 FinalConstitution = 8;
+    int32 FinalConstitution = 8; // DnDConstants::BASE_ABILITY_SCORE
 
     /** Intelligence final - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    int32 FinalIntelligence = 8;
+    int32 FinalIntelligence = 8; // DnDConstants::BASE_ABILITY_SCORE
 
     /** Wisdom final - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    int32 FinalWisdom = 8;
+    int32 FinalWisdom = 8; // DnDConstants::BASE_ABILITY_SCORE
 
     /** Charisma final - Valor pronto para uso */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Basic | Final Atribute",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    int32 FinalCharisma = 8;
+    int32 FinalCharisma = 8; // DnDConstants::BASE_ABILITY_SCORE
 
     // ============================================================================
     // Race & Background
@@ -392,7 +406,7 @@ public:
     // ============================================================================
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability Scores",
               meta = (HideEditConditionToggle, EditCondition = "!bCanShowSheet", EditConditionHides))
-    int32 PointsRemaining = 27; // MAX_POINT_BUY_POINTS (definido em DnDConstants.h)
+    int32 PointsRemaining = 27; // DnDConstants::MAX_POINT_BUY_POINTS
 
     /** Pontos alocados em Strength (0-7) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Scores",

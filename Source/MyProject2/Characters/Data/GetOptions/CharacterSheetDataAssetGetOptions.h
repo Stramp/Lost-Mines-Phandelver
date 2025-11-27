@@ -48,13 +48,21 @@ public:
 
     /**
      * Returns all skill names from D&D 5e.
+     * Uses ProficiencyDataTable if provided (Data-Driven), otherwise falls back to hardcoded list.
+     *
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
+     * @return Array com nomes de skills
      */
-    static TArray<FName> GetSkillNames();
+    static TArray<FName> GetSkillNames(const UDataTable *ProficiencyDataTable = nullptr);
 
     /**
      * Returns all available language names from D&D 5e.
+     * Uses ProficiencyDataTable if provided (Data-Driven), otherwise falls back to hardcoded list.
+     *
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
+     * @return Array com nomes de languages
      */
-    static TArray<FName> GetAvailableLanguageNames();
+    static TArray<FName> GetAvailableLanguageNames(const UDataTable *ProficiencyDataTable = nullptr);
 
     /**
      * Returns available languages for choice, filtered (excluding already known automatic languages and already
@@ -68,12 +76,14 @@ public:
      * @param SelectedLanguages Array of languages already selected by the player
      * @param RaceDataTable Race Data Table (can be nullptr)
      * @param BackgroundDataTable Background Data Table (can be nullptr)
+     * @param ProficiencyDataTable Proficiency Data Table (can be nullptr for hardcoded fallback)
      * @return Array with available languages for choice (excluding already known and already selected)
      */
     static TArray<FName> GetAvailableLanguageNamesForChoice(FName RaceName, FName SubraceName, FName BackgroundName,
                                                             const TArray<FName> &SelectedLanguages,
                                                             const UDataTable *RaceDataTable,
-                                                            const UDataTable *BackgroundDataTable);
+                                                            const UDataTable *BackgroundDataTable,
+                                                            const UDataTable *ProficiencyDataTable = nullptr);
 
     /**
      * Returns all available class names with attribute requirement verification.
@@ -103,11 +113,24 @@ public:
     static TArray<FName> GetAvailableChoiceNames(const UDataTable *FeatureDataTable);
 
     /**
+     * Returns available choice names filtered by specific feature FC_ID.
+     * Only returns choices from the feature matching the provided FC_ID.
+     * Used for filtered dropdown in FMulticlassClassFeature.AvailableChoices.
+     *
+     * @param FeatureDataTable Feature Data Table (can be nullptr)
+     * @param FeatureFC_ID FC_ID of the feature to filter choices (ex: "FC_FightingStyle")
+     * @return Array with available choice names only from the specified feature
+     */
+    static TArray<FName> GetAvailableChoiceNamesForFeature(const UDataTable *FeatureDataTable, FName FeatureFC_ID);
+
+    /**
      * Returns all available skill names from D&D 5e.
      * Used for dropdown in FMulticlassSkills.available.
      * Note: The handler will filter based on InitialAvailable and Selected arrays.
+     * Uses ProficiencyDataTable if provided (Data-Driven), otherwise falls back to hardcoded list.
      *
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
      * @return Array with all D&D 5e skill names
      */
-    static TArray<FName> GetAvailableSkills();
+    static TArray<FName> GetAvailableSkills(const UDataTable *ProficiencyDataTable = nullptr);
 };

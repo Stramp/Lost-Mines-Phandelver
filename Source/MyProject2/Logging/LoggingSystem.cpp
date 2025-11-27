@@ -9,6 +9,8 @@
 
 // Engine includes
 #include "Engine/Engine.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
 
 #if WITH_EDITOR
 #include "Framework/Notifications/NotificationManager.h"
@@ -197,6 +199,45 @@ void FLoggingSystem::LogDataTableWarning(const FLogContext &Context, const FStri
 #pragma endregion Specialized Log Functions
 
 // ============================================================================
+// Throttled Log Functions
+// ============================================================================
+#pragma region Throttled Log Functions
+
+void FLoggingSystem::LogWarningWithThrottledPopup(const FLogContext &Context, const FString &Message,
+                                                  float ThrottleDelay)
+{
+    // Log imediato (UE_LOG) - sempre executa
+    const FString FormattedMessage = FormatLogMessage(Context, Message);
+    const FLogCategoryBase &LogCategory = GetLogCategory(Context.Module);
+
+    FString FullMessage = FormattedMessage;
+    FullMessage += TEXT(" [REQUIRES ACTION]");
+
+    UE_LOG(LogMyProject2DataTable, Warning, TEXT("%s"), *FullMessage);
+
+#if WITH_EDITOR
+    // Popup throttled - agenda para depois do delay
+    ShowEditorFeedbackWithThrottle(Context, Message, ELogSeverity::Warning, ThrottleDelay);
+#endif
+}
+
+void FLoggingSystem::LogErrorWithThrottledPopup(const FLogContext &Context, const FString &Message, float ThrottleDelay)
+{
+    // Log imediato (UE_LOG) - sempre executa
+    const FString FormattedMessage = FormatLogMessage(Context, Message);
+    const FLogCategoryBase &LogCategory = GetLogCategory(Context.Module);
+
+    UE_LOG(LogMyProject2DataTable, Error, TEXT("%s"), *FormattedMessage);
+
+#if WITH_EDITOR
+    // Popup throttled - agenda para depois do delay
+    ShowEditorFeedbackWithThrottle(Context, Message, ELogSeverity::Error, ThrottleDelay);
+#endif
+}
+
+#pragma endregion Throttled Log Functions
+
+// ============================================================================
 // Editor Feedback
 // ============================================================================
 #pragma region Editor Feedback
@@ -281,6 +322,50 @@ void FLoggingSystem::ShowEditorFeedback(const FLogContext &Context, const FStrin
     // Debug: Log que notificação foi criada
     UE_LOG(LogMyProject2DataTable, Log, TEXT("[ShowEditorFeedback] Notificação criada: %s (Severity: %d)"), *Message,
            (int32)Severity);
+}
+
+void FLoggingSystem::ShowEditorFeedbackWithThrottle(const FLogContext &Context, const FString &Message,
+                                                    ELogSeverity Severity, float ThrottleDelay)
+{
+    // Obtém World para acessar TimerManager
+    UWorld *World = nullptr;
+    if (GEngine && GEngine->GetWorldContexts().Num() > 0)
+    {
+        World = GEngine->GetWorldContexts()[0].World();
+    }
+
+    if (!World)
+    {
+        // Se não há World disponível, mostra feedback imediatamente (fallback)
+        ShowEditorFeedback(Context, Message, Severity);
+        return;
+    }
+
+    // Timer handle estático para throttle (compartilhado entre todas as chamadas)
+    static FTimerHandle ThrottleTimerHandle;
+
+    // Cancela timer anterior se existir (throttle: apenas o último popup será mostrado)
+    if (ThrottleTimerHandle.IsValid())
+    {
+        World->GetTimerManager().ClearTimer(ThrottleTimerHandle);
+    }
+
+    // Cria cópias dos parâmetros para o lambda (captura por valor)
+    FLogContext ContextCopy = Context;
+    FString MessageCopy = Message;
+    ELogSeverity SeverityCopy = Severity;
+
+    // Agenda popup para depois do delay
+    World->GetTimerManager().SetTimer(
+        ThrottleTimerHandle,
+        [ContextCopy, MessageCopy, SeverityCopy]()
+        {
+            // Mostra feedback após delay
+            ShowEditorFeedback(ContextCopy, MessageCopy, SeverityCopy);
+        },
+        ThrottleDelay,
+        false // não repetir
+    );
 }
 
 #endif // WITH_EDITOR

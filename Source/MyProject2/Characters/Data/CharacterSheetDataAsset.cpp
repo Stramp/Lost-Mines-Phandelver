@@ -177,23 +177,29 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableFeatNames() const
 
 TArray<FName> UCharacterSheetDataAsset::GetSkillNames() const
 {
-    return FCharacterSheetDataAssetGetOptions::GetSkillNames();
+    return FCharacterSheetDataAssetGetOptions::GetSkillNames(ProficiencyDataTable);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetAvailableSkills() const
 {
-    return FCharacterSheetDataAssetGetOptions::GetAvailableSkills();
+    return FCharacterSheetDataAssetGetOptions::GetAvailableSkills(ProficiencyDataTable);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
 {
     return FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
-        SelectedRace, SelectedSubrace, SelectedBackground, SelectedLanguages, RaceDataTable, BackgroundDataTable);
+        SelectedRace, SelectedSubrace, SelectedBackground, SelectedLanguages, RaceDataTable, BackgroundDataTable,
+        ProficiencyDataTable);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceNames() const
 {
     return FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(ClassFeaturesDataTable);
+}
+
+TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceNamesForFeature(FName FeatureFC_ID) const
+{
+    return FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNamesForFeature(ClassFeaturesDataTable, FeatureFC_ID);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetListClassAvaible() const

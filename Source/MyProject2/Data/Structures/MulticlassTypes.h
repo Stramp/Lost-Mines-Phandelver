@@ -153,10 +153,21 @@ struct MYPROJECT2_API FMulticlassClassFeature
     TMap<FName, FString> FeatureData;
 
     /** Escolha selecionada (dropdown que lista os nomes das escolhas disponíveis) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature", meta = (GetOptions = "GetAvailableChoiceNames"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature",
+              meta = (GetOptions = "GetAvailableChoiceNamesForFeature",
+                      GetOptionsFunctionParams = "FC_ID",
+                      EditCondition = "bHasAvailableChoices", EditConditionHides))
     FName AvailableChoices;
 
-    FMulticlassClassFeature() : LevelUnlocked(1), AvailableChoices(NAME_None) {}
+    /**
+     * Flag calculada: indica se feature tem escolhas disponíveis para o jogador.
+     * true se FeatureType é "Choice" ou "SubclassSelection" E AvailableChoices não é NAME_None.
+     * Usado para controlar visibilidade do campo AvailableChoices no editor.
+     */
+    UPROPERTY(meta = (Hidden))
+    bool bHasAvailableChoices = false;
+
+    FMulticlassClassFeature() : LevelUnlocked(1), AvailableChoices(NAME_None), bHasAvailableChoices(false) {}
 };
 
 #pragma endregion Multiclass Class Feature Struct

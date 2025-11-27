@@ -69,10 +69,11 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetBackgroundNames(const UData
 
 /**
  * Retorna todos os nomes de idiomas disponíveis (para dropdown de escolhas de idiomas).
+ * Usa ProficiencyDataTable se fornecido (Data-Driven), caso contrário usa fallback hardcoded.
  */
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNames()
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNames(const UDataTable *ProficiencyDataTable)
 {
-    return CharacterSheetHelpers::GetAvailableLanguageNames();
+    return CharacterSheetHelpers::GetAvailableLanguageNames(const_cast<UDataTable *>(ProficiencyDataTable));
 }
 
 /**
@@ -81,11 +82,11 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNames()
  */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
     FName RaceName, FName SubraceName, FName BackgroundName, const TArray<FName> &SelectedLanguages,
-    const UDataTable *RaceDataTable, const UDataTable *BackgroundDataTable)
+    const UDataTable *RaceDataTable, const UDataTable *BackgroundDataTable, const UDataTable *ProficiencyDataTable)
 {
     return CharacterSheetHelpers::GetAvailableLanguagesForChoice(
         RaceName, SubraceName, BackgroundName, SelectedLanguages, const_cast<UDataTable *>(RaceDataTable),
-        const_cast<UDataTable *>(BackgroundDataTable));
+        const_cast<UDataTable *>(BackgroundDataTable), const_cast<UDataTable *>(ProficiencyDataTable));
 }
 
 #pragma endregion Race and Background Options
@@ -105,8 +106,12 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAbilityScoreNames()
 
 /**
  * Retorna todos os nomes de skills de D&D 5e.
+ * Usa ProficiencyDataTable se fornecido (Data-Driven), caso contrário usa fallback hardcoded.
  */
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetSkillNames() { return CharacterSheetHelpers::GetSkillNames(); }
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetSkillNames(const UDataTable *ProficiencyDataTable)
+{
+    return CharacterSheetHelpers::GetSkillNames(const_cast<UDataTable *>(ProficiencyDataTable));
+}
 
 /**
  * Retorna todos os feats disponíveis para Variant Human baseado nos ability scores.
@@ -193,6 +198,49 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(const 
     return Result;
 }
 
+/**
+ * Retorna nomes de escolhas disponíveis filtrados por FC_ID de feature específica.
+ * Apenas retorna escolhas da feature que corresponde ao FC_ID fornecido.
+ * Usado para dropdown filtrado em FMulticlassClassFeature.AvailableChoices.
+ */
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNamesForFeature(const UDataTable *FeatureDataTable,
+                                                                                     FName FeatureFC_ID)
+{
+    TArray<FName> Result;
+
+    if (!FeatureDataTable || FeatureFC_ID == NAME_None)
+    {
+        return Result;
+    }
+
+    // Itera por todas as features na tabela procurando pelo FC_ID
+    TArray<FName> RowNames = FeatureDataTable->GetRowNames();
+
+    for (const FName &RowName : RowNames)
+    {
+        if (const FFeatureDataRow *FeatureRow =
+                FeatureDataTable->FindRow<FFeatureDataRow>(RowName, TEXT("GetAvailableChoiceNamesForFeature")))
+        {
+            // Verifica se esta feature corresponde ao FC_ID procurado
+            if (FeatureRow->FC_ID == FeatureFC_ID)
+            {
+                // Adiciona apenas os nomes de escolhas disponíveis desta feature específica
+                for (const FFeatureChoice &Choice : FeatureRow->AvailableChoices)
+                {
+                    if (Choice.Name != NAME_None)
+                    {
+                        Result.Add(Choice.Name);
+                    }
+                }
+                // Encontrou a feature, não precisa continuar iterando
+                break;
+            }
+        }
+    }
+
+    return Result;
+}
+
 #pragma endregion Feature Choice Options
 
 // ============================================================================
@@ -204,10 +252,11 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(const 
  * Retorna todos os nomes de skills de D&D 5e.
  * Usado para dropdown em FMulticlassSkills.available.
  * Nota: O handler filtrará baseado em InitialAvailable e Selected arrays.
+ * Usa ProficiencyDataTable se fornecido (Data-Driven), caso contrário usa fallback hardcoded.
  */
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableSkills()
+TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableSkills(const UDataTable *ProficiencyDataTable)
 {
-    return CharacterSheetHelpers::GetSkillNames();
+    return CharacterSheetHelpers::GetSkillNames(const_cast<UDataTable *>(ProficiencyDataTable));
 }
 
 #pragma endregion Skills Options
