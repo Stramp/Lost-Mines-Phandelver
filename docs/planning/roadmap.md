@@ -9,9 +9,12 @@
 >
 > **Status Geral:**
 >
-> - ✅ **Fase 1:** Sistema de Fichas (Completo)
+> - ✅ **Fase 1:** Sistema de Fichas (80% Completo)
+> - 📋 **Fase 1.5:** Melhorias e Completude D&D 5e (Nova - Baseado em Revisão)
 > - 📋 **Fase 2:** Combate Básico com GAS (Próxima)
 > - 📋 **Fases 3-10:** Planejadas
+>
+> **📖 Última Revisão:** 2024-12-XX - Integração de relatório de revisão estrutural
 
 </details>
 
@@ -36,6 +39,11 @@
 > - 🔴 **Alta** - Crítico para próxima fase
 > - 🟡 **Média** - Importante mas não bloqueante
 > - 🟢 **Baixa** - Melhorias e polish
+>
+> **Metodologia:**
+>
+> - 🧪 **TDD** - Test-Driven Development obrigatório (testes ANTES da implementação)
+> - 📝 **Test-After** - Testes depois são aceitáveis (Getters/Setters, wrappers simples)
 
 </details>
 
@@ -51,7 +59,7 @@
 >
 > > **Status:** 🔄 Em desenvolvimento
 > >
-> > **Progresso:** ~80% completo (core funcional, itens iniciais pendentes)
+> > **Progresso:** ~80% completo (core funcional, melhorias D&D 5e pendentes)
 > >
 > > **Objetivo:** Sistema completo de criação de personagens D&D 5e
 > >
@@ -69,6 +77,12 @@
 > >   - Ajuste automático se exceder limite
 > >   - Feedback de pontos restantes
 > >   - Integrado no CharacterSheetCore
+> >
+> > - ✅ **MulticlassMotor** - Completo
+> >   - GetAvailableClasses (filtra por requisitos)
+> >   - LoadClassProficiencies (carrega proficiências)
+> >   - LoadClassProgression (carrega features por nível)
+> >   - ValidateMulticlassRequirements (via FMulticlassValidators)
 > >
 > > - ✅ **CharacterSheetCore** - Completo
 > >   - Orquestra RaceBonus + PointBuy
@@ -99,6 +113,7 @@
 > >   - UpdateVariantHumanFlag
 > >   - UpdateLanguageChoices
 > >   - UpdateCalculatedFields
+> >   - RecalculateMaxHP
 > >
 > > **3. Variant Human (100% Completo):**
 > >
@@ -142,7 +157,30 @@
 > > - ✅ GetListClassAvaible (filtrado por requisitos de atributo)
 > > - ✅ GetAvailableLanguageNames
 > >
-> > **6. Itens Iniciais e Boilerplate de Inventário (📋 Planejado):**
+> > **6. Cálculos Básicos (✅ Completo):**
+> >
+> > - ✅ CalculateAbilityModifier (fórmula D&D 5e)
+> > - ✅ CalculateProficiencyBonus (fórmula D&D 5e)
+> > - ✅ CalculateHPGainForLevel (HP por nível)
+> > - ✅ CalculateMaxHP (HP total multiclasse)
+> > - ✅ CalculateProficiencies (background + Variant Human)
+> > - ✅ CalculateLanguages (raça + background + escolhas)
+> >
+> > **7. Testes Automatizados (✅ Completo):**
+> >
+> > - ✅ **275+ testes implementados**
+> >   - CalculationHelpers (28 testes) - Modificadores, proficiência e cálculos
+> >   - ValidationHelpers (35 testes) - Validações críticas e escolhas
+> >   - CharacterSheetHelpers (36 testes) - Feats, pré-requisitos e helpers
+> >   - DataTableHelpers (13 testes) - Busca em Data Tables
+> >   - FormattingHelpers (10 testes) - Formatação de dados
+> >   - ChoiceHelpers (7 testes) - Parsing e formatação de escolhas
+> >   - FeatDataTable (6 testes) - Pré-requisitos de feats
+> >   - ComponentHelpers (3 testes) - Busca de componentes
+> >
+> > **O Que Está Faltando:**
+> >
+> > **1. Itens Iniciais e Boilerplate de Inventário (📋 Planejado):**
 > >
 > > - 📋 **Sistema de Itens Iniciais** - Planejado
 > >   - StartingEquipment por classe (TArray<FName>)
@@ -158,77 +196,374 @@
 > >   - Preparação para módulo `Inventory/` completo (Fase 4)
 > >   - **📖 Plano Detalhado:** [roadmap-tecnico-inventario-boilerplate.md](roadmap-tecnico-inventario-boilerplate.md)
 > >
-> > **O Que Está Faltando:**
+> > **2. Validação e Testes:**
 > >
-> > **1. MulticlassMotor - Status Atual:**
-> >
-> > - ✅ **GetAvailableClasses** - Implementado e funcional
-> > - ✅ **LoadClassProficiencies** - Implementado e funcional
-> > - ✅ **LoadClassProgression** - Implementado e funcional
-> > - ✅ **ValidateMulticlassRequirements** - Implementado em `FMulticlassValidators` (não no Motor)
-> >   - Validação de requisitos funciona via `FMulticlassValidators::ValidateMulticlassRequirements()`
-> >   - Usado por `GetAvailableClasses()` para filtrar classes disponíveis
-> >
-> > **2. Integração MulticlassMotor:**
-> >
-> > - ✅ **Decisão arquitetural tomada:** Multiclass roda separadamente via handlers
-> >   - RaceBonus + PointBuy são orquestrados pelo Core (ability scores)
-> >   - Multiclass tem lógica diferente (proficiências, features, níveis)
-> >   - **Status:** Funcional e correto - não precisa integrar no Core
-> >
-> > **3. ChoiceMotor (🔮 Planejado):**
-> >
-> > - 🔮 **Motor dedicado para escolhas de classe** - Planejado para implementação futura
-> >   - Atualmente escolhas são gerenciadas por handlers/validators (funcional)
-> >   - Motor dedicado pode ser criado se necessário para centralizar lógica
-> >   - **Status:** Não crítico - sistema atual funciona via handlers
-> >
-> > **4. Validação e Testes:**
-> >
-> > - ✅ **Testes Automatizados** - 275+ testes implementados
-> >   - CalculationHelpers (28 testes) - Modificadores, proficiência e cálculos
-> >   - ValidationHelpers (35 testes) - Validações críticas e escolhas
-> >   - CharacterSheetHelpers (36 testes) - Feats, pré-requisitos e helpers
-> >   - DataTableHelpers (13 testes) - Busca em Data Tables
-> >   - FormattingHelpers (10 testes) - Formatação de dados (novo)
-> >   - ChoiceHelpers (7 testes) - Parsing e formatação de escolhas (novo)
-> >   - FeatDataTable (6 testes) - Pré-requisitos de feats
-> >   - ComponentHelpers (3 testes) - Busca de componentes
-> >   - Melhorias aplicadas: Supressão de logs, mensagens descritivas
 > > - ⚠️ Validação completa do sistema de Multiclasse (testes end-to-end)
 > > - ⚠️ Conferir criação de feat no editor no config do Data Asset
 > > - ⚠️ Validar integridade de dados completa
+> > - ⚠️ **Corrigir testes de Proficiency Bonus** (valores esperados incorretos)
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📋 Fase 1.5: Melhorias e Completude D&D 5e 🔴 ALTA PRIORIDADE</summary>
+>
+> > **Status:** 📋 Planejado (Baseado em Revisão Estrutural)
 > >
-> > **5. Itens Iniciais e Inventário:**
+> > **Objetivo:** Completar sistemas D&D 5e documentados mas não implementados
 > >
-> > - 📋 Implementar sistema de itens iniciais (classe + background)
-> > - 📋 Criar boilerplate de inventário (estruturas modulares)
-> > - 📋 Mockup hardcoded para finalizar criação de ficha
-> > - 📋 Preparar estruturas para módulo `Inventory/` completo (Fase 4)
+> > **Prioridade:** 🔴 Alta - Essencial para fidelidade às regras D&D 5e
 > >
-> > **Próximos Passos Imediatos:**
+> > **Duração Estimada:** 3-4 semanas
 > >
-> > 1. **Implementar ValidateMulticlassRequirements:**
-> >    - Usar FMulticlassValidators::ValidateMulticlassRequirements já existente
-> >    - Integrar com FCharacterSheetData
-> >    - Testar validação de requisitos AND/OR
+> > **Metodologia:** 🧪 TDD obrigatório para todas as funções helper/motor
 > >
-> > 2. **Implementar ApplyMulticlassRules:**
-> >    - Aplicar regras de multiclasse (proficiências, features, etc.)
-> >    - Integrar com ProcessLevelChange e LoadClassProficiencies
-> >    - Testar aplicação completa
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔴 1.5.1 - Sistema de Spellcasting (1-2 semanas)</summary>
 > >
-> > 3. **Decidir Integração:**
-> >    - Integrar MulticlassMotor no CharacterSheetCore?
-> >    - Ou manter separado (atual)?
+> > > **Status:** 📋 Planejado
 > >
-> > 4. **Testes End-to-End:**
-> >    - ✅ Testes unitários de helpers críticos (138 testes implementados)
-> >    - ⚠️ Testes de integração do sistema completo
-> >    - Criar personagem completo no editor
-> >    - Validar todas as escolhas
-> >    - Testar multiclasse com múltiplas classes
-> >    - Validar Variant Human completo
+> > > **Prioridade:** 🔴 Alta - Base para Fase 5 (Features e Habilidades)
+> >
+> > > **Documentação:** `docs/design/dnd-rules/spellcasting.md`
+> >
+> > > **Tarefas (TDD obrigatório):**
+> >
+> > > **1. SpellcastingHelpers (Utils/SpellcastingHelpers.h/cpp) - 🧪 TDD**
+> >
+> > > - 📋 **CalculateSpellSaveDC()** - 🧪 TDD
+> > >   - Fórmula: `8 + ProficiencyBonus + SpellcastingAbilityModifier`
+> > >
+> > - Parâmetros: `int32 ProficiencyBonus, int32 SpellcastingAbilityModifier`
+> > - Retorno: `int32 SpellSaveDC`
+> > - **Testes:** Casos válidos, edge cases (modificadores negativos)
+> >
+> > > - 📋 **CalculateSpellAttackModifier()** - 🧪 TDD
+> > >   - Fórmula: `ProficiencyBonus + SpellcastingAbilityModifier`
+> > >
+> > - Parâmetros: `int32 ProficiencyBonus, int32 SpellcastingAbilityModifier`
+> > - Retorno: `int32 SpellAttackModifier`
+> > - **Testes:** Casos válidos, edge cases
+> >
+> > > - 📋 **GetSpellcastingAbilityByClass()** - 🧪 TDD
+> > >   - Retorna ability score usado para spellcasting por classe
+> > >   - Tabela: Bard/CHA, Cleric/WIS, Druid/WIS, Paladin/CHA, Ranger/WIS, Sorcerer/CHA, Warlock/CHA, Wizard/INT
+> > >   - Parâmetros: `FName ClassName`
+> > >   - Retorno: `FName AbilityID` (ex: "ABL_Charisma")
+> > >
+> > - **Testes:** Todas as classes, classe inválida
+> >
+> > > - 📋 **CalculateSpellSlotsForLevel()** - 🧪 TDD
+> > >   - Calcula spell slots por nível baseado em tipo de caster
+> > >   - Tipos: Full Caster (Wizard, Cleric, Druid, Sorcerer, Bard), Half Caster (Paladin, Ranger), Warlock (Pact Magic)
+> > >   - Parâmetros: `FName ClassName, int32 ClassLevel, ECasterType CasterType`
+> > >   - Retorno: `TMap<int32, int32>` (SpellLevel → Count)
+> > >
+> > - **Testes:** Todos os níveis (1-20), todos os tipos de caster, edge cases
+> >
+> > > - 📋 **CalculateCantripsKnown()** - 🧪 TDD
+> > >   - Calcula cantrips conhecidos por nível e classe
+> > >   - Tabela por classe: Bard (2,3,4), Cleric (3,4,5), Druid (2,3,4), Sorcerer (4,5,6), Warlock (2,3,4), Wizard (3,4,5)
+> > >   - Parâmetros: `FName ClassName, int32 ClassLevel`
+> > >   - Retorno: `int32 CantripsKnown`
+> > >
+> > - **Testes:** Todas as classes, todos os níveis relevantes, classes sem cantrips
+> >
+> > > - 📋 **CalculateSpellsPrepared()** - 🧪 TDD
+> > >   - Fórmula: `SpellcastingAbilityModifier + ClassLevel` (mínimo 1)
+> > >
+> > - Apenas para: Cleric, Druid, Paladin, Wizard
+> > - Parâmetros: `int32 SpellcastingAbilityModifier, int32 ClassLevel`
+> > - Retorno: `int32 SpellsPrepared`
+> > - **Testes:** Casos válidos, modificador negativo (mínimo 1), edge cases
+> >
+> > > - 📋 **CalculateMulticlassCasterLevel()** - 🧪 TDD
+> > >   - Fórmula: `FullCasterLevels + floor(HalfCasterLevels / 2)`
+> > >
+> > - Warlock é separado (Pact Magic, não combina)
+> > - Parâmetros: `TMap<FName, int32> ClassLevels` (ClassName → Level)
+> > - Retorno: `int32 CasterLevel`
+> > - **Testes:** Combinações de classes, Warlock separado, edge cases
+> >
+> > > - 📋 **GetSpellSlotRecoveryType()** - 🧪 TDD
+> > >   - Retorna tipo de recuperação: Long Rest, Short Rest, Arcane Recovery
+> > >
+> > - Parâmetros: `FName ClassName`
+> > - Retorno: `ESpellSlotRecoveryType`
+> > - **Testes:** Todas as classes, classe inválida
+> >
+> > > **2. SpellcastingConstants (Utils/DnDConstants.h)**
+> >
+> > > - 📋 Adicionar constantes de spellcasting
+> > >   - `SPELL_SAVE_DC_BASE = 8`
+> > >   - `SPELL_SAVE_DC_PROFICIENCY_MULTIPLIER = 1`
+> > >
+> > - Tabelas de spell slots (Full Caster, Half Caster, Warlock)
+> > - Tabelas de cantrips conhecidos por classe
+> >
+> > > **3. Testes Automatizados (Utils/Tests/SpellcastingHelpersTests.cpp) - 🧪 TDD**
+> >
+> > > - 📋 Testes para todas as funções acima
+> > >   - Casos válidos (happy path)
+> > >   - Edge cases (valores extremos, modificadores negativos)
+> > >
+> > - Validação de fórmulas D&D 5e
+> > - **Estimativa:** 50-70 testes
+> >
+> > > **4. Integração com CharacterSheetDataAsset**
+> >
+> > > - 📋 Adicionar campos calculados:
+> > >   - `SpellSaveDC` (calculado)
+> > >   - `SpellAttackModifier` (calculado)
+> > >   - `SpellSlots` (TMap<int32, int32> - SpellLevel → Count)
+> > >   - `CantripsKnown` (int32)
+> > >   - `SpellsPrepared` (int32, se aplicável)
+> > >
+> > - Updaters para recalcular quando classe/nível muda
+> >
+> > > **Dependências:**
+> >
+> > > - ✅ Fase 1 (Sistema de Fichas) - Para ability scores e modifiers
+> > > - ✅ CalculateProficiencyBonus (já implementado)
+> >
+> > > **Entregáveis:**
+> >
+> > > - SpellcastingHelpers completo com testes
+> > > - Cálculos de Spell Save DC, Spell Attack, Spell Slots
+> > > - Suporte a multiclassing spell slots
+> > > - Integração com CharacterSheetDataAsset
+>
+> > </details>
+>
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔴 1.5.2 - Sistema de ASI (Ability Score Improvements) (1 semana)</summary>
+> >
+> > > **Status:** 📋 Planejado
+> >
+> > > **Prioridade:** 🔴 Alta - Essencial para progressão de personagem
+> >
+> > > **Documentação:** `docs/design/dnd-rules/ability-scores.md`
+> >
+> > > **Tarefas (TDD obrigatório):**
+> >
+> > > **1. ASIHelpers (Utils/ASIHelpers.h/cpp) - 🧪 TDD**
+> >
+> > > - 📋 **GetASILevelsForClass()** - 🧪 TDD
+> > >   - Retorna níveis que concedem ASI para uma classe
+> > >   - Padrão: 4, 8, 12, 16, 19
+> > >   - Exceções: Fighter/Rogue recebem extras (6, 10, 14)
+> > >   - Parâmetros: `FName ClassName`
+> > >   - Retorno: `TArray<int32>` (níveis com ASI)
+> > >
+> > - **Testes:** Todas as classes, Fighter/Rogue extras, classe inválida
+> >
+> > > - 📋 **CanTakeASIAtLevel()** - 🧪 TDD
+> > >   - Verifica se personagem pode tomar ASI em um nível específico
+> > >   - Considera nível total e classe específica
+> > >   - Parâmetros: `int32 TotalLevel, FName ClassName, int32 ClassLevel`
+> > >   - Retorno: `bool`
+> > >
+> > - **Testes:** Níveis válidos, níveis inválidos, multiclasse
+> >
+> > > - 📋 **GetASIOptions()** - 🧪 TDD
+> > >   - Retorna opções de ASI disponíveis
+> > >   - Opção 1: +2 em um atributo
+> > >   - Opção 2: +1 em dois atributos
+> > >
+> > - Parâmetros: `TMap<FName, int32> CurrentAbilityScores`
+> > >
+> > > - Retorno: `TArray<FASIOption>` (estrutura com opções)
+> > >
+> > - **Testes:** Validação de máximo (20), opções válidas, edge cases
+> >
+> > > - 📋 **ValidateASISelection()** - 🧪 TDD
+> > >   - Valida seleção de ASI
+> > >   - Verifica se não excede máximo (20)
+> > >   - Verifica se opção é válida (+2 em um OU +1 em dois)
+> > >
+> > - Parâmetros: `FASIOption SelectedOption, TMap<FName, int32> CurrentAbilityScores`
+> > >
+> > > - Retorno: `bool`
+> > >
+> > - **Testes:** Seleções válidas, inválidas, máximo atingido
+> >
+> > > **2. ASIStructs (Data/Structures/FASIStructs.h)**
+> >
+> > > - 📋 Criar estruturas:
+> > >   - `FASIOption` (tipo: +2 em um OU +1 em dois)
+> > >   - `FASIEntry` (nível, classe, opção selecionada)
+> >
+> > > **3. Testes Automatizados (Utils/Tests/ASIHelpersTests.cpp) - 🧪 TDD**
+> >
+> > > - 📋 Testes para todas as funções acima
+> > >   - Casos válidos
+> > >   - Edge cases
+> > >
+> > - Validação de regras D&D 5e
+> > - **Estimativa:** 30-40 testes
+> >
+> > > **4. Integração com CharacterSheetDataAsset**
+> >
+> > > - 📋 Adicionar campo:
+> > >   - `ASISelections` (TArray<FASIEntry>)
+> > >
+> > - Updaters para recalcular ability scores finais com ASIs
+> > - Handlers para processar seleção de ASI
+> >
+> > > **Dependências:**
+> >
+> > > - ✅ Fase 1 (Sistema de Fichas) - Para ability scores
+> > > - ✅ CalculateProficiencyBonus (já implementado)
+> >
+> > > **Entregáveis:**
+> >
+> > > - ASIHelpers completo com testes
+> > > - Sistema de seleção de ASI
+> > > - Integração com CharacterSheetDataAsset
+>
+> > </details>
+>
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🟡 1.5.3 - Level Up System Completo (1 semana)</summary>
+> >
+> > > **Status:** 📋 Planejado
+> >
+> > > **Prioridade:** 🟡 Média - Importante mas não bloqueante
+> >
+> > > **Documentação:** `docs/design/dnd-rules/level-up.md`
+> >
+> > > **Tarefas (TDD obrigatório):**
+> >
+> > > **1. LevelUpMotor (CreateSheet/LevelUp/LevelUpMotor.h/cpp) - 🧪 TDD**
+> >
+> > > - 📋 **ProcessLevelUp()** - 🧪 TDD
+> > >   - Processa ganho de nível completo
+> > >   - Valida pré-requisitos
+> > >   - Aplica features do nível
+> > >   - Oferece escolhas (ASI, Feat, Features)
+> > >
+> > - Parâmetros: `FCharacterSheetData& Data, FName ClassName, int32 NewLevel`
+> > >
+> > > - Retorno: `FLevelUpResult` (estrutura com escolhas disponíveis)
+> > >
+> > - **Testes:** Level up válido, inválido, multiclasse, edge cases
+> >
+> > > - 📋 **GetAvailableChoicesAtLevel()** - 🧪 TDD
+> > >   - Retorna escolhas disponíveis em um nível
+> > >   - ASI (se nível apropriado)
+> > >   - Feat (se nível apropriado)
+> > >
+> > - Features de classe (se houver)
+> > - Parâmetros: `FName ClassName, int32 Level`
+> > >
+> > > - Retorno: `TArray<FLevelUpChoice>`
+> > >
+> > - **Testes:** Todos os níveis, todas as classes, escolhas corretas
+> >
+> > > - 📋 **ValidateLevelUpPrerequisites()** - 🧪 TDD
+> > >   - Valida pré-requisitos para level up
+> > >   - Verifica nível máximo (20)
+> > >   - Verifica pré-requisitos de features
+> > >
+> > - Parâmetros: `FCharacterSheetData& Data, FName ClassName, int32 NewLevel`
+> > >
+> > > - Retorno: `bool`
+> > >
+> > - **Testes:** Pré-requisitos válidos, inválidos, nível máximo
+> >
+> > > **2. LevelUpHelpers (CreateSheet/LevelUp/LevelUpHelpers.h/cpp) - 🧪 TDD**
+> >
+> > > - 📋 **CalculateHPGainForLevelUp()** - 🧪 TDD
+> > >   - Calcula HP ganho ao subir de nível
+> > >   - Usa CalculateHPGainForLevel (já existe)
+> > >   - Parâmetros: `int32 HitDie, int32 NewLevel, int32 ConstitutionModifier`
+> > >   - Retorno: `int32 HPGain`
+> > >
+> > - **Testes:** Todos os níveis, todos os hit dice, modificadores negativos
+> >
+> > > - 📋 **GetFeaturesUnlockedAtLevel()** - 🧪 TDD
+> > >   - Retorna features desbloqueadas em um nível específico
+> > >   - Usa ClassDataTable
+> > >   - Parâmetros: `FName ClassName, int32 Level, UDataTable* ClassDataTable`
+> > >   - Retorno: `TArray<FDataTableRowHandle>` (FeatureHandles)
+> > >
+> > - **Testes:** Todos os níveis, todas as classes, features corretas
+> >
+> > > **3. Testes Automatizados (CreateSheet/LevelUp/Tests/LevelUpMotorTests.cpp) - 🧪 TDD**
+> >
+> > > - 📋 Testes para todas as funções acima
+> > >   - Casos válidos
+> > >   - Edge cases
+> > >
+> > - Validação de regras D&D 5e
+> > - **Estimativa:** 40-50 testes
+> >
+> > > **4. Integração com CharacterSheetDataAsset**
+> >
+> > > - 📋 Handlers para processar level up
+> > >   - `HandleLevelUp()` - Processa level up completo
+> > >   - `HandleASISelection()` - Processa seleção de ASI
+> > >   - `HandleFeatSelection()` - Processa seleção de Feat
+> > >
+> > - Updaters para recalcular após level up
+> >
+> > > **Dependências:**
+> >
+> > > - ✅ Fase 1 (Sistema de Fichas) - Para estrutura base
+> > > - ✅ Fase 1.5.2 (ASI) - Para sistema de ASI
+> > > - ✅ CalculateHPGainForLevel (já implementado)
+> >
+> > > **Entregáveis:**
+> >
+> > > - LevelUpMotor completo com testes
+> > > - Sistema de level up funcional
+> > > - Integração com CharacterSheetDataAsset
+>
+> > </details>
+>
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🟡 1.5.4 - Correção de Testes Proficiency Bonus (2-4 horas)</summary>
+> >
+> > > **Status:** ⚠️ Pendente
+> >
+> > > **Prioridade:** 🟡 Média - Correção de testes existentes
+> >
+> > > **Problema Identificado:**
+> >
+> > > - Testes esperam valores incorretos (base 1 ao invés de base 2)
+> > > - Código está correto: `PROFICIENCY_BONUS_BASE (2) + floor((TotalLevel - MIN_LEVEL) / PROFICIENCY_BONUS_DIVISOR)`
+> >
+> > > **Tarefas:**
+> >
+> > > - 📋 Corrigir valores esperados em `CalculationHelpersTests.cpp`
+> > >   - Nível 1: Esperado 2 (não 1)
+> > >   - Nível 5: Esperado 3 (não 2)
+> > >
+> > - Nível 9: Esperado 4 (não 3)
+> > - Nível 13: Esperado 5 (não 4)
+> > - Nível 17: Esperado 6 (não 5)
+> > - Nível 20: Esperado 6 (não 5)
+> >
+> > > **Dependências:**
+> >
+> > > - ✅ Código já está correto
+> >
+> > > **Entregáveis:**
+> >
+> > > - Testes corrigidos e passando
+>
+> > </details>
+>
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🟢 1.5.5 - Multiclassing Spell Slots (Integrado em 1.5.1)</summary>
+> >
+> > > **Status:** 📋 Planejado (Integrado em Spellcasting)
+> >
+> > > **Prioridade:** 🟢 Baixa - Já coberto em SpellcastingHelpers
+> >
+> > > **Nota:** `CalculateMulticlassCasterLevel()` já está incluído em Fase 1.5.1 (Spellcasting)
+>
+> > </details>
 >
 > </details>
 >
@@ -271,14 +606,15 @@
 > >   - GE_Heal (Instant) - Curar
 > >   - GE_Death (Infinite) - Estado de morte
 > >
-> > - 📋 **CombatHelpers** (em `Utils/`)
-> >   - `CalculateArmorClass()`
-> >   - `CalculateAttackRoll()`
-> >   - `CalculateDamage()`
+> > - 📋 **CombatHelpers** (em `Utils/`) - 🧪 TDD
+> >   - `CalculateArmorClass()` - 🧪 TDD
+> >   - `CalculateAttackRoll()` - 🧪 TDD
+> >   - `CalculateDamage()` - 🧪 TDD
 > >
 > > **Dependências:**
 > >
 > > - ✅ Fase 1 (Sistema de Fichas) - Para ability scores e modifiers
+> > - ✅ Fase 1.5 (Melhorias D&D 5e) - Para spellcasting e ASI
 > >
 > > **Entregáveis:**
 > >
@@ -288,7 +624,7 @@
 > > - Sistema de morte básico
 >
 > </details>
-
+>
 </details>
 
 ---
@@ -325,7 +661,7 @@
 > >   - Bridge Components para NPCs/Monsters
 > >   - Integração com CharacterDataComponent (ou componentes específicos)
 > >
-> > - 📋 **NPC/Monster Helpers** (em `Utils/`)
+> > - 📋 **NPC/Monster Helpers** (em `Utils/`) - 🧪 TDD
 > >   - Helpers para cálculos de NPCs/Monsters
 > >   - Reutilização de helpers comuns quando aplicável
 > >
@@ -364,13 +700,14 @@
 > >   - MaxSlots e MaxWeight para containers (já preparado no boilerplate)
 > >
 > > - 📋 **ResourceComponent** (ou via GAS Attributes)
-> >   - Spell Slots (por nível)
+> >   - Spell Slots (por nível) - Usa SpellcastingHelpers da Fase 1.5.1
 > >   - Ki Points
 > >   - Rage, etc.
 > >
 > > **Dependências:**
 > >
 > > - ✅ Fase 1 (Sistema de Fichas) - Boilerplate de inventário já criado
+> > - ✅ Fase 1.5.1 (Spellcasting) - Para spell slots
 > > - ✅ Fase 2 (Combate Básico) - Para integração com armas
 > > - ✅ Fase 3 (NPCs/Monsters) - Para loot e drops
 >
@@ -389,17 +726,17 @@
 > >   - GA_SecondWind (Fighter)
 > >   - GA_ActionSurge (Fighter)
 > >   - GA_CunningAction (Rogue)
-> >   - GA_CastSpell (Spellcasting)
+> >   - GA_CastSpell (Spellcasting) - Usa SpellcastingHelpers da Fase 1.5.1
 > >   - Habilidades modulares (Base + Filhas)
 > >
 > > - 📋 **SpellcastingComponent** (Gerenciador de Dados)
-> >   - Spell slots (por nível)
+> >   - Spell slots (por nível) - Usa SpellcastingHelpers
 > >   - Preparar magias
 > >   - Lista de magias conhecidas
 > >   - **NOTA:** Execução via GAS Abilities, componente apenas gerencia dados
 > >
 > > - 📋 **SpellDataTable**
-> >   - Magias D&D 5e
+> >   - Magias D&D 5e (já existe estrutura básica)
 > >   - Componentes, duração, alcance
 > >   - Nível, escola, etc.
 > >
@@ -410,6 +747,7 @@
 > >
 > > **Dependências:**
 > >
+> > - ✅ Fase 1.5.1 (Spellcasting) - Para cálculos de spellcasting
 > > - ✅ Fase 2 (GAS Básico) - Para Abilities e Effects
 > > - ✅ Fase 4 (Recursos) - Para spell slots e recursos
 >
@@ -438,10 +776,11 @@
 > > **Dependências:**
 > >
 > > - ✅ Fase 1 (Sistema de Fichas) - Para proficiencies
+> > - ✅ Fase 1.5.1 (Spellcasting) - Para Spell Save DC
 > > - ✅ Fase 2 (GAS) - Para condições e effects
 >
 > </details>
-
+>
 </details>
 
 ---
@@ -549,10 +888,10 @@
 > > **Componentes:**
 > >
 > > - 🔮 **Character Progression**
-> >   - Level up system (1-20)
-> >   - ASI (Ability Score Improvement)
-> >   - Feat selection
-> >   - Features de classes por nível
+> >   - Level up system (1-20) - Já implementado em Fase 1.5.3
+> >   - ASI (Ability Score Improvement) - Já implementado em Fase 1.5.2
+> >   - Feat selection - Já implementado (Fase 1)
+> >   - Features de classes por nível - Já implementado (Fase 1)
 > >
 > > - 🔮 **Equipment System Avançado**
 > >   - Weapon enchantments
@@ -563,11 +902,12 @@
 > > **Dependências:**
 > >
 > > - ✅ Fase 1 (Sistema de Fichas) - Base
+> > - ✅ Fase 1.5 (Melhorias D&D 5e) - Level up e ASI
 > > - ✅ Fase 4 (Equipamentos) - Para expandir
 > > - ✅ Fase 9 (GAS Expandido) - Para bônus complexos
 >
 > </details>
-
+>
 </details>
 
 ---
@@ -577,6 +917,26 @@
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📅 Mudanças Importantes</b></summary>
 
+> **2024-12-XX - Revisão Estrutural: Nova Fase 1.5 - Melhorias D&D 5e**
+> >
+> > **Motivo:** Revisão completa da estrutura identificou sistemas D&D 5e documentados mas não implementados.
+> >
+> > **Mudança:**
+> >
+> > - Nova **Fase 1.5** adicionada: Melhorias e Completude D&D 5e
+> > - **Fase 1.5.1:** Sistema de Spellcasting (Spell Save DC, Spell Attack, Spell Slots)
+> > - **Fase 1.5.2:** Sistema de ASI (Ability Score Improvements)
+> > - **Fase 1.5.3:** Level Up System Completo
+> > - **Fase 1.5.4:** Correção de Testes Proficiency Bonus
+> > - **Fase 1.5.5:** Multiclassing Spell Slots (integrado em Spellcasting)
+> >
+> > **Impacto:**
+> >
+> > - Fidelidade completa às regras D&D 5e
+> > - Base sólida para Fase 5 (Features e Habilidades)
+> > - Todas as tarefas seguem TDD obrigatório
+> > - Estimativa: 3-4 semanas adicionais
+>
 > **2024-12-XX - Decisão: Adiantar GAS para Fase 2**
 > >
 > > **Motivo:** Evitar retrabalho futuro. GAS é necessário para D&D 5e (múltiplas condições, buffs/debuffs).
@@ -592,8 +952,8 @@
 > > - Curva de aprendizado inicial maior
 > > - Mas evita migração futura e retrabalho
 > > - Sistema final desde o início
->
-> </details>
+
+</details>
 
 ---
 
@@ -602,14 +962,21 @@
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔗 Mapa de Dependências</b></summary>
 
-> ```
-> Fase 1 (Sistema de Fichas)
+> ```text
+> Fase 1 (Sistema de Fichas - 80%)
+>   ↓
+> Fase 1.5 (Melhorias D&D 5e) ← NOVA
+>   ├── 1.5.1: Spellcasting
+>   ├── 1.5.2: ASI
+>   ├── 1.5.3: Level Up System
+>   ├── 1.5.4: Correção Testes
+>   └── 1.5.5: Multiclassing Spell Slots (integrado)
 >   ↓
 > Fase 2 (Combate Básico + GAS)
 >   ↓
 > Fase 3 (NPCs/Monsters) ──┐
 >   ↓                      │
-> Fase 4 (Equipamentos) ←──┘
+> Fase 4 (Equipamentos) ←─┘
 >   ↓
 > Fase 5 (Features/Habilidades)
 >   ↓
@@ -635,27 +1002,37 @@
 <details open>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Ações Imediatas</b></summary>
 
-> 1. **Finalizar Fase 1 (Sistema de Fichas):**
->    - ✅ ValidateMulticlassRequirements implementado em FMulticlassValidators
->    - ✅ MulticlassMotor funcional (GetAvailableClasses, LoadClassProficiencies, LoadClassProgression)
->    - ⚠️ Decidir integração MulticlassMotor no CharacterSheetCore
->    - ✅ **Testes unitários de helpers críticos (138 testes implementados)**
->    - ⚠️ Testes de integração end-to-end completos
->    - ⚠️ Validar criação de feat no editor
->    - 📋 Implementar sistema de itens iniciais
->    - 📋 Criar boilerplate de inventário (estruturas modulares)
+> **1. Finalizar Fase 1 (Sistema de Fichas):**
 >
-> 2. **Iniciar Fase 2:**
->    - 📋 Configurar GAS no projeto
->    - 📋 Criar AttributeSet básico (Health, MaxHealth)
->    - 📋 Configurar ASC (PlayerState para Player, Character para AI)
->    - 📋 Criar Gameplay Effects básicos (Damage, Heal, Death)
->    - 📋 Implementar CombatComponent com integração GAS
->    - 📋 Criar WeaponDataTable
+> - ✅ ValidateMulticlassRequirements implementado em FMulticlassValidators
+> - ✅ MulticlassMotor funcional (GetAvailableClasses, LoadClassProficiencies, LoadClassProgression)
+> - ✅ **Testes unitários de helpers críticos (275+ testes implementados)**
+> - ⚠️ Testes de integração end-to-end completos
+> - ⚠️ Validar criação de feat no editor
+> - ⚠️ **Corrigir testes de Proficiency Bonus** (valores esperados incorretos)
+> - 📋 Implementar sistema de itens iniciais
+> - 📋 Criar boilerplate de inventário (estruturas modulares)
 >
-> 3. **Preparação:**
->    - 📋 Estudar documentação oficial do GAS
->    - 📋 Revisar padrões do Ali Elzoheiry (já integrados na arquitetura)
+> **2. Iniciar Fase 1.5 (Melhorias D&D 5e):**
+>
+> - 📋 **Fase 1.5.1:** Sistema de Spellcasting (🧪 TDD obrigatório)
+>   - Criar SpellcastingHelpers com todas as funções
+>   - Testes para todas as funções (50-70 testes)
+>   - Integração com CharacterSheetDataAsset
+> - 📋 **Fase 1.5.2:** Sistema de ASI (🧪 TDD obrigatório)
+>   - Criar ASIHelpers com todas as funções
+>   - Testes para todas as funções (30-40 testes)
+>   - Integração com CharacterSheetDataAsset
+> - 📋 **Fase 1.5.3:** Level Up System Completo (🧪 TDD obrigatório)
+>   - Criar LevelUpMotor e LevelUpHelpers
+>   - Testes para todas as funções (40-50 testes)
+>   - Integração com CharacterSheetDataAsset
+> - ⚠️ **Fase 1.5.4:** Correção de Testes Proficiency Bonus (2-4 horas)
+>
+> **3. Preparação para Fase 2:**
+>
+> - 📋 Estudar documentação oficial do GAS
+> - 📋 Revisar padrões do Ali Elzoheiry (já integrados na arquitetura)
 
 </details>
 
@@ -669,9 +1046,20 @@
 > - **[GDD](../design/gdd.md)** - Visão do jogo final
 > - **[Arquitetura Técnica](../technical/architecture.md)** - Decisões técnicas e preparação GAS
 > - **[Regras D&D 5e](../design/dnd-rules/)** - Regras implementadas
+>   - **[Spellcasting](../design/dnd-rules/spellcasting.md)** - Regras de spellcasting
+>   - **[Ability Scores](../design/dnd-rules/ability-scores.md)** - Regras de ASI
+>   - **[Level Up](../design/dnd-rules/level-up.md)** - Sistema de level up
+>   - **[Multiclassing](../design/dnd-rules/multiclassing.md)** - Regras de multiclassing
 > - **[README Principal](../../README.md)** - Visão geral do projeto
 > - **[ARCHITECTURE.md](../../ARCHITECTURE.md)** - Resumo da arquitetura
 > - **[CHANGELOG.md](../../CHANGELOG.md)** - Histórico de mudanças
 > - **[Índice de Documentação](../index.md)** - Organização completa
+> - **[Plano Técnico: Itens Iniciais](roadmap-tecnico-itens-iniciais.md)** - Implementação detalhada
+> - **[Plano Técnico: Boilerplate de Inventário](roadmap-tecnico-inventario-boilerplate.md)** - Estruturas modulares
 
 </details>
+
+---
+
+**Última atualização:** 2024-12-XX
+**Versão:** 2.0 - Integração de Revisão Estrutural

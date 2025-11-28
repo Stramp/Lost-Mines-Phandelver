@@ -15,13 +15,94 @@
 #pragma endregion Includes
 
 // ============================================================================
-// Multiclass Skills Struct
+// Multiclass Skills Definition (Master Data)
 // ============================================================================
-#pragma region Multiclass Skills Struct
+#pragma region Multiclass Skills Definition
 
 /**
- * Struct para armazenar informações de skills disponíveis em multiclasse.
- * Usado dentro de FMulticlassProficienciesEntry para definir escolhas de skills.
+ * Dados de definição (master data) - vem de Data Table.
+ *
+ * Responsabilidade: Armazenar informações estáticas sobre skills disponíveis.
+ * Usado para popular dropdowns e validar escolhas.
+ *
+ * Princípio: Separação Static/Dynamic
+ * - Definições em Data Tables (o que está disponível)
+ * - Estado em runtime (o que foi escolhido)
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FMulticlassSkillsDefinition
+{
+    GENERATED_BODY()
+
+    /** Handles para skills disponíveis (master data) - vem de ClassDataTable */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills Definition")
+    TArray<FDataTableRowHandle> AvailableSkillHandles;
+
+    /** Quantidade que pode ser escolhida (master data) - vem de ClassDataTable */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills Definition")
+    int32 Count = 0;
+
+    FMulticlassSkillsDefinition()
+        : Count(0)
+    {
+    }
+};
+
+#pragma endregion Multiclass Skills Definition
+
+// ============================================================================
+// Multiclass Skills Instance (Runtime Data)
+// ============================================================================
+#pragma region Multiclass Skills Instance
+
+/**
+ * Dados de instância (runtime) - escolhas do jogador.
+ *
+ * Responsabilidade: Armazenar estado mutável das escolhas do jogador.
+ * Usado para serialização diferencial em save games.
+ *
+ * Princípio: Separação Static/Dynamic
+ * - Definições em Data Tables (o que está disponível)
+ * - Estado em runtime (o que foi escolhido)
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FMulticlassSkillsInstance
+{
+    GENERATED_BODY()
+
+    /** Skill selecionada no dropdown - Editável apenas quando RemainingChoices > 0 */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills Instance",
+              meta = (GetOptions = "GetAvailableSkills", EditCondition = "RemainingChoices > 0"))
+    FName available;
+
+    /** Array de skills escolhidas - Preenchido quando available é selecionado */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skills Instance")
+    TArray<FName> Selected;
+
+    /** Quantidade de skills que ainda podem ser escolhidos - Calculado dinamicamente */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skills Instance")
+    int32 RemainingChoices = 0;
+
+    FMulticlassSkillsInstance()
+        : available(NAME_None)
+        , RemainingChoices(0)
+    {
+    }
+};
+
+#pragma endregion Multiclass Skills Instance
+
+// ============================================================================
+// Multiclass Skills (Legacy - Mantido para Compatibilidade)
+// ============================================================================
+#pragma region Multiclass Skills Legacy
+
+/**
+ * Struct legado para compatibilidade com código existente.
+ *
+ * @deprecated Use FMulticlassSkillsDefinition + FMulticlassSkillsInstance
+ *
+ * Esta struct será removida em versão futura após migração completa.
  */
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FMulticlassSkills
@@ -50,7 +131,7 @@ struct MYPROJECT2_API FMulticlassSkills
     int32 InitialQtdAvailable = 0;
 };
 
-#pragma endregion Multiclass Skills Struct
+#pragma endregion Multiclass Skills Legacy
 
 // ============================================================================
 // Multiclass Proficiencies Struct
