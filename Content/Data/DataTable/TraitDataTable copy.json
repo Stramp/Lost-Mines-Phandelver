@@ -1,0 +1,226 @@
+[
+  {
+    "Name": "Darkvision",
+    "ID": "TR_Darkvision",
+    "Description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray.",
+    "TraitData": {
+      "Range": "60",
+      "Type": "Vision"
+    },
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Trait.Vision"
+        },
+        {
+          "TagName": "Trait.Racial"
+        }
+      ],
+      "ParentTags": []
+    },
+    "SpellReference": {
+      "DataTable": "",
+      "RowName": ""
+    }
+  },
+  {
+    "Name": "Fey Ancestry",
+    "ID": "TR_FeyAncestry",
+    "Description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep.",
+    "TraitData": {
+      "Type": "Defensive"
+    },
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Trait.Racial"
+        },
+        {
+          "TagName": "Trait.Defensive"
+        }
+      ],
+      "ParentTags": []
+    },
+    "SpellReference": {
+      "DataTable": "",
+      "RowName": ""
+    }
+  },
+  {
+    "Name": "Trance",
+    "ID": "TR_Trance",
+    "Description": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep.",
+    "TraitData": {
+      "Duration": "4",
+      "Type": "Rest"
+    },
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Trait.Racial"
+        }
+      ],
+      "ParentTags": []
+    },
+    "SpellReference": {
+      "DataTable": "",
+      "RowName": ""
+    }
+  },
+  {
+    "Name": "Keen Senses",
+    "ID": "TR_KeenSenses",
+    "Description": "You have proficiency in the Perception skill.",
+    "TraitData": {
+      "Type": "Skill"
+    },
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Trait.Racial"
+        }
+      ],
+      "ParentTags": []
+    },
+    "SpellReference": {
+      "DataTable": "",
+      "RowName": ""
+    }
+  },
+  {
+    "Name": "Cantrip",
+    "ID": "TR_Cantrip",
+    "Description": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it.",
+    "TraitData": {
+      "Type": "Spellcasting",
+      "SpellcastingAbility": "Intelligence",
+      "SpellLevel": "0"
+    },
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Trait.Racial"
+        },
+        {
+          "TagName": "Trait.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    },
+    "SpellReference": {
+      "DataTable": "/Game/Data/SpellDataTable",
+      "RowName": ""
+    }
+  },
+  {
+    "Name": "Dwarven Resilience",
+    "ID": "TR_DwarvenResilience",
+    "Description": "You have advantage on saving throws against poison, and you have resistance against poison damage.",
+    "TraitData": {
+      "Type": "Defensive",
+      "Resistance": "Poison"
+    },
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Trait.Racial"
+        },
+        {
+          "TagName": "Trait.Defensive"
+        }
+      ],
+      "ParentTags": []
+    },
+    "SpellReference": {
+      "DataTable": "",
+      "RowName": ""
+    }
+  },
+  {
+    "Name": "Stonecunning",
+    "ID": "TR_Stonecunning",
+    "Description": "Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus.",
+    "TraitData": {
+      "Type": "Skill",
+      "Skill": "History"
+    },
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Trait.Racial"
+        }
+      ],
+      "ParentTags": []
+    },
+    "SpellReference": {
+      "DataTable": "",
+      "RowName": ""
+    }
+  },
+  {
+    "Name": "Dwarven Toughness",
+    "ID": "TR_DwarvenToughness",
+    "Description": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.",
+    "TraitData": {
+      "Type": "Defensive",
+      "HPBonus": "1"
+    },
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Trait.Racial"
+        },
+        {
+          "TagName": "Trait.Defensive"
+        }
+      ],
+      "ParentTags": []
+    },
+    "SpellReference": {
+      "DataTable": "",
+      "RowName": ""
+    }
+  },
+  {
+    "Name": "Dwarven Armor Training",
+    "ID": "TR_DwarvenArmorTraining",
+    "Description": "You have proficiency with light and medium armor.",
+    "TraitData": {
+      "Type": "Proficiency",
+      "Proficiencies": "Light Armor, Medium Armor"
+    },
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Trait.Racial"
+        }
+      ],
+      "ParentTags": []
+    },
+    "SpellReference": {
+      "DataTable": "",
+      "RowName": ""
+    }
+  },
+  {
+    "Name": "Extra Language",
+    "ID": "TR_ExtraLanguage",
+    "Description": "You can speak, read, and write one extra language of your choice.",
+    "TraitData": {
+      "Type": "Language",
+      "Count": "1"
+    },
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Trait.Racial"
+        }
+      ],
+      "ParentTags": []
+    },
+    "SpellReference": {
+      "DataTable": "",
+      "RowName": ""
+    }
+  }
+]

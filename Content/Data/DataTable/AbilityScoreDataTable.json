@@ -1,0 +1,86 @@
+[
+  {
+    "Name": "Strength",
+    "ID": "ABL_Strength",
+    "Abbreviation": "STR",
+    "Description": "Physical power and athletic ability",
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Ability.Physical"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Dexterity",
+    "ID": "ABL_Dexterity",
+    "Abbreviation": "DEX",
+    "Description": "Agility, reflexes, and balance",
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Ability.Physical"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Constitution",
+    "ID": "ABL_Constitution",
+    "Abbreviation": "CON",
+    "Description": "Endurance, health, and stamina",
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Ability.Physical"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Intelligence",
+    "ID": "ABL_Intelligence",
+    "Abbreviation": "INT",
+    "Description": "Reasoning, memory, and analytical thought",
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Ability.Mental"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Wisdom",
+    "ID": "ABL_Wisdom",
+    "Abbreviation": "WIS",
+    "Description": "Awareness, intuition, and insight",
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Ability.Mental"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Charisma",
+    "ID": "ABL_Charisma",
+    "Abbreviation": "CHA",
+    "Description": "Force of personality, persuasiveness, and leadership",
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Ability.Mental"
+        }
+      ],
+      "ParentTags": []
+    }
+  }
+]
