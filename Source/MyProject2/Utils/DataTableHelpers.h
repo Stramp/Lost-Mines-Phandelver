@@ -15,6 +15,7 @@ struct FBackgroundDataRow;
 struct FProficiencyDataRow;
 struct FFeatureDataRow;
 struct FItemDataRow;
+struct FAbilityScoreDataRow;
 
 /**
  * Funções helper para busca de rows em Data Tables com fallback manual.
@@ -28,6 +29,29 @@ struct FItemDataRow;
  */
 namespace DataTableHelpers
 {
+    // ============================================================================
+    // Ability Score Data Table Helpers
+    // ============================================================================
+
+    /**
+     * Busca row de ability score no Data Table.
+     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     *
+     * @param AbilityName Nome do ability score para buscar (ex: "Strength", "Dexterity")
+     * @param AbilityScoreDataTable Data Table de ability scores (pode ser nullptr)
+     * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
+     */
+    FAbilityScoreDataRow *FindAbilityScoreRow(FName AbilityName, UDataTable *AbilityScoreDataTable);
+
+    /**
+     * Retorna todos os nomes de ability scores do Data Table.
+     * Se Data Table não fornecido, retorna array vazio.
+     *
+     * @param AbilityScoreDataTable Data Table de ability scores (pode ser nullptr)
+     * @return Array com nomes de ability scores (do Data Table ou vazio)
+     */
+    TArray<FName> GetAllAbilityScoreNames(UDataTable *AbilityScoreDataTable);
+
     // ============================================================================
     // Race Data Table Helpers
     // ============================================================================
