@@ -28,7 +28,7 @@ struct MYPROJECT2_API FLanguageChoices
 /**
  * Struct principal para dados de background D&D 5e.
  * Herda de FTableRowBase para ser usada em UDataTable.
- * Contém todas as informações necessárias para um background: proficiências, idiomas, equipamento, feature.
+ * Contém todas as informações necessárias para um background: proficiências, idiomas, equipamento, trait.
  *
  * Estrutura atualizada para usar FDataTableRowHandle e Gameplay Tags.
  */
@@ -69,17 +69,13 @@ struct MYPROJECT2_API FBackgroundDataRow : public FTableRowBase
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
     TArray<FName> Equipment;
 
-    /** Handle para a feature especial do background (ex: "Shelter of the Faithful", "Criminal Contact") */
+    /** Handle para o trait especial do background (ex: "Shelter of the Faithful", "Criminal Contact") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
-    FDataTableRowHandle FeatureHandle;
+    FDataTableRowHandle TraitHandle;
 
-    /** Descrição textual da feature do background (localizável) */
+    /** Descrição textual do trait do background (localizável) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
-    FText FeatureDescription;
+    FText TraitDescription;
 
-    FBackgroundDataRow()
-        : Name(NAME_None)
-        , ID(NAME_None)
-    {
-    }
+    FBackgroundDataRow() : Name(NAME_None), ID(NAME_None) {}
 };

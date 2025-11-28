@@ -38,7 +38,7 @@ struct MYPROJECT2_API FFeatureChoice
 
     FFeatureChoice() : ID(NAME_None), Name(NAME_None) {}
 
-    FFeatureChoice(const FName& InID, const FName& InName) : ID(InID), Name(InName) {}
+    FFeatureChoice(const FName &InID, const FName &InName) : ID(InID), Name(InName) {}
 };
 
 #pragma endregion Feature Choice Struct
@@ -72,10 +72,6 @@ struct MYPROJECT2_API FFeatureDataRow : public FTableRowBase
     /** ID único da feature (ex: "FC_SecondWind", "FC_FightingStyle", "FC_ActionSurge") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
     FName ID;
-
-    /** ID único da feature (ex: "FC_SecondWind", "FC_FightingStyle", "FC_ActionSurge") - alias de ID */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
-    FName FeatureID;
 
     /** Gameplay Tags para categorização (ex: Feature.SecondWind, Feature.Combat) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
@@ -135,25 +131,15 @@ struct MYPROJECT2_API FFeatureDataRow : public FTableRowBase
     bool bAllowMultipleChoices = false;
 
     FFeatureDataRow()
-        : Name(NAME_None)
-        , ID(NAME_None)
-        , FeatureID(NAME_None)
-        , Description(FText::GetEmpty())
-        , LevelUnlocked(1)
-        , FeatureType(NAME_None)
-        , bAllowMultipleChoices(false)
+        : Name(NAME_None), ID(NAME_None), Description(FText::GetEmpty()), LevelUnlocked(1), FeatureType(NAME_None),
+          bAllowMultipleChoices(false)
     {
     }
 
-    FFeatureDataRow(const FName& InName, const FName& InID, const FText& InDescription, int32 InLevelUnlocked,
-                    const FName& InFeatureType)
-        : Name(InName)
-        , ID(InID)
-        , FeatureID(InID)
-        , Description(InDescription)
-        , LevelUnlocked(InLevelUnlocked)
-        , FeatureType(InFeatureType)
-        , bAllowMultipleChoices(false)
+    FFeatureDataRow(const FName &InName, const FName &InID, const FText &InDescription, int32 InLevelUnlocked,
+                    const FName &InFeatureType)
+        : Name(InName), ID(InID), Description(InDescription), LevelUnlocked(InLevelUnlocked),
+          FeatureType(InFeatureType), bAllowMultipleChoices(false)
     {
     }
 };

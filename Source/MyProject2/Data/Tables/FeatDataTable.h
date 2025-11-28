@@ -51,10 +51,6 @@ struct MYPROJECT2_API FFeatDataRow : public FTableRowBase
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
     FName ID;
 
-    /** ID único do feat (ex: "FEAT_Alert", "FEAT_MagicInitiate", "FEAT_WarCaster") - alias de ID */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
-    FName FeatID;
-
     /** Gameplay Tags para categorização (ex: Feat.Alert, Feat.Combat) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
     FGameplayTagContainer TypeTags;
@@ -103,14 +99,13 @@ struct MYPROJECT2_API FFeatDataRow : public FTableRowBase
     TArray<FFeatureChoice> AvailableChoices;
 
     FFeatDataRow()
-        : Name(NAME_None), ID(NAME_None), FeatID(NAME_None), Description(FText::GetEmpty()), LevelUnlocked(4), FeatureType(NAME_None)
+        : Name(NAME_None), ID(NAME_None), Description(FText::GetEmpty()), LevelUnlocked(4), FeatureType(NAME_None)
     {
     }
 
     FFeatDataRow(const FName &InName, const FName &InID, const FText &InDescription, int32 InLevelUnlocked = 4,
                  const FName &InFeatureType = TEXT("Feat"))
-        : Name(InName), ID(InID), FeatID(InID), Description(InDescription), LevelUnlocked(InLevelUnlocked),
-          FeatureType(InFeatureType)
+        : Name(InName), ID(InID), Description(InDescription), LevelUnlocked(InLevelUnlocked), FeatureType(InFeatureType)
     {
     }
 

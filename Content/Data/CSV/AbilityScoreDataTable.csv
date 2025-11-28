@@ -1,0 +1,7 @@
+﻿RowName,Name,ID,Abbreviation,Description,TypeTags
+ABL_Strength,Strength,ABL_Strength,STR,Physical power and athletic ability,"(GameplayTags=((TagName=""Ability.Physical"")))"
+ABL_Dexterity,Dexterity,ABL_Dexterity,DEX,"Agility, reflexes, and balance","(GameplayTags=((TagName=""Ability.Physical"")))"
+ABL_Constitution,Constitution,ABL_Constitution,CON,"Endurance, health, and stamina","(GameplayTags=((TagName=""Ability.Physical"")))"
+ABL_Intelligence,Intelligence,ABL_Intelligence,INT,"Reasoning, memory, and analytical thought","(GameplayTags=((TagName=""Ability.Mental"")))"
+ABL_Wisdom,Wisdom,ABL_Wisdom,WIS,"Awareness, intuition, and insight","(GameplayTags=((TagName=""Ability.Mental"")))"
+ABL_Carisma,Charisma,ABL_Charisma,CHA,"Force of personality, persuasiveness, and leadership","(GameplayTags=((TagName=""Ability.Mental"")))"
