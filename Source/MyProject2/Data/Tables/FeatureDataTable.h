@@ -9,6 +9,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "GameplayTagContainer.h"
 #include "FeatureDataTable.generated.h"
 
 #pragma endregion Includes
@@ -64,13 +65,21 @@ struct MYPROJECT2_API FFeatureDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** Nome da feature (ex: "Second Wind", "Fighting Style", "Action Surge") */
+    /** Nome da feature (ex: "Second Wind", "Fighting Style", "Action Surge") - Key Field */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
     FName Name;
 
     /** ID único da feature (ex: "FC_SecondWind", "FC_FightingStyle", "FC_ActionSurge") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
-    FName FC_ID;
+    FName ID;
+
+    /** ID único da feature (ex: "FC_SecondWind", "FC_FightingStyle", "FC_ActionSurge") - alias de ID */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
+    FName FeatureID;
+
+    /** Gameplay Tags para categorização (ex: Feature.SecondWind, Feature.Combat) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
+    FGameplayTagContainer TypeTags;
 
     /** Descrição textual da feature (localizável, para exibição na UI) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature")
@@ -127,7 +136,8 @@ struct MYPROJECT2_API FFeatureDataRow : public FTableRowBase
 
     FFeatureDataRow()
         : Name(NAME_None)
-        , FC_ID(NAME_None)
+        , ID(NAME_None)
+        , FeatureID(NAME_None)
         , Description(FText::GetEmpty())
         , LevelUnlocked(1)
         , FeatureType(NAME_None)
@@ -135,10 +145,11 @@ struct MYPROJECT2_API FFeatureDataRow : public FTableRowBase
     {
     }
 
-    FFeatureDataRow(const FName& InName, const FName& InFC_ID, const FText& InDescription, int32 InLevelUnlocked,
+    FFeatureDataRow(const FName& InName, const FName& InID, const FText& InDescription, int32 InLevelUnlocked,
                     const FName& InFeatureType)
         : Name(InName)
-        , FC_ID(InFC_ID)
+        , ID(InID)
+        , FeatureID(InID)
         , Description(InDescription)
         , LevelUnlocked(InLevelUnlocked)
         , FeatureType(InFeatureType)

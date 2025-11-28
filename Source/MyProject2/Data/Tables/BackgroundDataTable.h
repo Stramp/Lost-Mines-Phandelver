@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "GameplayTagContainer.h"
 #include "BackgroundDataTable.generated.h"
 
 /**
@@ -28,27 +29,37 @@ struct MYPROJECT2_API FLanguageChoices
  * Struct principal para dados de background D&D 5e.
  * Herda de FTableRowBase para ser usada em UDataTable.
  * Contém todas as informações necessárias para um background: proficiências, idiomas, equipamento, feature.
+ *
+ * Estrutura atualizada para usar FDataTableRowHandle e Gameplay Tags.
  */
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FBackgroundDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** Nome do background (ex: "Acolyte", "Criminal", "Folk Hero", "Noble") */
+    /** Nome do background (ex: "Acolyte", "Criminal", "Folk Hero", "Noble") - Key Field */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
-    FName BackgroundName;
+    FName Name;
+
+    /** ID único do background (ex: "BG_Acolyte", "BG_Criminal", "BG_FolkHero") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
+    FName ID;
 
     /** Descrição textual do background (localizável) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
     FText Description;
 
-    /** Proficiências em skills que o background fornece */
+    /** Gameplay Tags para categorização (ex: Background.Acolyte) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
-    TArray<FName> SkillProficiencies;
+    FGameplayTagContainer TypeTags;
 
-    /** Idiomas automáticos que o background fornece (nomes reais de idiomas) */
+    /** Lista de handles para proficiências em skills que o background fornece */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
-    TArray<FName> Languages;
+    TArray<FDataTableRowHandle> SkillProficiencyHandles;
+
+    /** Lista de handles para idiomas automáticos que o background fornece */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
+    TArray<FDataTableRowHandle> LanguageHandles;
 
     /** Escolhas de idiomas que o background permite (ex: "One language of your choice" = Count: 1) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
@@ -58,11 +69,17 @@ struct MYPROJECT2_API FBackgroundDataRow : public FTableRowBase
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
     TArray<FName> Equipment;
 
-    /** Nome da feature especial do background (ex: "Shelter of the Faithful", "Criminal Contact") */
+    /** Handle para a feature especial do background (ex: "Shelter of the Faithful", "Criminal Contact") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
-    FName FeatureName;
+    FDataTableRowHandle FeatureHandle;
 
     /** Descrição textual da feature do background (localizável) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Background")
     FText FeatureDescription;
+
+    FBackgroundDataRow()
+        : ID(NAME_None)
+        , Name(NAME_None)
+    {
+    }
 };

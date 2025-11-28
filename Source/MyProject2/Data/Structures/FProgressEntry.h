@@ -19,7 +19,7 @@
 
 /**
  * Struct para armazenar uma entrada de progressão por nível.
- * Segue a estrutura do DJ_Class.json.
+ * Segue a estrutura do ClassDataTable.json.
  * Define quais features são desbloqueadas em cada nível da classe.
  */
 USTRUCT(BlueprintType)

@@ -17,7 +17,6 @@
 
 // Project includes - Updaters
 #include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
-#include "Characters/Data/Updaters/CharacterSheetDataAssetUpdaters.h"
 
 // Project includes - Helpers
 #include "Characters/Data/Helpers/ValidationGuard.h"
@@ -621,13 +620,13 @@ void FCharacterSheetDataAssetHandlers::HandleAvailableChoiceToAddChange(UCharact
                 // Adiciona ao SelectedChoices
                 Feature.SelectedChoices.Add(Feature.AvailableChoiceToAdd);
                 bAnyChange = true;
-            }
-            else
-            {
+    }
+    else
+    {
                 // Feedback ao usuário sobre por que escolha não foi adicionada
                 // Converte ID para Name para melhor UX (usuário vê "Archery" ao invés de "FC_Archery")
                 FName ChoiceDisplayName = FeatureChoiceHelpers::FindChoiceNameByID(
-                    Asset->ClassFeaturesDataTable, Feature.FC_ID, Feature.AvailableChoiceToAdd);
+                    Asset->ClassFeaturesDataTable, Feature.ID, Feature.AvailableChoiceToAdd);
                 FString ChoiceDisplayString = (ChoiceDisplayName != NAME_None)
                                                  ? ChoiceDisplayName.ToString()
                                                  : Feature.AvailableChoiceToAdd.ToString();

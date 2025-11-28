@@ -12,7 +12,10 @@
 #include "GameFramework/Actor.h"
 #include "Utils/DnDConstants.h"
 #include "Utils/CharacterSheetHelpers.h"
+#include "Utils/DataTableRowHandleHelpers.h"
 #include "Data/Tables/RaceDataTable.h"
+#include "Data/Tables/TraitDataTable.h"
+#include "Data/Tables/LanguageDataTable.h"
 #include "Engine/DataTable.h"
 
 #pragma endregion Includes
@@ -41,6 +44,8 @@ AActor* TestActor;
 UCharacterSheetComponent* TestSheetComponent;
 UCharacterDataComponent* TestDataComponent;
 UDataTable* TestRaceDataTable;
+UDataTable* TestTraitDataTable;
+UDataTable* TestLanguageDataTable;
 
 END_DEFINE_SPEC(Step1ChooseRaceSpec)
 
@@ -89,60 +94,153 @@ void Step1ChooseRaceSpec::Define()
             TestDataAsset->SelectedLanguages.Empty();
             TestDataAsset->CustomAbilityScoreChoices.Empty();
 
-            // Criar RaceDataTable mock com dados de teste
+            // ✅ Clean Code: Setup organizado e testável
+            // ✅ TDD: Mocks criados com dados conhecidos (valores hardcoded)
+            // ✅ D&D Rules: IDs corretos (TraitID, LanguageID, AbilityID)
+
+            // Criar RaceDataTable mock (vazio inicialmente, será preenchido depois)
             TestRaceDataTable = NewObject<UDataTable>();
             TestRaceDataTable->RowStruct = FRaceDataRow::StaticStruct();
 
-            // Criar row de Elf
-            FRaceDataRow* ElfRow = new FRaceDataRow();
-            ElfRow->RaceName = TEXT("Elf");
-            ElfRow->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("Dexterity"), 2));
-            ElfRow->Traits.Add(FRaceTrait(TEXT("Darkvision"), FText::FromString(TEXT("Darkvision"))));
-            ElfRow->Traits.Add(FRaceTrait(TEXT("Fey Ancestry"), FText::FromString(TEXT("Fey Ancestry"))));
-            ElfRow->Traits.Add(FRaceTrait(TEXT("Trance"), FText::FromString(TEXT("Trance"))));
-            ElfRow->Traits.Add(FRaceTrait(TEXT("Keen Senses"), FText::FromString(TEXT("Keen Senses"))));
-            ElfRow->SubraceNames.Add(TEXT("High Elf"));
-            ElfRow->SubraceNames.Add(TEXT("Wood Elf"));
-            ElfRow->Languages.Add(TEXT("Common"));
-            ElfRow->Languages.Add(TEXT("Elvish"));
-            TestRaceDataTable->AddRow(TEXT("Elf"), *ElfRow);
-            delete ElfRow;
+            // Criar TraitDataTable mock com dados de teste
+            TestTraitDataTable = NewObject<UDataTable>();
+            TestTraitDataTable->RowStruct = FTraitDataRow::StaticStruct();
 
-            // Criar row de High Elf (subrace)
-            FRaceDataRow* HighElfRow = new FRaceDataRow();
-            HighElfRow->RaceName = TEXT("High Elf");
-            HighElfRow->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("Intelligence"), 1));
-            HighElfRow->Traits.Add(FRaceTrait(TEXT("Cantrip"), FText::FromString(TEXT("Cantrip"))));
-            TestRaceDataTable->AddRow(TEXT("High Elf"), *HighElfRow);
-            delete HighElfRow;
+            // Criar traits para Elf
+            FTraitDataRow* DarkvisionTrait = new FTraitDataRow();
+            DarkvisionTrait->TraitID = TEXT("TR_Darkvision");
+            DarkvisionTrait->TraitName = FText::FromString(TEXT("Darkvision"));
+            TestTraitDataTable->AddRow(TEXT("TR_Darkvision"), *DarkvisionTrait);
+            delete DarkvisionTrait;
 
-            // Criar row de Dwarf
-            FRaceDataRow* DwarfRow = new FRaceDataRow();
-            DwarfRow->RaceName = TEXT("Dwarf");
-            DwarfRow->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("Constitution"), 2));
-            DwarfRow->Languages.Add(TEXT("Common"));
-            DwarfRow->Languages.Add(TEXT("Dwarvish"));
-            TestRaceDataTable->AddRow(TEXT("Dwarf"), *DwarfRow);
-            delete DwarfRow;
+            FTraitDataRow* FeyAncestryTrait = new FTraitDataRow();
+            FeyAncestryTrait->TraitID = TEXT("TR_FeyAncestry");
+            FeyAncestryTrait->TraitName = FText::FromString(TEXT("Fey Ancestry"));
+            TestTraitDataTable->AddRow(TEXT("TR_FeyAncestry"), *FeyAncestryTrait);
+            delete FeyAncestryTrait;
 
-            // Criar row de Human
-            FRaceDataRow* HumanRow = new FRaceDataRow();
-            HumanRow->RaceName = TEXT("Human");
-            HumanRow->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("Custom"), 0)); // Variant Human usa Custom
-            HumanRow->SubraceNames.Add(TEXT("Variant Human"));
-            HumanRow->Languages.Add(TEXT("Common"));
-            TestRaceDataTable->AddRow(TEXT("Human"), *HumanRow);
-            delete HumanRow;
+            FTraitDataRow* TranceTrait = new FTraitDataRow();
+            TranceTrait->TraitID = TEXT("TR_Trance");
+            TranceTrait->TraitName = FText::FromString(TEXT("Trance"));
+            TestTraitDataTable->AddRow(TEXT("TR_Trance"), *TranceTrait);
+            delete TranceTrait;
 
-            // Criar row de Variant Human (subrace)
-            FRaceDataRow* VariantHumanRow = new FRaceDataRow();
-            VariantHumanRow->RaceName = TEXT("Variant Human");
-            VariantHumanRow->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("Custom"), 0)); // 2x +1 escolhidos pelo jogador
-            TestRaceDataTable->AddRow(TEXT("Variant Human"), *VariantHumanRow);
-            delete VariantHumanRow;
+            FTraitDataRow* KeenSensesTrait = new FTraitDataRow();
+            KeenSensesTrait->TraitID = TEXT("TR_KeenSenses");
+            KeenSensesTrait->TraitName = FText::FromString(TEXT("Keen Senses"));
+            TestTraitDataTable->AddRow(TEXT("TR_KeenSenses"), *KeenSensesTrait);
+            delete KeenSensesTrait;
 
-            // Configurar RaceDataTable no DataAsset
+            // Criar trait para High Elf
+            FTraitDataRow* CantripTrait = new FTraitDataRow();
+            CantripTrait->TraitID = TEXT("TR_Cantrip");
+            CantripTrait->TraitName = FText::FromString(TEXT("Cantrip"));
+            TestTraitDataTable->AddRow(TEXT("TR_Cantrip"), *CantripTrait);
+            delete CantripTrait;
+
+            // Criar LanguageDataTable mock com dados de teste
+            TestLanguageDataTable = NewObject<UDataTable>();
+            TestLanguageDataTable->RowStruct = FLanguageDataRow::StaticStruct();
+
+            FLanguageDataRow* CommonLanguage = new FLanguageDataRow();
+            CommonLanguage->LanguageID = TEXT("PL_Common");
+            CommonLanguage->LanguageName = FText::FromString(TEXT("Common"));
+            TestLanguageDataTable->AddRow(TEXT("PL_Common"), *CommonLanguage);
+            delete CommonLanguage;
+
+            FLanguageDataRow* ElvishLanguage = new FLanguageDataRow();
+            ElvishLanguage->LanguageID = TEXT("PL_Elvish");
+            ElvishLanguage->LanguageName = FText::FromString(TEXT("Elvish"));
+            TestLanguageDataTable->AddRow(TEXT("PL_Elvish"), *ElvishLanguage);
+            delete ElvishLanguage;
+
+            FLanguageDataRow* DwarvishLanguage = new FLanguageDataRow();
+            DwarvishLanguage->LanguageID = TEXT("PL_Dwarvish");
+            DwarvishLanguage->LanguageName = FText::FromString(TEXT("Dwarvish"));
+            TestLanguageDataTable->AddRow(TEXT("PL_Dwarvish"), *DwarvishLanguage);
+            delete DwarvishLanguage;
+
+            // Criar rows de RaceDataTable com estrutura nova (usando handles)
+            // Ordem: criar subraces primeiro para que SubraceHandles funcionem
+            // Criar row de High Elf (subrace) primeiro
+            FRaceDataRow* HighElfRowNew = new FRaceDataRow();
+            HighElfRowNew->Name = TEXT("High Elf");
+            HighElfRowNew->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Intelligence"), 1)); // ✅ D&D Rules: High Elf +1 INT
+            // Adicionar TraitHandle para Cantrip
+            FDataTableRowHandle CantripHandle = DataTableRowHandleHelpers::CreateHandle(TestTraitDataTable, TEXT("TR_Cantrip"));
+            HighElfRowNew->TraitHandles.Add(CantripHandle);
+            TestRaceDataTable->AddRow(TEXT("High Elf"), *HighElfRowNew);
+            delete HighElfRowNew;
+
+            // Criar row de Wood Elf (subrace) - necessário para SubraceHandle de Elf
+            FRaceDataRow* WoodElfRowNew = new FRaceDataRow();
+            WoodElfRowNew->Name = TEXT("Wood Elf");
+            // Wood Elf não tem bônus adicional de ability score no teste (pode ter em produção)
+            TestRaceDataTable->AddRow(TEXT("Wood Elf"), *WoodElfRowNew);
+            delete WoodElfRowNew;
+
+            // Criar row de Variant Human (subrace) primeiro
+            FRaceDataRow* VariantHumanRowNew = new FRaceDataRow();
+            VariantHumanRowNew->Name = TEXT("Variant Human");
+            VariantHumanRowNew->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Custom"), 0)); // 2x +1 escolhidos pelo jogador
+            TestRaceDataTable->AddRow(TEXT("Variant Human"), *VariantHumanRowNew);
+            delete VariantHumanRowNew;
+
+            // Criar row de Elf (raça base) - agora pode referenciar High Elf
+            FRaceDataRow* ElfRowNew = new FRaceDataRow();
+            ElfRowNew->Name = TEXT("Elf");
+            ElfRowNew->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Dexterity"), 2)); // ✅ D&D Rules: Elf +2 DEX
+            // Adicionar TraitHandles
+            FDataTableRowHandle DarkvisionHandle = DataTableRowHandleHelpers::CreateHandle(TestTraitDataTable, TEXT("TR_Darkvision"));
+            FDataTableRowHandle FeyAncestryHandle = DataTableRowHandleHelpers::CreateHandle(TestTraitDataTable, TEXT("TR_FeyAncestry"));
+            FDataTableRowHandle TranceHandle = DataTableRowHandleHelpers::CreateHandle(TestTraitDataTable, TEXT("TR_Trance"));
+            FDataTableRowHandle KeenSensesHandle = DataTableRowHandleHelpers::CreateHandle(TestTraitDataTable, TEXT("TR_KeenSenses"));
+            ElfRowNew->TraitHandles.Add(DarkvisionHandle);
+            ElfRowNew->TraitHandles.Add(FeyAncestryHandle);
+            ElfRowNew->TraitHandles.Add(TranceHandle);
+            ElfRowNew->TraitHandles.Add(KeenSensesHandle);
+            // Adicionar SubraceHandles
+            FDataTableRowHandle HighElfHandle = DataTableRowHandleHelpers::CreateHandle(TestRaceDataTable, TEXT("High Elf"));
+            FDataTableRowHandle WoodElfHandle = DataTableRowHandleHelpers::CreateHandle(TestRaceDataTable, TEXT("Wood Elf"));
+            ElfRowNew->SubraceHandles.Add(HighElfHandle);
+            ElfRowNew->SubraceHandles.Add(WoodElfHandle);
+            // Adicionar LanguageHandles
+            FDataTableRowHandle CommonHandle = DataTableRowHandleHelpers::CreateHandle(TestLanguageDataTable, TEXT("PL_Common"));
+            FDataTableRowHandle ElvishHandle = DataTableRowHandleHelpers::CreateHandle(TestLanguageDataTable, TEXT("PL_Elvish"));
+            ElfRowNew->LanguageHandles.Add(CommonHandle);
+            ElfRowNew->LanguageHandles.Add(ElvishHandle);
+            TestRaceDataTable->AddRow(TEXT("Elf"), *ElfRowNew);
+            delete ElfRowNew;
+
+            // Criar row de Dwarf com estrutura nova
+            FRaceDataRow* DwarfRowNew = new FRaceDataRow();
+            DwarfRowNew->Name = TEXT("Dwarf");
+            DwarfRowNew->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Constitution"), 2)); // ✅ D&D Rules: Dwarf +2 CON
+            // Adicionar LanguageHandles
+            FDataTableRowHandle CommonHandle2 = DataTableRowHandleHelpers::CreateHandle(TestLanguageDataTable, TEXT("PL_Common"));
+            FDataTableRowHandle DwarvishHandle = DataTableRowHandleHelpers::CreateHandle(TestLanguageDataTable, TEXT("PL_Dwarvish"));
+            DwarfRowNew->LanguageHandles.Add(CommonHandle2);
+            DwarfRowNew->LanguageHandles.Add(DwarvishHandle);
+            TestRaceDataTable->AddRow(TEXT("Dwarf"), *DwarfRowNew);
+            delete DwarfRowNew;
+
+            // Criar row de Human com estrutura nova
+            FRaceDataRow* HumanRowNew = new FRaceDataRow();
+            HumanRowNew->Name = TEXT("Human");
+            HumanRowNew->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Custom"), 0)); // Variant Human usa Custom
+            // Adicionar SubraceHandle
+            FDataTableRowHandle VariantHumanHandle = DataTableRowHandleHelpers::CreateHandle(TestRaceDataTable, TEXT("Variant Human"));
+            HumanRowNew->SubraceHandles.Add(VariantHumanHandle);
+            // Adicionar LanguageHandle
+            FDataTableRowHandle CommonHandle3 = DataTableRowHandleHelpers::CreateHandle(TestLanguageDataTable, TEXT("PL_Common"));
+            HumanRowNew->LanguageHandles.Add(CommonHandle3);
+            TestRaceDataTable->AddRow(TEXT("Human"), *HumanRowNew);
+            delete HumanRowNew;
+
+            // Configurar DataTables no DataAsset
             TestDataAsset->RaceDataTable = TestRaceDataTable;
+            TestDataAsset->TraitDataTable = TestTraitDataTable;
+            TestDataAsset->LanguageDataTable = TestLanguageDataTable;
         });
 
     AfterEach(
@@ -168,6 +266,16 @@ void Step1ChooseRaceSpec::Define()
             {
                 TestRaceDataTable->ConditionalBeginDestroy();
                 TestRaceDataTable = nullptr;
+            }
+            if (TestTraitDataTable)
+            {
+                TestTraitDataTable->ConditionalBeginDestroy();
+                TestTraitDataTable = nullptr;
+            }
+            if (TestLanguageDataTable)
+            {
+                TestLanguageDataTable->ConditionalBeginDestroy();
+                TestLanguageDataTable = nullptr;
             }
             if (TestDataAsset)
             {
@@ -195,16 +303,17 @@ void Step1ChooseRaceSpec::Define()
                                      TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
 
                                      // Assert
-                                     TestTrue("RaceTraits deve conter traits de Elf",
+                                     // ✅ TDD CORRETO: Valores hardcoded (TraitID conhecidos)
+                                     TestTrue(TEXT("RaceTraits deve conter traits de Elf"),
                                               TestDataComponent->RaceTraits.Num() > 0);
-                                     TestTrue("RaceTraits deve conter Darkvision",
-                                              TestDataComponent->RaceTraits.Contains(TEXT("Darkvision")));
-                                     TestTrue("RaceTraits deve conter Fey Ancestry",
-                                              TestDataComponent->RaceTraits.Contains(TEXT("Fey Ancestry")));
-                                     TestTrue("RaceTraits deve conter Trance",
-                                              TestDataComponent->RaceTraits.Contains(TEXT("Trance")));
-                                     TestTrue("RaceTraits deve conter Keen Senses",
-                                              TestDataComponent->RaceTraits.Contains(TEXT("Keen Senses")));
+                                     TestTrue(TEXT("RaceTraits deve conter TR_Darkvision"),
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Darkvision"))); // ✅ TraitID, não TraitName
+                                     TestTrue(TEXT("RaceTraits deve conter TR_FeyAncestry"),
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_FeyAncestry"))); // ✅ TraitID
+                                     TestTrue(TEXT("RaceTraits deve conter TR_Trance"),
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Trance"))); // ✅ TraitID
+                                     TestTrue(TEXT("RaceTraits deve conter TR_KeenSenses"),
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_KeenSenses"))); // ✅ TraitID
                                  });
 
                               It("deve aplicar racial traits da subrace quando selecionada",
@@ -221,13 +330,14 @@ void Step1ChooseRaceSpec::Define()
                                      TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
 
                                      // Assert
-                                     TestTrue("RaceTraits deve conter traits de High Elf",
+                                     // ✅ TDD CORRETO: Valores hardcoded (TraitID conhecidos)
+                                     TestTrue(TEXT("RaceTraits deve conter traits de High Elf"),
                                               TestDataComponent->RaceTraits.Num() > 0);
-                                     TestTrue("RaceTraits deve conter Cantrip de High Elf",
-                                              TestDataComponent->RaceTraits.Contains(TEXT("Cantrip")));
+                                     TestTrue(TEXT("RaceTraits deve conter TR_Cantrip de High Elf"),
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Cantrip"))); // ✅ TraitID
                                      // Também deve conter traits da raça base
-                                     TestTrue("RaceTraits deve conter Darkvision da raça base",
-                                              TestDataComponent->RaceTraits.Contains(TEXT("Darkvision")));
+                                     TestTrue(TEXT("RaceTraits deve conter TR_Darkvision da raça base"),
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Darkvision"))); // ✅ TraitID
                                  });
                           });
 
@@ -251,11 +361,12 @@ void Step1ChooseRaceSpec::Define()
 
                                      // ✅ TDD CORRETO: Assert - Verifica CÁLCULO real
                                      // Se não calcular: AbilityScores estará vazio ou FinalDexterity será 0
-                                     TestTrue("Sistema DEVE calcular ability scores (não apenas copiar)",
+                                     TestTrue(TEXT("Sistema DEVE calcular ability scores (não apenas copiar)"),
                                               TestDataComponent->AbilityScores.Contains(TEXT("Dexterity")));
+                                     // ✅ TDD CORRETO: Valor hardcoded (16 = 8 base + 6 PointBuy + 2 racial)
                                      // Verifica cálculo: base 8 + PointBuy 6 + racial 2 = 16
                                      // Se não calcular, este assert FALHA
-                                     TestEqual("Sistema DEVE calcular: 8 (base) + 6 (PointBuy) + 2 (racial) = 16",
+                                     TestEqual(TEXT("Sistema DEVE calcular: 8 (base) + 6 (PointBuy) + 2 (racial) = 16"),
                                                TestDataComponent->AbilityScores[TEXT("Dexterity")], 16);
                                  });
 
@@ -275,13 +386,14 @@ void Step1ChooseRaceSpec::Define()
                                      // Se não calcular, este teste FALHA
 
                                      // ✅ TDD CORRETO: Assert - Verifica CÁLCULO real
-                                     TestTrue("Sistema DEVE calcular Intelligence",
+                                     // ✅ TDD CORRETO: Valores hardcoded (14 e 10 conhecidos)
+                                     TestTrue(TEXT("Sistema DEVE calcular Intelligence"),
                                               TestDataComponent->AbilityScores.Contains(TEXT("Intelligence")));
                                      // Verifica cálculo: base 8 + PointBuy 5 + racial 1 = 14
-                                     TestEqual("Sistema DEVE calcular Intelligence: 8 (base) + 5 (PointBuy) + 1 (racial) = 14",
+                                     TestEqual(TEXT("Sistema DEVE calcular Intelligence: 8 (base) + 5 (PointBuy) + 1 (racial) = 14"),
                                                TestDataComponent->AbilityScores[TEXT("Intelligence")], 14);
                                      // Também verifica DEX da raça base (deve ser calculado automaticamente)
-                                     TestEqual("Sistema DEVE calcular Dexterity: 8 (base) + 0 (PointBuy) + 2 (racial) = 10",
+                                     TestEqual(TEXT("Sistema DEVE calcular Dexterity: 8 (base) + 0 (PointBuy) + 2 (racial) = 10"),
                                                TestDataComponent->AbilityScores[TEXT("Dexterity")], 10);
                                  });
 
@@ -387,12 +499,13 @@ void Step1ChooseRaceSpec::Define()
 
                                      // ✅ TDD CORRETO: Assert - Verifica que Languages foi PREENCHIDO
                                      // Se não implementar, este teste FALHA (Languages estará vazio)
-                                     TestTrue("Sistema DEVE calcular languages (não apenas copiar)",
+                                     // ✅ TDD CORRETO: Valores hardcoded (LanguageID conhecidos)
+                                     TestTrue(TEXT("Sistema DEVE calcular languages (não apenas copiar)"),
                                               TestDataComponent->Languages.Num() > 0);
-                                     TestTrue("Sistema DEVE carregar Common do DataTable",
-                                              TestDataComponent->Languages.Contains(TEXT("Common")));
-                                     TestTrue("Sistema DEVE carregar Elvish do DataTable",
-                                              TestDataComponent->Languages.Contains(TEXT("Elvish")));
+                                     TestTrue(TEXT("Sistema DEVE carregar PL_Common do DataTable"),
+                                              TestDataComponent->Languages.Contains(TEXT("PL_Common"))); // ✅ LanguageID
+                                     TestTrue(TEXT("Sistema DEVE carregar PL_Elvish do DataTable"),
+                                              TestDataComponent->Languages.Contains(TEXT("PL_Elvish"))); // ✅ LanguageID
                                  });
 
                               It("deve carregar languages opcionais escolhidos + languages automáticos",
@@ -412,10 +525,11 @@ void Step1ChooseRaceSpec::Define()
 
                                      // ✅ TDD CORRETO: Assert - Verifica que sistema CARREGOU languages
                                      // Se não implementar, este teste FALHA
-                                     TestTrue("Sistema DEVE carregar language opcional escolhido",
-                                              TestDataComponent->Languages.Contains(TEXT("Draconic")));
-                                     TestTrue("Sistema DEVE carregar languages automáticos da raça",
-                                              TestDataComponent->Languages.Contains(TEXT("Common")));
+                                     // ✅ TDD CORRETO: Valores hardcoded (LanguageID conhecidos)
+                                     TestTrue(TEXT("Sistema DEVE carregar language opcional escolhido"),
+                                              TestDataComponent->Languages.Contains(TEXT("Draconic"))); // Language escolhido pelo jogador
+                                     TestTrue(TEXT("Sistema DEVE carregar languages automáticos da raça"),
+                                              TestDataComponent->Languages.Contains(TEXT("PL_Common"))); // ✅ LanguageID
                                  });
                           });
 

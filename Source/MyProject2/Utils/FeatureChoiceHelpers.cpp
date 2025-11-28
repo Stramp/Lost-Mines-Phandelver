@@ -30,10 +30,10 @@
  * Função pura e reutilizável, usada por todas as funções públicas.
  *
  * @param FeatureDataTable Data Table de features
- * @param FeatureFC_ID FC_ID da feature a buscar
+ * @param FeatureID ID da feature a buscar
  * @return Ponteiro para FFeatureDataRow se encontrado, nullptr caso contrário
  */
-static const FFeatureDataRow *FindFeatureRowByFC_ID(const UDataTable *FeatureDataTable, FName FeatureFC_ID)
+static const FFeatureDataRow *FindFeatureRowByID(const UDataTable *FeatureDataTable, FName FeatureID)
 {
     if (!FeatureDataTable || FeatureFC_ID == NAME_None)
     {
@@ -46,10 +46,10 @@ static const FFeatureDataRow *FindFeatureRowByFC_ID(const UDataTable *FeatureDat
     for (const FName &RowName : RowNames)
     {
         if (const FFeatureDataRow *FeatureRow =
-                FeatureDataTable->FindRow<FFeatureDataRow>(RowName, TEXT("FindFeatureRowByFC_ID")))
+                FeatureDataTable->FindRow<FFeatureDataRow>(RowName, TEXT("FindFeatureRowByID")))
         {
             // Verifica se esta feature corresponde ao FC_ID procurado
-            if (FeatureRow->FC_ID == FeatureFC_ID)
+            if (FeatureRow->ID == FeatureID)
             {
                 return FeatureRow;
             }
@@ -66,7 +66,7 @@ static const FFeatureDataRow *FindFeatureRowByFC_ID(const UDataTable *FeatureDat
 // ============================================================================
 #pragma region Public Helpers
 
-FName FeatureChoiceHelpers::FindChoiceIDByName(const UDataTable *FeatureDataTable, FName FeatureFC_ID, FName ChoiceName)
+FName FeatureChoiceHelpers::FindChoiceIDByName(const UDataTable *FeatureDataTable, FName FeatureID, FName ChoiceName)
 {
     if (ChoiceName == NAME_None)
     {
@@ -74,7 +74,7 @@ FName FeatureChoiceHelpers::FindChoiceIDByName(const UDataTable *FeatureDataTabl
     }
 
     // Usa helper interno para buscar feature row
-    const FFeatureDataRow *FeatureRow = FindFeatureRowByFC_ID(FeatureDataTable, FeatureFC_ID);
+    const FFeatureDataRow *FeatureRow = FindFeatureRowByID(FeatureDataTable, FeatureID);
     if (!FeatureRow)
     {
         return NAME_None;
@@ -92,7 +92,7 @@ FName FeatureChoiceHelpers::FindChoiceIDByName(const UDataTable *FeatureDataTabl
     return NAME_None;
 }
 
-FName FeatureChoiceHelpers::FindChoiceNameByID(const UDataTable *FeatureDataTable, FName FeatureFC_ID, FName ChoiceID)
+FName FeatureChoiceHelpers::FindChoiceNameByID(const UDataTable *FeatureDataTable, FName FeatureID, FName ChoiceID)
 {
     if (ChoiceID == NAME_None)
     {
@@ -100,7 +100,7 @@ FName FeatureChoiceHelpers::FindChoiceNameByID(const UDataTable *FeatureDataTabl
     }
 
     // Usa helper interno para buscar feature row
-    const FFeatureDataRow *FeatureRow = FindFeatureRowByFC_ID(FeatureDataTable, FeatureFC_ID);
+    const FFeatureDataRow *FeatureRow = FindFeatureRowByID(FeatureDataTable, FeatureID);
     if (!FeatureRow)
     {
         return NAME_None;
@@ -119,12 +119,12 @@ FName FeatureChoiceHelpers::FindChoiceNameByID(const UDataTable *FeatureDataTabl
 }
 
 TArray<FName> FeatureChoiceHelpers::GetAvailableChoiceIDsForFeature(const UDataTable *FeatureDataTable,
-                                                                     FName FeatureFC_ID)
+                                                                     FName FeatureID)
 {
     TArray<FName> Result;
 
     // Usa helper interno para buscar feature row
-    const FFeatureDataRow *FeatureRow = FindFeatureRowByFC_ID(FeatureDataTable, FeatureFC_ID);
+    const FFeatureDataRow *FeatureRow = FindFeatureRowByID(FeatureDataTable, FeatureID);
     if (!FeatureRow)
     {
         return Result;
@@ -143,12 +143,12 @@ TArray<FName> FeatureChoiceHelpers::GetAvailableChoiceIDsForFeature(const UDataT
 }
 
 TArray<FName> FeatureChoiceHelpers::GetAvailableChoiceNamesForFeature(const UDataTable *FeatureDataTable,
-                                                                      FName FeatureFC_ID)
+                                                                      FName FeatureID)
 {
     TArray<FName> Result;
 
     // Usa helper interno para buscar feature row
-    const FFeatureDataRow *FeatureRow = FindFeatureRowByFC_ID(FeatureDataTable, FeatureFC_ID);
+    const FFeatureDataRow *FeatureRow = FindFeatureRowByID(FeatureDataTable, FeatureID);
     if (!FeatureRow)
     {
         return Result;
@@ -166,19 +166,19 @@ TArray<FName> FeatureChoiceHelpers::GetAvailableChoiceNamesForFeature(const UDat
     return Result;
 }
 
-TArray<FName> FeatureChoiceHelpers::ConvertChoiceIDsToNames(const UDataTable *FeatureDataTable, FName FeatureFC_ID,
+TArray<FName> FeatureChoiceHelpers::ConvertChoiceIDsToNames(const UDataTable *FeatureDataTable, FName FeatureID,
                                                             const TArray<FName> &ChoiceIDs)
 {
     TArray<FName> Result;
 
-    if (!FeatureDataTable || FeatureFC_ID == NAME_None)
+    if (!FeatureDataTable || FeatureID == NAME_None)
     {
         return Result;
     }
 
     for (const FName &ChoiceID : ChoiceIDs)
     {
-        FName ChoiceName = FindChoiceNameByID(FeatureDataTable, FeatureFC_ID, ChoiceID);
+        FName ChoiceName = FindChoiceNameByID(FeatureDataTable, FeatureID, ChoiceID);
         if (ChoiceName != NAME_None)
         {
             Result.Add(ChoiceName);
@@ -188,19 +188,19 @@ TArray<FName> FeatureChoiceHelpers::ConvertChoiceIDsToNames(const UDataTable *Fe
     return Result;
 }
 
-TArray<FName> FeatureChoiceHelpers::ConvertChoiceNamesToIDs(const UDataTable *FeatureDataTable, FName FeatureFC_ID,
+TArray<FName> FeatureChoiceHelpers::ConvertChoiceNamesToIDs(const UDataTable *FeatureDataTable, FName FeatureID,
                                                             const TArray<FName> &ChoiceNames)
 {
     TArray<FName> Result;
 
-    if (!FeatureDataTable || FeatureFC_ID == NAME_None)
+    if (!FeatureDataTable || FeatureID == NAME_None)
     {
         return Result;
     }
 
     for (const FName &ChoiceName : ChoiceNames)
     {
-        FName ChoiceID = FindChoiceIDByName(FeatureDataTable, FeatureFC_ID, ChoiceName);
+        FName ChoiceID = FindChoiceIDByName(FeatureDataTable, FeatureID, ChoiceName);
         if (ChoiceID != NAME_None)
         {
             Result.Add(ChoiceID);

@@ -491,7 +491,7 @@ void FCharacterSheetDataAssetHelpers::ForEachMultipleChoiceFeature(
                 }
 
                 // Obtém lista de IDs de escolhas válidas para esta feature (filtradas por FC_ID)
-                TArray<FName> ValidChoices = Asset->GetAvailableChoiceIDsForFeature(Feature.FC_ID);
+                TArray<FName> ValidChoices = Asset->GetAvailableChoiceIDsForFeature(Feature.ID);
 
                 // Executa callback
                 Callback(Feature, ValidChoices);

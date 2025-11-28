@@ -200,7 +200,7 @@ void Step2ChooseClassSpec::Define()
                                      if (TestDataAsset->Multiclass[0].ClassData.Proficiencies.Num() > 0)
                                      {
                                          TestEqual("Proficiência deve ter exatamente 2 saving throw proficiencies",
-                                                   TestDataAsset->Multiclass[0].ClassData.Proficiencies[0].savingThrows.Num(), 2);
+                                                   TestDataAsset->Multiclass[0].ClassData.Proficiencies[0].SavingThrowIDs.Num(), 2);
                                      }
                                  });
                           });

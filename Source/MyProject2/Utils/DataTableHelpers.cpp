@@ -35,7 +35,7 @@ FRaceDataRow *DataTableHelpers::FindRaceRow(FName RaceName, UDataTable *RaceData
         {
             if (FRaceDataRow *FoundRow = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("FindRaceRow")))
             {
-                if (FoundRow->RaceName == RaceName)
+                if (FoundRow->Name == RaceName)
                 {
                     Row = FoundRow;
                     break;
@@ -65,7 +65,7 @@ FRaceDataRow *DataTableHelpers::FindSubraceRow(FName SubraceName, UDataTable *Ra
         {
             if (FRaceDataRow *FoundRow = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("FindSubraceRow")))
             {
-                if (FoundRow->RaceName == SubraceName)
+                if (FoundRow->Name == SubraceName)
                 {
                     Row = FoundRow;
                     break;
@@ -149,7 +149,7 @@ FFeatDataRow *DataTableHelpers::FindFeatRow(FName FeatName, UDataTable *FeatData
     FFeatDataRow *Row = FeatDataTable->FindRow<FFeatDataRow>(FeatName, TEXT("FindFeatRow"));
 
     // Fallback: busca manual O(n) se FindRow não encontrou
-    // Procura por FC_ID primeiro, depois por Name
+    // Procura por ID primeiro, depois por Name
     if (!Row)
     {
         TArray<FName> RowNames = FeatDataTable->GetRowNames();
@@ -157,8 +157,8 @@ FFeatDataRow *DataTableHelpers::FindFeatRow(FName FeatName, UDataTable *FeatData
         {
             if (FFeatDataRow *FoundRow = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("FindFeatRow")))
             {
-                // Verifica FC_ID primeiro (identificador principal), depois Name
-                if (FoundRow->FC_ID == FeatName || FoundRow->Name == FeatName)
+                // Verifica ID primeiro (identificador principal), depois Name
+                if (FoundRow->ID == FeatName || FoundRow->Name == FeatName)
                 {
                     Row = FoundRow;
                     break;
@@ -180,8 +180,8 @@ FName DataTableHelpers::ConvertFeatNameToFCID(FName FeatName, UDataTable *FeatDa
     // Busca feat pelo Name
     if (FFeatDataRow *Row = DataTableHelpers::FindFeatRow(FeatName, FeatDataTable))
     {
-        // Retorna FC_ID se disponível, senão retorna Name (fallback)
-        return Row->FC_ID != NAME_None ? Row->FC_ID : Row->Name;
+        // Retorna ID se disponível, senão retorna Name (fallback)
+        return Row->ID != NAME_None ? Row->ID : Row->Name;
     }
 
     return NAME_None;
@@ -211,7 +211,7 @@ FBackgroundDataRow *DataTableHelpers::FindBackgroundRow(FName BackgroundName, UD
             if (FBackgroundDataRow *FoundRow =
                     BackgroundDataTable->FindRow<FBackgroundDataRow>(RowName, TEXT("FindBackgroundRow")))
             {
-                if (FoundRow->BackgroundName == BackgroundName)
+                if (FoundRow->Name == BackgroundName)
                 {
                     Row = FoundRow;
                     break;
@@ -242,7 +242,7 @@ FProficiencyDataRow *DataTableHelpers::FindProficiencyRowByID(FName ProficiencyI
         if (FProficiencyDataRow *FoundRow =
                 ProficiencyDataTable->FindRow<FProficiencyDataRow>(RowName, TEXT("FindProficiencyRowByID")))
         {
-            if (FoundRow->ProficiencyID == ProficiencyID)
+            if (FoundRow->ID == ProficiencyID)
             {
                 return FoundRow;
             }
@@ -312,14 +312,14 @@ FFeatureDataRow *DataTableHelpers::FindFeatureRowByID(FName FeatureID, UDataTabl
         return nullptr;
     }
 
-    // Busca manual O(n) comparando FC_ID de cada row
-    // (não podemos usar FindRow direto porque RowName pode ser diferente de FC_ID)
+    // Busca manual O(n) comparando ID de cada row
+    // (não podemos usar FindRow direto porque RowName pode ser diferente de ID)
     TArray<FName> RowNames = FeatureDataTable->GetRowNames();
     for (const FName &RowName : RowNames)
     {
         if (FFeatureDataRow *FoundRow = FeatureDataTable->FindRow<FFeatureDataRow>(RowName, TEXT("FindFeatureRowByID")))
         {
-            if (FoundRow->FC_ID == FeatureID)
+                if (FoundRow->ID == FeatureID)
             {
                 return FoundRow;
             }

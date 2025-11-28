@@ -459,7 +459,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateFeatureChoiceDisplayNames(UCharacte
                 if (Feature.bHasAvailableChoices && !Feature.bIsMultipleChoice && Feature.AvailableChoices != NAME_None)
                 {
                     Feature.AvailableChoicesDisplayName =
-                        FeatureChoiceHelpers::FindChoiceNameByID(Asset->ClassFeaturesDataTable, Feature.FC_ID,
+                        FeatureChoiceHelpers::FindChoiceNameByID(Asset->ClassFeaturesDataTable, Feature.ID,
                                                                  Feature.AvailableChoices);
                 }
                 else
@@ -472,7 +472,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateFeatureChoiceDisplayNames(UCharacte
                     Feature.AvailableChoiceToAdd != NAME_None)
                 {
                     Feature.AvailableChoiceToAddDisplayName =
-                        FeatureChoiceHelpers::FindChoiceNameByID(Asset->ClassFeaturesDataTable, Feature.FC_ID,
+                        FeatureChoiceHelpers::FindChoiceNameByID(Asset->ClassFeaturesDataTable, Feature.ID,
                                                                  Feature.AvailableChoiceToAdd);
                 }
                 else
@@ -484,7 +484,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateFeatureChoiceDisplayNames(UCharacte
                 if (Feature.bHasAvailableChoices && Feature.bIsMultipleChoice && Feature.SelectedChoices.Num() > 0)
                 {
                     Feature.SelectedChoicesDisplayNames =
-                        FeatureChoiceHelpers::ConvertChoiceIDsToNames(Asset->ClassFeaturesDataTable, Feature.FC_ID,
+                        FeatureChoiceHelpers::ConvertChoiceIDsToNames(Asset->ClassFeaturesDataTable, Feature.ID,
                                                                        Feature.SelectedChoices);
                 }
                 else

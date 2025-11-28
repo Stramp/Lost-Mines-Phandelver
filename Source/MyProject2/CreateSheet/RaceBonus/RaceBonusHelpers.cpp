@@ -16,17 +16,23 @@ void FRaceBonusHelpers::CalculateRacialBonuses(const FRaceDataRow *RaceRow, cons
         for (const FAbilityScoreImprovement &Improvement : RaceRow->AbilityScoreImprovements)
         {
             // Bônus normal para atributo específico
-            // Nota: "Custom" é tratado apenas na sub-raça (Variant Human)
-            if (Improvement.AbilityName != TEXT("Custom"))
+            // Nota: "ABL_Custom" é tratado apenas na sub-raça (Variant Human)
+            // Converte AbilityID (ex: "ABL_Strength") para nome de ability score (ex: "Strength")
+            if (Improvement.AbilityID != TEXT("ABL_Custom"))
             {
-                int32 *BonusPtr = RacialBonuses.Find(Improvement.AbilityName);
+                // Extrai nome do ability score do ID (remove prefixo "ABL_")
+                FString AbilityIDStr = Improvement.AbilityID.ToString();
+                FString AbilityNameStr = AbilityIDStr.Replace(TEXT("ABL_"), TEXT(""));
+                FName AbilityName = FName(*AbilityNameStr);
+
+                int32 *BonusPtr = RacialBonuses.Find(AbilityName);
                 if (BonusPtr)
                 {
                     *BonusPtr += Improvement.Bonus;
                 }
                 else
                 {
-                    RacialBonuses.Add(Improvement.AbilityName, Improvement.Bonus);
+                    RacialBonuses.Add(AbilityName, Improvement.Bonus);
                 }
             }
         }
@@ -35,11 +41,11 @@ void FRaceBonusHelpers::CalculateRacialBonuses(const FRaceDataRow *RaceRow, cons
     // Aplicar bônus da sub-raça
     if (SubraceRow)
     {
-        // Verificar se há entrada "Custom" (Variant Human)
+        // Verificar se há entrada "ABL_Custom" (Variant Human)
         bool bHasCustomEntry = false;
         for (const FAbilityScoreImprovement &CheckImprovement : SubraceRow->AbilityScoreImprovements)
         {
-            if (CheckImprovement.AbilityName == TEXT("Custom"))
+            if (CheckImprovement.AbilityID == TEXT("ABL_Custom"))
             {
                 bHasCustomEntry = true;
                 break; // Encontrou, não precisa continuar
@@ -68,19 +74,24 @@ void FRaceBonusHelpers::CalculateRacialBonuses(const FRaceDataRow *RaceRow, cons
             }
         }
 
-        // Processa melhorias normais (pula entradas "Custom" já processadas)
+        // Processa melhorias normais (pula entradas "ABL_Custom" já processadas)
         for (const FAbilityScoreImprovement &Improvement : SubraceRow->AbilityScoreImprovements)
         {
-            if (Improvement.AbilityName != TEXT("Custom"))
+            if (Improvement.AbilityID != TEXT("ABL_Custom"))
             {
-                int32 *BonusPtr = RacialBonuses.Find(Improvement.AbilityName);
+                // Extrai nome do ability score do ID (remove prefixo "ABL_")
+                FString AbilityIDStr = Improvement.AbilityID.ToString();
+                FString AbilityNameStr = AbilityIDStr.Replace(TEXT("ABL_"), TEXT(""));
+                FName AbilityName = FName(*AbilityNameStr);
+
+                int32 *BonusPtr = RacialBonuses.Find(AbilityName);
                 if (BonusPtr)
                 {
                     *BonusPtr += Improvement.Bonus;
                 }
                 else
                 {
-                    RacialBonuses.Add(Improvement.AbilityName, Improvement.Bonus);
+                    RacialBonuses.Add(AbilityName, Improvement.Bonus);
                 }
             }
         }

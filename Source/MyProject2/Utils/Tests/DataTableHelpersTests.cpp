@@ -43,7 +43,7 @@ void DataTableHelpersSpec::Define()
             // Criar feat de teste
             TestFeatRow = new FFeatDataRow();
             TestFeatRow->Name = TEXT("Alert");
-            TestFeatRow->FC_ID = TEXT("Feat_Alert");
+            TestFeatRow->ID = TEXT("Feat_Alert");
             TestFeatRow->Description = FText::FromString(TEXT("Test feat"));
 
             // Adicionar à tabela
@@ -106,7 +106,7 @@ void DataTableHelpersSpec::Define()
                    TestNotNull("FindFeatRow deve retornar row quando FC_ID corresponde", Result);
                    if (Result)
                    {
-                       TestEqual("FC_ID deve corresponder", Result->FC_ID.ToString(), FString(TEXT("Feat_Alert")));
+                       TestEqual("ID deve corresponder", Result->ID.ToString(), FString(TEXT("Feat_Alert")));
                        AddInfo(TEXT("✅ Teste passou: FindFeatRow encontrou row corretamente por FC_ID"));
                    }
                });
@@ -180,7 +180,7 @@ void DataTableHelpersSpec::Define()
                         TestRaceDataTable->RowStruct = FRaceDataRow::StaticStruct();
 
                         FRaceDataRow *TestRaceRow = new FRaceDataRow();
-                        TestRaceRow->RaceName = TEXT("Human");
+                        TestRaceRow->Name = TEXT("Human");
                         TestRaceDataTable->AddRow(TEXT("Human"), *TestRaceRow);
 
                         // Act
@@ -190,7 +190,7 @@ void DataTableHelpersSpec::Define()
                         TestNotNull("Should return row when RaceName exists", Result);
                         if (Result)
                         {
-                            TestTrue("RaceName should match", Result->RaceName == TEXT("Human"));
+                            TestTrue("Name should match", Result->Name == TEXT("Human"));
                         }
 
                         // Cleanup
@@ -321,7 +321,7 @@ void DataTableHelpersSpec::Define()
                         // Adicionar apenas uma proficiência que não é Skill
                         FProficiencyDataRow *TestRow = new FProficiencyDataRow();
                         TestRow->Name = TEXT("Simple Weapons");
-                        TestRow->ProficiencyID = TEXT("PW_Simple_Weapons");
+                        TestRow->ID = TEXT("PW_Simple_Weapons");
                         TestRow->Type = TEXT("Weapon");
                         TestProficiencyDataTable->AddRow(TEXT("PW_Simple_Weapons"), *TestRow);
 
@@ -349,26 +349,26 @@ void DataTableHelpersSpec::Define()
                         // Adicionar 3 skills de teste
                         FProficiencyDataRow *Skill1 = new FProficiencyDataRow();
                         Skill1->Name = TEXT("Acrobatics");
-                        Skill1->ProficiencyID = TEXT("PSK_Acrobatics");
+                        Skill1->ID = TEXT("PSK_Acrobatics");
                         Skill1->Type = TEXT("Skill");
                         TestProficiencyDataTable->AddRow(TEXT("PSK_Acrobatics"), *Skill1);
 
                         FProficiencyDataRow *Skill2 = new FProficiencyDataRow();
                         Skill2->Name = TEXT("Athletics");
-                        Skill2->ProficiencyID = TEXT("PSK_Athletics");
+                        Skill2->ID = TEXT("PSK_Athletics");
                         Skill2->Type = TEXT("Skill");
                         TestProficiencyDataTable->AddRow(TEXT("PSK_Athletics"), *Skill2);
 
                         FProficiencyDataRow *Skill3 = new FProficiencyDataRow();
                         Skill3->Name = TEXT("Stealth");
-                        Skill3->ProficiencyID = TEXT("PSK_Stealth");
+                        Skill3->ID = TEXT("PSK_Stealth");
                         Skill3->Type = TEXT("Skill");
                         TestProficiencyDataTable->AddRow(TEXT("PSK_Stealth"), *Skill3);
 
                         // Adicionar uma proficiência que não é Skill (para garantir que filtra corretamente)
                         FProficiencyDataRow *Weapon = new FProficiencyDataRow();
                         Weapon->Name = TEXT("Simple Weapons");
-                        Weapon->ProficiencyID = TEXT("PW_Simple_Weapons");
+                        Weapon->ID = TEXT("PW_Simple_Weapons");
                         Weapon->Type = TEXT("Weapon");
                         TestProficiencyDataTable->AddRow(TEXT("PW_Simple_Weapons"), *Weapon);
 
@@ -422,7 +422,7 @@ void DataTableHelpersSpec::Define()
                    // Adicionar apenas uma proficiência que não é Language
                    FProficiencyDataRow *TestRow = new FProficiencyDataRow();
                    TestRow->Name = TEXT("Simple Weapons");
-                   TestRow->ProficiencyID = TEXT("PW_Simple_Weapons");
+                   TestRow->ID = TEXT("PW_Simple_Weapons");
                    TestRow->Type = TEXT("Weapon");
                    TestProficiencyDataTable->AddRow(TEXT("PW_Simple_Weapons"), *TestRow);
 
@@ -450,26 +450,26 @@ void DataTableHelpersSpec::Define()
                    // Adicionar 3 languages de teste
                    FProficiencyDataRow *Lang1 = new FProficiencyDataRow();
                    Lang1->Name = TEXT("Common");
-                   Lang1->ProficiencyID = TEXT("PL_Common");
+                   Lang1->ID = TEXT("PL_Common");
                    Lang1->Type = TEXT("Language");
                    TestProficiencyDataTable->AddRow(TEXT("PL_Common"), *Lang1);
 
                    FProficiencyDataRow *Lang2 = new FProficiencyDataRow();
                    Lang2->Name = TEXT("Elvish");
-                   Lang2->ProficiencyID = TEXT("PL_Elvish");
+                   Lang2->ID = TEXT("PL_Elvish");
                    Lang2->Type = TEXT("Language");
                    TestProficiencyDataTable->AddRow(TEXT("PL_Elvish"), *Lang2);
 
                    FProficiencyDataRow *Lang3 = new FProficiencyDataRow();
                    Lang3->Name = TEXT("Draconic");
-                   Lang3->ProficiencyID = TEXT("PL_Draconic");
+                   Lang3->ID = TEXT("PL_Draconic");
                    Lang3->Type = TEXT("Language");
                    TestProficiencyDataTable->AddRow(TEXT("PL_Draconic"), *Lang3);
 
                    // Adicionar uma proficiência que não é Language (para garantir que filtra corretamente)
                    FProficiencyDataRow *Weapon = new FProficiencyDataRow();
                    Weapon->Name = TEXT("Simple Weapons");
-                   Weapon->ProficiencyID = TEXT("PW_Simple_Weapons");
+                   Weapon->ID = TEXT("PW_Simple_Weapons");
                    Weapon->Type = TEXT("Weapon");
                    TestProficiencyDataTable->AddRow(TEXT("PW_Simple_Weapons"), *Weapon);
 

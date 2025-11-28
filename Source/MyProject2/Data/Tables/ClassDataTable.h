@@ -9,6 +9,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "GameplayTagContainer.h"
 #include "Data/Structures/FProficienciesEntry.h"
 #include "Data/Structures/FProgressEntry.h"
 #include "ClassDataTable.generated.h"
@@ -21,7 +22,7 @@
 #pragma region Class Data Struct
 
 /**
- * Struct principal para dados de classe seguindo a estrutura do DJ_Class.json.
+ * Struct principal para dados de classe seguindo a estrutura do ClassDataTable.json.
  * Renomeado de FClass para FClassData para evitar conflito com UClass do engine.
  * Contém todas as informações de uma classe D&D 5e.
  */
@@ -86,7 +87,7 @@ struct MYPROJECT2_API FClassData
 /**
  * Struct principal para dados de classe D&D 5e usada em UDataTable.
  * Herda de FTableRowBase para ser usada em UDataTable.
- * Agora segue a estrutura do DJ_Class.json.
+ * Agora segue a estrutura do ClassDataTable.json.
  */
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FClassDataRow : public FTableRowBase
@@ -94,9 +95,26 @@ struct MYPROJECT2_API FClassDataRow : public FTableRowBase
     // Falso positivo do lint: GENERATED_BODY() é uma macro do Unreal que expande durante compilação
     GENERATED_BODY()
 
-    /** Estrutura principal da classe seguindo DJ_Class.json */
+    /** Nome da classe (ex: "Class_Fighter", "Class_Wizard", "Class_Cleric") - Key Field */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    FName Name;
+
+    /** ID único da classe (ex: "CLASS_Fighter", "CLASS_Wizard", "CLASS_Cleric") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    FName ID;
+
+    /** Gameplay Tags para categorização (ex: Class.Fighter, Class.Martial, Class.Spellcaster) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    FGameplayTagContainer TypeTags;
+
+    /** Estrutura principal da classe seguindo ClassDataTable.json */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
     FClassData FClass;
+
+    FClassDataRow()
+        : Name(NAME_None), ID(NAME_None)
+    {
+    }
 };
 
 #pragma endregion Data Table Row Struct

@@ -3,9 +3,12 @@
 #include "CalculationHelpers.h"
 #include "CharacterSheetHelpers.h"
 #include "DataTableHelpers.h"
+#include "DataTableRowHandleHelpers.h"
 #include "Data/Tables/RaceDataTable.h"
 #include "Data/Tables/BackgroundDataTable.h"
 #include "Data/Tables/ClassDataTable.h"
+#include "Data/Tables/SkillDataTable.h"
+#include "Data/Tables/LanguageDataTable.h"
 #include "Characters/Data/CharacterSheetDataAsset.h"
 #include "Utils/DnDConstants.h"
 #include "Logging/LogVerbosity.h"
@@ -78,9 +81,21 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
         if (FBackgroundDataRow *BackgroundRow =
                 DataTableHelpers::FindBackgroundRow(BackgroundName, BackgroundDataTable))
         {
-            // Adiciona proficiências de skills do background
-            for (const FName &SkillProf : BackgroundRow->SkillProficiencies)
+            // Adiciona proficiências de skills do background (agora via SkillProficiencyHandles)
+            for (const FDataTableRowHandle &SkillProfHandle : BackgroundRow->SkillProficiencyHandles)
             {
+                // Resolve handle para obter SkillID
+                FName SkillProf = NAME_None;
+                if (const FSkillDataRow *SkillRow = DataTableRowHandleHelpers::ResolveHandle<FSkillDataRow>(SkillProfHandle))
+                {
+                    SkillProf = SkillRow->SkillID;
+                }
+                else if (SkillProfHandle.RowName != NAME_None)
+                {
+                    // Fallback: usa RowName se resolução falhar
+                    SkillProf = SkillProfHandle.RowName;
+                }
+
                 if (SkillProf != NAME_None)
                 {
                     ProficienciesSet.Add(SkillProf);
@@ -117,11 +132,20 @@ TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName Subra
     {
         if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(RaceName, RaceDataTable))
         {
-            for (const FName &Language : RaceRow->Languages)
+            // Resolve LanguageHandles para obter LanguageID
+            for (const FDataTableRowHandle &LanguageHandle : RaceRow->LanguageHandles)
             {
-                if (Language != NAME_None)
+                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
-                    LanguagesSet.Add(Language);
+                    if (LanguageRow->LanguageID != NAME_None)
+                    {
+                        LanguagesSet.Add(LanguageRow->LanguageID);
+                    }
+                }
+                else if (LanguageHandle.RowName != NAME_None)
+                {
+                    // Fallback: usa RowName se resolução falhar
+                    LanguagesSet.Add(LanguageHandle.RowName);
                 }
             }
         }
@@ -132,11 +156,20 @@ TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName Subra
     {
         if (FRaceDataRow *SubraceRow = DataTableHelpers::FindSubraceRow(SubraceName, RaceDataTable))
         {
-            for (const FName &Language : SubraceRow->Languages)
+            // Resolve LanguageHandles para obter LanguageID
+            for (const FDataTableRowHandle &LanguageHandle : SubraceRow->LanguageHandles)
             {
-                if (Language != NAME_None)
+                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
-                    LanguagesSet.Add(Language);
+                    if (LanguageRow->LanguageID != NAME_None)
+                    {
+                        LanguagesSet.Add(LanguageRow->LanguageID);
+                    }
+                }
+                else if (LanguageHandle.RowName != NAME_None)
+                {
+                    // Fallback: usa RowName se resolução falhar
+                    LanguagesSet.Add(LanguageHandle.RowName);
                 }
             }
         }
@@ -148,12 +181,20 @@ TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName Subra
         if (FBackgroundDataRow *BackgroundRow =
                 DataTableHelpers::FindBackgroundRow(BackgroundName, BackgroundDataTable))
         {
-            // Adiciona idiomas automáticos (não-escolhas)
-            for (const FName &Language : BackgroundRow->Languages)
+            // Adiciona idiomas automáticos (não-escolhas) - agora via LanguageHandles
+            for (const FDataTableRowHandle &LanguageHandle : BackgroundRow->LanguageHandles)
             {
-                if (Language != NAME_None)
+                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
-                    LanguagesSet.Add(Language);
+                    if (LanguageRow->LanguageID != NAME_None)
+                    {
+                        LanguagesSet.Add(LanguageRow->LanguageID);
+                    }
+                }
+                else if (LanguageHandle.RowName != NAME_None)
+                {
+                    // Fallback: usa RowName se resolução falhar
+                    LanguagesSet.Add(LanguageHandle.RowName);
                 }
             }
         }

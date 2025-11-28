@@ -81,13 +81,13 @@ namespace DataTableHelpers
     FFeatDataRow *FindFeatRow(FName FeatName, UDataTable *FeatDataTable);
 
     /**
-     * Converte Name de feat para FC_ID.
-     * Busca feat pelo Name e retorna seu FC_ID.
+     * Converte Name de feat para ID.
+     * Busca feat pelo Name e retorna seu ID.
      * Retorna NAME_None se feat não encontrado ou Data Table inválido.
      *
      * @param FeatName Name do feat (ex: "Magic Initiate")
      * @param FeatDataTable Data Table de feats (pode ser nullptr)
-     * @return FC_ID do feat (ex: "Feat_MagicInitiate") ou NAME_None se não encontrado
+     * @return ID do feat (ex: "Feat_MagicInitiate") ou NAME_None se não encontrado
      */
     FName ConvertFeatNameToFCID(FName FeatName, UDataTable *FeatDataTable);
 
@@ -110,8 +110,8 @@ namespace DataTableHelpers
     // ============================================================================
 
     /**
-     * Busca row de proficiência no Data Table pelo ProficiencyID.
-     * Busca manual O(n) comparando ProficiencyID de cada row.
+     * Busca row de proficiência no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
      * @param ProficiencyID ID da proficiência para buscar (ex: "PW_Simple_Weapons")
      * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
@@ -156,8 +156,8 @@ namespace DataTableHelpers
     // ============================================================================
 
     /**
-     * Busca row de feature no Data Table pelo FC_ID.
-     * Busca manual O(n) comparando FC_ID de cada row.
+     * Busca row de feature no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
      * @param FeatureID ID da feature para buscar (ex: "FC_SecondWind", "FC_FightingStyle")
      * @param FeatureDataTable Data Table de features (pode ser nullptr)

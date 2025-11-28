@@ -1,0 +1,750 @@
+[
+  {
+    "Name": "Dwarf",
+    "ID": "RACE_Dwarf",
+    "Description": "Bold and hardy dwarves are known as skilled warriors miners and workers of stone and metal",
+    "TypeTags": [
+      "Race.Dwarf"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Constitution",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 25,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Darkvision"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_DwarvenResilience"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Stonecunning"
+      }
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Dwarvish"
+      }
+    ],
+    "SubraceHandles": [
+      {
+        "DataTable": "/Game/Data/RaceDataTable",
+        "RowName": "RACE_HillDwarf"
+      },
+      {
+        "DataTable": "/Game/Data/RaceDataTable",
+        "RowName": "RACE_MountainDwarf"
+      }
+    ]
+  },
+  {
+    "Name": "Hill Dwarf",
+    "ID": "RACE_HillDwarf",
+    "Description": "As a hill dwarf you have keen senses deep intuition and remarkable resilience",
+    "TypeTags": [
+      "Race.Dwarf",
+      "Race.Subrace.HillDwarf"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Wisdom",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 25,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_DwarvenToughness"
+      }
+    ],
+    "LanguageHandles": [],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Mountain Dwarf",
+    "ID": "RACE_MountainDwarf",
+    "Description": "As a mountain dwarf you are strong and hardy accustomed to a difficult life in rugged terrain",
+    "TypeTags": [
+      "Race.Dwarf",
+      "Race.Subrace.MountainDwarf"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Strength",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 25,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_DwarvenArmorTraining"
+      }
+    ],
+    "LanguageHandles": [],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Elf",
+    "ID": "RACE_Elf",
+    "Description": "Elves are a magical people of otherworldly grace living in the world but not entirely part of it",
+    "TypeTags": [
+      "Race.Elf"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Dexterity",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Darkvision"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_FeyAncestry"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Trance"
+      }
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Elvish"
+      }
+    ],
+    "SubraceHandles": [
+      {
+        "DataTable": "/Game/Data/RaceDataTable",
+        "RowName": "RACE_HighElf"
+      },
+      {
+        "DataTable": "/Game/Data/RaceDataTable",
+        "RowName": "RACE_WoodElf"
+      },
+      {
+        "DataTable": "/Game/Data/RaceDataTable",
+        "RowName": "RACE_Drow"
+      }
+    ]
+  },
+  {
+    "Name": "High Elf",
+    "ID": "RACE_HighElf",
+    "Description": "As a high elf you have a keen mind and a mastery of at least the basics of magic",
+    "TypeTags": [
+      "Race.Elf",
+      "Race.Subrace.HighElf"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Intelligence",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_ElfWeaponTraining"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Cantrip"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_ExtraLanguage"
+      }
+    ],
+    "LanguageHandles": [],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Wood Elf",
+    "ID": "RACE_WoodElf",
+    "Description": "As a wood elf you have keen senses and intuition and your fleet feet carry you quickly through your native forests",
+    "TypeTags": [
+      "Race.Elf",
+      "Race.Subrace.WoodElf"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Wisdom",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 35,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_ElfWeaponTraining"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_FleetOfFoot"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_MaskOfTheWild"
+      }
+    ],
+    "LanguageHandles": [],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Drow",
+    "ID": "RACE_Drow",
+    "Description": "Descended from an earlier subrace of dark-skinned elves the drow have a reputation for skill in combat magic and stealth",
+    "TypeTags": [
+      "Race.Elf",
+      "Race.Subrace.Drow"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Charisma",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_SuperiorDarkvision"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_SunlightSensitivity"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_DrowMagic"
+      }
+    ],
+    "LanguageHandles": [],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Halfling",
+    "ID": "RACE_Halfling",
+    "Description": "The diminutive halflings survive in a world full of larger creatures by avoiding notice or barring that avoiding offense",
+    "TypeTags": [
+      "Race.Halfling"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Dexterity",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Lucky"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Brave"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_HalflingNimbleness"
+      }
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Halfling"
+      }
+    ],
+    "SubraceHandles": [
+      {
+        "DataTable": "/Game/Data/RaceDataTable",
+        "RowName": "RACE_Lightfoot"
+      },
+      {
+        "DataTable": "/Game/Data/RaceDataTable",
+        "RowName": "RACE_Stout"
+      }
+    ]
+  },
+  {
+    "Name": "Lightfoot",
+    "ID": "RACE_Lightfoot",
+    "Description": "As a lightfoot halfling you can easily hide from notice even using other people as cover",
+    "TypeTags": [
+      "Race.Halfling",
+      "Race.Subrace.Lightfoot"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Charisma",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_NaturallyStealthy"
+      }
+    ],
+    "LanguageHandles": [],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Stout",
+    "ID": "RACE_Stout",
+    "Description": "As a stout halfling you are hardier than average and have some resistance to poison",
+    "TypeTags": [
+      "Race.Halfling",
+      "Race.Subrace.Stout"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Constitution",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_StoutResilience"
+      }
+    ],
+    "LanguageHandles": [],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Human",
+    "ID": "RACE_Human",
+    "Description": "Humans are the most adaptable and ambitious people among the common races Whatever drives them humans are the innovators the achievers and the pioneers of the worlds",
+    "TypeTags": [
+      "Race.Human"
+    ],
+    "AbilityScoreImprovements": [],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "TraitHandles": [],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Common"
+      }
+    ],
+    "SubraceHandles": [
+      {
+        "DataTable": "/Game/Data/RaceDataTable",
+        "RowName": "RACE_StandardHuman"
+      },
+      {
+        "DataTable": "/Game/Data/RaceDataTable",
+        "RowName": "RACE_VariantHuman"
+      }
+    ]
+  },
+  {
+    "Name": "Standard Human",
+    "ID": "RACE_StandardHuman",
+    "Description": "Humans are the most adaptable and ambitious people among the common races. Standard humans gain +1 to all ability scores.",
+    "TypeTags": [
+      "Race.Human",
+      "Race.Subrace.StandardHuman"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Strength",
+        "Bonus": 1
+      },
+      {
+        "AbilityID": "ABL_Dexterity",
+        "Bonus": 1
+      },
+      {
+        "AbilityID": "ABL_Constitution",
+        "Bonus": 1
+      },
+      {
+        "AbilityID": "ABL_Intelligence",
+        "Bonus": 1
+      },
+      {
+        "AbilityID": "ABL_Wisdom",
+        "Bonus": 1
+      },
+      {
+        "AbilityID": "ABL_Charisma",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "TraitHandles": [],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Common"
+      }
+    ],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Variant Human",
+    "ID": "RACE_VariantHuman",
+    "Description": "Some humans are more versatile than others. Instead of gaining +1 to all ability scores, variant humans gain +1 to two ability scores of their choice, one skill proficiency, and one feat.",
+    "TypeTags": [
+      "Race.Human",
+      "Race.Subrace.VariantHuman"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Custom",
+        "Bonus": 1
+      },
+      {
+        "AbilityID": "ABL_Custom",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_SkillProficiency"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Feat"
+      }
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Common"
+      }
+    ],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Dragonborn",
+    "ID": "RACE_Dragonborn",
+    "Description": "Born of dragons as their name proclaims the dragonborn walk proudly through a world that greets them with fearful incomprehension",
+    "TypeTags": [
+      "Race.Dragonborn"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Strength",
+        "Bonus": 2
+      },
+      {
+        "AbilityID": "ABL_Charisma",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_DraconicAncestry"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_BreathWeapon"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_DamageResistance"
+      }
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Draconic"
+      }
+    ],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Gnome",
+    "ID": "RACE_Gnome",
+    "Description": "A gnomes energy and enthusiasm for living shines through every inch of his or her tiny body",
+    "TypeTags": [
+      "Race.Gnome"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Intelligence",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Darkvision"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_GnomeCunning"
+      }
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Gnomish"
+      }
+    ],
+    "SubraceHandles": [
+      {
+        "DataTable": "/Game/Data/RaceDataTable",
+        "RowName": "RACE_ForestGnome"
+      },
+      {
+        "DataTable": "/Game/Data/RaceDataTable",
+        "RowName": "RACE_RockGnome"
+      }
+    ]
+  },
+  {
+    "Name": "Forest Gnome",
+    "ID": "RACE_ForestGnome",
+    "Description": "As a forest gnome you have a natural knack for illusion and inherent quickness and stealth",
+    "TypeTags": [
+      "Race.Gnome",
+      "Race.Subrace.ForestGnome"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Dexterity",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_NaturalIllusionist"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_SpeakWithSmallBeasts"
+      }
+    ],
+    "LanguageHandles": [],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Rock Gnome",
+    "ID": "RACE_RockGnome",
+    "Description": "As a rock gnome you have a natural inventiveness and hardiness beyond that of other gnomes",
+    "TypeTags": [
+      "Race.Gnome",
+      "Race.Subrace.RockGnome"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Constitution",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Small",
+    "BaseSpeed": 25,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_ArtificersLore"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Tinker"
+      }
+    ],
+    "LanguageHandles": [],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Half-Elf",
+    "ID": "RACE_HalfElf",
+    "Description": "Walking in two worlds but truly belonging to neither half-elves combine what some say are the best qualities of their elf and human parents",
+    "TypeTags": [
+      "Race.HalfElf"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Charisma",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Darkvision"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_FeyAncestry"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_SkillVersatility"
+      }
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Elvish"
+      }
+    ],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Half-Orc",
+    "ID": "RACE_HalfOrc",
+    "Description": "Half-orcs grayish pigmentation sloping foreheads jutting jaws prominent teeth and towering builds make their orcish heritage plain for all to see",
+    "TypeTags": [
+      "Race.HalfOrc"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Strength",
+        "Bonus": 2
+      },
+      {
+        "AbilityID": "ABL_Constitution",
+        "Bonus": 1
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Darkvision"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Menacing"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_RelentlessEndurance"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_SavageAttacks"
+      }
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Orc"
+      }
+    ],
+    "SubraceHandles": []
+  },
+  {
+    "Name": "Tiefling",
+    "ID": "RACE_Tiefling",
+    "Description": "To be greeted with stares and whispers to suffer violence and insult on the street to see mistrust and fear in every eye this is the lot of the tiefling",
+    "TypeTags": [
+      "Race.Tiefling"
+    ],
+    "AbilityScoreImprovements": [
+      {
+        "AbilityID": "ABL_Intelligence",
+        "Bonus": 1
+      },
+      {
+        "AbilityID": "ABL_Charisma",
+        "Bonus": 2
+      }
+    ],
+    "Size": "Medium",
+    "BaseSpeed": 30,
+    "TraitHandles": [
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_Darkvision"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_HellishResistance"
+      },
+      {
+        "DataTable": "/Game/Data/TraitDataTable",
+        "RowName": "TR_InfernalLegacy"
+      }
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/LanguageDataTable",
+        "RowName": "PL_Infernal"
+      }
+    ],
+    "SubraceHandles": []
+  }
+]

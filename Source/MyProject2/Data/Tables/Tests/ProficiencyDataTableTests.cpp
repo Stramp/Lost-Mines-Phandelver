@@ -41,18 +41,18 @@ void ProficiencyDataTableSpec::Define()
 
     Describe("FProficiencyDataRow Structure", [this]()
     {
-        It("deve ter campos básicos: Name, ProficiencyID, Type, Description", [this]()
+        It("deve ter campos básicos: Name, ID, Type, Description", [this]()
         {
             // Arrange
             FProficiencyDataRow Row;
             Row.Name = TEXT("Simple Weapons");
-            Row.ProficiencyID = TEXT("PW_Simple_Weapons");
+            Row.ID = TEXT("PW_Simple_Weapons");
             Row.Type = TEXT("Weapon");
             Row.Description = FText::FromString(TEXT("Proficiência com armas simples"));
 
             // Assert
             TestEqual(TEXT("Name deve ser Simple Weapons"), Row.Name, FName(TEXT("Simple Weapons")));
-            TestEqual(TEXT("ProficiencyID deve ser PW_Simple_Weapons"), Row.ProficiencyID, FName(TEXT("PW_Simple_Weapons")));
+            TestEqual(TEXT("ID deve ser PW_Simple_Weapons"), Row.ID, FName(TEXT("PW_Simple_Weapons")));
             TestEqual(TEXT("Type deve ser Weapon"), Row.Type, FName(TEXT("Weapon")));
             TestTrue("Description não deve estar vazio", !Row.Description.IsEmpty());
         });
@@ -87,7 +87,7 @@ void ProficiencyDataTableSpec::Define()
             // Arrange
             FProficiencyDataRow* WeaponRow = new FProficiencyDataRow();
             WeaponRow->Name = TEXT("Shortsword");
-            WeaponRow->ProficiencyID = TEXT("PW_Shortsword");
+            WeaponRow->ID = TEXT("PW_Shortsword");
             WeaponRow->Type = TEXT("Weapon");
             WeaponRow->Description = FText::FromString(TEXT("Espada curta"));
             WeaponRow->ProficiencyData.Add(TEXT("Damage"), TEXT("1d6"));

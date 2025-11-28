@@ -36,7 +36,7 @@ void MulticlassHelpersSpec::Define()
                    // Arrange
                    FFeatureDataRow FeatureRow;
                    FeatureRow.Name = TEXT("Second Wind");
-                   FeatureRow.FC_ID = TEXT("FC_SecondWind");
+                   FeatureRow.ID = TEXT("FC_SecondWind");
                    FeatureRow.Description = FText::FromString(TEXT("Recupera HP como ação bônus"));
                    FeatureRow.LevelUnlocked = 1;
                    FeatureRow.FeatureType = TEXT("Automatic");
@@ -68,7 +68,7 @@ void MulticlassHelpersSpec::Define()
                    // Arrange
                    FFeatureDataRow FeatureRow;
                    FeatureRow.Name = TEXT("Fighting Style");
-                   FeatureRow.FC_ID = TEXT("FC_FightingStyle");
+                   FeatureRow.ID = TEXT("FC_FightingStyle");
                    FeatureRow.Description = FText::FromString(TEXT("Escolha um estilo de combate"));
                    FeatureRow.LevelUnlocked = 1;
                    FeatureRow.FeatureType = TEXT("Choice");
@@ -100,7 +100,7 @@ void MulticlassHelpersSpec::Define()
                    // Arrange
                    FFeatureDataRow FeatureRow;
                    FeatureRow.Name = TEXT("Martial Archetype");
-                   FeatureRow.FC_ID = TEXT("FC_MartialArchetype");
+                   FeatureRow.ID = TEXT("FC_MartialArchetype");
                    FeatureRow.Description = FText::FromString(TEXT("Escolha um arquétipo marcial"));
                    FeatureRow.LevelUnlocked = 3;
                    FeatureRow.FeatureType = TEXT("SubclassSelection");
@@ -132,7 +132,7 @@ void MulticlassHelpersSpec::Define()
                    // Arrange
                    FFeatureDataRow FeatureRow;
                    FeatureRow.Name = TEXT("Fighting Style");
-                   FeatureRow.FC_ID = TEXT("FC_FightingStyle");
+                   FeatureRow.ID = TEXT("FC_FightingStyle");
                    FeatureRow.Description = FText::FromString(TEXT("Escolha um estilo de combate"));
                    FeatureRow.LevelUnlocked = 1;
                    FeatureRow.FeatureType = TEXT("Choice");
@@ -165,7 +165,7 @@ void MulticlassHelpersSpec::Define()
                    // Arrange
                    FFeatureDataRow FeatureRow;
                    FeatureRow.Name = TEXT("Fighting Style");
-                   FeatureRow.FC_ID = TEXT("FC_FightingStyle");
+                   FeatureRow.ID = TEXT("FC_FightingStyle");
                    FeatureRow.Description = FText::FromString(TEXT("Escolha um estilo de combate"));
                    FeatureRow.LevelUnlocked = 1;
                    FeatureRow.FeatureType = TEXT("Choice");
@@ -212,7 +212,7 @@ void MulticlassHelpersSpec::Define()
                    // Arrange
                    FFeatureDataRow FeatureRow;
                    FeatureRow.Name = TEXT("Battle Master Maneuvers");
-                   FeatureRow.FC_ID = TEXT("FC_BattleMasterManeuvers");
+                   FeatureRow.ID = TEXT("FC_BattleMasterManeuvers");
                    FeatureRow.Description = FText::FromString(TEXT("Escolha manobras de combate"));
                    FeatureRow.LevelUnlocked = 3;
                    FeatureRow.FeatureType = TEXT("Choice");
@@ -259,7 +259,7 @@ void MulticlassHelpersSpec::Define()
                    // Arrange
                    FFeatureDataRow FeatureRow;
                    FeatureRow.Name = TEXT("Martial Archetype");
-                   FeatureRow.FC_ID = TEXT("FC_MartialArchetype");
+                   FeatureRow.ID = TEXT("FC_MartialArchetype");
                    FeatureRow.Description = FText::FromString(TEXT("Escolha um arquétipo marcial"));
                    FeatureRow.LevelUnlocked = 3;
                    FeatureRow.FeatureType = TEXT("SubclassSelection");
@@ -302,7 +302,7 @@ void MulticlassHelpersSpec::Define()
                    // Arrange
                    FFeatureDataRow FeatureRow;
                    FeatureRow.Name = TEXT("Ability Score Improvement");
-                   FeatureRow.FC_ID = TEXT("FC_ASI");
+                   FeatureRow.ID = TEXT("FC_ASI");
                    FeatureRow.Description = FText::FromString(TEXT("Aumenta um atributo em +2 ou dois em +1"));
                    FeatureRow.LevelUnlocked = 4;
                    FeatureRow.FeatureType = TEXT("ASI");
@@ -332,7 +332,7 @@ void MulticlassHelpersSpec::Define()
                    // Arrange
                    FFeatureDataRow FeatureRow;
                    FeatureRow.Name = TEXT("Feat Selection");
-                   FeatureRow.FC_ID = TEXT("FC_FeatSelection");
+                   FeatureRow.ID = TEXT("FC_FeatSelection");
                    FeatureRow.Description = FText::FromString(TEXT("Pode escolher um Feat ao invés de ASI"));
                    FeatureRow.LevelUnlocked = 4;
                    FeatureRow.FeatureType = TEXT("FeatSelection");

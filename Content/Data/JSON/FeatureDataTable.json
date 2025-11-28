@@ -1,7 +1,7 @@
 [
   {
     "Name": "Second Wind",
-    "FC_ID": "FC_SecondWind",
+    "ID": "FC_SecondWind",
     "Description": "You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level. Once you use this feature, you must finish a short or long rest before you can use it again.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
@@ -10,7 +10,11 @@
       "Type": "BonusAction"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_SecondWind",
+    "TypeTags": [
+      "Feature.SecondWind"
+    ]
   },
   {
     "Name": "Fighting Style",
@@ -45,7 +49,12 @@
         "Name": "Two-Weapon Fighting"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_FightingStyle",
+    "TypeTags": [
+      "Feature.FightingStyle",
+      "Feature.Combat"
+    ]
   },
   {
     "Name": "Action Surge",
@@ -59,7 +68,11 @@
       "Description": "Each instance of this feature adds +1 use per rest. Total uses = BaseUsesPerRest + (AdditionalUsesPerInstance × number of instances)"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_ActionSurge",
+    "TypeTags": [
+      "Feature.ActionSurge"
+    ]
   },
   {
     "Name": "Martial Archetype",
@@ -82,7 +95,11 @@
         "Name": "Eldritch Knight"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_MartialArchetype",
+    "TypeTags": [
+      "Feature.MartialArchetype"
+    ]
   },
   {
     "Name": "Ability Score Improvement",
@@ -92,7 +109,11 @@
     "FeatureType": "ASI",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_ASI",
+    "TypeTags": [
+      "Feature.AbilityScoreImprovement"
+    ]
   },
   {
     "Name": "Indomitable",
@@ -106,7 +127,11 @@
       "Description": "Each instance of this feature adds +1 use per long rest. Total uses = BaseUsesPerLongRest + (AdditionalUsesPerInstance × number of instances)"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_Indomitable",
+    "TypeTags": [
+      "Feature.Indomitable"
+    ]
   },
   {
     "Name": "Feat Selection",
@@ -119,7 +144,11 @@
       "AlternativeTo": "FC_ASI"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "Feature_Geral",
+    "TypeTags": [
+      "Feature.FeatSelection"
+    ]
   },
   {
     "Name": "Arcane Recovery",
@@ -132,7 +161,11 @@
       "MaxSlotLevel": "5"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_ArcaneRecovery",
+    "TypeTags": [
+      "Feature.ArcaneRecovery"
+    ]
   },
   {
     "Name": "Arcane Tradition",
@@ -175,7 +208,11 @@
         "Name": "School of Transmutation"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_ArcaneTradition",
+    "TypeTags": [
+      "Feature.ArcaneTradition"
+    ]
   },
   {
     "Name": "Spell Mastery",
@@ -187,7 +224,12 @@
       "SpellsAtWill": "2"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_SpellMastery",
+    "TypeTags": [
+      "Feature.SpellMastery",
+      "Feature.Spellcasting"
+    ]
   },
   {
     "Name": "Signature Spells",
@@ -200,7 +242,12 @@
       "UsesPerRest": "1"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_SignatureSpells",
+    "TypeTags": [
+      "Feature.SignatureSpells",
+      "Feature.Spellcasting"
+    ]
   },
   {
     "Name": "Rage",
@@ -213,7 +260,11 @@
       "Type": "BonusAction"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_Rage",
+    "TypeTags": [
+      "Feature.Rage"
+    ]
   },
   {
     "Name": "Unarmored Defense",
@@ -225,7 +276,11 @@
       "ACFormula": "10 + DEX + CON"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_UnarmoredDefense",
+    "TypeTags": [
+      "Feature.UnarmoredDefense"
+    ]
   },
   {
     "Name": "Reckless Attack",
@@ -237,7 +292,12 @@
       "Type": "OnDemand"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_RecklessAttack",
+    "TypeTags": [
+      "Feature.RecklessAttack",
+      "Feature.Combat"
+    ]
   },
   {
     "Name": "Danger Sense",
@@ -247,7 +307,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_DangerSense",
+    "TypeTags": [
+      "Feature.DangerSense"
+    ]
   },
   {
     "Name": "Primal Path",
@@ -266,7 +330,11 @@
         "Name": "Path of the Totem Warrior"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_PrimalPath",
+    "TypeTags": [
+      "Feature.PrimalPath"
+    ]
   },
   {
     "Name": "Extra Attack",
@@ -280,7 +348,12 @@
       "Description": "Each instance of this feature adds +1 attack. Total attacks = BaseAttacks + (ExtraAttacksPerInstance × number of instances)"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_ExtraAttack",
+    "TypeTags": [
+      "Feature.ExtraAttack",
+      "Feature.Combat"
+    ]
   },
   {
     "Name": "Fast Movement",
@@ -292,7 +365,11 @@
       "SpeedBonus": "10"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_FastMovement",
+    "TypeTags": [
+      "Feature.FastMovement"
+    ]
   },
   {
     "Name": "Feral Instinct",
@@ -302,7 +379,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_FeralInstinct",
+    "TypeTags": [
+      "Feature.FeralInstinct"
+    ]
   },
   {
     "Name": "Brutal Critical",
@@ -316,7 +397,11 @@
       "Description": "Each instance of this feature adds +1 damage die on critical hits. Total dice = BaseAdditionalDice + (AdditionalDicePerInstance × number of instances)"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_BrutalCritical",
+    "TypeTags": [
+      "Feature.BrutalCritical"
+    ]
   },
   {
     "Name": "Relentless Rage",
@@ -329,7 +414,11 @@
       "DCIncrease": "5"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_RelentlessRage",
+    "TypeTags": [
+      "Feature.RelentlessRage"
+    ]
   },
   {
     "Name": "Persistent Rage",
@@ -339,7 +428,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_PersistentRage",
+    "TypeTags": [
+      "Feature.PersistentRage"
+    ]
   },
   {
     "Name": "Indomitable Might",
@@ -349,7 +442,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_IndomitableMight",
+    "TypeTags": [
+      "Feature.IndomitableMight"
+    ]
   },
   {
     "Name": "Primal Champion",
@@ -362,7 +459,11 @@
       "MaxScore": "24"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_PrimalChampion",
+    "TypeTags": [
+      "Feature.PrimalChampion"
+    ]
   },
   {
     "Name": "Spellcasting",
@@ -372,7 +473,12 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_Spellcasting",
+    "TypeTags": [
+      "Feature.Spellcasting",
+      "Feature.Spellcasting"
+    ]
   },
   {
     "Name": "Bardic Inspiration",
@@ -386,7 +492,11 @@
       "DieType": "d6"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_BardicInspiration",
+    "TypeTags": [
+      "Feature.BardicInspiration"
+    ]
   },
   {
     "Name": "Jack of All Trades",
@@ -396,7 +506,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_JackOfAllTrades",
+    "TypeTags": [
+      "Feature.JackofAllTrades"
+    ]
   },
   {
     "Name": "Song of Rest",
@@ -411,7 +525,11 @@
       "DieAtLevel17": "d12"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_SongOfRest",
+    "TypeTags": [
+      "Feature.SongofRest"
+    ]
   },
   {
     "Name": "Bard College",
@@ -430,7 +548,11 @@
         "Name": "College of Valor"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_BardCollege",
+    "TypeTags": [
+      "Feature.BardCollege"
+    ]
   },
   {
     "Name": "Expertise",
@@ -443,7 +565,11 @@
       "Description": "Each instance of this feature allows you to choose 2 skills to gain double proficiency bonus. Total skills with expertise = SkillsPerInstance × number of instances"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_Expertise",
+    "TypeTags": [
+      "Feature.Expertise"
+    ]
   },
   {
     "Name": "Font of Inspiration",
@@ -453,7 +579,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_FontOfInspiration",
+    "TypeTags": [
+      "Feature.FontofInspiration"
+    ]
   },
   {
     "Name": "Countercharm",
@@ -466,7 +596,11 @@
       "Range": "30"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_Countercharm",
+    "TypeTags": [
+      "Feature.Countercharm"
+    ]
   },
   {
     "Name": "Magical Secrets",
@@ -479,7 +613,12 @@
       "Description": "Each instance of this feature allows you to choose 2 spells from any class. Total spells learned = SpellsPerInstance × number of instances"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_MagicalSecrets",
+    "TypeTags": [
+      "Feature.MagicalSecrets",
+      "Feature.Spellcasting"
+    ]
   },
   {
     "Name": "Superior Inspiration",
@@ -489,7 +628,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_SuperiorInspiration",
+    "TypeTags": [
+      "Feature.SuperiorInspiration"
+    ]
   },
   {
     "Name": "Divine Domain",
@@ -528,7 +671,11 @@
         "Name": "War Domain"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_DivineDomain",
+    "TypeTags": [
+      "Feature.DivineDomain"
+    ]
   },
   {
     "Name": "Channel Divinity",
@@ -540,7 +687,11 @@
       "UsesPerRest": "1"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_ChannelDivinity",
+    "TypeTags": [
+      "Feature.ChannelDivinity"
+    ]
   },
   {
     "Name": "Destroy Undead",
@@ -553,7 +704,11 @@
       "Description": "The maximum CR of undead that can be destroyed increases with cleric level. Each instance of this feature represents an improvement in the feature's power."
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_DestroyUndead",
+    "TypeTags": [
+      "Feature.DestroyUndead"
+    ]
   },
   {
     "Name": "Divine Intervention",
@@ -568,7 +723,11 @@
       "Description": "At 10th level, roll percentile dice (success if roll <= cleric level). At 20th level, automatically succeeds. Each instance represents an improvement in the feature's reliability."
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_DivineIntervention",
+    "TypeTags": [
+      "Feature.DivineIntervention"
+    ]
   },
   {
     "Name": "Druidic",
@@ -578,7 +737,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_Druidic",
+    "TypeTags": [
+      "Feature.Druidic"
+    ]
   },
   {
     "Name": "Wild Shape",
@@ -591,7 +754,11 @@
       "UsesPerRest": "2"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_WildShape",
+    "TypeTags": [
+      "Feature.WildShape"
+    ]
   },
   {
     "Name": "Druid Circle",
@@ -610,7 +777,11 @@
         "Name": "Circle of the Moon"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_DruidCircle",
+    "TypeTags": [
+      "Feature.DruidCircle"
+    ]
   },
   {
     "Name": "Timeless Body",
@@ -620,7 +791,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_TimelessBody",
+    "TypeTags": [
+      "Feature.TimelessBody"
+    ]
   },
   {
     "Name": "Beast Spells",
@@ -630,7 +805,12 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_BeastSpells",
+    "TypeTags": [
+      "Feature.BeastSpells",
+      "Feature.Spellcasting"
+    ]
   },
   {
     "Name": "Archdruid",
@@ -640,7 +820,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_Archdruid",
+    "TypeTags": [
+      "Feature.Archdruid"
+    ]
   },
   {
     "Name": "Martial Arts",
@@ -652,7 +836,11 @@
       "DieType": "d4"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_MartialArts",
+    "TypeTags": [
+      "Feature.MartialArts"
+    ]
   },
   {
     "Name": "Ki",
@@ -664,7 +852,11 @@
       "KiPoints": "2"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_Ki",
+    "TypeTags": [
+      "Feature.Ki"
+    ]
   },
   {
     "Name": "Unarmored Movement",
@@ -680,7 +872,11 @@
       "SpeedBonusAtLevel18": "30"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_UnarmoredMovement",
+    "TypeTags": [
+      "Feature.UnarmoredMovement"
+    ]
   },
   {
     "Name": "Monastic Tradition",
@@ -703,7 +899,11 @@
         "Name": "Way of the Four Elements"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_MonasticTradition",
+    "TypeTags": [
+      "Feature.MonasticTradition"
+    ]
   },
   {
     "Name": "Deflect Missiles",
@@ -716,7 +916,11 @@
       "KiCost": "1"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_DeflectMissiles",
+    "TypeTags": [
+      "Feature.DeflectMissiles"
+    ]
   },
   {
     "Name": "Slow Fall",
@@ -728,7 +932,11 @@
       "Type": "Reaction"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_SlowFall",
+    "TypeTags": [
+      "Feature.SlowFall"
+    ]
   },
   {
     "Name": "Stunning Strike",
@@ -740,7 +948,11 @@
       "KiCost": "1"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_StunningStrike",
+    "TypeTags": [
+      "Feature.StunningStrike"
+    ]
   },
   {
     "Name": "Ki-Empowered Strikes",
@@ -750,7 +962,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_KiEmpoweredStrikes",
+    "TypeTags": [
+      "Feature.Ki-EmpoweredStrikes"
+    ]
   },
   {
     "Name": "Evasion",
@@ -760,7 +976,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_Evasion",
+    "TypeTags": [
+      "Feature.Evasion"
+    ]
   },
   {
     "Name": "Stillness of Mind",
@@ -772,7 +992,11 @@
       "Type": "Action"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_StillnessOfMind",
+    "TypeTags": [
+      "Feature.StillnessofMind"
+    ]
   },
   {
     "Name": "Purity of Body",
@@ -782,7 +1006,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_PurityOfBody",
+    "TypeTags": [
+      "Feature.PurityofBody"
+    ]
   },
   {
     "Name": "Tongue of the Sun and Moon",
@@ -792,7 +1020,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_TongueOfTheSunAndMoon",
+    "TypeTags": [
+      "Feature.TongueoftheSunandMoon"
+    ]
   },
   {
     "Name": "Diamond Soul",
@@ -804,7 +1036,11 @@
       "KiCost": "1"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_DiamondSoul",
+    "TypeTags": [
+      "Feature.DiamondSoul"
+    ]
   },
   {
     "Name": "Empty Body",
@@ -818,7 +1054,11 @@
       "KiCostAstralProjection": "8"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_EmptyBody",
+    "TypeTags": [
+      "Feature.EmptyBody"
+    ]
   },
   {
     "Name": "Perfect Self",
@@ -830,7 +1070,11 @@
       "KiPointsRegained": "4"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_PerfectSelf",
+    "TypeTags": [
+      "Feature.PerfectSelf"
+    ]
   },
   {
     "Name": "Divine Sense",
@@ -844,7 +1088,11 @@
       "UsesPerLongRest": "1 + CHA"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_DivineSense",
+    "TypeTags": [
+      "Feature.DivineSense"
+    ]
   },
   {
     "Name": "Lay on Hands",
@@ -857,7 +1105,11 @@
       "PoolSize": "Level × 5"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_LayOnHands",
+    "TypeTags": [
+      "Feature.LayonHands"
+    ]
   },
   {
     "Name": "Divine Smite",
@@ -871,7 +1123,11 @@
       "MaxDamageVsUndeadFiend": "6d8"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_DivineSmite",
+    "TypeTags": [
+      "Feature.DivineSmite"
+    ]
   },
   {
     "Name": "Sacred Oath",
@@ -894,7 +1150,11 @@
         "Name": "Oath of Vengeance"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_SacredOath",
+    "TypeTags": [
+      "Feature.SacredOath"
+    ]
   },
   {
     "Name": "Divine Health",
@@ -904,7 +1164,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_DivineHealth",
+    "TypeTags": [
+      "Feature.DivineHealth"
+    ]
   },
   {
     "Name": "Aura of Protection",
@@ -917,7 +1181,11 @@
       "RangeAtLevel18": "30"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_AuraOfProtection",
+    "TypeTags": [
+      "Feature.AuraofProtection"
+    ]
   },
   {
     "Name": "Improved Divine Smite",
@@ -929,7 +1197,11 @@
       "ExtraDamage": "1d8"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_ImprovedDivineSmite",
+    "TypeTags": [
+      "Feature.ImprovedDivineSmite"
+    ]
   },
   {
     "Name": "Aura of Courage",
@@ -942,7 +1214,11 @@
       "RangeAtLevel18": "30"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_AuraOfCourage",
+    "TypeTags": [
+      "Feature.AuraofCourage"
+    ]
   },
   {
     "Name": "Cleansing Touch",
@@ -955,7 +1231,11 @@
       "UsesPerLongRest": "CHA modifier (min 1)"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_CleansingTouch",
+    "TypeTags": [
+      "Feature.CleansingTouch"
+    ]
   },
   {
     "Name": "Aura Improvements",
@@ -967,7 +1247,11 @@
       "NewRange": "30"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_AuraImprovements",
+    "TypeTags": [
+      "Feature.AuraImprovements"
+    ]
   },
   {
     "Name": "Favored Enemy",
@@ -981,7 +1265,11 @@
       "Description": "Each instance of this feature allows you to choose 1 favored enemy type and learn 1 associated language. Total favored enemies = EnemiesPerInstance × number of instances"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_FavoredEnemy",
+    "TypeTags": [
+      "Feature.FavoredEnemy"
+    ]
   },
   {
     "Name": "Natural Explorer",
@@ -994,7 +1282,11 @@
       "Description": "Each instance of this feature allows you to choose 1 favored terrain type. Total favored terrains = TerrainsPerInstance × number of instances"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_NaturalExplorer",
+    "TypeTags": [
+      "Feature.NaturalExplorer"
+    ]
   },
   {
     "Name": "Ranger Archetype",
@@ -1013,7 +1305,11 @@
         "Name": "Beast Master"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_RangerArchetype",
+    "TypeTags": [
+      "Feature.RangerArchetype"
+    ]
   },
   {
     "Name": "Primeval Awareness",
@@ -1026,7 +1322,11 @@
       "Range": "1 mile (6 miles in favored terrain)"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_PrimevalAwareness",
+    "TypeTags": [
+      "Feature.PrimevalAwareness"
+    ]
   },
   {
     "Name": "Hide in Plain Sight",
@@ -1038,7 +1338,11 @@
       "StealthBonus": "+10"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_HideInPlainSight",
+    "TypeTags": [
+      "Feature.HideinPlainSight"
+    ]
   },
   {
     "Name": "Foe Slayer",
@@ -1048,7 +1352,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_FoeSlayer",
+    "TypeTags": [
+      "Feature.FoeSlayer"
+    ]
   },
   {
     "Name": "Sneak Attack",
@@ -1060,7 +1368,12 @@
       "BaseDamage": "1d6"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_SneakAttack",
+    "TypeTags": [
+      "Feature.SneakAttack",
+      "Feature.Combat"
+    ]
   },
   {
     "Name": "Thieves' Cant",
@@ -1070,7 +1383,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_ThievesCant",
+    "TypeTags": [
+      "Feature.Thieves'Cant"
+    ]
   },
   {
     "Name": "Cunning Action",
@@ -1082,7 +1399,11 @@
       "Type": "BonusAction"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_CunningAction",
+    "TypeTags": [
+      "Feature.CunningAction"
+    ]
   },
   {
     "Name": "Roguish Archetype",
@@ -1105,7 +1426,11 @@
         "Name": "Arcane Trickster"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_RoguishArchetype",
+    "TypeTags": [
+      "Feature.RoguishArchetype"
+    ]
   },
   {
     "Name": "Uncanny Dodge",
@@ -1117,7 +1442,11 @@
       "Type": "Reaction"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_UncannyDodge",
+    "TypeTags": [
+      "Feature.UncannyDodge"
+    ]
   },
   {
     "Name": "Reliable Talent",
@@ -1127,7 +1456,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_ReliableTalent",
+    "TypeTags": [
+      "Feature.ReliableTalent"
+    ]
   },
   {
     "Name": "Blindsense",
@@ -1139,7 +1472,11 @@
       "Range": "10"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_Blindsense",
+    "TypeTags": [
+      "Feature.Blindsense"
+    ]
   },
   {
     "Name": "Slippery Mind",
@@ -1149,7 +1486,11 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_SlipperyMind",
+    "TypeTags": [
+      "Feature.SlipperyMind"
+    ]
   },
   {
     "Name": "Stroke of Luck",
@@ -1161,7 +1502,11 @@
       "UsesPerRest": "1"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_StrokeOfLuck",
+    "TypeTags": [
+      "Feature.StrokeofLuck"
+    ]
   },
   {
     "Name": "Sorcerous Origin",
@@ -1180,7 +1525,11 @@
         "Name": "Wild Magic"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_SorcerousOrigin",
+    "TypeTags": [
+      "Feature.SorcerousOrigin"
+    ]
   },
   {
     "Name": "Font of Magic",
@@ -1192,7 +1541,12 @@
       "SorceryPoints": "2"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_FontOfMagic",
+    "TypeTags": [
+      "Feature.FontofMagic",
+      "Feature.Spellcasting"
+    ]
   },
   {
     "Name": "Metamagic",
@@ -1206,7 +1560,11 @@
       "Description": "First instance gives 2 Metamagic options. Each subsequent instance adds 1 option. Total options = OptionsAtFirstInstance + (OptionsPerSubsequentInstance × (number of instances - 1))"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": true
+    "bAllowMultipleChoices": true,
+    "FeatureID": "FC_Metamagic",
+    "TypeTags": [
+      "Feature.Metamagic"
+    ]
   },
   {
     "Name": "Sorcerous Restoration",
@@ -1218,7 +1576,11 @@
       "SorceryPointsRegained": "4"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_SorcerousRestoration",
+    "TypeTags": [
+      "Feature.SorcerousRestoration"
+    ]
   },
   {
     "Name": "Otherworldly Patron",
@@ -1241,7 +1603,11 @@
         "Name": "The Archfey"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_OtherworldlyPatron",
+    "TypeTags": [
+      "Feature.OtherworldlyPatron"
+    ]
   },
   {
     "Name": "Pact Magic",
@@ -1251,7 +1617,12 @@
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_PactMagic",
+    "TypeTags": [
+      "Feature.PactMagic",
+      "Feature.Spellcasting"
+    ]
   },
   {
     "Name": "Eldritch Invocations",
@@ -1265,7 +1636,11 @@
       "Description": "First instance gives 2 Eldritch Invocations. Each subsequent instance adds 1 invocation. Total invocations = InvocationsAtFirstInstance + (InvocationsPerSubsequentInstance × (number of instances - 1))"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": true
+    "bAllowMultipleChoices": true,
+    "FeatureID": "FC_EldritchInvocations",
+    "TypeTags": [
+      "Feature.EldritchInvocations"
+    ]
   },
   {
     "Name": "Pact Boon",
@@ -1288,7 +1663,11 @@
         "Name": "Pact of the Tome"
       }
     ],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_PactBoon",
+    "TypeTags": [
+      "Feature.PactBoon"
+    ]
   },
   {
     "Name": "Mystic Arcanum",
@@ -1302,7 +1681,11 @@
       "Description": "Each instance of this feature allows you to choose 1 Mystic Arcanum spell. The spell level increases with each instance: 6th, 7th, 8th, 9th. Total spells = SpellsPerInstance × number of instances"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_MysticArcanum",
+    "TypeTags": [
+      "Feature.MysticArcanum"
+    ]
   },
   {
     "Name": "Eldritch Master",
@@ -1314,6 +1697,10 @@
       "Cooldown": "Long Rest"
     },
     "AvailableChoices": [],
-    "bAllowMultipleChoices": false
+    "bAllowMultipleChoices": false,
+    "FeatureID": "FC_EldritchMaster",
+    "TypeTags": [
+      "Feature.EldritchMaster"
+    ]
   }
 ]

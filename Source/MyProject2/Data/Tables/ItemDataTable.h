@@ -9,9 +9,15 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "GameplayTagContainer.h"
+#include "UObject/SoftObjectPtr.h"
 #include "ItemDataTable.generated.h"
 
 #pragma endregion Includes
+
+// Forward declarations
+class UTexture2D;
+class UStaticMesh;
 
 // ============================================================================
 // Item Data Row Struct
@@ -32,6 +38,13 @@ struct MYPROJECT2_API FItemDataRow : public FTableRowBase
     GENERATED_BODY()
 
     /**
+     * Nome do item (ex: "Longsword", "Chain Mail", "15 gp") - Key Field.
+     * Nome legível para exibição na UI.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+    FName Name;
+
+    /**
      * ID único do item (ex: "ITM_WPN_Longsword", "ITM_ARM_ChainMail", "ITM_GOLD_15gp").
      * Usado como chave primária na Data Table e para referências em outras estruturas.
      * Padrão de nomenclatura:
@@ -44,14 +57,7 @@ struct MYPROJECT2_API FItemDataRow : public FTableRowBase
      * - ITM_GOLD_* = Item Gold (ouro)
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-    FName ItemID;
-
-    /**
-     * Nome do item (ex: "Longsword", "Chain Mail", "15 gp").
-     * Nome legível para exibição na UI.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-    FName ItemName;
+    FName ID;
 
     /**
      * Tipo do item: "Weapon", "Armor", "Tool", "Consumable", "Pack", "Other", "Gold".
@@ -83,12 +89,32 @@ struct MYPROJECT2_API FItemDataRow : public FTableRowBase
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
     FText Description;
 
-    FItemDataRow() : ItemID(NAME_None), ItemName(NAME_None), ItemType(NAME_None), Weight(0.0f), Value(0) {}
+    /** Gameplay Tags para categorização (ex: Item.Weapon, Item.Armor, Item.Consumable) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+    FGameplayTagContainer TypeTags;
 
-    FItemDataRow(const FName &InItemID, const FName &InItemName, const FName &InItemType, float InWeight, int32 InValue,
+    /** Referência a uma magia, se este item concede uma (ex: itens mágicos) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+    FDataTableRowHandle SpellHandle;
+
+    /** ID do tipo de dano para armas (ex: "DMG_Fire", "DMG_Cold") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+    FName DamageTypeID;
+
+    /** Referência suave para o ícone visual do item */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+    TSoftObjectPtr<UTexture2D> IconTexture;
+
+    /** Referência suave para o mesh 3D do item */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+    TSoftObjectPtr<UStaticMesh> MeshReference;
+
+    FItemDataRow() : Name(NAME_None), ID(NAME_None), ItemType(NAME_None), Weight(0.0f), Value(0), DamageTypeID(NAME_None) {}
+
+    FItemDataRow(const FName &InName, const FName &InID, const FName &InItemType, float InWeight, int32 InValue,
                  const FText &InDescription)
-        : ItemID(InItemID), ItemName(InItemName), ItemType(InItemType), Weight(InWeight), Value(InValue),
-          Description(InDescription)
+        : Name(InName), ID(InID), ItemType(InItemType), Weight(InWeight), Value(InValue),
+          Description(InDescription), DamageTypeID(NAME_None)
     {
     }
 };

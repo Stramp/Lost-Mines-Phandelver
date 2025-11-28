@@ -9,6 +9,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "GameplayTagContainer.h"
 #include "Data/Tables/FeatureDataTable.h"
 #include "FeatDataTable.generated.h"
 
@@ -28,9 +29,9 @@
  * Feats são habilidades especiais que personagens podem adquirir ao invés de aumentar
  * Ability Scores. Exemplos: Alert, Magic Initiate, War Caster, Sharpshooter.
  *
- * Estrutura alinhada com DJ_FeatsGerais.json:
+ * Estrutura alinhada com FeatDataTable.json:
  * - Name: Nome do feat
- * - FC_ID: ID único (ex: "Feat_Alert", "Feat_MagicInitiate")
+ * - ID: ID único (ex: "Feat_Alert", "Feat_MagicInitiate")
  * - Description: Descrição textual
  * - LevelUnlocked: Nível mínimo (padrão: 4)
  * - FeatureType: "Feat"
@@ -42,13 +43,21 @@ struct MYPROJECT2_API FFeatDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** Nome do feat (ex: "Alert", "Magic Initiate", "War Caster", "Sharpshooter") */
+    /** Nome do feat (ex: "Alert", "Magic Initiate", "War Caster", "Sharpshooter") - Key Field */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
     FName Name;
 
     /** ID único do feat (ex: "Feat_Alert", "Feat_MagicInitiate", "Feat_WarCaster") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
-    FName FC_ID;
+    FName ID;
+
+    /** ID único do feat (ex: "FEAT_Alert", "FEAT_MagicInitiate", "FEAT_WarCaster") - alias de ID */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
+    FName FeatID;
+
+    /** Gameplay Tags para categorização (ex: Feat.Alert, Feat.Combat) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
+    FGameplayTagContainer TypeTags;
 
     /** Descrição textual do feat (localizável, para exibição na UI) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
@@ -94,13 +103,13 @@ struct MYPROJECT2_API FFeatDataRow : public FTableRowBase
     TArray<FFeatureChoice> AvailableChoices;
 
     FFeatDataRow()
-        : Name(NAME_None), FC_ID(NAME_None), Description(FText::GetEmpty()), LevelUnlocked(4), FeatureType(NAME_None)
+        : Name(NAME_None), ID(NAME_None), FeatID(NAME_None), Description(FText::GetEmpty()), LevelUnlocked(4), FeatureType(NAME_None)
     {
     }
 
-    FFeatDataRow(const FName &InName, const FName &InFC_ID, const FText &InDescription, int32 InLevelUnlocked = 4,
+    FFeatDataRow(const FName &InName, const FName &InID, const FText &InDescription, int32 InLevelUnlocked = 4,
                  const FName &InFeatureType = TEXT("Feat"))
-        : Name(InName), FC_ID(InFC_ID), Description(InDescription), LevelUnlocked(InLevelUnlocked),
+        : Name(InName), ID(InID), FeatID(InID), Description(InDescription), LevelUnlocked(InLevelUnlocked),
           FeatureType(InFeatureType)
     {
     }

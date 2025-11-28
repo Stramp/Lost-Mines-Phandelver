@@ -54,8 +54,8 @@ namespace DnDConstants
     /** Divisor para cálculo de HP médio por nível (2) */
     constexpr float HP_AVERAGE_DIVISOR = 2.0f;
 
-    /** Valor base para cálculo de proficiency bonus (1) */
-    constexpr int32 PROFICIENCY_BONUS_BASE = 1;
+    /** Valor base para cálculo de proficiency bonus (2) - D&D 5e: nível 1 começa com +2 */
+    constexpr int32 PROFICIENCY_BONUS_BASE = 2;
 
     /** HP mínimo que um personagem pode ter (1) */
     constexpr int32 MIN_HP = 1;

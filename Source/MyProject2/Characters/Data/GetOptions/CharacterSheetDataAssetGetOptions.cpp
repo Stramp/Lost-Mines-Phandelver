@@ -199,26 +199,26 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(const 
 }
 
 /**
- * Retorna IDs de escolhas disponíveis filtrados por FC_ID de feature específica.
- * Apenas retorna IDs de escolhas da feature que corresponde ao FC_ID fornecido.
+ * Retorna IDs de escolhas disponíveis filtrados por ID de feature específica.
+ * Apenas retorna IDs de escolhas da feature que corresponde ao ID fornecido.
  * IDs são usados para referência da máquina (armazenados em AvailableChoices/SelectedChoices).
  * Usado para dropdown filtrado em FMulticlassClassFeature.AvailableChoices.
  */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceIDsForFeature(const UDataTable *FeatureDataTable,
-                                                                                   FName FeatureFC_ID)
+                                                                                   FName FeatureID)
 {
-    return FeatureChoiceHelpers::GetAvailableChoiceIDsForFeature(FeatureDataTable, FeatureFC_ID);
+    return FeatureChoiceHelpers::GetAvailableChoiceIDsForFeature(FeatureDataTable, FeatureID);
 }
 
 /**
- * Retorna nomes de escolhas disponíveis filtrados por FC_ID de feature específica.
- * Apenas retorna nomes de escolhas da feature que corresponde ao FC_ID fornecido.
+ * Retorna nomes de escolhas disponíveis filtrados por ID de feature específica.
+ * Apenas retorna nomes de escolhas da feature que corresponde ao ID fornecido.
  * Names são usados para exibição na UI (propriedades calculadas).
  */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNamesForFeature(const UDataTable *FeatureDataTable,
-                                                                                    FName FeatureFC_ID)
+                                                                                    FName FeatureID)
 {
-    return FeatureChoiceHelpers::GetAvailableChoiceNamesForFeature(FeatureDataTable, FeatureFC_ID);
+    return FeatureChoiceHelpers::GetAvailableChoiceNamesForFeature(FeatureDataTable, FeatureID);
 }
 
 #pragma endregion Feature Choice Options

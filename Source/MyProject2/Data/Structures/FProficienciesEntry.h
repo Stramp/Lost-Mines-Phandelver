@@ -19,8 +19,8 @@
 #pragma region Proficiencies Struct
 
 /**
- * Struct para armazenar proficiências de classe seguindo a estrutura do DJ_Class.json.
- * Cada elemento do array FProficiencies contém um objeto com armas, armaduras, savingThrows ou FSkills.
+ * Struct para armazenar proficiências de classe seguindo a estrutura do ClassDataTable.json.
+ * Cada elemento do array FProficiencies contém um objeto com armas, armaduras, SavingThrowIDs ou FSkills.
  */
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FProficienciesEntry
@@ -35,9 +35,9 @@ struct MYPROJECT2_API FProficienciesEntry
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
     TArray<FName> armaduras;
 
-    /** Lista de saving throws (pode estar vazia) */
+    /** Lista de IDs de saving throws (pode estar vazia) - ex: "ABL_Strength", "ABL_Constitution" */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
-    TArray<FName> savingThrows;
+    TArray<FName> SavingThrowIDs;
 
     /** Informações de skills (pode estar vazia) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")

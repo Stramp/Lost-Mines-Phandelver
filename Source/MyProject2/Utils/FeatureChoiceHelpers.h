@@ -29,53 +29,53 @@ namespace FeatureChoiceHelpers
      * Helper puro e testável, sem side effects.
      *
      * @param FeatureDataTable Data Table de features
-     * @param FeatureFC_ID FC_ID da feature que contém a escolha
+     * @param FeatureID ID da feature que contém a escolha
      * @param ChoiceName Nome da escolha a buscar
      * @return ID da escolha se encontrado, NAME_None caso contrário
      */
-    FName FindChoiceIDByName(const UDataTable *FeatureDataTable, FName FeatureFC_ID, FName ChoiceName);
+    FName FindChoiceIDByName(const UDataTable *FeatureDataTable, FName FeatureID, FName ChoiceName);
 
     /**
      * Busca o Name de uma escolha a partir do ID em uma feature específica.
      * Helper puro e testável, sem side effects.
      *
      * @param FeatureDataTable Data Table de features
-     * @param FeatureFC_ID FC_ID da feature que contém a escolha
+     * @param FeatureID ID da feature que contém a escolha
      * @param ChoiceID ID da escolha a buscar
      * @return Name da escolha se encontrado, NAME_None caso contrário
      */
-    FName FindChoiceNameByID(const UDataTable *FeatureDataTable, FName FeatureFC_ID, FName ChoiceID);
+    FName FindChoiceNameByID(const UDataTable *FeatureDataTable, FName FeatureID, FName ChoiceID);
 
     /**
-     * Retorna array de IDs de escolhas disponíveis filtrados por FC_ID de feature específica.
+     * Retorna array de IDs de escolhas disponíveis filtrados por ID de feature específica.
      * Usado para dropdown que armazena ID (referência da máquina).
      *
      * @param FeatureDataTable Data Table de features
-     * @param FeatureFC_ID FC_ID da feature para filtrar escolhas
+     * @param FeatureID ID da feature para filtrar escolhas
      * @return Array com IDs de escolhas apenas da feature especificada
      */
-    TArray<FName> GetAvailableChoiceIDsForFeature(const UDataTable *FeatureDataTable, FName FeatureFC_ID);
+    TArray<FName> GetAvailableChoiceIDsForFeature(const UDataTable *FeatureDataTable, FName FeatureID);
 
     /**
-     * Retorna array de Names de escolhas disponíveis filtrados por FC_ID de feature específica.
+     * Retorna array de Names de escolhas disponíveis filtrados por ID de feature específica.
      * Usado para exibição na UI (propriedades calculadas).
      *
      * @param FeatureDataTable Data Table de features
-     * @param FeatureFC_ID FC_ID da feature para filtrar escolhas
+     * @param FeatureID ID da feature para filtrar escolhas
      * @return Array com Names de escolhas apenas da feature especificada
      */
-    TArray<FName> GetAvailableChoiceNamesForFeature(const UDataTable *FeatureDataTable, FName FeatureFC_ID);
+    TArray<FName> GetAvailableChoiceNamesForFeature(const UDataTable *FeatureDataTable, FName FeatureID);
 
     /**
      * Converte array de IDs para array de Names.
      * Helper puro e testável, sem side effects.
      *
      * @param FeatureDataTable Data Table de features
-     * @param FeatureFC_ID FC_ID da feature que contém as escolhas
+     * @param FeatureID ID da feature que contém as escolhas
      * @param ChoiceIDs Array de IDs a converter
      * @return Array de Names correspondentes aos IDs
      */
-    TArray<FName> ConvertChoiceIDsToNames(const UDataTable *FeatureDataTable, FName FeatureFC_ID,
+    TArray<FName> ConvertChoiceIDsToNames(const UDataTable *FeatureDataTable, FName FeatureID,
                                          const TArray<FName> &ChoiceIDs);
 
     /**
@@ -83,11 +83,11 @@ namespace FeatureChoiceHelpers
      * Helper puro e testável, sem side effects.
      *
      * @param FeatureDataTable Data Table de features
-     * @param FeatureFC_ID FC_ID da feature que contém as escolhas
+     * @param FeatureID ID da feature que contém as escolhas
      * @param ChoiceNames Array de Names a converter
      * @return Array de IDs correspondentes aos Names
      */
-    TArray<FName> ConvertChoiceNamesToIDs(const UDataTable *FeatureDataTable, FName FeatureFC_ID,
+    TArray<FName> ConvertChoiceNamesToIDs(const UDataTable *FeatureDataTable, FName FeatureID,
                                          const TArray<FName> &ChoiceNames);
 
     /**

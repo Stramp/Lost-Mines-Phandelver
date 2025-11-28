@@ -35,7 +35,7 @@ void CharacterSheetHelpersSpec::Define()
             // Arrange: Criar feat de teste
             TestFeatRow = new FFeatDataRow();
             TestFeatRow->Name = TEXT("Test Feat");
-            TestFeatRow->FC_ID = TEXT("Feat_Test");
+            TestFeatRow->ID = TEXT("Feat_Test");
 
             // Criar ability scores de teste
             TestAbilityScores.Empty();
@@ -573,13 +573,13 @@ void CharacterSheetHelpersSpec::Define()
                         // Adicionar 2 skills de teste
                         FProficiencyDataRow *Skill1 = new FProficiencyDataRow();
                         Skill1->Name = TEXT("Acrobatics");
-                        Skill1->ProficiencyID = TEXT("PSK_Acrobatics");
+                        Skill1->ID = TEXT("PSK_Acrobatics");
                         Skill1->Type = TEXT("Skill");
                         TestProficiencyDataTable->AddRow(TEXT("PSK_Acrobatics"), *Skill1);
 
                         FProficiencyDataRow *Skill2 = new FProficiencyDataRow();
                         Skill2->Name = TEXT("Athletics");
-                        Skill2->ProficiencyID = TEXT("PSK_Athletics");
+                        Skill2->ID = TEXT("PSK_Athletics");
                         Skill2->Type = TEXT("Skill");
                         TestProficiencyDataTable->AddRow(TEXT("PSK_Athletics"), *Skill2);
 
@@ -633,13 +633,13 @@ void CharacterSheetHelpersSpec::Define()
                    // Adicionar 2 languages de teste
                    FProficiencyDataRow *Lang1 = new FProficiencyDataRow();
                    Lang1->Name = TEXT("Common");
-                   Lang1->ProficiencyID = TEXT("PL_Common");
+                   Lang1->ID = TEXT("PL_Common");
                    Lang1->Type = TEXT("Language");
                    TestProficiencyDataTable->AddRow(TEXT("PL_Common"), *Lang1);
 
                    FProficiencyDataRow *Lang2 = new FProficiencyDataRow();
                    Lang2->Name = TEXT("Elvish");
-                   Lang2->ProficiencyID = TEXT("PL_Elvish");
+                   Lang2->ID = TEXT("PL_Elvish");
                    Lang2->Type = TEXT("Language");
                    TestProficiencyDataTable->AddRow(TEXT("PL_Elvish"), *Lang2);
 

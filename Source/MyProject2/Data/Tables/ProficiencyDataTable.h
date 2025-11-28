@@ -9,6 +9,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "GameplayTagContainer.h"
 #include "ProficiencyDataTable.generated.h"
 
 #pragma endregion Includes
@@ -37,13 +38,13 @@ struct MYPROJECT2_API FProficiencyDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** Nome da proficiência (ex: "Simple Weapons", "Thieves' Tools", "Acrobatics") */
+    /** Nome da proficiência (ex: "Simple Weapons", "Thieves' Tools", "Acrobatics") - Key Field */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiency")
     FName Name;
 
     /** ID único da proficiência (ex: "PW_Simple_Weapons", "PT_Thieves_Tools", "PSK_Acrobatics") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiency")
-    FName ProficiencyID;
+    FName ID;
 
     /**
      * Tipo da proficiência.
@@ -55,6 +56,10 @@ struct MYPROJECT2_API FProficiencyDataRow : public FTableRowBase
     /** Descrição textual da proficiência (localizável, para exibição na UI) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiency")
     FText Description;
+
+    /** Gameplay Tags para categorização (ex: Proficiency.Weapon, Proficiency.Armor.Light) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiency")
+    FGameplayTagContainer TypeTags;
 
     /**
      * Dados estruturados opcionais da proficiência.
@@ -74,17 +79,17 @@ struct MYPROJECT2_API FProficiencyDataRow : public FTableRowBase
 
     FProficiencyDataRow()
         : Name(NAME_None)
-        , ProficiencyID(NAME_None)
+        , ID(NAME_None)
         , Type(NAME_None)
         , Description(FText::GetEmpty())
         , ProficiencyData()  // Inicializa vazio (backward compatible)
     {
     }
 
-    FProficiencyDataRow(const FName& InName, const FName& InProficiencyID, const FName& InType,
+    FProficiencyDataRow(const FName& InName, const FName& InID, const FName& InType,
                         const FText& InDescription)
         : Name(InName)
-        , ProficiencyID(InProficiencyID)
+        , ID(InID)
         , Type(InType)
         , Description(InDescription)
         , ProficiencyData()  // Inicializa vazio (backward compatible)

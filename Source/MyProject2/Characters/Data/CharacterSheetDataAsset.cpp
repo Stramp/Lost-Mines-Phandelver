@@ -202,14 +202,14 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceNames() const
     return FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(ClassFeaturesDataTable);
 }
 
-TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceIDsForFeature(FName FeatureFC_ID) const
+TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceIDsForFeature(FName FeatureID) const
 {
-    return FCharacterSheetDataAssetGetOptions::GetAvailableChoiceIDsForFeature(ClassFeaturesDataTable, FeatureFC_ID);
+    return FCharacterSheetDataAssetGetOptions::GetAvailableChoiceIDsForFeature(ClassFeaturesDataTable, FeatureID);
 }
 
-TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceNamesForFeature(FName FeatureFC_ID) const
+TArray<FName> UCharacterSheetDataAsset::GetAvailableChoiceNamesForFeature(FName FeatureID) const
 {
-    return FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNamesForFeature(ClassFeaturesDataTable, FeatureFC_ID);
+    return FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNamesForFeature(ClassFeaturesDataTable, FeatureID);
 }
 
 TArray<FName> UCharacterSheetDataAsset::GetListClassAvaible() const

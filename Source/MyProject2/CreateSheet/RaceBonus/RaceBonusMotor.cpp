@@ -48,8 +48,16 @@ void FRaceBonusMotor::ApplyRacialBonuses(FCharacterSheetData &Data)
         FRaceDataRow *SubraceRow = nullptr;
         if (RaceRow && Data.SelectedSubrace != NAME_None)
         {
-            // Validar se a sub-raça pertence à raça selecionada
-            bool bSubraceValid = RaceRow->SubraceNames.Contains(Data.SelectedSubrace);
+            // Validar se a sub-raça pertence à raça selecionada (agora via SubraceHandles)
+            bool bSubraceValid = false;
+            for (const FDataTableRowHandle &SubraceHandle : RaceRow->SubraceHandles)
+            {
+                if (SubraceHandle.RowName == Data.SelectedSubrace)
+                {
+                    bSubraceValid = true;
+                    break;
+                }
+            }
 
             if (!bSubraceValid)
             {

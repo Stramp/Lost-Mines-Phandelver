@@ -16,12 +16,14 @@
 #include "Data/Tables/ClassDataTable.h"
 #include "Data/Tables/ProficiencyDataTable.h"
 #include "Data/Tables/FeatureDataTable.h"
+#include "Data/Tables/SkillDataTable.h"
 
 // Project includes - Logging
 #include "Logging/LoggingSystem.h"
 
 // Project includes - Utils
 #include "Utils/DataTableHelpers.h"
+#include "Utils/DataTableRowHandleHelpers.h"
 #include "Utils/DnDConstants.h"
 
 // Engine includes
@@ -187,15 +189,37 @@ FMulticlassProficienciesEntry FMulticlassHelpers::ConvertProficienciesEntry(cons
     // Resolve IDs de armaduras para nomes legíveis
     Result.armaduras = FMulticlassHelpers::ResolveProficiencyIDsToNames(SourceEntry.armaduras, ProficiencyDataTable);
 
-    // Saving throws não precisam resolução (já são nomes de atributos)
-    Result.savingThrows = SourceEntry.savingThrows;
+    // Saving throws agora são IDs (ex: "ABL_Strength", "ABL_Constitution")
+    Result.SavingThrowIDs = SourceEntry.SavingThrowIDs;
 
-    // Skills: popula InitialAvailable com lista original, reseta available (dropdown) e Selected (array)
-    Result.FSkills.InitialAvailable = SourceEntry.FSkills.available; // Array original de skills disponíveis
+    // Skills: converte FDataTableRowHandle (master data) para FName SkillID (runtime instance)
+    // SourceEntry.FSkills.AvailableSkillHandles é TArray<FDataTableRowHandle>
+    // Result.FSkills.InitialAvailable é TArray<FName> (SkillID)
+    Result.FSkills.InitialAvailable.Empty();
+    Result.FSkills.InitialAvailable.Reserve(SourceEntry.FSkills.AvailableSkillHandles.Num());
+
+    // Resolve cada handle para obter SkillID
+    for (const FDataTableRowHandle &SkillHandle : SourceEntry.FSkills.AvailableSkillHandles)
+    {
+        // Resolve handle para obter SkillID da FSkillDataRow
+        if (const FSkillDataRow *SkillRow = DataTableRowHandleHelpers::ResolveHandle<FSkillDataRow>(SkillHandle))
+        {
+            if (SkillRow->SkillID != NAME_None)
+            {
+                Result.FSkills.InitialAvailable.Add(SkillRow->SkillID);
+            }
+        }
+        else if (SkillHandle.RowName != NAME_None)
+        {
+            // Fallback: usa RowName se resolução falhar (assumindo que RowName = SkillID)
+            Result.FSkills.InitialAvailable.Add(SkillHandle.RowName);
+        }
+    }
+
     Result.FSkills.available = NAME_None;                            // Dropdown inicia vazio
     Result.FSkills.Selected.Empty();                                 // Array de escolhas inicia vazio
-    Result.FSkills.qtdAvailable = SourceEntry.FSkills.qtdAvailable;  // Quantidade inicial disponível
-    Result.FSkills.InitialQtdAvailable = SourceEntry.FSkills.qtdAvailable;
+    Result.FSkills.qtdAvailable = SourceEntry.FSkills.Count;        // Quantidade inicial disponível
+    Result.FSkills.InitialQtdAvailable = SourceEntry.FSkills.Count;
 
     return Result;
 }
@@ -320,7 +344,7 @@ FMulticlassClassFeature FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature
 
     // Copia dados básicos
     Result.Name = FeatureRow.Name;
-    Result.FC_ID = FeatureRow.FC_ID;
+    Result.ID = FeatureRow.ID;
     Result.Description = FeatureRow.Description;
     Result.LevelUnlocked = LevelUnlocked; // Usa o nível passado como parâmetro
     Result.FeatureType = FeatureRow.FeatureType;

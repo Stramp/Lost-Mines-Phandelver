@@ -21,7 +21,7 @@ class UDataTable;
 // ============================================================================
 
 /**
- * Struct principal para dados de classe em multiclasse seguindo a estrutura do DJ_Class.json.
+ * Struct principal para dados de classe em multiclasse seguindo a estrutura do ClassDataTable.json.
  * Contém todas as informações de uma classe D&D 5e.
  */
 USTRUCT(BlueprintType)
@@ -231,25 +231,25 @@ public:
     TArray<FName> GetAvailableChoiceNames() const;
 
     /**
-     * Retorna os IDs das escolhas disponíveis filtrados por FC_ID de feature específica.
+     * Retorna os IDs das escolhas disponíveis filtrados por ID de feature específica.
      * IDs são usados para referência da máquina (armazenados em AvailableChoices/SelectedChoices).
      * Usado para dropdown filtrado em FMulticlassClassFeature.AvailableChoices.
      *
-     * @param FeatureFC_ID FC_ID da feature para filtrar escolhas (ex: "FC_FightingStyle")
+     * @param FeatureID ID da feature para filtrar escolhas (ex: "FC_FightingStyle")
      * @return Array com IDs de escolhas apenas da feature especificada
      */
     UFUNCTION(CallInEditor)
-    TArray<FName> GetAvailableChoiceIDsForFeature(FName FeatureFC_ID) const;
+    TArray<FName> GetAvailableChoiceIDsForFeature(FName FeatureID) const;
 
     /**
-     * Retorna os nomes das escolhas disponíveis filtrados por FC_ID de feature específica.
+     * Retorna os nomes das escolhas disponíveis filtrados por ID de feature específica.
      * Names são usados para exibição na UI (propriedades calculadas).
      *
-     * @param FeatureFC_ID FC_ID da feature para filtrar escolhas (ex: "FC_FightingStyle")
+     * @param FeatureID ID da feature para filtrar escolhas (ex: "FC_FightingStyle")
      * @return Array com nomes de escolhas apenas da feature especificada
      */
     UFUNCTION(CallInEditor)
-    TArray<FName> GetAvailableChoiceNamesForFeature(FName FeatureFC_ID) const;
+    TArray<FName> GetAvailableChoiceNamesForFeature(FName FeatureID) const;
 
     /** Retorna todas as classes disponíveis com verificação de requisitos de atributo */
     UFUNCTION(CallInEditor)
@@ -283,6 +283,14 @@ public:
     /** Referência ao Data Table de proficiências (Skills, Languages, Tools, Weapons, Armor, etc.) */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
     UDataTable *ProficiencyDataTable = nullptr;
+
+    /** Referência ao Data Table de traits (racial traits, class features, etc.) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
+    UDataTable *TraitDataTable = nullptr;
+
+    /** Referência ao Data Table de idiomas */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
+    UDataTable *LanguageDataTable = nullptr;
 
     // ============================================================================
     // Basic Info

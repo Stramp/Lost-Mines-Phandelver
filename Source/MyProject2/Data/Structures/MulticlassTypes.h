@@ -58,8 +58,8 @@ struct MYPROJECT2_API FMulticlassSkills
 #pragma region Multiclass Proficiencies Struct
 
 /**
- * Struct para armazenar proficiências de classe em multiclasse seguindo a estrutura do DJ_Class.json.
- * Cada elemento do array contém um objeto com armas, armaduras, savingThrows ou FMulticlassSkills.
+ * Struct para armazenar proficiências de classe em multiclasse seguindo a estrutura do ClassDataTable.json.
+ * Cada elemento do array contém um objeto com armas, armaduras, SavingThrowIDs ou FMulticlassSkills.
  */
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FMulticlassProficienciesEntry
@@ -74,9 +74,9 @@ struct MYPROJECT2_API FMulticlassProficienciesEntry
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Proficiencies")
     TArray<FName> armaduras;
 
-    /** Lista de saving throws (pode estar vazia) - Readonly: preenchido automaticamente pelo motor */
+    /** Lista de IDs de saving throws (pode estar vazia) - Readonly: preenchido automaticamente pelo motor - ex: "ABL_Strength", "ABL_Constitution" */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Proficiencies")
-    TArray<FName> savingThrows;
+    TArray<FName> SavingThrowIDs;
 
     /** Informações de skills (pode estar vazia) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Proficiencies")
@@ -121,7 +121,7 @@ struct MYPROJECT2_API FMulticlassClassFeatureChoice
 
 /**
  * Struct para armazenar uma feature de classe em multiclasse.
- * Segue a estrutura do DJ_FeaturesClass.json.
+ * Segue a estrutura do FeatureDataTable.json.
  */
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FMulticlassClassFeature
@@ -135,7 +135,7 @@ struct MYPROJECT2_API FMulticlassClassFeature
     /** ID único da feature (ex: "FC_SecondWind", "FC_FightingStyle") */
     UPROPERTY(BlueprintReadOnly, Category = "Feature",
               meta = (EditCondition = "bHasAvailableChoices", EditConditionHides))
-    FName FC_ID;
+    FName ID;
 
     /** Descrição da feature */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Feature")
@@ -176,7 +176,7 @@ struct MYPROJECT2_API FMulticlassClassFeature
 
     /**
      * Dropdown para adicionar escolhas ao array SelectedChoices (Tipo 3: Escolhas Múltiplas).
-     * Lista escolhas disponíveis filtradas por FC_ID.
+     * Lista escolhas disponíveis filtradas por ID.
      * Usado para features que permitem escolher múltiplas opções (ex: Manobras, Metamagic).
      *
      * Comportamento:
@@ -186,7 +186,7 @@ struct MYPROJECT2_API FMulticlassClassFeature
      * Visível apenas quando bHasAvailableChoices é true E bIsMultipleChoice é true (Tipo 3).
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feature",
-              meta = (GetOptions = "GetAvailableChoiceIDsForFeature", GetOptionsFunctionParams = "FC_ID",
+              meta = (GetOptions = "GetAvailableChoiceIDsForFeature", GetOptionsFunctionParams = "ID",
                       EditCondition = "bHasAvailableChoices && bIsMultipleChoice", EditConditionHides))
     FName AvailableChoiceToAdd; // Armazena ID (referência da máquina)
 

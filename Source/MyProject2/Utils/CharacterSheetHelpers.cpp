@@ -2,7 +2,10 @@
 
 #include "CharacterSheetHelpers.h"
 #include "DataTableHelpers.h"
+#include "Utils/DataTableRowHandleHelpers.h"
 #include "Data/Tables/RaceDataTable.h"
+#include "Data/Tables/TraitDataTable.h"
+#include "Data/Tables/LanguageDataTable.h"
 #include "Data/Tables/ClassDataTable.h"
 #include "Data/Tables/BackgroundDataTable.h"
 #include "Data/Tables/FeatDataTable.h"
@@ -31,19 +34,19 @@ TArray<FName> CharacterSheetHelpers::GetAllRaceNames(UDataTable *RaceDataTable)
     {
         if (FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("GetAllRaceNames")))
         {
-            // Coleta todos os nomes de sub-raças
-            for (const FName &SubraceName : Row->SubraceNames)
+            // Coleta todos os nomes de sub-raças (agora via SubraceHandles)
+            for (const FDataTableRowHandle &SubraceHandle : Row->SubraceHandles)
             {
-                if (SubraceName != NAME_None)
+                if (SubraceHandle.RowName != NAME_None)
                 {
-                    AllSubraceNamesSet.Add(SubraceName);
+                    AllSubraceNamesSet.Add(SubraceHandle.RowName);
                 }
             }
 
             // Coleta raça base (será filtrada depois se for sub-raça)
-            if (Row->RaceName != NAME_None)
+            if (Row->Name != NAME_None)
             {
-                RaceNamesSet.Add(Row->RaceName);
+                RaceNamesSet.Add(Row->Name);
             }
         }
     }
@@ -68,7 +71,16 @@ TArray<FName> CharacterSheetHelpers::GetAvailableSubraces(FName RaceName, UDataT
     // Usa DataTableHelpers para buscar row de raça (otimização: remove loop O(n²))
     if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(RaceName, RaceDataTable))
     {
-        return RaceRow->SubraceNames;
+        // Converte SubraceHandles para TArray<FName>
+        TArray<FName> SubraceNames;
+        for (const FDataTableRowHandle &SubraceHandle : RaceRow->SubraceHandles)
+        {
+            if (SubraceHandle.RowName != NAME_None)
+            {
+                SubraceNames.Add(SubraceHandle.RowName);
+            }
+        }
+        return SubraceNames;
     }
 
     return TArray<FName>();
@@ -135,9 +147,9 @@ TArray<FName> CharacterSheetHelpers::GetAllBackgroundNames(UDataTable *Backgroun
         if (FBackgroundDataRow *Row =
                 BackgroundDataTable->FindRow<FBackgroundDataRow>(RowName, TEXT("GetAllBackgroundNames")))
         {
-            if (Row->BackgroundName != NAME_None)
+            if (Row->Name != NAME_None)
             {
-                BackgroundNamesSet.Add(Row->BackgroundName);
+                BackgroundNamesSet.Add(Row->Name);
             }
         }
     }
@@ -260,7 +272,7 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeats(int32 TotalLevel, const T
         if (FFeatDataRow *Row = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("GetAvailableFeats")))
         {
             // Usa FC_ID como identificador principal, fallback para Name
-            FName FeatIdentifier = Row->FC_ID != NAME_None ? Row->FC_ID : Row->Name;
+            FName FeatIdentifier = Row->ID != NAME_None ? Row->ID : Row->Name;
             if (FeatIdentifier == NAME_None)
             {
                 continue;
@@ -373,22 +385,29 @@ bool CharacterSheetHelpers::HasLanguageChoiceFromRace(FName RaceName, FName Subr
     }
 
     // Verifica sub-raça primeiro (tem prioridade sobre raça base)
+    // Agora usa TraitHandles que apontam para TraitDataTable
     if (SubraceName != NAME_None)
     {
         if (FRaceDataRow *SubraceRow = DataTableHelpers::FindSubraceRow(SubraceName, RaceDataTable))
         {
-            for (const FRaceTrait &Trait : SubraceRow->Traits)
+            for (const FDataTableRowHandle &TraitHandle : SubraceRow->TraitHandles)
             {
-                if (Trait.TraitName == TEXT("Extra Language"))
+                // Resolve handle para obter dados do trait
+                if (const FTraitDataRow *TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
                 {
-                    if (const FString *TypePtr = Trait.TraitData.Find(TEXT("Type")))
+                    // Verifica se é "Extra Language" pelo TraitID ou TraitName
+                    if (TraitRow->TraitID == TEXT("TR_ExtraLanguage") ||
+                        TraitRow->TraitName.ToString() == TEXT("Extra Language"))
                     {
-                        if (*TypePtr == TEXT("Language"))
+                        if (const FString *TypePtr = TraitRow->TraitData.Find(TEXT("Type")))
                         {
-                            if (const FString *CountPtr = Trait.TraitData.Find(TEXT("Count")))
+                            if (*TypePtr == TEXT("Language"))
                             {
-                                OutCount = FCString::Atoi(**CountPtr);
-                                return OutCount > 0;
+                                if (const FString *CountPtr = TraitRow->TraitData.Find(TEXT("Count")))
+                                {
+                                    OutCount = FCString::Atoi(**CountPtr);
+                                    return OutCount > 0;
+                                }
                             }
                         }
                     }
@@ -402,18 +421,24 @@ bool CharacterSheetHelpers::HasLanguageChoiceFromRace(FName RaceName, FName Subr
     {
         if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(RaceName, RaceDataTable))
         {
-            for (const FRaceTrait &Trait : RaceRow->Traits)
+            for (const FDataTableRowHandle &TraitHandle : RaceRow->TraitHandles)
             {
-                if (Trait.TraitName == TEXT("Extra Language"))
+                // Resolve handle para obter dados do trait
+                if (const FTraitDataRow *TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
                 {
-                    if (const FString *TypePtr = Trait.TraitData.Find(TEXT("Type")))
+                    // Verifica se é "Extra Language" pelo TraitID ou TraitName
+                    if (TraitRow->TraitID == TEXT("TR_ExtraLanguage") ||
+                        TraitRow->TraitName.ToString() == TEXT("Extra Language"))
                     {
-                        if (*TypePtr == TEXT("Language"))
+                        if (const FString *TypePtr = TraitRow->TraitData.Find(TEXT("Type")))
                         {
-                            if (const FString *CountPtr = Trait.TraitData.Find(TEXT("Count")))
+                            if (*TypePtr == TEXT("Language"))
                             {
-                                OutCount = FCString::Atoi(**CountPtr);
-                                return OutCount > 0;
+                                if (const FString *CountPtr = TraitRow->TraitData.Find(TEXT("Count")))
+                                {
+                                    OutCount = FCString::Atoi(**CountPtr);
+                                    return OutCount > 0;
+                                }
                             }
                         }
                     }
@@ -454,11 +479,20 @@ TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName
     {
         if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(RaceName, RaceDataTable))
         {
-            for (const FName &Language : RaceRow->Languages)
+            // Resolve LanguageHandles para obter LanguageID
+            for (const FDataTableRowHandle &LanguageHandle : RaceRow->LanguageHandles)
             {
-                if (Language != NAME_None)
+                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
-                    AutomaticLanguagesSet.Add(Language);
+                    if (LanguageRow->LanguageID != NAME_None)
+                    {
+                        AutomaticLanguagesSet.Add(LanguageRow->LanguageID);
+                    }
+                }
+                else if (LanguageHandle.RowName != NAME_None)
+                {
+                    // Fallback: usa RowName se resolução falhar
+                    AutomaticLanguagesSet.Add(LanguageHandle.RowName);
                 }
             }
         }
@@ -469,11 +503,20 @@ TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName
     {
         if (FRaceDataRow *SubraceRow = DataTableHelpers::FindSubraceRow(SubraceName, RaceDataTable))
         {
-            for (const FName &Language : SubraceRow->Languages)
+            // Resolve LanguageHandles para obter LanguageID
+            for (const FDataTableRowHandle &LanguageHandle : SubraceRow->LanguageHandles)
             {
-                if (Language != NAME_None)
+                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
-                    AutomaticLanguagesSet.Add(Language);
+                    if (LanguageRow->LanguageID != NAME_None)
+                    {
+                        AutomaticLanguagesSet.Add(LanguageRow->LanguageID);
+                    }
+                }
+                else if (LanguageHandle.RowName != NAME_None)
+                {
+                    // Fallback: usa RowName se resolução falhar
+                    AutomaticLanguagesSet.Add(LanguageHandle.RowName);
                 }
             }
         }
@@ -485,11 +528,20 @@ TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName
         if (FBackgroundDataRow *BackgroundRow =
                 DataTableHelpers::FindBackgroundRow(BackgroundName, BackgroundDataTable))
         {
-            for (const FName &Language : BackgroundRow->Languages)
+            // Resolve LanguageHandles para obter LanguageID
+            for (const FDataTableRowHandle &LanguageHandle : BackgroundRow->LanguageHandles)
             {
-                if (Language != NAME_None)
+                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
-                    AutomaticLanguagesSet.Add(Language);
+                    if (LanguageRow->LanguageID != NAME_None)
+                    {
+                        AutomaticLanguagesSet.Add(LanguageRow->LanguageID);
+                    }
+                }
+                else if (LanguageHandle.RowName != NAME_None)
+                {
+                    // Fallback: usa RowName se resolução falhar
+                    AutomaticLanguagesSet.Add(LanguageHandle.RowName);
                 }
             }
         }

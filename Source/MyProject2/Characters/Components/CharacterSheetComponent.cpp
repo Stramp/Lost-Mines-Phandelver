@@ -5,6 +5,8 @@
 #include "CharacterDataComponent.h"
 #include "Utils/ComponentHelpers.h"
 #include "Utils/DataTableHelpers.h"
+#include "Utils/DataTableRowHandleHelpers.h"
+#include "Data/Tables/TraitDataTable.h"
 #include "Utils/CharacterSheetHelpers.h"
 #include "Data/Tables/RaceDataTable.h"
 #include "Logging/LoggingSystem.h"
@@ -92,6 +94,7 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     // Não são mais armazenados no Data Asset
 
     // Busca e copia traits da raça (raça base + sub-raça se houver)
+    // Agora usa TraitHandles que apontam para TraitDataTable
     CharacterDataComponent->RaceTraits.Empty();
     if (DataAsset->RaceDataTable && DataAsset->SelectedRace != NAME_None)
     {
@@ -101,11 +104,15 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
         // Busca traits da raça base
         if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(DataAsset->SelectedRace, DataAsset->RaceDataTable))
         {
-            for (const FRaceTrait &Trait : RaceRow->Traits)
+            for (const FDataTableRowHandle &TraitHandle : RaceRow->TraitHandles)
             {
-                if (Trait.TraitName != NAME_None && !TraitsSet.Contains(Trait.TraitName))
+                // Resolve handle para obter TraitID
+                if (const FTraitDataRow *TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
                 {
-                    TraitsSet.Add(Trait.TraitName);
+                    if (TraitRow->TraitID != NAME_None && !TraitsSet.Contains(TraitRow->TraitID))
+                    {
+                        TraitsSet.Add(TraitRow->TraitID);
+                    }
                 }
             }
         }
@@ -116,11 +123,15 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
             if (FRaceDataRow *SubraceRow =
                     DataTableHelpers::FindSubraceRow(DataAsset->SelectedSubrace, DataAsset->RaceDataTable))
             {
-                for (const FRaceTrait &Trait : SubraceRow->Traits)
+                for (const FDataTableRowHandle &TraitHandle : SubraceRow->TraitHandles)
                 {
-                    if (Trait.TraitName != NAME_None && !TraitsSet.Contains(Trait.TraitName))
+                    // Resolve handle para obter TraitID
+                    if (const FTraitDataRow *TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
                     {
-                        TraitsSet.Add(Trait.TraitName);
+                        if (TraitRow->TraitID != NAME_None && !TraitsSet.Contains(TraitRow->TraitID))
+                        {
+                            TraitsSet.Add(TraitRow->TraitID);
+                        }
                     }
                 }
             }
