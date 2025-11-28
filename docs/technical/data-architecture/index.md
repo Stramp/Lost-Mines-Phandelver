@@ -44,6 +44,22 @@
 
 </details>
 
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🗄️ Arquitetura de Banco de Dados</b></summary>
+
+> **[database-architecture.md](database-architecture.md)** - Documentação completa da arquitetura de banco de dados implementada:
+>
+> - Padrão "ID + Tags + Payload"
+> - FDataTableRowHandle: Referências type-safe
+> - Gameplay Tags: Categorização flexível
+> - Soft References: Lazy loading
+> - Estrutura de Data Tables (Master Data e Principais)
+> - Scripts de migração
+> - Helpers e utilitários
+> - Checklist de implementação
+
+</details>
+
 ---
 
 ## 🎯 Navegação

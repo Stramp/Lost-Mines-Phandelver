@@ -13,6 +13,7 @@
 > - ✅ **Multiplayer-Ready:** Preparado para replicação desde o início
 > - ✅ **Clean Code:** Seguindo princípios de código limpo e design patterns
 > - ✅ **Data-Oriented Design:** Separação Static/Dynamic, estrutura "flat", padrão "ID + Tags + Payload"
+> - ✅ **Banco de Dados Normalizado:** FDataTableRowHandle, Gameplay Tags, Soft References
 
 </details>
 
