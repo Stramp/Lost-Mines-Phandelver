@@ -45,9 +45,8 @@ FPointBuyValidationResult FPointBuyValidator::ValidatePointBuy(int32 PointBuyStr
     FString LogMessage;
     if (!bAllScoresValid)
     {
-        LogMessage =
-            FString::Printf(TEXT("CharacterSheetDataAsset: Alguns ability scores estão fora do range válido [%d, %d]"),
-                            DnDConstants::MIN_POINT_BUY_SCORE, DnDConstants::MAX_POINT_BUY_SCORE);
+        LogMessage = FString::Printf(TEXT("PointBuy: Alguns ability scores estão fora do range válido [%d, %d]"),
+                                     DnDConstants::MIN_POINT_BUY_SCORE, DnDConstants::MAX_POINT_BUY_SCORE);
     }
 
     // Se PointsRemaining != 0 ou scores inválidos, a alocação está incorreta

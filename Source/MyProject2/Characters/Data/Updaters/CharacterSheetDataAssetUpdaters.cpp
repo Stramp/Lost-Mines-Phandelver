@@ -238,8 +238,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateSheetVisibility(UCharacterSheetData
     // FeatDataTable, ClassFeaturesDataTable, ProficiencyDataTable
     bool bAllDataTablesSelected = Asset->RaceDataTable != nullptr && Asset->BackgroundDataTable != nullptr &&
                                   Asset->ClassDataTable != nullptr && Asset->FeatDataTable != nullptr &&
-                                  Asset->ClassFeaturesDataTable != nullptr &&
-                                  Asset->ProficiencyDataTable != nullptr;
+                                  Asset->ClassFeaturesDataTable != nullptr && Asset->ProficiencyDataTable != nullptr;
 
     // bCanShowSheet = false significa mostrar todas as categorias
     // bCanShowSheet = true significa mostrar apenas Data Tables
@@ -297,10 +296,10 @@ void FCharacterSheetDataAssetUpdaters::RecalculateFinalScores(UCharacterSheetDat
     Asset->PointsRemaining = PointBuyResult.PointsRemaining;
 
     // Se houve ajuste automático, atualiza alocação e loga aviso (não crítico - sistema ajusta automaticamente)
-    if (PointBuyResult.bWasAdjusted)
+    if (PointBuyResult.bWasAutoAdjusted)
     {
         Asset->Modify();
-        FCharacterSheetDataAssetHelpers::UpdatePointBuyFromAdjustedAllocation(Asset, PointBuyResult.AdjustedAllocation);
+        FCharacterSheetDataAssetHelpers::UpdatePointBuyFromFinalAllocation(Asset, PointBuyResult.FinalAllocation);
         FLogContext Context(TEXT("CharacterSheet"), TEXT("RecalculateFinalScores"));
         FLoggingSystem::LogWarning(Context, PointBuyResult.FeedbackMessage, false);
     }
@@ -458,9 +457,8 @@ void FCharacterSheetDataAssetUpdaters::UpdateFeatureChoiceDisplayNames(UCharacte
                 // Atualiza AvailableChoicesDisplayName (Tipo 2: Escolha Única)
                 if (Feature.bHasAvailableChoices && !Feature.bIsMultipleChoice && Feature.AvailableChoices != NAME_None)
                 {
-                    Feature.AvailableChoicesDisplayName =
-                        FeatureChoiceHelpers::FindChoiceNameByID(Asset->ClassFeaturesDataTable, Feature.ID,
-                                                                 Feature.AvailableChoices);
+                    Feature.AvailableChoicesDisplayName = FeatureChoiceHelpers::FindChoiceNameByID(
+                        Asset->ClassFeaturesDataTable, Feature.ID, Feature.AvailableChoices);
                 }
                 else
                 {
@@ -471,9 +469,8 @@ void FCharacterSheetDataAssetUpdaters::UpdateFeatureChoiceDisplayNames(UCharacte
                 if (Feature.bHasAvailableChoices && Feature.bIsMultipleChoice &&
                     Feature.AvailableChoiceToAdd != NAME_None)
                 {
-                    Feature.AvailableChoiceToAddDisplayName =
-                        FeatureChoiceHelpers::FindChoiceNameByID(Asset->ClassFeaturesDataTable, Feature.ID,
-                                                                 Feature.AvailableChoiceToAdd);
+                    Feature.AvailableChoiceToAddDisplayName = FeatureChoiceHelpers::FindChoiceNameByID(
+                        Asset->ClassFeaturesDataTable, Feature.ID, Feature.AvailableChoiceToAdd);
                 }
                 else
                 {
@@ -483,9 +480,8 @@ void FCharacterSheetDataAssetUpdaters::UpdateFeatureChoiceDisplayNames(UCharacte
                 // Atualiza SelectedChoicesDisplayNames (Tipo 3: Escolhas Múltiplas - array)
                 if (Feature.bHasAvailableChoices && Feature.bIsMultipleChoice && Feature.SelectedChoices.Num() > 0)
                 {
-                    Feature.SelectedChoicesDisplayNames =
-                        FeatureChoiceHelpers::ConvertChoiceIDsToNames(Asset->ClassFeaturesDataTable, Feature.ID,
-                                                                       Feature.SelectedChoices);
+                    Feature.SelectedChoicesDisplayNames = FeatureChoiceHelpers::ConvertChoiceIDsToNames(
+                        Asset->ClassFeaturesDataTable, Feature.ID, Feature.SelectedChoices);
                 }
                 else
                 {

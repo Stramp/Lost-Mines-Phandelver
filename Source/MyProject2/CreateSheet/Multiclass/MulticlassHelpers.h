@@ -54,7 +54,7 @@ public:
      * @return Array com nomes legíveis (ex: ["Simple Weapons"]) ou IDs originais se não encontrado
      */
     static TArray<FName> ResolveProficiencyHandlesToNames(const TArray<struct FDataTableRowHandle> &ProficiencyHandles,
-                                                           const UDataTable *ProficiencyDataTable);
+                                                          const UDataTable *ProficiencyDataTable);
 
     /**
      * Resolve array de IDs de proficiências para nomes legíveis (legado - mantido para compatibilidade).
@@ -155,8 +155,9 @@ public:
      * @param OutFeatures [OUT] Array de features convertidas
      * @return true se pelo menos uma feature foi carregada, false caso contrário
      */
-    static bool LoadFeaturesForLevel(const TArray<FDataTableRowHandle> &FeatureHandles, const UDataTable *FeatureDataTable,
-                                     int32 LevelUnlocked, TArray<FMulticlassClassFeature> &OutFeatures);
+    static bool LoadFeaturesForLevel(const TArray<FDataTableRowHandle> &FeatureHandles,
+                                     const UDataTable *FeatureDataTable, int32 LevelUnlocked,
+                                     TArray<FMulticlassClassFeature> &OutFeatures);
 
     /**
      * Busca e valida classe na tabela, logando erro se não encontrada.
@@ -205,4 +206,58 @@ public:
      * @param ClassDataTable Data Table de classes para buscar informações (pode ser nullptr)
      */
     static void LogLevelChangeFeatures(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable);
+
+    // ============================================================================
+    // Attribute Helpers (moved from MulticlassValidators for Clean Code compliance)
+    // ============================================================================
+
+    /**
+     * Informação sobre um atributo (índice no array e nome completo).
+     * Usado para mapear abreviações de atributos (ex: "STR") para índices e nomes completos.
+     */
+    struct FAttributeInfo
+    {
+        int32 Index;
+        FString FullName;
+    };
+
+    /**
+     * Número de atributos esperados (STR, DEX, CON, INT, WIS, CHA).
+     * Usa DnDConstants::NUM_ABILITY_SCORES para consistência.
+     */
+    static constexpr int32 NUM_ATTRIBUTES = 6; // DnDConstants::NUM_ABILITY_SCORES
+
+    /**
+     * Cria o mapa de atributos com suas abreviações e índices.
+     * Helper puro e reutilizável para criar mapa de atributos.
+     *
+     * @return Mapa de abreviação (ex: "STR") para FAttributeInfo
+     */
+    static TMap<FString, FAttributeInfo> CreateAttributeMap();
+
+    /**
+     * Parseia um requisito de atributo no formato "STR/13".
+     * Helper puro e reutilizável para parsing de strings de requisitos.
+     *
+     * @param RequirementString String no formato "ATTR/VALUE" (ex: "STR/13")
+     * @param OutAttribute Abreviação do atributo (ex: "STR")
+     * @param OutRequiredValue Valor requerido (ex: 13)
+     * @return true se o parse foi bem-sucedido, false caso contrário
+     */
+    static bool ParseAttributeRequirement(const FString &RequirementString, FString &OutAttribute,
+                                          int32 &OutRequiredValue);
+
+    /**
+     * Valida se um requisito OR é satisfeito pelos atributos do personagem.
+     * Um requisito OR tem formato "STR/13|DEX/13" (STR 13 OU DEX 13).
+     * Helper puro e reutilizável para validação de requisitos OR.
+     *
+     * @param OrRequirementString String com requisitos OR separados por "|"
+     * @param Attributes Array de atributos na ordem [STR, DEX, CON, INT, WIS, CHA]
+     * @param AttributeMap Mapa de abreviações para informações de atributos
+     * @param OutMissingTag Tag formatada com requisito faltante (ex: "[STR +2]")
+     * @return true se pelo menos um requisito do OR foi satisfeito, false caso contrário
+     */
+    static bool ValidateOrRequirement(const FString &OrRequirementString, const TArray<int32> &Attributes,
+                                      const TMap<FString, FAttributeInfo> &AttributeMap, FString &OutMissingTag);
 };

@@ -59,10 +59,10 @@ public:
      * Uses GetAbilityScoreNames() to ensure data-driven approach.
      *
      * @param Asset Character Sheet Data Asset to update
-     * @param AdjustedAllocation Map of ability score names to adjusted values
+     * @param FinalAllocation Map of ability score names to final allocation values
      */
-    static void UpdatePointBuyFromAdjustedAllocation(UCharacterSheetDataAsset *Asset,
-                                                     const TMap<FName, int32> &AdjustedAllocation);
+    static void UpdatePointBuyFromFinalAllocation(UCharacterSheetDataAsset *Asset,
+                                                  const TMap<FName, int32> &FinalAllocation);
 
     /**
      * Verifica se a propriedade é calculada (não deve disparar handlers).
@@ -249,8 +249,8 @@ public:
      * @param MaxChoices Limite máximo de escolhas (-1 = sem limite)
      * @return true se pode adicionar, false caso contrário
      */
-    static bool CanAddChoice(FName Choice, const TArray<FName> &ValidChoices,
-                             const TArray<FName> &SelectedChoices, int32 MaxChoices);
+    static bool CanAddChoice(FName Choice, const TArray<FName> &ValidChoices, const TArray<FName> &SelectedChoices,
+                             int32 MaxChoices);
 
     /**
      * Remove escolhas inválidas e duplicatas de SelectedChoices.

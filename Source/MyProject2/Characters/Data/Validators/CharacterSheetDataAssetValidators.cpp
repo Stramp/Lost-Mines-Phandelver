@@ -475,8 +475,8 @@ FCharacterSheetDataAssetValidators::ValidateMulticlassRequirementTags(const UCha
         }
 
         // Obtém valor atual do atributo
-        TMap<FString, FMulticlassValidators::FAttributeInfo> AttributeMap = FMulticlassValidators::CreateAttributeMap();
-        const FMulticlassValidators::FAttributeInfo *AttrInfo = AttributeMap.Find(AttributeAbbr);
+        TMap<FString, FMulticlassHelpers::FAttributeInfo> AttributeMap = FMulticlassHelpers::CreateAttributeMap();
+        const FMulticlassHelpers::FAttributeInfo *AttrInfo = AttributeMap.Find(AttributeAbbr);
 
         int32 RequiredValue = 0;
         if (AttrInfo && FinalAttributes.IsValidIndex(AttrInfo->Index))

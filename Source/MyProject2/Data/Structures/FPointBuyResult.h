@@ -23,11 +23,14 @@
  */
 struct MYPROJECT2_API FPointBuyResult
 {
-    /** Se o motor teve que ajustar a alocação (excedeu 27 pontos) */
-    bool bWasAdjusted = false;
+    /** Se o resultado é válido (sem erros críticos) */
+    bool bIsValid = true;
 
-    /** Alocação ajustada (pode ser diferente da original se foi ajustada) */
-    TMap<FName, int32> AdjustedAllocation;
+    /** Se o motor teve que ajustar a alocação automaticamente (excedeu MAX_POINT_BUY_POINTS) */
+    bool bWasAutoAdjusted = false;
+
+    /** Alocação final (pode ser diferente da original se foi ajustada) */
+    TMap<FName, int32> FinalAllocation;
 
     /** Pontos restantes após alocação (pode ser negativo se excedeu) */
     int32 PointsRemaining = 0;
@@ -36,11 +39,13 @@ struct MYPROJECT2_API FPointBuyResult
     FString FeedbackMessage;
 
     /** Construtor padrão */
-    FPointBuyResult() : bWasAdjusted(false), PointsRemaining(0) {}
+    FPointBuyResult() : bIsValid(true), bWasAutoAdjusted(false), PointsRemaining(0) {}
 
     /** Construtor com valores */
-    FPointBuyResult(bool bAdjusted, const TMap<FName, int32> &Allocation, int32 Remaining, const FString &Message)
-        : bWasAdjusted(bAdjusted), AdjustedAllocation(Allocation), PointsRemaining(Remaining), FeedbackMessage(Message)
+    FPointBuyResult(bool bValid, bool bAdjusted, const TMap<FName, int32> &Allocation, int32 Remaining,
+                    const FString &Message)
+        : bIsValid(bValid), bWasAutoAdjusted(bAdjusted), FinalAllocation(Allocation), PointsRemaining(Remaining),
+          FeedbackMessage(Message)
     {
     }
 };

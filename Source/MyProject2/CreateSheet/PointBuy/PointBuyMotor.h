@@ -16,9 +16,9 @@ struct FCharacterSheetData;
  * Genérico: recebe FCharacterSheetData (dados puros), não objetos concretos.
  *
  * Responsabilidades:
- * - Conhecer regras de Point Buy (máximo MAX_POINT_BUY_POINTS)
- * - Validar dados recebidos
- * - Ajustar automaticamente se exceder (reduzir do final da fila)
+ * - Aplicar alocação de Point Buy nos Final Scores
+ * - Usar PointBuyValidator para validação (separação de responsabilidades)
+ * - Usar PointBuyHelpers para ajuste automático (separação de responsabilidades)
  * - Retornar feedback para o caller ajustar a UI
  */
 class MYPROJECT2_API FPointBuyMotor

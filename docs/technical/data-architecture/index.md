@@ -60,6 +60,20 @@
 
 </details>
 
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔍 Revisão Estrutural</b></summary>
+
+> **[structural-review-report.md](../reviews/structural-review-report.md)** - Relatório completo de revisão estrutural:
+>
+> - Análise da estrutura atual (JSON, Data Tables, Documentação)
+> - Problemas identificados (críticos, médios, baixos)
+> - Sugestões de melhorias baseadas em referências AAA
+> - Referências e justificativas (JSON Best Practices, DOD, ECS, BG3)
+> - Plano de implementação priorizado (3 fases)
+> - Comparação com padrões da indústria
+
+</details>
+
 ---
 
 ## 🎯 Navegação
@@ -69,6 +83,7 @@
 
 > - **[Relatório de Arquiteturas de Alta Performance](high-performance-architectures-report.md)** - Pesquisa completa sobre sistemas de dados complexos
 > - **[Estrutura de Dados Ideal](ideal-data-structure-report.md)** - Análise e recomendações para o projeto
+> - **[Revisão Estrutural Completa](../reviews/structural-review-report.md)** - Análise e melhorias sugeridas
 > - **[Arquitetura Técnica](../architecture.md)** - Arquitetura completa do projeto
 > - **[API Reference](../api.md)** - Referência de classes
 > - **[Guias Práticos](../guides/)** - Guias passo a passo
@@ -184,6 +199,7 @@ Os relatórios desta seção fornecem a base teórica e prática para:
 > - 📖 [Arquitetura de Banco de Dados](./database-architecture.md) - Implementação atual
 > - 📖 [Estrutura de Dados Ideal](./ideal-data-structure-report.md) - Análise e recomendações
 > - 📖 [Arquiteturas de Alta Performance](./high-performance-architectures-report.md) - Pesquisa e estudos
+> - 📖 [Revisão Estrutural Completa](../reviews/structural-review-report.md) - Análise e melhorias sugeridas
 
 </details>
 

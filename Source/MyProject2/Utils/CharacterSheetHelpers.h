@@ -181,12 +181,16 @@ namespace CharacterSheetHelpers
     // ============================================================================
 
     /**
-     * Retorna array estático com os 6 nomes de ability scores padrão D&D 5e.
-     * Ordem: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
+     * Retorna array com os nomes de ability scores.
+     * Se AbilityScoreDataTable for fornecido, busca do Data Table (Data-Driven).
+     * Caso contrário, retorna array hardcoded com os 6 ability scores padrão D&D 5e (fallback).
      *
-     * @return Array com os 6 nomes de ability scores
+     * Ordem padrão: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
+     *
+     * @param AbilityScoreDataTable Data Table de ability scores (pode ser nullptr para fallback hardcoded)
+     * @return Array com nomes de ability scores (do Data Table ou hardcoded)
      */
-    TArray<FName> GetAbilityScoreNames();
+    TArray<FName> GetAbilityScoreNames(UDataTable *AbilityScoreDataTable = nullptr);
 
     // ============================================================================
     // Skill Helpers
@@ -326,16 +330,15 @@ namespace CharacterSheetHelpers
     TMap<FName, int32> CreateBaseScoresFromPointBuy(const TMap<FName, int32> &PointBuyMap);
 
     /**
-     * Ajusta alocação de Point Buy para não exceder pontos máximos.
-     * Reduz do final da fila (Charisma -> Wisdom -> Intelligence -> Constitution -> Dexterity -> Strength).
-     * Helper puro e testável para ajuste de alocação de Point Buy.
+     * Ajusta alocação de Point Buy para não exceder o máximo de pontos.
+     * Reduz valores do final da fila até que o custo total seja <= MaxPoints.
+     * Helper puro e reutilizável para ajuste automático de alocação.
      *
-     * @param PointBuyMap Alocação original (será modificada)
-     * @param MaxPoints Pontos máximos permitidos (padrão: DnDConstants::MAX_POINT_BUY_POINTS)
-     * @return Mensagem de feedback sobre o ajuste
+     * @param PointBuyMap [IN/OUT] Map com valores de Point Buy (será modificado se necessário)
+     * @param MaxPoints Pontos máximos disponíveis (padrão: DnDConstants::MAX_POINT_BUY_POINTS)
+     * @return Mensagem de feedback descrevendo o ajuste realizado
      */
-    FString AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap,
-                                     int32 MaxPoints = 27); // DnDConstants::MAX_POINT_BUY_POINTS
+    FString AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap, int32 MaxPoints = 27);
 
     // ============================================================================
     // Level Calculation Helpers

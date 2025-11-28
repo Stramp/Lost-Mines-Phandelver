@@ -328,9 +328,20 @@ TArray<FName> CharacterSheetHelpers::GetAvailableFeatsForVariantHuman(const TMap
 // Ability Score Helpers
 // ============================================================================
 
-TArray<FName> CharacterSheetHelpers::GetAbilityScoreNames()
+TArray<FName> CharacterSheetHelpers::GetAbilityScoreNames(UDataTable *AbilityScoreDataTable)
 {
-    // Retorna array estático com os 6 nomes de ability scores padrão D&D 5e
+    // Se Data Table fornecido, busca do Data Table (Data-Driven)
+    if (AbilityScoreDataTable)
+    {
+        TArray<FName> AbilityNames = DataTableHelpers::GetAllAbilityScoreNames(AbilityScoreDataTable);
+        // Se encontrou ability scores no Data Table, retorna
+        if (AbilityNames.Num() > 0)
+        {
+            return AbilityNames;
+        }
+    }
+
+    // Fallback: retorna array estático com os 6 nomes de ability scores padrão D&D 5e
     // Ordem: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
     return TArray<FName>{TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
                          TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
@@ -393,11 +404,11 @@ bool CharacterSheetHelpers::HasLanguageChoiceFromRace(FName RaceName, FName Subr
             for (const FDataTableRowHandle &TraitHandle : SubraceRow->TraitHandles)
             {
                 // Resolve handle para obter dados do trait
-                if (const FTraitDataRow *TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
+                if (const FTraitDataRow *TraitRow =
+                        DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
                 {
                     // Verifica se é "Extra Language" pelo ID ou Name
-                    if (TraitRow->ID == TEXT("TR_ExtraLanguage") ||
-                        TraitRow->Name == TEXT("Extra Language"))
+                    if (TraitRow->ID == TEXT("TR_ExtraLanguage") || TraitRow->Name == TEXT("Extra Language"))
                     {
                         if (const FString *TypePtr = TraitRow->TraitData.Find(TEXT("Type")))
                         {
@@ -424,11 +435,11 @@ bool CharacterSheetHelpers::HasLanguageChoiceFromRace(FName RaceName, FName Subr
             for (const FDataTableRowHandle &TraitHandle : RaceRow->TraitHandles)
             {
                 // Resolve handle para obter dados do trait
-                if (const FTraitDataRow *TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
+                if (const FTraitDataRow *TraitRow =
+                        DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
                 {
                     // Verifica se é "Extra Language" pelo ID ou Name
-                    if (TraitRow->ID == TEXT("TR_ExtraLanguage") ||
-                        TraitRow->Name == TEXT("Extra Language"))
+                    if (TraitRow->ID == TEXT("TR_ExtraLanguage") || TraitRow->Name == TEXT("Extra Language"))
                     {
                         if (const FString *TypePtr = TraitRow->TraitData.Find(TEXT("Type")))
                         {
@@ -482,7 +493,8 @@ TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName
             // Resolve LanguageHandles para obter ID
             for (const FDataTableRowHandle &LanguageHandle : RaceRow->LanguageHandles)
             {
-                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
+                if (const FLanguageDataRow *LanguageRow =
+                        DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
                     if (LanguageRow->ID != NAME_None)
                     {
@@ -506,7 +518,8 @@ TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName
             // Resolve LanguageHandles para obter ID
             for (const FDataTableRowHandle &LanguageHandle : SubraceRow->LanguageHandles)
             {
-                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
+                if (const FLanguageDataRow *LanguageRow =
+                        DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
                     if (LanguageRow->ID != NAME_None)
                     {
@@ -531,7 +544,8 @@ TArray<FName> CharacterSheetHelpers::GetAutomaticLanguages(FName RaceName, FName
             // Resolve LanguageHandles para obter ID
             for (const FDataTableRowHandle &LanguageHandle : BackgroundRow->LanguageHandles)
             {
-                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
+                if (const FLanguageDataRow *LanguageRow =
+                        DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
                     if (LanguageRow->ID != NAME_None)
                     {
@@ -674,59 +688,70 @@ TMap<FName, int32> CharacterSheetHelpers::CreateBaseScoresFromPointBuy(const TMa
 
 FString CharacterSheetHelpers::AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap, int32 MaxPoints)
 {
-    // Ordem de redução: do final da fila (Charisma -> Wisdom -> Intelligence -> Constitution -> Dexterity -> Strength)
+    // Calcula custo atual
+    TMap<FName, int32> BaseScores = CreateBaseScoresFromPointBuy(PointBuyMap);
+    int32 CurrentCost = CalculateTotalPointBuyCost(BaseScores);
+
+    // Se não excedeu, não precisa ajustar
+    if (CurrentCost <= MaxPoints)
+    {
+        return FString::Printf(TEXT("Alocação válida (%d/%d pontos)"), CurrentCost, MaxPoints);
+    }
+
+    // Ordem de redução: do final da fila (Charisma, Wisdom, Intelligence, Constitution, Dexterity, Strength)
+    // Isso mantém atributos mais importantes (Strength, Dexterity) intactos quando possível
     TArray<FName> ReductionOrder = {TEXT("Charisma"),     TEXT("Wisdom"),    TEXT("Intelligence"),
                                     TEXT("Constitution"), TEXT("Dexterity"), TEXT("Strength")};
 
-    // Calcula custo atual usando helper puro (elimina duplicação e magic number)
-    TMap<FName, int32> BaseScores = CreateBaseScoresFromPointBuy(PointBuyMap);
-    int32 TotalCost = CalculateTotalPointBuyCost(BaseScores);
+    int32 ExcessPoints = CurrentCost - MaxPoints;
+    int32 PointsReduced = 0;
 
-    // Reduz até chegar a MaxPoints pontos
-    int32 PointsToReduce = TotalCost - MaxPoints;
-    int32 CurrentIndex = 0;
-
-    while (PointsToReduce > 0 && CurrentIndex < ReductionOrder.Num())
+    // Reduz valores do final da fila até que o custo seja <= MaxPoints
+    for (FName &AbilityName : ReductionOrder)
     {
-        FName CurrentAttribute = ReductionOrder[CurrentIndex];
-        int32 *CurrentAllocation = PointBuyMap.Find(CurrentAttribute);
-
-        if (CurrentAllocation && *CurrentAllocation > 0)
+        if (ExcessPoints <= 0)
         {
-            // Calcula custo atual deste atributo
-            int32 CurrentBaseScore = DnDConstants::BASE_ABILITY_SCORE + *CurrentAllocation;
-            int32 CurrentCost = CalculatePointBuyCost(CurrentBaseScore);
-
-            // Reduz 1 ponto
-            (*CurrentAllocation)--;
-            int32 NewBaseScore = DnDConstants::BASE_ABILITY_SCORE + *CurrentAllocation;
-            int32 NewCost = CalculatePointBuyCost(NewBaseScore);
-
-            // Atualiza pontos a reduzir
-            PointsToReduce -= (CurrentCost - NewCost);
-
-            // Se ainda precisa reduzir, continua no mesmo atributo
-            if (PointsToReduce > 0)
-            {
-                continue;
-            }
+            break;
         }
 
-        // Próximo atributo
-        CurrentIndex++;
+        int32 *CurrentValue = PointBuyMap.Find(AbilityName);
+        if (!CurrentValue || *CurrentValue <= 0)
+        {
+            continue;
+        }
+
+        // Calcula quanto reduzir deste atributo
+        int32 OldBaseScore = DnDConstants::BASE_ABILITY_SCORE + *CurrentValue;
+        int32 OldCost = CalculatePointBuyCost(OldBaseScore);
+
+        // Reduz 1 ponto de Point Buy
+        (*CurrentValue)--;
+        if (*CurrentValue < 0)
+        {
+            *CurrentValue = 0;
+        }
+
+        int32 NewBaseScore = DnDConstants::BASE_ABILITY_SCORE + *CurrentValue;
+        int32 NewCost = CalculatePointBuyCost(NewBaseScore);
+        int32 CostReduction = OldCost - NewCost;
+
+        ExcessPoints -= CostReduction;
+        PointsReduced += CostReduction;
+
+        // Recalcula custo total para verificar se já está dentro do limite
+        BaseScores = CreateBaseScoresFromPointBuy(PointBuyMap);
+        CurrentCost = CalculateTotalPointBuyCost(BaseScores);
+        ExcessPoints = CurrentCost - MaxPoints;
     }
 
-    // Gera mensagem de feedback
-    if (PointsToReduce <= 0)
+    // Prepara mensagem de feedback
+    if (PointsReduced > 0)
     {
-        return FString::Printf(TEXT("Alocação ajustada: reduzido do final da fila para não exceder %d pontos"),
-                               MaxPoints);
+        return FString::Printf(TEXT("Alocação ajustada: %d pontos removidos. Custo final: %d/%d"), PointsReduced,
+                               CurrentCost, MaxPoints);
     }
-    else
-    {
-        return FString::Printf(TEXT("Alocação ajustada parcialmente: ainda excede %d pontos por %d"), MaxPoints,
-                               PointsToReduce);
-    }
+
+    return FString::Printf(TEXT("Alocação ajustada. Custo final: %d/%d"), CurrentCost, MaxPoints);
 }
 
 // ============================================================================

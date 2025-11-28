@@ -22,7 +22,7 @@
  */
 struct MYPROJECT2_API FPointBuyValidationResult
 {
-    /** Pontos restantes após validação (pode ser negativo se excedeu 27 pontos) */
+    /** Pontos restantes após validação (pode ser negativo se excedeu MAX_POINT_BUY_POINTS) */
     int32 PointsRemaining = 0;
 
     /** Se todos os scores estão dentro do range válido [8, 15] */

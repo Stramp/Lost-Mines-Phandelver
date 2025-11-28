@@ -46,7 +46,7 @@ TArray<FName> FMulticlassHelpers::GetAvailableClassWithTagRequirements(const UDa
 {
     TArray<FName> Result;
 
-    if (!ClassDataTable || Attributes.Num() < FMulticlassValidators::NUM_ATTRIBUTES)
+    if (!ClassDataTable || Attributes.Num() < FMulticlassHelpers::NUM_ATTRIBUTES)
     {
         return Result;
     }
@@ -78,8 +78,7 @@ TArray<FName> FMulticlassHelpers::GetAvailableClassWithTagRequirements(const UDa
         return Result;
     }
 
-    const TMap<FString, FMulticlassValidators::FAttributeInfo> AttributeMap =
-        FMulticlassValidators::CreateAttributeMap();
+    const TMap<FString, FMulticlassHelpers::FAttributeInfo> AttributeMap = FMulticlassHelpers::CreateAttributeMap();
     UDataTable *NonConstTable = const_cast<UDataTable *>(ClassDataTable);
 
     // Agora itera pelos rows com segurança (já sabemos que o tipo está correto)
@@ -117,8 +116,9 @@ bool FMulticlassHelpers::CanProcessProgression(FName ClassName, int32 LevelInCla
 // ============================================================================
 #pragma region Proficiencies Conversion
 
-TArray<FName> FMulticlassHelpers::ResolveProficiencyHandlesToNames(const TArray<FDataTableRowHandle> &ProficiencyHandles,
-                                                                    const UDataTable *ProficiencyDataTable)
+TArray<FName>
+FMulticlassHelpers::ResolveProficiencyHandlesToNames(const TArray<FDataTableRowHandle> &ProficiencyHandles,
+                                                     const UDataTable *ProficiencyDataTable)
 {
     TArray<FName> ResolvedNames;
     if (!ProficiencyDataTable || ProficiencyHandles.Num() == 0)
@@ -182,7 +182,7 @@ TArray<FName> FMulticlassHelpers::ResolveProficiencyHandlesToNames(const TArray<
 }
 
 TArray<FName> FMulticlassHelpers::ResolveProficiencyIDsToNames(const TArray<FName> &ProficiencyIDs,
-                                                              const UDataTable *ProficiencyDataTable)
+                                                               const UDataTable *ProficiencyDataTable)
 {
     FLogContext Context(TEXT("Multiclass"), TEXT("ResolveProficiencyIDsToNames"));
     TArray<FName> ResolvedNames;
@@ -283,9 +283,9 @@ FMulticlassProficienciesEntry FMulticlassHelpers::ConvertProficienciesEntry(cons
         }
     }
 
-    Result.FSkills.available = NAME_None;                            // Dropdown inicia vazio
-    Result.FSkills.Selected.Empty();                                 // Array de escolhas inicia vazio
-    Result.FSkills.qtdAvailable = SourceEntry.FSkills.Count;        // Quantidade inicial disponível
+    Result.FSkills.available = NAME_None;                    // Dropdown inicia vazio
+    Result.FSkills.Selected.Empty();                         // Array de escolhas inicia vazio
+    Result.FSkills.qtdAvailable = SourceEntry.FSkills.Count; // Quantidade inicial disponível
     Result.FSkills.InitialQtdAvailable = SourceEntry.FSkills.Count;
 
     return Result;
@@ -418,8 +418,8 @@ FMulticlassClassFeature FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature
     Result.FeatureData = FeatureRow.FeatureData;
 
     // Calcula flags baseado em dados da tabela (fonte de verdade)
-    const bool bIsChoiceType = (FeatureRow.FeatureType == TEXT("Choice") ||
-                                 FeatureRow.FeatureType == TEXT("SubclassSelection"));
+    const bool bIsChoiceType =
+        (FeatureRow.FeatureType == TEXT("Choice") || FeatureRow.FeatureType == TEXT("SubclassSelection"));
     const int32 ChoicesCount = FeatureRow.AvailableChoices.Num();
     const bool bHasChoicesInTable = bIsChoiceType && (ChoicesCount > 0);
 
@@ -438,14 +438,15 @@ FMulticlassClassFeature FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature
         if (bIsMultiple)
         {
             // Tipo 3: Escolhas Múltiplas - usa AvailableChoiceToAdd + SelectedChoices (array)
-            Result.AvailableChoices = NAME_None; // Não usado para múltiplas escolhas
+            Result.AvailableChoices = NAME_None;     // Não usado para múltiplas escolhas
             Result.AvailableChoiceToAdd = NAME_None; // Dropdown para adicionar ao array
-            Result.SelectedChoices.Empty(); // Inicia vazio para jogador escolher
+            Result.SelectedChoices.Empty();          // Inicia vazio para jogador escolher
         }
         else
         {
             // Tipo 2: Escolha Única - usa AvailableChoices (dropdown)
-            // Se houver apenas 1 opção, preenche automaticamente com ID; caso contrário, deixa vazio para jogador escolher
+            // Se houver apenas 1 opção, preenche automaticamente com ID; caso contrário, deixa vazio para jogador
+            // escolher
             if (ChoicesCount == 1)
             {
                 Result.AvailableChoices = FeatureRow.AvailableChoices[0].ID; // Armazena ID, não Name
@@ -455,7 +456,7 @@ FMulticlassClassFeature FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature
                 Result.AvailableChoices = NAME_None; // Jogador escolhe no dropdown
             }
             Result.AvailableChoiceToAdd = NAME_None; // Não usado para escolha única
-            Result.SelectedChoices.Empty(); // Não usado para escolha única
+            Result.SelectedChoices.Empty();          // Não usado para escolha única
         }
     }
     else
@@ -502,8 +503,7 @@ bool FMulticlassHelpers::LoadFeaturesForLevel(const TArray<FDataTableRowHandle> 
         }
 
         // Resolve handle para obter FeatureRow
-        const FFeatureDataRow *FeatureRow =
-            DataTableRowHandleHelpers::ResolveHandle<FFeatureDataRow>(FeatureHandle);
+        const FFeatureDataRow *FeatureRow = DataTableRowHandleHelpers::ResolveHandle<FFeatureDataRow>(FeatureHandle);
 
         if (!FeatureRow && FeatureHandle.DataTable.Get() != nullptr)
         {
@@ -658,3 +658,74 @@ void FMulticlassHelpers::LogLevelChangeFeatures(FName ClassName, int32 LevelInCl
 }
 
 #pragma endregion Logging Helpers
+
+// ============================================================================
+// Attribute Helpers (moved from MulticlassValidators for Clean Code compliance)
+// ============================================================================
+#pragma region Attribute Helpers
+
+TMap<FString, FMulticlassHelpers::FAttributeInfo> FMulticlassHelpers::CreateAttributeMap()
+{
+    TMap<FString, FAttributeInfo> AttributeMap;
+    AttributeMap.Add(TEXT("STR"), {0, TEXT("STR")});
+    AttributeMap.Add(TEXT("DEX"), {1, TEXT("DEX")});
+    AttributeMap.Add(TEXT("CON"), {2, TEXT("CON")});
+    AttributeMap.Add(TEXT("INT"), {3, TEXT("INT")});
+    AttributeMap.Add(TEXT("WIS"), {4, TEXT("WIS")});
+    AttributeMap.Add(TEXT("CHA"), {5, TEXT("CHA")});
+    return AttributeMap;
+}
+
+bool FMulticlassHelpers::ParseAttributeRequirement(const FString &RequirementString, FString &OutAttribute,
+                                                   int32 &OutRequiredValue)
+{
+    TArray<FString> Parts;
+    RequirementString.TrimStartAndEnd().ParseIntoArray(Parts, TEXT("/"), true);
+
+    if (Parts.Num() != 2)
+    {
+        return false;
+    }
+
+    OutAttribute = Parts[0].TrimStartAndEnd().ToUpper();
+    return LexTryParseString(OutRequiredValue, *Parts[1]);
+}
+
+bool FMulticlassHelpers::ValidateOrRequirement(const FString &OrRequirementString, const TArray<int32> &Attributes,
+                                               const TMap<FString, FAttributeInfo> &AttributeMap,
+                                               FString &OutMissingTag)
+{
+    TArray<FString> OrParts;
+    OrRequirementString.ParseIntoArray(OrParts, TEXT("|"), true);
+
+    for (const FString &OrPart : OrParts)
+    {
+        FString AttributeAbbr;
+        int32 RequiredValue = 0;
+
+        if (!ParseAttributeRequirement(OrPart, AttributeAbbr, RequiredValue))
+        {
+            continue;
+        }
+
+        const FAttributeInfo *AttrInfo = AttributeMap.Find(AttributeAbbr);
+        if (!AttrInfo || !Attributes.IsValidIndex(AttrInfo->Index))
+        {
+            continue;
+        }
+
+        int32 CurrentValue = Attributes[AttrInfo->Index];
+        if (CurrentValue >= RequiredValue)
+        {
+            return true; // OR satisfeito
+        }
+
+        // Guarda o requisito faltante para tag
+        int32 Missing = RequiredValue - CurrentValue;
+        OutMissingTag = FString::Printf(TEXT("[%s +%d]"), *AttrInfo->FullName, Missing);
+    }
+
+    return false; // Nenhum requisito do OR foi satisfeito
+}
+
+#pragma endregion Attribute Helpers

@@ -107,11 +107,11 @@ TArray<int32> FCharacterSheetDataAssetHelpers::CreateAttributesArray(int32 Final
 #pragma region Point Buy Helpers
 
 /**
- * Atualiza campos Point Buy a partir de uma alocação ajustada.
+ * Atualiza campos Point Buy a partir de uma alocação final.
  * Usado quando o sistema Point Buy ajusta automaticamente valores inválidos.
  */
-void FCharacterSheetDataAssetHelpers::UpdatePointBuyFromAdjustedAllocation(UCharacterSheetDataAsset *Asset,
-                                                                           const TMap<FName, int32> &AdjustedAllocation)
+void FCharacterSheetDataAssetHelpers::UpdatePointBuyFromFinalAllocation(UCharacterSheetDataAsset *Asset,
+                                                                        const TMap<FName, int32> &FinalAllocation)
 {
     if (!Asset)
     {
@@ -128,9 +128,9 @@ void FCharacterSheetDataAssetHelpers::UpdatePointBuyFromAdjustedAllocation(UChar
 
     for (int32 Index = 0; Index < MaxIndex; ++Index)
     {
-        if (const int32 *AdjustedValue = AdjustedAllocation.Find(AbilityNames[Index]))
+        if (const int32 *FinalValue = FinalAllocation.Find(AbilityNames[Index]))
         {
-            *PointBuyFields[Index] = *AdjustedValue;
+            *PointBuyFields[Index] = *FinalValue;
         }
     }
 }
@@ -187,8 +187,7 @@ void FCharacterSheetDataAssetHelpers::LogDataTableStatus(UCharacterSheetDataAsse
     // FeatDataTable, ClassFeaturesDataTable, ProficiencyDataTable
     bool bAllDataTablesSelected = Asset->RaceDataTable != nullptr && Asset->BackgroundDataTable != nullptr &&
                                   Asset->ClassDataTable != nullptr && Asset->FeatDataTable != nullptr &&
-                                  Asset->ClassFeaturesDataTable != nullptr &&
-                                  Asset->ProficiencyDataTable != nullptr;
+                                  Asset->ClassFeaturesDataTable != nullptr && Asset->ProficiencyDataTable != nullptr;
 
     FLogContext Context(TEXT("CharacterSheet"), TEXT("LogDataTableStatus"));
     if (bAllDataTablesSelected)
@@ -199,16 +198,17 @@ void FCharacterSheetDataAssetHelpers::LogDataTableStatus(UCharacterSheetDataAsse
     else
     {
         // Aviso informativo - não requer ação imediata (sem popup)
-        FLoggingSystem::LogWarning(Context,
-                                   FString::Printf(TEXT("Ainda faltam Data Tables. Race: %s, Background: %s, Class: %s, "
-                                                        "Feat: %s, ClassFeatures: %s, Proficiency: %s"),
-                                                   Asset->RaceDataTable ? TEXT("OK") : TEXT("FALTANDO"),
-                                                   Asset->BackgroundDataTable ? TEXT("OK") : TEXT("FALTANDO"),
-                                                   Asset->ClassDataTable ? TEXT("OK") : TEXT("FALTANDO"),
-                                                   Asset->FeatDataTable ? TEXT("OK") : TEXT("FALTANDO"),
-                                                   Asset->ClassFeaturesDataTable ? TEXT("OK") : TEXT("FALTANDO"),
-                                                   Asset->ProficiencyDataTable ? TEXT("OK") : TEXT("FALTANDO")),
-                                   false);
+        FLoggingSystem::LogWarning(
+            Context,
+            FString::Printf(TEXT("Ainda faltam Data Tables. Race: %s, Background: %s, Class: %s, "
+                                 "Feat: %s, ClassFeatures: %s, Proficiency: %s"),
+                            Asset->RaceDataTable ? TEXT("OK") : TEXT("FALTANDO"),
+                            Asset->BackgroundDataTable ? TEXT("OK") : TEXT("FALTANDO"),
+                            Asset->ClassDataTable ? TEXT("OK") : TEXT("FALTANDO"),
+                            Asset->FeatDataTable ? TEXT("OK") : TEXT("FALTANDO"),
+                            Asset->ClassFeaturesDataTable ? TEXT("OK") : TEXT("FALTANDO"),
+                            Asset->ProficiencyDataTable ? TEXT("OK") : TEXT("FALTANDO")),
+            false);
     }
 }
 
@@ -379,7 +379,8 @@ bool FCharacterSheetDataAssetHelpers::DetectNestedMulticlassProperty(const FProp
             HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassSkills, Selected);
             return true;
         }
-        // Detecta mudanças em FMulticlassClassFeature.AvailableChoiceToAdd (dropdown - propriedade aninhada dentro de Features)
+        // Detecta mudanças em FMulticlassClassFeature.AvailableChoiceToAdd (dropdown - propriedade aninhada dentro de
+        // Features)
         else if (PropertyName == GET_MEMBER_NAME_CHECKED(FMulticlassClassFeature, AvailableChoiceToAdd))
         {
             HandlerPropertyName = GET_MEMBER_NAME_CHECKED(FMulticlassClassFeature, AvailableChoiceToAdd);
@@ -430,9 +431,9 @@ bool FCharacterSheetDataAssetHelpers::ValidateDataTableType(UCharacterSheetDataA
     if (!ValidationFunction(DataTable))
     {
         FLogContext Context(TEXT("CharacterSheet"), TEXT("ValidateDataTableType"));
-        FString ErrorMessage = FString::Printf(
-            TEXT("Data Table '%s' tem tipo incorreto. Esperado: %s. A tabela foi resetada para None."),
-            *PropertyName.ToString(), *ExpectedTypeName);
+        FString ErrorMessage =
+            FString::Printf(TEXT("Data Table '%s' tem tipo incorreto. Esperado: %s. A tabela foi resetada para None."),
+                            *PropertyName.ToString(), *ExpectedTypeName);
         FLoggingSystem::LogErrorWithThrottledPopup(Context, ErrorMessage, 0.5f);
 
         // Reset tabela para nullptr se tipo incorreto (validação restritiva)
@@ -515,7 +516,7 @@ int32 FCharacterSheetDataAssetHelpers::GetMaxChoicesLimit(const FMulticlassClass
 }
 
 bool FCharacterSheetDataAssetHelpers::CanAddChoice(FName Choice, const TArray<FName> &ValidChoices,
-                                                    const TArray<FName> &SelectedChoices, int32 MaxChoices)
+                                                   const TArray<FName> &SelectedChoices, int32 MaxChoices)
 {
     // Verifica se escolha está na lista válida
     if (!ValidChoices.Contains(Choice))

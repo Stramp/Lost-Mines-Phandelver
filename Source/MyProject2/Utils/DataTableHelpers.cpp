@@ -14,6 +14,68 @@
 #include "Logging/LoggingSystem.h"
 
 // ============================================================================
+// Ability Score Data Table Helpers
+// ============================================================================
+
+FAbilityScoreDataRow *DataTableHelpers::FindAbilityScoreRow(FName AbilityName, UDataTable *AbilityScoreDataTable)
+{
+    if (!AbilityScoreDataTable || AbilityName == NAME_None)
+    {
+        return nullptr;
+    }
+
+    // Tenta FindRow direto primeiro (otimização)
+    FAbilityScoreDataRow *Row =
+        AbilityScoreDataTable->FindRow<FAbilityScoreDataRow>(AbilityName, TEXT("FindAbilityScoreRow"));
+
+    // Fallback: busca manual O(n) se FindRow não encontrou
+    // (pode acontecer se RowName != AbilityName no JSON)
+    if (!Row)
+    {
+        TArray<FName> RowNames = AbilityScoreDataTable->GetRowNames();
+        for (const FName &RowName : RowNames)
+        {
+            if (FAbilityScoreDataRow *FoundRow =
+                    AbilityScoreDataTable->FindRow<FAbilityScoreDataRow>(RowName, TEXT("FindAbilityScoreRow")))
+            {
+                if (FoundRow->Name == AbilityName)
+                {
+                    Row = FoundRow;
+                    break;
+                }
+            }
+        }
+    }
+
+    return Row;
+}
+
+TArray<FName> DataTableHelpers::GetAllAbilityScoreNames(UDataTable *AbilityScoreDataTable)
+{
+    TArray<FName> AbilityNames;
+
+    if (!AbilityScoreDataTable)
+    {
+        return AbilityNames;
+    }
+
+    TArray<FName> RowNames = AbilityScoreDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
+    {
+        if (FAbilityScoreDataRow *Row =
+                AbilityScoreDataTable->FindRow<FAbilityScoreDataRow>(RowName, TEXT("GetAllAbilityScoreNames")))
+        {
+            if (Row->Name != NAME_None)
+            {
+                AbilityNames.Add(Row->Name);
+            }
+        }
+    }
+
+    return AbilityNames;
+}
+
+// ============================================================================
 // Race Data Table Helpers
 // ============================================================================
 
@@ -320,7 +382,7 @@ FFeatureDataRow *DataTableHelpers::FindFeatureRowByID(FName FeatureID, UDataTabl
     {
         if (FFeatureDataRow *FoundRow = FeatureDataTable->FindRow<FFeatureDataRow>(RowName, TEXT("FindFeatureRowByID")))
         {
-                if (FoundRow->ID == FeatureID)
+            if (FoundRow->ID == FeatureID)
             {
                 return FoundRow;
             }

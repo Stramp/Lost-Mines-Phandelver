@@ -51,12 +51,12 @@ void PointBuyMotorSpec::Define()
                     {
                         // Arrange: Alocação válida que gasta exatamente 27 pontos
                         FCharacterSheetData Data;
-                        Data.PointBuyStrength = 7;      // Score 15 = 9 pontos
-                        Data.PointBuyDexterity = 6;     // Score 14 = 7 pontos
-                        Data.PointBuyConstitution = 5;  // Score 13 = 5 pontos
-                        Data.PointBuyIntelligence = 4;  // Score 12 = 4 pontos
-                        Data.PointBuyWisdom = 2;         // Score 10 = 2 pontos
-                        Data.PointBuyCharisma = 0;      // Score 8 = 0 pontos
+                        Data.PointBuyStrength = 7;     // Score 15 = 9 pontos
+                        Data.PointBuyDexterity = 6;    // Score 14 = 7 pontos
+                        Data.PointBuyConstitution = 5; // Score 13 = 5 pontos
+                        Data.PointBuyIntelligence = 4; // Score 12 = 4 pontos
+                        Data.PointBuyWisdom = 2;       // Score 10 = 2 pontos
+                        Data.PointBuyCharisma = 0;     // Score 8 = 0 pontos
                         // Total: 9 + 7 + 5 + 4 + 2 + 0 = 27 pontos
 
                         Data.FinalStrength = &TestFinalStrength;
@@ -70,7 +70,8 @@ void PointBuyMotorSpec::Define()
                         FPointBuyResult Result = FPointBuyMotor::ApplyPointBuy(Data);
 
                         // Assert
-                        TestFalse("Não deve ter sido ajustado", Result.bWasAdjusted);
+                        TestTrue("Resultado deve ser válido", Result.bIsValid);
+                        TestFalse("Não deve ter sido ajustado", Result.bWasAutoAdjusted);
                         TestEqual("Pontos restantes devem ser 0", Result.PointsRemaining, 0);
                         TestEqual("Final Strength deve ser 15", TestFinalStrength, 15);
                         TestEqual("Final Dexterity deve ser 14", TestFinalDexterity, 14);
@@ -85,12 +86,12 @@ void PointBuyMotorSpec::Define()
                     {
                         // Arrange: Alocação que excede 27 pontos
                         FCharacterSheetData Data;
-                        Data.PointBuyStrength = 7;      // Score 15 = 9 pontos
-                        Data.PointBuyDexterity = 7;     // Score 15 = 9 pontos
-                        Data.PointBuyConstitution = 7;  // Score 15 = 9 pontos
-                        Data.PointBuyIntelligence = 7;  // Score 15 = 9 pontos
-                        Data.PointBuyWisdom = 7;         // Score 15 = 9 pontos
-                        Data.PointBuyCharisma = 7;       // Score 15 = 9 pontos
+                        Data.PointBuyStrength = 7;     // Score 15 = 9 pontos
+                        Data.PointBuyDexterity = 7;    // Score 15 = 9 pontos
+                        Data.PointBuyConstitution = 7; // Score 15 = 9 pontos
+                        Data.PointBuyIntelligence = 7; // Score 15 = 9 pontos
+                        Data.PointBuyWisdom = 7;       // Score 15 = 9 pontos
+                        Data.PointBuyCharisma = 7;     // Score 15 = 9 pontos
                         // Total: 9 * 6 = 54 pontos (excede 27)
 
                         Data.FinalStrength = &TestFinalStrength;
@@ -104,7 +105,8 @@ void PointBuyMotorSpec::Define()
                         FPointBuyResult Result = FPointBuyMotor::ApplyPointBuy(Data);
 
                         // Assert
-                        TestTrue("Deve ter sido ajustado", Result.bWasAdjusted);
+                        TestTrue("Resultado deve ser válido", Result.bIsValid);
+                        TestTrue("Deve ter sido ajustado", Result.bWasAutoAdjusted);
                         TestEqual("Pontos restantes devem ser 0 após ajuste", Result.PointsRemaining, 0);
                         TestTrue("FeedbackMessage não deve estar vazio", !Result.FeedbackMessage.IsEmpty());
                     });
@@ -115,13 +117,14 @@ void PointBuyMotorSpec::Define()
                         // Arrange: Referências nulas
                         FCharacterSheetData Data;
                         Data.PointBuyStrength = 3;
-                        Data.FinalStrength = nullptr;  // Inválido
+                        Data.FinalStrength = nullptr; // Inválido
 
                         // Act
                         FPointBuyResult Result = FPointBuyMotor::ApplyPointBuy(Data);
 
                         // Assert
-                        TestFalse("Não deve ter sido ajustado", Result.bWasAdjusted);
+                        TestFalse("Resultado não deve ser válido (referências inválidas)", Result.bIsValid);
+                        TestFalse("Não deve ter sido ajustado", Result.bWasAutoAdjusted);
                         TestEqual("Pontos restantes devem ser 0", Result.PointsRemaining, 0);
                     });
 
@@ -130,12 +133,12 @@ void PointBuyMotorSpec::Define()
                     {
                         // Arrange: Alocação que gasta menos de 27 pontos
                         FCharacterSheetData Data;
-                        Data.PointBuyStrength = 0;      // Score 8 = 0 pontos
-                        Data.PointBuyDexterity = 0;      // Score 8 = 0 pontos
-                        Data.PointBuyConstitution = 0;   // Score 8 = 0 pontos
-                        Data.PointBuyIntelligence = 0;   // Score 8 = 0 pontos
-                        Data.PointBuyWisdom = 0;         // Score 8 = 0 pontos
-                        Data.PointBuyCharisma = 0;       // Score 8 = 0 pontos
+                        Data.PointBuyStrength = 0;     // Score 8 = 0 pontos
+                        Data.PointBuyDexterity = 0;    // Score 8 = 0 pontos
+                        Data.PointBuyConstitution = 0; // Score 8 = 0 pontos
+                        Data.PointBuyIntelligence = 0; // Score 8 = 0 pontos
+                        Data.PointBuyWisdom = 0;       // Score 8 = 0 pontos
+                        Data.PointBuyCharisma = 0;     // Score 8 = 0 pontos
                         // Total: 0 pontos (restam 27)
 
                         Data.FinalStrength = &TestFinalStrength;
@@ -149,7 +152,8 @@ void PointBuyMotorSpec::Define()
                         FPointBuyResult Result = FPointBuyMotor::ApplyPointBuy(Data);
 
                         // Assert
-                        TestFalse("Não deve ter sido ajustado", Result.bWasAdjusted);
+                        TestTrue("Resultado deve ser válido", Result.bIsValid);
+                        TestFalse("Não deve ter sido ajustado", Result.bWasAutoAdjusted);
                         TestEqual("Pontos restantes devem ser 27", Result.PointsRemaining, 27);
                         TestTrue("FeedbackMessage deve mencionar pontos restantes",
                                  Result.FeedbackMessage.Contains(TEXT("Pontos restantes")));
@@ -158,4 +162,3 @@ void PointBuyMotorSpec::Define()
 }
 
 #pragma endregion PointBuyMotor Tests
-
