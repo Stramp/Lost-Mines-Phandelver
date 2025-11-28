@@ -12,14 +12,13 @@ related: [ability-scores.md, character-creation.md]
 
 # Point Buy System - D&D 5e
 
-<details open>
+<details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Visão Geral</b></summary>
 
 > Sistema de distribuição de pontos (Point Buy) para ability scores iniciais no D&D 5e.
+>
 
 </details>
-
----
 
 ## 💰 Cost Table
 
@@ -36,10 +35,9 @@ related: [ability-scores.md, character-creation.md]
 > | 13            | 5    |
 > | 14            | 7    |
 > | 15            | 9    |
+>
 
 </details>
-
----
 
 ## 📜 Rules
 
@@ -47,13 +45,17 @@ related: [ability-scores.md, character-creation.md]
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚖️ Regras do Sistema</b></summary>
 
 > - **Starting points:** 27
-> - **Minimum score:** 8
-> - **Maximum score:** 15 (before racial bonuses)
-> - **All 6 abilities start at:** 8
-> - **Total cost must equal:** 27
+> - **Base ability score:** 8 (BASE_ABILITY_SCORE - constante do sistema)
+> - **Point Buy allocation range:** 0-7 (alocação adicional ao base)
+> - **Resulting score range:** 8-15 (BASE_ABILITY_SCORE + PointBuyAllocation)
+> - **Maximum score before racial bonuses:** 15
+> - **All 6 abilities start at:** 8 (BASE_ABILITY_SCORE)
+> - **Total cost must equal:** 27 (exatamente, não pode sobrar ou faltar)
+>
 
+> **⚠️ IMPORTANTE:** Point Buy é uma **alocação adicional** ao valor base (8), não um valor absoluto. O sistema calcula: `FinalScore = BASE_ABILITY_SCORE (8) + PointBuyAllocation (0-7)`.
+>
 </details>
-
 ---
 
 ## ✅ Validation
@@ -65,10 +67,9 @@ related: [ability-scores.md, character-creation.md]
 > AvailablePoints = 27 - sum(cost for each ability)
 > Valid if: AvailablePoints == 0 AND all scores >= 8 AND all scores <= 15
 > ```
+>
 
 </details>
-
----
 
 ## 🧮 Calculation Function
 
@@ -77,15 +78,14 @@ related: [ability-scores.md, character-creation.md]
 
 > ```pseudocode
 > function CalculateCost(score):
->     if score == 8: return 0
->     if score >= 9 && score <= 13: return score - 8
->     if score == 14: return 7
->     if score == 15: return 9
+> if score == 8: return 0
+> if score >= 9 && score <= 13: return score - 8
+> if score == 14: return 7
+> if score == 15: return 9
 > ```
+>
 
 </details>
-
----
 
 ## 🔗 Referências
 
@@ -94,5 +94,6 @@ related: [ability-scores.md, character-creation.md]
 
 > - **[Ability Scores](ability-scores.md)** - Como os scores são usados
 > - **[Raças e Sub-raças](races.md)** - Bônus aplicados após Point Buy
+>
 
 </details>

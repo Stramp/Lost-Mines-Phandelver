@@ -18,7 +18,7 @@
 #include "Characters/Data/Validators/CharacterSheetDataAssetCorrectionApplier.h"
 
 // Project includes - CreateSheet
-#include "CreateSheet/Multiclass/MulticlassHelpers.h"
+// MulticlassHelpers foi dividido em 3 arquivos especializados (não usado diretamente aqui)
 
 // Project includes - Data Tables
 #include "Data/Tables/ClassDataTable.h"
@@ -51,10 +51,6 @@ UCharacterSheetDataAsset::UCharacterSheetDataAsset()
 // Editor-Only Implementation
 // ============================================================================
 #if WITH_EDITOR
-
-// ============================================================================
-// Property Change Handling
-// ============================================================================
 
 // ============================================================================
 // Property Change Handling

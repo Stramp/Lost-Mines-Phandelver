@@ -1,6 +1,13 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "DataTableHelpers.h"
+
+// Project includes - Data Tables
 #include "Data/Tables/AbilityScoreDataTable.h"
 #include "Data/Tables/RaceDataTable.h"
 #include "Data/Tables/ClassDataTable.h"
@@ -13,9 +20,12 @@
 // Project includes - Logging
 #include "Logging/LoggingSystem.h"
 
+#pragma endregion Includes
+
 // ============================================================================
 // Ability Score Data Table Helpers
 // ============================================================================
+#pragma region Ability Score Data Table Helpers
 
 FAbilityScoreDataRow *DataTableHelpers::FindAbilityScoreRow(FName AbilityName, UDataTable *AbilityScoreDataTable)
 {
@@ -60,6 +70,7 @@ TArray<FName> DataTableHelpers::GetAllAbilityScoreNames(UDataTable *AbilityScore
     }
 
     TArray<FName> RowNames = AbilityScoreDataTable->GetRowNames();
+    AbilityNames.Reserve(RowNames.Num()); // Otimização: pre-aloca memória
     for (const FName &RowName : RowNames)
     {
         if (FAbilityScoreDataRow *Row =
@@ -75,9 +86,12 @@ TArray<FName> DataTableHelpers::GetAllAbilityScoreNames(UDataTable *AbilityScore
     return AbilityNames;
 }
 
+#pragma endregion Ability Score Data Table Helpers
+
 // ============================================================================
 // Race Data Table Helpers
 // ============================================================================
+#pragma region Race Data Table Helpers
 
 FRaceDataRow *DataTableHelpers::FindRaceRow(FName RaceName, UDataTable *RaceDataTable)
 {
@@ -140,9 +154,12 @@ FRaceDataRow *DataTableHelpers::FindSubraceRow(FName SubraceName, UDataTable *Ra
     return Row;
 }
 
+#pragma endregion Race Data Table Helpers
+
 // ============================================================================
 // Class Data Table Helpers
 // ============================================================================
+#pragma region Class Data Table Helpers
 
 FClassDataRow *DataTableHelpers::FindClassRow(FName ClassName, UDataTable *ClassDataTable)
 {
@@ -175,8 +192,8 @@ FClassDataRow *DataTableHelpers::FindClassRow(FName ClassName, UDataTable *Class
     {
         if (FClassDataRow *FoundRow = ClassDataTable->FindRow<FClassDataRow>(RowName, TEXT("FindClassRow")))
         {
-            // Usa ClassName da estrutura flat
-            if (FoundRow->ClassName == ClassName)
+            // Usa Name da estrutura flat
+            if (FoundRow->Name == ClassName)
             {
                 Row = FoundRow;
                 break;
@@ -197,9 +214,12 @@ FClassDataRow *DataTableHelpers::FindClassRow(FName ClassName, UDataTable *Class
     return Row;
 }
 
+#pragma endregion Class Data Table Helpers
+
 // ============================================================================
 // Feat Data Table Helpers
 // ============================================================================
+#pragma region Feat Data Table Helpers
 
 FFeatDataRow *DataTableHelpers::FindFeatRow(FName FeatName, UDataTable *FeatDataTable)
 {
@@ -250,9 +270,12 @@ FName DataTableHelpers::ConvertFeatNameToFCID(FName FeatName, UDataTable *FeatDa
     return NAME_None;
 }
 
+#pragma endregion Feat Data Table Helpers
+
 // ============================================================================
 // Background Data Table Helpers
 // ============================================================================
+#pragma region Background Data Table Helpers
 
 FBackgroundDataRow *DataTableHelpers::FindBackgroundRow(FName BackgroundName, UDataTable *BackgroundDataTable)
 {
@@ -286,9 +309,12 @@ FBackgroundDataRow *DataTableHelpers::FindBackgroundRow(FName BackgroundName, UD
     return Row;
 }
 
+#pragma endregion Background Data Table Helpers
+
 // ============================================================================
 // Proficiency Data Table Helpers
 // ============================================================================
+#pragma region Proficiency Data Table Helpers
 
 FProficiencyDataRow *DataTableHelpers::FindProficiencyRowByID(FName ProficiencyID, UDataTable *ProficiencyDataTable)
 {
@@ -315,9 +341,12 @@ FProficiencyDataRow *DataTableHelpers::FindProficiencyRowByID(FName ProficiencyI
     return nullptr;
 }
 
+#pragma endregion Proficiency Data Table Helpers
+
 // ============================================================================
 // Proficiency Data Table Helpers - GetProficiencyNamesByType (Generic Helper)
 // ============================================================================
+#pragma region Proficiency Data Table Helpers - GetProficiencyNamesByType
 
 TArray<FName> DataTableHelpers::GetProficiencyNamesByType(UDataTable *ProficiencyDataTable, FName ProficiencyType)
 {
@@ -330,6 +359,7 @@ TArray<FName> DataTableHelpers::GetProficiencyNamesByType(UDataTable *Proficienc
 
     // Itera sobre todas as rows do Data Table
     TArray<FName> RowNames = ProficiencyDataTable->GetRowNames();
+    ProficiencyNames.Reserve(RowNames.Num()); // Otimização: pre-aloca memória
     for (const FName &RowName : RowNames)
     {
         if (FProficiencyDataRow *Row =
@@ -346,23 +376,35 @@ TArray<FName> DataTableHelpers::GetProficiencyNamesByType(UDataTable *Proficienc
     return ProficiencyNames;
 }
 
+#pragma endregion Proficiency Data Table Helpers - GetProficiencyNamesByType
+
 // ============================================================================
 // Proficiency Data Table Helpers - GetAllSkillNames (Wrapper)
 // ============================================================================
+#pragma region Proficiency Data Table Helpers - GetAllSkillNames
 
 TArray<FName> DataTableHelpers::GetAllSkillNames(UDataTable *ProficiencyDataTable)
 {
     return GetProficiencyNamesByType(ProficiencyDataTable, TEXT("Skill"));
 }
 
+#pragma endregion Proficiency Data Table Helpers - GetAllSkillNames
+
 // ============================================================================
 // Proficiency Data Table Helpers - GetAllLanguageNames (Wrapper)
 // ============================================================================
+
+// ============================================================================
+// Proficiency Data Table Helpers - GetAllLanguageNames (Wrapper)
+// ============================================================================
+#pragma region Proficiency Data Table Helpers - GetAllLanguageNames
 
 TArray<FName> DataTableHelpers::GetAllLanguageNames(UDataTable *ProficiencyDataTable)
 {
     return GetProficiencyNamesByType(ProficiencyDataTable, TEXT("Language"));
 }
+
+#pragma endregion Proficiency Data Table Helpers - GetAllLanguageNames
 
 // ============================================================================
 // Feature Data Table Helpers
@@ -450,3 +492,5 @@ bool DataTableHelpers::IsItemDataTable(UDataTable *DataTable)
 {
     return ValidateDataTableRowStruct(DataTable, FItemDataRow::StaticStruct());
 }
+
+#pragma endregion Data Table Type Validation Helpers

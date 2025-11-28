@@ -1,6 +1,18 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "Utils/ChoiceHelpers.h"
+
+#pragma endregion Includes
+
+// ============================================================================
+// Choice Helpers
+// ============================================================================
+#pragma region Choice Helpers
 
 TArray<FName> ChoiceHelpers::ParseOptionsString(const FString &OptionsString)
 {
@@ -41,3 +53,5 @@ FString ChoiceHelpers::FormatOptionsString(const TArray<FName> &Options)
 
     return OptionsString;
 }
+
+#pragma endregion Choice Helpers

@@ -15,7 +15,7 @@
 #include "CreateSheet/Core/CharacterSheetCore.h"
 #include "Data/Structures/FCharacterSheetData.h"
 #include "Data/Structures/FPointBuyResult.h"
-#include "CreateSheet/Multiclass/MulticlassHelpers.h"
+#include "CreateSheet/Multiclass/MulticlassValidationHelpers.h"
 
 // Project includes - Helpers
 #include "Characters/Data/Helpers/CharacterSheetDataAssetHelpers.h"
@@ -415,7 +415,7 @@ void FCharacterSheetDataAssetUpdaters::UpdateMulticlassFlags(UCharacterSheetData
         const int32 LevelInClass = Entry.ClassData.LevelInClass;
 
         // Atualiza flags usando helper puro
-        const bool bCanEdit = FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
+        const bool bCanEdit = FMulticlassValidationHelpers::CanProcessProgression(ClassName, LevelInClass);
         Entry.ClassData.bCanEditProgression = bCanEdit;
         Entry.ClassData.bCanEditProficiencies = bCanEdit;
 

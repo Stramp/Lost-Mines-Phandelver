@@ -12,8 +12,10 @@
 #include "Data/Structures/MulticlassTypes.h"
 
 // Project includes - CreateSheet
+#include "CreateSheet/Multiclass/MulticlassProficiencyOrchestrator.h"
 #include "CreateSheet/Multiclass/MulticlassMotor.h"
-#include "CreateSheet/Multiclass/MulticlassHelpers.h"
+#include "CreateSheet/Multiclass/MulticlassDataLoadingHelpers.h"
+#include "CreateSheet/Multiclass/MulticlassValidationHelpers.h"
 
 // Project includes - Logging
 #include "Logging/LoggingSystem.h"
@@ -47,7 +49,7 @@ bool FCharacterSheetDataAssetLoaders::LoadClassBasicInfo(UCharacterSheetDataAsse
 
     // Carrega informações básicas usando helper
     TArray<FString> LoadedRequirements;
-    if (FMulticlassHelpers::LoadClassBasicInfo(ClassName, Asset->ClassDataTable, LoadedRequirements))
+    if (FMulticlassDataLoadingHelpers::LoadClassBasicInfo(ClassName, Asset->ClassDataTable, LoadedRequirements))
     {
         Entry.ClassData.MulticlassRequirements = LoadedRequirements;
         return true;
@@ -97,9 +99,9 @@ bool FCharacterSheetDataAssetLoaders::LoadClassProficiencies(UCharacterSheetData
         return false;
     }
 
-    // Carrega proficiências usando motor
+    // Carrega proficiências usando orquestrador (coordena validação, busca, resolução, conversão e aplicação)
     TArray<FMulticlassProficienciesEntry> LoadedProficiencies;
-    if (FMulticlassMotor::LoadClassProficiencies(ClassName, LevelInClass, Asset->ClassDataTable,
+    if (FMulticlassProficiencyOrchestrator::Load(ClassName, LevelInClass, Asset->ClassDataTable,
                                                  Asset->ProficiencyDataTable, LoadedProficiencies))
     {
         Entry.ClassData.Proficiencies = LoadedProficiencies;
@@ -129,7 +131,7 @@ bool FCharacterSheetDataAssetLoaders::LoadClassProgression(UCharacterSheetDataAs
     const int32 LevelInClass = Entry.ClassData.LevelInClass;
 
     // Só carrega se pode processar Progression
-    if (!FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass))
+    if (!FMulticlassValidationHelpers::CanProcessProgression(ClassName, LevelInClass))
     {
         Entry.ClassData.Progression.Empty();
         return false;
@@ -169,7 +171,7 @@ void FCharacterSheetDataAssetLoaders::LogLevelChangeFeatures(UCharacterSheetData
     }
 
     // Loga features ganhas no nível usando helper (apenas log informativo)
-    FMulticlassHelpers::LogLevelChangeFeatures(ClassName, LevelInClass, Asset->ClassDataTable);
+    FMulticlassDataLoadingHelpers::LogLevelChangeFeatures(ClassName, LevelInClass, Asset->ClassDataTable);
 }
 
 void FCharacterSheetDataAssetLoaders::LoadAllMulticlassData(UCharacterSheetDataAsset *Asset)

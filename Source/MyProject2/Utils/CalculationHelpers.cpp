@@ -1,22 +1,40 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CalculationHelpers.h"
-#include "CharacterSheetHelpers.h"
-#include "DataTableHelpers.h"
-#include "DataTableRowHandleHelpers.h"
+
+// Project includes - Utils
+#include "Utils/CharacterSheetHelpers.h"
+#include "Utils/DataTableHelpers.h"
+#include "Utils/DataTableRowHandleHelpers.h"
+#include "Utils/DnDConstants.h"
+
+// Project includes - Data Tables
 #include "Data/Tables/RaceDataTable.h"
 #include "Data/Tables/BackgroundDataTable.h"
 #include "Data/Tables/ClassDataTable.h"
 #include "Data/Tables/SkillDataTable.h"
 #include "Data/Tables/LanguageDataTable.h"
+
+// Project includes - Characters
 #include "Characters/Data/CharacterSheetDataAsset.h"
-#include "Utils/DnDConstants.h"
+
+// Project includes - Logging
 #include "Logging/LogVerbosity.h"
+
+// Engine includes
 #include "Math/UnrealMathUtility.h"
+
+#pragma endregion Includes
 
 // ============================================================================
 // Ability Score Calculations
 // ============================================================================
+#pragma region Ability Score Calculations
 
 int32 CalculationHelpers::CalculateAbilityModifier(int32 Score)
 {
@@ -50,9 +68,12 @@ void CalculationHelpers::IncrementFinalScoresWithPointBuy(const TMap<FName, int3
     FinalCharisma += PointBuyAllocation.FindRef(TEXT("Charisma"));
 }
 
+#pragma endregion Ability Score Calculations
+
 // ============================================================================
 // Proficiency Calculations
 // ============================================================================
+#pragma region Proficiency Calculations
 
 int32 CalculationHelpers::CalculateProficiencyBonus(int32 TotalLevel)
 {
@@ -65,11 +86,14 @@ int32 CalculationHelpers::CalculateProficiencyBonus(int32 TotalLevel)
            FMath::FloorToInt((TotalLevel - DnDConstants::MIN_LEVEL) / DnDConstants::PROFICIENCY_BONUS_DIVISOR);
 }
 
+#pragma endregion Proficiency Calculations
+
 // ============================================================================
 // Feature Calculations
 // ============================================================================
+#pragma region Feature Calculations
 
-TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName SubraceName, FName BackgroundName,
+TArray<FName> CalculationHelpers::CollectProficienciesFromBackgroundAndVariantHuman(FName RaceName, FName SubraceName, FName BackgroundName,
                                                          FName SelectedSkill, UDataTable *RaceDataTable,
                                                          UDataTable *BackgroundDataTable)
 {
@@ -102,7 +126,7 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
                 }
             }
 
-            // NOTA: Idiomas não são proficiências, são calculados separadamente em CalculateLanguages()
+            // NOTA: Idiomas não são proficiências, são coletados separadamente em CollectLanguagesFromAllSources()
             // Backgrounds não fornecem proficiências de idiomas, apenas escolhas de idiomas
         }
     }
@@ -121,7 +145,14 @@ TArray<FName> CalculationHelpers::CalculateProficiencies(FName RaceName, FName S
     return ProficienciesSet.Array();
 }
 
-TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName SubraceName, FName BackgroundName,
+#pragma endregion Feature Calculations
+
+// ============================================================================
+// Language Calculations
+// ============================================================================
+#pragma region Language Calculations
+
+TArray<FName> CalculationHelpers::CollectLanguagesFromAllSources(FName RaceName, FName SubraceName, FName BackgroundName,
                                                      const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
                                                      UDataTable *BackgroundDataTable)
 {
@@ -213,9 +244,12 @@ TArray<FName> CalculationHelpers::CalculateLanguages(FName RaceName, FName Subra
     return LanguagesSet.Array();
 }
 
+#pragma endregion Language Calculations
+
 // ============================================================================
 // Hit Points Calculations
 // ============================================================================
+#pragma region Hit Points Calculations
 
 int32 CalculationHelpers::CalculateHPGainForLevel(int32 HitDie, int32 Level, int32 ConstitutionModifier)
 {
@@ -288,3 +322,5 @@ int32 CalculationHelpers::CalculateMaxHP(const TArray<FName> &ClassNames, const 
     // HP nunca pode ser negativo (mínimo MIN_HP)
     return FMath::Max(DnDConstants::MIN_HP, TotalHP);
 }
+
+#pragma endregion Hit Points Calculations

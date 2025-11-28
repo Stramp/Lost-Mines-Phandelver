@@ -44,7 +44,7 @@ void PointBuyValidatorSpec::Define()
                        FPointBuyValidator::ValidatePointBuy(PointBuyStrength, PointBuyDexterity, PointBuyConstitution,
                                                             PointBuyIntelligence, PointBuyWisdom, PointBuyCharisma);
 
-                   // Assert
+                   // Assert: Valores hardcoded conhecidos
                    TestTrue("Alocação deve ser válida", Result.bIsValid);
                    TestTrue("Todos os scores devem ser válidos", Result.bAllScoresValid);
                    TestEqual("Pontos restantes devem ser 0", Result.PointsRemaining, 0);
@@ -67,7 +67,7 @@ void PointBuyValidatorSpec::Define()
                        FPointBuyValidator::ValidatePointBuy(PointBuyStrength, PointBuyDexterity, PointBuyConstitution,
                                                             PointBuyIntelligence, PointBuyWisdom, PointBuyCharisma);
 
-                   // Assert
+                   // Assert: Valores hardcoded conhecidos
                    TestFalse("Alocação não deve ser válida (não gastou todos os pontos)", Result.bIsValid);
                    TestTrue("Todos os scores devem ser válidos (range correto)", Result.bAllScoresValid);
                    TestEqual("Pontos restantes devem ser 27", Result.PointsRemaining, 27);
@@ -90,7 +90,7 @@ void PointBuyValidatorSpec::Define()
                        FPointBuyValidator::ValidatePointBuy(PointBuyStrength, PointBuyDexterity, PointBuyConstitution,
                                                             PointBuyIntelligence, PointBuyWisdom, PointBuyCharisma);
 
-                   // Assert
+                   // Assert: Valores hardcoded conhecidos
                    TestFalse("Alocação não deve ser válida (excedeu pontos)", Result.bIsValid);
                    TestTrue("Todos os scores devem ser válidos (range correto)", Result.bAllScoresValid);
                    TestTrue("Pontos restantes devem ser negativo", Result.PointsRemaining < 0);
@@ -107,7 +107,7 @@ void PointBuyValidatorSpec::Define()
                    // Act: Alocação com valores mínimos (todos 0 = score 8)
                    FPointBuyValidationResult Result = FPointBuyValidator::ValidatePointBuy(0, 0, 0, 0, 0, 0);
 
-                   // Assert: Scores são válidos (8 está no range), mas não gasta 27 pontos
+                   // Assert: Valores hardcoded conhecidos (scores são válidos, mas não gasta 27 pontos)
                    TestFalse("Alocação não deve ser válida (não gastou todos os pontos)", Result.bIsValid);
                    TestTrue("Todos os scores devem ser válidos (8 está no range)", Result.bAllScoresValid);
                });
@@ -129,7 +129,7 @@ void PointBuyValidatorSpec::Define()
                        FPointBuyValidator::ValidatePointBuy(PointBuyStrength, PointBuyDexterity, PointBuyConstitution,
                                                             PointBuyIntelligence, PointBuyWisdom, PointBuyCharisma);
 
-                   // Assert
+                   // Assert: Valores hardcoded conhecidos
                    TestFalse("Alocação não deve ser válida (não gastou todos os pontos)", Result.bIsValid);
                    TestEqual("Pontos restantes devem ser 7", Result.PointsRemaining, 7);
                });

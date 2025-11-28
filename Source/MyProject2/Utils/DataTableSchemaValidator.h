@@ -10,6 +10,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
 #include "DataTableIntegrityValidator.h"
+#include "DataTableSchemaValidator.generated.h"
 
 #pragma endregion Includes
 

@@ -1,102 +1,132 @@
 [
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Fire",
     "ID": "DMG_Fire",
-    "TypeTags": [
-      "DamageType.Fire"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Fire"
+        }
+      ],
+      "ParentTags": []
+    },
     "Description": "Fire damage burns and ignites targets"
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Cold",
     "ID": "DMG_Cold",
-    "TypeTags": [
-      "DamageType.Cold"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Cold"
+        }
+      ],
+      "ParentTags": []
+    },
     "Description": "Cold damage freezes and slows targets"
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Lightning",
     "ID": "DMG_Lightning",
-    "TypeTags": [
-      "DamageType.Lightning"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Lightning"
+        }
+      ],
+      "ParentTags": []
+    },
     "Description": "Lightning damage shocks and electrifies targets"
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Poison",
     "ID": "DMG_Poison",
-    "TypeTags": [
-      "DamageType.Poison"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Poison"
+        }
+      ],
+      "ParentTags": []
+    },
     "Description": "Poison damage sickens and weakens targets"
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Psychic",
     "ID": "DMG_Psychic",
-    "TypeTags": [
-      "DamageType.Psychic"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Psychic"
+        }
+      ],
+      "ParentTags": []
+    },
     "Description": "Psychic damage attacks the mind and consciousness"
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Radiant",
     "ID": "DMG_Radiant",
-    "TypeTags": [
-      "DamageType.Radiant"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Radiant"
+        }
+      ],
+      "ParentTags": []
+    },
     "Description": "Radiant damage is pure divine or positive energy"
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Necrotic",
     "ID": "DMG_Necrotic",
-    "TypeTags": [
-      "DamageType.Necrotic"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Necrotic"
+        }
+      ],
+      "ParentTags": []
+    },
     "Description": "Necrotic damage withers matter and even the soul"
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Acid",
     "ID": "DMG_Acid",
-    "TypeTags": [
-      "DamageType.Acid"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Acid"
+        }
+      ],
+      "ParentTags": []
+    },
     "Description": "Acid damage corrodes and dissolves matter"
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Force",
     "ID": "DMG_Force",
-    "TypeTags": [
-      "DamageType.Force"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Force"
+        }
+      ],
+      "ParentTags": []
+    },
     "Description": "Force damage is pure magical energy focused into a damaging form"
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Thunder",
     "ID": "DMG_Thunder",
-    "TypeTags": [
-      "DamageType.Thunder"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Thunder"
+        }
+      ],
+      "ParentTags": []
+    },
     "Description": "Thunder damage is a sound-based attack that can deafen"
   }
 ]

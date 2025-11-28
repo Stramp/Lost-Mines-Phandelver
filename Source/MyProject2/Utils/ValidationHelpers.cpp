@@ -1,14 +1,28 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "ValidationHelpers.h"
-#include "CharacterSheetHelpers.h"
+
+// Project includes - Utils
+#include "Utils/CharacterSheetHelpers.h"
 #include "Utils/DnDConstants.h"
+
+// Project includes - Characters
 #include "Characters/Data/CharacterSheetDataAsset.h"
+
+// Engine includes
 #include "Logging/LogMacros.h"
+
+#pragma endregion Includes
 
 // ============================================================================
 // Point Buy Validation
 // ============================================================================
+#pragma region Point Buy Validation
 
 bool ValidationHelpers::ValidatePointBuy(const TMap<FName, int32> &BaseScores, int32 &PointsRemaining, int32 MaxPoints)
 {
@@ -44,9 +58,12 @@ bool ValidationHelpers::ValidatePointBuyAllocation(const TMap<FName, int32> &Bas
     return PointsRemaining == 0;
 }
 
+#pragma endregion Point Buy Validation
+
 // ============================================================================
 // Level Validation
 // ============================================================================
+#pragma region Level Validation
 
 bool ValidationHelpers::ValidateTotalLevel(const TArray<FClassLevelEntry> &ClassLevels, int32 &TotalLevel,
                                            int32 MaxLevel)
@@ -63,9 +80,12 @@ bool ValidationHelpers::ValidateTotalLevelRange(int32 Level, int32 MaxLevel)
     return Level >= DnDConstants::MIN_LEVEL && Level <= MaxLevel;
 }
 
+#pragma endregion Level Validation
+
 // ============================================================================
 // Ability Score Validation
 // ============================================================================
+#pragma region Ability Score Validation
 
 bool ValidationHelpers::ValidateAbilityScoreRange(int32 Score, int32 Min, int32 Max)
 {
@@ -146,3 +166,5 @@ bool ValidationHelpers::ValidateSkillSelectionPure(FName SelectedSkill, const TA
     // Verifica se está na lista de skills válidas
     return ValidSkills.Contains(SelectedSkill);
 }
+
+#pragma endregion Selection Validation

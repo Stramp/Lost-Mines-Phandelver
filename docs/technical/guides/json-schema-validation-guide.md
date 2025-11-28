@@ -23,7 +23,7 @@ related: [../data-architecture/json-schema.md, ../reviews/structural-review-repo
 O projeto MyProject2 implementa validação de JSON Schema em três níveis:
 
 1. **Validação Local (Python Script)** - Validação completa antes de importar no Unreal Engine
-2. **Validação no Editor (C++)** - Validação automática quando Data Tables são alteradas
+2. **Validação no Editor (C)** - Validação automática quando Data Tables são alteradas
 3. **Validação no CI/CD (GitHub Actions)** - Validação automática em cada commit/PR
 
 ---
@@ -90,7 +90,7 @@ Quando uma Data Table é alterada no editor, o sistema automaticamente valida:
 
 1. **Estrutura básica** (Name, ID, TypeTags obrigatórios)
 2. **Padrões de nomenclatura** (prefixos de ID e TypeTags)
-3. **Tipos de dados** (validação básica em C++)
+3. **Tipos de dados** (validação básica em C)
 
 ### Como Funciona
 

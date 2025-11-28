@@ -172,7 +172,7 @@ void CharacterSheetDataAssetLoadersSpec::Define()
                         UDataTable* ClassDataTable = NewObject<UDataTable>();
                         ClassDataTable->RowStruct = FClassDataRow::StaticStruct();
                         FClassDataRow* TestClassRow = new FClassDataRow();
-                        TestClassRow->ClassName = TEXT("Test Class");
+                        TestClassRow->Name = TEXT("Test Class");
                         ClassDataTable->AddRow(TEXT("TestClass"), *TestClassRow);
                         delete TestClassRow;
 

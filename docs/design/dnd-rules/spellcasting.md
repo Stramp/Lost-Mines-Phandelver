@@ -12,14 +12,13 @@ related: [level-up.md, character-creation.md]
 
 # Spellcasting - D&D 5e
 
-<details open>
+<details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Visão Geral</b></summary>
 
 > Regras completas de spellcasting no D&D 5e, incluindo Spell Save DC, Spell Attack Modifier, Spell Slots, e Cantrips.
+>
 
 </details>
-
----
 
 ## 🎯 Spell Save DC (Classe de Dificuldade)
 
@@ -29,9 +28,21 @@ related: [level-up.md, character-creation.md]
 > ```
 > SpellSaveDC = 8 + ProficiencyBonus + SpellcastingAbilityModifier
 > ```
+>
 
+> **Onde:**
+> - **8:** Base fixa (constante do D&D 5e)
+> - **ProficiencyBonus:** Baseado no Total Level (ver [level-up.md](level-up.md))
+> - **SpellcastingAbilityModifier:** Modificador do atributo de spellcasting da classe
+>
+> **Exemplo (Wizard nível 5, INT +4):**
+> - Proficiency Bonus = +3 (níveis 5-8)
+> - SpellcastingAbilityModifier = +4 (INT 18)
+> - Spell Save DC = 8 + 3 + 4 = **15**
+>
+> **📖 Ver também:** [level-up.md](level-up.md) - Como Proficiency Bonus é calculado
+>
 </details>
-
 ---
 
 ## 🧙 Spellcasting Ability by Class
@@ -49,10 +60,9 @@ related: [level-up.md, character-creation.md]
 > | Sorcerer | Charisma (CHA) |
 > | Warlock | Charisma (CHA) |
 > | Wizard | Intelligence (INT) |
+>
 
 </details>
-
----
 
 ## ⚔️ Spell Attack Modifier
 
@@ -62,9 +72,21 @@ related: [level-up.md, character-creation.md]
 > ```
 > SpellAttackModifier = ProficiencyBonus + SpellcastingAbilityModifier
 > ```
+>
 
+> **Onde:**
+> - **ProficiencyBonus:** Baseado no Total Level (ver [level-up.md](level-up.md))
+> - **SpellcastingAbilityModifier:** Modificador do atributo de spellcasting da classe
+>
+> **Exemplo (Wizard nível 5, INT +4):**
+> - Proficiency Bonus = +3 (níveis 5-8)
+> - SpellcastingAbilityModifier = +4 (INT 18)
+> - Spell Attack Modifier = 3 + 4 = **+7**
+> - Ataque: d20 + 7 vs AC do alvo
+>
+> **📖 Ver também:** [level-up.md](level-up.md) - Como Proficiency Bonus é calculado
+>
 </details>
-
 ---
 
 ## 📊 Spell Slots by Class Level
@@ -75,90 +97,89 @@ related: [level-up.md, character-creation.md]
 > <details>
 > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Full Casters (Wizard, Cleric, Druid, Sorcerer, Bard)</summary>
 >
-> > | Level | 1st | 2nd | 3rd | 4th | 5th | 6th | 7th | 8th | 9th |
-> > |-------|-----|-----|-----|-----|-----|-----|-----|-----|-----|
-> > | 1     | 2   | -   | -   | -   | -   | -   | -   | -   | -   |
-> > | 2     | 3   | -   | -   | -   | -   | -   | -   | -   | -   |
-> > | 3     | 4   | 2   | -   | -   | -   | -   | -   | -   | -   |
-> > | 4     | 4   | 3   | -   | -   | -   | -   | -   | -   | -   |
-> > | 5     | 4   | 3   | 2   | -   | -   | -   | -   | -   | -   |
-> > | 6     | 4   | 3   | 3   | -   | -   | -   | -   | -   | -   |
-> > | 7     | 4   | 3   | 3   | 1   | -   | -   | -   | -   | -   |
-> > | 8     | 4   | 3   | 3   | 2   | -   | -   | -   | -   | -   |
-> > | 9     | 4   | 3   | 3   | 3   | 1   | -   | -   | -   | -   |
-> > | 10    | 4   | 3   | 3   | 3   | 2   | -   | -   | -   | -   |
-> > | 11    | 4   | 3   | 3   | 3   | 2   | 1   | -   | -   | -   |
-> > | 12    | 4   | 3   | 3   | 3   | 2   | 1   | -   | -   | -   |
-> > | 13    | 4   | 3   | 3   | 3   | 2   | 1   | 1   | -   | -   |
-> > | 14    | 4   | 3   | 3   | 3   | 2   | 1   | 1   | -   | -   |
-> > | 15    | 4   | 3   | 3   | 3   | 2   | 1   | 1   | 1   | -   |
-> > | 16    | 4   | 3   | 3   | 3   | 2   | 1   | 1   | 1   | -   |
-> > | 17    | 4   | 3   | 3   | 3   | 2   | 1   | 1   | 1   | 1   |
-> > | 18    | 4   | 3   | 3   | 3   | 3   | 1   | 1   | 1   | 1   |
-> > | 19    | 4   | 3   | 3   | 3   | 3   | 2   | 1   | 1   | 1   |
-> > | 20    | 4   | 3   | 3   | 3   | 3   | 2   | 2   | 1   | 1   |
->
-> </details>
->
-> <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Half Casters (Paladin, Ranger)</summary>
->
-> > | Level | 1st | 2nd | 3rd | 4th | 5th |
-> > |-------|-----|-----|-----|-----|-----|
-> > | 1     | -   | -   | -   | -   | -   |
-> > | 2     | 2   | -   | -   | -   | -   |
-> > | 3     | 3   | -   | -   | -   | -   |
-> > | 4     | 3   | -   | -   | -   | -   |
-> > | 5     | 4   | 2   | -   | -   | -   |
-> > | 6     | 4   | 2   | -   | -   | -   |
-> > | 7     | 4   | 3   | -   | -   | -   |
-> > | 8     | 4   | 3   | -   | -   | -   |
-> > | 9     | 4   | 3   | 2   | -   | -   |
-> > | 10    | 4   | 3   | 2   | -   | -   |
-> > | 11    | 4   | 3   | 3   | -   | -   |
-> > | 12    | 4   | 3   | 3   | -   | -   |
-> > | 13    | 4   | 3   | 3   | 1   | -   |
-> > | 14    | 4   | 3   | 3   | 1   | -   |
-> > | 15    | 4   | 3   | 3   | 2   | -   |
-> > | 16    | 4   | 3   | 3   | 2   | -   |
-> > | 17    | 4   | 3   | 3   | 3   | 1   |
-> > | 18    | 4   | 3   | 3   | 3   | 1   |
-> > | 19    | 4   | 3   | 3   | 3   | 2   |
-> > | 20    | 4   | 3   | 3   | 3   | 2   |
->
-> </details>
->
-> <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Warlock (Pact Magic)</summary>
->
-> > | Level | Spell Slots | Slot Level |
-> > |-------|-------------|------------|
-> > | 1     | 1           | 1st        |
-> > | 2     | 2           | 1st        |
-> > | 3     | 2           | 2nd        |
-> > | 4     | 2           | 2nd        |
-> > | 5     | 2           | 3rd        |
-> > | 6     | 2           | 3rd        |
-> > | 7     | 2           | 4th        |
-> > | 8     | 2           | 4th        |
-> > | 9     | 2           | 5th        |
-> > | 10    | 2           | 5th        |
-> > | 11    | 3           | 5th        |
-> > | 12    | 3           | 5th        |
-> > | 13    | 3           | 5th        |
-> > | 14    | 3           | 5th        |
-> > | 15    | 3           | 5th        |
-> > | 16    | 3           | 5th        |
-> > | 17    | 4           | 5th        |
-> > | 18    | 4           | 5th        |
-> > | 19    | 4           | 5th        |
-> > | 20    | 4           | 5th        |
->
-> </details>
 
 </details>
+    > |-------|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+    > | 1     | 2   | -   | -   | -   | -   | -   | -   | -   | -   |
+    > | 2     | 3   | -   | -   | -   | -   | -   | -   | -   | -   |
+    > | 3     | 4   | 2   | -   | -   | -   | -   | -   | -   | -   |
+    > | 4     | 4   | 3   | -   | -   | -   | -   | -   | -   | -   |
+    > | 5     | 4   | 3   | 2   | -   | -   | -   | -   | -   | -   |
+    > | 6     | 4   | 3   | 3   | -   | -   | -   | -   | -   | -   |
+    > | 7     | 4   | 3   | 3   | 1   | -   | -   | -   | -   | -   |
+    > | 8     | 4   | 3   | 3   | 2   | -   | -   | -   | -   | -   |
+    > | 9     | 4   | 3   | 3   | 3   | 1   | -   | -   | -   | -   |
+    > | 10    | 4   | 3   | 3   | 3   | 2   | -   | -   | -   | -   |
+    > | 11    | 4   | 3   | 3   | 3   | 2   | 1   | -   | -   | -   |
+    > | 12    | 4   | 3   | 3   | 3   | 2   | 1   | -   | -   | -   |
+    > | 13    | 4   | 3   | 3   | 3   | 2   | 1   | 1   | -   | -   |
+    > | 14    | 4   | 3   | 3   | 3   | 2   | 1   | 1   | -   | -   |
+    > | 15    | 4   | 3   | 3   | 3   | 2   | 1   | 1   | 1   | -   |
+    > | 16    | 4   | 3   | 3   | 3   | 2   | 1   | 1   | 1   | -   |
+    > | 17    | 4   | 3   | 3   | 3   | 2   | 1   | 1   | 1   | 1   |
+    > | 18    | 4   | 3   | 3   | 3   | 3   | 1   | 1   | 1   | 1   |
+    > | 19    | 4   | 3   | 3   | 3   | 3   | 2   | 1   | 1   | 1   |
+    > | 20    | 4   | 3   | 3   | 3   | 3   | 2   | 2   | 1   | 1   |
 
----
+    </details>
+
+    </details>
+    <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Half Casters (Paladin, Ranger)</summary>
+
+    > | Level | 1st | 2nd | 3rd | 4th | 5th |
+    > |-------|-----|-----|-----|-----|-----|
+    > | 1     | -   | -   | -   | -   | -   |
+    > | 2     | 2   | -   | -   | -   | -   |
+    > | 3     | 3   | -   | -   | -   | -   |
+    > | 4     | 3   | -   | -   | -   | -   |
+    > | 5     | 4   | 2   | -   | -   | -   |
+    > | 6     | 4   | 2   | -   | -   | -   |
+    > | 7     | 4   | 3   | -   | -   | -   |
+    > | 8     | 4   | 3   | -   | -   | -   |
+    > | 9     | 4   | 3   | 2   | -   | -   |
+    > | 10    | 4   | 3   | 2   | -   | -   |
+    > | 11    | 4   | 3   | 3   | -   | -   |
+    > | 12    | 4   | 3   | 3   | -   | -   |
+    > | 13    | 4   | 3   | 3   | 1   | -   |
+    > | 14    | 4   | 3   | 3   | 1   | -   |
+    > | 15    | 4   | 3   | 3   | 2   | -   |
+    > | 16    | 4   | 3   | 3   | 2   | -   |
+    > | 17    | 4   | 3   | 3   | 3   | 1   |
+    > | 18    | 4   | 3   | 3   | 3   | 1   |
+    > | 19    | 4   | 3   | 3   | 3   | 2   |
+    > | 20    | 4   | 3   | 3   | 3   | 2   |
+
+    </details>
+
+    </details>
+    <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Warlock (Pact Magic)</summary>
+
+    > | Level | Spell Slots | Slot Level |
+    > |-------|-------------|------------|
+    > | 1     | 1           | 1st        |
+    > | 2     | 2           | 1st        |
+    > | 3     | 2           | 2nd        |
+    > | 4     | 2           | 2nd        |
+    > | 5     | 2           | 3rd        |
+    > | 6     | 2           | 3rd        |
+    > | 7     | 2           | 4th        |
+    > | 8     | 2           | 4th        |
+    > | 9     | 2           | 5th        |
+    > | 10    | 2           | 5th        |
+    > | 11    | 3           | 5th        |
+    > | 12    | 3           | 5th        |
+    > | 13    | 3           | 5th        |
+    > | 14    | 3           | 5th        |
+    > | 15    | 3           | 5th        |
+    > | 16    | 3           | 5th        |
+    > | 17    | 4           | 5th        |
+    > | 18    | 4           | 5th        |
+    > | 19    | 4           | 5th        |
+    > | 20    | 4           | 5th        |
+
+    </details>
+
+    </details>
 
 ## ✨ Cantrips Known
 
@@ -175,10 +196,9 @@ related: [level-up.md, character-creation.md]
 > | Sorcerer | 4 | 5 | 6 |
 > | Warlock | 2 | 3 | 4 |
 > | Wizard | 3 | 4 | 5 |
+>
 
 </details>
-
----
 
 ## 📚 Spells Known vs Spells Prepared
 
@@ -190,16 +210,15 @@ related: [level-up.md, character-creation.md]
 > - Learn fixed number of spells at each level
 > - Cannot change spells except on level up
 >
-> ### Spells Prepared (Variable List)
-> - **Cleric, Druid, Paladin, Wizard**
-> - Prepare spells from class spell list after long rest
-> - Number prepared = SpellcastingAbilityModifier + ClassLevel (minimum 1)
->
-> ```
-> SpellsPrepared = SpellcastingAbilityModifier + ClassLevel
-> ```
 
 </details>
+    - **Cleric, Druid, Paladin, Wizard**
+    - Prepare spells from class spell list after long rest
+    - Number prepared = SpellcastingAbilityModifier + ClassLevel (minimum 1)
+
+    ```
+    SpellsPrepared = SpellcastingAbilityModifier + ClassLevel
+    ```
 
 ---
 
@@ -211,10 +230,9 @@ related: [level-up.md, character-creation.md]
 > - **Long Rest:** All spell slots recovered (except Warlock)
 > - **Short Rest:** Warlock recovers all spell slots
 > - **Arcane Recovery** (Wizard): Recover spell slots = half wizard level (rounded up), once per long rest
+>
 
 </details>
-
----
 
 ## ⬆️ Upcasting Spells
 
@@ -224,10 +242,9 @@ related: [level-up.md, character-creation.md]
 > - Can cast spell using higher level slot
 > - Spell effects may improve (check spell description)
 > - Cannot cast spell using lower level slot
+>
 
 </details>
-
----
 
 ## 🔮 Multiclassing Spell Slots
 
@@ -239,14 +256,14 @@ related: [level-up.md, character-creation.md]
 > - Half caster = 0.5 level
 > - Warlock = separate (Pact Magic)
 >
+
 > ```
 > CasterLevel = FullCasterLevels + (HalfCasterLevels / 2)
 > ```
 >
 > **📖 See [multiclassing.md](multiclassing.md) for details.**
-
+>
 </details>
-
 ---
 
 ## 🔗 Referências
@@ -256,5 +273,6 @@ related: [level-up.md, character-creation.md]
 
 > - **[Multiclassing](multiclassing.md)** - Spell slots em multiclassing
 > - **[Level Up](level-up.md)** - Progressão de níveis
+>
 
 </details>

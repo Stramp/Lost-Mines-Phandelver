@@ -43,10 +43,11 @@ O `ClassDataTable` armazena todas as informações sobre classes do D&D 5e, incl
 - **Descrição:** Data da última modificação dos dados
 - **Exemplo:** `"2024-12-27"`
 
-#### `Name` (string)
-- **Descrição:** Nome da classe (Key Field para Unreal Engine)
-- **Uso:** Usado como chave primária no Data Table
-- **Exemplo:** `"Class_Fighter"`, `"Class_Wizard"`, `"Class_Cleric"`
+#### `Name` (string) - Campo Principal
+- **Descrição:** Nome da classe (usado como chave primária no Data Table e nome de exibição)
+- **Uso:** Usado como chave primária no Data Table e para buscar/exibir a classe
+- **Exemplo:** `"Fighter"`, `"Wizard"`, `"Cleric"`
+- **Nota:** Este é o campo principal que substitui o antigo `ClassName`. Use `Name` para buscar e exibir a classe.
 
 #### `ID` (string)
 - **Padrão:** `^CLASS_[A-Z][a-zA-Z0-9_]*$`
@@ -59,10 +60,6 @@ O `ClassDataTable` armazena todas as informações sobre classes do D&D 5e, incl
 - **Padrão:** `^Class\\.`
 - **Descrição:** Gameplay Tags para categorização
 - **Exemplo:** `["Class.Fighter", "Class.Martial"]`, `["Class.Wizard", "Class.Spellcaster"]`
-
-#### `ClassName` (string)
-- **Descrição:** Nome de exibição da classe
-- **Exemplo:** `"Fighter"`, `"Wizard"`, `"Cleric"`
 
 #### `HitDie` (integer)
 - **Valores possíveis:** `6`, `8`, `10`, `12`
@@ -275,7 +272,7 @@ O `ClassDataTable` armazena todas as informações sobre classes do D&D 5e, incl
     "Class.Fighter",
     "Class.Martial"
   ],
-  "ClassName": "Fighter",
+  "Name": "Fighter",
   "HitDie": 10,
   "MulticlassRequirementGroups": [
     {

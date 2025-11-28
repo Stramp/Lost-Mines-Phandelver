@@ -1,14 +1,39 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CharacterDataComponent.h"
-#include "Net/UnrealNetwork.h"
+
+// Project includes - Utils
 #include "Utils/ValidationHelpers.h"
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/FormattingHelpers.h"
 #include "Utils/DnDConstants.h"
+
+// Project includes - Logging
 #include "Logging/LoggingSystem.h"
 
+// Engine includes
+#include "Net/UnrealNetwork.h"
+
+#pragma endregion Includes
+
+// ============================================================================
+// Constructor
+// ============================================================================
+#pragma region Constructor
+
 UCharacterDataComponent::UCharacterDataComponent() { PrimaryComponentTick.bCanEverTick = false; }
+
+#pragma endregion Constructor
+
+// ============================================================================
+// Replication
+// ============================================================================
+#pragma region Replication
 
 void UCharacterDataComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
 {
@@ -31,12 +56,26 @@ void UCharacterDataComponent::GetLifetimeReplicatedProps(TArray<FLifetimePropert
     // Para replicação futura, usar TArray de structs ou implementar replicação customizada
 }
 
+#pragma endregion Replication
+
+// ============================================================================
+// Lifecycle
+// ============================================================================
+#pragma region Lifecycle
+
 void UCharacterDataComponent::BeginPlay()
 {
     Super::BeginPlay();
     // Seu código aqui
     LogCharacterSheet();
 }
+
+#pragma endregion Lifecycle
+
+// ============================================================================
+// Validation
+// ============================================================================
+#pragma region Validation
 
 bool UCharacterDataComponent::ValidateDataIntegrity() const
 {
@@ -124,6 +163,13 @@ bool UCharacterDataComponent::ValidateLevelIntegrity(const FLogContext &Context)
 
     return true;
 }
+
+#pragma endregion Validation
+
+// ============================================================================
+// Logging
+// ============================================================================
+#pragma region Logging
 
 void UCharacterDataComponent::LogCharacterSheet() const
 {
@@ -269,3 +315,5 @@ void UCharacterDataComponent::LogDataIntegrityResult(const FLogContext &Context)
         FLoggingSystem::LogError(Context, TEXT("  ❌ Dados inválidos ou incompletos! Verifique os erros acima."), true);
     }
 }
+
+#pragma endregion Logging

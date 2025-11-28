@@ -6,9 +6,13 @@
 #pragma region Includes
 
 #include "Misc/AutomationTest.h"
-#include "CreateSheet/Multiclass/MulticlassHelpers.h"
+#include "CreateSheet/Multiclass/MulticlassValidationHelpers.h"
+#include "CreateSheet/Multiclass/MulticlassConversionHelpers.h"
 #include "Data/Tables/FeatureDataTable.h"
+#include "Data/Tables/AbilityScoreDataTable.h"
+#include "Data/Tables/ClassDataTable.h"
 #include "Data/Structures/MulticlassTypes.h"
+#include "Engine/DataTable.h"
 
 #pragma endregion Includes
 
@@ -44,7 +48,7 @@ void MulticlassHelpersSpec::Define()
 
                    // Act
                    FMulticlassClassFeature Result =
-                       FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 1);
+                       FMulticlassConversionHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 1);
 
                    // Assert
                    TestEqual("AvailableChoices deve ser NAME_None para feature automática", Result.AvailableChoices,
@@ -76,7 +80,7 @@ void MulticlassHelpersSpec::Define()
 
                    // Act
                    FMulticlassClassFeature Result =
-                       FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 1);
+                       FMulticlassConversionHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 1);
 
                    // Assert
                    TestEqual("AvailableChoices deve ser NAME_None quando Choice não tem escolhas",
@@ -108,7 +112,7 @@ void MulticlassHelpersSpec::Define()
 
                    // Act
                    FMulticlassClassFeature Result =
-                       FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 3);
+                       FMulticlassConversionHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 3);
 
                    // Assert
                    TestEqual("AvailableChoices deve ser NAME_None quando SubclassSelection não tem escolhas",
@@ -145,7 +149,7 @@ void MulticlassHelpersSpec::Define()
 
                    // Act
                    FMulticlassClassFeature Result =
-                       FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 1);
+                       FMulticlassConversionHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 1);
 
                    // Assert
                    TestEqual("AvailableChoices deve ser preenchido com a única escolha", Result.AvailableChoices,
@@ -189,7 +193,7 @@ void MulticlassHelpersSpec::Define()
 
                    // Act
                    FMulticlassClassFeature Result =
-                       FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 1);
+                       FMulticlassConversionHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 1);
 
                    // Assert
                    TestEqual("AvailableChoices deve ser NAME_None (jogador escolhe no dropdown)",
@@ -236,7 +240,7 @@ void MulticlassHelpersSpec::Define()
 
                    // Act
                    FMulticlassClassFeature Result =
-                       FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 3);
+                       FMulticlassConversionHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 3);
 
                    // Assert
                    TestEqual("AvailableChoices deve ser NAME_None (não usado para múltiplas escolhas)",
@@ -278,7 +282,7 @@ void MulticlassHelpersSpec::Define()
 
                    // Act
                    FMulticlassClassFeature Result =
-                       FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 3);
+                       FMulticlassConversionHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 3);
 
                    // Assert
                    TestEqual("AvailableChoices deve ser NAME_None (jogador escolhe no dropdown)",
@@ -310,7 +314,7 @@ void MulticlassHelpersSpec::Define()
 
                    // Act
                    FMulticlassClassFeature Result =
-                       FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 4);
+                       FMulticlassConversionHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 4);
 
                    // Assert
                    TestEqual("AvailableChoices deve ser NAME_None para feature ASI", Result.AvailableChoices,
@@ -340,7 +344,7 @@ void MulticlassHelpersSpec::Define()
 
                    // Act
                    FMulticlassClassFeature Result =
-                       FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 4);
+                       FMulticlassConversionHelpers::ConvertFeatureRowToMulticlassFeature(FeatureRow, 4);
 
                    // Assert
                    TestEqual("AvailableChoices deve ser NAME_None para feature FeatSelection", Result.AvailableChoices,
@@ -370,7 +374,7 @@ void MulticlassHelpersSpec::Define()
                    Feature.AvailableChoices = NAME_None;
 
                    // Act
-                   bool bHasChoices = FMulticlassHelpers::FeatureHasAvailableChoices(Feature);
+                   bool bHasChoices = FMulticlassValidationHelpers::FeatureHasAvailableChoices(Feature);
 
                    // Assert
                    TestFalse("Feature Automatic sem escolhas deve retornar false", bHasChoices);
@@ -390,7 +394,7 @@ void MulticlassHelpersSpec::Define()
                    Feature.bHasAvailableChoices = false; // Estado consistente: sem escolhas
 
                    // Act
-                   bool bHasChoices = FMulticlassHelpers::FeatureHasAvailableChoices(Feature);
+                   bool bHasChoices = FMulticlassValidationHelpers::FeatureHasAvailableChoices(Feature);
 
                    // Assert
                    TestFalse("Feature Choice sem escolhas disponíveis deve retornar false", bHasChoices);
@@ -409,7 +413,7 @@ void MulticlassHelpersSpec::Define()
                    Feature.bHasAvailableChoices = true; // Estado consistente: tem escolhas
 
                    // Act
-                   bool bHasChoices = FMulticlassHelpers::FeatureHasAvailableChoices(Feature);
+                   bool bHasChoices = FMulticlassValidationHelpers::FeatureHasAvailableChoices(Feature);
 
                    // Assert
                    TestTrue("Feature Choice com AvailableChoices preenchido deve retornar true", bHasChoices);
@@ -430,7 +434,7 @@ void MulticlassHelpersSpec::Define()
                    Feature.bIsMultipleChoice = true;
 
                    // Act
-                   bool bHasChoices = FMulticlassHelpers::FeatureHasAvailableChoices(Feature);
+                   bool bHasChoices = FMulticlassValidationHelpers::FeatureHasAvailableChoices(Feature);
 
                    // Assert
                    TestTrue("Feature Choice com múltiplas escolhas deve retornar true", bHasChoices);
@@ -449,7 +453,7 @@ void MulticlassHelpersSpec::Define()
                    Feature.bHasAvailableChoices = true; // Estado consistente: tem escolhas
 
                    // Act
-                   bool bHasChoices = FMulticlassHelpers::FeatureHasAvailableChoices(Feature);
+                   bool bHasChoices = FMulticlassValidationHelpers::FeatureHasAvailableChoices(Feature);
 
                    // Assert
                    TestTrue("Feature SubclassSelection com AvailableChoices preenchido deve retornar true", bHasChoices);
@@ -468,13 +472,366 @@ void MulticlassHelpersSpec::Define()
                    Feature.bHasAvailableChoices = false; // Estado consistente
 
                    // Act
-                   bool bHasChoices = FMulticlassHelpers::FeatureHasAvailableChoices(Feature);
+                   bool bHasChoices = FMulticlassValidationHelpers::FeatureHasAvailableChoices(Feature);
 
                    // Assert
                    TestFalse("Feature Automatic não deve ter escolhas (tipo verificado primeiro)", bHasChoices);
                    AddInfo(TEXT("✅ Teste passou: helper retorna false para Automatic independente de estado"));
                });
         });
+
+    Describe("MapAbilityIDToIndex",
+             [this]()
+             {
+                 It("deve mapear AbilityID ABL_Strength para índice 0 (STR)", [this]()
+                    {
+                        // Arrange: Ability Score Data Table
+                        UDataTable *AbilityScoreDataTable = NewObject<UDataTable>();
+                        AbilityScoreDataTable->RowStruct = FAbilityScoreDataRow::StaticStruct();
+
+                        FAbilityScoreDataRow *StrRow = new FAbilityScoreDataRow();
+                        StrRow->Name = TEXT("Strength");
+                        StrRow->ID = TEXT("ABL_Strength");
+                        StrRow->Abbreviation = TEXT("STR");
+                        AbilityScoreDataTable->AddRow(TEXT("ABL_Strength"), *StrRow);
+
+                        int32 OutIndex = -1;
+
+                        // Act
+                        bool bMapped = FMulticlassValidationHelpers::MapAbilityIDToIndex(TEXT("ABL_Strength"), AbilityScoreDataTable, OutIndex);
+
+                        // Assert: Valores hardcoded conhecidos
+                        TestTrue("Deve mapear AbilityID", bMapped);
+                        TestEqual("Índice de STR deve ser 0", OutIndex, 0);
+                    });
+
+                 It("deve mapear AbilityID ABL_Dexterity para índice 1 (DEX)", [this]()
+                    {
+                        // Arrange: Ability Score Data Table
+                        UDataTable *AbilityScoreDataTable = NewObject<UDataTable>();
+                        AbilityScoreDataTable->RowStruct = FAbilityScoreDataRow::StaticStruct();
+
+                        FAbilityScoreDataRow *DexRow = new FAbilityScoreDataRow();
+                        DexRow->Name = TEXT("Dexterity");
+                        DexRow->ID = TEXT("ABL_Dexterity");
+                        DexRow->Abbreviation = TEXT("DEX");
+                        AbilityScoreDataTable->AddRow(TEXT("ABL_Dexterity"), *DexRow);
+
+                        int32 OutIndex = -1;
+
+                        // Act
+                        bool bMapped = FMulticlassValidationHelpers::MapAbilityIDToIndex(TEXT("ABL_Dexterity"), AbilityScoreDataTable, OutIndex);
+
+                        // Assert: Valores hardcoded conhecidos
+                        TestTrue("Deve mapear AbilityID", bMapped);
+                        TestEqual("Índice de DEX deve ser 1", OutIndex, 1);
+                    });
+
+                 It("deve retornar false quando AbilityID não existe no DataTable", [this]()
+                    {
+                        // Arrange: Data Table vazio
+                        UDataTable *AbilityScoreDataTable = NewObject<UDataTable>();
+                        AbilityScoreDataTable->RowStruct = FAbilityScoreDataRow::StaticStruct();
+
+                        int32 OutIndex = -1;
+
+                        // Act
+                        bool bMapped = FMulticlassValidationHelpers::MapAbilityIDToIndex(TEXT("ABL_Invalid"), AbilityScoreDataTable, OutIndex);
+
+                        // Assert
+                        TestFalse("Não deve mapear AbilityID inválido", bMapped);
+                        TestEqual("Índice deve permanecer -1", OutIndex, -1);
+                    });
+
+                 It("deve retornar false quando AbilityScoreDataTable é nullptr", [this]()
+                    {
+                        // Arrange: Data Table nullptr
+                        int32 OutIndex = -1;
+
+                        // Act
+                        bool bMapped = FMulticlassValidationHelpers::MapAbilityIDToIndex(TEXT("ABL_Strength"), nullptr, OutIndex);
+
+                        // Assert
+                        TestFalse("Não deve mapear quando DataTable é nullptr", bMapped);
+                        TestEqual("Índice deve permanecer -1", OutIndex, -1);
+                    });
+             });
+
+    Describe("ParseAttributeRequirement",
+             [this]()
+             {
+                 It("deve parsear requisito STR/13 corretamente", [this]()
+                    {
+                        // Arrange: String de requisito
+                        FString RequirementString = TEXT("STR/13");
+                        FString OutAttribute;
+                        int32 OutRequiredValue = 0;
+
+                        // Act
+                        bool bParsed = FMulticlassValidationHelpers::ParseAttributeRequirement(RequirementString, OutAttribute, OutRequiredValue);
+
+                        // Assert: Valores hardcoded conhecidos
+                        TestTrue("Deve parsear requisito", bParsed);
+                        TestEqual("Atributo deve ser STR", OutAttribute, TEXT("STR"));
+                        TestEqual("Valor requerido deve ser 13", OutRequiredValue, 13);
+                    });
+
+                 It("deve parsear requisito DEX/13 corretamente", [this]()
+                    {
+                        // Arrange: String de requisito
+                        FString RequirementString = TEXT("DEX/13");
+                        FString OutAttribute;
+                        int32 OutRequiredValue = 0;
+
+                        // Act
+                        bool bParsed = FMulticlassValidationHelpers::ParseAttributeRequirement(RequirementString, OutAttribute, OutRequiredValue);
+
+                        // Assert: Valores hardcoded conhecidos
+                        TestTrue("Deve parsear requisito", bParsed);
+                        TestEqual("Atributo deve ser DEX", OutAttribute, TEXT("DEX"));
+                        TestEqual("Valor requerido deve ser 13", OutRequiredValue, 13);
+                    });
+
+                 It("deve retornar false quando formato é inválido (sem barra)", [this]()
+                    {
+                        // Arrange: String inválida
+                        FString RequirementString = TEXT("STR13");
+                        FString OutAttribute;
+                        int32 OutRequiredValue = 0;
+
+                        // Act
+                        bool bParsed = FMulticlassValidationHelpers::ParseAttributeRequirement(RequirementString, OutAttribute, OutRequiredValue);
+
+                        // Assert
+                        TestFalse("Não deve parsear formato inválido", bParsed);
+                    });
+
+                 It("deve retornar false quando formato é inválido (múltiplas barras)", [this]()
+                    {
+                        // Arrange: String inválida
+                        FString RequirementString = TEXT("STR/13/15");
+                        FString OutAttribute;
+                        int32 OutRequiredValue = 0;
+
+                        // Act
+                        bool bParsed = FMulticlassValidationHelpers::ParseAttributeRequirement(RequirementString, OutAttribute, OutRequiredValue);
+
+                        // Assert
+                        TestFalse("Não deve parsear formato inválido", bParsed);
+                    });
+             });
+
+    Describe("CanProcessProgression",
+             [this]()
+             {
+                 It("deve retornar true quando ClassName é válido e LevelInClass > 0", [this]()
+                    {
+                        // Arrange: Parâmetros válidos
+                        FName ClassName = TEXT("Fighter");
+                        int32 LevelInClass = 1;
+
+                        // Act
+                        bool bCanProcess = FMulticlassValidationHelpers::CanProcessProgression(ClassName, LevelInClass);
+
+                        // Assert
+                        TestTrue("Deve poder processar progressão", bCanProcess);
+                    });
+
+                 It("deve retornar false quando ClassName é NAME_None", [this]()
+                    {
+                        // Arrange: Classe inválida
+                        FName ClassName = NAME_None;
+                        int32 LevelInClass = 1;
+
+                        // Act
+                        bool bCanProcess = FMulticlassValidationHelpers::CanProcessProgression(ClassName, LevelInClass);
+
+                        // Assert
+                        TestFalse("Não deve poder processar progressão com classe inválida", bCanProcess);
+                    });
+
+                 It("deve retornar false quando LevelInClass é 0", [this]()
+                    {
+                        // Arrange: Nível inválido
+                        FName ClassName = TEXT("Fighter");
+                        int32 LevelInClass = 0;
+
+                        // Act
+                        bool bCanProcess = FMulticlassValidationHelpers::CanProcessProgression(ClassName, LevelInClass);
+
+                        // Assert
+                        TestFalse("Não deve poder processar progressão com nível 0", bCanProcess);
+                    });
+
+                 It("deve retornar false quando LevelInClass é negativo", [this]()
+                    {
+                        // Arrange: Nível inválido
+                        FName ClassName = TEXT("Fighter");
+                        int32 LevelInClass = -1;
+
+                        // Act
+                        bool bCanProcess = FMulticlassValidationHelpers::CanProcessProgression(ClassName, LevelInClass);
+
+                        // Assert
+                        TestFalse("Não deve poder processar progressão com nível negativo", bCanProcess);
+                    });
+             });
+
+    Describe("ValidateLoadProficienciesInputs",
+             [this]()
+             {
+                 It("deve retornar true quando parâmetros são válidos (nível 1)", [this]()
+                    {
+                        // Arrange: Parâmetros válidos
+                        FName ClassName = TEXT("Fighter");
+                        int32 LevelInClass = 1;
+                        UDataTable *ClassDataTable = NewObject<UDataTable>();
+                        ClassDataTable->RowStruct = FClassDataRow::StaticStruct();
+
+                        // Act
+                        bool bValid = FMulticlassValidationHelpers::ValidateLoadProficienciesInputs(ClassName, LevelInClass, ClassDataTable);
+
+                        // Assert
+                        TestTrue("Deve validar parâmetros válidos", bValid);
+                    });
+
+                 It("deve retornar false quando ClassName é NAME_None", [this]()
+                    {
+                        // Arrange: Classe inválida
+                        FName ClassName = NAME_None;
+                        int32 LevelInClass = 1;
+                        UDataTable *ClassDataTable = NewObject<UDataTable>();
+
+                        // Act
+                        bool bValid = FMulticlassValidationHelpers::ValidateLoadProficienciesInputs(ClassName, LevelInClass, ClassDataTable);
+
+                        // Assert
+                        TestFalse("Não deve validar classe inválida", bValid);
+                    });
+
+                 It("deve retornar false quando ClassDataTable é nullptr", [this]()
+                    {
+                        // Arrange: Data Table inválido
+                        FName ClassName = TEXT("Fighter");
+                        int32 LevelInClass = 1;
+                        UDataTable *ClassDataTable = nullptr;
+
+                        // Act
+                        bool bValid = FMulticlassValidationHelpers::ValidateLoadProficienciesInputs(ClassName, LevelInClass, ClassDataTable);
+
+                        // Assert
+                        TestFalse("Não deve validar DataTable nullptr", bValid);
+                    });
+
+                 It("deve retornar false quando LevelInClass não é 1 (proficiências só no nível 1)", [this]()
+                    {
+                        // Arrange: Nível inválido
+                        FName ClassName = TEXT("Fighter");
+                        int32 LevelInClass = 2; // Proficiências só no nível 1
+                        UDataTable *ClassDataTable = NewObject<UDataTable>();
+                        ClassDataTable->RowStruct = FClassDataRow::StaticStruct();
+
+                        // Act
+                        bool bValid = FMulticlassValidationHelpers::ValidateLoadProficienciesInputs(ClassName, LevelInClass, ClassDataTable);
+
+                        // Assert
+                        TestFalse("Não deve validar nível diferente de 1", bValid);
+                    });
+             });
+
+    Describe("BuildFeaturesString",
+             [this]()
+             {
+                 It("deve construir string formatada com múltiplas features", [this]()
+                    {
+                        // Arrange: Array com features
+                        TArray<FName> Features;
+                        Features.Add(TEXT("Second Wind"));
+                        Features.Add(TEXT("Action Surge"));
+                        Features.Add(TEXT("Fighting Style"));
+
+                        // Act
+                        FString Result = FMulticlassConversionHelpers::BuildFeaturesString(Features);
+
+                        // Assert: Valores hardcoded conhecidos
+                        TestTrue("String deve conter Second Wind", Result.Contains(TEXT("Second Wind")));
+                        TestTrue("String deve conter Action Surge", Result.Contains(TEXT("Action Surge")));
+                        TestTrue("String deve conter Fighting Style", Result.Contains(TEXT("Fighting Style")));
+                        TestTrue("String deve conter separador", Result.Contains(TEXT(", ")));
+                    });
+
+                 It("deve retornar 'Nenhum' quando array está vazio", [this]()
+                    {
+                        // Arrange: Array vazio
+                        TArray<FName> Features;
+
+                        // Act
+                        FString Result = FMulticlassConversionHelpers::BuildFeaturesString(Features);
+
+                        // Assert: Valores hardcoded conhecidos
+                        TestEqual("String deve ser 'Nenhum'", Result, TEXT("Nenhum"));
+                    });
+
+                 It("deve construir string com apenas uma feature (sem separador)", [this]()
+                    {
+                        // Arrange: Array com uma feature
+                        TArray<FName> Features;
+                        Features.Add(TEXT("Second Wind"));
+
+                        // Act
+                        FString Result = FMulticlassConversionHelpers::BuildFeaturesString(Features);
+
+                        // Assert: Valores hardcoded conhecidos
+                        TestEqual("String deve ser a feature", Result, TEXT("Second Wind"));
+                        TestFalse("String não deve conter separador", Result.Contains(TEXT(", ")));
+                    });
+             });
+
+    Describe("FeatureHasAvailableChoices",
+             [this]()
+             {
+                 It("deve retornar true quando feature é Choice com escolhas disponíveis", [this]()
+                    {
+                        // Arrange: Feature Choice com escolhas
+                        FMulticlassClassFeature Feature;
+                        Feature.FeatureType = TEXT("Choice");
+                        Feature.bHasAvailableChoices = true;
+
+                        // Act
+                        bool bHasChoices = FMulticlassValidationHelpers::FeatureHasAvailableChoices(Feature);
+
+                        // Assert
+                        TestTrue("Feature Choice com escolhas deve retornar true", bHasChoices);
+                    });
+
+                 It("deve retornar false quando feature é Automatic", [this]()
+                    {
+                        // Arrange: Feature Automatic
+                        FMulticlassClassFeature Feature;
+                        Feature.FeatureType = TEXT("Automatic");
+                        Feature.bHasAvailableChoices = false;
+
+                        // Act
+                        bool bHasChoices = FMulticlassValidationHelpers::FeatureHasAvailableChoices(Feature);
+
+                        // Assert
+                        TestFalse("Feature Automatic não deve ter escolhas", bHasChoices);
+                    });
+
+                 It("deve retornar false quando feature é Choice mas sem escolhas disponíveis", [this]()
+                    {
+                        // Arrange: Feature Choice sem escolhas
+                        FMulticlassClassFeature Feature;
+                        Feature.FeatureType = TEXT("Choice");
+                        Feature.bHasAvailableChoices = false;
+
+                        // Act
+                        bool bHasChoices = FMulticlassValidationHelpers::FeatureHasAvailableChoices(Feature);
+
+                        // Assert
+                        TestFalse("Feature Choice sem escolhas não deve retornar true", bHasChoices);
+                    });
+             });
 }
 
 #pragma endregion MulticlassHelpers Tests

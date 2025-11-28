@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Net/UnrealNetwork.h"
 #include "CharacterSheetComponent.generated.h"
 
 class UCharacterSheetDataAsset;
@@ -30,12 +31,18 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Character")
     void InitializeFromDataAsset(UCharacterSheetDataAsset *DataAsset);
 
+    /**
+     * Configura propriedades replicáveis para multiplayer.
+     * Segue princípio "Multiplayer-Ready" da arquitetura.
+     */
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 protected:
     virtual void BeginPlay() override;
 
 private:
-    /** Data Asset fonte (template) */
-    UPROPERTY(EditAnywhere, Category = "Character Sheet")
+    /** Data Asset fonte (template) - Replicável para multiplayer */
+    UPROPERTY(Replicated, EditAnywhere, Category = "Character Sheet")
     UCharacterSheetDataAsset *SourceDataAsset;
 
     /** Referência ao componente de dados em runtime */

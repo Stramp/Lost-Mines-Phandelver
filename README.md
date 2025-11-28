@@ -429,43 +429,32 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 
 ## 📚 Documentação
 
-<details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📖 Estrutura de Documentação</b></summary>
+??? "📖 Estrutura de Documentação"
+    Esta documentação segue uma estrutura hierárquica tipo **iceberg**, com explicações resumidas na superfície que linkam para documentos mais profundos e detalhados.
 
-> A documentação está organizada em `docs/` seguindo uma estrutura hierárquica tipo "iceberg":
->
-> - **Nível 1 (Superfície):** `README.md` e `ARCHITECTURE.md` na raiz
-> - **Nível 2 (Intermediário):** Documentos organizados por categoria em `docs/`
-> - **Nível 3 (Profundo):** Documentos específicos e detalhados
->
-> **Principais Documentos:**
->
-> - **[docs/index.md](docs/index.md)** - Índice completo da documentação
-> - **[docs/NAVIGATION.md](docs/NAVIGATION.md)** - Mapa completo de navegação
-> - **[docs/GLOSSARY.md](docs/GLOSSARY.md)** - Glossário de conceitos e termos
-> - **[docs/design/gdd.md](docs/design/gdd.md)** - Game Design Document
-> - **[docs/technical/architecture.md](docs/technical/architecture.md)** - Arquitetura técnica completa
-> - **[docs/technical/api.md](docs/technical/api.md)** - Referência completa da API
-> - **[docs/planning/roadmap.md](docs/planning/roadmap.md)** - Roadmap completo do projeto
->
-> **🌐 Documentação HTML (MkDocs Material):**
->
-> Para uma experiência de navegação melhorada com busca integrada, você pode gerar a documentação HTML:
->
-> ```bash
-> # Instalar dependências
-> pip install -r requirements-docs.txt
->
-> # Servir localmente (desenvolvimento)
-> mkdocs serve
->
-> # Gerar site estático
-> mkdocs build
-> ```
->
-> **📖 Para mais detalhes, veja [docs/README-MKDOCS.md](docs/README-MKDOCS.md)**
+    **Níveis de Profundidade:**
 
-</details>
+    - **Nível 1 (Superfície):** Visão geral e resumos - `README.md` e `ARCHITECTURE.md` na raiz
+    - **Nível 2 (Intermediário):** Documentos organizados por categoria - `docs/design/` e `docs/technical/`
+    - **Nível 3 (Profundo):** Documentos específicos e detalhados - arquivos individuais dentro de cada categoria
+    - **Nível 4+ (Muito Profundo):** Seções específicas dentro de documentos, exemplos de código, referências técnicas
+
+    **Separação de Responsabilidades:**
+
+    - **Design:** Regras de jogo, mecânicas D&D 5e, visão do produto final
+    - **Técnico:** Arquitetura, API, implementação, guias de desenvolvimento
+    - **Planejamento:** Roadmap completo, fases de desenvolvimento, decisões arquiteturais
+
+    **Principais Documentos:**
+
+    - **[docs/index.md](docs/index.md)** - Índice completo da documentação
+    - **[docs/NAVIGATION.md](docs/NAVIGATION.md)** - Mapa completo de navegação
+    - **[docs/GLOSSARY.md](docs/GLOSSARY.md)** - Glossário de conceitos e termos
+    - **[docs/design/gdd.md](docs/design/gdd.md)** - Game Design Document
+    - **[docs/technical/architecture.md](docs/technical/architecture.md)** - Arquitetura técnica completa
+    - **[docs/technical/api.md](docs/technical/api.md)** - Referência completa da API
+    - **[docs/planning/roadmap.md](docs/planning/roadmap.md)** - Roadmap completo do projeto
+
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📖 Documentação Completa</b></summary>
@@ -478,29 +467,6 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > - Use [docs/NAVIGATION.md](docs/NAVIGATION.md) para mapa completo
 > - Consulte [docs/GLOSSARY.md](docs/GLOSSARY.md) para conceitos
 >
-> ### 🌐 Site HTML (MkDocs Material)
->
-> **Gerar site localmente:**
->
-> ```bash
-> # Instalar dependências
-> pip install -r requirements-docs.txt
->
-> # Servir localmente
-> mkdocs serve
->
-> # Acessar: http://127.0.0.1:8000
-> ```
->
-> **Recursos do site:**
-> - ✅ Busca integrada full-text
-> - ✅ Navegação lateral hierárquica
-> - ✅ Tema Material Design
-> - ✅ Dark mode automático
-> - ✅ Syntax highlighting
-> - ✅ Breadcrumbs automáticos
->
-> **📖 Para mais detalhes, veja [docs/README-MKDOCS.md](docs/README-MKDOCS.md)**
 
 </details>
 

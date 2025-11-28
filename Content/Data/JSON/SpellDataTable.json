@@ -1,14 +1,19 @@
 [
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Firebolt",
     "ID": "SPL_Firebolt",
     "SpellLevel": 0,
-    "TypeTags": [
-      "Spell.Damage",
-      "Spell.Target"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Spell.Damage"
+        },
+        {
+          "TagName": "Spell.Target"
+        }
+      ],
+      "ParentTags": []
+    },
     "SchoolReference": {
       "DataTable": "/Game/Data/SpellSchoolDataTable",
       "RowName": "SCH_Evocation"
@@ -28,14 +33,17 @@
     }
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Mage Hand",
     "ID": "SPL_MageHand",
     "SpellLevel": 0,
-    "TypeTags": [
-      "Spell.Buff"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Spell.Buff"
+        }
+      ],
+      "ParentTags": []
+    },
     "SchoolReference": {
       "DataTable": "/Game/Data/SpellSchoolDataTable",
       "RowName": "SCH_Conjuration"
@@ -50,15 +58,20 @@
     }
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Fireball",
     "ID": "SPL_Fireball",
     "SpellLevel": 3,
-    "TypeTags": [
-      "Spell.Damage",
-      "Spell.Area"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Spell.Damage"
+        },
+        {
+          "TagName": "Spell.Area"
+        }
+      ],
+      "ParentTags": []
+    },
     "SchoolReference": {
       "DataTable": "/Game/Data/SpellSchoolDataTable",
       "RowName": "SCH_Evocation"
@@ -79,15 +92,20 @@
     }
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Magic Missile",
     "ID": "SPL_MagicMissile",
     "SpellLevel": 1,
-    "TypeTags": [
-      "Spell.Damage",
-      "Spell.Target"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Spell.Damage"
+        },
+        {
+          "TagName": "Spell.Target"
+        }
+      ],
+      "ParentTags": []
+    },
     "SchoolReference": {
       "DataTable": "/Game/Data/SpellSchoolDataTable",
       "RowName": "SCH_Evocation"
@@ -108,15 +126,20 @@
     }
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Healing Word",
     "ID": "SPL_HealingWord",
     "SpellLevel": 1,
-    "TypeTags": [
-      "Spell.Healing",
-      "Spell.Target"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Spell.Healing"
+        },
+        {
+          "TagName": "Spell.Target"
+        }
+      ],
+      "ParentTags": []
+    },
     "SchoolReference": {
       "DataTable": "/Game/Data/SpellSchoolDataTable",
       "RowName": "SCH_Evocation"
@@ -133,15 +156,20 @@
     }
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Shield",
     "ID": "SPL_Shield",
     "SpellLevel": 1,
-    "TypeTags": [
-      "Spell.Buff",
-      "Spell.Defensive"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Spell.Buff"
+        },
+        {
+          "TagName": "Spell.Defensive"
+        }
+      ],
+      "ParentTags": []
+    },
     "SchoolReference": {
       "DataTable": "/Game/Data/SpellSchoolDataTable",
       "RowName": "SCH_Abjuration"

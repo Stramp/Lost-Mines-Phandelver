@@ -27,7 +27,7 @@ related: [testing.md, testing-implementation-plan.md]
 
 ## 🎯 Visão Geral
 
-Este documento consolida todo o conhecimento sobre **Test-Driven Development (TDD)** aprendido de múltiplas fontes, com foco especial em aplicação prática no contexto de **Unreal Engine 5.7** e **C++**.
+Este documento consolida todo o conhecimento sobre **Test-Driven Development (TDD)** aprendido de múltiplas fontes, com foco especial em aplicação prática no contexto de **Unreal Engine 5.7** e **C**.
 
 **Fontes Consultadas:**
 - [Aprenda TDD na Prática (GitHub)](https://github.com/PauloGoncalvesBH/aprenda-tdd-na-pratica)
@@ -78,7 +78,7 @@ test('calcularTroco(1,1) deve retornar [] - Um array vazio', (assert) => {
 })
 ```
 
-**No contexto Unreal Engine (C++):**
+**No contexto Unreal Engine (C):**
 
 ```cpp
 // RED: Teste que falha
@@ -359,35 +359,35 @@ It("deve retornar true quando feature tem AvailableChoices preenchido", [this]()
 
 > **Aplicar TDD rigorosamente quando:**
 >
+
 > 1. **Helpers e Utils** (`Utils/`, `Helpers/`)
->    - Funções reutilizáveis
->    - Funções puras (sem side effects)
->    - Cálculos e transformações
+> - Funções reutilizáveis
+> - Funções puras (sem side effects)
+> - Cálculos e transformações
 >
 > 2. **Motores** (`*Motor.cpp`)
->    - Lógica de negócio complexa
->    - PointBuy, Multiclass, RaceBonus
->    - Orquestração de regras
+> - Lógica de negócio complexa
+> - PointBuy, Multiclass, RaceBonus
+> - Orquestração de regras
 >
 > 3. **Validators** (`*Validator.cpp`)
->    - Regras de validação
->    - Validação de dados
->    - Edge cases
+> - Regras de validação
+> - Validação de dados
+> - Edge cases
 >
 > 4. **Cálculos Complexos**
->    - Modificadores de ability scores
->    - Cálculo de proficiência
->    - Cálculo de HP
->    - Cálculo de AC
+> - Modificadores de ability scores
+> - Cálculo de proficiência
+> - Cálculo de HP
+> - Cálculo de AC
 >
 > 5. **Regras de Negócio**
->    - Regras D&D 5e
->    - Multiclassing
->    - Point Buy System
->    - Validações de Variant Human
-
+> - Regras D&D 5e
+> - Multiclassing
+> - Point Buy System
+> - Validações de Variant Human
+>
 </details>
-
 ### ⚠️ Test-After Aceitável (Exceções)
 
 <details>
@@ -395,39 +395,39 @@ It("deve retornar true quando feature tem AvailableChoices preenchido", [this]()
 
 > **Escrever teste depois é aceitável quando:**
 >
+
 > 1. **Getters/Setters Simples**
->    ```cpp
->    // Não precisa de teste primeiro
->    float GetHealth() const { return Health; }
->    ```
+> ```cpp
+> // Não precisa de teste primeiro
+> float GetHealth() const { return Health; }
+> ```
 >
 > 2. **Wrappers de API Unreal**
->    ```cpp
->    // Wrapper simples, testar depois se necessário
->    UDataTable* GetRaceDataTable() const { return RaceDataTable; }
->    ```
+> ```cpp
+> // Wrapper simples, testar depois se necessário
+> UDataTable* GetRaceDataTable() const { return RaceDataTable; }
+> ```
 >
 > 3. **Integração com Blueprint**
->    ```cpp
->    // Integração complexa, testar depois pode ser mais prático
->    UFUNCTION(BlueprintCallable)
->    void InitializeFromBlueprint(UCharacterSheetDataAsset* Asset);
->    ```
+> ```cpp
+> // Integração complexa, testar depois pode ser mais prático
+> UFUNCTION(BlueprintCallable)
+> void InitializeFromBlueprint(UCharacterSheetDataAsset* Asset);
+> ```
 >
 > 4. **Mudanças Muito Pequenas** (< 5 linhas, sem lógica complexa)
->    ```cpp
->    // Ajuste simples
->    void LogMessage(const FString& Message) { UE_LOG(LogTemp, Warning, TEXT("%s"), *Message); }
->    ```
-
+> ```cpp
+> // Ajuste simples
+> void LogMessage(const FString& Message) { UE_LOG(LogTemp, Warning, TEXT("%s"), *Message); }
+> ```
+>
 > 5. **Correções de Bugs**
->    ```cpp
->    // Bug fix: escrever teste que reproduz bug, depois corrigir
->    It("deve corrigir bug X", [this]() { /* reproduz bug */ });
->    ```
+> ```cpp
+> // Bug fix: escrever teste que reproduz bug, depois corrigir
+> It("deve corrigir bug X", [this]() { /* reproduz bug */ });
+> ```
 >
 </details>
-
 ---
 
 ## 🏗️ TDD na Unreal Engine 5.7
@@ -509,6 +509,7 @@ It("deve calcular modificador correto para score 15", [this]()
 
 > **REGRA ABSOLUTA:** Testes **NUNCA** podem passar com lógica interna. O teste deve **sempre** enviar dados para o módulo oficial que será testado.
 >
+
 > **Princípios:**
 >
 > 1. **Teste usa mocks para simular dados** - Não para implementar lógica
@@ -521,14 +522,14 @@ It("deve calcular modificador correto para score 15", [this]()
 > ```cpp
 > It("deve calcular modificador correto para score 15", [this]()
 > {
->     // ❌ ERRADO: Teste calcula o resultado internamente
->     int32 Score = 15;
->     int32 ExpectedModifier = (Score - 10) / 2;  // ❌ Lógica interna!
+> // ❌ ERRADO: Teste calcula o resultado internamente
+> int32 Score = 15;
+> int32 ExpectedModifier = (Score - 10) / 2;  // ❌ Lógica interna!
 >
->     int32 Result = CalculationHelpers::CalculateAbilityModifier(Score);
+> int32 Result = CalculationHelpers::CalculateAbilityModifier(Score);
 >
->     TestEqual("Modificador deve ser correto", Result, ExpectedModifier);
->     // ❌ Este teste passaria mesmo se CalculateAbilityModifier estivesse errado!
+> TestEqual("Modificador deve ser correto", Result, ExpectedModifier);
+> // ❌ Este teste passaria mesmo se CalculateAbilityModifier estivesse errado!
 > });
 > ```
 >
@@ -537,16 +538,16 @@ It("deve calcular modificador correto para score 15", [this]()
 > ```cpp
 > It("deve calcular modificador correto para score 15 (modificador +2)", [this]()
 > {
->     // ✅ CORRETO: Valor esperado é hardcoded, não calculado
->     int32 Score = 15;
->     int32 ExpectedModifier = 2;  // ✅ Valor fixo conhecido
+> // ✅ CORRETO: Valor esperado é hardcoded, não calculado
+> int32 Score = 15;
+> int32 ExpectedModifier = 2;  // ✅ Valor fixo conhecido
 >
->     // Act: Envia para o módulo oficial
->     int32 Result = CalculationHelpers::CalculateAbilityModifier(Score);
+> // Act: Envia para o módulo oficial
+> int32 Result = CalculationHelpers::CalculateAbilityModifier(Score);
 >
->     // Assert: Compara com valor fixo
->     TestEqual("Modificador para score 15 deve ser +2", Result, ExpectedModifier);
->     // ✅ Este teste falha se CalculateAbilityModifier estiver errado!
+> // Assert: Compara com valor fixo
+> TestEqual("Modificador para score 15 deve ser +2", Result, ExpectedModifier);
+> // ✅ Este teste falha se CalculateAbilityModifier estiver errado!
 > });
 > ```
 >
@@ -558,23 +559,23 @@ It("deve calcular modificador correto para score 15", [this]()
 > // ✅ CORRETO: Mock simula dados conhecidos
 > It("deve encontrar feat row quando existe", [this]()
 > {
->     // Arrange: Mock de DataTable com dados conhecidos
->     UDataTable* MockDataTable = NewObject<UDataTable>();
->     FFeatDataRow* TestRow = new FFeatDataRow();
->     TestRow->FeatName = TEXT("Great Weapon Master");
->     MockDataTable->AddRow(FName(TEXT("Great Weapon Master")), *TestRow);
+> // Arrange: Mock de DataTable com dados conhecidos
+> UDataTable* MockDataTable = NewObject<UDataTable>();
+> FFeatDataRow* TestRow = new FFeatDataRow();
+> TestRow->FeatName = TEXT("Great Weapon Master");
+> MockDataTable->AddRow(FName(TEXT("Great Weapon Master")), *TestRow);
 >
->     // Act: Envia para o módulo oficial
->     FFeatDataRow* Result = DataTableHelpers::FindFeatRow(
->         TEXT("Great Weapon Master"),
->         MockDataTable  // ✅ Mock apenas simula dados, não implementa lógica
->     );
+> // Act: Envia para o módulo oficial
+> FFeatDataRow* Result = DataTableHelpers::FindFeatRow(
+> TEXT("Great Weapon Master"),
+> MockDataTable  // ✅ Mock apenas simula dados, não implementa lógica
+> );
 >
->     // Assert: Verifica resultado com valor conhecido
->     TestNotNull("Deve encontrar row", Result);
->     TestEqual("FeatName deve ser Great Weapon Master",
->               Result->FeatName, TEXT("Great Weapon Master"));  // ✅ Valor fixo
->     // ✅ Teste falha se FindFeatRow estiver errado!
+> // Assert: Verifica resultado com valor conhecido
+> TestNotNull("Deve encontrar row", Result);
+> TestEqual("FeatName deve ser Great Weapon Master",
+> Result->FeatName, TEXT("Great Weapon Master"));  // ✅ Valor fixo
+> // ✅ Teste falha se FindFeatRow estiver errado!
 > });
 > ```
 >
@@ -584,40 +585,39 @@ It("deve calcular modificador correto para score 15", [this]()
 > // ❌ ERRADO: Teste implementa lógica de busca internamente
 > It("deve encontrar feat row quando existe", [this]()
 > {
->     UDataTable* MockDataTable = NewObject<UDataTable>();
->     // ... setup mock ...
+> UDataTable* MockDataTable = NewObject<UDataTable>();
+> // ... setup mock ...
 >
->     // ❌ ERRADO: Teste implementa lógica de busca
->     FFeatDataRow* ExpectedRow = nullptr;
->     for (auto& Pair : MockDataTable->GetRowMap())
->     {
->         if (Pair.Key == TEXT("Great Weapon Master"))
->         {
->             ExpectedRow = (FFeatDataRow*)Pair.Value;
->             break;
->         }
->     }
+> // ❌ ERRADO: Teste implementa lógica de busca
+> FFeatDataRow* ExpectedRow = nullptr;
+> for (auto& Pair : MockDataTable->GetRowMap())
+> {
+> if (Pair.Key == TEXT("Great Weapon Master"))
+> {
+> ExpectedRow = (FFeatDataRow*)Pair.Value;
+> break;
+> }
+> }
 >
->     FFeatDataRow* Result = DataTableHelpers::FindFeatRow(TEXT("Great Weapon Master"), MockDataTable);
+> FFeatDataRow* Result = DataTableHelpers::FindFeatRow(TEXT("Great Weapon Master"), MockDataTable);
 >
->     TestEqual("Deve ser o mesmo row", Result, ExpectedRow);
->     // ❌ Este teste passaria mesmo se FindFeatRow estiver errado!
+> TestEqual("Deve ser o mesmo row", Result, ExpectedRow);
+> // ❌ Este teste passaria mesmo se FindFeatRow estiver errado!
 > });
 > ```
 >
 > **Regra de Ouro:**
 >
-> > **"Se você pode remover a função sendo testada e o teste ainda passa, o teste está errado."**
->
-> **Checklist:**
->
-> - [ ] Valor esperado é hardcoded (não calculado)?
-> - [ ] Teste chama a função real do módulo oficial?
-> - [ ] Mock apenas simula dados (não implementa lógica)?
-> - [ ] Teste falharia se o código estivesse errado?
-> - [ ] Não há lógica de cálculo no teste?
-
 </details>
+    > **"Se você pode remover a função sendo testada e o teste ainda passa, o teste está errado."**
+
+    **Checklist:**
+
+    - [ ] Valor esperado é hardcoded (não calculado)?
+    - [ ] Teste chama a função real do módulo oficial?
+    - [ ] Mock apenas simula dados (não implementa lógica)?
+    - [ ] Teste falharia se o código estivesse errado?
+    - [ ] Não há lógica de cálculo no teste?
 
 ---
 
@@ -963,27 +963,27 @@ It("deve processar após cooldown", [this]()
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📚 Repositórios e Tutoriais</b></summary>
 
 > 1. **[Aprenda TDD na Prática](https://github.com/PauloGoncalvesBH/aprenda-tdd-na-pratica)**
->    - Tutorial prático em JavaScript
->    - Exemplo de calculadora de troco
->    - Demonstra ciclo Red-Green-Refactor
+> - Tutorial prático em JavaScript
+> - Exemplo de calculadora de troco
+> - Demonstra ciclo Red-Green-Refactor
 >
+
 > 2. **[Agile Data - TDD Essay](https://agiledata.org/essays/tdd.html)**
->    - Conceitos fundamentais
->    - Benefícios e desafios
->    - Práticas recomendadas
+> - Conceitos fundamentais
+> - Benefícios e desafios
+> - Práticas recomendadas
 >
 > 3. **[Microsoft Learn - TDD](https://learn.microsoft.com/en-us/visualstudio/test/quick-start-test-driven-development-with-test-explorer)**
->    - TDD no Visual Studio
->    - Test Explorer
->    - Integração com .NET
+> - TDD no Visual Studio
+> - Test Explorer
+> - Integração com .NET
 >
 > 4. **[EnactJS - TDD Guide](https://enactjs.com/docs/developer-guide/testing-components/test-driven-development/)**
->    - TDD para componentes React
->    - Padrões e práticas
->    - Exemplos práticos
-
+> - TDD para componentes React
+> - Padrões e práticas
+> - Exemplos práticos
+>
 </details>
-
 ### Livros Recomendados
 
 - **"Test Driven Development: By Example"** - Kent Beck
@@ -1032,10 +1032,9 @@ It("deve processar após cooldown", [this]()
 > 3. **Detecção Precoce de Bugs** - Testes falham imediatamente
 > 4. **Design Melhor** - TDD força interfaces claras
 > 5. **Redução de Dívida Técnica** - Código testado é mais fácil de manter
+>
 
 </details>
-
-### Princípios Fundamentais
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Princípios Fundamentais do TDD</b></summary>
@@ -1045,10 +1044,9 @@ It("deve processar após cooldown", [this]()
 > 3. **Testes independentes e rápidos**
 > 4. **Nomes descritivos**
 > 5. **Padrão AAA (Arrange-Act-Assert)**
+>
 
 </details>
-
----
 
 ## 📝 Conclusão
 

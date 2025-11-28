@@ -8,7 +8,7 @@
 #include "CreateSheet/Multiclass/MulticlassValidators.h"
 
 // Project includes - CreateSheet
-#include "CreateSheet/Multiclass/MulticlassHelpers.h"
+#include "CreateSheet/Multiclass/MulticlassValidationHelpers.h"
 
 // Project includes - Data Tables
 #include "Data/Tables/ClassDataTable.h"
@@ -30,12 +30,12 @@
 
 bool FMulticlassValidators::ValidateMulticlassRequirements(
     const TArray<FString> &MulticlassRequirements, const TArray<int32> &Attributes,
-    const TMap<FString, FMulticlassHelpers::FAttributeInfo> &AttributeMap, FString &OutMissingTag)
+    const TMap<FString, FMulticlassValidationHelpers::FAttributeInfo> &AttributeMap, FString &OutMissingTag)
 {
     for (const FString &RequirementStr : MulticlassRequirements)
     {
         FString OrMissingTag;
-        if (!FMulticlassHelpers::ValidateOrRequirement(RequirementStr, Attributes, AttributeMap, OrMissingTag))
+        if (!FMulticlassValidationHelpers::ValidateOrRequirement(RequirementStr, Attributes, AttributeMap, OrMissingTag))
         {
             OutMissingTag = OrMissingTag;
             return false; // AND falhou
@@ -54,15 +54,15 @@ bool FMulticlassValidators::ValidateMulticlassRequirements(
 
 void FMulticlassValidators::ProcessClassWithRequirements(
     const FClassDataRow *ClassRow, const TArray<int32> &Attributes,
-    const TMap<FString, FMulticlassHelpers::FAttributeInfo> &AttributeMap, TArray<FName> &OutResult,
+    const TMap<FString, FMulticlassValidationHelpers::FAttributeInfo> &AttributeMap, TArray<FName> &OutResult,
     const UDataTable *AbilityScoreDataTable)
 {
-    if (!ClassRow || ClassRow->ClassName == NAME_None)
+    if (!ClassRow || ClassRow->Name == NAME_None)
     {
         return;
     }
 
-    FString ClassName = ClassRow->ClassName.ToString();
+    FString ClassName = ClassRow->Name.ToString();
 
     // Tenta usar nova estrutura normalizada primeiro (se disponível e AbilityScoreDataTable fornecido)
     if (ClassRow->MulticlassRequirementGroups.Num() > 0 && AbilityScoreDataTable)
@@ -127,7 +127,7 @@ bool FMulticlassValidators::ValidateRequirement(const FMulticlassRequirement &Re
 
     // Mapeia AbilityID para índice
     int32 AttributeIndex = -1;
-    if (!FMulticlassHelpers::MapAbilityIDToIndex(Requirement.AbilityID, AbilityScoreDataTable, AttributeIndex))
+    if (!FMulticlassValidationHelpers::MapAbilityIDToIndex(Requirement.AbilityID, AbilityScoreDataTable, AttributeIndex))
     {
         OutMissingTag = FString::Printf(TEXT("[%s +?]"), *Requirement.AbilityID.ToString());
         return false;

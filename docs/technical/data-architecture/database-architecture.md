@@ -12,11 +12,12 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 
 # Arquitetura de Banco de Dados - MyProject2
 
-<details open>
+<details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Resumo Executivo</b></summary>
 
 > Este documento descreve a **arquitetura de banco de dados normalizada** implementada no projeto, baseada em princípios de **Data-Oriented Design** e **Composição sobre Herança**, inspirada em jogos AAA como Baldur's Gate 3.
 >
+
 > **Princípios Fundamentais:**
 >
 > - ✅ **Normalização:** Dados organizados em tabelas relacionais, sem duplicação
@@ -25,9 +26,14 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 > - ✅ **Gameplay Tags:** Categorização flexível e hierárquica
 > - ✅ **Soft References:** Lazy loading de assets para performance
 > - ✅ **Separação Static/Dynamic:** Definições em Data Tables, estado em runtime
-
+>
+> **📖 Documentação Relacionada:**
+>
+> - **[Regras D&D 5e](../../design/dnd-rules/index.md)** - Regras implementadas no sistema
+> - **[GAS + D&D Adaptation](../../design/gas-dnd-adaptation.md)** - Como D&D 5e é adaptado para GAS
+> - **[Ideal Data Structure Report](ideal-data-structure-report.md)** - Análise completa e recomendações
+>
 </details>
-
 ---
 
 ## 🎯 Padrão "Name + ID + Tags + Payload"
@@ -37,6 +43,7 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 
 > Cada entrada em uma Data Table segue o padrão **"Name + ID + Tags + Payload"**:
 >
+
 > - **Name**: Nome de exibição (Key Field do Unreal Engine) - usado como chave primária na Data Table
 > - **ID**: Identificador único interno (ex: `RACE_Elf`, `CLASS_Fighter`, `ITM_Longsword`)
 > - **Tags**: Metadados e categorização via Gameplay Tags (ex: `TypeTags`)
@@ -50,23 +57,23 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 > USTRUCT(BlueprintType)
 > struct FRaceDataRow : public FTableRowBase
 > {
->     GENERATED_BODY()
+> GENERATED_BODY()
 >
->     // Name: Key Field (obrigatório pelo Unreal Engine)
->     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
->     FName Name;  // Ex: "Elf" - usado como chave primária
+> // Name: Key Field (obrigatório pelo Unreal Engine)
+> UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
+> FName Name;  // Ex: "Elf" - usado como chave primária
 >
->     // ID: Identificador único interno
->     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
->     FName ID;  // Ex: "RACE_Elf" - usado para referências no código
+> // ID: Identificador único interno
+> UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
+> FName ID;  // Ex: "RACE_Elf" - usado para referências no código
 >
->     // Tags: Categorização flexível
->     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
->     FGameplayTagContainer TypeTags;  // Ex: ["Race.Elf", "Race.Fey"]
+> // Tags: Categorização flexível
+> UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
+> FGameplayTagContainer TypeTags;  // Ex: ["Race.Elf", "Race.Fey"]
 >
->     // Payload: Dados específicos (ex: TraitHandles, LanguageHandles, etc.)
->     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
->     TArray<FDataTableRowHandle> TraitHandles;  // Referências type-safe
+> // Payload: Dados específicos (ex: TraitHandles, LanguageHandles, etc.)
+> UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
+> TArray<FDataTableRowHandle> TraitHandles;  // Referências type-safe
 > };
 > ```
 >
@@ -76,9 +83,8 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 > - ✅ **ID para Código:** Identificador estável e único para referências no código
 > - ✅ **Separação de Responsabilidades:** Name pode ser traduzido, ID permanece estável
 > - ✅ **Type Safety:** Editor valida referências automaticamente via `FDataTableRowHandle`
-
+>
 </details>
-
 ---
 
 ## 🔗 FDataTableRowHandle: Referências Type-Safe
@@ -88,6 +94,7 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 
 > **FDataTableRowHandle** é usado para criar referências type-safe entre Data Tables, substituindo strings e arrays diretos.
 >
+
 > **Antes (❌ ERRADO):**
 >
 > ```cpp
@@ -123,14 +130,13 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 > // Resolver referência
 > if (const FTraitDataRow* TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
 > {
->     // Usar dados do trait
->     FString TraitName = TraitRow->Name.ToString();  // Name para exibição
->     FName TraitID = TraitRow->ID;  // ID para referências no código
+> // Usar dados do trait
+> FString TraitName = TraitRow->Name.ToString();  // Name para exibição
+> FName TraitID = TraitRow->ID;  // ID para referências no código
 > }
 > ```
-
+>
 </details>
-
 ---
 
 ## 🏷️ Gameplay Tags: Categorização Flexível
@@ -140,44 +146,44 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 
 > **Gameplay Tags** fornecem categorização hierárquica e flexível, substituindo enums rígidos e strings.
 >
+
 > **Configuração:**
 >
 > ```ini
-> # Content/Data/GameplayTags/MyProject2Tags.ini
-> [GameplayTags]
-> +GameplayTagList=(Tag="Race.Elf",DevComment="Elf race")
-> +GameplayTagList=(Tag="Race.Dwarf",DevComment="Dwarf race")
-> +GameplayTagList=(Tag="Item.Weapon",DevComment="Weapon item")
-> +GameplayTagList=(Tag="Item.Armor",DevComment="Armor item")
-> ```
->
-> **Uso em C++:**
->
-> ```cpp
-> UPROPERTY(EditAnywhere, BlueprintReadWrite)
-> FGameplayTagContainer TypeTags;  // ["Race.Elf", "Race.Fey"]
->
-> // Verificar tags
-> if (GameplayTagHelpers::HasTag(TypeTags, FGameplayTag::RequestGameplayTag("Race.Elf")))
-> {
->     // É um Elf
-> }
->
-> // Verificar grupo de tags
-> if (GameplayTagHelpers::HasAnyTagInGroup(TypeTags, FGameplayTag::RequestGameplayTag("Race")))
-> {
->     // É uma raça
-> }
-> ```
->
-> **Benefícios:**
->
-> - ✅ **Flexibilidade:** Adicionar novas categorias sem modificar código
-> - ✅ **Hierarquia:** Tags podem ter parent tags (ex: `Race.Elf` é filho de `Race`)
-> - ✅ **Performance:** Comparação eficiente via FName
-> - ✅ **Editor-Friendly:** Seleção visual de tags no editor
-
 </details>
+    # Content/Data/GameplayTags/MyProject2Tags.ini
+    [GameplayTags]
+    +GameplayTagList=(Tag="Race.Elf",DevComment="Elf race")
+    +GameplayTagList=(Tag="Race.Dwarf",DevComment="Dwarf race")
+    +GameplayTagList=(Tag="Item.Weapon",DevComment="Weapon item")
+    +GameplayTagList=(Tag="Item.Armor",DevComment="Armor item")
+    ```
+
+    **Uso em C++:**
+
+    ```cpp
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FGameplayTagContainer TypeTags;  // ["Race.Elf", "Race.Fey"]
+
+    // Verificar tags
+    if (GameplayTagHelpers::HasTag(TypeTags, FGameplayTag::RequestGameplayTag("Race.Elf")))
+    {
+    // É um Elf
+    }
+
+    // Verificar grupo de tags
+    if (GameplayTagHelpers::HasAnyTagInGroup(TypeTags, FGameplayTag::RequestGameplayTag("Race")))
+    {
+    // É uma raça
+    }
+    ```
+
+    **Benefícios:**
+
+    - ✅ **Flexibilidade:** Adicionar novas categorias sem modificar código
+    - ✅ **Hierarquia:** Tags podem ter parent tags (ex: `Race.Elf` é filho de `Race`)
+    - ✅ **Performance:** Comparação eficiente via FName
+    - ✅ **Editor-Friendly:** Seleção visual de tags no editor
 
 ---
 
@@ -188,6 +194,7 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 
 > **TSoftObjectPtr** é usado para referências a assets que são carregados sob demanda (lazy loading).
 >
+
 > **Uso:**
 >
 > ```cpp
@@ -204,7 +211,7 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 > // Carregar asset quando necessário
 > if (UTexture2D* LoadedTexture = SoftReferenceHelpers::LoadSoftReference(IconTexture))
 > {
->     // Usar texture carregada
+> // Usar texture carregada
 > }
 > ```
 >
@@ -213,9 +220,8 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 > - ✅ **Performance:** Assets só são carregados quando necessários
 > - ✅ **Memória:** Reduz uso de memória em runtime
 > - ✅ **Streaming:** Suporta streaming de assets
-
+>
 </details>
-
 ---
 
 ## 📊 Estrutura de Data Tables
@@ -225,6 +231,7 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 
 > **Tabelas de Referência** contêm dados reutilizáveis referenciados por outras tabelas:
 >
+
 > 1. **`AbilityScoreDataTable`** - Atributos (Strength, Dexterity, etc.)
 > 2. **`TraitDataTable`** - Traits reutilizáveis (Darkvision, FeyAncestry, etc.)
 > 3. **`LanguageDataTable`** - Idiomas (Common, Elvish, etc.)
@@ -234,38 +241,37 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 > 7. **`DamageTypeDataTable`** - Tipos de dano (Fire, Cold, etc.)
 > 8. **`ConditionDataTable`** - Condições (Poisoned, Charmed, etc.)
 > 9. **`ProficiencyDataTable`** - Proficiências (Armor, Weapons, etc.)
-
+>
 </details>
-
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Tabelas Principais</b></summary>
 
 > **Tabelas Principais** contêm dados de entidades principais do jogo:
 >
+
 > 1. **`RaceDataTable`** - Raças e sub-raças
->    - Referencia: `TraitDataTable`, `LanguageDataTable`, `AbilityScoreDataTable`
->    - Usa: `TraitHandles`, `LanguageHandles`, `SubraceHandles`
+> - Referencia: `TraitDataTable`, `LanguageDataTable`, `AbilityScoreDataTable`
+> - Usa: `TraitHandles`, `LanguageHandles`, `SubraceHandles`
 >
 > 2. **`ClassDataTable`** - Classes e progressão
->    - Referencia: `AbilityScoreDataTable`, `SkillDataTable`, `ProficiencyDataTable`
->    - Usa: `SavingThrowIDs`, `AvailableSkillHandles`
+> - Referencia: `AbilityScoreDataTable`, `SkillDataTable`, `ProficiencyDataTable`
+> - Usa: `SavingThrowIDs`, `AvailableSkillHandles`
 >
 > 3. **`BackgroundDataTable`** - Backgrounds
->    - Referencia: `SkillDataTable`, `LanguageDataTable`, `FeatureDataTable`
->    - Usa: `SkillProficiencyHandles`, `LanguageHandles`, `FeatureHandle`
+> - Referencia: `SkillDataTable`, `LanguageDataTable`, `FeatureDataTable`
+> - Usa: `SkillProficiencyHandles`, `LanguageHandles`, `FeatureHandle`
 >
 > 4. **`FeatDataTable`** - Feats
->    - Referencia: `FeatureDataTable` (via `FC_ID`)
+> - Referencia: `FeatureDataTable` (via `FC_ID`)
 >
 > 5. **`FeatureDataTable`** - Features de classe
->    - Dados estruturados em `FeatureData` (TMap)
+> - Dados estruturados em `FeatureData` (TMap)
 >
 > 6. **`ItemDataTable`** - Itens
->    - Referencia: `SpellDataTable` (via `SpellHandle`)
->    - Usa: `IconTexture`, `MeshReference` (Soft References)
-
+> - Referencia: `SpellDataTable` (via `SpellHandle`)
+> - Usa: `IconTexture`, `MeshReference` (Soft References)
+>
 </details>
-
 ---
 
 ## 🔄 Migração de Dados
@@ -275,6 +281,7 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 
 > Scripts Python foram criados para migrar dados antigos para a nova estrutura:
 >
+
 > - `scripts/migrate_race_json.py` - Migra `Race_All.json` → `RaceDataTable.json`
 > - `scripts/migrate_class_json.py` - Migra `DJ_Class.json` → `ClassDataTable.json`
 > - `scripts/migrate_background_json.py` - Migra `Background_All.json` → `BackgroundDataTable.json`
@@ -290,9 +297,8 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 > - ✅ Adição de `TypeTags` (Gameplay Tags)
 > - ✅ Normalização de dados duplicados
 > - ✅ Estrutura "flat" (sem aninhamento profundo)
-
+>
 </details>
-
 ---
 
 ## 🛠️ Helpers e Utilitários
@@ -302,6 +308,7 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 
 > **DataTableRowHandleHelpers:**
 >
+
 > ```cpp
 > // Resolver referência para row específica
 > template<typename RowType>
@@ -341,9 +348,8 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 > template<typename AssetType>
 > bool IsSoftReferenceValid(const TSoftObjectPtr<AssetType>& SoftRef);
 > ```
-
+>
 </details>
-
 ---
 
 ## 📋 Checklist de Implementação
@@ -353,6 +359,7 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 
 > **Sempre seguir:**
 >
+
 > - [ ] **Name como primeiro campo** (Key Field obrigatório do Unreal Engine)
 > - [ ] **ID como segundo campo** (identificador único interno)
 > - [ ] Adicionar campo `TypeTags` (FGameplayTagContainer) para categorização
@@ -363,9 +370,8 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 > - [ ] Adicionar testes para carregamento e validação
 > - [ ] Documentar referências e dependências
 > - [ ] Criar JSON correspondente com `Name` e `ID` como primeiros campos
-
+>
 </details>
-
 ---
 
 ## 📚 Referências
@@ -378,83 +384,81 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 > - **[Guia de Data Tables](../guides/data-tables.md)** - Como usar Data Tables
 > - **[Gameplay Tags (Epic Games)](https://docs.unrealengine.com/5.3/en-US/gameplay-tags-in-unreal-engine/)** - Documentação oficial
 > - **[FDataTableRowHandle (Epic Games)](https://docs.unrealengine.com/5.3/en-US/data-table-row-handle-in-unreal-engine/)** - Documentação oficial
+>
 
 </details>
-
----
 
 ---
 
 ## ✅ Status de Implementação Atual
 
-<details open>
+<details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Estrutura Atual do Projeto</b></summary>
 
 > **Todas as 15 Data Tables seguem o padrão Name + ID + Tags + Payload:**
 >
-> ### Tabelas de Referência (Master Data) - ✅ Implementadas
->
-> 1. ✅ **`AbilityScoreDataTable`** - 6 atributos (Strength, Dexterity, etc.)
-> 2. ✅ **`TraitDataTable`** - Traits reutilizáveis (Darkvision, FeyAncestry, etc.)
-> 3. ✅ **`LanguageDataTable`** - Idiomas (Common, Elvish, etc.)
-> 4. ✅ **`SkillDataTable`** - Skills (Acrobatics, Athletics, etc.)
-> 5. ✅ **`SpellDataTable`** - Magias (Fireball, Magic Missile, etc.)
-> 6. ✅ **`SpellSchoolDataTable`** - Escolas de magia (Evocation, Abjuration, etc.)
-> 7. ✅ **`DamageTypeDataTable`** - Tipos de dano (Fire, Cold, etc.)
-> 8. ✅ **`ConditionDataTable`** - Condições (Poisoned, Charmed, etc.)
-> 9. ✅ **`ProficiencyDataTable`** - Proficiências (Armor, Weapons, etc.)
->
-> ### Tabelas Principais - ✅ Implementadas
->
-> 1. ✅ **`RaceDataTable`** - Raças e sub-raças
->    - Usa: `TraitHandles`, `LanguageHandles`, `SubraceHandles` (FDataTableRowHandle)
->    - Referencia: `TraitDataTable`, `LanguageDataTable`, `AbilityScoreDataTable`
->
-> 2. ✅ **`ClassDataTable`** - Classes e progressão
->    - Usa: `SavingThrowIDs`, `AvailableSkillHandles` (FDataTableRowHandle)
->    - Referencia: `AbilityScoreDataTable`, `SkillDataTable`, `ProficiencyDataTable`
->
-> 3. ✅ **`BackgroundDataTable`** - Backgrounds
->    - Usa: `SkillProficiencyHandles`, `LanguageHandles`, `FeatureHandle` (FDataTableRowHandle)
->    - Referencia: `SkillDataTable`, `LanguageDataTable`, `FeatureDataTable`
->
-> 4. ✅ **`FeatDataTable`** - Feats
->    - Referencia: `FeatureDataTable` (via `ID`)
->
-> 5. ✅ **`FeatureDataTable`** - Features de classe
->    - Dados estruturados em `FeatureData` (TMap)
->
-> 6. ✅ **`ItemDataTable`** - Itens
->    - Referencia: `SpellDataTable` (via `SpellHandle` - FDataTableRowHandle)
->    - Usa: `IconTexture`, `MeshReference` (TSoftObjectPtr)
->
-> **Padrão de Nomenclatura de IDs Implementado:**
->
-> - `RACE_<Name>` → `RACE_Elf`, `RACE_Dwarf`, `RACE_Human`
-> - `CLASS_<Name>` → `CLASS_Fighter`, `CLASS_Wizard`
-> - `BG_<Name>` → `BG_Acolyte`, `BG_Criminal`
-> - `FEAT_<Name>` → `FEAT_Alert`, `FEAT_Athlete`
-> - `FC_<Name>` → `FC_SecondWind`, `FC_FightingStyle`
-> - `TR_<Name>` → `TR_Darkvision`, `TR_FeyAncestry`
-> - `PL_<Name>` → `PL_Common`, `PL_Elvish`
-> - `PSK_<Name>` → `PSK_Acrobatics`, `PSK_Stealth`
-> - `ABL_<Name>` → `ABL_Strength`, `ABL_Dexterity`
-> - `SPL_<Name>` → `SPL_Fireball`, `SPL_MagicMissile`
-> - `SCH_<Name>` → `SCH_Evocation`, `SCH_Abjuration`
-> - `DMG_<Name>` → `DMG_Fire`, `DMG_Cold`
-> - `COND_<Name>` → `COND_Poisoned`, `COND_Charmed`
-> - `PW_<Name>` → `PW_Simple_Weapons`
-> - `PA_<Name>` → `PA_Light_Armor`
-> - `PT_<Name>` → `PT_Thieves_Tools`
-> - `ITM_<Category>_<Name>` → `ITM_ARM_ChainMail`
->
-> **Gameplay Tags Configuradas:**
->
-> - ✅ Arquivo: `Content/Data/GameplayTags/MyProject2Tags.ini`
-> - ✅ Tags organizadas por categoria: Race, Item, Spell, Trait, Ability, Skill, Language, SpellSchool, DamageType, Condition, Class, Background, Feat, Feature
-> - ✅ Todas as 15 Data Tables têm campo `TypeTags` (FGameplayTagContainer)
 
 </details>
+
+    1. ✅ **`AbilityScoreDataTable`** - 6 atributos (Strength, Dexterity, etc.)
+    2. ✅ **`TraitDataTable`** - Traits reutilizáveis (Darkvision, FeyAncestry, etc.)
+    3. ✅ **`LanguageDataTable`** - Idiomas (Common, Elvish, etc.)
+    4. ✅ **`SkillDataTable`** - Skills (Acrobatics, Athletics, etc.)
+    5. ✅ **`SpellDataTable`** - Magias (Fireball, Magic Missile, etc.)
+    6. ✅ **`SpellSchoolDataTable`** - Escolas de magia (Evocation, Abjuration, etc.)
+    7. ✅ **`DamageTypeDataTable`** - Tipos de dano (Fire, Cold, etc.)
+    8. ✅ **`ConditionDataTable`** - Condições (Poisoned, Charmed, etc.)
+    9. ✅ **`ProficiencyDataTable`** - Proficiências (Armor, Weapons, etc.)
+
+    ### Tabelas Principais - ✅ Implementadas
+
+    1. ✅ **`RaceDataTable`** - Raças e sub-raças
+    - Usa: `TraitHandles`, `LanguageHandles`, `SubraceHandles` (FDataTableRowHandle)
+    - Referencia: `TraitDataTable`, `LanguageDataTable`, `AbilityScoreDataTable`
+
+    2. ✅ **`ClassDataTable`** - Classes e progressão
+    - Usa: `SavingThrowIDs`, `AvailableSkillHandles` (FDataTableRowHandle)
+    - Referencia: `AbilityScoreDataTable`, `SkillDataTable`, `ProficiencyDataTable`
+
+    3. ✅ **`BackgroundDataTable`** - Backgrounds
+    - Usa: `SkillProficiencyHandles`, `LanguageHandles`, `FeatureHandle` (FDataTableRowHandle)
+    - Referencia: `SkillDataTable`, `LanguageDataTable`, `FeatureDataTable`
+
+    4. ✅ **`FeatDataTable`** - Feats
+    - Referencia: `FeatureDataTable` (via `ID`)
+
+    5. ✅ **`FeatureDataTable`** - Features de classe
+    - Dados estruturados em `FeatureData` (TMap)
+
+    6. ✅ **`ItemDataTable`** - Itens
+    - Referencia: `SpellDataTable` (via `SpellHandle` - FDataTableRowHandle)
+    - Usa: `IconTexture`, `MeshReference` (TSoftObjectPtr)
+
+    **Padrão de Nomenclatura de IDs Implementado:**
+
+    - `RACE_<Name>` → `RACE_Elf`, `RACE_Dwarf`, `RACE_Human`
+    - `CLASS_<Name>` → `CLASS_Fighter`, `CLASS_Wizard`
+    - `BG_<Name>` → `BG_Acolyte`, `BG_Criminal`
+    - `FEAT_<Name>` → `FEAT_Alert`, `FEAT_Athlete`
+    - `FC_<Name>` → `FC_SecondWind`, `FC_FightingStyle`
+    - `TR_<Name>` → `TR_Darkvision`, `TR_FeyAncestry`
+    - `PL_<Name>` → `PL_Common`, `PL_Elvish`
+    - `PSK_<Name>` → `PSK_Acrobatics`, `PSK_Stealth`
+    - `ABL_<Name>` → `ABL_Strength`, `ABL_Dexterity`
+    - `SPL_<Name>` → `SPL_Fireball`, `SPL_MagicMissile`
+    - `SCH_<Name>` → `SCH_Evocation`, `SCH_Abjuration`
+    - `DMG_<Name>` → `DMG_Fire`, `DMG_Cold`
+    - `COND_<Name>` → `COND_Poisoned`, `COND_Charmed`
+    - `PW_<Name>` → `PW_Simple_Weapons`
+    - `PA_<Name>` → `PA_Light_Armor`
+    - `PT_<Name>` → `PT_Thieves_Tools`
+    - `ITM_<Category>_<Name>` → `ITM_ARM_ChainMail`
+
+    **Gameplay Tags Configuradas:**
+
+    - ✅ Arquivo: `Content/Data/GameplayTags/MyProject2Tags.ini`
+    - ✅ Tags organizadas por categoria: Race, Item, Spell, Trait, Ability, Skill, Language, SpellSchool, DamageType, Condition, Class, Background, Feat, Feature
+    - ✅ Todas as 15 Data Tables têm campo `TypeTags` (FGameplayTagContainer)
 
 ---
 

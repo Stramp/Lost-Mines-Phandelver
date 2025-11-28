@@ -13,7 +13,7 @@ struct FMulticlassRequirement;
 struct FMulticlassRequirementGroup;
 
 // Include MulticlassHelpers para FAttributeInfo (sem dependência circular: Helpers não inclui Validators)
-#include "CreateSheet/Multiclass/MulticlassHelpers.h"
+#include "CreateSheet/Multiclass/MulticlassValidationHelpers.h"
 // Include FMulticlassRequirement para nova estrutura normalizada
 #include "Data/Structures/FMulticlassRequirement.h"
 
@@ -49,7 +49,7 @@ public:
      */
     static bool ValidateMulticlassRequirements(const TArray<FString> &MulticlassRequirements,
                                                const TArray<int32> &Attributes,
-                                               const TMap<FString, FMulticlassHelpers::FAttributeInfo> &AttributeMap,
+                                               const TMap<FString, FMulticlassValidationHelpers::FAttributeInfo> &AttributeMap,
                                                FString &OutMissingTag);
 
     /**
@@ -63,7 +63,7 @@ public:
      * @param AbilityScoreDataTable Data Table de Ability Scores (opcional, necessário para nova estrutura)
      */
     static void ProcessClassWithRequirements(const FClassDataRow *ClassRow, const TArray<int32> &Attributes,
-                                             const TMap<FString, FMulticlassHelpers::FAttributeInfo> &AttributeMap,
+                                             const TMap<FString, FMulticlassValidationHelpers::FAttributeInfo> &AttributeMap,
                                              TArray<FName> &OutResult,
                                              const UDataTable *AbilityScoreDataTable = nullptr);
 

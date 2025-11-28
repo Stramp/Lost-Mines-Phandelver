@@ -78,8 +78,8 @@ namespace CalculationHelpers
     int32 CalculateProficiencyBonus(int32 TotalLevel);
 
     /**
-     * Calcula proficiências do personagem (background + Variant Human skill).
-     * Nota: Sem classes, proficiências vêm apenas de background e Variant Human.
+     * Coleta proficiências de background e Variant Human.
+     * Nome específico indica exatamente o que faz: coleta de múltiplas fontes.
      *
      * @param RaceName Nome da raça selecionada (para Variant Human)
      * @param SubraceName Nome da sub-raça selecionada (pode ser NAME_None)
@@ -87,9 +87,9 @@ namespace CalculationHelpers
      * @param SelectedSkill Skill escolhido para Variant Human (pode ser NAME_None)
      * @param RaceDataTable Data Table de raças (pode ser nullptr)
      * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
-     * @return Array com nomes de proficiências
+     * @return Array com nomes de proficiências coletadas
      */
-    TArray<FName> CalculateProficiencies(FName RaceName, FName SubraceName, FName BackgroundName, FName SelectedSkill,
+    TArray<FName> CollectProficienciesFromBackgroundAndVariantHuman(FName RaceName, FName SubraceName, FName BackgroundName, FName SelectedSkill,
                                          UDataTable *RaceDataTable, UDataTable *BackgroundDataTable);
 
     // ============================================================================
@@ -97,7 +97,8 @@ namespace CalculationHelpers
     // ============================================================================
 
     /**
-     * Calcula idiomas finais do personagem (raça + background + escolhas do jogador + feats).
+     * Coleta idiomas de todas as fontes (raça + sub-raça + background + escolhas do jogador + feats).
+     * Nome específico indica exatamente o que faz: coleta de múltiplas fontes.
      *
      * @param RaceName Nome da raça selecionada
      * @param SubraceName Nome da sub-raça selecionada (pode ser NAME_None)
@@ -105,9 +106,9 @@ namespace CalculationHelpers
      * @param SelectedLanguages Array com idiomas escolhidos pelo jogador (quando há escolhas)
      * @param RaceDataTable Data Table de raças (pode ser nullptr)
      * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
-     * @return Array com nomes de idiomas que o personagem fala
+     * @return Array com nomes de idiomas coletados de todas as fontes
      */
-    TArray<FName> CalculateLanguages(FName RaceName, FName SubraceName, FName BackgroundName,
+    TArray<FName> CollectLanguagesFromAllSources(FName RaceName, FName SubraceName, FName BackgroundName,
                                      const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
                                      UDataTable *BackgroundDataTable);
 

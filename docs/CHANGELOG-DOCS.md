@@ -1,13 +1,12 @@
 # 📚 Changelog da Documentação
 
-<details open>
+<details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Histórico de Melhorias</b></summary>
 
 > Este documento registra todas as melhorias e mudanças na estrutura e organização da documentação do projeto.
+>
 
 </details>
-
----
 
 ## [2024-12-27] - Melhorias de Navegação e Organização
 
@@ -50,53 +49,50 @@
   - `difficulty`: Nível de dificuldade (beginner, intermediate, advanced)
   - `related`: Links para documentos relacionados
 
-- **MkDocs Material** - Configuração completa:
-  - `mkdocs.yml` - Configuração completa do MkDocs Material
-  - `requirements-docs.txt` - Dependências Python para documentação
-  - `docs/README-MKDOCS.md` - Guia completo de uso do MkDocs
-  - Navegação hierárquica configurada
-  - Tema Material Design com dark mode
-  - Busca integrada configurada
-  - Plugins de Git (data de última modificação)
+- **Documentação Markdown** - Estrutura completa:
+  - Documentação em formato Markdown puro (GitHub-compatible)
+  - Organização hierárquica com `<details>` e blockquotes
+  > - Navegação via `NAVIGATION.md` e `GLOSSARY.md`
+  > - Navegação hierárquica configurada
 
-### 📝 Modificado
+> ### 📝 Modificado
 
-- **Todos os documentos principais** - Adicionados breadcrumbs e frontmatter YAML
-- **README.md** - Adicionada seção sobre MkDocs Material
-- **Documentos de índice** - Atualizados com frontmatter e breadcrumbs
+> - **Todos os documentos principais** - Adicionados breadcrumbs e frontmatter YAML
+> - **README.md** - Atualizada seção de documentação
+> - **Documentos de índice** - Atualizados com frontmatter e breadcrumbs
 
-### 🎯 Benefícios
+> ### 🎯 Benefícios
 
-1. **Navegação Melhorada:**
-   - Breadcrumbs facilitam localização de informações
-   - NAVIGATION.md fornece múltiplas formas de encontrar conteúdo
-   - TOC em documentos grandes melhora navegação interna
+> 1. **Navegação Melhorada:**
+   > - Breadcrumbs facilitam localização de informações
+   > - NAVIGATION.md fornece múltiplas formas de encontrar conteúdo
+   > - TOC em documentos grandes melhora navegação interna
 
-2. **Descoberta de Conteúdo:**
-   - GLOSSARY.md explica conceitos rapidamente
-   - Tags e categorias facilitam busca
-   - Referências cruzadas conectam conceitos relacionados
+> 2. **Descoberta de Conteúdo:**
+   > - GLOSSARY.md explica conceitos rapidamente
+   > - Tags e categorias facilitam busca
+   > - Referências cruzadas conectam conceitos relacionados
 
-3. **Organização:**
-   - Frontmatter YAML padronizado permite busca e filtragem
-   - Estrutura consistente em toda documentação
-   - Preparado para geração de HTML com MkDocs
+> 3. **Organização:**
+   > - Frontmatter YAML padronizado permite busca e filtragem
+   > - Estrutura consistente em toda documentação
+   > - Documentação em Markdown puro (GitHub-compatible)
 
-4. **Experiência do Usuário:**
-   - Documentação mais navegável e acessível
-   - Busca facilitada por tags e categorias
-   - Visual consistente com breadcrumbs e TOC
+> 4. **Experiência do Usuário:**
+   > - Documentação mais navegável e acessível
+   > - Busca facilitada por tags e categorias
+   > - Visual consistente com breadcrumbs e TOC
 
 ---
 
-## 📊 Estatísticas
+> ## 📊 Estatísticas
 
-- **Total de documentos:** 44 arquivos Markdown
-- **Documentos com frontmatter:** 44 (100%)
-- **Documentos com breadcrumbs:** 44 (100%)
-- **Documentos com TOC:** 5 (documentos > 200 linhas)
-- **Novos arquivos criados:** 4 (NAVIGATION.md, GLOSSARY.md, mkdocs.yml, requirements-docs.txt, README-MKDOCS.md, CHANGELOG-DOCS.md)
+> - **Total de documentos:** 44 arquivos Markdown
+> - **Documentos com frontmatter:** 44 (100%)
+> - **Documentos com breadcrumbs:** 44 (100%)
+> - **Documentos com TOC:** 5 (documentos > 200 linhas)
+   > - **Novos arquivos criados:** NAVIGATION.md, GLOSSARY.md, CHANGELOG-DOCS.md
 
 ---
 
-**Última atualização:** 2024-12-27
+> **Última atualização:** 2024-12-27

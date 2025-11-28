@@ -15,7 +15,8 @@
 #include "Data/Tables/FeatureDataTable.h"
 
 // Project includes - CreateSheet
-#include "CreateSheet/Multiclass/MulticlassHelpers.h"
+#include "CreateSheet/Multiclass/MulticlassDataLoadingHelpers.h"
+#include "CreateSheet/Multiclass/MulticlassValidationHelpers.h"
 #include "Data/Structures/MulticlassTypes.h"
 #include "CreateSheet/Multiclass/MulticlassValidators.h"
 
@@ -52,8 +53,8 @@ TArray<FName> FMulticlassMotor::GetAvailableClasses(const UDataTable *ClassDataT
     TArray<int32> CharacterAttributes = {FinalStrength,     FinalDexterity, FinalConstitution,
                                          FinalIntelligence, FinalWisdom,    FinalCharisma};
 
-    return FMulticlassHelpers::GetAvailableClassWithTagRequirements(ClassDataTable, CharacterAttributes,
-                                                                    AbilityScoreDataTable);
+    return FMulticlassDataLoadingHelpers::GetAvailableClassWithTagRequirements(ClassDataTable, CharacterAttributes,
+                                                                              AbilityScoreDataTable);
 }
 
 #pragma endregion Get Available Classes
@@ -63,84 +64,12 @@ TArray<FName> FMulticlassMotor::GetAvailableClasses(const UDataTable *ClassDataT
 // ============================================================================
 #pragma region Load Class Proficiencies
 
-bool FMulticlassMotor::LoadClassProficiencies(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
-                                              const UDataTable *ProficiencyDataTable,
-                                              TArray<FMulticlassProficienciesEntry> &OutProficiencies)
+void FMulticlassMotor::LoadClassProficiencies(const FMulticlassProficienciesEntry& Entry,
+                                               TArray<FMulticlassProficienciesEntry>& OutProficiencies)
 {
-    // Limpa array de saída
-    OutProficiencies.Empty();
-
-    // Validação de entrada (guard clauses)
-    if (!FMulticlassHelpers::ValidateLoadProficienciesInputs(ClassName, LevelInClass, ClassDataTable))
-    {
-        return false;
-    }
-
-    // Busca dados da classe na tabela (com logging de erro automático)
-    const FClassDataRow *ClassRow =
-        FMulticlassHelpers::FindClassRowWithErrorLogging(ClassName, ClassDataTable, TEXT("LoadClassProficiencies"));
-    if (!ClassRow)
-    {
-        return false;
-    }
-
-    // Converte proficiências da estrutura flat (arrays de handles separados)
-    FMulticlassProficienciesEntry ConvertedEntry;
-
-    // Resolve WeaponProficiencyHandles para nomes legíveis
-    ConvertedEntry.armas =
-        FMulticlassHelpers::ResolveProficiencyHandlesToNames(ClassRow->WeaponProficiencyHandles, ProficiencyDataTable);
-
-    // Resolve ArmorProficiencyHandles para nomes legíveis
-    ConvertedEntry.armaduras =
-        FMulticlassHelpers::ResolveProficiencyHandlesToNames(ClassRow->ArmorProficiencyHandles, ProficiencyDataTable);
-
-    // Resolve SavingThrowHandles para IDs (Ability Scores)
-    ConvertedEntry.SavingThrowIDs.Empty();
-    ConvertedEntry.SavingThrowIDs.Reserve(ClassRow->SavingThrowHandles.Num());
-    for (const FDataTableRowHandle &Handle : ClassRow->SavingThrowHandles)
-    {
-        if (Handle.RowName != NAME_None)
-        {
-            ConvertedEntry.SavingThrowIDs.Add(Handle.RowName);
-        }
-    }
-
-    // Resolve AvailableSkillHandles para IDs
-    ConvertedEntry.FSkills.InitialAvailable.Empty();
-    ConvertedEntry.FSkills.InitialAvailable.Reserve(ClassRow->AvailableSkillHandles.Num());
-    for (const FDataTableRowHandle &SkillHandle : ClassRow->AvailableSkillHandles)
-    {
-        if (const FSkillDataRow *SkillRow = DataTableRowHandleHelpers::ResolveHandle<FSkillDataRow>(SkillHandle))
-        {
-            if (SkillRow->ID != NAME_None)
-            {
-                ConvertedEntry.FSkills.InitialAvailable.Add(SkillRow->ID);
-            }
-        }
-        else if (SkillHandle.RowName != NAME_None)
-        {
-            ConvertedEntry.FSkills.InitialAvailable.Add(SkillHandle.RowName);
-        }
-    }
-
-    ConvertedEntry.FSkills.available = NAME_None;
-    ConvertedEntry.FSkills.Selected.Empty();
-    ConvertedEntry.FSkills.qtdAvailable = ClassRow->SkillChoiceCount;
-    ConvertedEntry.FSkills.InitialQtdAvailable = ClassRow->SkillChoiceCount;
-
-    OutProficiencies.Add(ConvertedEntry);
-
-    // Log quando proficiências são carregadas (ponto chave)
-    if (OutProficiencies.Num() > 0)
-    {
-        FLogContext Context(TEXT("Multiclass"), TEXT("LoadClassProficiencies"));
-        FLoggingSystem::LogInfo(Context,
-                                FString::Printf(TEXT("Classe '%s': %d proficiência(s) carregada(s) com sucesso."),
-                                                *ClassName.ToString(), OutProficiencies.Num()));
-    }
-
-    return true;
+    // Motor puro: apenas adiciona entry ao array
+    // Assume que entry já foi convertida (pré-condição)
+    OutProficiencies.Add(Entry);
 }
 
 #pragma endregion Load Class Proficiencies
@@ -158,14 +87,14 @@ bool FMulticlassMotor::LoadClassProgression(FName ClassName, int32 LevelInClass,
     OutProgression.Empty();
 
     // Validação de entrada (guard clauses)
-    if (!FMulticlassHelpers::ValidateProcessLevelChangeInputs(ClassName, LevelInClass, ClassDataTable))
+    if (!FMulticlassValidationHelpers::ValidateProcessLevelChangeInputs(ClassName, LevelInClass, ClassDataTable))
     {
         return false;
     }
 
     // Busca dados da classe na tabela (com logging de erro automático)
     const FClassDataRow *ClassRow =
-        FMulticlassHelpers::FindClassRowWithErrorLogging(ClassName, ClassDataTable, TEXT("LoadClassProgression"));
+        FMulticlassDataLoadingHelpers::FindClassRowWithErrorLogging(ClassName, ClassDataTable, TEXT("LoadClassProgression"));
     if (!ClassRow)
     {
         return false;
@@ -179,7 +108,7 @@ bool FMulticlassMotor::LoadClassProgression(FName ClassName, int32 LevelInClass,
 
         // Extrai features do nível específico (estrutura flat)
         const FProgressEntry *LevelEntry = nullptr;
-        if (!FMulticlassHelpers::ExtractLevelFeatures(ClassRow->Progression, Level, LevelEntry))
+        if (!FMulticlassDataLoadingHelpers::ExtractLevelFeatures(ClassRow->Progression, Level, LevelEntry))
         {
             // Nível sem entrada na progressão é válido (alguns níveis não têm features)
             // Cria entrada vazia para manter consistência
@@ -189,7 +118,7 @@ bool FMulticlassMotor::LoadClassProgression(FName ClassName, int32 LevelInClass,
 
         // Carrega features detalhadas do ClassFeaturesDataTable (estrutura flat com FeatureHandles)
         TArray<FMulticlassClassFeature> Features;
-        if (FMulticlassHelpers::LoadFeaturesForLevel(LevelEntry->FeatureHandles, FeatureDataTable, Level, Features))
+        if (FMulticlassDataLoadingHelpers::LoadFeaturesForLevel(LevelEntry->FeatureHandles, FeatureDataTable, Level, Features))
         {
             ProgressEntry.Features = Features;
         }

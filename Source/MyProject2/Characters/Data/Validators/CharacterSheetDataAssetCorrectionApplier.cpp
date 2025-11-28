@@ -11,7 +11,7 @@
 #include "Characters/Data/CharacterSheetDataAsset.h"
 
 // Project includes - CreateSheet
-#include "CreateSheet/Multiclass/MulticlassHelpers.h"
+#include "CreateSheet/Multiclass/MulticlassValidationHelpers.h"
 
 // Project includes - Data Structures
 #include "Data/Structures/MulticlassTypes.h"
@@ -169,7 +169,7 @@ void FCharacterSheetDataAssetCorrectionApplier::ApplyClearArray(UCharacterSheetD
             // Atualiza flag após limpar
             const FName ClassName = Asset->Multiclass[ArrayIndex].ClassData.Name;
             const int32 LevelInClass = Asset->Multiclass[ArrayIndex].ClassData.LevelInClass;
-            const bool bCanEdit = FMulticlassHelpers::CanProcessProgression(ClassName, LevelInClass);
+            const bool bCanEdit = FMulticlassValidationHelpers::CanProcessProgression(ClassName, LevelInClass);
             Asset->Multiclass[ArrayIndex].ClassData.bCanEditProgression = bCanEdit;
             Asset->Multiclass[ArrayIndex].ClassData.bCanEditProficiencies = bCanEdit;
             FLogContext Context(TEXT("CharacterSheet"), TEXT("ApplyClearArray"));
@@ -206,7 +206,7 @@ void FCharacterSheetDataAssetCorrectionApplier::ApplyAdjustValue(UCharacterSheet
             Asset->Multiclass[ArrayIndex].ClassData.LevelInClass = NewValue;
             // Atualiza flags bCanEditProgression e bCanEditProficiencies após ajustar LevelInClass
             const FName ClassName = Asset->Multiclass[ArrayIndex].ClassData.Name;
-            const bool bCanEdit = FMulticlassHelpers::CanProcessProgression(ClassName, NewValue);
+            const bool bCanEdit = FMulticlassValidationHelpers::CanProcessProgression(ClassName, NewValue);
             Asset->Multiclass[ArrayIndex].ClassData.bCanEditProgression = bCanEdit;
             Asset->Multiclass[ArrayIndex].ClassData.bCanEditProficiencies = bCanEdit;
         }

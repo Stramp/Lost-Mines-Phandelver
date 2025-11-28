@@ -1,13 +1,16 @@
 [
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Dwarf",
     "ID": "RACE_Dwarf",
     "Description": "Bold and hardy dwarves are known as skilled warriors miners and workers of stone and metal",
-    "TypeTags": [
-      "Race.Dwarf"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Dwarf"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Constitution",
@@ -52,15 +55,20 @@
     ]
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Hill Dwarf",
     "ID": "RACE_HillDwarf",
     "Description": "As a hill dwarf you have keen senses deep intuition and remarkable resilience",
-    "TypeTags": [
-      "Race.Dwarf",
-      "Race.Subrace.HillDwarf"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Dwarf"
+        },
+        {
+          "TagName": "Race.Subrace.HillDwarf"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Wisdom",
@@ -79,15 +87,20 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Mountain Dwarf",
     "ID": "RACE_MountainDwarf",
     "Description": "As a mountain dwarf you are strong and hardy accustomed to a difficult life in rugged terrain",
-    "TypeTags": [
-      "Race.Dwarf",
-      "Race.Subrace.MountainDwarf"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Dwarf"
+        },
+        {
+          "TagName": "Race.Subrace.MountainDwarf"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Strength",
@@ -106,14 +119,17 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Elf",
     "ID": "RACE_Elf",
     "Description": "Elves are a magical people of otherworldly grace living in the world but not entirely part of it",
-    "TypeTags": [
-      "Race.Elf"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Elf"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Dexterity",
@@ -162,15 +178,20 @@
     ]
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "High Elf",
     "ID": "RACE_HighElf",
     "Description": "As a high elf you have a keen mind and a mastery of at least the basics of magic",
-    "TypeTags": [
-      "Race.Elf",
-      "Race.Subrace.HighElf"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Elf"
+        },
+        {
+          "TagName": "Race.Subrace.HighElf"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Intelligence",
@@ -197,15 +218,20 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Wood Elf",
     "ID": "RACE_WoodElf",
     "Description": "As a wood elf you have keen senses and intuition and your fleet feet carry you quickly through your native forests",
-    "TypeTags": [
-      "Race.Elf",
-      "Race.Subrace.WoodElf"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Elf"
+        },
+        {
+          "TagName": "Race.Subrace.WoodElf"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Wisdom",
@@ -232,15 +258,20 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Drow",
     "ID": "RACE_Drow",
     "Description": "Descended from an earlier subrace of dark-skinned elves the drow have a reputation for skill in combat magic and stealth",
-    "TypeTags": [
-      "Race.Elf",
-      "Race.Subrace.Drow"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Elf"
+        },
+        {
+          "TagName": "Race.Subrace.Drow"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Charisma",
@@ -267,14 +298,17 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Halfling",
     "ID": "RACE_Halfling",
     "Description": "The diminutive halflings survive in a world full of larger creatures by avoiding notice or barring that avoiding offense",
-    "TypeTags": [
-      "Race.Halfling"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Halfling"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Dexterity",
@@ -319,15 +353,20 @@
     ]
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Lightfoot",
     "ID": "RACE_Lightfoot",
     "Description": "As a lightfoot halfling you can easily hide from notice even using other people as cover",
-    "TypeTags": [
-      "Race.Halfling",
-      "Race.Subrace.Lightfoot"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Halfling"
+        },
+        {
+          "TagName": "Race.Subrace.Lightfoot"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Charisma",
@@ -346,15 +385,20 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Stout",
     "ID": "RACE_Stout",
     "Description": "As a stout halfling you are hardier than average and have some resistance to poison",
-    "TypeTags": [
-      "Race.Halfling",
-      "Race.Subrace.Stout"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Halfling"
+        },
+        {
+          "TagName": "Race.Subrace.Stout"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Constitution",
@@ -373,14 +417,17 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Human",
     "ID": "RACE_Human",
     "Description": "Humans are the most adaptable and ambitious people among the common races Whatever drives them humans are the innovators the achievers and the pioneers of the worlds",
-    "TypeTags": [
-      "Race.Human"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Human"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [],
     "Size": "Medium",
     "BaseSpeed": 30,
@@ -403,15 +450,20 @@
     ]
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Standard Human",
     "ID": "RACE_StandardHuman",
     "Description": "Humans are the most adaptable and ambitious people among the common races. Standard humans gain +1 to all ability scores.",
-    "TypeTags": [
-      "Race.Human",
-      "Race.Subrace.StandardHuman"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Human"
+        },
+        {
+          "TagName": "Race.Subrace.StandardHuman"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Strength",
@@ -450,15 +502,20 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Variant Human",
     "ID": "RACE_VariantHuman",
     "Description": "Some humans are more versatile than others. Instead of gaining +1 to all ability scores, variant humans gain +1 to two ability scores of their choice, one skill proficiency, and one feat.",
-    "TypeTags": [
-      "Race.Human",
-      "Race.Subrace.VariantHuman"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Human"
+        },
+        {
+          "TagName": "Race.Subrace.VariantHuman"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Custom",
@@ -490,14 +547,17 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Dragonborn",
     "ID": "RACE_Dragonborn",
     "Description": "Born of dragons as their name proclaims the dragonborn walk proudly through a world that greets them with fearful incomprehension",
-    "TypeTags": [
-      "Race.Dragonborn"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Dragonborn"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Strength",
@@ -537,14 +597,17 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Gnome",
     "ID": "RACE_Gnome",
     "Description": "A gnomes energy and enthusiasm for living shines through every inch of his or her tiny body",
-    "TypeTags": [
-      "Race.Gnome"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Gnome"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Intelligence",
@@ -585,15 +648,20 @@
     ]
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Forest Gnome",
     "ID": "RACE_ForestGnome",
     "Description": "As a forest gnome you have a natural knack for illusion and inherent quickness and stealth",
-    "TypeTags": [
-      "Race.Gnome",
-      "Race.Subrace.ForestGnome"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Gnome"
+        },
+        {
+          "TagName": "Race.Subrace.ForestGnome"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Dexterity",
@@ -616,15 +684,20 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Rock Gnome",
     "ID": "RACE_RockGnome",
     "Description": "As a rock gnome you have a natural inventiveness and hardiness beyond that of other gnomes",
-    "TypeTags": [
-      "Race.Gnome",
-      "Race.Subrace.RockGnome"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Gnome"
+        },
+        {
+          "TagName": "Race.Subrace.RockGnome"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Constitution",
@@ -647,14 +720,17 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Half-Elf",
     "ID": "RACE_HalfElf",
     "Description": "Walking in two worlds but truly belonging to neither half-elves combine what some say are the best qualities of their elf and human parents",
-    "TypeTags": [
-      "Race.HalfElf"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.HalfElf"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Charisma",
@@ -690,14 +766,17 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Half-Orc",
     "ID": "RACE_HalfOrc",
     "Description": "Half-orcs grayish pigmentation sloping foreheads jutting jaws prominent teeth and towering builds make their orcish heritage plain for all to see",
-    "TypeTags": [
-      "Race.HalfOrc"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.HalfOrc"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Strength",
@@ -741,14 +820,17 @@
     "SubraceHandles": []
   },
   {
-    "SchemaVersion": "1.0.0",
-    "DataVersion": "2025-11-28",
     "Name": "Tiefling",
     "ID": "RACE_Tiefling",
     "Description": "To be greeted with stares and whispers to suffer violence and insult on the street to see mistrust and fear in every eye this is the lot of the tiefling",
-    "TypeTags": [
-      "Race.Tiefling"
-    ],
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Race.Tiefling"
+        }
+      ],
+      "ParentTags": []
+    },
     "AbilityScoreImprovements": [
       {
         "AbilityID": "ABL_Intelligence",

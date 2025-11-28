@@ -33,7 +33,7 @@ O projeto MyProject2 implementa versionamento de schema para:
 
 Cada entrada JSON possui dois campos de versão:
 
-### SchemaVersion
+## SchemaVersion
 
 **Formato:** `MAJOR.MINOR.PATCH` (ex: `1.0.0`)
 
@@ -182,7 +182,7 @@ def migrate_entry_v1_to_v2(entry_v1: Dict) -> Dict:
     return entry_v2
 ```
 
-### Processo de Migração
+## Processo de Migração
 
 1. **Backup** - Sempre criar backup antes de migrar
 2. **Validar** - Validar dados antes da migração
@@ -216,5 +216,3 @@ Antes de atualizar schema:
 ---
 
 **Última atualização:** 2024-12-27
-
-

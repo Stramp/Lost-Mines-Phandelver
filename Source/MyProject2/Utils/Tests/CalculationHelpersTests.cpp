@@ -443,7 +443,7 @@ void CalculationHelpersSpec::Define()
                         TestClassDataTable->RowStruct = FClassDataRow::StaticStruct();
 
                         FClassDataRow *TestClassRow = new FClassDataRow();
-                        TestClassRow->ClassName = TEXT("Fighter");
+                        TestClassRow->Name = TEXT("Fighter");
                         TestClassRow->HitDie = 10;
                         TestClassDataTable->AddRow(TEXT("Fighter"), *TestClassRow);
 

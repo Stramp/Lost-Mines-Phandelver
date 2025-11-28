@@ -6,7 +6,7 @@
 #pragma region Includes
 
 #include "Misc/AutomationTest.h"
-#include "CreateSheet/PointBuy/PointBuyMotor.h"
+#include "CreateSheet/PointBuy/PointBuyOrchestrator.h"
 #include "Data/Structures/FCharacterSheetData.h"
 #include "Utils/DnDConstants.h"
 
@@ -67,9 +67,9 @@ void PointBuyMotorSpec::Define()
                         Data.FinalCharisma = &TestFinalCharisma;
 
                         // Act
-                        FPointBuyResult Result = FPointBuyMotor::ApplyPointBuy(Data);
+                        FPointBuyResult Result = FPointBuyOrchestrator::ProcessPointBuy(Data);
 
-                        // Assert
+                        // Assert: Valores hardcoded conhecidos
                         TestTrue("Resultado deve ser válido", Result.bIsValid);
                         TestFalse("Não deve ter sido ajustado", Result.bWasAutoAdjusted);
                         TestEqual("Pontos restantes devem ser 0", Result.PointsRemaining, 0);
@@ -102,7 +102,7 @@ void PointBuyMotorSpec::Define()
                         Data.FinalCharisma = &TestFinalCharisma;
 
                         // Act
-                        FPointBuyResult Result = FPointBuyMotor::ApplyPointBuy(Data);
+                        FPointBuyResult Result = FPointBuyOrchestrator::ProcessPointBuy(Data);
 
                         // Assert
                         TestTrue("Resultado deve ser válido", Result.bIsValid);
@@ -120,7 +120,7 @@ void PointBuyMotorSpec::Define()
                         Data.FinalStrength = nullptr; // Inválido
 
                         // Act
-                        FPointBuyResult Result = FPointBuyMotor::ApplyPointBuy(Data);
+                        FPointBuyResult Result = FPointBuyOrchestrator::ProcessPointBuy(Data);
 
                         // Assert
                         TestFalse("Resultado não deve ser válido (referências inválidas)", Result.bIsValid);
@@ -149,7 +149,7 @@ void PointBuyMotorSpec::Define()
                         Data.FinalCharisma = &TestFinalCharisma;
 
                         // Act
-                        FPointBuyResult Result = FPointBuyMotor::ApplyPointBuy(Data);
+                        FPointBuyResult Result = FPointBuyOrchestrator::ProcessPointBuy(Data);
 
                         // Assert
                         TestTrue("Resultado deve ser válido", Result.bIsValid);

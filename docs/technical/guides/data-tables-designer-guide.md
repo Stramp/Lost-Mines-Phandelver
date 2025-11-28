@@ -12,15 +12,15 @@ related: [data-tables.md, data-tables-setup.md]
 
 # Guia para Designers - Data Tables D&D 5e
 
-<details open>
+<details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Visão Geral</b></summary>
 
 > Este guia é destinado a **designers e game designers** que precisam criar ou editar dados de D&D 5e no projeto. Você não precisa saber programação, apenas entender a estrutura JSON e seguir os exemplos.
 >
-> **Objetivo:** Permitir que designers modifiquem regras, adicionem novas raças, classes, itens, etc. sem precisar alterar código C++.
 
+> **Objetivo:** Permitir que designers modifiquem regras, adicionem novas raças, classes, itens, etc. sem precisar alterar código C.
+>
 </details>
-
 ---
 
 ## 🎯 O Que São Data Tables?
@@ -30,6 +30,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Data Tables** são tabelas de dados que armazenam informações do jogo (raças, classes, itens, magias, etc.) em formato JSON.
 >
+
 > **Por que usar Data Tables?**
 >
 > - ✅ Permite modificar regras sem recompilar código
@@ -42,9 +43,8 @@ related: [data-tables.md, data-tables-setup.md]
 > - Arquivos JSON: `Content/Data/JSON/`
 > - Schemas de validação: `Content/Data/JSON/Schemas/`
 > - Importados no Unreal Editor como Data Tables
-
+>
 </details>
-
 ---
 
 ## 📝 Formato JSON Básico
@@ -54,19 +54,20 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Formato geral:**
 >
+
 > ```json
 > [
->   {
->     "Name": "Nome da Entrada",
->     "ID": "ID_Unico",
->     "Campo1": "Valor1",
->     "Campo2": 123,
->     "Campo3": ["Item1", "Item2"]
->   },
->   {
->     "Name": "Outra Entrada",
->     ...
->   }
+> {
+> "Name": "Nome da Entrada",
+> "ID": "ID_Unico",
+> "Campo1": "Valor1",
+> "Campo2": 123,
+> "Campo3": ["Item1", "Item2"]
+> },
+> {
+> "Name": "Outra Entrada",
+> ...
+> }
 > ]
 > ```
 >
@@ -83,21 +84,20 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > [
->   {
->     "Name": "Human",
->     "ID": "RACE_Human",
->     "Description": "Humans are adaptable."
->   },
->   {
->     "Name": "Elf",
->     "ID": "RACE_Elf",
->     "Description": "Elves are graceful."
->   }
+> {
+> "Name": "Human",
+> "ID": "RACE_Human",
+> "Description": "Humans are adaptable."
+> },
+> {
+> "Name": "Elf",
+> "ID": "RACE_Elf",
+> "Description": "Elves are graceful."
+> }
 > ]
 > ```
-
+>
 </details>
-
 ---
 
 ## 🛠️ Ferramentas Recomendadas
@@ -107,24 +107,24 @@ related: [data-tables.md, data-tables-setup.md]
 
 > ### Editores de JSON
 >
+
 > - **VS Code** (recomendado) - Com extensão JSON
-> - **Notepad++** - Com plugin JSON
+> - **Notepad** - Com plugin JSON
 > - **Qualquer editor de texto** - Mas cuidado com formatação
 >
-> ### Validadores Online
->
-> - **JSONLint** (https://jsonlint.com/) - Valida sintaxe JSON
-> - **JSON Schema Validator** - Valida contra schema (quando disponível)
->
-> ### Dicas
->
-> - ✅ Use um editor com syntax highlighting para JSON
-> - ✅ Valide sempre antes de importar no Unreal
-> - ✅ Use formatação consistente (indentação de 2 espaços)
-> - ❌ Não use tabs, use espaços
-> - ❌ Não adicione vírgulas extras no final
-
 </details>
+    ### Validadores Online
+
+    - **JSONLint** (https://jsonlint.com/) - Valida sintaxe JSON
+    - **JSON Schema Validator** - Valida contra schema (quando disponível)
+
+    ### Dicas
+
+    - ✅ Use um editor com syntax highlighting para JSON
+    - ✅ Valide sempre antes de importar no Unreal
+    - ✅ Use formatação consistente (indentação de 2 espaços)
+    - ❌ Não use tabs, use espaços
+    - ❌ Não adicione vírgulas extras no final
 
 ---
 
@@ -135,38 +135,38 @@ related: [data-tables.md, data-tables-setup.md]
 
 > ### Data Tables Principais (Criação de Personagem)
 >
+
 > 1. **[RaceDataTable](#racedatatable)** - Raças e sub-raças
 > 2. **[ClassDataTable](#classdatatable)** - Classes e progressão
 > 3. **[BackgroundDataTable](#backgrounddatatable)** - Backgrounds
 > 4. **[FeatDataTable](#featdatatable)** - Feats
 >
-> ### Data Tables de Referência (Master Data)
->
-> 5. **[AbilityScoreDataTable](#abilityscoredatatable)** - Atributos (STR, DEX, etc.)
-> 6. **[SkillDataTable](#skilldatatable)** - Skills (Acrobatics, Athletics, etc.)
-> 7. **[LanguageDataTable](#languagedatatable)** - Idiomas
-> 8. **[ProficiencyDataTable](#proficiencydatatable)** - Proficiências gerais
-> 9. **[TraitDataTable](#traitdatatable)** - Traits especiais
->
-> ### Data Tables de Magia
->
-> 10. **[SpellDataTable](#spelldatatable)** - Magias
-> 11. **[SpellSchoolDataTable](#spellschooldatatable)** - Escolas de magia
->
-> ### Data Tables de Combate
->
-> 12. **[DamageTypeDataTable](#damagetypedatatable)** - Tipos de dano
-> 13. **[ConditionDataTable](#conditiondatatable)** - Condições
->
-> ### Data Tables de Itens
->
-> 14. **[ItemDataTable](#itemdatatable)** - Itens (armas, armaduras, etc.)
->
-> ### Data Tables de Features
->
-> 15. **[FeatureDataTable](#featuredatatable)** - Features de classe
-
 </details>
+    ### Data Tables de Referência (Master Data)
+
+    5. **[AbilityScoreDataTable](#abilityscoredatatable)** - Atributos (STR, DEX, etc.)
+    6. **[SkillDataTable](#skilldatatable)** - Skills (Acrobatics, Athletics, etc.)
+    7. **[LanguageDataTable](#languagedatatable)** - Idiomas
+    8. **[ProficiencyDataTable](#proficiencydatatable)** - Proficiências gerais
+    9. **[TraitDataTable](#traitdatatable)** - Traits especiais
+
+    ### Data Tables de Magia
+
+    10. **[SpellDataTable](#spelldatatable)** - Magias
+    11. **[SpellSchoolDataTable](#spellschooldatatable)** - Escolas de magia
+
+    ### Data Tables de Combate
+
+    12. **[DamageTypeDataTable](#damagetypedatatable)** - Tipos de dano
+    13. **[ConditionDataTable](#conditiondatatable)** - Condições
+
+    ### Data Tables de Itens
+
+    14. **[ItemDataTable](#itemdatatable)** - Itens (armas, armaduras, etc.)
+
+    ### Data Tables de Features
+
+    15. **[FeatureDataTable](#featuredatatable)** - Features de classe
 
 ---
 
@@ -177,6 +177,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/RaceDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome da raça (ex: "Human", "Elf")
@@ -190,27 +191,26 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Dwarf",
->   "ID": "RACE_Dwarf",
->   "Description": "Bold and hardy dwarves are known as skilled warriors.",
->   "AbilityScoreImprovements": [
->     {
->       "AbilityID": "ABL_Constitution",
->       "Bonus": 2
->     }
->   ],
->   "Size": "Medium",
->   "BaseSpeed": 25,
->   "TraitHandles": [],
->   "SubraceHandles": [],
->   "LanguageHandles": []
+> "Name": "Dwarf",
+> "ID": "RACE_Dwarf",
+> "Description": "Bold and hardy dwarves are known as skilled warriors.",
+> "AbilityScoreImprovements": [
+> {
+> "AbilityID": "ABL_Constitution",
+> "Bonus": 2
+> }
+> ],
+> "Size": "Medium",
+> "BaseSpeed": 25,
+> "TraitHandles": [],
+> "SubraceHandles": [],
+> "LanguageHandles": []
 > }
 > ```
 >
 > **💡 Dica:** Use `AbilityID` ao invés de `AbilityName`. Os IDs estão em `AbilityScoreDataTable`.
-
+>
 </details>
-
 ---
 
 ## ⚔️ ClassDataTable
@@ -220,6 +220,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/ClassDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome da classe (ex: "Fighter", "Wizard")
@@ -233,29 +234,28 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Fighter",
->   "ID": "CLASS_Fighter",
->   "Description": "A master of martial combat.",
->   "HitDie": 10,
->   "Proficiencies": [
->     {
->       "ProficiencyType": "Armor",
->       "ProficiencyName": "All Armor"
->     }
->   ],
->   "Progression": [
->     {
->       "Level": 1,
->       "Features": ["Fighting Style", "Second Wind"]
->     }
->   ]
+> "Name": "Fighter",
+> "ID": "CLASS_Fighter",
+> "Description": "A master of martial combat.",
+> "HitDie": 10,
+> "Proficiencies": [
+> {
+> "ProficiencyType": "Armor",
+> "ProficiencyName": "All Armor"
+> }
+> ],
+> "Progression": [
+> {
+> "Level": 1,
+> "Features": ["Fighting Style", "Second Wind"]
+> }
+> ]
 > }
 > ```
 >
 > **💡 Dica:** A progressão é complexa. Consulte a documentação completa em [data-tables.md](data-tables.md#classdatatable).
-
+>
 </details>
-
 ---
 
 ## 📚 BackgroundDataTable
@@ -265,6 +265,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/BackgroundDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome do background (ex: "Acolyte", "Criminal")
@@ -278,17 +279,16 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Acolyte",
->   "ID": "BG_Acolyte",
->   "Description": "You have spent your life in the service of a temple.",
->   "SkillProficiencies": ["Insight", "Religion"],
->   "LanguageProficiencies": ["Common", "One additional language"],
->   "Equipment": ["Holy Symbol", "Prayer Book", "15 Gold"]
+> "Name": "Acolyte",
+> "ID": "BG_Acolyte",
+> "Description": "You have spent your life in the service of a temple.",
+> "SkillProficiencies": ["Insight", "Religion"],
+> "LanguageProficiencies": ["Common", "One additional language"],
+> "Equipment": ["Holy Symbol", "Prayer Book", "15 Gold"]
 > }
 > ```
-
+>
 </details>
-
 ---
 
 ## ⭐ FeatDataTable
@@ -298,6 +298,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/FeatDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome do feat (ex: "Alert", "Great Weapon Master")
@@ -310,19 +311,18 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Alert",
->   "ID": "FEAT_Alert",
->   "Description": "Always on the lookout for danger.",
->   "Prerequisites": [],
->   "Benefits": {
->     "InitiativeBonus": "5",
->     "CannotBeSurprised": "true"
->   }
+> "Name": "Alert",
+> "ID": "FEAT_Alert",
+> "Description": "Always on the lookout for danger.",
+> "Prerequisites": [],
+> "Benefits": {
+> "InitiativeBonus": "5",
+> "CannotBeSurprised": "true"
+> }
 > }
 > ```
-
+>
 </details>
-
 ---
 
 ## 💪 AbilityScoreDataTable
@@ -332,6 +332,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/AbilityScoreDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome do atributo (ex: "Strength", "Dexterity")
@@ -343,17 +344,16 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Strength",
->   "ID": "ABL_Strength",
->   "Abbreviation": "STR",
->   "Description": "Strength measures bodily power."
+> "Name": "Strength",
+> "ID": "ABL_Strength",
+> "Abbreviation": "STR",
+> "Description": "Strength measures bodily power."
 > }
 > ```
 >
 > **⚠️ Importante:** Não modifique os IDs dos atributos padrão (STR, DEX, CON, INT, WIS, CHA) - eles são usados como referência em outras tabelas.
-
+>
 </details>
-
 ---
 
 ## 🏋️ SkillDataTable
@@ -363,6 +363,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/SkillDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome da skill (ex: "Acrobatics", "Athletics")
@@ -374,17 +375,16 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Acrobatics",
->   "ID": "PSK_Acrobatics",
->   "AbilityID": "ABL_Dexterity",
->   "Description": "Your Dexterity (Acrobatics) check covers your attempt to stay on your feet."
+> "Name": "Acrobatics",
+> "ID": "PSK_Acrobatics",
+> "AbilityID": "ABL_Dexterity",
+> "Description": "Your Dexterity (Acrobatics) check covers your attempt to stay on your feet."
 > }
 > ```
 >
 > **💡 Dica:** O `AbilityID` deve referenciar um ID válido de `AbilityScoreDataTable`.
-
+>
 </details>
-
 ---
 
 ## 🗣️ LanguageDataTable
@@ -394,6 +394,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/LanguageDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome do idioma (ex: "Common", "Elvish")
@@ -406,16 +407,15 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Common",
->   "ID": "PL_Common",
->   "Description": "The most widely spoken language in the world.",
->   "Script": "Common",
->   "Type": "Standard"
+> "Name": "Common",
+> "ID": "PL_Common",
+> "Description": "The most widely spoken language in the world.",
+> "Script": "Common",
+> "Type": "Standard"
 > }
 > ```
-
+>
 </details>
-
 ---
 
 ## 🎯 ProficiencyDataTable
@@ -425,6 +425,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/ProficiencyDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome da proficiência (ex: "Simple Weapons", "Light Armor")
@@ -436,15 +437,14 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Simple Weapons",
->   "ID": "PW_Simple_Weapons",
->   "Type": "Weapon",
->   "Description": "Proficiency with all simple weapons."
+> "Name": "Simple Weapons",
+> "ID": "PW_Simple_Weapons",
+> "Type": "Weapon",
+> "Description": "Proficiency with all simple weapons."
 > }
 > ```
-
+>
 </details>
-
 ---
 
 ## 🏷️ TraitDataTable
@@ -454,6 +454,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/TraitDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome do trait (ex: "Darkvision", "Fey Ancestry")
@@ -465,17 +466,16 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Darkvision",
->   "ID": "TR_Darkvision",
->   "Description": "Accustomed to life underground, you have superior vision in dark and dim conditions.",
->   "TraitData": {
->     "Range": "60"
->   }
+> "Name": "Darkvision",
+> "ID": "TR_Darkvision",
+> "Description": "Accustomed to life underground, you have superior vision in dark and dim conditions.",
+> "TraitData": {
+> "Range": "60"
+> }
 > }
 > ```
-
+>
 </details>
-
 ---
 
 ## 🔮 SpellDataTable
@@ -485,6 +485,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/SpellDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome da magia (ex: "Fireball", "Mage Hand")
@@ -497,20 +498,19 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Fireball",
->   "ID": "SPL_Fireball",
->   "SpellLevel": 3,
->   "Description": "A bright streak flashes from your pointing finger.",
->   "SpellData": {
->     "Range": "150 feet",
->     "Components": "V, S, M",
->     "Duration": "Instantaneous"
->   }
+> "Name": "Fireball",
+> "ID": "SPL_Fireball",
+> "SpellLevel": 3,
+> "Description": "A bright streak flashes from your pointing finger.",
+> "SpellData": {
+> "Range": "150 feet",
+> "Components": "V, S, M",
+> "Duration": "Instantaneous"
+> }
 > }
 > ```
-
+>
 </details>
-
 ---
 
 ## 🎓 SpellSchoolDataTable
@@ -520,6 +520,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/SpellSchoolDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome da escola (ex: "Abjuration", "Evocation")
@@ -530,14 +531,13 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Evocation",
->   "ID": "SCH_Evocation",
->   "Description": "Evocation spells manipulate magical energy to produce a desired effect."
+> "Name": "Evocation",
+> "ID": "SCH_Evocation",
+> "Description": "Evocation spells manipulate magical energy to produce a desired effect."
 > }
 > ```
-
+>
 </details>
-
 ---
 
 ## 🔥 DamageTypeDataTable
@@ -547,6 +547,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/DamageTypeDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome do tipo (ex: "Fire", "Cold", "Lightning")
@@ -557,14 +558,13 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Fire",
->   "ID": "DAM_Fire",
->   "Description": "Fire damage is dealt by flames, heat, and magical fire effects."
+> "Name": "Fire",
+> "ID": "DAM_Fire",
+> "Description": "Fire damage is dealt by flames, heat, and magical fire effects."
 > }
 > ```
-
+>
 </details>
-
 ---
 
 ## ⚠️ ConditionDataTable
@@ -574,6 +574,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/ConditionDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome da condição (ex: "Blinded", "Poisoned")
@@ -584,14 +585,13 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Blinded",
->   "ID": "CON_Blinded",
->   "Description": "A blinded creature can't see and automatically fails any ability check that requires sight."
+> "Name": "Blinded",
+> "ID": "CON_Blinded",
+> "Description": "A blinded creature can't see and automatically fails any ability check that requires sight."
 > }
 > ```
-
+>
 </details>
-
 ---
 
 ## 🎒 ItemDataTable
@@ -601,6 +601,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/ItemDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome do item (ex: "Longsword", "Chain Mail")
@@ -614,12 +615,12 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Longsword",
->   "ID": "ITM_WPN_Longsword",
->   "ItemType": "Weapon",
->   "Weight": 3.0,
->   "Value": 15,
->   "Description": "A versatile melee weapon."
+> "Name": "Longsword",
+> "ID": "ITM_WPN_Longsword",
+> "ItemType": "Weapon",
+> "Weight": 3.0,
+> "Value": 15,
+> "Description": "A versatile melee weapon."
 > }
 > ```
 >
@@ -628,9 +629,8 @@ related: [data-tables.md, data-tables-setup.md]
 > - `ITM_ARM_*` = Armor
 > - `ITM_TOL_*` = Tool
 > - `ITM_GOLD_*` = Gold
-
+>
 </details>
-
 ---
 
 ## ⚙️ FeatureDataTable
@@ -640,6 +640,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > **Arquivo:** `Content/Data/JSON/FeatureDataTable.json`
 >
+
 > **Campos obrigatórios:**
 >
 > - `Name` - Nome da feature (ex: "Second Wind", "Fighting Style")
@@ -652,19 +653,18 @@ related: [data-tables.md, data-tables-setup.md]
 >
 > ```json
 > {
->   "Name": "Second Wind",
->   "ID": "FC_SecondWind",
->   "Description": "You have a limited well of stamina.",
->   "LevelUnlocked": 1,
->   "FeatureType": "Automatic",
->   "FeatureData": {
->     "UsesPerRest": "1"
->   }
+> "Name": "Second Wind",
+> "ID": "FC_SecondWind",
+> "Description": "You have a limited well of stamina.",
+> "LevelUnlocked": 1,
+> "FeatureType": "Automatic",
+> "FeatureData": {
+> "UsesPerRest": "1"
+> }
 > }
 > ```
-
+>
 </details>
-
 ---
 
 ## ✅ Checklist de Validação
@@ -674,6 +674,7 @@ related: [data-tables.md, data-tables-setup.md]
 
 > Antes de importar um JSON no Unreal Editor, verifique:
 >
+
 > - [ ] **Sintaxe JSON válida** (use JSONLint)
 > - [ ] **Todos os campos obrigatórios presentes**
 > - [ ] **IDs únicos** (não duplicados)
@@ -686,9 +687,8 @@ related: [data-tables.md, data-tables-setup.md]
 > - O sistema valida automaticamente contra schemas JSON
 > - Erros aparecem no Output Log do Unreal Editor
 > - Corrija erros antes de continuar
-
+>
 </details>
-
 ---
 
 ## 🐛 Problemas Comuns
@@ -698,32 +698,32 @@ related: [data-tables.md, data-tables-setup.md]
 
 > ### Erro: "Invalid JSON"
 >
+
 > **Solução:**
 > - Verifique vírgulas extras ou faltando
 > - Verifique aspas fechadas corretamente
 > - Use um validador JSON online
 >
-> ### Erro: "Missing required field"
->
-> **Solução:**
-> - Verifique se todos os campos obrigatórios estão presentes
-> - Consulte a documentação da Data Table específica
->
-> ### Erro: "Invalid reference"
->
-> **Solução:**
-> - Verifique se IDs referenciados existem
-> - Verifique se o nome do Data Table está correto
-> - Verifique se a referência está no formato correto
->
-> ### Dados não aparecem no editor
->
-> **Solução:**
-> - Verifique se o Data Table foi atribuído ao CharacterSheetDataAsset
-> - Verifique se o JSON foi importado corretamente
-> - Verifique os logs do editor para erros
-
 </details>
+    ### Erro: "Missing required field"
+
+    **Solução:**
+    - Verifique se todos os campos obrigatórios estão presentes
+    - Consulte a documentação da Data Table específica
+
+    ### Erro: "Invalid reference"
+
+    **Solução:**
+    - Verifique se IDs referenciados existem
+    - Verifique se o nome do Data Table está correto
+    - Verifique se a referência está no formato correto
+
+    ### Dados não aparecem no editor
+
+    **Solução:**
+    - Verifique se o Data Table foi atribuído ao CharacterSheetDataAsset
+    - Verifique se o JSON foi importado corretamente
+    - Verifique os logs do editor para erros
 
 ---
 
@@ -736,9 +736,8 @@ related: [data-tables.md, data-tables-setup.md]
 > - **[Guia de Setup](data-tables-setup.md)** - Como criar e configurar Data Tables no editor
 > - **[JSON Schema Validation](../data-architecture/json-schema.md)** - Validação automática de schemas
 > - **[Regras D&D 5e](../../../design/dnd-rules/)** - Regras oficiais para referência
+>
 
 </details>
-
----
 
 **Última atualização:** 2024-12-27

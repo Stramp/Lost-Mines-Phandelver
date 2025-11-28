@@ -23,6 +23,7 @@
  * Testes para Step 4: Describe Your Character (D&D 5e)
  *
  * Testa:
+ * - Background (implementado - parte do Step 4 conforme D&D 5e oficial)
  * - Personality Traits (NÃO IMPLEMENTADO - testes devem falhar)
  * - Ideals (NÃO IMPLEMENTADO - testes devem falhar)
  * - Bonds (NÃO IMPLEMENTADO - testes devem falhar)
@@ -90,10 +91,33 @@ void Step4DescribeCharacterSpec::Define()
             }
         });
 
-    Describe("Step 4: Describe Your Character (NÃO IMPLEMENTADO)",
+    Describe("Step 4: Describe Your Character",
              [this]()
              {
-                 Describe("Personality Traits",
+                 Describe("Background",
+                          [this]()
+                          {
+                              It("deve carregar background e aplicar skills/languages",
+                                 [this]()
+                                 {
+                                     AddInfo(TEXT("Testando: Background (parte do Step 4 conforme D&D 5e)"));
+
+                                     // Arrange
+                                     TestDataAsset->SelectedBackground = TEXT("Acolyte");
+                                     // Acolyte fornece: 2 skills (Insight, Religion), 2 languages (dois idiomas de escolha)
+
+                                     // Act
+                                     TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
+
+                                     // Assert
+                                     TestEqual("Background deve ser Acolyte",
+                                               TestDataComponent->SelectedBackground, FName(TEXT("Acolyte")));
+                                     // NOTA: Validação de skills e languages do background será adicionada quando
+                                     // o sistema de carregamento de background estiver completo
+                                 });
+                          });
+
+                 Describe("Personality Traits (NÃO IMPLEMENTADO)",
                           [this]()
                           {
                               It("deve permitir escolher 2 personality traits do background",
@@ -117,7 +141,7 @@ void Step4DescribeCharacterSpec::Define()
                                  });
                           });
 
-                 Describe("Ideals",
+                 Describe("Ideals (NÃO IMPLEMENTADO)",
                           [this]()
                           {
                               It("deve permitir escolher 1 ideal do background",
@@ -140,7 +164,7 @@ void Step4DescribeCharacterSpec::Define()
                                  });
                           });
 
-                 Describe("Bonds",
+                 Describe("Bonds (NÃO IMPLEMENTADO)",
                           [this]()
                           {
                               It("deve permitir escolher 1 bond do background",
@@ -163,7 +187,7 @@ void Step4DescribeCharacterSpec::Define()
                                  });
                           });
 
-                 Describe("Flaws",
+                 Describe("Flaws (NÃO IMPLEMENTADO)",
                           [this]()
                           {
                               It("deve permitir escolher 1 flaw do background",

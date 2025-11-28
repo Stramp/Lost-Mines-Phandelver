@@ -1,18 +1,63 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "CharacterSheetComponent.h"
+
+// Project includes - Characters
 #include "Characters/Data/CharacterSheetDataAsset.h"
-#include "CharacterDataComponent.h"
+#include "Characters/Components/CharacterDataComponent.h"
+
+// Project includes - Utils
 #include "Utils/ComponentHelpers.h"
 #include "Utils/DataTableHelpers.h"
 #include "Utils/DataTableRowHandleHelpers.h"
-#include "Data/Tables/TraitDataTable.h"
 #include "Utils/CharacterSheetHelpers.h"
+
+// Project includes - Data Tables
+#include "Data/Tables/TraitDataTable.h"
 #include "Data/Tables/RaceDataTable.h"
+
+// Project includes - Logging
 #include "Logging/LoggingSystem.h"
+
+// Engine includes
 #include "GameFramework/Actor.h"
+#include "Net/UnrealNetwork.h"
+
+#pragma endregion Includes
+
+// ============================================================================
+// Constructor
+// ============================================================================
+#pragma region Constructor
 
 UCharacterSheetComponent::UCharacterSheetComponent() { PrimaryComponentTick.bCanEverTick = false; }
+
+#pragma endregion Constructor
+
+// ============================================================================
+// Replication
+// ============================================================================
+#pragma region Replication
+
+void UCharacterSheetComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+    DOREPLIFETIME(UCharacterSheetComponent, SourceDataAsset);
+    // NOTA: CharacterDataComponent não precisa ser replicado (é referência local)
+}
+
+#pragma endregion Replication
+
+// ============================================================================
+// Lifecycle
+// ============================================================================
+#pragma region Lifecycle
 
 void UCharacterSheetComponent::BeginPlay()
 {
@@ -43,6 +88,13 @@ void UCharacterSheetComponent::BeginPlay()
         InitializeFromDataAsset(SourceDataAsset);
     }
 }
+
+#pragma endregion Lifecycle
+
+// ============================================================================
+// Data Asset Initialization
+// ============================================================================
+#pragma region Data Asset Initialization
 
 void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset *DataAsset)
 {
@@ -164,3 +216,5 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     FLoggingSystem::LogInfo(Context,
                             FString::Printf(TEXT("Dados inicializados do Data Asset '%s'"), *DataAsset->GetName()));
 }
+
+#pragma endregion Data Asset Initialization

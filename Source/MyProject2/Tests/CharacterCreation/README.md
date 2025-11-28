@@ -37,11 +37,12 @@ Este diretório contém todos os testes para o processo de criação de personag
 ### Step 4: Describe Your Character
 **Arquivo:** `Step4_DescribeCharacterTests.cpp`
 
-**Testes (todos devem falhar até implementação):**
-- ❌ Personality Traits
-- ❌ Ideals
-- ❌ Bonds
-- ❌ Flaws
+**Testes:**
+- ✅ Background (implementado - parte do Step 4 conforme D&D 5e oficial)
+- ❌ Personality Traits (NÃO IMPLEMENTADO - testes devem falhar)
+- ❌ Ideals (NÃO IMPLEMENTADO - testes devem falhar)
+- ❌ Bonds (NÃO IMPLEMENTADO - testes devem falhar)
+- ❌ Flaws (NÃO IMPLEMENTADO - testes devem falhar)
 
 ### Step 5: Choose Equipment
 **Arquivo:** `Step5_ChooseEquipmentTests.cpp`

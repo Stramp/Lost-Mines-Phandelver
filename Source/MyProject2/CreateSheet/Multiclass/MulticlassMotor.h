@@ -40,20 +40,14 @@ public:
                                              const UDataTable *AbilityScoreDataTable = nullptr);
 
     /**
-     * Carrega proficiências de uma classe para multiclasse retornando nomes legíveis.
-     * Proficiências são ganhas apenas no nível 1 da classe.
-     * Resolve IDs de proficiências (ex: "PW_Simple_Weapons") para nomes legíveis (ex: "Simple Weapons").
+     * Carrega proficiências de uma classe para multiclasse.
+     * Motor puro: apenas adiciona entry ao array, assume que dados já foram convertidos.
      *
-     * @param ClassName Nome da classe
-     * @param LevelInClass Nível na classe (deve ser 1 para carregar proficiências)
-     * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @param ProficiencyDataTable Data Table de proficiências para resolver IDs (pode ser nullptr)
-     * @param OutProficiencies [OUT] Array de proficiências carregadas com nomes legíveis
-     * @return true se proficiências foram carregadas com sucesso, false caso contrário
+     * @param Entry Entry de proficiências já convertida
+     * @param OutProficiencies [OUT] Array de proficiências (será modificado)
      */
-    static bool LoadClassProficiencies(FName ClassName, int32 LevelInClass, const UDataTable *ClassDataTable,
-                                       const UDataTable *ProficiencyDataTable,
-                                       TArray<FMulticlassProficienciesEntry> &OutProficiencies);
+    static void LoadClassProficiencies(const FMulticlassProficienciesEntry& Entry,
+                                       TArray<FMulticlassProficienciesEntry>& OutProficiencies);
 
     /**
      * Carrega progressão de features de uma classe para multiclasse.

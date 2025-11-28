@@ -1,8 +1,24 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "RaceBonusHelpers.h"
+
+// Project includes - Data Tables
 #include "Data/Tables/RaceDataTable.h"
+
+// Engine includes
 #include "Logging/LogMacros.h"
+
+#pragma endregion Includes
+
+// ============================================================================
+// Calculate Racial Bonuses
+// ============================================================================
+#pragma region Calculate Racial Bonuses
 
 void FRaceBonusHelpers::CalculateRacialBonuses(const FRaceDataRow *RaceRow, const FRaceDataRow *SubraceRow,
                                                const TArray<FName> &CustomChoices, TMap<FName, int32> &RacialBonuses)
@@ -98,6 +114,13 @@ void FRaceBonusHelpers::CalculateRacialBonuses(const FRaceDataRow *RaceRow, cons
     }
 }
 
+#pragma endregion Calculate Racial Bonuses
+
+// ============================================================================
+// Increment Final Scores With Racial Bonuses
+// ============================================================================
+#pragma region Increment Final Scores With Racial Bonuses
+
 void FRaceBonusHelpers::IncrementFinalScoresWithRacialBonuses(const TMap<FName, int32> &RacialBonuses,
                                                               int32 &FinalStrength, int32 &FinalDexterity,
                                                               int32 &FinalConstitution, int32 &FinalIntelligence,
@@ -111,3 +134,5 @@ void FRaceBonusHelpers::IncrementFinalScoresWithRacialBonuses(const TMap<FName, 
     FinalWisdom += RacialBonuses.FindRef(TEXT("Wisdom"));
     FinalCharisma += RacialBonuses.FindRef(TEXT("Charisma"));
 }
+
+#pragma endregion Increment Final Scores With Racial Bonuses

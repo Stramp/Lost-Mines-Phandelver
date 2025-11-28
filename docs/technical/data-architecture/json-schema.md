@@ -290,7 +290,7 @@ Category.Subcategory.Item
   "Name": "Class_Fighter",
   "ID": "CLASS_Fighter",
   "TypeTags": ["Class.Fighter", "Class.Martial"],
-  "ClassName": "Fighter",
+  "Name": "Fighter",
   "HitDie": 10,
   "MulticlassRequirements": ["STR/13|DEX/13"],
   "WeaponProficiencyHandles": [...]
@@ -303,7 +303,7 @@ Category.Subcategory.Item
   "Name": "Class_Fighter",
   "ID": "CLASS_Fighter",
   "TypeTags": ["Class.Fighter", "Class.Martial"],
-  "ClassName": "Fighter",
+  "Name": "Fighter",
   "HitDie": 10,
   "MulticlassRequirementGroups": [
     {

@@ -1,11 +1,21 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// ============================================================================
+// Includes
+// ============================================================================
+#pragma region Includes
+
 #include "FormattingHelpers.h"
-#include "CharacterSheetHelpers.h"
+
+// Project includes - Utils
+#include "Utils/CharacterSheetHelpers.h"
+
+#pragma endregion Includes
 
 // ============================================================================
 // String Formatting
 // ============================================================================
+#pragma region String Formatting
 
 FString FormattingHelpers::FormatRaceDisplay(FName RaceName, FName SubraceName)
 {
@@ -50,3 +60,5 @@ FString FormattingHelpers::FormatAbilityScores(const TMap<FName, int32> &Ability
 
     return FormattedScores;
 }
+
+#pragma endregion String Formatting

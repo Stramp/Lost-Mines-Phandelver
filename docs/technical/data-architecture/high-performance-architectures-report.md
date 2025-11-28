@@ -233,6 +233,7 @@ Este relatório consolida o estado da arte em engenharia de dados para sistemas 
 
 > **Entity Component System:**
 >
+
 > - [The Entity-Component-System Design Pattern - UMLBoard](https://www.umlboard.com/design-patterns/entity-component-system.html)
 > - [Entity Component System is all you need? - Mark Saroufim (Medium)](https://marksaroufim.medium.com/entity-component-system-is-all-you-need-884f972bd867)
 > - [Entity Component System | Game Engine series - YouTube](https://www.youtube.com/watch?v=Z-CILn2w9K0)
@@ -252,5 +253,5 @@ Este relatório consolida o estado da arte em engenharia de dados para sistemas 
 >
 > - [Best Approach for Saving a Large Open-World Game with ~100 NPCs in Godot? - Reddit](https://www.reddit.com/r/godot/comments/1gzialh/best_approach_for_saving_a_large_openworld_game/)
 > - [How are Bethesda RPG save files structured ??? (Or other large RPGS) - Reddit](https://www.reddit.com/r/gamedev/comments/czvt1l/how_are_bethesda_rpg_save_files_structured_or/)
-
+>
 </details>

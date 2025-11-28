@@ -162,9 +162,13 @@ void CompleteCharacterCreationE2ESpec::Define()
                         // Sistema DEVE calcular: PointBuy + racial bonuses
 
                         // ========================================================================
-                        // STEP 4: Describe Your Character (NÃO IMPLEMENTADO)
+                        // STEP 4: Describe Your Character
                         // ========================================================================
-                        // NOTA: Personality Traits, Ideals, Bonds, Flaws não estão implementados
+                        // Background (parte do Step 4 conforme D&D 5e oficial)
+                        TestDataAsset->SelectedBackground = TEXT("Acolyte");
+
+                        // Personality Traits, Ideals, Bonds, Flaws (NÃO IMPLEMENTADO)
+                        // NOTA: Estes serão validados quando implementados
                         // Este passo será validado como "não implementado" no teste
 
                         // ========================================================================
@@ -174,10 +178,10 @@ void CompleteCharacterCreationE2ESpec::Define()
                         // Este passo será validado como "não implementado" no teste
 
                         // ========================================================================
-                        // STEP 6: Finalize Character
+                        // STEP 6: Come Together (Revisão Final)
                         // ========================================================================
-                        // Background
-                        TestDataAsset->SelectedBackground = TEXT("Acolyte");
+                        // Revisão final, validações, cálculos derivados
+                        // NOTA: Este passo não adiciona dados, apenas valida e calcula
 
                         // Act: Inicializar componente com Data Asset
                         TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
@@ -234,7 +238,10 @@ void CompleteCharacterCreationE2ESpec::Define()
                         AddInfo(TEXT("⚠️ STEP 6 (HP inicial) não implementado - será validado quando implementado"));
                         TestTrue("HP inicial deve estar implementado", false);
 
-                        // STEP 4: Validar Personality (NÃO IMPLEMENTADO)
+                        // STEP 4: Validar Background e Describe Your Character
+                        TestEqual("STEP 4: Background deve ser Acolyte",
+                                  TestDataComponent->SelectedBackground, FName(TEXT("Acolyte")));
+                        // Personality Traits, Ideals, Bonds, Flaws (NÃO IMPLEMENTADO)
                         AddInfo(TEXT("⚠️ STEP 4 (Personality/Ideals/Bonds/Flaws) não implementado - será validado quando implementado"));
 
                         // STEP 5: Validar Equipment (NÃO IMPLEMENTADO)
@@ -279,21 +286,28 @@ void CompleteCharacterCreationE2ESpec::Define()
                         // ❌ NÃO configurar FinalStrength, FinalDexterity, etc. manualmente!
                         // Sistema DEVE calcular: PointBuy + Variant Human bonuses (+1 STR, +1 DEX)
 
-                        // STEP 4 e 5: Não implementados
-
-                        // STEP 6: Background
+                        // STEP 4: Describe Your Character
+                        // Background (parte do Step 4 conforme D&D 5e oficial)
                         TestDataAsset->SelectedBackground = TEXT("Acolyte");
+                        // Personality Traits, Ideals, Bonds, Flaws (NÃO IMPLEMENTADO)
+
+                        // STEP 5: Choose Equipment (NÃO IMPLEMENTADO)
 
                         // Act
                         TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
 
                         // Assert
+                        // STEP 1: Validar Variant Human
                         TestEqual("Variant Human: SelectedFeat deve ser Alert",
                                   TestDataComponent->SelectedFeat, FName(TEXT("Alert")));
                         TestEqual("Variant Human: SelectedSkill deve ser Perception",
                                   TestDataComponent->SelectedSkill, FName(TEXT("Perception")));
                         TestEqual("Variant Human: CustomAbilityScoreChoices deve ter 2 itens",
                                   TestDataComponent->CustomAbilityScoreChoices.Num(), 2);
+
+                        // STEP 4: Validar Background
+                        TestEqual("Variant Human: Background deve ser Acolyte",
+                                  TestDataComponent->SelectedBackground, FName(TEXT("Acolyte")));
                         // ✅ TDD CORRETO: Verificar se sistema CALCULOU, não apenas copiou
                         // ⚠️ TDD RED: Estes testes devem FALHAR até sistema calcular Variant Human bonuses
                         TestTrue("Variant Human: Sistema DEVE calcular Strength",

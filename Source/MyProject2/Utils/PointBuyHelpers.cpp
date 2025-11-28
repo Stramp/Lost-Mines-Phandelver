@@ -11,83 +11,109 @@
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/DnDConstants.h"
 
+// Engine includes
+#include "Engine/DataTable.h"
+
 #pragma endregion Includes
 
 // ============================================================================
-// Point Buy Helpers
+// Calculate Points Remaining
 // ============================================================================
-#pragma region Point Buy Helpers
+#pragma region Calculate Points Remaining
 
 int32 PointBuyHelpers::CalculatePointsRemaining(const TMap<FName, int32> &PointBuyMap, int32 MaxPoints)
 {
-    // Calcula custo total usando helpers puros (elimina duplicação)
+    // Converte PointBuyMap para BaseScores para calcular custo
     TMap<FName, int32> BaseScores = CharacterSheetHelpers::CreateBaseScoresFromPointBuy(PointBuyMap);
+
+    // Calcula custo total usando helper existente
     int32 TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
+
+    // Retorna pontos restantes (pode ser negativo se excedeu)
     return MaxPoints - TotalCost;
 }
 
+#pragma endregion Calculate Points Remaining
+
+// ============================================================================
+// Adjust Point Buy Allocation
+// ============================================================================
+#pragma region Adjust Point Buy Allocation
+
 FString PointBuyHelpers::AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap, int32 MaxPoints,
-                                                  UDataTable *AbilityScoreDataTable)
+                                                   UDataTable *AbilityScoreDataTable)
 {
-    // Ordem de redução: do final da fila (inverte ordem de GetAbilityScoreNames)
-    // Usa GetAbilityScoreNames() para manter Data-Driven (não hardcoded)
+    // Calcula custo atual
+    TMap<FName, int32> BaseScores = CharacterSheetHelpers::CreateBaseScoresFromPointBuy(PointBuyMap);
+    int32 CurrentCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
+
+    // Se não excedeu, não precisa ajustar
+    if (CurrentCost <= MaxPoints)
+    {
+        return FString::Printf(TEXT("Alocação válida (%d/%d pontos)"), CurrentCost, MaxPoints);
+    }
+
+    // Obtém ordem de ability scores (Data-Driven)
     TArray<FName> AbilityNames = CharacterSheetHelpers::GetAbilityScoreNames(AbilityScoreDataTable);
+
+    // Ordem de redução: do final da fila (último ability score primeiro)
+    // Isso mantém atributos mais importantes (Strength, Dexterity) intactos quando possível
     TArray<FName> ReductionOrder;
-    // Inverte ordem (do final para o início)
+    ReductionOrder.Reserve(AbilityNames.Num());
     for (int32 i = AbilityNames.Num() - 1; i >= 0; --i)
     {
         ReductionOrder.Add(AbilityNames[i]);
     }
 
-    // Calcula custo atual usando helper puro (elimina duplicação e magic number)
-    TMap<FName, int32> BaseScores = CharacterSheetHelpers::CreateBaseScoresFromPointBuy(PointBuyMap);
-    int32 TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
+    int32 ExcessPoints = CurrentCost - MaxPoints;
+    int32 PointsReduced = 0;
 
-    // Reduz até chegar a MaxPoints pontos
-    int32 PointsToReduce = TotalCost - MaxPoints;
-    int32 CurrentIndex = 0;
-
-    while (PointsToReduce > 0 && CurrentIndex < ReductionOrder.Num())
+    // Reduz valores do final da fila até que o custo seja <= MaxPoints
+    for (FName &AbilityName : ReductionOrder)
     {
-        FName CurrentAttribute = ReductionOrder[CurrentIndex];
-        int32 *CurrentAllocation = PointBuyMap.Find(CurrentAttribute);
-
-        if (CurrentAllocation && *CurrentAllocation > 0)
+        if (ExcessPoints <= 0)
         {
-            // Calcula custo atual deste atributo
-            int32 CurrentBaseScore = DnDConstants::BASE_ABILITY_SCORE + *CurrentAllocation;
-            int32 CurrentCost = CharacterSheetHelpers::CalculatePointBuyCost(CurrentBaseScore);
-
-            // Reduz 1 ponto
-            (*CurrentAllocation)--;
-            int32 NewBaseScore = DnDConstants::BASE_ABILITY_SCORE + *CurrentAllocation;
-            int32 NewCost = CharacterSheetHelpers::CalculatePointBuyCost(NewBaseScore);
-
-            // Atualiza pontos a reduzir
-            PointsToReduce -= (CurrentCost - NewCost);
-
-            // Se ainda precisa reduzir, continua no mesmo atributo
-            if (PointsToReduce > 0)
-            {
-                continue;
-            }
+            break;
         }
 
-        // Próximo atributo
-        CurrentIndex++;
+        int32 *CurrentValue = PointBuyMap.Find(AbilityName);
+        if (!CurrentValue || *CurrentValue <= 0)
+        {
+            continue;
+        }
+
+        // Calcula quanto reduzir deste atributo
+        int32 OldBaseScore = DnDConstants::BASE_ABILITY_SCORE + *CurrentValue;
+        int32 OldCost = CharacterSheetHelpers::CalculatePointBuyCost(OldBaseScore);
+
+        // Reduz 1 ponto de Point Buy
+        (*CurrentValue)--;
+        if (*CurrentValue < 0)
+        {
+            *CurrentValue = 0;
+        }
+
+        int32 NewBaseScore = DnDConstants::BASE_ABILITY_SCORE + *CurrentValue;
+        int32 NewCost = CharacterSheetHelpers::CalculatePointBuyCost(NewBaseScore);
+        int32 CostReduction = OldCost - NewCost;
+
+        ExcessPoints -= CostReduction;
+        PointsReduced += CostReduction;
+
+        // Recalcula custo total para verificar se já está dentro do limite
+        BaseScores = CharacterSheetHelpers::CreateBaseScoresFromPointBuy(PointBuyMap);
+        CurrentCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
+        ExcessPoints = CurrentCost - MaxPoints;
     }
 
-    // Gera mensagem de feedback
-    if (PointsToReduce <= 0)
+    // Prepara mensagem de feedback
+    if (PointsReduced > 0)
     {
-        return FString::Printf(TEXT("Alocação ajustada: reduzido do final da fila para não exceder %d pontos"),
-                               MaxPoints);
+        return FString::Printf(TEXT("Alocação ajustada: %d pontos removidos. Custo final: %d/%d"), PointsReduced,
+                               CurrentCost, MaxPoints);
     }
-    else
-    {
-        return FString::Printf(TEXT("Alocação ajustada parcialmente: ainda excede %d pontos por %d"), MaxPoints,
-                               PointsToReduce);
-    }
+
+    return FString::Printf(TEXT("Alocação ajustada. Custo final: %d/%d"), CurrentCost, MaxPoints);
 }
 
-#pragma endregion Point Buy Helpers
+#pragma endregion Adjust Point Buy Allocation

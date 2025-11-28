@@ -16,6 +16,7 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Resumo Executivo</b></summary>
 
 > Este documento identifica melhorias na arquitetura de dados baseadas em:
+>
 > - Análise dos JSONs existentes
 > - Comparação com princípios de Data-Oriented Design
 > - Alinhamento com padrões de jogos AAA (Baldur's Gate 3)
@@ -25,7 +26,7 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 
 </details>
 
----
+</details>
 
 ## 🔴 Crítico - Problemas Identificados
 
@@ -40,26 +41,26 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 >
 > ```json
 > "MulticlassRequirements": [
->   "STR/13|DEX/13"
+> "STR/13|DEX/13"
 > ]
 > ```
 >
 > **Formato Esperado (✅ CORRETO):**
->
+
 > ```json
 > "MulticlassRequirementGroups": [
->   {
->     "Operator": "OR",
->     "Requirements": [
->       {"AbilityID": "ABL_Strength", "Value": 13},
->       {"AbilityID": "ABL_Dexterity", "Value": 13}
->     ]
->   }
+> {
+> "Operator": "OR",
+> "Requirements": [
+> {"AbilityID": "ABL_Strength", "Value": 13},
+> {"AbilityID": "ABL_Dexterity", "Value": 13}
+> ]
+> }
 > ]
 > ```
 >
 > **Impacto:**
-> - ❌ Código C++ já suporta formato novo (com fallback para antigo)
+> - ❌ Código C já suporta formato novo (com fallback para antigo)
 > - ❌ Documentação indica que formato novo foi implementado
 > - ❌ Inconsistência entre código e dados
 >
@@ -71,39 +72,11 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 > **Status Atual:**
 > - ⚠️ 12 classes ainda usam formato antigo
 > - ✅ 12 classes já migradas para formato novo
-> - ✅ Código C++ suporta ambos os formatos (compatibilidade mantida)
+> - ✅ Código C suporta ambos os formatos (compatibilidade mantida)
 >
 > **Prioridade:** 🔴 Crítico (inconsistência entre código e dados)
-
+>
 </details>
-
----
-
-<details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>2. Inconsistência no Validador de Prefixos</b></summary>
-
-> **Problema:** O validador `DataTableSchemaValidator.cpp` espera prefixo `LANG_` para Language, mas os JSONs usam `PL_` (que está correto segundo documentação).
->
-> **Localização:** `Source/MyProject2/Utils/DataTableSchemaValidator.cpp` (linha ~344)
->
-> **Código Atual (❌ ERRADO):**
->
-> ```cpp
-> else if (SchemaName.Contains(TEXT("Language")))
-> {
->     return TEXT("LANG_");  // ❌ Deveria ser "PL_"
-> }
-> ```
->
-> **Código Esperado (✅ CORRETO):**
->
-> ```cpp
-> else if (SchemaName.Contains(TEXT("Language")))
-> {
->     return TEXT("PL_");  // ✅ Prefixo correto conforme documentação
-> }
-> ```
->
 > **Impacto:**
 > - ❌ Validação falha para LanguageDataTable (falsos positivos)
 > - ❌ Inconsistência entre documentação e código
@@ -115,9 +88,8 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 > **Status:** ✅ Corrigido
 >
 > **Prioridade:** ✅ Resolvido
-
+>
 </details>
-
 ---
 
 ## 🟡 Médio - Melhorias Recomendadas
@@ -127,6 +99,7 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 
 > **Problema:** `ProficiencyDataTable` contém proficiências de diferentes tipos (Weapon, Armor, Tool, Language, etc.) com prefixos diferentes, mas o validador só verifica `PW_`.
 >
+
 > **Localização:** `Content/Data/JSON/ProficiencyDataTable.json`
 >
 > **Análise:**
@@ -147,9 +120,8 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 > - Atualizar validador para aceitar múltiplos prefixos em `ProficiencyDataTable`
 >
 > **Prioridade:** 🟡 Médio (organização de dados)
-
+>
 </details>
-
 ---
 
 <details>
@@ -157,6 +129,7 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 
 > **Problema:** Verificar se todas as referências entre tabelas usam `FDataTableRowHandle` ao invés de strings/IDs diretos.
 >
+
 > **Análise Necessária:**
 > - ✅ `RaceDataTable` usa `TraitHandles`, `LanguageHandles`, `SubraceHandles` (correto)
 > - ✅ `ClassDataTable` usa `WeaponProficiencyHandles`, `ArmorProficiencyHandles`, `SavingThrowHandles` (correto)
@@ -168,9 +141,8 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 > - Documentar casos onde referência direta é aceitável (ex: `AbilityID` em arrays pequenos)
 >
 > **Prioridade:** 🟡 Médio (type safety)
-
+>
 </details>
-
 ---
 
 <details>
@@ -181,11 +153,13 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 > **Princípio:** JSONs relacionais e planos, não profundamente aninhados (o importador do Unreal quebra com estruturas muito aninhadas).
 >
 > **Análise Necessária:**
+>
 > - Verificar profundidade máxima de aninhamento em cada JSON
 > - Identificar estruturas que poderiam ser "achatadas"
 > - Verificar se há arrays de objetos complexos que poderiam ser referências
 >
 > **Solução:**
+>
 > - Auditoria de estrutura de cada JSON
 > - Refatorar estruturas profundamente aninhadas
 > - Documentar casos onde aninhamento é necessário
@@ -194,7 +168,7 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 
 </details>
 
----
+</details>
 
 ## 🟢 Baixo - Otimizações Futuras
 
@@ -203,6 +177,7 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 
 > **Problema:** Estrutura atual usa Array of Structures (AoS), que pode ser ineficiente para hot-paths.
 >
+
 > **Análise:**
 > - Estrutura atual (AoS) é adequada para maioria dos casos
 > - SoA só é necessário para hot-paths com milhares de entidades
@@ -214,9 +189,8 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 > - Implementar SoA apenas se necessário (após profiling)
 >
 > **Prioridade:** 🟢 Baixo (otimização futura)
-
+>
 </details>
-
 ---
 
 <details>
@@ -224,6 +198,7 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 
 > **Problema:** Saves atuais provavelmente usam JSON, que é ineficiente para dados grandes.
 >
+
 > **Análise:**
 > - JSON é adequado para Data Tables (dados estáticos)
 > - Saves (dados dinâmicos) podem se beneficiar de formato binário
@@ -234,9 +209,8 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 > - Manter JSON para Data Tables (adequado para dados estáticos)
 >
 > **Prioridade:** 🟢 Baixo (otimização futura)
-
+>
 </details>
-
 ---
 
 ## 📋 Checklist de Correções
@@ -246,23 +220,23 @@ related: [ideal-data-structure-report.md, database-architecture.md]
 
 > ### 🔴 Crítico
 >
+
 > - [ ] Corrigir `MulticlassRequirements` em `ClassDataTable.json` (formato antigo → novo)
 > - [ ] Corrigir prefixo no validador (`LANG_` → `PL_`)
 > - [ ] Validar todos os JSONs após correções
 >
-> ### 🟡 Médio
->
-> - [ ] Auditoria de `ProficiencyDataTable` (remover Language/Skill proficiencies)
-> - [ ] Verificar uso consistente de `FDataTableRowHandle`
-> - [ ] Verificar estrutura "flat" dos JSONs
->
-> ### 🟢 Baixo
->
-> - [ ] Profiling de performance (identificar hot-paths)
-> - [ ] Considerar SoA para hot-paths (se necessário)
-> - [ ] Considerar serialização binária para saves (futuro)
-
 </details>
+    ### 🟡 Médio
+
+    - [ ] Auditoria de `ProficiencyDataTable` (remover Language/Skill proficiencies)
+    - [ ] Verificar uso consistente de `FDataTableRowHandle`
+    - [ ] Verificar estrutura "flat" dos JSONs
+
+    ### 🟢 Baixo
+
+    - [ ] Profiling de performance (identificar hot-paths)
+    - [ ] Considerar SoA para hot-paths (se necessário)
+    - [ ] Considerar serialização binária para saves (futuro)
 
 ---
 
