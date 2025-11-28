@@ -1,3 +1,15 @@
+---
+title: "JSON Schema"
+category: technical
+subcategory: data-architecture
+tags: [json-schema, data-tables, validation, structure]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [database-architecture.md, ../../guides/data-tables.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Data Architecture](data-architecture/index.md) > JSON Schema
+
 # JSON Schema - Padrão de Estrutura para Data Tables
 
 > **Documentação:** Define o formato esperado para arquivos JSON de Data Tables no projeto.
@@ -272,6 +284,7 @@ Category.Subcategory.Item
 
 ### ClassDataTable.json
 
+**Formato Antigo (Deprecated):**
 ```json
 {
   "Name": "Class_Fighter",
@@ -280,6 +293,33 @@ Category.Subcategory.Item
   "ClassName": "Fighter",
   "HitDie": 10,
   "MulticlassRequirements": ["STR/13|DEX/13"],
+  "WeaponProficiencyHandles": [...]
+}
+```
+
+**Formato Novo (Normalizado - Recomendado):**
+```json
+{
+  "Name": "Class_Fighter",
+  "ID": "CLASS_Fighter",
+  "TypeTags": ["Class.Fighter", "Class.Martial"],
+  "ClassName": "Fighter",
+  "HitDie": 10,
+  "MulticlassRequirementGroups": [
+    {
+      "Operator": "OR",
+      "Requirements": [
+        {
+          "AbilityID": "ABL_Strength",
+          "Value": 13
+        },
+        {
+          "AbilityID": "ABL_Dexterity",
+          "Value": 13
+        }
+      ]
+    }
+  ],
   "WeaponProficiencyHandles": [
     {
       "DataTable": "/Game/Data/ProficiencyDataTable",
@@ -300,6 +340,8 @@ Category.Subcategory.Item
   ]
 }
 ```
+
+**Nota:** O formato antigo `MulticlassRequirements` ainda é suportado para compatibilidade, mas o formato novo `MulticlassRequirementGroups` é recomendado. Use o script `scripts/migrate_multiclass_requirements.py` para migrar.
 
 ### FeatDataTable.json
 
@@ -390,8 +432,33 @@ Antes de considerar um JSON válido, verificar:
 
 ---
 
+## 🔍 Validação de Schemas
+
+O projeto implementa validação de JSON Schema em três níveis:
+
+### 1. Validação Local (Python)
+
+Execute antes de importar no Unreal Engine:
+
+```bash
+python scripts/validate_json_schemas.py
+```
+
+### 2. Validação no Editor (C++)
+
+Validação automática quando Data Tables são alteradas. Ver logs no Output Log do Unreal Engine.
+
+### 3. Validação no CI/CD (GitHub Actions)
+
+Validação automática em cada commit/PR. Ver workflow `.github/workflows/validate-json-schemas.yml`.
+
+**Para mais detalhes:** Veja [Guia de Validação JSON Schema](../guides/json-schema-validation-guide.md)
+
+---
+
 ## 📚 Referências
 
+- [Guia de Validação JSON Schema](../guides/json-schema-validation-guide.md) - Como usar o sistema de validação
 - [Arquitetura de Banco de Dados](database-architecture.md) - Arquitetura completa
 - [Data Table Helpers](../../../Source/MyProject2/Utils/DataTableRowHandleHelpers.h) - Funções helper
 - [Gameplay Tags](../../../Content/Data/GameplayTags/MyProject2Tags.ini) - Configuração de tags

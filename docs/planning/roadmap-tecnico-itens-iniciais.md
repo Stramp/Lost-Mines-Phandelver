@@ -1,3 +1,14 @@
+---
+title: "Technical Plan: Starting Items"
+category: planning
+tags: [technical-plan, starting-items, equipment, dnd-5e]
+last_updated: 2024-12-27
+difficulty: advanced
+related: [roadmap.md, revisao-estrutural-integracao.md]
+---
+
+**Navegação:** [Home](../../README.md) > [Documentação](index.md) > [Planejamento](planning/index.md) > Technical Plan: Starting Items
+
 # Plano Técnico: Sistema de Itens Iniciais - D&D 5e
 
 > **Documento Técnico:** Plano detalhado de implementação do sistema de itens iniciais na criação de ficha, seguindo regras D&D 5e e arquitetura do projeto.

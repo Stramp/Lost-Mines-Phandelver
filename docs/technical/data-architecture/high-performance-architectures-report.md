@@ -1,3 +1,15 @@
+---
+title: "High Performance Architectures Report"
+category: technical
+subcategory: data-architecture
+tags: [high-performance, data-oriented-design, ecs, scalability, research]
+last_updated: 2024-12-27
+difficulty: advanced
+related: [ideal-data-structure-report.md, database-architecture.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Data Architecture](data-architecture/index.md) > High Performance Architectures
+
 # Relatório de Pesquisa: Arquiteturas de Alta Performance para Dados Complexos e Multicamadas
 
 ## 1. Introdução: O Desafio da Complexidade e Escala

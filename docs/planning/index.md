@@ -1,3 +1,12 @@
+---
+title: "Planning Documentation"
+category: planning
+tags: [planning, roadmap, phases, development]
+last_updated: 2024-12-27
+---
+
+**Navegação:** [Home](../../README.md) > [Documentação](index.md) > Planejamento
+
 # Planejamento do Projeto - MyProject2
 
 <details open>

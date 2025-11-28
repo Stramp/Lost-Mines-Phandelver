@@ -1,3 +1,14 @@
+---
+title: "Revisão Estrutural - Integração"
+category: planning
+tags: [review, structural-analysis, roadmap-integration, dnd-5e-completeness]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [roadmap.md, ../technical/reviews/structural-review-report.md]
+---
+
+**Navegação:** [Home](../../README.md) > [Documentação](index.md) > [Planejamento](planning/index.md) > Revisão Estrutural
+
 # Revisão Estrutural - Integração no Roadmap
 
 <details open>

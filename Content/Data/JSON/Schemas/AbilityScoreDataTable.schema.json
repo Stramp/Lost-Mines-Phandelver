@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AbilityScoreDataTable",
+  "description": "Schema para AbilityScoreDataTable - Atributos D&D 5e (Strength, Dexterity, etc.)",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "SchemaVersion",
+      "DataVersion",
+      "Name",
+      "ID"
+    ],
+    "properties": {
+      "SchemaVersion": {
+        "type": "string",
+        "pattern": "^\\d+\\.\\d+\\.\\d+$",
+        "description": "Versão do schema (formato: MAJOR.MINOR.PATCH, ex: 1.0.0)"
+      },
+      "DataVersion": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "description": "Versão dos dados (formato: YYYY-MM-DD, ex: 2024-12-27)"
+      },
+      "Name": {
+        "type": "string",
+        "description": "Nome de exibição do atributo (Key Field para Unreal Engine)",
+        "examples": [
+          "Strength",
+          "Dexterity",
+          "Constitution"
+        ]
+      },
+      "ID": {
+        "type": "string",
+        "pattern": "^ABL_[A-Z][a-zA-Z0-9_]*$",
+        "description": "Identificador único do atributo (deve começar com ABL_)",
+        "examples": [
+          "ABL_Strength",
+          "ABL_Dexterity",
+          "ABL_Constitution"
+        ]
+      },
+      "Abbreviation": {
+        "type": "string",
+        "description": "Abreviação do atributo",
+        "examples": [
+          "STR",
+          "DEX",
+          "CON"
+        ]
+      },
+      "Description": {
+        "type": "string",
+        "description": "Descrição do atributo"
+      },
+      "TypeTags": {
+        "type": "array",
+        "description": "Gameplay Tags para categorização",
+        "items": {
+          "type": "string",
+          "pattern": "^Ability\\."
+        },
+        "examples": [
+          [
+            "Ability.Physical"
+          ],
+          [
+            "Ability.Mental"
+          ]
+        ]
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,3 +1,15 @@
+---
+title: "Multiclassing"
+category: design
+subcategory: dnd-rules
+tags: [multiclassing, classes, dnd-5e, character-progression]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [character-creation.md, level-up.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Design](../design/index.md) > [Regras D&D 5e](dnd-rules/index.md) > Multiclassing
+
 # Multiclassing - D&D 5e
 
 <details open>

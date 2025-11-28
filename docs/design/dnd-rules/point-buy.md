@@ -1,3 +1,15 @@
+---
+title: "Point Buy System"
+category: design
+subcategory: dnd-rules
+tags: [point-buy, ability-scores, dnd-5e, character-creation]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [ability-scores.md, character-creation.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Design](../design/index.md) > [Regras D&D 5e](dnd-rules/index.md) > Point Buy
+
 # Point Buy System - D&D 5e
 
 <details open>

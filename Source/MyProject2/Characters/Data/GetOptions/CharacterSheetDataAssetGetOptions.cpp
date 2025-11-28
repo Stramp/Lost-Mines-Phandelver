@@ -144,11 +144,12 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(const UD
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetListClassAvaible(const UDataTable *ClassDataTable,
                                                                       int32 FinalStrength, int32 FinalDexterity,
                                                                       int32 FinalConstitution, int32 FinalIntelligence,
-                                                                      int32 FinalWisdom, int32 FinalCharisma)
+                                                                      int32 FinalWisdom, int32 FinalCharisma,
+                                                                      const UDataTable *AbilityScoreDataTable)
 {
     // Solicita classes disponíveis ao motor de multiclasse
     return FMulticlassMotor::GetAvailableClasses(ClassDataTable, FinalStrength, FinalDexterity, FinalConstitution,
-                                                 FinalIntelligence, FinalWisdom, FinalCharisma);
+                                                 FinalIntelligence, FinalWisdom, FinalCharisma, AbilityScoreDataTable);
 }
 
 #pragma endregion Multiclass Options
@@ -205,7 +206,7 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNames(const 
  * Usado para dropdown filtrado em FMulticlassClassFeature.AvailableChoices.
  */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceIDsForFeature(const UDataTable *FeatureDataTable,
-                                                                                   FName FeatureID)
+                                                                                  FName FeatureID)
 {
     return FeatureChoiceHelpers::GetAvailableChoiceIDsForFeature(FeatureDataTable, FeatureID);
 }

@@ -1,3 +1,15 @@
+---
+title: "Level Up System"
+category: design
+subcategory: dnd-rules
+tags: [level-up, features, character-progression, dnd-5e]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [multiclassing.md, character-creation.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Design](../design/index.md) > [Regras D&D 5e](dnd-rules/index.md) > Level Up
+
 # Level Up System - D&D 5e
 
 <details open>

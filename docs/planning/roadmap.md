@@ -1,3 +1,14 @@
+---
+title: "Roadmap Completo"
+category: planning
+tags: [roadmap, planning, phases, development]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [revisao-estrutural-integracao.md, technical/architecture.md]
+---
+
+**Navegação:** [Home](../../README.md) > [Documentação](index.md) > [Planejamento](planning/index.md) > Roadmap
+
 # Roadmap Completo - MyProject2
 
 <details open>

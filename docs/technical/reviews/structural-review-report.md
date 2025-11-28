@@ -1,3 +1,15 @@
+---
+title: "Structural Review Report"
+category: technical
+subcategory: reviews
+tags: [review, structural-analysis, aaa-standards, data-architecture]
+last_updated: 2024-12-27
+difficulty: advanced
+related: [structural-analysis-report.md, structural-improvements-checklist.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > Reviews > Structural Review
+
 # Relatório de Revisão Estrutural - Padrão AAA
 
 <details open>

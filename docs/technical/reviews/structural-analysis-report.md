@@ -1,3 +1,15 @@
+---
+title: "Structural Analysis Report"
+category: technical
+subcategory: reviews
+tags: [analysis, structural-review, architecture-alignment]
+last_updated: 2024-12-27
+difficulty: advanced
+related: [structural-review-report.md, structural-improvements-checklist.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > Reviews > Structural Analysis
+
 # Relatório de Análise Estrutural - MyProject2
 
 **Data:** 2024-12-XX

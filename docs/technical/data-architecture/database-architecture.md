@@ -1,3 +1,15 @@
+---
+title: "Database Architecture"
+category: technical
+subcategory: data-architecture
+tags: [database, architecture, normalization, data-oriented-design, fdatatablerowhandle]
+last_updated: 2024-12-27
+difficulty: advanced
+related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Data Architecture](data-architecture/index.md) > Database Architecture
+
 # Arquitetura de Banco de Dados - MyProject2
 
 <details open>

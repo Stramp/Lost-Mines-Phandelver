@@ -1,4 +1,29 @@
+---
+title: "TDD Complete Guide"
+category: technical
+subcategory: guides
+tags: [tdd, testing, test-driven-development, best-practices]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [testing.md, testing-implementation-plan.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Guias](guides/index.md) > TDD Complete Guide
+
 # 📚 TDD - Conhecimento Completo Consolidado
+
+## 📋 Índice deste Documento
+
+1. [Visão Geral](#-visão-geral)
+2. [O Ciclo Red-Green-Refactor](#-o-ciclo-red-green-refactor)
+3. [Princípios Fundamentais do TDD](#-princípios-fundamentais-do-tdd)
+4. [Quando Aplicar TDD vs Test-After](#-quando-aplicar-tdd-vs-test-after)
+5. [TDD na Unreal Engine 5.7](#-tdd-na-unreal-engine-57)
+6. [Erros Comuns e Anti-padrões](#-erros-comuns-e-anti-padrões)
+7. [Benefícios e Boas Práticas](#-benefícios-e-boas-práticas)
+8. [Recursos de Aprendizado](#-recursos-de-aprendizado)
+
+---
 
 ## 🎯 Visão Geral
 

@@ -1,5 +1,7 @@
 [
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Firebolt",
     "ID": "SPL_Firebolt",
     "SpellLevel": 0,
@@ -26,6 +28,8 @@
     }
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Mage Hand",
     "ID": "SPL_MageHand",
     "SpellLevel": 0,
@@ -46,6 +50,8 @@
     }
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Fireball",
     "ID": "SPL_Fireball",
     "SpellLevel": 3,
@@ -73,6 +79,8 @@
     }
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Magic Missile",
     "ID": "SPL_MagicMissile",
     "SpellLevel": 1,
@@ -100,6 +108,8 @@
     }
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Healing Word",
     "ID": "SPL_HealingWord",
     "SpellLevel": 1,
@@ -123,6 +133,8 @@
     }
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Shield",
     "ID": "SPL_Shield",
     "SpellLevel": 1,

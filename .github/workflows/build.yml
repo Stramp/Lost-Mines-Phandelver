@@ -15,6 +15,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Validate JSON Schemas
+      run: |
+        python -m pip install --upgrade pip
+        pip install jsonschema
+        python scripts/validate_json_schemas.py
+      continue-on-error: false
+
     - name: Setup Unreal Engine
       # Nota: GitHub Actions não tem Unreal Engine instalado por padrão
       # Você precisará configurar ou usar self-hosted runner
@@ -39,6 +51,13 @@ jobs:
           echo "Build failed!"
           exit 1
         }
+
+    - name: Validate JSON Schemas
+      run: |
+        python -m pip install --upgrade pip
+        pip install jsonschema
+        python scripts/validate_json_schemas.py
+      continue-on-error: false
 
     # Nota: Testes serão adicionados quando implementados
     # - name: Run Tests

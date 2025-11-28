@@ -1,44 +1,68 @@
 [
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Strength",
     "ID": "ABL_Strength",
     "Abbreviation": "STR",
     "Description": "Physical power and athletic ability",
-    "TypeTags": ["Ability.Physical"]
+    "TypeTags": [
+      "Ability.Physical"
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Dexterity",
     "ID": "ABL_Dexterity",
     "Abbreviation": "DEX",
     "Description": "Agility, reflexes, and balance",
-    "TypeTags": ["Ability.Physical"]
+    "TypeTags": [
+      "Ability.Physical"
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Constitution",
     "ID": "ABL_Constitution",
     "Abbreviation": "CON",
     "Description": "Endurance, health, and stamina",
-    "TypeTags": ["Ability.Physical"]
+    "TypeTags": [
+      "Ability.Physical"
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Intelligence",
     "ID": "ABL_Intelligence",
     "Abbreviation": "INT",
     "Description": "Reasoning, memory, and analytical thought",
-    "TypeTags": ["Ability.Mental"]
+    "TypeTags": [
+      "Ability.Mental"
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Wisdom",
     "ID": "ABL_Wisdom",
     "Abbreviation": "WIS",
     "Description": "Awareness, intuition, and insight",
-    "TypeTags": ["Ability.Mental"]
+    "TypeTags": [
+      "Ability.Mental"
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Charisma",
     "ID": "ABL_Charisma",
     "Abbreviation": "CHA",
     "Description": "Force of personality, persuasiveness, and leadership",
-    "TypeTags": ["Ability.Mental"]
+    "TypeTags": [
+      "Ability.Mental"
+    ]
   }
 ]

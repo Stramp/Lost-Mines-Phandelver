@@ -1,3 +1,15 @@
+---
+title: "Data Tables Setup"
+category: technical
+subcategory: guides
+tags: [data-tables, setup, json, configuration]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [data-tables.md, ../data-architecture/index.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Guias](guides/index.md) > Data Tables Setup
+
 # Guia de Configuração de Data Tables - MyProject2
 
 <details open>

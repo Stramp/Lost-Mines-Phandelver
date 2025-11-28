@@ -1,3 +1,15 @@
+---
+title: "Troubleshooting"
+category: technical
+subcategory: guides
+tags: [troubleshooting, problems, solutions, debugging]
+last_updated: 2024-12-27
+difficulty: beginner
+related: [getting-started.md, setup.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Guias](guides/index.md) > Troubleshooting
+
 # Troubleshooting
 
 Guia de problemas comuns e suas soluções no sistema de fichas D&D 5e.

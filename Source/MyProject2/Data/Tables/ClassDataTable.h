@@ -11,6 +11,7 @@
 #include "Engine/DataTable.h"
 #include "GameplayTagContainer.h"
 #include "Data/Structures/FProgressEntry.h"
+#include "Data/Structures/FMulticlassRequirement.h"
 #include "ClassDataTable.generated.h"
 
 #pragma endregion Includes
@@ -61,9 +62,33 @@ struct MYPROJECT2_API FClassDataRow : public FTableRowBase
 
     /**
      * Requisitos de atributo para multiclasse nesta classe.
-     * Formato: ["STR/13", "DEX/13"] para AND, ou ["STR/13|DEX/13"] para OR.
+     * Estrutura normalizada usando FMulticlassRequirementGroup.
+     * Cada grupo pode ter operador "OR" (qualquer um) ou "AND" (todos).
+     * Grupos são combinados com lógica AND (todos os grupos devem ser satisfeitos).
+     *
+     * Exemplo (Fighter - STR/13 OU DEX/13):
+     * [
+     *   {
+     *     "Operator": "OR",
+     *     "Requirements": [
+     *       {"AbilityID": "ABL_Strength", "Value": 13},
+     *       {"AbilityID": "ABL_Dexterity", "Value": 13}
+     *     ]
+     *   }
+     * ]
+     *
+     * @deprecated Campo antigo TArray<FString> MulticlassRequirements mantido para compatibilidade.
+     *             Será removido após migração completa.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FMulticlassRequirementGroup> MulticlassRequirementGroups;
+
+    /**
+     * @deprecated Use MulticlassRequirementGroups ao invés deste campo.
+     *             Mantido apenas para compatibilidade durante migração.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class",
+              meta = (DeprecatedProperty, DeprecationMessage = "Use MulticlassRequirementGroups instead"))
     TArray<FString> MulticlassRequirements;
 
     /** Lista de handles para proficiências com armas */

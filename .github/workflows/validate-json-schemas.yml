@@ -1,0 +1,51 @@
+name: Validate JSON Schemas
+
+on:
+  push:
+    branches: [ master, main, develop ]
+    paths:
+      - 'Content/Data/JSON/**'
+      - 'Content/Data/JSON/Schemas/**'
+      - 'scripts/validate_json_schemas.py'
+  pull_request:
+    branches: [ master, main, develop ]
+    paths:
+      - 'Content/Data/JSON/**'
+      - 'Content/Data/JSON/Schemas/**'
+      - 'scripts/validate_json_schemas.py'
+
+jobs:
+  validate-json-schemas:
+    name: Validate JSON Data Tables
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install jsonschema
+
+    - name: Validate all JSON files
+      run: |
+        python scripts/validate_json_schemas.py
+      continue-on-error: false
+
+    - name: Validate specific file (if changed)
+      if: contains(github.event.head_commit.message, 'Content/Data/JSON/') || contains(github.event.pull_request.title, 'JSON')
+      run: |
+        # Valida apenas arquivos modificados se possível
+        python scripts/validate_json_schemas.py --verbose
+
+    - name: Check for validation errors
+      if: failure()
+      run: |
+        echo "::error::JSON Schema validation failed. Please check the errors above."
+        exit 1

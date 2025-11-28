@@ -1,3 +1,15 @@
+---
+title: "Getting Started"
+category: technical
+subcategory: guides
+tags: [getting-started, quick-start, tutorial, beginner]
+last_updated: 2024-12-27
+difficulty: beginner
+related: [setup.md, data-tables-setup.md, workflows.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Guias](guides/index.md) > Getting Started
+
 # Guia de Início Rápido
 
 Guia prático passo a passo para criar e configurar um personagem completo no sistema de fichas D&D 5e.

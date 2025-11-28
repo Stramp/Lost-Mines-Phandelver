@@ -1,3 +1,15 @@
+---
+title: "D&D 5e Rules"
+category: design
+subcategory: dnd-rules
+tags: [dnd-5e, rules, algorithmic, character-creation]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [../gdd.md, ../../technical/guides/algorithmic/character-creation.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Design](../design/index.md) > Regras D&D 5e
+
 # Regras D&D 5e - Documentação Algorítmica
 
 <details open>

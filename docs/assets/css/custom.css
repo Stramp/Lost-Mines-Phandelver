@@ -1,68 +1,437 @@
-/* Custom CSS for MyProject2 Documentation */
+/* Custom CSS for MyProject2 Documentation - Material Design Enhanced */
 
-/* Custom styles for Material for MkDocs */
+/* ============================================================================
+   Typography & Spacing
+   ============================================================================ */
 
-/* Improve code block readability */
-.highlight {
-    border-radius: 4px;
+.md-typeset {
+    font-size: 0.9rem;
+    line-height: 1.7;
 }
 
-/* Custom admonition styles */
+.md-typeset h1 {
+    font-weight: 600;
+    color: var(--md-primary-fg-color);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--md-primary-fg-color);
+}
+
+.md-typeset h2 {
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--md-default-fg-color--light);
+}
+
+.md-typeset h3 {
+    font-weight: 500;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+/* ============================================================================
+   Cards & Grid Layout (Material for MkDocs native support)
+   ============================================================================ */
+
+.md-typeset .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.md-typeset .grid.cards {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.md-typeset .grid.cards > * {
+    background: var(--md-default-bg-color);
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.md-typeset .grid.cards > *:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-color: var(--md-primary-fg-color);
+}
+
+.md-typeset .card {
+    background: var(--md-default-bg-color);
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.md-typeset .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-color: var(--md-primary-fg-color);
+}
+
+.md-typeset .card h3 {
+    margin-top: 0;
+    color: var(--md-primary-fg-color);
+    font-size: 1.2rem;
+}
+
+.md-typeset .card p {
+    margin-bottom: 0.5rem;
+}
+
+/* ============================================================================
+   Admonitions Enhanced
+   ============================================================================ */
+
 .md-typeset .admonition {
-    border-radius: 4px;
-}
-
-/* Custom table styles */
-.md-typeset table:not([class]) {
-    border-radius: 4px;
+    border-radius: 8px;
+    border-left-width: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin: 1.5rem 0;
     overflow: hidden;
 }
 
-/* Custom link styles */
+.md-typeset .admonition-title {
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    margin: 0;
+}
+
+.md-typeset .admonition-title::before {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.md-typeset .admonition > .admonition-title + * {
+    margin-top: 0;
+}
+
+.md-typeset .admonition > *:last-child {
+    margin-bottom: 0;
+}
+
+/* Custom admonition colors */
+.md-typeset .admonition.note {
+    border-left-color: #2196F3;
+}
+
+.md-typeset .admonition.abstract,
+.md-typeset .admonition.summary,
+.md-typeset .admonition.tldr {
+    border-left-color: #00BCD4;
+}
+
+.md-typeset .admonition.info {
+    border-left-color: #00BCD4;
+}
+
+.md-typeset .admonition.tip,
+.md-typeset .admonition.hint,
+.md-typeset .admonition.important {
+    border-left-color: #4CAF50;
+}
+
+.md-typeset .admonition.success,
+.md-typeset .admonition.check,
+.md-typeset .admonition.done {
+    border-left-color: #4CAF50;
+}
+
+.md-typeset .admonition.question,
+.md-typeset .admonition.help,
+.md-typeset .admonition.faq {
+    border-left-color: #FF9800;
+}
+
+.md-typeset .admonition.warning,
+.md-typeset .admonition.caution,
+.md-typeset .admonition.attention {
+    border-left-color: #FF9800;
+}
+
+.md-typeset .admonition.failure,
+.md-typeset .admonition.fail,
+.md-typeset .admonition.missing {
+    border-left-color: #F44336;
+}
+
+.md-typeset .admonition.danger,
+.md-typeset .admonition.error {
+    border-left-color: #F44336;
+}
+
+.md-typeset .admonition.bug {
+    border-left-color: #E91E63;
+}
+
+.md-typeset .admonition.example {
+    border-left-color: #9C27B0;
+}
+
+.md-typeset .admonition.quote,
+.md-typeset .admonition.cite {
+    border-left-color: #607D8B;
+}
+
+/* ============================================================================
+   Code Blocks Enhanced
+   ============================================================================ */
+
+.highlight {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.highlight pre {
+    margin: 0;
+    padding: 1rem;
+}
+
+.md-typeset code {
+    background-color: var(--md-code-bg-color);
+    border-radius: 4px;
+    padding: 0.2em 0.4em;
+    font-size: 0.9em;
+}
+
+.md-typeset pre > code {
+    padding: 0;
+    border-radius: 0;
+}
+
+/* ============================================================================
+   Tables Enhanced
+   ============================================================================ */
+
+.md-typeset table:not([class]) {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset table:not([class]) th {
+    background-color: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+    font-weight: 600;
+    padding: 1rem;
+}
+
+.md-typeset table:not([class]) td {
+    padding: 0.75rem 1rem;
+}
+
+.md-typeset table:not([class]) tr:nth-child(even) {
+    background-color: var(--md-default-bg-color--light);
+}
+
+.md-typeset table:not([class]) tr:hover {
+    background-color: var(--md-default-bg-color--dark);
+}
+
+/* ============================================================================
+   Links Enhanced
+   ============================================================================ */
+
 .md-typeset a {
     color: var(--md-primary-fg-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
 }
 
 .md-typeset a:hover {
     color: var(--md-accent-fg-color);
-    text-decoration: underline;
+    border-bottom-color: var(--md-accent-fg-color);
 }
 
-/* Custom header styles */
+.md-typeset a[href^="http"]:after {
+    content: " ↗";
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+/* ============================================================================
+   Header & Navigation Enhanced
+   ============================================================================ */
+
 .md-header {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
 }
 
-/* Custom footer styles */
-.md-footer {
-    background-color: var(--md-default-bg-color--dark);
-}
-
-/* Custom navigation styles */
-.md-nav__link--active {
+.md-header__title {
     font-weight: 600;
 }
 
-/* Custom search styles */
-.md-search__form {
+.md-nav__link--active {
+    font-weight: 600;
+    color: var(--md-primary-fg-color);
+    background-color: var(--md-primary-fg-color--lightest);
     border-radius: 4px;
 }
 
-/* Responsive improvements */
+.md-nav__link:hover {
+    background-color: var(--md-default-bg-color--dark);
+    border-radius: 4px;
+}
+
+/* ============================================================================
+   Search Enhanced
+   ============================================================================ */
+
+.md-search__form {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.md-search__input {
+    border-radius: 8px;
+}
+
+/* ============================================================================
+   Footer Enhanced
+   ============================================================================ */
+
+.md-footer {
+    background-color: var(--md-default-bg-color--dark);
+    border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-footer__inner {
+    padding: 2rem 0;
+}
+
+/* ============================================================================
+   Content Tabs Enhanced
+   ============================================================================ */
+
+.md-typeset .tabbed-set {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.md-typeset .tabbed-content {
+    padding: 1.5rem;
+}
+
+/* ============================================================================
+   Lists Enhanced
+   ============================================================================ */
+
+.md-typeset ul li,
+.md-typeset ol li {
+    margin-bottom: 0.5rem;
+}
+
+.md-typeset ul li::marker,
+.md-typeset ol li::marker {
+    color: var(--md-primary-fg-color);
+}
+
+/* ============================================================================
+   Buttons & Badges
+   ============================================================================ */
+
+.md-typeset .badge {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 0.85em;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--md-primary-bg-color);
+    background-color: var(--md-primary-fg-color);
+    border-radius: 4px;
+    margin: 0 0.25em;
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
 @media screen and (max-width: 76.25em) {
     .md-nav--primary .md-nav__title {
         font-weight: 600;
     }
+
+    .md-typeset .grid {
+        grid-template-columns: 1fr;
+    }
 }
 
-/* Print styles */
+@media screen and (max-width: 59.9375em) {
+    .md-typeset {
+        font-size: 0.85rem;
+    }
+
+    .md-typeset h1 {
+        font-size: 1.75rem;
+    }
+
+    .md-typeset h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* ============================================================================
+   Print Styles
+   ============================================================================ */
+
 @media print {
     .md-sidebar,
-    .md-header {
+    .md-header,
+    .md-search {
         display: none;
     }
 
     .md-content {
         margin-left: 0;
     }
+
+    .md-typeset .admonition {
+        break-inside: avoid;
+    }
+}
+
+/* ============================================================================
+   Animations
+   ============================================================================ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.md-typeset .admonition,
+.md-typeset .card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* ============================================================================
+   Dark Mode Enhancements
+   ============================================================================ */
+
+[data-md-color-scheme="slate"] .md-typeset .card {
+    background: var(--md-default-bg-color--light);
+    border-color: var(--md-default-fg-color--lightest);
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tr:nth-child(even) {
+    background-color: var(--md-default-bg-color--light);
 }

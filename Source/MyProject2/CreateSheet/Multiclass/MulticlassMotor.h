@@ -31,11 +31,13 @@ public:
      * @param FinalIntelligence Intelligence final do personagem
      * @param FinalWisdom Wisdom final do personagem
      * @param FinalCharisma Charisma final do personagem
+     * @param AbilityScoreDataTable Data Table de Ability Scores (opcional, necessário para nova estrutura normalizada)
      * @return Array com nomes de classes disponíveis (que atendem requisitos de atributo)
      */
     static TArray<FName> GetAvailableClasses(const UDataTable *ClassDataTable, int32 FinalStrength,
                                              int32 FinalDexterity, int32 FinalConstitution, int32 FinalIntelligence,
-                                             int32 FinalWisdom, int32 FinalCharisma);
+                                             int32 FinalWisdom, int32 FinalCharisma,
+                                             const UDataTable *AbilityScoreDataTable = nullptr);
 
     /**
      * Carrega proficiências de uma classe para multiclasse retornando nomes legíveis.

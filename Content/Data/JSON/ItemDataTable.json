@@ -1,5 +1,7 @@
 [
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Chain Mail",
     "ID": "ITM_ARM_ChainMail",
     "ItemType": "Armor",
@@ -15,6 +17,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Shield",
     "ID": "ITM_ARM_Shield",
     "ItemType": "Armor",
@@ -30,6 +34,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Leather Armor",
     "ID": "ITM_ARM_LeatherArmor",
     "ItemType": "Armor",
@@ -45,6 +51,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Scale Mail",
     "ID": "ITM_ARM_ScaleMail",
     "ItemType": "Armor",
@@ -60,6 +68,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Handaxe",
     "ID": "ITM_WPN_Handaxe",
     "ItemType": "Weapon",
@@ -75,6 +85,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Quarterstaff",
     "ID": "ITM_WPN_Quarterstaff",
     "ItemType": "Weapon",
@@ -90,6 +102,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Mace",
     "ID": "ITM_WPN_Mace",
     "ItemType": "Weapon",
@@ -105,6 +119,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Rapier",
     "ID": "ITM_WPN_Rapier",
     "ItemType": "Weapon",
@@ -120,6 +136,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Shortsword",
     "ID": "ITM_WPN_Shortsword",
     "ItemType": "Weapon",
@@ -135,6 +153,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Shortbow",
     "ID": "ITM_WPN_Shortbow",
     "ItemType": "Weapon",
@@ -150,6 +170,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Longbow",
     "ID": "ITM_WPN_Longbow",
     "ItemType": "Weapon",
@@ -165,6 +187,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Light Crossbow",
     "ID": "ITM_WPN_LightCrossbow",
     "ItemType": "Weapon",
@@ -180,6 +204,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Scimitar",
     "ID": "ITM_WPN_Scimitar",
     "ItemType": "Weapon",
@@ -195,6 +221,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Greataxe",
     "ID": "ITM_WPN_Greataxe",
     "ItemType": "Weapon",
@@ -210,6 +238,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Staff",
     "ID": "ITM_WPN_Staff",
     "ItemType": "Weapon",
@@ -225,6 +255,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Martial Weapon",
     "ID": "ITM_WPN_MartialWeapon",
     "ItemType": "Weapon",
@@ -240,6 +272,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Component Pouch",
     "ID": "ITM_OTH_ComponentPouch",
     "ItemType": "Other",
@@ -255,6 +289,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Spellbook",
     "ID": "ITM_OTH_Spellbook",
     "ItemType": "Other",
@@ -270,6 +306,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Holy Symbol",
     "ID": "ITM_OTH_HolySymbol",
     "ItemType": "Other",
@@ -285,6 +323,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Druidic Focus",
     "ID": "ITM_OTH_DruidicFocus",
     "ItemType": "Other",
@@ -300,6 +340,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Dungeoneer's Pack",
     "ID": "ITM_PCK_DungeoneersPack",
     "ItemType": "Pack",
@@ -315,6 +357,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Scholar's Pack",
     "ID": "ITM_PCK_ScholarsPack",
     "ItemType": "Pack",
@@ -330,6 +374,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Priest's Pack",
     "ID": "ITM_PCK_PriestsPack",
     "ItemType": "Pack",
@@ -345,6 +391,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Burglar's Pack",
     "ID": "ITM_PCK_BurglarsPack",
     "ItemType": "Pack",
@@ -360,6 +408,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Diplomat's Pack",
     "ID": "ITM_PCK_DiplomatsPack",
     "ItemType": "Pack",
@@ -375,6 +425,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Explorer's Pack",
     "ID": "ITM_PCK_ExplorersPack",
     "ItemType": "Pack",
@@ -390,6 +442,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Prayer Book",
     "ID": "ITM_OTH_PrayerBook",
     "ItemType": "Other",
@@ -405,6 +459,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Incense",
     "ID": "ITM_CNM_Incense",
     "ItemType": "Consumable",
@@ -420,6 +476,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Vestments",
     "ID": "ITM_OTH_Vestments",
     "ItemType": "Other",
@@ -435,6 +493,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Common Clothes",
     "ID": "ITM_OTH_CommonClothes",
     "ItemType": "Other",
@@ -450,6 +510,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Dark Common Clothes",
     "ID": "ITM_OTH_DarkCommonClothes",
     "ItemType": "Other",
@@ -465,6 +527,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Crowbar",
     "ID": "ITM_TOL_Crowbar",
     "ItemType": "Tool",
@@ -480,6 +544,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Artisan's Tools",
     "ID": "ITM_TOL_ArtisansTools",
     "ItemType": "Tool",
@@ -495,6 +561,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Shovel",
     "ID": "ITM_TOL_Shovel",
     "ItemType": "Tool",
@@ -510,6 +578,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Iron Pot",
     "ID": "ITM_OTH_IronPot",
     "ItemType": "Other",
@@ -525,6 +595,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Fine Clothes",
     "ID": "ITM_OTH_FineClothes",
     "ItemType": "Other",
@@ -540,6 +612,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Signet Ring",
     "ID": "ITM_OTH_SignetRing",
     "ItemType": "Other",
@@ -555,6 +629,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Scroll of Pedigree",
     "ID": "ITM_OTH_ScrollOfPedigree",
     "ItemType": "Other",
@@ -570,6 +646,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Purse",
     "ID": "ITM_OTH_Purse",
     "ItemType": "Other",
@@ -585,6 +663,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Bottle of Black Ink",
     "ID": "ITM_OTH_BottleOfBlackInk",
     "ItemType": "Other",
@@ -600,6 +680,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Quill",
     "ID": "ITM_OTH_Quill",
     "ItemType": "Other",
@@ -615,6 +697,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Small Knife",
     "ID": "ITM_OTH_SmallKnife",
     "ItemType": "Other",
@@ -630,6 +714,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Letter from a Dead Colleague",
     "ID": "ITM_OTH_LetterFromDeadColleague",
     "ItemType": "Other",
@@ -645,6 +731,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Insignia of Rank",
     "ID": "ITM_OTH_InsigniaOfRank",
     "ItemType": "Other",
@@ -660,6 +748,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Trophy from Fallen Enemy",
     "ID": "ITM_OTH_TrophyFromFallenEnemy",
     "ItemType": "Other",
@@ -675,6 +765,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Set of Bone Dice",
     "ID": "ITM_OTH_SetOfBoneDice",
     "ItemType": "Other",
@@ -690,6 +782,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Scroll Case",
     "ID": "ITM_OTH_ScrollCase",
     "ItemType": "Other",
@@ -705,6 +799,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Winter Blanket",
     "ID": "ITM_OTH_WinterBlanket",
     "ItemType": "Other",
@@ -720,6 +816,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Herbalism Kit",
     "ID": "ITM_TOL_HerbalismKit",
     "ItemType": "Tool",
@@ -735,6 +833,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Musical Instrument",
     "ID": "ITM_OTH_MusicalInstrument",
     "ItemType": "Other",
@@ -750,6 +850,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Costume",
     "ID": "ITM_OTH_Costume",
     "ItemType": "Other",
@@ -765,6 +867,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Pouch",
     "ID": "ITM_OTH_Pouch",
     "ItemType": "Other",
@@ -780,6 +884,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Letter of Introduction from Guild",
     "ID": "ITM_OTH_LetterOfIntroductionFromGuild",
     "ItemType": "Other",
@@ -795,6 +901,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Traveler's Clothes",
     "ID": "ITM_OTH_TravelersClothes",
     "ItemType": "Other",
@@ -810,6 +918,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Hunting Trap",
     "ID": "ITM_OTH_HuntingTrap",
     "ItemType": "Other",
@@ -825,6 +935,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Trophy from Animal",
     "ID": "ITM_OTH_TrophyFromAnimal",
     "ItemType": "Other",
@@ -840,6 +952,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Disguise Kit",
     "ID": "ITM_TOL_DisguiseKit",
     "ItemType": "Tool",
@@ -855,6 +969,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Tools of the Con",
     "ID": "ITM_OTH_ToolsOfTheCon",
     "ItemType": "Other",
@@ -870,6 +986,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Belaying Pin",
     "ID": "ITM_OTH_BelayingPin",
     "ItemType": "Other",
@@ -885,6 +1003,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "50 feet of Silk Rope",
     "ID": "ITM_OTH_50FeetOfSilkRope",
     "ItemType": "Other",
@@ -900,6 +1020,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Lucky Charm",
     "ID": "ITM_OTH_LuckyCharm",
     "ItemType": "Other",
@@ -915,6 +1037,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Lute",
     "ID": "ITM_OTH_Lute",
     "ItemType": "Other",
@@ -930,6 +1054,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "10 gp",
     "ID": "ITM_GOLD_10gp",
     "ItemType": "Gold",
@@ -945,6 +1071,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "15 gp",
     "ID": "ITM_GOLD_15gp",
     "ItemType": "Gold",
@@ -960,6 +1088,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "25 gp",
     "ID": "ITM_GOLD_25gp",
     "ItemType": "Gold",
@@ -975,6 +1105,8 @@
     "DamageTypeID": null
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "5 gp",
     "ID": "ITM_GOLD_5gp",
     "ItemType": "Gold",

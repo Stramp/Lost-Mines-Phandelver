@@ -1,3 +1,14 @@
+---
+title: "Adaptação D&D 5e + GAS"
+category: design
+tags: [gas, dnd-5e, adaptation, gameplay-ability-system]
+last_updated: 2024-12-27
+difficulty: advanced
+related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
+---
+
+**Navegação:** [Home](../../README.md) > [Documentação](index.md) > [Design](design/index.md) > Adaptação D&D 5e + GAS
+
 # Adaptação D&D 5e para Unreal Engine 5 com GAS
 
 > **Documento de Design:** Explica como adaptar as regras de D&D 5e para um jogo Action RPG no Unreal Engine 5 usando Gameplay Ability System (GAS).
@@ -22,21 +33,18 @@
 
 ---
 
-## 📚 Índice
+## 📋 Índice deste Documento
 
-<details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Navegação Rápida</b></summary>
+1. [Visão Geral: RPG de Mesa vs Jogo Digital](#visão-geral-rpg-de-mesa-vs-jogo-digital)
+2. [Gameplay Ability System (GAS) - Conceitos Fundamentais](#gameplay-ability-system-gas---conceitos-fundamentais)
+3. [Fluxos Práticos: Do RPG de Mesa para o Jogo](#fluxos-práticos-do-rpg-de-mesa-para-o-jogo)
+4. [Adaptação de Regras D&D 5e](#adaptação-de-regras-dd-5e)
+5. [Action RPG: Colisão Real e Combate](#action-rpg-colisão-real-e-combate)
+6. [Sistema de Condições e Efeitos](#sistema-de-condições-e-efeitos)
+7. [Magias e Habilidades Especiais](#magias-e-habilidades-especiais)
+8. [Multiplayer: Sincronização e Autoridade](#multiplayer-sincronização-e-autoridade)
 
-> 1. [Visão Geral: RPG de Mesa vs Jogo Digital](#visão-geral-rpg-de-mesa-vs-jogo-digital)
-> 2. [Gameplay Ability System (GAS) - Conceitos Fundamentais](#gameplay-ability-system-gas---conceitos-fundamentais)
-> 3. [Fluxos Práticos: Do RPG de Mesa para o Jogo](#fluxos-práticos-do-rpg-de-mesa-para-o-jogo)
-> 4. [Adaptação de Regras D&D 5e](#adaptação-de-regras-dd-5e)
-> 5. [Action RPG: Colisão Real e Combate](#action-rpg-colisão-real-e-combate)
-> 6. [Sistema de Condições e Efeitos](#sistema-de-condições-e-efeitos)
-> 7. [Magias e Habilidades Especiais](#magias-e-habilidades-especiais)
-> 8. [Multiplayer: Sincronização e Autoridade](#multiplayer-sincronização-e-autoridade)
-
-</details>
+---
 
 ---
 

@@ -1,3 +1,15 @@
+---
+title: "Ability Scores"
+category: design
+subcategory: dnd-rules
+tags: [ability-scores, attributes, modifiers, dnd-5e]
+last_updated: 2024-12-27
+difficulty: beginner
+related: [point-buy.md, character-creation.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Design](../design/index.md) > [Regras D&D 5e](dnd-rules/index.md) > Ability Scores
+
 # Ability Scores - D&D 5e
 
 <details open>

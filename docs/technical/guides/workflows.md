@@ -1,3 +1,15 @@
+---
+title: "Workflows"
+category: technical
+subcategory: guides
+tags: [workflows, processes, character-creation, point-buy, multiclassing]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [getting-started.md, algorithmic/character-creation.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Guias](guides/index.md) > Workflows
+
 # Guia de Fluxos Principais - MyProject2
 
 <details open>

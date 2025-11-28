@@ -33,6 +33,7 @@
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/DataTableHelpers.h"
+#include "Utils/DataTableSchemaValidator.h"
 #include "Utils/FeatureChoiceHelpers.h"
 
 // Project includes - Data Tables
@@ -241,7 +242,6 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
 // ============================================================================
 #pragma region Data Table Handlers
 
-
 /**
  * Processa mudanças em Data Tables (RaceDataTable, BackgroundDataTable, FeatDataTable, ClassDataTable).
  * Valida tipo de Data Table e atualiza visibilidade da ficha.
@@ -264,35 +264,65 @@ void FCharacterSheetDataAssetHandlers::HandleDataTableChange(UCharacterSheetData
     if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, RaceDataTable))
     {
         FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->RaceDataTable, PropertyName,
-                                                                TEXT("FRaceDataRow"), DataTableHelpers::IsRaceDataTable);
+                                                               TEXT("FRaceDataRow"), DataTableHelpers::IsRaceDataTable);
+
+        // Valida schema JSON (estrutura básica)
+        if (Asset->RaceDataTable)
+        {
+            FDataTableSchemaValidationResult SchemaResult =
+                FDataTableSchemaValidator::ValidateBasicStructure(Asset->RaceDataTable, TEXT("RaceDataTable"));
+            if (!SchemaResult.bIsValid)
+            {
+                // Log erros de schema (não bloqueia, apenas avisa)
+                for (const FString &Error : SchemaResult.Errors)
+                {
+                    UE_LOG(LogTemp, Warning, TEXT("RaceDataTable Schema Error: %s"), *Error);
+                }
+            }
+        }
     }
     else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassDataTable))
     {
-        FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->ClassDataTable, PropertyName,
-                                                                TEXT("FClassDataRow"), DataTableHelpers::IsClassDataTable);
+        FCharacterSheetDataAssetHelpers::ValidateDataTableType(
+            Asset, Asset->ClassDataTable, PropertyName, TEXT("FClassDataRow"), DataTableHelpers::IsClassDataTable);
+
+        // Valida schema JSON (estrutura básica)
+        if (Asset->ClassDataTable)
+        {
+            FDataTableSchemaValidationResult SchemaResult =
+                FDataTableSchemaValidator::ValidateBasicStructure(Asset->ClassDataTable, TEXT("ClassDataTable"));
+            if (!SchemaResult.bIsValid)
+            {
+                // Log erros de schema (não bloqueia, apenas avisa)
+                for (const FString &Error : SchemaResult.Errors)
+                {
+                    UE_LOG(LogTemp, Warning, TEXT("ClassDataTable Schema Error: %s"), *Error);
+                }
+            }
+        }
     }
     else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, BackgroundDataTable))
     {
         FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->BackgroundDataTable, PropertyName,
-                                                                TEXT("FBackgroundDataRow"),
-                                                                DataTableHelpers::IsBackgroundDataTable);
+                                                               TEXT("FBackgroundDataRow"),
+                                                               DataTableHelpers::IsBackgroundDataTable);
     }
     else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, FeatDataTable))
     {
         FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->FeatDataTable, PropertyName,
-                                                                TEXT("FFeatDataRow"), DataTableHelpers::IsFeatDataTable);
+                                                               TEXT("FFeatDataRow"), DataTableHelpers::IsFeatDataTable);
     }
     else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ClassFeaturesDataTable))
     {
         FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->ClassFeaturesDataTable, PropertyName,
-                                                                TEXT("FFeatureDataRow"),
-                                                                DataTableHelpers::IsFeatureDataTable);
+                                                               TEXT("FFeatureDataRow"),
+                                                               DataTableHelpers::IsFeatureDataTable);
     }
     else if (PropertyName == GET_MEMBER_NAME_CHECKED(UCharacterSheetDataAsset, ProficiencyDataTable))
     {
         FCharacterSheetDataAssetHelpers::ValidateDataTableType(Asset, Asset->ProficiencyDataTable, PropertyName,
-                                                                TEXT("FProficiencyDataRow"),
-                                                                DataTableHelpers::IsProficiencyDataTable);
+                                                               TEXT("FProficiencyDataRow"),
+                                                               DataTableHelpers::IsProficiencyDataTable);
     }
 
     // Valida se todas as Data Tables obrigatórias estão cadastradas (exibe popup se faltando)
@@ -620,22 +650,22 @@ void FCharacterSheetDataAssetHandlers::HandleAvailableChoiceToAddChange(UCharact
                 // Adiciona ao SelectedChoices
                 Feature.SelectedChoices.Add(Feature.AvailableChoiceToAdd);
                 bAnyChange = true;
-    }
-    else
-    {
+            }
+            else
+            {
                 // Feedback ao usuário sobre por que escolha não foi adicionada
                 // Converte ID para Name para melhor UX (usuário vê "Archery" ao invés de "FC_Archery")
                 FName ChoiceDisplayName = FeatureChoiceHelpers::FindChoiceNameByID(
                     Asset->ClassFeaturesDataTable, Feature.ID, Feature.AvailableChoiceToAdd);
                 FString ChoiceDisplayString = (ChoiceDisplayName != NAME_None)
-                                                 ? ChoiceDisplayName.ToString()
-                                                 : Feature.AvailableChoiceToAdd.ToString();
+                                                  ? ChoiceDisplayName.ToString()
+                                                  : Feature.AvailableChoiceToAdd.ToString();
 
                 FString Reason;
                 if (!ValidChoices.Contains(Feature.AvailableChoiceToAdd))
                 {
-                    Reason = FString::Printf(TEXT("Escolha '%s' não é válida para feature '%s'"),
-                                             *ChoiceDisplayString, *Feature.Name.ToString());
+                    Reason = FString::Printf(TEXT("Escolha '%s' não é válida para feature '%s'"), *ChoiceDisplayString,
+                                             *Feature.Name.ToString());
                 }
                 else if (Feature.SelectedChoices.Contains(Feature.AvailableChoiceToAdd))
                 {
@@ -698,8 +728,8 @@ void FCharacterSheetDataAssetHandlers::HandleSelectedChoicesChange(UCharacterShe
         [&bAnyChange, &Context](FMulticlassClassFeature &Feature, const TArray<FName> &ValidChoices)
         {
             // Remove escolhas inválidas e duplicatas usando helper otimizado
-            bool bCleaned = FCharacterSheetDataAssetHelpers::CleanInvalidAndDuplicateChoices(
-                Feature.SelectedChoices, ValidChoices);
+            bool bCleaned =
+                FCharacterSheetDataAssetHelpers::CleanInvalidAndDuplicateChoices(Feature.SelectedChoices, ValidChoices);
 
             if (bCleaned)
             {
@@ -722,8 +752,9 @@ void FCharacterSheetDataAssetHandlers::HandleSelectedChoicesChange(UCharacterShe
 
                 FLoggingSystem::LogWarningWithThrottledPopup(
                     Context,
-                    FString::Printf(TEXT("Limite máximo de %d escolhas para feature '%s' excedido. %d escolhas foram removidas."),
-                                    MaxChoices, *Feature.Name.ToString(), ExcessCount),
+                    FString::Printf(
+                        TEXT("Limite máximo de %d escolhas para feature '%s' excedido. %d escolhas foram removidas."),
+                        MaxChoices, *Feature.Name.ToString(), ExcessCount),
                     0.5f);
             }
         });
@@ -849,7 +880,7 @@ void FCharacterSheetDataAssetHandlers::HandleSelectedSkillsWrapper(UCharacterShe
 }
 
 void FCharacterSheetDataAssetHandlers::HandleAvailableChoiceToAddWrapper(UCharacterSheetDataAsset *Asset,
-                                                                          FName PropertyName)
+                                                                         FName PropertyName)
 {
     HandleAvailableChoiceToAddChange(Asset);
 }

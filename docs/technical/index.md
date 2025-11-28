@@ -1,98 +1,155 @@
-# Documentação Técnica - MyProject2
+---
+title: "Technical Documentation"
+category: technical
+tags: [technical, architecture, api, guides]
+last_updated: 2024-12-27
+---
 
-<details open>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔧 Visão Geral</b></summary>
+# Documentação Técnica
 
-> Esta seção contém toda a documentação relacionada à **arquitetura técnica, implementação e desenvolvimento** do projeto.
+!!! abstract "Visão Geral"
+    Esta seção contém toda a documentação relacionada à **arquitetura técnica, implementação e desenvolvimento** do projeto MyProject2.
 
-</details>
+    Explore os documentos abaixo para entender a arquitetura, API, estrutura de dados e guias práticos de desenvolvimento.
 
 ---
 
-## 📚 Documentos Principais
+## Documentos Principais
 
-<details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🏗️ Arquitetura Técnica</b></summary>
+!!! tip "Explore a Documentação"
+    Selecione uma categoria abaixo para começar:
 
-> **[architecture.md](architecture.md)** - Documentação completa da arquitetura:
->
-> - Princípios de design (Data-Driven, Modularidade, Editor-Friendly, Multiplayer-Ready)
-> - Data-Oriented Design e ECS (Composição sobre Herança, Separação Static/Dynamic)
-> - Arquitetura em 4 camadas
-> - Motores desacoplados (CreateSheet/)
-> - Preparação para GAS
-> - Regras de implementação
-> - Estrutura de arquivos
+=== "🏗️ Arquitetura"
 
-</details>
+    **Documentação completa da arquitetura do projeto**
 
-<details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📖 API Reference</b></summary>
+    [:octicons-arrow-right-24: Ver arquitetura completa](architecture.md)
 
-> **[api.md](api.md)** - Referência completa da API:
->
-> - CharacterDataComponent
-> - CharacterSheetComponent
-> - CharacterSheetDataAsset
-> - CreateSheet - Motores de Criação
-> - Helpers e Utilitários
+    - Princípios de Design (Data-Driven, Modularidade, Editor-Friendly, Multiplayer-Ready)
+    - Data-Oriented Design e ECS
+    - Arquitetura em 4 Camadas
+    - Motores Desacoplados
+    - Preparação para GAS
 
-</details>
+=== "📖 API Reference"
 
-<details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Arquitetura de Dados</b></summary>
+    **Referência completa de todas as classes e funções**
 
-> **[data-architecture/](data-architecture/)** - Documentação sobre organização de dados:
->
-> - Relatório de Arquiteturas de Alta Performance (DOD, ECS, Baldur's Gate 3)
-> - Estrutura de Dados Ideal para Projetos AAA (Padrão "ID + Tags + Payload")
-> - Filosofia: Composição sobre Herança, Separação Static/Dynamic
-> - Estrutura "Flat" (JSONs planos e relacionais)
-> - Normalização e Tabelas de Referência
-> - Serialização e Persistência (Serialização Diferencial, Formatos Binários)
->
-> **📖 Para mais detalhes, veja [data-architecture/index.md](data-architecture/index.md)**
+    [:octicons-arrow-right-24: Ver API completa](api.md)
 
-</details>
+    - CharacterDataComponent
+    - CharacterSheetComponent
+    - CharacterSheetDataAsset
+    - CreateSheet - Motores
+    - Helpers e Utilitários
 
-<details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Guias Práticos</b></summary>
+=== "📊 Arquitetura de Dados"
 
-> **[guides/](guides/)** - Guias passo a passo:
->
-> **Setup e Configuração:**
-> - Setup Completo - Configurar ambiente do zero
-> - Data Tables Setup - Criar e configurar Data Tables
->
-> **Uso:**
-> - Getting Started - Criar primeiro personagem
-> - Workflows - Fluxos principais do sistema
-> - Data Tables - Estrutura e uso
->
-> **Técnico:**
-> - Testes Automatizados - Implementação e execução de testes
-> - TDD Complete Guide - Guia completo de Test-Driven Development
-> - Troubleshooting - Problemas comuns
->
-> **📖 Para mais detalhes, veja [guides/index.md](guides/index.md)**
+    **Organização de dados, DOD, ECS e estruturas ideais**
 
-</details>
+    [:octicons-arrow-right-24: Ver arquitetura de dados](data-architecture/)
+
+    - Relatório de Arquiteturas de Alta Performance
+    - Estrutura de Dados Ideal (Padrão AAA)
+    - Filosofia: Composição sobre Herança
+    - Normalização e Tabelas de Referência
+
+=== "📋 Guias Práticos"
+
+    **Guias passo a passo para setup, uso e desenvolvimento**
+
+    [:octicons-arrow-right-24: Ver todos os guias](guides/)
+
+    - Setup e Configuração
+    - Getting Started
+    - Workflows
+    - Testes e TDD
+    - Troubleshooting
 
 ---
 
-## 🎯 Navegação
+## Arquitetura Técnica
 
-<details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔗 Links Rápidos</b></summary>
+!!! note "Arquitetura Completa"
+    **[architecture.md](architecture.md)** - Documentação completa da arquitetura:
 
-> - **[Arquitetura](architecture.md)** - Arquitetura completa
-> - **[API Reference](api.md)** - Referência de classes
-> - **[Arquitetura de Dados](data-architecture/)** - Organização de dados e tabelas
-> - **[Guias Práticos](guides/)** - Guias passo a passo
-> - **[Documentação de Design](../design/)** - Regras D&D 5e e GDD
-> - **[README Principal](../../README.md)** - Visão geral do projeto
-> - **[ARCHITECTURE.md](../../ARCHITECTURE.md)** - Resumo da arquitetura
-> - **[CHANGELOG.md](../../CHANGELOG.md)** - Histórico de mudanças
-> - **[Índice de Documentação](../index.md)** - Organização completa
+    - **Princípios de Design**: Data-Driven, Modularidade, Editor-Friendly, Multiplayer-Ready
+    - **Data-Oriented Design e ECS**: Composição sobre Herança, Separação Static/Dynamic
+    - **Arquitetura em 4 Camadas**: Data Assets → Bridge Components → Runtime Components → Feature Components
+    - **Motores Desacoplados**: CreateSheet/ com motores independentes
+    - **Preparação para GAS**: Migração futura para Gameplay Ability System
+    - **Regras de Implementação**: Padrões e convenções
+    - **Estrutura de Arquivos**: Organização do código
 
-</details>
+---
+
+## API Reference
+
+!!! info "Referência de API"
+    **[api.md](api.md)** - Referência completa da API:
+
+    - **CharacterDataComponent**: Componente de dados replicáveis
+    - **CharacterSheetComponent**: Componente bridge de aplicação de regras
+    - **CharacterSheetDataAsset**: Data Asset de configuração
+    - **CreateSheet - Motores**: PointBuy, Multiclass, RaceBonus
+    - **Helpers e Utilitários**: Funções reutilizáveis
+
+---
+
+## Arquitetura de Dados
+
+!!! tip "Organização de Dados"
+    **[data-architecture/](data-architecture/)** - Documentação sobre organização de dados:
+
+    - **Relatório de Arquiteturas de Alta Performance**: DOD, ECS, Baldur's Gate 3
+    - **Estrutura de Dados Ideal**: Padrão "ID + Tags + Payload" para projetos AAA
+    - **Filosofia**: Composição sobre Herança, Separação Static/Dynamic
+    - **Estrutura "Flat"**: JSONs planos e relacionais
+    - **Normalização**: Tabelas de referência e relacionamentos
+    - **Serialização**: Serialização diferencial, formatos binários
+
+    [:octicons-arrow-right-24: Ver arquitetura de dados completa](data-architecture/index.md)
+
+---
+
+## Guias Práticos
+
+!!! success "Guias Passo a Passo"
+    **[guides/](guides/)** - Guias organizados por categoria:
+
+    **Setup e Configuração:**
+    - [:material-tools: Setup Completo](guides/setup.md) - Configurar ambiente do zero
+    - [:material-table: Data Tables Setup](guides/data-tables-setup.md) - Criar e configurar Data Tables
+
+    **Uso:**
+    - [:material-rocket-launch: Getting Started](guides/getting-started.md) - Criar primeiro personagem
+    - [:material-workflow: Workflows](guides/workflows.md) - Fluxos principais do sistema
+    - [:material-database: Data Tables](guides/data-tables.md) - Estrutura e uso
+
+    **Técnico:**
+    - [:material-test-tube: Testes Automatizados](guides/testing.md) - Implementação e execução
+    - [:material-code-tags: TDD Complete Guide](guides/tdd-complete-guide.md) - Test-Driven Development
+    - [:material-bug: Troubleshooting](guides/troubleshooting.md) - Problemas comuns
+
+    [:octicons-arrow-right-24: Ver todos os guias](guides/index.md)
+
+---
+
+## Navegação Rápida
+
+!!! question "Links Úteis"
+    **Documentação Principal:**
+
+    - [:material-home: Home](../../README.md) - Visão geral do projeto
+    - [:material-book: Documentação](../index.md) - Índice completo
+    - [:material-file-document: ARCHITECTURE.md](../../ARCHITECTURE.md) - Resumo da arquitetura
+
+    **Outras Seções:**
+
+    - [:material-palette: Design](../design/) - Regras D&D 5e e GDD
+    - [:material-calendar: Planejamento](../planning/) - Roadmap e planos
+
+    **Recursos:**
+
+    - [:material-book-open-page-variant: Glossário](../GLOSSARY.md) - Conceitos e termos
+    - [:material-map: Mapa de Navegação](../NAVIGATION.md) - Navegação completa

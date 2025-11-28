@@ -216,7 +216,7 @@ TArray<FName> UCharacterSheetDataAsset::GetListClassAvaible() const
 {
     return FCharacterSheetDataAssetGetOptions::GetListClassAvaible(ClassDataTable, FinalStrength, FinalDexterity,
                                                                    FinalConstitution, FinalIntelligence, FinalWisdom,
-                                                                   FinalCharisma);
+                                                                   FinalCharisma, AbilityScoreDataTable);
 }
 
 #pragma endregion GetOptions Functions

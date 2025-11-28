@@ -41,7 +41,8 @@
 
 TArray<FName> FMulticlassMotor::GetAvailableClasses(const UDataTable *ClassDataTable, int32 FinalStrength,
                                                     int32 FinalDexterity, int32 FinalConstitution,
-                                                    int32 FinalIntelligence, int32 FinalWisdom, int32 FinalCharisma)
+                                                    int32 FinalIntelligence, int32 FinalWisdom, int32 FinalCharisma,
+                                                    const UDataTable *AbilityScoreDataTable)
 {
     if (!ClassDataTable)
     {
@@ -51,7 +52,8 @@ TArray<FName> FMulticlassMotor::GetAvailableClasses(const UDataTable *ClassDataT
     TArray<int32> CharacterAttributes = {FinalStrength,     FinalDexterity, FinalConstitution,
                                          FinalIntelligence, FinalWisdom,    FinalCharisma};
 
-    return FMulticlassHelpers::GetAvailableClassWithTagRequirements(ClassDataTable, CharacterAttributes);
+    return FMulticlassHelpers::GetAvailableClassWithTagRequirements(ClassDataTable, CharacterAttributes,
+                                                                    AbilityScoreDataTable);
 }
 
 #pragma endregion Get Available Classes
@@ -86,12 +88,12 @@ bool FMulticlassMotor::LoadClassProficiencies(FName ClassName, int32 LevelInClas
     FMulticlassProficienciesEntry ConvertedEntry;
 
     // Resolve WeaponProficiencyHandles para nomes legíveis
-    ConvertedEntry.armas = FMulticlassHelpers::ResolveProficiencyHandlesToNames(
-        ClassRow->WeaponProficiencyHandles, ProficiencyDataTable);
+    ConvertedEntry.armas =
+        FMulticlassHelpers::ResolveProficiencyHandlesToNames(ClassRow->WeaponProficiencyHandles, ProficiencyDataTable);
 
     // Resolve ArmorProficiencyHandles para nomes legíveis
-    ConvertedEntry.armaduras = FMulticlassHelpers::ResolveProficiencyHandlesToNames(
-        ClassRow->ArmorProficiencyHandles, ProficiencyDataTable);
+    ConvertedEntry.armaduras =
+        FMulticlassHelpers::ResolveProficiencyHandlesToNames(ClassRow->ArmorProficiencyHandles, ProficiencyDataTable);
 
     // Resolve SavingThrowHandles para IDs (Ability Scores)
     ConvertedEntry.SavingThrowIDs.Empty();

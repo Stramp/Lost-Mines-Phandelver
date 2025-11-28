@@ -1,5 +1,7 @@
 [
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Fighter",
     "ID": "CLASS_Fighter",
     "TypeTags": [
@@ -339,9 +341,26 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 125
+    "StartingGold": 125,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "OR",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Strength",
+            "Value": 13
+          },
+          {
+            "AbilityID": "ABL_Dexterity",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Wizard",
     "ID": "CLASS_Wizard",
     "TypeTags": [
@@ -580,9 +599,22 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 40
+    "StartingGold": 40,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Intelligence",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Barbarian",
     "ID": "CLASS_Barbarian",
     "TypeTags": [
@@ -857,9 +889,22 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Strength",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Bard",
     "ID": "CLASS_Bard",
     "TypeTags": [
@@ -1181,9 +1226,22 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Charisma",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Cleric",
     "ID": "CLASS_Cleric",
     "TypeTags": [
@@ -1428,9 +1486,22 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Wisdom",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Druid",
     "ID": "CLASS_Druid",
     "TypeTags": [
@@ -1718,9 +1789,22 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Wisdom",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Monk",
     "ID": "CLASS_Monk",
     "TypeTags": [
@@ -2012,9 +2096,31 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Dexterity",
+            "Value": 13
+          }
+        ]
+      },
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Wisdom",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Paladin",
     "ID": "CLASS_Paladin",
     "TypeTags": [
@@ -2297,9 +2403,31 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Strength",
+            "Value": 13
+          }
+        ]
+      },
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Charisma",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Ranger",
     "ID": "CLASS_Ranger",
     "TypeTags": [
@@ -2566,9 +2694,31 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Dexterity",
+            "Value": 13
+          }
+        ]
+      },
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Wisdom",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Rogue",
     "ID": "CLASS_Rogue",
     "TypeTags": [
@@ -2875,9 +3025,22 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Dexterity",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Sorcerer",
     "ID": "CLASS_Sorcerer",
     "TypeTags": [
@@ -3126,9 +3289,22 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Charisma",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Class_Warlock",
     "ID": "CLASS_Warlock",
     "TypeTags": [
@@ -3404,6 +3580,17 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "MulticlassRequirementGroups": [
+      {
+        "Operator": "AND",
+        "Requirements": [
+          {
+            "AbilityID": "ABL_Charisma",
+            "Value": 13
+          }
+        ]
+      }
+    ]
   }
 ]

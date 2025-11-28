@@ -1,6 +1,33 @@
+---
+title: "API Reference"
+category: technical
+subcategory: api
+tags: [api, reference, classes, functions]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [architecture.md, guides/index.md]
+---
+
+**Navegação:** [Home](../../README.md) > [Documentação](index.md) > [Técnico](technical/index.md) > API Reference
+
 # API Reference - MyProject2
 
 Referência completa da API das classes principais do sistema de fichas de personagem D&D 5e.
+
+## 📋 Índice deste Documento
+
+1. [CharacterDataComponent](#characterdatacomponent)
+2. [CharacterSheetComponent](#charactersheetcomponent)
+3. [CharacterSheetDataAsset](#charactersheetdataasset)
+4. [Estruturas Relacionadas](#estruturas-relacionadas)
+5. [CreateSheet - Motores de Criação](#createsheet---motores-de-criação)
+6. [Helpers e Utilitários](#helpers-e-utilitários)
+7. [Sistema de Logging](#sistema-de-logging-floggingsystem)
+8. [Integração com Refatorações](#integração-com-refatorações)
+9. [Preparação para Combat Components](#preparação-para-combat-components)
+10. [Preparação para GAS](#preparação-para-gas)
+
+---
 
 ## Índice
 

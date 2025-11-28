@@ -292,6 +292,10 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
     UDataTable *LanguageDataTable = nullptr;
 
+    /** Referência ao Data Table de Ability Scores (atributos D&D) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Data Tables")
+    UDataTable *AbilityScoreDataTable = nullptr;
+
     // ============================================================================
     // Basic Info
     // ============================================================================

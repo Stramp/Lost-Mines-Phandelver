@@ -1,3 +1,15 @@
+---
+title: "Guia de Testes Automatizados"
+category: technical
+subcategory: guides
+tags: [testing, automation, unit-tests, integration-tests]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [tdd-complete-guide.md, testing-implementation-plan.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Guias](guides/index.md) > Testing
+
 # Guia de Testes Automatizados - MyProject2
 
 <details open>

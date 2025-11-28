@@ -26,13 +26,16 @@ public:
     /**
      * Retorna classes disponíveis com tags de requisitos faltantes.
      * Classes que não atendem requisitos terão tag como "[INT +13]" indicando o requisito faltante.
+     * Tenta usar nova estrutura normalizada primeiro, com fallback para formato antigo.
      *
      * @param ClassDataTable Data Table de classes (pode ser nullptr)
      * @param Attributes Array de atributos na ordem: [STR, DEX, CON, INT, WIS, CHA]
+     * @param AbilityScoreDataTable Data Table de Ability Scores (opcional, necessário para nova estrutura)
      * @return Array de FName com nomes das classes (com tags se não disponíveis)
      */
     static TArray<FName> GetAvailableClassWithTagRequirements(const UDataTable *ClassDataTable,
-                                                              const TArray<int32> &Attributes);
+                                                              const TArray<int32> &Attributes,
+                                                              const UDataTable *AbilityScoreDataTable = nullptr);
 
     /**
      * Valida se é permitido processar Progression para uma entrada de multiclasse.
@@ -260,4 +263,16 @@ public:
      */
     static bool ValidateOrRequirement(const FString &OrRequirementString, const TArray<int32> &Attributes,
                                       const TMap<FString, FAttributeInfo> &AttributeMap, FString &OutMissingTag);
+
+    /**
+     * Mapeia AbilityID (ex: "ABL_Strength") para índice no array de atributos [STR, DEX, CON, INT, WIS, CHA].
+     * Helper puro e reutilizável para conversão de AbilityID para índice.
+     * Usa AbilityScoreDataTable para buscar informações do atributo.
+     *
+     * @param AbilityID ID do atributo (ex: "ABL_Strength", "ABL_Dexterity")
+     * @param AbilityScoreDataTable Data Table de Ability Scores (pode ser nullptr)
+     * @param OutIndex [OUT] Índice no array de atributos (0-5) ou -1 se não encontrado
+     * @return true se AbilityID foi encontrado e mapeado, false caso contrário
+     */
+    static bool MapAbilityIDToIndex(FName AbilityID, const UDataTable *AbilityScoreDataTable, int32 &OutIndex);
 };

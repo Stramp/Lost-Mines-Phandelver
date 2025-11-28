@@ -96,11 +96,13 @@ public:
      * @param FinalIntelligence Final Intelligence score
      * @param FinalWisdom Final Wisdom score
      * @param FinalCharisma Final Charisma score
+     * @param AbilityScoreDataTable Ability Score Data Table (optional, needed for normalized structure)
      * @return Array of formatted class names with requirement messages
      */
     static TArray<FName> GetListClassAvaible(const UDataTable *ClassDataTable, int32 FinalStrength,
                                              int32 FinalDexterity, int32 FinalConstitution, int32 FinalIntelligence,
-                                             int32 FinalWisdom, int32 FinalCharisma);
+                                             int32 FinalWisdom, int32 FinalCharisma,
+                                             const UDataTable *AbilityScoreDataTable = nullptr);
 
     /**
      * Returns all available choice names from ClassFeaturesDataTable.

@@ -1,5 +1,7 @@
 [
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Acolyte",
     "ID": "BG_Acolyte",
     "Description": "You have spent your life in the service of a temple to a specific god or pantheon of gods. You act as an intermediary between the realm of the holy and the mortal world, performing sacred rites and offering sacrifices in order to conduct worshipers into the presence of the divine.",
@@ -35,6 +37,8 @@
     "FeatureDescription": "As an acolyte, you command the respect of those who share your faith, and you can perform the religious ceremonies of your deity. You and your adventuring companions can expect to receive free healing and care at a temple, shrine, or other established presence of your faith, though you must provide any material components needed for spells. Those who share your religion will support you (but only you) at a modest lifestyle."
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Criminal",
     "ID": "BG_Criminal",
     "Description": "You are an experienced criminal with a history of breaking the law. You have spent a lot of time among other criminals and still have contacts within the criminal underworld. You're far closer than most people to the world of murder, theft, and violence that pervades the underbelly of civilization, and you have survived up to this point by flouting the rules and regulations of society.",
@@ -67,6 +71,8 @@
     "FeatureDescription": "You have a reliable and trustworthy contact who acts as your liaison to a network of other criminals. You know how to get messages to and from your contact, even over great distances; specifically, you know the local messengers, corrupt caravan masters, and seedy sailors who can deliver messages for you."
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Folk Hero",
     "ID": "BG_FolkHero",
     "Description": "You come from a humble social rank, but you are destined for so much more. Already the people of your home village regard you as their champion, and your destiny calls you to stand against the tyrants and monsters that threaten the common folk everywhere.",
@@ -101,6 +107,8 @@
     "FeatureDescription": "Since you come from the ranks of the common folk, you fit in among them with ease. You can find a place to hide, rest, or recuperate among other commoners, unless you have shown yourself to be a danger to them. They will shield you from the law or anyone else searching for you, though they will not risk their lives for you."
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Noble",
     "ID": "BG_Noble",
     "Description": "You understand wealth, power, and privilege. You carry a noble title, and your family owns land, collects taxes, and wields significant political influence. You might be a pampered aristocrat unfamiliar with work or discomfort, a former merchant just elevated to the nobility, or a disinherited scoundrel with a disproportionate sense of entitlement. Or you could be an honest, hard-working landowner who cares deeply about the people who live and work on your land, keenly aware of your responsibility to them.",
@@ -135,6 +143,8 @@
     "FeatureDescription": "Thanks to your noble birth, people are inclined to think the best of you. You are welcome in high society, and people assume you have the right to be wherever you are. The common folk make every effort to accommodate you and avoid your displeasure, and other people of high birth treat you as a member of the same social sphere. You can secure an audience with a local noble if you need to."
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Sage",
     "ID": "BG_Sage",
     "Description": "You spent years learning the lore of the multiverse. You scoured manuscripts, studied scrolls, and listened to the greatest experts on the subjects that interest you. Your efforts have made you a master in your fields of study.",
@@ -170,6 +180,8 @@
     "FeatureDescription": "When you attempt to learn or recall a piece of lore, if you do not know that information, you often know where and from whom you can obtain it. Usually, this information comes from a library, scriptorium, university, or a sage or other learned person or creature. Your DM might rule that the knowledge you seek is secreted away in an almost inaccessible place, or that it simply cannot be found. Unearthing the deepest secrets of the multiverse can require an adventure or even a whole campaign."
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Soldier",
     "ID": "BG_Soldier",
     "Description": "War has been your life for as long as you care to remember. You trained as a youth, studied the use of weapons and armor, learned basic survival techniques, and perhaps learned how to ride a warhorse. Then you joined the army and found life in the military to be good. You might have been part of a standing army, a town guard, or a mercenary company.",
@@ -204,6 +216,8 @@
     "FeatureDescription": "You have a military rank from your career as a soldier. Soldiers loyal to your former military organization still recognize your authority and influence, and they defer to you if they are of a lower rank. You can invoke your rank to exert influence over other soldiers and requisition simple equipment or horses for temporary use. You can also usually gain access to friendly military encampments and fortresses where your rank is recognized."
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Hermit",
     "ID": "BG_Hermit",
     "Description": "You lived in seclusion—either in a sheltered community such as a monastery, or entirely alone—for a formative part of your life. In your time apart from the clamor of society, you found quiet, solitude, and perhaps some of the answers you were looking for.",
@@ -238,6 +252,8 @@
     "FeatureDescription": "The quiet seclusion of your extended hermitage gave you access to a unique and powerful discovery. The exact nature of this revelation depends on the nature of your seclusion. It might be a great truth about the cosmos, the deities, the powerful beings of the outer planes, or the forces of nature. It could be a site that no one else has ever seen. You might have uncovered a fact that has long been forgotten, or unearthed some relic of the past that could rewrite history. It might be information that would be damaging to the people who or consigned you to exile, and hence the reason for your return to society."
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Entertainer",
     "ID": "BG_Entertainer",
     "Description": "You thrive in front of an audience. You know how to entrance them, entertain them, and even inspire them. Your poetics can stir the hearts of those who hear you, awakening grief or joy, laughter or anger. Your music raises their spirits or captures their sorrow. Your dance steps captivate, your humor cuts to the quick. Whatever techniques you use, your art is your life.",
@@ -271,6 +287,8 @@
     "FeatureDescription": "You can always find a place to perform, usually in an inn or tavern but possibly with a circus, at a theater, or even in a noble's court. At such a place, you receive free lodging and food of a modest or comfortable standard (depending on the quality of the establishment), as long as you perform each night. In addition, your performance makes you something of a local figure. When strangers recognize you in a town where you have performed, they typically take a liking to you."
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Guild Artisan",
     "ID": "BG_GuildArtisan",
     "Description": "You are a member of an artisan's guild, skilled in a particular field and closely associated with other artisans. You are a well-established part of the mercantile world, freed by talent and wealth from the constraints of a feudal social order. You learned your skills as an apprentice to a master artisan, under the sponsorship of your guild, until you became a master in your own right.",
@@ -304,6 +322,8 @@
     "FeatureDescription": "As an established and respected member of a guild, you can rely on certain benefits that membership provides. Your fellow guild members will provide you with lodging and food if necessary, and pay for your funeral if needed. In some cities and towns, a guildhall offers a central place to meet other members of your profession, which can be a good place to meet potential patrons, allies, or hirelings."
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Outlander",
     "ID": "BG_Outlander",
     "Description": "You grew up in the wilds, far from civilization and the comforts of town and technology. You've witnessed the migration of herds larger than forests, survived weather more extreme than any city-dweller could comprehend, and enjoyed the solitude of being the only thinking creature for miles in any direction. The wilds are in your blood, whether you were a nomad, an explorer, a recluse, a hunter, or even a marauder. Even in places where you don't know the specific features of the terrain, you know the ways of the wild.",
@@ -338,6 +358,8 @@
     "FeatureDescription": "You have an excellent memory for maps and geography, and you can always recall the general layout of terrain, settlements, and other features around you. In addition, you can find food and fresh water for yourself and up to five other people each day, provided that the land offers berries, small game, water, and so forth."
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Charlatan",
     "ID": "BG_Charlatan",
     "Description": "You have always had a way with people. You know what makes them tick, you can tease out their hearts' desires after a few minutes of conversation, and with a few leading questions you can read them like they were children's books. It's a useful talent, and one that you're perfectly willing to use for your advantage.",
@@ -371,6 +393,8 @@
     "FeatureDescription": "You have created a second identity that includes documentation, established acquaintances, and disguises that allow you to assume that persona. Additionally, you can forge documents including official papers and personal letters, as long as you have seen an example of the kind of document or the handwriting you are trying to copy."
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Sailor",
     "ID": "BG_Sailor",
     "Description": "You sailed on a seagoing vessel for years. In that time, you faced down mighty storms, monsters of the deep, and those who wanted to sink your craft to the bottomless depths. The first time you set foot on a ship, you knew you'd found your calling.",

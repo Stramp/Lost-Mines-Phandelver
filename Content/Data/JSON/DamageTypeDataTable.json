@@ -1,5 +1,7 @@
 [
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Fire",
     "ID": "DMG_Fire",
     "TypeTags": [
@@ -8,6 +10,8 @@
     "Description": "Fire damage burns and ignites targets"
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Cold",
     "ID": "DMG_Cold",
     "TypeTags": [
@@ -16,6 +20,8 @@
     "Description": "Cold damage freezes and slows targets"
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Lightning",
     "ID": "DMG_Lightning",
     "TypeTags": [
@@ -24,6 +30,8 @@
     "Description": "Lightning damage shocks and electrifies targets"
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Poison",
     "ID": "DMG_Poison",
     "TypeTags": [
@@ -32,6 +40,8 @@
     "Description": "Poison damage sickens and weakens targets"
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Psychic",
     "ID": "DMG_Psychic",
     "TypeTags": [
@@ -40,6 +50,8 @@
     "Description": "Psychic damage attacks the mind and consciousness"
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Radiant",
     "ID": "DMG_Radiant",
     "TypeTags": [
@@ -48,6 +60,8 @@
     "Description": "Radiant damage is pure divine or positive energy"
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Necrotic",
     "ID": "DMG_Necrotic",
     "TypeTags": [
@@ -56,6 +70,8 @@
     "Description": "Necrotic damage withers matter and even the soul"
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Acid",
     "ID": "DMG_Acid",
     "TypeTags": [
@@ -64,6 +80,8 @@
     "Description": "Acid damage corrodes and dissolves matter"
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Force",
     "ID": "DMG_Force",
     "TypeTags": [
@@ -72,6 +90,8 @@
     "Description": "Force damage is pure magical energy focused into a damaging form"
   },
   {
+    "SchemaVersion": "1.0.0",
+    "DataVersion": "2025-11-28",
     "Name": "Thunder",
     "ID": "DMG_Thunder",
     "TypeTags": [

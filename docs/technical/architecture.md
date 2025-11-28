@@ -1,4 +1,33 @@
+---
+title: "Arquitetura Técnica"
+category: technical
+subcategory: architecture
+tags: [architecture, design-patterns, data-driven, multiplayer, gas]
+last_updated: 2024-12-27
+difficulty: advanced
+related: [api.md, data-architecture/index.md, guides/index.md]
+---
+
+**Navegação:** [Home](../../README.md) > [Documentação](index.md) > [Técnico](technical/index.md) > Arquitetura
+
 # Arquitetura do Projeto - MyProject2
+
+## 📋 Índice deste Documento
+
+1. [Visão Geral](#visão-geral)
+2. [Princípios de Design](#princípios-de-design)
+3. [Arquitetura em Camadas](#arquitetura-em-camadas)
+4. [Fluxo de Dados](#fluxo-de-dados)
+5. [Arquitetura CreateSheet/](#arquitetura-createsheet)
+6. [Data-Oriented Design e ECS](#-data-oriented-design-e-ecs)
+7. [Preparação para GAS](#preparação-para-gas-gameplay-ability-system)
+8. [Regras de Implementação](#regras-de-implementação)
+9. [Checklist de Arquitetura](#checklist-de-arquitetura)
+10. [Estrutura de Arquivos Recomendada](#estrutura-de-arquivos-recomendada)
+11. [Sistema de Logging](#sistema-de-logging)
+12. [Referências](#referências)
+
+---
 
 ## Visão Geral
 

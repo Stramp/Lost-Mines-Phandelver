@@ -1,3 +1,15 @@
+---
+title: "Setup Completo"
+category: technical
+subcategory: guides
+tags: [setup, installation, configuration, environment]
+last_updated: 2024-12-27
+difficulty: beginner
+related: [getting-started.md, data-tables-setup.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Guias](guides/index.md) > Setup
+
 # Guia de Setup Completo - MyProject2
 
 <details open>

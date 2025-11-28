@@ -1,3 +1,13 @@
+---
+title: "Guides"
+category: technical
+subcategory: guides
+tags: [guides, tutorials, how-to]
+last_updated: 2024-12-27
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > Guias
+
 # Guias Práticos - MyProject2
 
 <details open>
@@ -68,6 +78,22 @@
 > - Estrutura e relacionamentos
 >
 > **📖 Para criar Data Tables, veja [Data Tables Setup](data-tables-setup.md)**
+>
+> **[json-schema-validation-guide.md](json-schema-validation-guide.md)** - Guia completo de validação JSON Schema (NOVO):
+>
+> - Validação local com Python
+> - Validação no Editor (Unreal Engine)
+> - Validação no CI/CD (GitHub Actions)
+> - Estrutura normalizada de MulticlassRequirements
+> - Troubleshooting e referências
+>
+> **[schema-versioning-guide.md](schema-versioning-guide.md)** - Guia completo de versionamento de schema (NOVO):
+>
+> - Campos SchemaVersion e DataVersion
+> - Processo de versionamento (MAJOR/MINOR/PATCH)
+> - Migração de dados entre versões
+> - Validação de compatibilidade
+> - Changelog de mudanças
 
 </details>
 

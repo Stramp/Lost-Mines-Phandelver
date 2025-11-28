@@ -1,3 +1,15 @@
+---
+title: "Guia Algorítmico - Criação de Ficha"
+category: technical
+subcategory: guides
+tags: [algorithmic, character-creation, design-patterns, dnd-5e]
+last_updated: 2024-12-27
+difficulty: advanced
+related: [../getting-started.md, ../../../design/dnd-rules/character-creation.md]
+---
+
+**Navegação:** [Home](../../../../README.md) > [Documentação](index.md) > [Técnico](../../technical/index.md) > [Guias](guides/index.md) > Guia Algorítmico
+
 # Guia Algorítmico - Criação de Ficha D&D 5e
 
 <details open>

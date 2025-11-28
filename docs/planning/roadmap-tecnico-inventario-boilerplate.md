@@ -1,3 +1,14 @@
+---
+title: "Technical Plan: Inventory Boilerplate"
+category: planning
+tags: [technical-plan, inventory, boilerplate, module]
+last_updated: 2024-12-27
+difficulty: advanced
+related: [roadmap.md, roadmap-tecnico-itens-iniciais.md]
+---
+
+**Navegação:** [Home](../../README.md) > [Documentação](index.md) > [Planejamento](planning/index.md) > Technical Plan: Inventory
+
 # Plano Técnico: Boilerplate do Módulo de Inventário - D&D 5e
 
 > **Documento Técnico:** Plano detalhado para criação do boilerplate do módulo de inventário na criação de ficha, seguindo abordagem modular e expansível.

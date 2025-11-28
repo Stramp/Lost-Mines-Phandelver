@@ -1,3 +1,15 @@
+---
+title: "Test Execution Report"
+category: technical
+subcategory: reviews
+tags: [testing, test-results, execution-report]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [../guides/testing.md, ../guides/testing-implementation-plan.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > Reviews > Test Execution
+
 # Relatório de Execução de Testes
 
 **Data:** 2024-12-XX

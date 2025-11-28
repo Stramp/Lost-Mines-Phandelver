@@ -1,3 +1,15 @@
+---
+title: "Ideal Data Structure Report"
+category: technical
+subcategory: data-architecture
+tags: [data-structure, baldurs-gate-3, composition, static-dynamic-separation]
+last_updated: 2024-12-27
+difficulty: advanced
+related: [database-architecture.md, high-performance-architectures-report.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Data Architecture](data-architecture/index.md) > Ideal Data Structure
+
 # Relatório: Estrutura de Dados Ideal para Projeto AAA (Estilo Baldur's Gate 3)
 
 ## 🎯 Filosofia Fundamental: Composição sobre Herança
@@ -334,9 +346,14 @@ Ao invés de um JSON profundo e aninhado (que o importador do Unreal odeia e que
   "ID": "CLASS_Fighter",
   "HitDie": 10,
   "TypeTags": ["Class.Fighter", "Class.Martial"],
-  "MulticlassRequirements": [
-    {"AbilityID": "ABL_Strength", "Value": 13, "Operator": "OR"},
-    {"AbilityID": "ABL_Dexterity", "Value": 13, "Operator": "OR"}
+  "MulticlassRequirementGroups": [
+    {
+      "Operator": "OR",
+      "Requirements": [
+        {"AbilityID": "ABL_Strength", "Value": 13},
+        {"AbilityID": "ABL_Dexterity", "Value": 13}
+      ]
+    }
   ],
   "Proficiencies": {
     "SavingThrowIDs": ["ABL_Strength", "ABL_Constitution"],

@@ -1,3 +1,15 @@
+---
+title: "Races and Subraces"
+category: design
+subcategory: dnd-rules
+tags: [races, subraces, racial-bonuses, dnd-5e]
+last_updated: 2024-12-27
+difficulty: beginner
+related: [character-creation.md, ability-scores.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Design](../design/index.md) > [Regras D&D 5e](dnd-rules/index.md) > Races
+
 # Race and Subrace - D&D 5e
 
 <details open>

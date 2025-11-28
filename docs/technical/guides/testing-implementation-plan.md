@@ -1,3 +1,15 @@
+---
+title: "Testing Implementation Plan"
+category: technical
+subcategory: guides
+tags: [testing, implementation-plan, test-coverage]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [testing.md, tdd-complete-guide.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Guias](guides/index.md) > Testing Implementation Plan
+
 # Plano de Implementação de Testes - MyProject2
 
 <details open>

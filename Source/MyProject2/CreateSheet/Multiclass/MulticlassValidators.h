@@ -9,9 +9,13 @@
 
 // Forward declarations
 struct FClassDataRow;
+struct FMulticlassRequirement;
+struct FMulticlassRequirementGroup;
 
 // Include MulticlassHelpers para FAttributeInfo (sem dependência circular: Helpers não inclui Validators)
 #include "CreateSheet/Multiclass/MulticlassHelpers.h"
+// Include FMulticlassRequirement para nova estrutura normalizada
+#include "Data/Structures/FMulticlassRequirement.h"
 
 /**
  * Validators para requisitos de multiclasse baseados em atributos.
@@ -50,14 +54,56 @@ public:
 
     /**
      * Processa uma classe e adiciona ao resultado com ou sem tag de requisito faltante.
-     * Usa FMulticlassHelpers::ValidateMulticlassRequirements para validação.
+     * Tenta usar nova estrutura normalizada primeiro, com fallback para formato antigo.
      *
      * @param ClassRow Linha da Data Table com dados da classe
      * @param Attributes Array de atributos na ordem [STR, DEX, CON, INT, WIS, CHA]
      * @param AttributeMap Mapa de abreviações para informações de atributos (de FMulticlassHelpers)
      * @param OutResult Array onde a classe será adicionada (com ou sem tag)
+     * @param AbilityScoreDataTable Data Table de Ability Scores (opcional, necessário para nova estrutura)
      */
     static void ProcessClassWithRequirements(const FClassDataRow *ClassRow, const TArray<int32> &Attributes,
                                              const TMap<FString, FMulticlassHelpers::FAttributeInfo> &AttributeMap,
-                                             TArray<FName> &OutResult);
+                                             TArray<FName> &OutResult,
+                                             const UDataTable *AbilityScoreDataTable = nullptr);
+
+    /**
+     * Valida um requisito individual de atributo.
+     * Nova função usando estrutura normalizada (FMulticlassRequirement).
+     *
+     * @param Requirement Requisito individual a validar
+     * @param Attributes Array de atributos na ordem [STR, DEX, CON, INT, WIS, CHA]
+     * @param AbilityScoreDataTable Data Table de Ability Scores para mapear AbilityID → índice
+     * @param OutMissingTag [OUT] Tag formatada com requisito faltante (ex: "[STR +2]")
+     * @return true se requisito foi satisfeito, false caso contrário
+     */
+    static bool ValidateRequirement(const FMulticlassRequirement &Requirement, const TArray<int32> &Attributes,
+                                    const UDataTable *AbilityScoreDataTable, FString &OutMissingTag);
+
+    /**
+     * Valida um grupo de requisitos (com operador OR ou AND).
+     * Nova função usando estrutura normalizada (FMulticlassRequirementGroup).
+     *
+     * @param Group Grupo de requisitos a validar
+     * @param Attributes Array de atributos na ordem [STR, DEX, CON, INT, WIS, CHA]
+     * @param AbilityScoreDataTable Data Table de Ability Scores para mapear AbilityID → índice
+     * @param OutMissingTag [OUT] Tag formatada com requisito faltante
+     * @return true se grupo foi satisfeito, false caso contrário
+     */
+    static bool ValidateRequirementGroup(const FMulticlassRequirementGroup &Group, const TArray<int32> &Attributes,
+                                         const UDataTable *AbilityScoreDataTable, FString &OutMissingTag);
+
+    /**
+     * Valida todos os grupos de requisitos de multiclasse (lógica AND entre grupos).
+     * Nova função usando estrutura normalizada (TArray<FMulticlassRequirementGroup>).
+     *
+     * @param RequirementGroups Array de grupos de requisitos
+     * @param Attributes Array de atributos na ordem [STR, DEX, CON, INT, WIS, CHA]
+     * @param AbilityScoreDataTable Data Table de Ability Scores para mapear AbilityID → índice
+     * @param OutMissingTag [OUT] Tag formatada com primeiro requisito faltante
+     * @return true se todos os grupos foram satisfeitos, false caso contrário
+     */
+    static bool ValidateMulticlassRequirementGroups(const TArray<FMulticlassRequirementGroup> &RequirementGroups,
+                                                    const TArray<int32> &Attributes,
+                                                    const UDataTable *AbilityScoreDataTable, FString &OutMissingTag);
 };

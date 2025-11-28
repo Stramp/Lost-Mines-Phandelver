@@ -1,3 +1,14 @@
+---
+title: "Game Design Document"
+category: design
+tags: [gdd, game-design, vision, dnd-5e, action-rpg]
+last_updated: 2024-12-27
+difficulty: beginner
+related: [gas-dnd-adaptation.md, dnd-rules/index.md]
+---
+
+**Navegação:** [Home](../../README.md) > [Documentação](index.md) > [Design](design/index.md) > GDD
+
 # Game Design Document (GDD) - MyProject2
 
 <details open>

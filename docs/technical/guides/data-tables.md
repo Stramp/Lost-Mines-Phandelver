@@ -1,3 +1,15 @@
+---
+title: "Data Tables"
+category: technical
+subcategory: guides
+tags: [data-tables, json, data-driven, normalization]
+last_updated: 2024-12-27
+difficulty: intermediate
+related: [data-tables-setup.md, ../data-architecture/index.md]
+---
+
+**Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Guias](guides/index.md) > Data Tables
+
 # Documentação de Data Tables
 
 Guia completo sobre a estrutura, criação e uso dos Data Tables no sistema de fichas D&D 5e.
@@ -403,6 +415,529 @@ Guia completo sobre a estrutura, criação e uso dos Data Tables no sistema de f
 ---
 
 <details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚙️ FeatureDataTable</b></summary>
+
+> **Caminho:** `Source/MyProject2/Data/Tables/FeatureDataTable.h`
+>
+> **Struct:** `FFeatureDataRow`
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Campos</summary>
+>
+> > | Campo | Tipo | Descrição |
+> > |-------|------|-----------|
+> > | `Name` | `FName` | Nome da feature (ex: "Second Wind", "Fighting Style") |
+> > | `ID` | `FName` | ID único da feature (ex: "FC_SecondWind", "FC_FightingStyle") |
+> > | `FeatureID` | `FName` | Alias de ID (mantido para compatibilidade) |
+> > | `Description` | `FText` | Descrição textual da feature (localizável) |
+> > | `LevelUnlocked` | `int32` | Nível em que a feature é desbloqueada |
+> > | `FeatureType` | `FName` | Tipo: "Automatic", "Choice", "SubclassSelection", "ASI", "FeatSelection" |
+> > | `FeatureData` | `TMap<FName, FString>` | Dados estruturados opcionais (ex: UsesPerRest, Type) |
+> > | `AvailableChoices` | `TArray<FFeatureChoice>` | Escolhas disponíveis para features do tipo "Choice" |
+> > | `bAllowMultipleChoices` | `bool` | Permite múltiplas escolhas (padrão: false) |
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Tipos de Features</summary>
+>
+> > - **"Automatic"**: Feature aplicada automaticamente (ex: Second Wind, Action Surge)
+> > - **"Choice"**: Jogador escolhe entre opções (ex: Fighting Style)
+> > - **"SubclassSelection"**: Jogador escolhe subclasse (ex: Martial Archetype)
+> > - **"ASI"**: Ability Score Improvement
+> > - **"FeatSelection"**: Jogador pode escolher um Feat ao invés de ASI
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Second Wind</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Second Wind",
+> >   "ID": "FC_SecondWind",
+> >   "FeatureID": "FC_SecondWind",
+> >   "Description": "You have a limited well of stamina that you can draw on to protect yourself from harm.",
+> >   "LevelUnlocked": 1,
+> >   "FeatureType": "Automatic",
+> >   "FeatureData": {
+> >     "UsesPerRest": "1",
+> >     "Type": "BonusAction"
+> >   },
+> >   "AvailableChoices": [],
+> >   "bAllowMultipleChoices": false
+> > }
+> > ```
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Fighting Style (Choice)</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Fighting Style",
+> >   "ID": "FC_FightingStyle",
+> >   "FeatureID": "FC_FightingStyle",
+> >   "Description": "You adopt a particular style of fighting as your specialty.",
+> >   "LevelUnlocked": 1,
+> >   "FeatureType": "Choice",
+> >   "FeatureData": {},
+> >   "AvailableChoices": [
+> >     { "ID": "FC_Archery", "Name": "Archery" },
+> >     { "ID": "FC_Defense", "Name": "Defense" },
+> >     { "ID": "FC_Dueling", "Name": "Dueling" }
+> >   ],
+> >   "bAllowMultipleChoices": false
+> > }
+> > ```
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎯 ProficiencyDataTable</b></summary>
+
+> **Caminho:** `Source/MyProject2/Data/Tables/ProficiencyDataTable.h`
+>
+> **Struct:** `FProficiencyDataRow`
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Campos</summary>
+>
+> > | Campo | Tipo | Descrição |
+> > |-------|------|-----------|
+> > | `Name` | `FName` | Nome da proficiência (ex: "Simple Weapons", "Thieves' Tools") |
+> > | `ID` | `FName` | ID único (ex: "PW_Simple_Weapons", "PT_Thieves_Tools") |
+> > | `Type` | `FName` | Tipo: "Weapon", "Armor", "Shield", "Tool", "Skill", "SavingThrow", "Language" |
+> > | `Description` | `FText` | Descrição textual (localizável) |
+> > | `TypeTags` | `FGameplayTagContainer` | Tags para categorização |
+> > | `ProficiencyData` | `TMap<FName, FString>` | Dados estruturados opcionais |
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Tipos de Proficiências</summary>
+>
+> > - **"Weapon"**: Proficiências com armas (ex: Simple Weapons, Martial Weapons)
+> > - **"Armor"**: Proficiências com armaduras (ex: Light Armor, Medium Armor, Heavy Armor)
+> > - **"Shield"**: Proficiências com escudos
+> > - **"Tool"**: Proficiências com ferramentas (ex: Thieves' Tools, Herbalism Kit)
+> > - **"Skill"**: Proficiências com skills (ex: Acrobatics, Athletics)
+> > - **"SavingThrow"**: Proficiências com saving throws (ex: Strength, Dexterity)
+> > - **"Language"**: Proficiências com idiomas (ex: Common, Elvish)
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Simple Weapons</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Simple Weapons",
+> >   "ID": "PW_Simple_Weapons",
+> >   "Type": "Weapon",
+> >   "Description": "Proficiency with all simple weapons.",
+> >   "TypeTags": ["Proficiency.Weapon.Simple"],
+> >   "ProficiencyData": {}
+> > }
+> > ```
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🏋️ SkillDataTable</b></summary>
+
+> **Caminho:** `Source/MyProject2/Data/Tables/SkillDataTable.h`
+>
+> **Struct:** `FSkillDataRow`
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Campos</summary>
+>
+> > | Campo | Tipo | Descrição |
+> > |-------|------|-----------|
+> > | `Name` | `FName` | Nome da skill (ex: "Acrobatics", "Athletics", "Stealth") |
+> > | `ID` | `FName` | ID único (ex: "PSK_Acrobatics", "PSK_Athletics") |
+> > | `AbilityID` | `FName` | ID do Ability Score associado (ex: "ABL_Dexterity", "ABL_Strength") |
+> > | `Description` | `FText` | Descrição da skill (localizável) |
+> > | `TypeTags` | `FGameplayTagContainer` | Tags para categorização |
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Acrobatics</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Acrobatics",
+> >   "ID": "PSK_Acrobatics",
+> >   "AbilityID": "ABL_Dexterity",
+> >   "Description": "Your Dexterity (Acrobatics) check covers your attempt to stay on your feet in a tricky situation.",
+> >   "TypeTags": ["Skill.Physical", "Skill.Dexterity"]
+> > }
+> > ```
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🗣️ LanguageDataTable</b></summary>
+
+> **Caminho:** `Source/MyProject2/Data/Tables/LanguageDataTable.h`
+>
+> **Struct:** `FLanguageDataRow`
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Campos</summary>
+>
+> > | Campo | Tipo | Descrição |
+> > |-------|------|-----------|
+> > | `Name` | `FName` | Nome do idioma (ex: "Common", "Elvish", "Dwarvish") |
+> > | `ID` | `FName` | ID único (ex: "PL_Common", "PL_Elvish", "PL_Dwarvish") |
+> > | `Description` | `FText` | Descrição do idioma (localizável) |
+> > | `Script` | `FName` | Script usado pelo idioma (ex: "Common", "Elvish") |
+> > | `Type` | `FName` | Tipo: "Standard", "Exotic" |
+> > | `TypeTags` | `FGameplayTagContainer` | Tags para categorização |
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Common</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Common",
+> >   "ID": "PL_Common",
+> >   "Description": "The most widely spoken language in the world.",
+> >   "Script": "Common",
+> >   "Type": "Standard",
+> >   "TypeTags": ["Language.Standard"]
+> > }
+> > ```
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔮 SpellDataTable</b></summary>
+
+> **Caminho:** `Source/MyProject2/Data/Tables/SpellDataTable.h`
+>
+> **Struct:** `FSpellDataRow`
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Campos</summary>
+>
+> > | Campo | Tipo | Descrição |
+> > |-------|------|-----------|
+> > | `Name` | `FName` | Nome da magia (ex: "Fireball", "Mage Hand", "Magic Missile") |
+> > | `ID` | `FName` | ID único (ex: "SPL_Fireball", "SPL_MageHand") |
+> > | `SpellLevel` | `int32` | Nível da magia (0 = Cantrip, 1-9 = Spell Level) |
+> > | `SchoolReference` | `FDataTableRowHandle` | Referência à escola da magia |
+> > | `DamageTypeReference` | `FDataTableRowHandle` | Referência ao tipo de dano (se aplicável) |
+> > | `Description` | `FText` | Descrição da magia (localizável) |
+> > | `TypeTags` | `FGameplayTagContainer` | Tags para categorização |
+> > | `SpellData` | `TMap<FName, FString>` | Dados estruturados (Range, Components, Duration, etc.) |
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Fireball</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Fireball",
+> >   "ID": "SPL_Fireball",
+> >   "SpellLevel": 3,
+> >   "SchoolReference": {
+> >     "DataTable": "DT_SpellSchools",
+> >     "RowName": "Evocation"
+> >   },
+> >   "DamageTypeReference": {
+> >     "DataTable": "DT_DamageTypes",
+> >     "RowName": "Fire"
+> >   },
+> >   "Description": "A bright streak flashes from your pointing finger to a point you choose within range.",
+> >   "TypeTags": ["Spell.Damage", "Spell.Area"],
+> >   "SpellData": {
+> >     "Range": "150 feet",
+> >     "Components": "V, S, M",
+> >     "Duration": "Instantaneous",
+> >     "CastingTime": "1 action"
+> >   }
+> > }
+> > ```
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎓 SpellSchoolDataTable</b></summary>
+
+> **Caminho:** `Source/MyProject2/Data/Tables/SpellSchoolDataTable.h`
+>
+> **Struct:** `FSpellSchoolDataRow`
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Campos</summary>
+>
+> > | Campo | Tipo | Descrição |
+> > |-------|------|-----------|
+> > | `Name` | `FName` | Nome da escola (ex: "Abjuration", "Evocation", "Necromancy") |
+> > | `ID` | `FName` | ID único (ex: "SCH_Abjuration", "SCH_Evocation") |
+> > | `Description` | `FText` | Descrição da escola (localizável) |
+> > | `TypeTags` | `FGameplayTagContainer` | Tags para categorização |
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Evocation</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Evocation",
+> >   "ID": "SCH_Evocation",
+> >   "Description": "Evocation spells manipulate magical energy to produce a desired effect.",
+> >   "TypeTags": ["SpellSchool.Evocation"]
+> > }
+> > ```
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔥 DamageTypeDataTable</b></summary>
+
+> **Caminho:** `Source/MyProject2/Data/Tables/DamageTypeDataTable.h`
+>
+> **Struct:** `FDamageTypeDataRow`
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Campos</summary>
+>
+> > | Campo | Tipo | Descrição |
+> > |-------|------|-----------|
+> > | `Name` | `FName` | Nome do tipo de dano (ex: "Fire", "Cold", "Lightning") |
+> > | `ID` | `FName` | ID único (ex: "DAM_Fire", "DAM_Cold", "DAM_Lightning") |
+> > | `Description` | `FText` | Descrição do tipo de dano (localizável) |
+> > | `TypeTags` | `FGameplayTagContainer` | Tags para categorização |
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Fire</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Fire",
+> >   "ID": "DAM_Fire",
+> >   "Description": "Fire damage is dealt by flames, heat, and magical fire effects.",
+> >   "TypeTags": ["DamageType.Fire", "DamageType.Elemental"]
+> > }
+> > ```
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚠️ ConditionDataTable</b></summary>
+
+> **Caminho:** `Source/MyProject2/Data/Tables/ConditionDataTable.h`
+>
+> **Struct:** `FConditionDataRow`
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Campos</summary>
+>
+> > | Campo | Tipo | Descrição |
+> > |-------|------|-----------|
+> > | `Name` | `FName` | Nome da condição (ex: "Blinded", "Poisoned", "Charmed") |
+> > | `ID` | `FName` | ID único (ex: "CON_Blinded", "CON_Poisoned", "CON_Charmed") |
+> > | `Description` | `FText` | Descrição da condição (localizável) |
+> > | `TypeTags` | `FGameplayTagContainer` | Tags para categorização |
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Blinded</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Blinded",
+> >   "ID": "CON_Blinded",
+> >   "Description": "A blinded creature can't see and automatically fails any ability check that requires sight.",
+> >   "TypeTags": ["Condition.Blinded", "Condition.Debuff"]
+> > }
+> > ```
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>💪 AbilityScoreDataTable</b></summary>
+
+> **Caminho:** `Source/MyProject2/Data/Tables/AbilityScoreDataTable.h`
+>
+> **Struct:** `FAbilityScoreDataRow`
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Campos</summary>
+>
+> > | Campo | Tipo | Descrição |
+> > |-------|------|-----------|
+> > | `Name` | `FName` | Nome do atributo (ex: "Strength", "Dexterity", "Constitution") |
+> > | `ID` | `FName` | ID único (ex: "ABL_Strength", "ABL_Dexterity", "ABL_Constitution") |
+> > | `Abbreviation` | `FName` | Abreviação (ex: "STR", "DEX", "CON") |
+> > | `Description` | `FText` | Descrição do atributo (localizável) |
+> > | `TypeTags` | `FGameplayTagContainer` | Tags para categorização |
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Strength</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Strength",
+> >   "ID": "ABL_Strength",
+> >   "Abbreviation": "STR",
+> >   "Description": "Strength measures bodily power, athletic training, and the extent to which you can exert raw physical force.",
+> >   "TypeTags": ["Ability.Physical", "Ability.Strength"]
+> > }
+> > ```
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🏷️ TraitDataTable</b></summary>
+
+> **Caminho:** `Source/MyProject2/Data/Tables/TraitDataTable.h`
+>
+> **Struct:** `FTraitDataRow`
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Campos</summary>
+>
+> > | Campo | Tipo | Descrição |
+> > |-------|------|-----------|
+> > | `Name` | `FName` | Nome do trait (ex: "Darkvision", "Fey Ancestry", "Trance") |
+> > | `ID` | `FName` | ID único (ex: "TR_Darkvision", "TR_FeyAncestry", "TR_Trance") |
+> > | `Description` | `FText` | Descrição textual do trait (localizável) |
+> > | `TraitData` | `TMap<FName, FString>` | Dados estruturados (ex: Range para Darkvision) |
+> > | `TypeTags` | `FGameplayTagContainer` | Tags para categorização |
+> > | `SpellReference` | `FDataTableRowHandle` | Referência a uma magia (se aplicável) |
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Darkvision</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Darkvision",
+> >   "ID": "TR_Darkvision",
+> >   "Description": "Accustomed to life underground, you have superior vision in dark and dim conditions.",
+> >   "TraitData": {
+> >     "Range": "60"
+> >   },
+> >   "TypeTags": ["Trait.Vision.Darkvision", "Trait.Racial"],
+> >   "SpellReference": {}
+> > }
+> > ```
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎒 ItemDataTable</b></summary>
+
+> **Caminho:** `Source/MyProject2/Data/Tables/ItemDataTable.h`
+>
+> **Struct:** `FItemDataRow`
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Campos</summary>
+>
+> > | Campo | Tipo | Descrição |
+> > |-------|------|-----------|
+> > | `Name` | `FName` | Nome do item (ex: "Longsword", "Chain Mail", "15 gp") |
+> > | `ID` | `FName` | ID único (ex: "ITM_WPN_Longsword", "ITM_ARM_ChainMail", "ITM_GOLD_15gp") |
+> > | `ItemType` | `FName` | Tipo: "Weapon", "Armor", "Tool", "Consumable", "Pack", "Other", "Gold" |
+> > | `Weight` | `float` | Peso do item em libras (lbs) |
+> > | `Value` | `int32` | Valor do item em ouro (gp) |
+> > | `Description` | `FText` | Descrição do item (localizável) |
+> > | `TypeTags` | `FGameplayTagContainer` | Tags para categorização |
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Padrão de Nomenclatura de IDs</summary>
+>
+> > - **ITM_WPN_*** = Item Weapon
+> > - **ITM_ARM_*** = Item Armor
+> > - **ITM_TOL_*** = Item Tool
+> > - **ITM_PCK_*** = Item Pack
+> > - **ITM_CNM_*** = Item Consumable
+> > - **ITM_OTH_*** = Item Other
+> > - **ITM_GOLD_*** = Item Gold (ouro)
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">Exemplo de JSON - Longsword</summary>
+>
+> > ```json
+> > {
+> >   "Name": "Longsword",
+> >   "ID": "ITM_WPN_Longsword",
+> >   "ItemType": "Weapon",
+> >   "Weight": 3.0,
+> >   "Value": 15,
+> >   "Description": "A versatile melee weapon.",
+> >   "TypeTags": ["Item.Weapon.Martial", "Item.Weapon.Melee"]
+> > }
+> > ```
+>
+> </details>
+
+</details>
+
+---
+
+<details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔧 Como Criar/Editar Data Tables no Editor</b></summary>
 
 > <details>
@@ -415,7 +950,18 @@ Guia completo sobre a estrutura, criação e uso dos Data Tables no sistema de f
 > >    - `Class Data Row` para classes
 > >    - `Background Data Row` para backgrounds
 > >    - `Feat Data Row` para feats
-> > 4. Nomeie o Data Table (ex: `DT_Races`, `DT_Classes`)
+> >    - `Feature Data Row` para features
+> >    - `Proficiency Data Row` para proficiências
+> >    - `Skill Data Row` para skills
+> >    - `Language Data Row` para idiomas
+> >    - `Spell Data Row` para magias
+> >    - `Spell School Data Row` para escolas de magia
+> >    - `Damage Type Data Row` para tipos de dano
+> >    - `Condition Data Row` para condições
+> >    - `Ability Score Data Row` para atributos
+> >    - `Trait Data Row` para traits
+> >    - `Item Data Row` para itens
+> > 4. Nomeie o Data Table (ex: `DT_Races`, `DT_Classes`, `DT_Features`)
 >
 > </details>
 >

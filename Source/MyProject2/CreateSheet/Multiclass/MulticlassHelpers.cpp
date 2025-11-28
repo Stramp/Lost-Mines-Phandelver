@@ -17,6 +17,7 @@
 #include "Data/Tables/ProficiencyDataTable.h"
 #include "Data/Tables/FeatureDataTable.h"
 #include "Data/Tables/SkillDataTable.h"
+#include "Data/Tables/AbilityScoreDataTable.h"
 
 // Project includes - Structures
 #include "Data/Structures/FProficienciesEntry.h"
@@ -42,7 +43,8 @@
 #pragma region Get Available Class With Tag Requirements
 
 TArray<FName> FMulticlassHelpers::GetAvailableClassWithTagRequirements(const UDataTable *ClassDataTable,
-                                                                       const TArray<int32> &Attributes)
+                                                                       const TArray<int32> &Attributes,
+                                                                       const UDataTable *AbilityScoreDataTable)
 {
     TArray<FName> Result;
 
@@ -89,7 +91,8 @@ TArray<FName> FMulticlassHelpers::GetAvailableClassWithTagRequirements(const UDa
 
         if (Row)
         {
-            FMulticlassValidators::ProcessClassWithRequirements(Row, Attributes, AttributeMap, Result);
+            FMulticlassValidators::ProcessClassWithRequirements(Row, Attributes, AttributeMap, Result,
+                                                                AbilityScoreDataTable);
         }
     }
 
@@ -726,6 +729,40 @@ bool FMulticlassHelpers::ValidateOrRequirement(const FString &OrRequirementStrin
     }
 
     return false; // Nenhum requisito do OR foi satisfeito
+}
+
+bool FMulticlassHelpers::MapAbilityIDToIndex(FName AbilityID, const UDataTable *AbilityScoreDataTable, int32 &OutIndex)
+{
+    OutIndex = -1;
+
+    if (AbilityID == NAME_None || !AbilityScoreDataTable)
+    {
+        return false;
+    }
+
+    // Busca row pelo AbilityID na tabela
+    TArray<FName> RowNames = AbilityScoreDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
+    {
+        if (const FAbilityScoreDataRow *Row =
+                AbilityScoreDataTable->FindRow<FAbilityScoreDataRow>(RowName, TEXT("MapAbilityIDToIndex")))
+        {
+            if (Row->ID == AbilityID)
+            {
+                // Mapeia AbilityID para índice usando Abbreviation
+                FString Abbr = Row->Abbreviation.ToString().ToUpper();
+                TMap<FString, FAttributeInfo> AttributeMap = CreateAttributeMap();
+                const FAttributeInfo *AttrInfo = AttributeMap.Find(Abbr);
+                if (AttrInfo)
+                {
+                    OutIndex = AttrInfo->Index;
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 #pragma endregion Attribute Helpers

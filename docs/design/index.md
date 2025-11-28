@@ -1,3 +1,12 @@
+---
+title: "Design Documentation"
+category: design
+tags: [design, game-design, dnd-5e, rules]
+last_updated: 2024-12-27
+---
+
+**Navegação:** [Home](../../README.md) > [Documentação](index.md) > Design
+
 # Documentação de Design - MyProject2
 
 <details open>
