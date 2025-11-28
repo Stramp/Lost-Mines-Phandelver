@@ -8,7 +8,7 @@
 > **Princípios Fundamentais:**
 >
 > - ✅ **Normalização:** Dados organizados em tabelas relacionais, sem duplicação
-> - ✅ **ID + Tags + Payload:** Padrão para estruturação de dados
+> - ✅ **Name + ID + Tags + Payload:** Padrão para estruturação de dados (Name como Key Field, ID como identificador único)
 > - ✅ **FDataTableRowHandle:** Referências type-safe entre Data Tables
 > - ✅ **Gameplay Tags:** Categorização flexível e hierárquica
 > - ✅ **Soft References:** Lazy loading de assets para performance

@@ -15,7 +15,7 @@ Abaixo apresento a arquitetura de dados ideal. Você terá:
 - **Tabelas de Definição (Static)**: O que o item "é" - dados imutáveis armazenados em Data Tables
 - **Estruturas de Instância (Dynamic)**: O que o item "tem" agora - dados mutáveis em runtime
 
-### 📋 O Padrão "ID + Tags + Payload"
+### 📋 O Padrão "Name + ID + Tags + Payload"
 
 No Unreal Engine, JSON é apenas o meio de transporte. A estrutura real na engine deve usar:
 
@@ -23,9 +23,10 @@ No Unreal Engine, JSON é apenas o meio de transporte. A estrutura real na engin
 - **Structs leves** para dados dinâmicos (estado em runtime)
 
 **Filosofia:**
-- **ID**: Identificador único (ex: `RaceID`, `ClassID`, `ItemID`)
-- **Tags**: Metadados e categorização (ex: `Tags: ["Vision", "Racial"]`)
-- **Payload**: Dados específicos do item (ex: `TraitData`, `FeatureData`)
+- **Name**: Nome de exibição (Key Field do Unreal Engine) - usado como chave primária na Data Table
+- **ID**: Identificador único interno (ex: `RACE_Elf`, `CLASS_Fighter`, `ITM_Longsword`)
+- **Tags**: Metadados e categorização via Gameplay Tags (ex: `TypeTags: ["Race.Elf", "Race.Fey"]`)
+- **Payload**: Dados específicos do item (ex: `TraitData`, `FeatureData`, `TraitHandles`, `LanguageHandles`)
 
 ### 📐 Estrutura JSON "Flat" (Plana)
 
@@ -261,7 +262,7 @@ Ao invés de um JSON profundo e aninhado (que o importador do Unreal odeia e que
 - Prefixo de ID é `DMG_` (não `DAM_`).
 
 **IDs Necessários:**
-- `DAM_Fire`, `DAM_Cold`, `DAM_Lightning`, `DAM_Poison`, `DAM_Psychic`, `DAM_Radiant`, `DAM_Necrotic`, `DAM_Acid`, `DAM_Force`, `DAM_Thunder`
+- `DMG_Fire`, `DMG_Cold`, `DMG_Lightning`, `DMG_Poison`, `DMG_Psychic`, `DMG_Radiant`, `DMG_Necrotic`, `DMG_Acid`, `DMG_Force`, `DMG_Thunder`
 
 ### 8. `ConditionDataTable.json` - ✅ IMPLEMENTADO
 
@@ -282,7 +283,7 @@ Ao invés de um JSON profundo e aninhado (que o importador do Unreal odeia e que
 - Prefixo de ID é `COND_` (não `CON_`).
 
 **IDs Necessários:**
-- `CON_Blinded`, `CON_Charmed`, `CON_Deafened`, `CON_Frightened`, `CON_Grappled`, `CON_Incapacitated`, `CON_Invisible`, `CON_Paralyzed`, `CON_Petrified`, `CON_Poisoned`, `CON_Prone`, `CON_Restrained`, `CON_Stunned`, `CON_Unconscious`
+- `COND_Blinded`, `COND_Charmed`, `COND_Deafened`, `COND_Frightened`, `COND_Grappled`, `COND_Incapacitated`, `COND_Invisible`, `COND_Paralyzed`, `COND_Petrified`, `COND_Poisoned`, `COND_Prone`, `COND_Restrained`, `COND_Stunned`, `COND_Unconscious`
 
 ---
 

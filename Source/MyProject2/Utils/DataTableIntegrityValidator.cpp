@@ -12,7 +12,7 @@
 #include "Data/Tables/BackgroundDataTable.h"
 #include "Data/Tables/TraitDataTable.h"
 #include "Data/Tables/LanguageDataTable.h"
-#include "Data/Tables/SkillDataTable.h"
+// SkillDataTable não está no CharacterSheetDataAsset, mas é validado via Handle
 #include "Data/Tables/ProficiencyDataTable.h"
 #include "Utils/DataTableRowHandleHelpers.h"
 #include "Engine/DataTable.h"
@@ -99,9 +99,10 @@ FDataTableValidationResult FDataTableIntegrityValidator::ValidateAllDataTables(U
         }
     }
 
-    if (Asset->ClassDataTable && Asset->SkillDataTable)
+    // Validar AvailableSkillHandles em ClassDataTable
+    // Nota: AvailableSkillHandles aponta para SkillDataTable (que não está no Asset, mas é validado via Handle)
+    if (Asset->ClassDataTable)
     {
-        // Validar AvailableSkillHandles em ClassDataTable
         const TMap<FName, uint8*>& RowMap = Asset->ClassDataTable->GetRowMap();
         for (const auto& Pair : RowMap)
         {

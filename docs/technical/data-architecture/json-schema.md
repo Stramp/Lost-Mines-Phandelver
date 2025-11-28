@@ -398,4 +398,4 @@ Antes de considerar um JSON válido, verificar:
 
 ---
 
-**Última atualização:** 2024-12-XX
+**Última atualização:** 2024-12-27
