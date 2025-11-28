@@ -17,6 +17,46 @@
 #pragma endregion Includes
 
 // ============================================================================
+// Equipment Choice Structs
+// ============================================================================
+#pragma region Equipment Choice Structs
+
+/**
+ * Struct para representar uma opção de equipamento em uma escolha.
+ * Uma opção pode conter múltiplos itens (ex: "leather armor, longbow, and 20 arrows").
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FEquipmentOption
+{
+    GENERATED_BODY()
+
+    /** Array de IDs de itens desta opção (ex: ["ITM_ARM_ChainMail"] ou ["ITM_ARM_LeatherArmor", "ITM_WPN_Longbow"]) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Equipment Option")
+    TArray<FName> Items;
+
+    FEquipmentOption() {}
+};
+
+/**
+ * Struct para representar um grupo de escolhas de equipamento (OR).
+ * Cada grupo representa uma escolha independente onde o jogador escolhe UMA opção.
+ * Exemplo: (a) chain mail OU (b) leather armor, longbow, and 20 arrows
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FStartingEquipmentGroup
+{
+    GENERATED_BODY()
+
+    /** Opções disponíveis neste grupo (jogador escolhe UMA) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Equipment Group")
+    TArray<FEquipmentOption> Options;
+
+    FStartingEquipmentGroup() {}
+};
+
+#pragma endregion Equipment Choice Structs
+
+// ============================================================================
 // Data Table Row Struct
 // ============================================================================
 #pragma region Data Table Row Struct
@@ -36,7 +76,7 @@ struct MYPROJECT2_API FClassDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** Nome da classe (ex: "Class_Fighter", "Class_Wizard", "Class_Cleric") - Key Field */
+    /** Nome da classe (ex: "Fighter", "Wizard", "Cleric", "Rogue") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
     FName Name;
 
@@ -47,10 +87,6 @@ struct MYPROJECT2_API FClassDataRow : public FTableRowBase
     /** Gameplay Tags para categorização (ex: Class.Fighter, Class.Martial, Class.Spellcaster) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
     FGameplayTagContainer TypeTags;
-
-    /** Nome da classe (ex: "Fighter", "Wizard", "Cleric", "Rogue") */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
-    FName ClassName;
 
     /**
      * Dado de vida da classe (Hit Die).
@@ -115,18 +151,19 @@ struct MYPROJECT2_API FClassDataRow : public FTableRowBase
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
     TArray<FProgressEntry> Progression;
 
-    /** Equipamentos iniciais da classe (FNames de itens) */
+    /** Equipamentos iniciais automáticos da classe (sem escolha) - IDs de itens */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
     TArray<FName> StartingEquipment;
+
+    /** Grupos de escolhas de equipamento inicial (cada grupo = uma escolha OR) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
+    TArray<FStartingEquipmentGroup> StartingEquipmentChoices;
 
     /** Ouro inicial alternativo (se jogador escolher ouro ao invés de equipamentos) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Class")
     int32 StartingGold = 0;
 
-    FClassDataRow()
-        : Name(NAME_None), ID(NAME_None), ClassName(NAME_None), HitDie(6), SkillChoiceCount(0), StartingGold(0)
-    {
-    }
+    FClassDataRow() : Name(NAME_None), ID(NAME_None), HitDie(6), SkillChoiceCount(0), StartingGold(0) {}
 };
 
 #pragma endregion Data Table Row Struct
