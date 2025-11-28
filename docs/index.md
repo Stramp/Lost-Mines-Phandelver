@@ -133,7 +133,7 @@
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📅 Histórico de Reorganização</b></summary>
 
-> **Última Atualização:** 2024-12-XX
+> **Última Atualização:** 2024-12-27
 >
 > - ✅ Estrutura hierárquica tipo iceberg implementada
 > - ✅ Separação clara entre design e técnico
@@ -150,5 +150,8 @@
 > - ✅ Guia de workflows principais criado (workflows.md)
 > - ✅ Sistema de logging com throttle implementado (LogWarningWithThrottledPopup, LogErrorWithThrottledPopup)
 > - ✅ GetOptions filtrado por feature implementado (GetAvailableChoiceNamesForFeature)
+> - ✅ **Padronização Name + ID completa** - Todas as 15 Data Tables seguem padrão consistente (Name como Key Field, ID como identificador único)
+> - ✅ **Documentação de arquitetura de dados atualizada** - Reflete estrutura atual com FDataTableRowHandle e Gameplay Tags
+> - ✅ **Limpeza de documentação obsoleta** - Removidos 7 arquivos de relatórios históricos de migração
 
 </details>

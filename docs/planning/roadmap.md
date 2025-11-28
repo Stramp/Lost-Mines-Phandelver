@@ -65,143 +65,170 @@
 > >
 > > **O Que Foi Implementado:**
 > >
-> > **1. Motores Básicos (100% Completo):**
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">✅ 1. Motores Básicos (100% Completo)</summary>
 > >
-> > - ✅ **RaceBonusMotor** - Completo
-> >   - Aplica bônus raciais e sub-raças
-> >   - Suporta Variant Human (Custom Ability Score Choices)
-> >   - Integrado no CharacterSheetCore
+> > > - ✅ **RaceBonusMotor** - Completo
+> > >   - Aplica bônus raciais e sub-raças
+> > >   - Suporta Variant Human (Custom Ability Score Choices)
+> > >   - Integrado no CharacterSheetCore
+> > >
+> > > - ✅ **PointBuyMotor** - Completo
+> > >   - Validação de 27 pontos máximo
+> > >   - Ajuste automático se exceder limite
+> > >   - Feedback de pontos restantes
+> > >   - Integrado no CharacterSheetCore
+> > >
+> > > - ✅ **MulticlassMotor** - Completo
+> > >   - GetAvailableClasses (filtra por requisitos)
+> > >   - LoadClassProficiencies (carrega proficiências)
+> > >   - LoadClassProgression (carrega features por nível)
+> > >   - ValidateMulticlassRequirements (via FMulticlassValidators)
+> > >
+> > > - ✅ **CharacterSheetCore** - Completo
+> > >   - Orquestra RaceBonus + PointBuy
+> > >   - Fórmula: FinalScore = 8 + RacialBonus + PointBuyAllocation
+> > >   - Genérico (funciona em Data Asset e Widget)
+>
+> > </details>
 > >
-> > - ✅ **PointBuyMotor** - Completo
-> >   - Validação de 27 pontos máximo
-> >   - Ajuste automático se exceder limite
-> >   - Feedback de pontos restantes
-> >   - Integrado no CharacterSheetCore
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">✅ 2. Sistema de Validação (100% Completo)</summary>
 > >
-> > - ✅ **MulticlassMotor** - Completo
-> >   - GetAvailableClasses (filtra por requisitos)
-> >   - LoadClassProficiencies (carrega proficiências)
-> >   - LoadClassProgression (carrega features por nível)
-> >   - ValidateMulticlassRequirements (via FMulticlassValidators)
+> > > - ✅ **Validators** - Completos
+> > >   - ValidateVariantHumanChoices (feat, skill, ability scores)
+> > >   - ValidateLanguageChoices
+> > >   - ValidateMulticlassNameLevelConsistency
+> > >   - ValidateMulticlassProgression
+> > >   - Boot Protocol (ValidateAll)
+> > >
+> > > - ✅ **Handlers** - Completos
+> > >   - HandleRaceChange (reseta sub-raça se necessário)
+> > >   - HandlePointBuyAllocationChange (valida e recalcula)
+> > >   - HandleBackgroundChange
+> > >   - HandleVariantHumanChoicesChange
+> > >   - HandleLanguageChoicesChange
+> > >   - HandleLevelInClassChange (processa features por nível)
+> > >   - HandleMulticlassClassNameChange
+> > >   - HandleProficienciesChange
+> > >
+> > > - ✅ **Updaters** - Completos
+> > >   - RecalculateFinalScores (integra CharacterSheetCore)
+> > >   - UpdateVariantHumanFlag
+> > >   - UpdateLanguageChoices
+> > >   - UpdateCalculatedFields
+> > >   - RecalculateMaxHP
+>
+> > </details>
 > >
-> > - ✅ **CharacterSheetCore** - Completo
-> >   - Orquestra RaceBonus + PointBuy
-> >   - Fórmula: FinalScore = 8 + RacialBonus + PointBuyAllocation
-> >   - Genérico (funciona em Data Asset e Widget)
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">✅ 3. Variant Human (100% Completo)</summary>
 > >
-> > **2. Sistema de Validação (100% Completo):**
+> > > - ✅ Feat selection (GetAvailableFeatNames com filtro por ability scores)
+> > > - ✅ Skill selection (GetSkillNames)
+> > > - ✅ Custom Ability Score Choices (2x +1 para distribuir)
+> > > - ✅ Validação completa (feat, skill, ability scores)
+> > > - ✅ Handlers dedicados
+> > > - ✅ Reset automático quando não é mais Variant Human
+>
+> > </details>
 > >
-> > - ✅ **Validators** - Completos
-> >   - ValidateVariantHumanChoices (feat, skill, ability scores)
-> >   - ValidateLanguageChoices
-> >   - ValidateMulticlassNameLevelConsistency
-> >   - ValidateMulticlassProgression
-> >   - Boot Protocol (ValidateAll)
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">✅ 4. Multiclasse - Estrutura (✅ Completo)</summary>
 > >
-> > - ✅ **Handlers** - Completos
-> >   - HandleRaceChange (reseta sub-raça se necessário)
-> >   - HandlePointBuyAllocationChange (valida e recalcula)
-> >   - HandleBackgroundChange
-> >   - HandleVariantHumanChoicesChange
-> >   - HandleLanguageChoicesChange
-> >   - HandleLevelInClassChange (processa features por nível)
-> >   - HandleMulticlassClassNameChange
-> >   - HandleProficienciesChange
+> > > - ✅ **ProcessLevelChange** - Funcional
+> > >   - Carrega features do nível específico da tabela
+> > >   - Valida entradas
+> > >   - Loga features ganhas
+> > >
+> > > - ✅ **LoadClassProficiencies** - Funcional
+> > >   - Carrega proficiências quando LevelInClass == 1
+> > >   - Converte de FProficienciesEntry (tabela) para FMulticlassProficienciesEntry (Data Asset)
+> > >   - Suporta armas, armaduras, saving throws, skills
+> > >
+> > > - ✅ **GetAvailableClasses** - Funcional
+> > >   - Filtra classes por requisitos de atributo
+> > >   - Usa FMulticlassValidators para validar requisitos
+> > >   - Suporta AND (múltiplos requisitos) e OR (requisitos alternativos)
+> > >   - Adiciona tags visuais quando requisitos não atendidos (ex: "[STR +2] Fighter")
+> > >
+> > > - ✅ **Estrutura de Dados** - Completa
+> > >   - FMulticlassEntry, FMulticlassClassData
+> > >   - FMulticlassProgressEntry, FMulticlassClassFeature
+> > >   - FMulticlassProficienciesEntry, FMulticlassSkills
+> > >   - Integração completa com Data Asset
+>
+> > </details>
 > >
-> > - ✅ **Updaters** - Completos
-> >   - RecalculateFinalScores (integra CharacterSheetCore)
-> >   - UpdateVariantHumanFlag
-> >   - UpdateLanguageChoices
-> >   - UpdateCalculatedFields
-> >   - RecalculateMaxHP
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">✅ 5. Sistema de Dropdowns (100% Completo)</summary>
 > >
-> > **3. Variant Human (100% Completo):**
+> > > - ✅ GetRaceNames, GetSubraceNames (dependentes)
+> > > - ✅ GetBackgroundNames
+> > > - ✅ GetAvailableFeatNames (filtrado por ability scores)
+> > > - ✅ GetSkillNames
+> > > - ✅ GetListClassAvaible (filtrado por requisitos de atributo)
+> > > - ✅ GetAvailableLanguageNames
+>
+> > </details>
 > >
-> > - ✅ Feat selection (GetAvailableFeatNames com filtro por ability scores)
-> > - ✅ Skill selection (GetSkillNames)
-> > - ✅ Custom Ability Score Choices (2x +1 para distribuir)
-> > - ✅ Validação completa (feat, skill, ability scores)
-> > - ✅ Handlers dedicados
-> > - ✅ Reset automático quando não é mais Variant Human
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">✅ 6. Cálculos Básicos (✅ Completo)</summary>
 > >
-> > **4. Multiclasse - Estrutura (✅ Completo):**
+> > > - ✅ CalculateAbilityModifier (fórmula D&D 5e)
+> > > - ✅ CalculateProficiencyBonus (fórmula D&D 5e)
+> > > - ✅ CalculateHPGainForLevel (HP por nível)
+> > > - ✅ CalculateMaxHP (HP total multiclasse)
+> > > - ✅ CalculateProficiencies (background + Variant Human)
+> > > - ✅ CalculateLanguages (raça + background + escolhas)
+>
+> > </details>
 > >
-> > - ✅ **ProcessLevelChange** - Funcional
-> >   - Carrega features do nível específico da tabela
-> >   - Valida entradas
-> >   - Loga features ganhas
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">✅ 7. Testes Automatizados (✅ Completo)</summary>
 > >
-> > - ✅ **LoadClassProficiencies** - Funcional
-> >   - Carrega proficiências quando LevelInClass == 1
-> >   - Converte de FProficienciesEntry (tabela) para FMulticlassProficienciesEntry (Data Asset)
-> >   - Suporta armas, armaduras, saving throws, skills
-> >
-> > - ✅ **GetAvailableClasses** - Funcional
-> >   - Filtra classes por requisitos de atributo
-> >   - Usa FMulticlassValidators para validar requisitos
-> >   - Suporta AND (múltiplos requisitos) e OR (requisitos alternativos)
-> >   - Adiciona tags visuais quando requisitos não atendidos (ex: "[STR +2] Fighter")
-> >
-> > - ✅ **Estrutura de Dados** - Completa
-> >   - FMulticlassEntry, FMulticlassClassData
-> >   - FMulticlassProgressEntry, FMulticlassClassFeature
-> >   - FMulticlassProficienciesEntry, FMulticlassSkills
-> >   - Integração completa com Data Asset
-> >
-> > **5. Sistema de Dropdowns (100% Completo):**
-> >
-> > - ✅ GetRaceNames, GetSubraceNames (dependentes)
-> > - ✅ GetBackgroundNames
-> > - ✅ GetAvailableFeatNames (filtrado por ability scores)
-> > - ✅ GetSkillNames
-> > - ✅ GetListClassAvaible (filtrado por requisitos de atributo)
-> > - ✅ GetAvailableLanguageNames
-> >
-> > **6. Cálculos Básicos (✅ Completo):**
-> >
-> > - ✅ CalculateAbilityModifier (fórmula D&D 5e)
-> > - ✅ CalculateProficiencyBonus (fórmula D&D 5e)
-> > - ✅ CalculateHPGainForLevel (HP por nível)
-> > - ✅ CalculateMaxHP (HP total multiclasse)
-> > - ✅ CalculateProficiencies (background + Variant Human)
-> > - ✅ CalculateLanguages (raça + background + escolhas)
-> >
-> > **7. Testes Automatizados (✅ Completo):**
-> >
-> > - ✅ **275+ testes implementados**
-> >   - CalculationHelpers (28 testes) - Modificadores, proficiência e cálculos
-> >   - ValidationHelpers (35 testes) - Validações críticas e escolhas
-> >   - CharacterSheetHelpers (36 testes) - Feats, pré-requisitos e helpers
-> >   - DataTableHelpers (13 testes) - Busca em Data Tables
-> >   - FormattingHelpers (10 testes) - Formatação de dados
-> >   - ChoiceHelpers (7 testes) - Parsing e formatação de escolhas
-> >   - FeatDataTable (6 testes) - Pré-requisitos de feats
-> >   - ComponentHelpers (3 testes) - Busca de componentes
+> > > - ✅ **275+ testes implementados**
+> > >   - CalculationHelpers (28 testes) - Modificadores, proficiência e cálculos
+> > >   - ValidationHelpers (35 testes) - Validações críticas e escolhas
+> > >   - CharacterSheetHelpers (36 testes) - Feats, pré-requisitos e helpers
+> > >   - DataTableHelpers (13 testes) - Busca em Data Tables
+> > >   - FormattingHelpers (10 testes) - Formatação de dados
+> > >   - ChoiceHelpers (7 testes) - Parsing e formatação de escolhas
+> > >   - FeatDataTable (6 testes) - Pré-requisitos de feats
+> > >   - ComponentHelpers (3 testes) - Busca de componentes
+>
+> > </details>
 > >
 > > **O Que Está Faltando:**
 > >
-> > **1. Itens Iniciais e Boilerplate de Inventário (📋 Planejado):**
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📋 1. Itens Iniciais e Boilerplate de Inventário (📋 Planejado)</summary>
 > >
-> > - 📋 **Sistema de Itens Iniciais** - Planejado
-> >   - StartingEquipment por classe (TArray<FName>)
-> >   - StartingGold alternativo (int32)
-> >   - Integração com Background equipment
-> >   - Validação de peso (Carrying Capacity)
-> >   - **📖 Plano Detalhado:** [roadmap-tecnico-itens-iniciais.md](roadmap-tecnico-itens-iniciais.md)
+> > > - 📋 **Sistema de Itens Iniciais** - Planejado
+> > >   - StartingEquipment por classe (TArray<FName>)
+> > >   - StartingGold alternativo (int32)
+> > >   - Integração com Background equipment
+> > >   - Validação de peso (Carrying Capacity)
+> > >   - **📖 Plano Detalhado:** [roadmap-tecnico-itens-iniciais.md](roadmap-tecnico-itens-iniciais.md)
+> > >
+> > > - 📋 **Boilerplate de Inventário** - Planejado
+> > >   - Estruturas modulares: `FInventorySlot`, `FInventoryContainer`
+> > >   - Mockup hardcoded: 1 slot de corpo + 1 container (mochila)
+> > >   - Helpers básicos em `Utils/InventoryHelpers`
+> > >   - Preparação para módulo `Inventory/` completo (Fase 4)
+> > >   - **📖 Plano Detalhado:** [roadmap-tecnico-inventario-boilerplate.md](roadmap-tecnico-inventario-boilerplate.md)
+>
+> > </details>
 > >
-> > - 📋 **Boilerplate de Inventário** - Planejado
-> >   - Estruturas modulares: `FInventorySlot`, `FInventoryContainer`
-> >   - Mockup hardcoded: 1 slot de corpo + 1 container (mochila)
-> >   - Helpers básicos em `Utils/InventoryHelpers`
-> >   - Preparação para módulo `Inventory/` completo (Fase 4)
-> >   - **📖 Plano Detalhado:** [roadmap-tecnico-inventario-boilerplate.md](roadmap-tecnico-inventario-boilerplate.md)
+> > <details>
+> > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⚠️ 2. Validação e Testes</summary>
 > >
-> > **2. Validação e Testes:**
-> >
-> > - ⚠️ Validação completa do sistema de Multiclasse (testes end-to-end)
-> > - ⚠️ Conferir criação de feat no editor no config do Data Asset
-> > - ⚠️ Validar integridade de dados completa
-> > - ⚠️ **Corrigir testes de Proficiency Bonus** (valores esperados incorretos)
+> > > - ⚠️ Validação completa do sistema de Multiclasse (testes end-to-end)
+> > > - ⚠️ Conferir criação de feat no editor no config do Data Asset
+> > > - ⚠️ Validar integridade de dados completa
+> > > - ⚠️ **Corrigir testes de Proficiency Bonus** (valores esperados incorretos)
+>
+> > </details>
 >
 > </details>
 >
@@ -229,109 +256,110 @@
 > >
 > > > **Tarefas (TDD obrigatório):**
 > >
-> > > **1. SpellcastingHelpers (Utils/SpellcastingHelpers.h/cpp) - 🧪 TDD**
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🧪 1. SpellcastingHelpers (Utils/SpellcastingHelpers.h/cpp) - 🧪 TDD</summary>
 > >
-> > > - 📋 **CalculateSpellSaveDC()** - 🧪 TDD
-> > >   - Fórmula: `8 + ProficiencyBonus + SpellcastingAbilityModifier`
-> > >
-> > - Parâmetros: `int32 ProficiencyBonus, int32 SpellcastingAbilityModifier`
-> > - Retorno: `int32 SpellSaveDC`
-> > - **Testes:** Casos válidos, edge cases (modificadores negativos)
+> > > > - 📋 **CalculateSpellSaveDC()** - 🧪 TDD
+> > > >   - Fórmula: `8 + ProficiencyBonus + SpellcastingAbilityModifier`
+> > > >   - Parâmetros: `int32 ProficiencyBonus, int32 SpellcastingAbilityModifier`
+> > > >   - Retorno: `int32 SpellSaveDC`
+> > > >   - **Testes:** Casos válidos, edge cases (modificadores negativos)
+> > > >
+> > > > - 📋 **CalculateSpellAttackModifier()** - 🧪 TDD
+> > > >   - Fórmula: `ProficiencyBonus + SpellcastingAbilityModifier`
+> > > >   - Parâmetros: `int32 ProficiencyBonus, int32 SpellcastingAbilityModifier`
+> > > >   - Retorno: `int32 SpellAttackModifier`
+> > > >   - **Testes:** Casos válidos, edge cases
+> > > >
+> > > > - 📋 **GetSpellcastingAbilityByClass()** - 🧪 TDD
+> > > >   - Retorna ability score usado para spellcasting por classe
+> > > >   - Tabela: Bard/CHA, Cleric/WIS, Druid/WIS, Paladin/CHA, Ranger/WIS, Sorcerer/CHA, Warlock/CHA, Wizard/INT
+> > > >   - Parâmetros: `FName ClassName`
+> > > >   - Retorno: `FName AbilityID` (ex: "ABL_Charisma")
+> > > >   - **Testes:** Todas as classes, classe inválida
+> > > >
+> > > > - 📋 **CalculateSpellSlotsForLevel()** - 🧪 TDD
+> > > >   - Calcula spell slots por nível baseado em tipo de caster
+> > > >   - Tipos: Full Caster (Wizard, Cleric, Druid, Sorcerer, Bard), Half Caster (Paladin, Ranger), Warlock (Pact Magic)
+> > > >   - Parâmetros: `FName ClassName, int32 ClassLevel, ECasterType CasterType`
+> > > >   - Retorno: `TMap<int32, int32>` (SpellLevel → Count)
+> > > >   - **Testes:** Todos os níveis (1-20), todos os tipos de caster, edge cases
+> > > >
+> > > > - 📋 **CalculateCantripsKnown()** - 🧪 TDD
+> > > >   - Calcula cantrips conhecidos por nível e classe
+> > > >   - Tabela por classe: Bard (2,3,4), Cleric (3,4,5), Druid (2,3,4), Sorcerer (4,5,6), Warlock (2,3,4), Wizard (3,4,5)
+> > > >   - Parâmetros: `FName ClassName, int32 ClassLevel`
+> > > >   - Retorno: `int32 CantripsKnown`
+> > > >   - **Testes:** Todas as classes, todos os níveis relevantes, classes sem cantrips
+> > > >
+> > > > - 📋 **CalculateSpellsPrepared()** - 🧪 TDD
+> > > >   - Fórmula: `SpellcastingAbilityModifier + ClassLevel` (mínimo 1)
+> > > >   - Apenas para: Cleric, Druid, Paladin, Wizard
+> > > >   - Parâmetros: `int32 SpellcastingAbilityModifier, int32 ClassLevel`
+> > > >   - Retorno: `int32 SpellsPrepared`
+> > > >   - **Testes:** Casos válidos, modificador negativo (mínimo 1), edge cases
+> > > >
+> > > > - 📋 **CalculateMulticlassCasterLevel()** - 🧪 TDD
+> > > >   - Fórmula: `FullCasterLevels + floor(HalfCasterLevels / 2)`
+> > > >   - Warlock é separado (Pact Magic, não combina)
+> > > >   - Parâmetros: `TMap<FName, int32> ClassLevels` (ClassName → Level)
+> > > >   - Retorno: `int32 CasterLevel`
+> > > >   - **Testes:** Combinações de classes, Warlock separado, edge cases
+> > > >
+> > > > - 📋 **GetSpellSlotRecoveryType()** - 🧪 TDD
+> > > >   - Retorna tipo de recuperação: Long Rest, Short Rest, Arcane Recovery
+> > > >   - Parâmetros: `FName ClassName`
+> > > >   - Retorno: `ESpellSlotRecoveryType`
+> > > >   - **Testes:** Todas as classes, classe inválida
+>
+> > > </details>
 > >
-> > > - 📋 **CalculateSpellAttackModifier()** - 🧪 TDD
-> > >   - Fórmula: `ProficiencyBonus + SpellcastingAbilityModifier`
-> > >
-> > - Parâmetros: `int32 ProficiencyBonus, int32 SpellcastingAbilityModifier`
-> > - Retorno: `int32 SpellAttackModifier`
-> > - **Testes:** Casos válidos, edge cases
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📋 2. SpellcastingConstants (Utils/DnDConstants.h)</summary>
 > >
-> > > - 📋 **GetSpellcastingAbilityByClass()** - 🧪 TDD
-> > >   - Retorna ability score usado para spellcasting por classe
-> > >   - Tabela: Bard/CHA, Cleric/WIS, Druid/WIS, Paladin/CHA, Ranger/WIS, Sorcerer/CHA, Warlock/CHA, Wizard/INT
-> > >   - Parâmetros: `FName ClassName`
-> > >   - Retorno: `FName AbilityID` (ex: "ABL_Charisma")
-> > >
-> > - **Testes:** Todas as classes, classe inválida
+> > > > - 📋 Adicionar constantes de spellcasting
+> > > >   - `SPELL_SAVE_DC_BASE = 8`
+> > > >   - `SPELL_SAVE_DC_PROFICIENCY_MULTIPLIER = 1`
+> > > >   - Tabelas de spell slots (Full Caster, Half Caster, Warlock)
+> > > >   - Tabelas de cantrips conhecidos por classe
+>
+> > > </details>
 > >
-> > > - 📋 **CalculateSpellSlotsForLevel()** - 🧪 TDD
-> > >   - Calcula spell slots por nível baseado em tipo de caster
-> > >   - Tipos: Full Caster (Wizard, Cleric, Druid, Sorcerer, Bard), Half Caster (Paladin, Ranger), Warlock (Pact Magic)
-> > >   - Parâmetros: `FName ClassName, int32 ClassLevel, ECasterType CasterType`
-> > >   - Retorno: `TMap<int32, int32>` (SpellLevel → Count)
-> > >
-> > - **Testes:** Todos os níveis (1-20), todos os tipos de caster, edge cases
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🧪 3. Testes Automatizados (Utils/Tests/SpellcastingHelpersTests.cpp) - 🧪 TDD</summary>
 > >
-> > > - 📋 **CalculateCantripsKnown()** - 🧪 TDD
-> > >   - Calcula cantrips conhecidos por nível e classe
-> > >   - Tabela por classe: Bard (2,3,4), Cleric (3,4,5), Druid (2,3,4), Sorcerer (4,5,6), Warlock (2,3,4), Wizard (3,4,5)
-> > >   - Parâmetros: `FName ClassName, int32 ClassLevel`
-> > >   - Retorno: `int32 CantripsKnown`
-> > >
-> > - **Testes:** Todas as classes, todos os níveis relevantes, classes sem cantrips
+> > > > - 📋 Testes para todas as funções acima
+> > > >   - Casos válidos (happy path)
+> > > >   - Edge cases (valores extremos, modificadores negativos)
+> > > >   - Validação de fórmulas D&D 5e
+> > > >   - **Estimativa:** 50-70 testes
+>
+> > > </details>
 > >
-> > > - 📋 **CalculateSpellsPrepared()** - 🧪 TDD
-> > >   - Fórmula: `SpellcastingAbilityModifier + ClassLevel` (mínimo 1)
-> > >
-> > - Apenas para: Cleric, Druid, Paladin, Wizard
-> > - Parâmetros: `int32 SpellcastingAbilityModifier, int32 ClassLevel`
-> > - Retorno: `int32 SpellsPrepared`
-> > - **Testes:** Casos válidos, modificador negativo (mínimo 1), edge cases
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔗 4. Integração com CharacterSheetDataAsset</summary>
 > >
-> > > - 📋 **CalculateMulticlassCasterLevel()** - 🧪 TDD
-> > >   - Fórmula: `FullCasterLevels + floor(HalfCasterLevels / 2)`
-> > >
-> > - Warlock é separado (Pact Magic, não combina)
-> > - Parâmetros: `TMap<FName, int32> ClassLevels` (ClassName → Level)
-> > - Retorno: `int32 CasterLevel`
-> > - **Testes:** Combinações de classes, Warlock separado, edge cases
-> >
-> > > - 📋 **GetSpellSlotRecoveryType()** - 🧪 TDD
-> > >   - Retorna tipo de recuperação: Long Rest, Short Rest, Arcane Recovery
-> > >
-> > - Parâmetros: `FName ClassName`
-> > - Retorno: `ESpellSlotRecoveryType`
-> > - **Testes:** Todas as classes, classe inválida
-> >
-> > > **2. SpellcastingConstants (Utils/DnDConstants.h)**
-> >
-> > > - 📋 Adicionar constantes de spellcasting
-> > >   - `SPELL_SAVE_DC_BASE = 8`
-> > >   - `SPELL_SAVE_DC_PROFICIENCY_MULTIPLIER = 1`
-> > >
-> > - Tabelas de spell slots (Full Caster, Half Caster, Warlock)
-> > - Tabelas de cantrips conhecidos por classe
-> >
-> > > **3. Testes Automatizados (Utils/Tests/SpellcastingHelpersTests.cpp) - 🧪 TDD**
-> >
-> > > - 📋 Testes para todas as funções acima
-> > >   - Casos válidos (happy path)
-> > >   - Edge cases (valores extremos, modificadores negativos)
-> > >
-> > - Validação de fórmulas D&D 5e
-> > - **Estimativa:** 50-70 testes
-> >
-> > > **4. Integração com CharacterSheetDataAsset**
-> >
-> > > - 📋 Adicionar campos calculados:
-> > >   - `SpellSaveDC` (calculado)
-> > >   - `SpellAttackModifier` (calculado)
-> > >   - `SpellSlots` (TMap<int32, int32> - SpellLevel → Count)
-> > >   - `CantripsKnown` (int32)
-> > >   - `SpellsPrepared` (int32, se aplicável)
-> > >
-> > - Updaters para recalcular quando classe/nível muda
-> >
-> > > **Dependências:**
-> >
-> > > - ✅ Fase 1 (Sistema de Fichas) - Para ability scores e modifiers
-> > > - ✅ CalculateProficiencyBonus (já implementado)
-> >
-> > > **Entregáveis:**
-> >
-> > > - SpellcastingHelpers completo com testes
-> > > - Cálculos de Spell Save DC, Spell Attack, Spell Slots
-> > > - Suporte a multiclassing spell slots
-> > > - Integração com CharacterSheetDataAsset
+> > > > - 📋 Adicionar campos calculados:
+> > > >   - `SpellSaveDC` (calculado)
+> > > >   - `SpellAttackModifier` (calculado)
+> > > >   - `SpellSlots` (TMap<int32, int32> - SpellLevel → Count)
+> > > >   - `CantripsKnown` (int32)
+> > > >   - `SpellsPrepared` (int32, se aplicável)
+> > > >   - Updaters para recalcular quando classe/nível muda
+> > > >
+> > > > **Dependências:**
+> > > >
+> > > > - ✅ Fase 1 (Sistema de Fichas) - Para ability scores e modifiers
+> > > > - ✅ CalculateProficiencyBonus (já implementado)
+> > > >
+> > > > **Entregáveis:**
+> > > >
+> > > > - SpellcastingHelpers completo com testes
+> > > > - Cálculos de Spell Save DC, Spell Attack, Spell Slots
+> > > > - Suporte a multiclassing spell slots
+> > > > - Integração com CharacterSheetDataAsset
+>
+> > > </details>
 >
 > > </details>
 >
@@ -346,80 +374,82 @@
 > >
 > > > **Tarefas (TDD obrigatório):**
 > >
-> > > **1. ASIHelpers (Utils/ASIHelpers.h/cpp) - 🧪 TDD**
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🧪 1. ASIHelpers (Utils/ASIHelpers.h/cpp) - 🧪 TDD</summary>
 > >
-> > > - 📋 **GetASILevelsForClass()** - 🧪 TDD
-> > >   - Retorna níveis que concedem ASI para uma classe
-> > >   - Padrão: 4, 8, 12, 16, 19
-> > >   - Exceções: Fighter/Rogue recebem extras (6, 10, 14)
-> > >   - Parâmetros: `FName ClassName`
-> > >   - Retorno: `TArray<int32>` (níveis com ASI)
-> > >
-> > - **Testes:** Todas as classes, Fighter/Rogue extras, classe inválida
+> > > > - 📋 **GetASILevelsForClass()** - 🧪 TDD
+> > > >   - Retorna níveis que concedem ASI para uma classe
+> > > >   - Padrão: 4, 8, 12, 16, 19
+> > > >   - Exceções: Fighter/Rogue recebem extras (6, 10, 14)
+> > > >   - Parâmetros: `FName ClassName`
+> > > >   - Retorno: `TArray<int32>` (níveis com ASI)
+> > > >   - **Testes:** Todas as classes, Fighter/Rogue extras, classe inválida
+> > > >
+> > > > - 📋 **CanTakeASIAtLevel()** - 🧪 TDD
+> > > >   - Verifica se personagem pode tomar ASI em um nível específico
+> > > >   - Considera nível total e classe específica
+> > > >   - Parâmetros: `int32 TotalLevel, FName ClassName, int32 ClassLevel`
+> > > >   - Retorno: `bool`
+> > > >   - **Testes:** Níveis válidos, níveis inválidos, multiclasse
+> > > >
+> > > > - 📋 **GetASIOptions()** - 🧪 TDD
+> > > >   - Retorna opções de ASI disponíveis
+> > > >   - Opção 1: +2 em um atributo
+> > > >   - Opção 2: +1 em dois atributos
+> > > >   - Parâmetros: `TMap<FName, int32> CurrentAbilityScores`
+> > > >   - Retorno: `TArray<FASIOption>` (estrutura com opções)
+> > > >   - **Testes:** Validação de máximo (20), opções válidas, edge cases
+> > > >
+> > > > - 📋 **ValidateASISelection()** - 🧪 TDD
+> > > >   - Valida seleção de ASI
+> > > >   - Verifica se não excede máximo (20)
+> > > >   - Verifica se opção é válida (+2 em um OU +1 em dois)
+> > > >   - Parâmetros: `FASIOption SelectedOption, TMap<FName, int32> CurrentAbilityScores`
+> > > >   - Retorno: `bool`
+> > > >   - **Testes:** Seleções válidas, inválidas, máximo atingido
+>
+> > > </details>
 > >
-> > > - 📋 **CanTakeASIAtLevel()** - 🧪 TDD
-> > >   - Verifica se personagem pode tomar ASI em um nível específico
-> > >   - Considera nível total e classe específica
-> > >   - Parâmetros: `int32 TotalLevel, FName ClassName, int32 ClassLevel`
-> > >   - Retorno: `bool`
-> > >
-> > - **Testes:** Níveis válidos, níveis inválidos, multiclasse
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📋 2. ASIStructs (Data/Structures/FASIStructs.h)</summary>
 > >
-> > > - 📋 **GetASIOptions()** - 🧪 TDD
-> > >   - Retorna opções de ASI disponíveis
-> > >   - Opção 1: +2 em um atributo
-> > >   - Opção 2: +1 em dois atributos
-> > >
-> > - Parâmetros: `TMap<FName, int32> CurrentAbilityScores`
-> > >
-> > > - Retorno: `TArray<FASIOption>` (estrutura com opções)
-> > >
-> > - **Testes:** Validação de máximo (20), opções válidas, edge cases
+> > > > - 📋 Criar estruturas:
+> > > >   - `FASIOption` (tipo: +2 em um OU +1 em dois)
+> > > >   - `FASIEntry` (nível, classe, opção selecionada)
+>
+> > > </details>
 > >
-> > > - 📋 **ValidateASISelection()** - 🧪 TDD
-> > >   - Valida seleção de ASI
-> > >   - Verifica se não excede máximo (20)
-> > >   - Verifica se opção é válida (+2 em um OU +1 em dois)
-> > >
-> > - Parâmetros: `FASIOption SelectedOption, TMap<FName, int32> CurrentAbilityScores`
-> > >
-> > > - Retorno: `bool`
-> > >
-> > - **Testes:** Seleções válidas, inválidas, máximo atingido
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🧪 3. Testes Automatizados (Utils/Tests/ASIHelpersTests.cpp) - 🧪 TDD</summary>
 > >
-> > > **2. ASIStructs (Data/Structures/FASIStructs.h)**
+> > > > - 📋 Testes para todas as funções acima
+> > > >   - Casos válidos
+> > > >   - Edge cases
+> > > >   - Validação de regras D&D 5e
+> > > >   - **Estimativa:** 30-40 testes
+>
+> > > </details>
 > >
-> > > - 📋 Criar estruturas:
-> > >   - `FASIOption` (tipo: +2 em um OU +1 em dois)
-> > >   - `FASIEntry` (nível, classe, opção selecionada)
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔗 4. Integração com CharacterSheetDataAsset</summary>
 > >
-> > > **3. Testes Automatizados (Utils/Tests/ASIHelpersTests.cpp) - 🧪 TDD**
-> >
-> > > - 📋 Testes para todas as funções acima
-> > >   - Casos válidos
-> > >   - Edge cases
-> > >
-> > - Validação de regras D&D 5e
-> > - **Estimativa:** 30-40 testes
-> >
-> > > **4. Integração com CharacterSheetDataAsset**
-> >
-> > > - 📋 Adicionar campo:
-> > >   - `ASISelections` (TArray<FASIEntry>)
-> > >
-> > - Updaters para recalcular ability scores finais com ASIs
-> > - Handlers para processar seleção de ASI
-> >
-> > > **Dependências:**
-> >
-> > > - ✅ Fase 1 (Sistema de Fichas) - Para ability scores
-> > > - ✅ CalculateProficiencyBonus (já implementado)
-> >
-> > > **Entregáveis:**
-> >
-> > > - ASIHelpers completo com testes
-> > > - Sistema de seleção de ASI
-> > > - Integração com CharacterSheetDataAsset
+> > > > - 📋 Adicionar campo:
+> > > >   - `ASISelections` (TArray<FASIEntry>)
+> > > >   - Updaters para recalcular ability scores finais com ASIs
+> > > >   - Handlers para processar seleção de ASI
+> > > >
+> > > > **Dependências:**
+> > > >
+> > > > - ✅ Fase 1 (Sistema de Fichas) - Para ability scores
+> > > > - ✅ CalculateProficiencyBonus (já implementado)
+> > > >
+> > > > **Entregáveis:**
+> > > >
+> > > > - ASIHelpers completo com testes
+> > > > - Sistema de seleção de ASI
+> > > > - Integração com CharacterSheetDataAsset
+>
+> > > </details>
 >
 > > </details>
 >
@@ -434,90 +464,89 @@
 > >
 > > > **Tarefas (TDD obrigatório):**
 > >
-> > > **1. LevelUpMotor (CreateSheet/LevelUp/LevelUpMotor.h/cpp) - 🧪 TDD**
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🧪 1. LevelUpMotor (CreateSheet/LevelUp/LevelUpMotor.h/cpp) - 🧪 TDD</summary>
 > >
-> > > - 📋 **ProcessLevelUp()** - 🧪 TDD
-> > >   - Processa ganho de nível completo
-> > >   - Valida pré-requisitos
-> > >   - Aplica features do nível
-> > >   - Oferece escolhas (ASI, Feat, Features)
-> > >
-> > - Parâmetros: `FCharacterSheetData& Data, FName ClassName, int32 NewLevel`
-> > >
-> > > - Retorno: `FLevelUpResult` (estrutura com escolhas disponíveis)
-> > >
-> > - **Testes:** Level up válido, inválido, multiclasse, edge cases
+> > > > - 📋 **ProcessLevelUp()** - 🧪 TDD
+> > > >   - Processa ganho de nível completo
+> > > >   - Valida pré-requisitos
+> > > >   - Aplica features do nível
+> > > >   - Oferece escolhas (ASI, Feat, Features)
+> > > >   - Parâmetros: `FCharacterSheetData& Data, FName ClassName, int32 NewLevel`
+> > > >   - Retorno: `FLevelUpResult` (estrutura com escolhas disponíveis)
+> > > >   - **Testes:** Level up válido, inválido, multiclasse, edge cases
+> > > >
+> > > > - 📋 **GetAvailableChoicesAtLevel()** - 🧪 TDD
+> > > >   - Retorna escolhas disponíveis em um nível
+> > > >   - ASI (se nível apropriado)
+> > > >   - Feat (se nível apropriado)
+> > > >   - Features de classe (se houver)
+> > > >   - Parâmetros: `FName ClassName, int32 Level`
+> > > >   - Retorno: `TArray<FLevelUpChoice>`
+> > > >   - **Testes:** Todos os níveis, todas as classes, escolhas corretas
+> > > >
+> > > > - 📋 **ValidateLevelUpPrerequisites()** - 🧪 TDD
+> > > >   - Valida pré-requisitos para level up
+> > > >   - Verifica nível máximo (20)
+> > > >   - Verifica pré-requisitos de features
+> > > >   - Parâmetros: `FCharacterSheetData& Data, FName ClassName, int32 NewLevel`
+> > > >   - Retorno: `bool`
+> > > >   - **Testes:** Pré-requisitos válidos, inválidos, nível máximo
+>
+> > > </details>
 > >
-> > > - 📋 **GetAvailableChoicesAtLevel()** - 🧪 TDD
-> > >   - Retorna escolhas disponíveis em um nível
-> > >   - ASI (se nível apropriado)
-> > >   - Feat (se nível apropriado)
-> > >
-> > - Features de classe (se houver)
-> > - Parâmetros: `FName ClassName, int32 Level`
-> > >
-> > > - Retorno: `TArray<FLevelUpChoice>`
-> > >
-> > - **Testes:** Todos os níveis, todas as classes, escolhas corretas
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🧪 2. LevelUpHelpers (CreateSheet/LevelUp/LevelUpHelpers.h/cpp) - 🧪 TDD</summary>
 > >
-> > > - 📋 **ValidateLevelUpPrerequisites()** - 🧪 TDD
-> > >   - Valida pré-requisitos para level up
-> > >   - Verifica nível máximo (20)
-> > >   - Verifica pré-requisitos de features
-> > >
-> > - Parâmetros: `FCharacterSheetData& Data, FName ClassName, int32 NewLevel`
-> > >
-> > > - Retorno: `bool`
-> > >
-> > - **Testes:** Pré-requisitos válidos, inválidos, nível máximo
+> > > > - 📋 **CalculateHPGainForLevelUp()** - 🧪 TDD
+> > > >   - Calcula HP ganho ao subir de nível
+> > > >   - Usa CalculateHPGainForLevel (já existe)
+> > > >   - Parâmetros: `int32 HitDie, int32 NewLevel, int32 ConstitutionModifier`
+> > > >   - Retorno: `int32 HPGain`
+> > > >   - **Testes:** Todos os níveis, todos os hit dice, modificadores negativos
+> > > >
+> > > > - 📋 **GetFeaturesUnlockedAtLevel()** - 🧪 TDD
+> > > >   - Retorna features desbloqueadas em um nível específico
+> > > >   - Usa ClassDataTable
+> > > >   - Parâmetros: `FName ClassName, int32 Level, UDataTable* ClassDataTable`
+> > > >   - Retorno: `TArray<FDataTableRowHandle>` (FeatureHandles)
+> > > >   - **Testes:** Todos os níveis, todas as classes, features corretas
+>
+> > > </details>
 > >
-> > > **2. LevelUpHelpers (CreateSheet/LevelUp/LevelUpHelpers.h/cpp) - 🧪 TDD**
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🧪 3. Testes Automatizados (CreateSheet/LevelUp/Tests/LevelUpMotorTests.cpp) - 🧪 TDD</summary>
 > >
-> > > - 📋 **CalculateHPGainForLevelUp()** - 🧪 TDD
-> > >   - Calcula HP ganho ao subir de nível
-> > >   - Usa CalculateHPGainForLevel (já existe)
-> > >   - Parâmetros: `int32 HitDie, int32 NewLevel, int32 ConstitutionModifier`
-> > >   - Retorno: `int32 HPGain`
-> > >
-> > - **Testes:** Todos os níveis, todos os hit dice, modificadores negativos
+> > > > - 📋 Testes para todas as funções acima
+> > > >   - Casos válidos
+> > > >   - Edge cases
+> > > >   - Validação de regras D&D 5e
+> > > >   - **Estimativa:** 40-50 testes
+>
+> > > </details>
 > >
-> > > - 📋 **GetFeaturesUnlockedAtLevel()** - 🧪 TDD
-> > >   - Retorna features desbloqueadas em um nível específico
-> > >   - Usa ClassDataTable
-> > >   - Parâmetros: `FName ClassName, int32 Level, UDataTable* ClassDataTable`
-> > >   - Retorno: `TArray<FDataTableRowHandle>` (FeatureHandles)
-> > >
-> > - **Testes:** Todos os níveis, todas as classes, features corretas
+> > > <details>
+> > > <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔗 4. Integração com CharacterSheetDataAsset</summary>
 > >
-> > > **3. Testes Automatizados (CreateSheet/LevelUp/Tests/LevelUpMotorTests.cpp) - 🧪 TDD**
-> >
-> > > - 📋 Testes para todas as funções acima
-> > >   - Casos válidos
-> > >   - Edge cases
-> > >
-> > - Validação de regras D&D 5e
-> > - **Estimativa:** 40-50 testes
-> >
-> > > **4. Integração com CharacterSheetDataAsset**
-> >
-> > > - 📋 Handlers para processar level up
-> > >   - `HandleLevelUp()` - Processa level up completo
-> > >   - `HandleASISelection()` - Processa seleção de ASI
-> > >   - `HandleFeatSelection()` - Processa seleção de Feat
-> > >
-> > - Updaters para recalcular após level up
-> >
-> > > **Dependências:**
-> >
-> > > - ✅ Fase 1 (Sistema de Fichas) - Para estrutura base
-> > > - ✅ Fase 1.5.2 (ASI) - Para sistema de ASI
-> > > - ✅ CalculateHPGainForLevel (já implementado)
-> >
-> > > **Entregáveis:**
-> >
-> > > - LevelUpMotor completo com testes
-> > > - Sistema de level up funcional
-> > > - Integração com CharacterSheetDataAsset
+> > > > - 📋 Handlers para processar level up
+> > > >   - `HandleLevelUp()` - Processa level up completo
+> > > >   - `HandleASISelection()` - Processa seleção de ASI
+> > > >   - `HandleFeatSelection()` - Processa seleção de Feat
+> > > >   - Updaters para recalcular após level up
+> > > >
+> > > > **Dependências:**
+> > > >
+> > > > - ✅ Fase 1 (Sistema de Fichas) - Para estrutura base
+> > > > - ✅ Fase 1.5.2 (ASI) - Para sistema de ASI
+> > > > - ✅ CalculateHPGainForLevel (já implementado)
+> > > >
+> > > > **Entregáveis:**
+> > > >
+> > > > - LevelUpMotor completo com testes
+> > > > - Sistema de level up funcional
+> > > > - Integração com CharacterSheetDataAsset
+>
+> > > </details>
 >
 > > </details>
 >
@@ -538,12 +567,11 @@
 > > > - 📋 Corrigir valores esperados em `CalculationHelpersTests.cpp`
 > > >   - Nível 1: Esperado 2 (não 1)
 > > >   - Nível 5: Esperado 3 (não 2)
+> > >   - Nível 9: Esperado 4 (não 3)
+> > >   - Nível 13: Esperado 5 (não 4)
+> > >   - Nível 17: Esperado 6 (não 5)
+> > >   - Nível 20: Esperado 6 (não 5)
 > > >
-> > - Nível 9: Esperado 4 (não 3)
-> > - Nível 13: Esperado 5 (não 4)
-> > - Nível 17: Esperado 6 (não 5)
-> > - Nível 20: Esperado 6 (não 5)
-> >
 > > > **Dependências:**
 > >
 > > > - ✅ Código já está correto
@@ -1002,38 +1030,47 @@
 <details open>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Ações Imediatas</b></summary>
 
-> **1. Finalizar Fase 1 (Sistema de Fichas):**
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">1. Finalizar Fase 1 (Sistema de Fichas)</summary>
 >
-> - ✅ ValidateMulticlassRequirements implementado em FMulticlassValidators
-> - ✅ MulticlassMotor funcional (GetAvailableClasses, LoadClassProficiencies, LoadClassProgression)
-> - ✅ **Testes unitários de helpers críticos (275+ testes implementados)**
-> - ⚠️ Testes de integração end-to-end completos
-> - ⚠️ Validar criação de feat no editor
-> - ⚠️ **Corrigir testes de Proficiency Bonus** (valores esperados incorretos)
-> - 📋 Implementar sistema de itens iniciais
-> - 📋 Criar boilerplate de inventário (estruturas modulares)
+> > - ✅ ValidateMulticlassRequirements implementado em FMulticlassValidators
+> > - ✅ MulticlassMotor funcional (GetAvailableClasses, LoadClassProficiencies, LoadClassProgression)
+> > - ✅ **Testes unitários de helpers críticos (275+ testes implementados)**
+> > - ⚠️ Testes de integração end-to-end completos
+> > - ⚠️ Validar criação de feat no editor
+> > - ⚠️ **Corrigir testes de Proficiency Bonus** (valores esperados incorretos)
+> > - 📋 Implementar sistema de itens iniciais
+> > - 📋 Criar boilerplate de inventário (estruturas modulares)
 >
-> **2. Iniciar Fase 1.5 (Melhorias D&D 5e):**
+> </details>
 >
-> - 📋 **Fase 1.5.1:** Sistema de Spellcasting (🧪 TDD obrigatório)
->   - Criar SpellcastingHelpers com todas as funções
->   - Testes para todas as funções (50-70 testes)
->   - Integração com CharacterSheetDataAsset
-> - 📋 **Fase 1.5.2:** Sistema de ASI (🧪 TDD obrigatório)
->   - Criar ASIHelpers com todas as funções
->   - Testes para todas as funções (30-40 testes)
->   - Integração com CharacterSheetDataAsset
-> - 📋 **Fase 1.5.3:** Level Up System Completo (🧪 TDD obrigatório)
->   - Criar LevelUpMotor e LevelUpHelpers
->   - Testes para todas as funções (40-50 testes)
->   - Integração com CharacterSheetDataAsset
-> - ⚠️ **Fase 1.5.4:** Correção de Testes Proficiency Bonus (2-4 horas)
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">2. Iniciar Fase 1.5 (Melhorias D&D 5e)</summary>
 >
-> **3. Preparação para Fase 2:**
+> > - 📋 **Fase 1.5.1:** Sistema de Spellcasting (🧪 TDD obrigatório)
+> >   - Criar SpellcastingHelpers com todas as funções
+> >   - Testes para todas as funções (50-70 testes)
+> >   - Integração com CharacterSheetDataAsset
+> > - 📋 **Fase 1.5.2:** Sistema de ASI (🧪 TDD obrigatório)
+> >   - Criar ASIHelpers com todas as funções
+> >   - Testes para todas as funções (30-40 testes)
+> >   - Integração com CharacterSheetDataAsset
+> > - 📋 **Fase 1.5.3:** Level Up System Completo (🧪 TDD obrigatório)
+> >   - Criar LevelUpMotor e LevelUpHelpers
+> >   - Testes para todas as funções (40-50 testes)
+> >   - Integração com CharacterSheetDataAsset
+> > - ⚠️ **Fase 1.5.4:** Correção de Testes Proficiency Bonus (2-4 horas)
 >
-> - 📋 Estudar documentação oficial do GAS
-> - 📋 Revisar padrões do Ali Elzoheiry (já integrados na arquitetura)
-
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">3. Preparação para Fase 2</summary>
+>
+> > - 📋 Estudar documentação oficial do GAS
+> > - 📋 Revisar padrões do Ali Elzoheiry (já integrados na arquitetura)
+>
+> </details>
+>
 </details>
 
 ---
@@ -1056,7 +1093,7 @@
 > - **[Índice de Documentação](../index.md)** - Organização completa
 > - **[Plano Técnico: Itens Iniciais](roadmap-tecnico-itens-iniciais.md)** - Implementação detalhada
 > - **[Plano Técnico: Boilerplate de Inventário](roadmap-tecnico-inventario-boilerplate.md)** - Estruturas modulares
-
+>
 </details>
 
 ---

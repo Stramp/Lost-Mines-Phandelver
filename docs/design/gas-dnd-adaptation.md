@@ -1002,6 +1002,6 @@
 
 ---
 
-**Última atualização:** 2024-12-XX
+**Última atualização:** 2024-12-27
 **Versão:** 1.0.0
 **Autor:** MyProject2 Team

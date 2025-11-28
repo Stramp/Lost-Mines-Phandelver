@@ -107,10 +107,10 @@ FDataTableValidationResult FDataTableIntegrityValidator::ValidateAllDataTables(U
         {
             if (const FClassDataRow* ClassRow = reinterpret_cast<const FClassDataRow*>(Pair.Value))
             {
-                for (int32 i = 0; i < ClassRow->FClass.Skills.AvailableSkillHandles.Num(); ++i)
+                for (int32 i = 0; i < ClassRow->AvailableSkillHandles.Num(); ++i)
                 {
                     FString Context = FString::Printf(TEXT("ClassDataTable[%s].AvailableSkillHandles[%d]"), *Pair.Key.ToString(), i);
-                    FDataTableValidationResult HandleResult = ValidateHandle(ClassRow->FClass.Skills.AvailableSkillHandles[i], Context);
+                    FDataTableValidationResult HandleResult = ValidateHandle(ClassRow->AvailableSkillHandles[i], Context);
                     if (!HandleResult.bIsValid)
                     {
                         Result.Errors.Append(HandleResult.Errors);

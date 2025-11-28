@@ -52,17 +52,21 @@ public:
             return nullptr;
         }
 
+        UDataTable* DataTable = Handle.DataTable.Get();
+        if (!DataTable)
+        {
+            return nullptr;
+        }
+
         // Verificar cache
-        FHandleKey CacheKey;
-        CacheKey.DataTable = Handle.DataTable;
-        CacheKey.RowName = Handle.RowName;
+        FHandleKey CacheKey(DataTable, Handle.RowName);
         if (const void** CachedPtr = GetCache().Find(CacheKey))
         {
             return static_cast<const RowType*>(*CachedPtr);
         }
 
         // Resolver e cachear
-        const RowType* Row = Handle.DataTable->FindRow<RowType>(Handle.RowName, TEXT("FDataTableCache::GetCachedRow"));
+        const RowType* Row = DataTable->FindRow<RowType>(Handle.RowName, TEXT("FDataTableCache::GetCachedRow"));
         if (Row)
         {
             GetCache().Add(CacheKey, Row);
