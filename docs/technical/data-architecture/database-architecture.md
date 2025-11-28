@@ -354,6 +354,5 @@
 
 ---
 
-**Última atualização:** 2024-12-26  
+**Última atualização:** 2024-12-26
 **Versão:** 1.0
-

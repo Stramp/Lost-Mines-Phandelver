@@ -89,7 +89,7 @@ def migrate_class_entry(class_entry):
 
     new_entry = {
         "Name": class_entry.get("Name", ""),
-        "ClassID": class_id,
+        "ID": class_id,
         "TypeTags": type_tags,
         "FClass": {
             "Name": class_name,

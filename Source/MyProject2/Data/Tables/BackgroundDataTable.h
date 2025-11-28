@@ -78,8 +78,8 @@ struct MYPROJECT2_API FBackgroundDataRow : public FTableRowBase
     FText FeatureDescription;
 
     FBackgroundDataRow()
-        : ID(NAME_None)
-        , Name(NAME_None)
+        : Name(NAME_None)
+        , ID(NAME_None)
     {
     }
 };

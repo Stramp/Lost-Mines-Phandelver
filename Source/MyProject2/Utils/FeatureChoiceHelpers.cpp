@@ -35,7 +35,7 @@
  */
 static const FFeatureDataRow *FindFeatureRowByID(const UDataTable *FeatureDataTable, FName FeatureID)
 {
-    if (!FeatureDataTable || FeatureFC_ID == NAME_None)
+    if (!FeatureDataTable || FeatureID == NAME_None)
     {
         return nullptr;
     }

@@ -243,7 +243,6 @@
   },
   {
     "Name": "Class_Wizard",
-    "ClassID": "CLASS_Wizard",
     "TypeTags": [
       "Class.Wizard",
       "Class.Spellcaster"
@@ -413,11 +412,11 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 40
+    "StartingGold": 40,
+    "ID": "CLASS_Wizard"
   },
   {
     "Name": "Class_Barbarian",
-    "ClassID": "CLASS_Barbarian",
     "TypeTags": [
       "Class.Barbarian",
       "Class.Martial"
@@ -602,11 +601,11 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "ID": "CLASS_Barbarian"
   },
   {
     "Name": "Class_Bard",
-    "ClassID": "CLASS_Bard",
     "TypeTags": [
       "Class.Bard",
       "Class.Spellcaster"
@@ -835,11 +834,11 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "ID": "CLASS_Bard"
   },
   {
     "Name": "Class_Cleric",
-    "ClassID": "CLASS_Cleric",
     "TypeTags": [
       "Class.Cleric",
       "Class.Spellcaster"
@@ -1009,11 +1008,11 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "ID": "CLASS_Cleric"
   },
   {
     "Name": "Class_Druid",
-    "ClassID": "CLASS_Druid",
     "TypeTags": [
       "Class.Druid",
       "Class.Spellcaster"
@@ -1202,11 +1201,11 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "ID": "CLASS_Druid"
   },
   {
     "Name": "Class_Monk",
-    "ClassID": "CLASS_Monk",
     "TypeTags": [
       "Class.Monk",
       "Class.Martial"
@@ -1396,11 +1395,11 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "ID": "CLASS_Monk"
   },
   {
     "Name": "Class_Paladin",
-    "ClassID": "CLASS_Paladin",
     "TypeTags": [
       "Class.Paladin",
       "Class.Martial",
@@ -1587,11 +1586,11 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "ID": "CLASS_Paladin"
   },
   {
     "Name": "Class_Ranger",
-    "ClassID": "CLASS_Ranger",
     "TypeTags": [
       "Class.Ranger",
       "Class.Martial",
@@ -1777,11 +1776,11 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "ID": "CLASS_Ranger"
   },
   {
     "Name": "Class_Rogue",
-    "ClassID": "CLASS_Rogue",
     "TypeTags": [
       "Class.Rogue",
       "Class.Martial"
@@ -1989,11 +1988,11 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "ID": "CLASS_Rogue"
   },
   {
     "Name": "Class_Sorcerer",
-    "ClassID": "CLASS_Sorcerer",
     "TypeTags": [
       "Class.Sorcerer",
       "Class.Spellcaster"
@@ -2167,11 +2166,11 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "ID": "CLASS_Sorcerer"
   },
   {
     "Name": "Class_Warlock",
-    "ClassID": "CLASS_Warlock",
     "TypeTags": [
       "Class.Warlock",
       "Class.Spellcaster"
@@ -2360,6 +2359,7 @@
       }
     ],
     "StartingEquipment": [],
-    "StartingGold": 0
+    "StartingGold": 0,
+    "ID": "CLASS_Warlock"
   }
 ]
