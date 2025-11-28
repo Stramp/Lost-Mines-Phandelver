@@ -22,13 +22,13 @@ struct MYPROJECT2_API FConditionDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** ID único da condição (ex: "COND_Blinded", "COND_Poisoned") */
+    /** Nome da condição (ex: "Blinded", "Poisoned", "Charmed") - Key Field */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Condition")
-    FName ConditionID;
+    FName Name;
 
-    /** Nome da condição (ex: "Blinded", "Poisoned") */
+    /** ID único da condição (ex: "CON_Blinded", "CON_Poisoned", "CON_Charmed") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Condition")
-    FText ConditionName;
+    FName ID;
 
     /** Descrição da condição (localizável) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Condition")
@@ -39,7 +39,8 @@ struct MYPROJECT2_API FConditionDataRow : public FTableRowBase
     FGameplayTagContainer TypeTags;
 
     FConditionDataRow()
-        : ConditionID(NAME_None)
+        : Name(NAME_None)
+        , ID(NAME_None)
     {
     }
 };

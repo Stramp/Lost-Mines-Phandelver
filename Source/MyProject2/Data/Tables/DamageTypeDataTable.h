@@ -22,13 +22,13 @@ struct MYPROJECT2_API FDamageTypeDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** ID único do tipo de dano (ex: "DMG_Fire", "DMG_Cold") */
+    /** Nome do tipo de dano (ex: "Fire", "Cold", "Lightning") - Key Field */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage Type")
-    FName DamageTypeID;
+    FName Name;
 
-    /** Nome do tipo de dano (ex: "Fire", "Cold") */
+    /** ID único do tipo de dano (ex: "DAM_Fire", "DAM_Cold", "DAM_Lightning") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage Type")
-    FText DamageTypeName;
+    FName ID;
 
     /** Descrição do tipo de dano (localizável) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage Type")
@@ -39,7 +39,8 @@ struct MYPROJECT2_API FDamageTypeDataRow : public FTableRowBase
     FGameplayTagContainer TypeTags;
 
     FDamageTypeDataRow()
-        : DamageTypeID(NAME_None)
+        : Name(NAME_None)
+        , ID(NAME_None)
     {
     }
 };

@@ -22,13 +22,13 @@ struct MYPROJECT2_API FSpellSchoolDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** ID único da escola (ex: "SCH_Abjuration", "SCH_Evocation") */
+    /** Nome da escola (ex: "Abjuration", "Evocation", "Necromancy") - Key Field */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spell School")
-    FName SchoolID;
+    FName Name;
 
-    /** Nome da escola (ex: "Abjuration", "Evocation") */
+    /** ID único da escola (ex: "SCH_Abjuration", "SCH_Evocation", "SCH_Necromancy") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spell School")
-    FText SchoolName;
+    FName ID;
 
     /** Descrição da escola (localizável) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spell School")
@@ -39,7 +39,8 @@ struct MYPROJECT2_API FSpellSchoolDataRow : public FTableRowBase
     FGameplayTagContainer TypeTags;
 
     FSpellSchoolDataRow()
-        : SchoolID(NAME_None)
+        : Name(NAME_None)
+        , ID(NAME_None)
     {
     }
 };

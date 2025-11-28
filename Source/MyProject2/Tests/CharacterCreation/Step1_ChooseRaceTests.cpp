@@ -96,7 +96,7 @@ void Step1ChooseRaceSpec::Define()
 
             // ✅ Clean Code: Setup organizado e testável
             // ✅ TDD: Mocks criados com dados conhecidos (valores hardcoded)
-            // ✅ D&D Rules: IDs corretos (TraitID, LanguageID, AbilityID)
+            // ✅ D&D Rules: IDs corretos (ID para todas as estruturas)
 
             // Criar RaceDataTable mock (vazio inicialmente, será preenchido depois)
             TestRaceDataTable = NewObject<UDataTable>();
@@ -108,34 +108,34 @@ void Step1ChooseRaceSpec::Define()
 
             // Criar traits para Elf
             FTraitDataRow* DarkvisionTrait = new FTraitDataRow();
-            DarkvisionTrait->TraitID = TEXT("TR_Darkvision");
-            DarkvisionTrait->TraitName = FText::FromString(TEXT("Darkvision"));
-            TestTraitDataTable->AddRow(TEXT("TR_Darkvision"), *DarkvisionTrait);
+            DarkvisionTrait->Name = TEXT("Darkvision");
+            DarkvisionTrait->ID = TEXT("TR_Darkvision");
+            TestTraitDataTable->AddRow(TEXT("Darkvision"), *DarkvisionTrait);
             delete DarkvisionTrait;
 
             FTraitDataRow* FeyAncestryTrait = new FTraitDataRow();
-            FeyAncestryTrait->TraitID = TEXT("TR_FeyAncestry");
-            FeyAncestryTrait->TraitName = FText::FromString(TEXT("Fey Ancestry"));
-            TestTraitDataTable->AddRow(TEXT("TR_FeyAncestry"), *FeyAncestryTrait);
+            FeyAncestryTrait->Name = TEXT("Fey Ancestry");
+            FeyAncestryTrait->ID = TEXT("TR_FeyAncestry");
+            TestTraitDataTable->AddRow(TEXT("Fey Ancestry"), *FeyAncestryTrait);
             delete FeyAncestryTrait;
 
             FTraitDataRow* TranceTrait = new FTraitDataRow();
-            TranceTrait->TraitID = TEXT("TR_Trance");
-            TranceTrait->TraitName = FText::FromString(TEXT("Trance"));
-            TestTraitDataTable->AddRow(TEXT("TR_Trance"), *TranceTrait);
+            TranceTrait->Name = TEXT("Trance");
+            TranceTrait->ID = TEXT("TR_Trance");
+            TestTraitDataTable->AddRow(TEXT("Trance"), *TranceTrait);
             delete TranceTrait;
 
             FTraitDataRow* KeenSensesTrait = new FTraitDataRow();
-            KeenSensesTrait->TraitID = TEXT("TR_KeenSenses");
-            KeenSensesTrait->TraitName = FText::FromString(TEXT("Keen Senses"));
-            TestTraitDataTable->AddRow(TEXT("TR_KeenSenses"), *KeenSensesTrait);
+            KeenSensesTrait->Name = TEXT("Keen Senses");
+            KeenSensesTrait->ID = TEXT("TR_KeenSenses");
+            TestTraitDataTable->AddRow(TEXT("Keen Senses"), *KeenSensesTrait);
             delete KeenSensesTrait;
 
             // Criar trait para High Elf
             FTraitDataRow* CantripTrait = new FTraitDataRow();
-            CantripTrait->TraitID = TEXT("TR_Cantrip");
-            CantripTrait->TraitName = FText::FromString(TEXT("Cantrip"));
-            TestTraitDataTable->AddRow(TEXT("TR_Cantrip"), *CantripTrait);
+            CantripTrait->Name = TEXT("Cantrip");
+            CantripTrait->ID = TEXT("TR_Cantrip");
+            TestTraitDataTable->AddRow(TEXT("Cantrip"), *CantripTrait);
             delete CantripTrait;
 
             // Criar LanguageDataTable mock com dados de teste
@@ -143,21 +143,21 @@ void Step1ChooseRaceSpec::Define()
             TestLanguageDataTable->RowStruct = FLanguageDataRow::StaticStruct();
 
             FLanguageDataRow* CommonLanguage = new FLanguageDataRow();
-            CommonLanguage->LanguageID = TEXT("PL_Common");
-            CommonLanguage->LanguageName = FText::FromString(TEXT("Common"));
-            TestLanguageDataTable->AddRow(TEXT("PL_Common"), *CommonLanguage);
+            CommonLanguage->Name = TEXT("Common");
+            CommonLanguage->ID = TEXT("PL_Common");
+            TestLanguageDataTable->AddRow(TEXT("Common"), *CommonLanguage);
             delete CommonLanguage;
 
             FLanguageDataRow* ElvishLanguage = new FLanguageDataRow();
-            ElvishLanguage->LanguageID = TEXT("PL_Elvish");
-            ElvishLanguage->LanguageName = FText::FromString(TEXT("Elvish"));
-            TestLanguageDataTable->AddRow(TEXT("PL_Elvish"), *ElvishLanguage);
+            ElvishLanguage->Name = TEXT("Elvish");
+            ElvishLanguage->ID = TEXT("PL_Elvish");
+            TestLanguageDataTable->AddRow(TEXT("Elvish"), *ElvishLanguage);
             delete ElvishLanguage;
 
             FLanguageDataRow* DwarvishLanguage = new FLanguageDataRow();
-            DwarvishLanguage->LanguageID = TEXT("PL_Dwarvish");
-            DwarvishLanguage->LanguageName = FText::FromString(TEXT("Dwarvish"));
-            TestLanguageDataTable->AddRow(TEXT("PL_Dwarvish"), *DwarvishLanguage);
+            DwarvishLanguage->Name = TEXT("Dwarvish");
+            DwarvishLanguage->ID = TEXT("PL_Dwarvish");
+            TestLanguageDataTable->AddRow(TEXT("Dwarvish"), *DwarvishLanguage);
             delete DwarvishLanguage;
 
             // Criar rows de RaceDataTable com estrutura nova (usando handles)
@@ -303,17 +303,17 @@ void Step1ChooseRaceSpec::Define()
                                      TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
 
                                      // Assert
-                                     // ✅ TDD CORRETO: Valores hardcoded (TraitID conhecidos)
+                                     // ✅ TDD CORRETO: Valores hardcoded (ID conhecidos)
                                      TestTrue(TEXT("RaceTraits deve conter traits de Elf"),
                                               TestDataComponent->RaceTraits.Num() > 0);
                                      TestTrue(TEXT("RaceTraits deve conter TR_Darkvision"),
-                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Darkvision"))); // ✅ TraitID, não TraitName
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Darkvision"))); // ✅ ID
                                      TestTrue(TEXT("RaceTraits deve conter TR_FeyAncestry"),
-                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_FeyAncestry"))); // ✅ TraitID
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_FeyAncestry"))); // ✅ ID
                                      TestTrue(TEXT("RaceTraits deve conter TR_Trance"),
-                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Trance"))); // ✅ TraitID
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Trance"))); // ✅ ID
                                      TestTrue(TEXT("RaceTraits deve conter TR_KeenSenses"),
-                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_KeenSenses"))); // ✅ TraitID
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_KeenSenses"))); // ✅ ID
                                  });
 
                               It("deve aplicar racial traits da subrace quando selecionada",
@@ -330,14 +330,14 @@ void Step1ChooseRaceSpec::Define()
                                      TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
 
                                      // Assert
-                                     // ✅ TDD CORRETO: Valores hardcoded (TraitID conhecidos)
+                                     // ✅ TDD CORRETO: Valores hardcoded (ID conhecidos)
                                      TestTrue(TEXT("RaceTraits deve conter traits de High Elf"),
                                               TestDataComponent->RaceTraits.Num() > 0);
                                      TestTrue(TEXT("RaceTraits deve conter TR_Cantrip de High Elf"),
-                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Cantrip"))); // ✅ TraitID
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Cantrip"))); // ✅ ID
                                      // Também deve conter traits da raça base
                                      TestTrue(TEXT("RaceTraits deve conter TR_Darkvision da raça base"),
-                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Darkvision"))); // ✅ TraitID
+                                              TestDataComponent->RaceTraits.Contains(TEXT("TR_Darkvision"))); // ✅ ID
                                  });
                           });
 
@@ -499,13 +499,13 @@ void Step1ChooseRaceSpec::Define()
 
                                      // ✅ TDD CORRETO: Assert - Verifica que Languages foi PREENCHIDO
                                      // Se não implementar, este teste FALHA (Languages estará vazio)
-                                     // ✅ TDD CORRETO: Valores hardcoded (LanguageID conhecidos)
+                                     // ✅ TDD CORRETO: Valores hardcoded (ID conhecidos)
                                      TestTrue(TEXT("Sistema DEVE calcular languages (não apenas copiar)"),
                                               TestDataComponent->Languages.Num() > 0);
                                      TestTrue(TEXT("Sistema DEVE carregar PL_Common do DataTable"),
-                                              TestDataComponent->Languages.Contains(TEXT("PL_Common"))); // ✅ LanguageID
+                                              TestDataComponent->Languages.Contains(TEXT("PL_Common"))); // ✅ ID
                                      TestTrue(TEXT("Sistema DEVE carregar PL_Elvish do DataTable"),
-                                              TestDataComponent->Languages.Contains(TEXT("PL_Elvish"))); // ✅ LanguageID
+                                              TestDataComponent->Languages.Contains(TEXT("PL_Elvish"))); // ✅ ID
                                  });
 
                               It("deve carregar languages opcionais escolhidos + languages automáticos",
@@ -525,11 +525,11 @@ void Step1ChooseRaceSpec::Define()
 
                                      // ✅ TDD CORRETO: Assert - Verifica que sistema CARREGOU languages
                                      // Se não implementar, este teste FALHA
-                                     // ✅ TDD CORRETO: Valores hardcoded (LanguageID conhecidos)
+                                     // ✅ TDD CORRETO: Valores hardcoded (ID conhecidos)
                                      TestTrue(TEXT("Sistema DEVE carregar language opcional escolhido"),
                                               TestDataComponent->Languages.Contains(TEXT("Draconic"))); // Language escolhido pelo jogador
                                      TestTrue(TEXT("Sistema DEVE carregar languages automáticos da raça"),
-                                              TestDataComponent->Languages.Contains(TEXT("PL_Common"))); // ✅ LanguageID
+                                              TestDataComponent->Languages.Contains(TEXT("PL_Common"))); // ✅ ID
                                  });
                           });
 

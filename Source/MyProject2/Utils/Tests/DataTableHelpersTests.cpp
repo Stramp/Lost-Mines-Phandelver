@@ -255,7 +255,7 @@ void DataTableHelpersSpec::Define()
                         TestClassDataTable->RowStruct = FClassDataRow::StaticStruct();
 
                         FClassDataRow *TestClassRow = new FClassDataRow();
-                        TestClassRow->FClass.Name = TEXT("Fighter");
+                        TestClassRow->ClassName = TEXT("Fighter");
                         TestClassDataTable->AddRow(TEXT("Fighter"), *TestClassRow);
 
                         // Act
@@ -265,7 +265,7 @@ void DataTableHelpersSpec::Define()
                         TestNotNull("Should return row when ClassName exists", Result);
                         if (Result)
                         {
-                            TestTrue("ClassName should match", Result->FClass.Name == TEXT("Fighter"));
+                            TestTrue("ClassName should match", Result->ClassName == TEXT("Fighter"));
                         }
 
                         // Cleanup

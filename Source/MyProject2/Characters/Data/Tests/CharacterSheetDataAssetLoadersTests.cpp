@@ -172,7 +172,7 @@ void CharacterSheetDataAssetLoadersSpec::Define()
                         UDataTable* ClassDataTable = NewObject<UDataTable>();
                         ClassDataTable->RowStruct = FClassDataRow::StaticStruct();
                         FClassDataRow* TestClassRow = new FClassDataRow();
-                        TestClassRow->FClass.Name = TEXT("Test Class");
+                        TestClassRow->ClassName = TEXT("Test Class");
                         ClassDataTable->AddRow(TEXT("TestClass"), *TestClassRow);
                         delete TestClassRow;
 
@@ -193,15 +193,17 @@ void CharacterSheetDataAssetLoadersSpec::Define()
                         UDataTable* TraitDataTable = NewObject<UDataTable>();
                         TraitDataTable->RowStruct = FTraitDataRow::StaticStruct();
                         FTraitDataRow* TestTraitRow = new FTraitDataRow();
-                        TestTraitRow->TraitID = TEXT("TR_TestTrait");
-                        TraitDataTable->AddRow(TEXT("TR_TestTrait"), *TestTraitRow);
+                        TestTraitRow->Name = TEXT("Test Trait");
+                        TestTraitRow->ID = TEXT("TR_TestTrait");
+                        TraitDataTable->AddRow(TEXT("Test Trait"), *TestTraitRow);
                         delete TestTraitRow;
 
                         UDataTable* LanguageDataTable = NewObject<UDataTable>();
                         LanguageDataTable->RowStruct = FLanguageDataRow::StaticStruct();
                         FLanguageDataRow* TestLanguageRow = new FLanguageDataRow();
-                        TestLanguageRow->LanguageID = TEXT("PL_TestLanguage");
-                        LanguageDataTable->AddRow(TEXT("PL_TestLanguage"), *TestLanguageRow);
+                        TestLanguageRow->Name = TEXT("Test Language");
+                        TestLanguageRow->ID = TEXT("PL_TestLanguage");
+                        LanguageDataTable->AddRow(TEXT("Test Language"), *TestLanguageRow);
                         delete TestLanguageRow;
 
                         // Configurar todas as Data Tables no Asset

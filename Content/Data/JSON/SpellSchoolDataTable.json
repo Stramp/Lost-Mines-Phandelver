@@ -1,0 +1,66 @@
+[
+  {
+    "Name": "Abjuration",
+    "ID": "SCH_Abjuration",
+    "TypeTags": [
+      "SpellSchool.Abjuration"
+    ],
+    "Description": "Abjuration spells are protective in nature, though some of them have aggressive uses. They create magical barriers, negate harmful effects, harm trespassers, or banish creatures to other planes of existence."
+  },
+  {
+    "Name": "Conjuration",
+    "ID": "SCH_Conjuration",
+    "TypeTags": [
+      "SpellSchool.Conjuration"
+    ],
+    "Description": "Conjuration spells involve the transportation of objects and creatures from one location to another. Some spells summon creatures or objects to the caster's side, whereas others allow the caster to teleport to another location."
+  },
+  {
+    "Name": "Divination",
+    "ID": "SCH_Divination",
+    "TypeTags": [
+      "SpellSchool.Divination"
+    ],
+    "Description": "Divination spells reveal information, whether in the form of secrets long forgotten, glimpses of the future, the locations of hidden things, the truth behind illusions, or visions of distant people or places."
+  },
+  {
+    "Name": "Enchantment",
+    "ID": "SCH_Enchantment",
+    "TypeTags": [
+      "SpellSchool.Enchantment"
+    ],
+    "Description": "Enchantment spells affect the minds of others, influencing or controlling their behavior. Such spells can make enemies see the caster as a friend, force creatures to take a course of action, or even control another creature like a puppet."
+  },
+  {
+    "Name": "Evocation",
+    "ID": "SCH_Evocation",
+    "TypeTags": [
+      "SpellSchool.Evocation"
+    ],
+    "Description": "Evocation spells manipulate magical energy to produce a desired effect. Some call up blasts of fire or lightning. Others channel positive energy to heal wounds."
+  },
+  {
+    "Name": "Illusion",
+    "ID": "SCH_Illusion",
+    "TypeTags": [
+      "SpellSchool.Illusion"
+    ],
+    "Description": "Illusion spells deceive the senses or minds of others. They cause people to see things that are not there, to miss things that are there, to hear phantom noises, or to remember things that never happened."
+  },
+  {
+    "Name": "Necromancy",
+    "ID": "SCH_Necromancy",
+    "TypeTags": [
+      "SpellSchool.Necromancy"
+    ],
+    "Description": "Necromancy spells manipulate the energies of life and death. Such spells can grant an extra reserve of life force, drain the life energy from another creature, create the undead, or even bring the dead back to life."
+  },
+  {
+    "Name": "Transmutation",
+    "ID": "SCH_Transmutation",
+    "TypeTags": [
+      "SpellSchool.Transmutation"
+    ],
+    "Description": "Transmutation spells change the properties of a creature, object, or environment. They might turn an enemy into a harmless creature, bolster the strength of an ally, make an object move at the caster's command, or enhance a creature's innate healing abilities to rapidly recover from injury."
+  }
+]

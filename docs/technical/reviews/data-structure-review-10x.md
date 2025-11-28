@@ -180,7 +180,6 @@ Após 10 revisões focadas, a arquitetura de dados está **correta e consistente
 
 ---
 
-**Data da Revisão:** 2024-12-XX  
-**Revisado por:** AI Assistant  
+**Data da Revisão:** 2024-12-XX
+**Revisado por:** AI Assistant
 **Status:** ✅ Completo
-

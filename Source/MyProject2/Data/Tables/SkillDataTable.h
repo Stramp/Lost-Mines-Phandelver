@@ -25,13 +25,13 @@ struct MYPROJECT2_API FSkillDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** ID único da skill (ex: "PSK_Acrobatics", "PSK_Athletics") */
+    /** Nome da skill (ex: "Acrobatics", "Athletics", "Stealth") - Key Field */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
-    FName SkillID;
+    FName Name;
 
-    /** Nome da skill (ex: "Acrobatics", "Athletics") */
+    /** ID único da skill (ex: "PSK_Acrobatics", "PSK_Athletics", "PSK_Stealth") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
-    FText SkillName;
+    FName ID;
 
     /** ID do Ability Score associado (ex: "ABL_Dexterity", "ABL_Strength") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
@@ -46,7 +46,9 @@ struct MYPROJECT2_API FSkillDataRow : public FTableRowBase
     FGameplayTagContainer TypeTags;
 
     FSkillDataRow()
-        : SkillID(NAME_None), AbilityID(NAME_None)
+        : Name(NAME_None)
+        , ID(NAME_None)
+        , AbilityID(NAME_None)
     {
     }
 };

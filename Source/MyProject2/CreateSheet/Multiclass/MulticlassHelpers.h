@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/DataTable.h"
 
 // Forward declarations
 class UDataTable;
@@ -12,6 +13,7 @@ struct FClassDataRow;
 struct FProgressEntry;
 struct FFeatureDataRow;
 struct FMulticlassClassFeature;
+struct FDataTableRowHandle;
 
 /**
  * Helpers para estrutura de dados de multiclasse.
@@ -44,7 +46,18 @@ public:
     static bool CanProcessProgression(FName ClassName, int32 LevelInClass);
 
     /**
-     * Resolve array de IDs de proficiências para nomes legíveis.
+     * Resolve array de handles de proficiências para nomes legíveis.
+     * Helper puro e testável para resolução de handles de proficiências (estrutura flat).
+     *
+     * @param ProficiencyHandles Array de handles de proficiências (FDataTableRowHandle[])
+     * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
+     * @return Array com nomes legíveis (ex: ["Simple Weapons"]) ou IDs originais se não encontrado
+     */
+    static TArray<FName> ResolveProficiencyHandlesToNames(const TArray<struct FDataTableRowHandle> &ProficiencyHandles,
+                                                           const UDataTable *ProficiencyDataTable);
+
+    /**
+     * Resolve array de IDs de proficiências para nomes legíveis (legado - mantido para compatibilidade).
      * Helper puro e testável para resolução de IDs de proficiências.
      *
      * @param ProficiencyIDs Array de IDs de proficiências (ex: ["PW_Simple_Weapons"])
@@ -142,7 +155,7 @@ public:
      * @param OutFeatures [OUT] Array de features convertidas
      * @return true se pelo menos uma feature foi carregada, false caso contrário
      */
-    static bool LoadFeaturesForLevel(const TArray<FName> &FeatureIDs, const UDataTable *FeatureDataTable,
+    static bool LoadFeaturesForLevel(const TArray<FDataTableRowHandle> &FeatureHandles, const UDataTable *FeatureDataTable,
                                      int32 LevelUnlocked, TArray<FMulticlassClassFeature> &OutFeatures);
 
     /**

@@ -134,23 +134,23 @@ void FMulticlassValidators::ProcessClassWithRequirements(const FClassDataRow *Cl
                                                          const TMap<FString, FAttributeInfo> &AttributeMap,
                                                          TArray<FName> &OutResult)
 {
-    if (!ClassRow || ClassRow->FClass.Name == NAME_None)
+    if (!ClassRow || ClassRow->ClassName == NAME_None)
     {
         return;
     }
 
-    FString ClassName = ClassRow->FClass.Name.ToString();
+    FString ClassName = ClassRow->ClassName.ToString();
 
-    // Se não há requisitos, classe está disponível
-    if (ClassRow->FClass.MulticlassRequirements.Num() == 0)
+    // Se não há requisitos, classe está disponível (estrutura flat)
+    if (ClassRow->MulticlassRequirements.Num() == 0)
     {
         OutResult.Add(FName(*ClassName));
         return;
     }
 
-    // Valida requisitos (lógica AND entre elementos do array)
+    // Valida requisitos (lógica AND entre elementos do array) - estrutura flat
     FString MissingRequirementTag;
-    bool bMeetsRequirements = ValidateMulticlassRequirements(ClassRow->FClass.MulticlassRequirements, Attributes,
+    bool bMeetsRequirements = ValidateMulticlassRequirements(ClassRow->MulticlassRequirements, Attributes,
                                                              AttributeMap, MissingRequirementTag);
 
     // Adiciona classe com ou sem tag

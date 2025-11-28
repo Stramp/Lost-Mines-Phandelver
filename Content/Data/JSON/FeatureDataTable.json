@@ -11,14 +11,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_SecondWind",
     "TypeTags": [
       "Feature.SecondWind"
     ]
   },
   {
     "Name": "Fighting Style",
-    "FC_ID": "FC_FightingStyle",
+    "ID": "FC_FightingStyle",
     "Description": "You adopt a particular style of fighting as your specialty. Choose one of the following options. You can't take a Fighting Style option more than once, even if you later get to choose again.",
     "LevelUnlocked": 1,
     "FeatureType": "Choice",
@@ -50,7 +49,6 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_FightingStyle",
     "TypeTags": [
       "Feature.FightingStyle",
       "Feature.Combat"
@@ -58,7 +56,7 @@
   },
   {
     "Name": "Action Surge",
-    "FC_ID": "FC_ActionSurge",
+    "ID": "FC_ActionSurge",
     "Description": "Starting at 2nd level, you can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action. Once you use this feature, you must finish a short or long rest before you can use it again. Each time you gain this feature, you gain one additional use per rest. For example, if you have this feature twice, you can use it twice per rest.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
@@ -69,14 +67,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_ActionSurge",
     "TypeTags": [
       "Feature.ActionSurge"
     ]
   },
   {
     "Name": "Martial Archetype",
-    "FC_ID": "FC_MartialArchetype",
+    "ID": "FC_MartialArchetype",
     "Description": "At 3rd level, you choose an archetype that you strive to emulate in your combat styles and techniques. The archetype you choose grants you features at 3rd level and again at 7th, 10th, 15th, and 18th level.",
     "LevelUnlocked": 3,
     "FeatureType": "SubclassSelection",
@@ -96,28 +93,26 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_MartialArchetype",
     "TypeTags": [
       "Feature.MartialArchetype"
     ]
   },
   {
     "Name": "Ability Score Improvement",
-    "FC_ID": "FC_ASI",
+    "ID": "FC_ASI",
     "Description": "When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
     "LevelUnlocked": 4,
     "FeatureType": "ASI",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_ASI",
     "TypeTags": [
       "Feature.AbilityScoreImprovement"
     ]
   },
   {
     "Name": "Indomitable",
-    "FC_ID": "FC_Indomitable",
+    "ID": "FC_Indomitable",
     "Description": "Beginning at 9th level, you can reroll a saving throw that you fail. If you do so, you must use the new roll, and you can't use this feature again until you finish a long rest. Each time you gain this feature, you gain one additional use per long rest. For example, if you have this feature three times, you can use it three times per long rest.",
     "LevelUnlocked": 9,
     "FeatureType": "Automatic",
@@ -128,14 +123,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_Indomitable",
     "TypeTags": [
       "Feature.Indomitable"
     ]
   },
   {
     "Name": "Feat Selection",
-    "FC_ID": "Feature_Geral",
+    "ID": "Feature_Geral",
     "Description": "Instead of increasing your ability scores, you can choose to take a feat. Feats are special abilities that provide unique benefits. You can take each feat only once, unless the feat's description says otherwise.",
     "LevelUnlocked": 4,
     "FeatureType": "FeatSelection",
@@ -145,14 +139,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "Feature_Geral",
     "TypeTags": [
       "Feature.FeatSelection"
     ]
   },
   {
     "Name": "Arcane Recovery",
-    "FC_ID": "FC_ArcaneRecovery",
+    "ID": "FC_ArcaneRecovery",
     "Description": "You have learned to regain some of your magical energy by studying your spellbook. Once per day when you finish a short rest, you can choose expended spell slots to recover. The spell slots can have a combined level that is equal to or less than half your wizard level (rounded up), and none of the slots can be 6th level or higher.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
@@ -162,14 +155,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_ArcaneRecovery",
     "TypeTags": [
       "Feature.ArcaneRecovery"
     ]
   },
   {
     "Name": "Arcane Tradition",
-    "FC_ID": "FC_ArcaneTradition",
+    "ID": "FC_ArcaneTradition",
     "Description": "When you reach 2nd level, you choose an arcane tradition, shaping your practice of magic through one of eight schools: Abjuration, Conjuration, Divination, Enchantment, Evocation, Illusion, Necromancy, or Transmutation. Your choice grants you features at 2nd level and again at 6th, 10th, and 14th level.",
     "LevelUnlocked": 2,
     "FeatureType": "SubclassSelection",
@@ -209,14 +201,13 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_ArcaneTradition",
     "TypeTags": [
       "Feature.ArcaneTradition"
     ]
   },
   {
     "Name": "Spell Mastery",
-    "FC_ID": "FC_SpellMastery",
+    "ID": "FC_SpellMastery",
     "Description": "At 18th level, you have achieved such mastery over certain spells that you can cast them at will. Choose a 1st-level wizard spell and a 2nd-level wizard spell that are in your spellbook. You can cast those spells at their lowest level without expending a spell slot when you have them prepared. If you want to cast either spell at a higher level, you must expend a spell slot as normal.",
     "LevelUnlocked": 18,
     "FeatureType": "Automatic",
@@ -225,7 +216,6 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_SpellMastery",
     "TypeTags": [
       "Feature.SpellMastery",
       "Feature.Spellcasting"
@@ -233,7 +223,7 @@
   },
   {
     "Name": "Signature Spells",
-    "FC_ID": "FC_SignatureSpells",
+    "ID": "FC_SignatureSpells",
     "Description": "When you reach 20th level, you gain mastery over two powerful spells and can cast them with little effort. Choose two 3rd-level wizard spells in your spellbook as your signature spells. You always have these spells prepared, they don't count against the number of spells you have prepared, and you can cast each of them once at 3rd level without expending a spell slot. When you do so, you can't do so again until you finish a short or long rest.",
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
@@ -243,7 +233,6 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_SignatureSpells",
     "TypeTags": [
       "Feature.SignatureSpells",
       "Feature.Spellcasting"
@@ -251,7 +240,7 @@
   },
   {
     "Name": "Rage",
-    "FC_ID": "FC_Rage",
+    "ID": "FC_Rage",
     "Description": "In battle, you fight with primal ferocity. On your turn, you can enter a rage as a bonus action. While raging, you gain the following benefits if you aren't wearing heavy armor: You have advantage on Strength checks and Strength saving throws. When you make a melee weapon attack using Strength, you gain a bonus to the damage roll that increases as you gain levels as a barbarian. You have resistance to bludgeoning, piercing, and slashing damage. The number of times you can rage per long rest increases as you gain levels.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
@@ -261,14 +250,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_Rage",
     "TypeTags": [
       "Feature.Rage"
     ]
   },
   {
     "Name": "Unarmored Defense",
-    "FC_ID": "FC_UnarmoredDefense",
+    "ID": "FC_UnarmoredDefense",
     "Description": "While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
@@ -277,14 +265,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_UnarmoredDefense",
     "TypeTags": [
       "Feature.UnarmoredDefense"
     ]
   },
   {
     "Name": "Reckless Attack",
-    "FC_ID": "FC_RecklessAttack",
+    "ID": "FC_RecklessAttack",
     "Description": "Starting at 2nd level, you can throw aside all concern for defense to attack with fierce desperation. When you make your first attack on your turn, you can decide to attack recklessly. Doing so gives you advantage on melee weapon attack rolls using Strength during this turn, but attack rolls against you have advantage until your next turn.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
@@ -293,7 +280,6 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_RecklessAttack",
     "TypeTags": [
       "Feature.RecklessAttack",
       "Feature.Combat"
@@ -301,21 +287,20 @@
   },
   {
     "Name": "Danger Sense",
-    "FC_ID": "FC_DangerSense",
+    "ID": "FC_DangerSense",
     "Description": "At 2nd level, you gain an uncanny sense of when things nearby aren't as they should be, giving you an edge when you dodge away from danger. You have advantage on Dexterity saving throws against effects that you can see, such as traps and spells. To gain this benefit, you can't be blinded, deafened, or incapacitated.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_DangerSense",
     "TypeTags": [
       "Feature.DangerSense"
     ]
   },
   {
     "Name": "Primal Path",
-    "FC_ID": "FC_PrimalPath",
+    "ID": "FC_PrimalPath",
     "Description": "At 3rd level, you choose a path that shapes the nature of your rage. Your choice grants you features at 3rd level and again at 6th, 10th, and 14th level.",
     "LevelUnlocked": 3,
     "FeatureType": "SubclassSelection",
@@ -331,14 +316,13 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_PrimalPath",
     "TypeTags": [
       "Feature.PrimalPath"
     ]
   },
   {
     "Name": "Extra Attack",
-    "FC_ID": "FC_ExtraAttack",
+    "ID": "FC_ExtraAttack",
     "Description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn. Each time you gain this feature, you gain an additional attack. For example, if you have this feature twice, you can make 3 attacks total (1 base + 2 extra).",
     "LevelUnlocked": 5,
     "FeatureType": "Automatic",
@@ -349,7 +333,6 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_ExtraAttack",
     "TypeTags": [
       "Feature.ExtraAttack",
       "Feature.Combat"
@@ -357,7 +340,7 @@
   },
   {
     "Name": "Fast Movement",
-    "FC_ID": "FC_FastMovement",
+    "ID": "FC_FastMovement",
     "Description": "Starting at 5th level, your speed increases by 10 feet while you aren't wearing heavy armor.",
     "LevelUnlocked": 5,
     "FeatureType": "Automatic",
@@ -366,28 +349,26 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_FastMovement",
     "TypeTags": [
       "Feature.FastMovement"
     ]
   },
   {
     "Name": "Feral Instinct",
-    "FC_ID": "FC_FeralInstinct",
+    "ID": "FC_FeralInstinct",
     "Description": "By 7th level, your instincts are so honed that you have advantage on initiative rolls. Additionally, if you are surprised at the beginning of combat and aren't incapacitated, you can act normally on your first turn, but only if you enter your rage before doing anything else on that turn.",
     "LevelUnlocked": 7,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_FeralInstinct",
     "TypeTags": [
       "Feature.FeralInstinct"
     ]
   },
   {
     "Name": "Brutal Critical",
-    "FC_ID": "FC_BrutalCritical",
+    "ID": "FC_BrutalCritical",
     "Description": "Beginning at 9th level, you can roll one additional weapon damage die when determining the extra damage for a critical hit with a melee attack. Each time you gain this feature, you gain one additional damage die. For example, if you have this feature three times, you roll three additional dice on a critical hit.",
     "LevelUnlocked": 9,
     "FeatureType": "Automatic",
@@ -398,14 +379,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_BrutalCritical",
     "TypeTags": [
       "Feature.BrutalCritical"
     ]
   },
   {
     "Name": "Relentless Rage",
-    "FC_ID": "FC_RelentlessRage",
+    "ID": "FC_RelentlessRage",
     "Description": "Starting at 11th level, your rage can keep you fighting despite grievous wounds. If you drop to 0 hit points while you're raging and don't die outright, you can make a DC 10 Constitution saving throw. If you succeed, you drop to 1 hit point instead. Each time you use this feature after the first, the DC increases by 5. When you finish a short or long rest, the DC resets to 10.",
     "LevelUnlocked": 11,
     "FeatureType": "Automatic",
@@ -415,42 +395,39 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_RelentlessRage",
     "TypeTags": [
       "Feature.RelentlessRage"
     ]
   },
   {
     "Name": "Persistent Rage",
-    "FC_ID": "FC_PersistentRage",
+    "ID": "FC_PersistentRage",
     "Description": "Beginning at 15th level, your rage is so fierce that it ends early only if you fall unconscious or if you choose to end it.",
     "LevelUnlocked": 15,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_PersistentRage",
     "TypeTags": [
       "Feature.PersistentRage"
     ]
   },
   {
     "Name": "Indomitable Might",
-    "FC_ID": "FC_IndomitableMight",
+    "ID": "FC_IndomitableMight",
     "Description": "Beginning at 18th level, if your total for a Strength check is less than your Strength score, you can use that score in place of the total.",
     "LevelUnlocked": 18,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_IndomitableMight",
     "TypeTags": [
       "Feature.IndomitableMight"
     ]
   },
   {
     "Name": "Primal Champion",
-    "FC_ID": "FC_PrimalChampion",
+    "ID": "FC_PrimalChampion",
     "Description": "At 20th level, you embody the power of the wilds. Your Strength and Constitution scores increase by 4. Your maximum for those scores is now 24.",
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
@@ -460,21 +437,19 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_PrimalChampion",
     "TypeTags": [
       "Feature.PrimalChampion"
     ]
   },
   {
     "Name": "Spellcasting",
-    "FC_ID": "FC_Spellcasting",
+    "ID": "FC_Spellcasting",
     "Description": "You have learned to cast spells, much as a wizard does. Your spellcasting ability is determined by your class. You know a certain number of spells and can prepare a number of spells each day. You can cast spells using spell slots, which you regain after a long rest.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_Spellcasting",
     "TypeTags": [
       "Feature.Spellcasting",
       "Feature.Spellcasting"
@@ -482,7 +457,7 @@
   },
   {
     "Name": "Bardic Inspiration",
-    "FC_ID": "FC_BardicInspiration",
+    "ID": "FC_BardicInspiration",
     "Description": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d6. Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The number of uses you have is equal to your Charisma modifier (minimum of 1). You regain any expended uses when you finish a long rest.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
@@ -493,28 +468,26 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_BardicInspiration",
     "TypeTags": [
       "Feature.BardicInspiration"
     ]
   },
   {
     "Name": "Jack of All Trades",
-    "FC_ID": "FC_JackOfAllTrades",
+    "ID": "FC_JackOfAllTrades",
     "Description": "Starting at 2nd level, you can add half your proficiency bonus, rounded down, to any ability check you make that doesn't already include your proficiency bonus.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_JackOfAllTrades",
     "TypeTags": [
       "Feature.JackofAllTrades"
     ]
   },
   {
     "Name": "Song of Rest",
-    "FC_ID": "FC_SongOfRest",
+    "ID": "FC_SongOfRest",
     "Description": "Beginning at 2nd level, you can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points at the end of the short rest by spending one or more Hit Dice, each of those creatures regains an extra 1d6 hit points. The extra hit points increase when you reach certain levels in this class: 1d8 at 9th level, 1d10 at 13th level, and 1d12 at 17th level.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
@@ -526,14 +499,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_SongOfRest",
     "TypeTags": [
       "Feature.SongofRest"
     ]
   },
   {
     "Name": "Bard College",
-    "FC_ID": "FC_BardCollege",
+    "ID": "FC_BardCollege",
     "Description": "At 3rd level, you delve into the advanced techniques of a bard college of your choice. Your choice grants you features at 3rd level and again at 6th and 14th level.",
     "LevelUnlocked": 3,
     "FeatureType": "SubclassSelection",
@@ -549,14 +521,13 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_BardCollege",
     "TypeTags": [
       "Feature.BardCollege"
     ]
   },
   {
     "Name": "Expertise",
-    "FC_ID": "FC_Expertise",
+    "ID": "FC_Expertise",
     "Description": "Choose two of your skill proficiencies. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies. Each time you gain this feature, you can choose two additional skills to gain this benefit.",
     "LevelUnlocked": 3,
     "FeatureType": "Choice",
@@ -566,28 +537,26 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_Expertise",
     "TypeTags": [
       "Feature.Expertise"
     ]
   },
   {
     "Name": "Font of Inspiration",
-    "FC_ID": "FC_FontOfInspiration",
+    "ID": "FC_FontOfInspiration",
     "Description": "Beginning when you reach 5th level, you regain all of your expended uses of Bardic Inspiration when you finish a short or long rest.",
     "LevelUnlocked": 5,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_FontOfInspiration",
     "TypeTags": [
       "Feature.FontofInspiration"
     ]
   },
   {
     "Name": "Countercharm",
-    "FC_ID": "FC_Countercharm",
+    "ID": "FC_Countercharm",
     "Description": "At 6th level, you gain the ability to use musical notes or words of power to disrupt mind-influencing effects. As an action, you can start a performance that lasts until the end of your next turn. During that time, you and any friendly creatures within 30 feet of you have advantage on saving throws against being frightened or charmed. A creature must be able to hear you to gain this benefit. The performance ends early if you are incapacitated or silenced or if you voluntarily end it (no action required).",
     "LevelUnlocked": 6,
     "FeatureType": "Automatic",
@@ -597,14 +566,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_Countercharm",
     "TypeTags": [
       "Feature.Countercharm"
     ]
   },
   {
     "Name": "Magical Secrets",
-    "FC_ID": "FC_MagicalSecrets",
+    "ID": "FC_MagicalSecrets",
     "Description": "You have plundered magical knowledge from a wide spectrum of disciplines. Choose two spells from any class, including this one. A spell you choose must be of a level you can cast, or a cantrip. The chosen spells count as bard spells for you. Each time you gain this feature, you can choose two additional spells from any class.",
     "LevelUnlocked": 10,
     "FeatureType": "Choice",
@@ -614,7 +582,6 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_MagicalSecrets",
     "TypeTags": [
       "Feature.MagicalSecrets",
       "Feature.Spellcasting"
@@ -622,21 +589,20 @@
   },
   {
     "Name": "Superior Inspiration",
-    "FC_ID": "FC_SuperiorInspiration",
+    "ID": "FC_SuperiorInspiration",
     "Description": "At 20th level, when you roll initiative and have no uses of Bardic Inspiration left, you regain one use.",
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_SuperiorInspiration",
     "TypeTags": [
       "Feature.SuperiorInspiration"
     ]
   },
   {
     "Name": "Divine Domain",
-    "FC_ID": "FC_DivineDomain",
+    "ID": "FC_DivineDomain",
     "Description": "Choose one domain related to your deity: Knowledge, Life, Light, Nature, Tempest, Trickery, or War. Each domain is detailed at the end of the class description, and each one provides examples of gods associated with it. Your choice grants you domain spells and other features when you choose it at 1st level. It also grants you additional ways to use Channel Divinity when you gain that feature at 2nd level, and additional benefits at 6th, 8th, and 17th levels.",
     "LevelUnlocked": 1,
     "FeatureType": "SubclassSelection",
@@ -672,14 +638,13 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_DivineDomain",
     "TypeTags": [
       "Feature.DivineDomain"
     ]
   },
   {
     "Name": "Channel Divinity",
-    "FC_ID": "FC_ChannelDivinity",
+    "ID": "FC_ChannelDivinity",
     "Description": "At 2nd level, you gain the ability to channel divine energy directly from your deity, using that energy to fuel magical effects. You start with two such effects: Turn Undead and an effect determined by your domain. Some domains grant you additional effects as you advance in levels, as noted in the domain description. When you use your Channel Divinity, you choose which effect to create. You must then finish a short or long rest to use your Channel Divinity again.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
@@ -688,14 +653,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_ChannelDivinity",
     "TypeTags": [
       "Feature.ChannelDivinity"
     ]
   },
   {
     "Name": "Destroy Undead",
-    "FC_ID": "FC_DestroyUndead",
+    "ID": "FC_DestroyUndead",
     "Description": "Starting at 5th level, when an undead fails its saving throw against your Turn Undead feature, the creature is instantly destroyed if its challenge rating is at or below a certain threshold. Each time you gain this feature, the maximum CR increases. The CR threshold is based on your cleric level: 0.5 at 5th, 1 at 8th, 2 at 11th, 3 at 14th, 4 at 17th level.",
     "LevelUnlocked": 5,
     "FeatureType": "Automatic",
@@ -705,14 +669,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_DestroyUndead",
     "TypeTags": [
       "Feature.DestroyUndead"
     ]
   },
   {
     "Name": "Divine Intervention",
-    "FC_ID": "FC_DivineIntervention",
+    "ID": "FC_DivineIntervention",
     "Description": "Beginning at 10th level, you can call on your deity to intervene on your behalf when your need is great. Imploring your deity's aid requires you to use your action. Describe the assistance you seek, and roll percentile dice. If you roll a number equal to or lower than your cleric level, your deity intervenes. The DM chooses the nature of the intervention; the effect of any cleric spell or cleric domain spell would be appropriate. If your deity intervenes, you can't use this feature again for 7 days. Otherwise, you can use it again after you finish a long rest. At 20th level, your call for intervention succeeds automatically, no roll required.",
     "LevelUnlocked": 10,
     "FeatureType": "Automatic",
@@ -724,28 +687,26 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_DivineIntervention",
     "TypeTags": [
       "Feature.DivineIntervention"
     ]
   },
   {
     "Name": "Druidic",
-    "FC_ID": "FC_Druidic",
+    "ID": "FC_Druidic",
     "Description": "You know Druidic, the secret language of druids. You can speak the language and use it to leave hidden messages. You and others who know this language automatically spot such a message. Others spot the message's presence with a successful DC 15 Wisdom (Perception) check but can't decipher it without magic.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_Druidic",
     "TypeTags": [
       "Feature.Druidic"
     ]
   },
   {
     "Name": "Wild Shape",
-    "FC_ID": "FC_WildShape",
+    "ID": "FC_WildShape",
     "Description": "Starting at 2nd level, you can use your action to magically assume the shape of a beast that you have seen before. You can use this feature twice. You regain expended uses when you finish a short or long rest. Your druid level determines the beasts you can transform into, as shown in the Beast Shapes table.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
@@ -755,14 +716,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_WildShape",
     "TypeTags": [
       "Feature.WildShape"
     ]
   },
   {
     "Name": "Druid Circle",
-    "FC_ID": "FC_DruidCircle",
+    "ID": "FC_DruidCircle",
     "Description": "At 2nd level, you choose to identify with a circle of druids: Circle of the Land or Circle of the Moon. Your choice grants you features at 2nd level and again at 6th, 10th, and 14th level.",
     "LevelUnlocked": 2,
     "FeatureType": "SubclassSelection",
@@ -778,35 +738,32 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_DruidCircle",
     "TypeTags": [
       "Feature.DruidCircle"
     ]
   },
   {
     "Name": "Timeless Body",
-    "FC_ID": "FC_TimelessBody",
+    "ID": "FC_TimelessBody",
     "Description": "Starting at 18th level, the primal magic that you wield causes you to age more slowly. For every 10 years that pass, your body ages only 1 year.",
     "LevelUnlocked": 18,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_TimelessBody",
     "TypeTags": [
       "Feature.TimelessBody"
     ]
   },
   {
     "Name": "Beast Spells",
-    "FC_ID": "FC_BeastSpells",
+    "ID": "FC_BeastSpells",
     "Description": "Beginning at 18th level, you can cast many of your druid spells in any shape you assume using Wild Shape. You can perform the somatic and verbal components of a druid spell while in a beast shape, but you aren't able to provide material components.",
     "LevelUnlocked": 18,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_BeastSpells",
     "TypeTags": [
       "Feature.BeastSpells",
       "Feature.Spellcasting"
@@ -814,21 +771,20 @@
   },
   {
     "Name": "Archdruid",
-    "FC_ID": "FC_Archdruid",
+    "ID": "FC_Archdruid",
     "Description": "At 20th level, you can use your Wild Shape an unlimited number of times. Additionally, you can ignore the verbal and somatic components of your druid spells, as well as any material component that lacks a cost and isn't consumed by a spell. You gain this benefit in both your normal shape and your beast shape from Wild Shape.",
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_Archdruid",
     "TypeTags": [
       "Feature.Archdruid"
     ]
   },
   {
     "Name": "Martial Arts",
-    "FC_ID": "FC_MartialArts",
+    "ID": "FC_MartialArts",
     "Description": "At 1st level, your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are shortswords and any simple melee weapons that don't have the two-handed or heavy property. You gain the following benefits while you are unarmed or wielding only monk weapons and you aren't wearing armor or wielding a shield: You can use Dexterity instead of Strength for the attack and damage rolls of your unarmed strikes and monk weapons. You can roll a d4 in place of the normal damage of your unarmed strike or monk weapon. This die changes as you gain monk levels, as shown in the Martial Arts column of the Monk table. When you use the Attack action with an unarmed strike or a monk weapon on your turn, you can make one unarmed strike as a bonus action.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
@@ -837,14 +793,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_MartialArts",
     "TypeTags": [
       "Feature.MartialArts"
     ]
   },
   {
     "Name": "Ki",
-    "FC_ID": "FC_Ki",
+    "ID": "FC_Ki",
     "Description": "Starting at 2nd level, your training allows you to harness the mystic energy of ki. Your access to this energy is represented by a number of ki points. Your monk level determines the number of points you have. You can spend these points to fuel various ki features. You start knowing three such features: Flurry of Blows, Patient Defense, and Step of the Wind. You learn more ki features as you gain levels in this class. When you spend a ki point, it is unavailable until you finish a short or long rest, at the end of which you draw all of your expended ki back into yourself.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
@@ -853,14 +808,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_Ki",
     "TypeTags": [
       "Feature.Ki"
     ]
   },
   {
     "Name": "Unarmored Movement",
-    "FC_ID": "FC_UnarmoredMovement",
+    "ID": "FC_UnarmoredMovement",
     "Description": "Starting at 2nd level, your speed increases by 10 feet while you are not wearing armor or wielding a shield. This bonus increases when you reach certain monk levels, as shown in the Monk table. At 9th level, you gain the ability to move along vertical surfaces and across water on your turn without falling during the move.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
@@ -873,14 +827,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_UnarmoredMovement",
     "TypeTags": [
       "Feature.UnarmoredMovement"
     ]
   },
   {
     "Name": "Monastic Tradition",
-    "FC_ID": "FC_MonasticTradition",
+    "ID": "FC_MonasticTradition",
     "Description": "When you reach 3rd level, you commit yourself to a monastic tradition: the Way of the Open Hand, the Way of Shadow, or the Way of the Four Elements. Your choice grants you features at 3rd level and again at 6th, 11th, and 17th level.",
     "LevelUnlocked": 3,
     "FeatureType": "SubclassSelection",
@@ -900,14 +853,13 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_MonasticTradition",
     "TypeTags": [
       "Feature.MonasticTradition"
     ]
   },
   {
     "Name": "Deflect Missiles",
-    "FC_ID": "FC_DeflectMissiles",
+    "ID": "FC_DeflectMissiles",
     "Description": "Starting at 3rd level, you can use your reaction to deflect or catch the missile when you are hit by a ranged weapon attack. When you do so, the damage you take from the attack is reduced by 1d10 + your Dexterity modifier + your monk level. If you reduce the damage to 0, you can catch the missile if it is small enough for you to hold in one hand and you have at least one hand free. If you catch a missile in this way, you can spend 1 ki point to make a ranged attack with the weapon or piece of ammunition you just caught, as part of the same reaction. You make this attack with proficiency, regardless of your weapon proficiencies, and the missile counts as a monk weapon for the attack.",
     "LevelUnlocked": 3,
     "FeatureType": "Automatic",
@@ -917,14 +869,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_DeflectMissiles",
     "TypeTags": [
       "Feature.DeflectMissiles"
     ]
   },
   {
     "Name": "Slow Fall",
-    "FC_ID": "FC_SlowFall",
+    "ID": "FC_SlowFall",
     "Description": "Beginning at 4th level, you can use your reaction when you fall to reduce any falling damage you take by an amount equal to five times your monk level.",
     "LevelUnlocked": 4,
     "FeatureType": "Automatic",
@@ -933,14 +884,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_SlowFall",
     "TypeTags": [
       "Feature.SlowFall"
     ]
   },
   {
     "Name": "Stunning Strike",
-    "FC_ID": "FC_StunningStrike",
+    "ID": "FC_StunningStrike",
     "Description": "Starting at 5th level, you can interfere with the flow of ki in an opponent's body. When you hit another creature with a melee weapon attack, you can spend 1 ki point to attempt a stunning strike. The target must succeed on a Constitution saving throw or be stunned until the end of your next turn.",
     "LevelUnlocked": 5,
     "FeatureType": "Automatic",
@@ -949,42 +899,39 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_StunningStrike",
     "TypeTags": [
       "Feature.StunningStrike"
     ]
   },
   {
     "Name": "Ki-Empowered Strikes",
-    "FC_ID": "FC_KiEmpoweredStrikes",
+    "ID": "FC_KiEmpoweredStrikes",
     "Description": "Starting at 6th level, your unarmed strikes count as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage.",
     "LevelUnlocked": 6,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_KiEmpoweredStrikes",
     "TypeTags": [
       "Feature.Ki-EmpoweredStrikes"
     ]
   },
   {
     "Name": "Evasion",
-    "FC_ID": "FC_Evasion",
+    "ID": "FC_Evasion",
     "Description": "At 7th level, your instinctive agility lets you dodge out of the way of certain area effects, such as a blue dragon's lightning breath or a fireball spell. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail.",
     "LevelUnlocked": 7,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_Evasion",
     "TypeTags": [
       "Feature.Evasion"
     ]
   },
   {
     "Name": "Stillness of Mind",
-    "FC_ID": "FC_StillnessOfMind",
+    "ID": "FC_StillnessOfMind",
     "Description": "Starting at 7th level, you can use your action to end one effect on yourself that is causing you to be charmed or frightened.",
     "LevelUnlocked": 7,
     "FeatureType": "Automatic",
@@ -993,42 +940,39 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_StillnessOfMind",
     "TypeTags": [
       "Feature.StillnessofMind"
     ]
   },
   {
     "Name": "Purity of Body",
-    "FC_ID": "FC_PurityOfBody",
+    "ID": "FC_PurityOfBody",
     "Description": "At 10th level, your mastery of the ki flowing through you makes you immune to disease and poison.",
     "LevelUnlocked": 10,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_PurityOfBody",
     "TypeTags": [
       "Feature.PurityofBody"
     ]
   },
   {
     "Name": "Tongue of the Sun and Moon",
-    "FC_ID": "FC_TongueOfTheSunAndMoon",
+    "ID": "FC_TongueOfTheSunAndMoon",
     "Description": "Starting at 13th level, you learn to touch the ki of other minds so that you understand all spoken languages. Moreover, any creature that can understand a language can understand what you say.",
     "LevelUnlocked": 13,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_TongueOfTheSunAndMoon",
     "TypeTags": [
       "Feature.TongueoftheSunandMoon"
     ]
   },
   {
     "Name": "Diamond Soul",
-    "FC_ID": "FC_DiamondSoul",
+    "ID": "FC_DiamondSoul",
     "Description": "Beginning at 14th level, your mastery of ki grants you proficiency in all saving throws. Additionally, whenever you make a saving throw and fail, you can spend 1 ki point to reroll it and take the second result.",
     "LevelUnlocked": 14,
     "FeatureType": "Automatic",
@@ -1037,14 +981,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_DiamondSoul",
     "TypeTags": [
       "Feature.DiamondSoul"
     ]
   },
   {
     "Name": "Empty Body",
-    "FC_ID": "FC_EmptyBody",
+    "ID": "FC_EmptyBody",
     "Description": "Beginning at 18th level, you can use your action to spend 4 ki points to become invisible for 1 minute. During that time, you also have resistance to all damage except force damage. Additionally, you can spend 8 ki points to cast the astral projection spell, without needing material components. When you do so, you can't take any other actions until you end the spell.",
     "LevelUnlocked": 18,
     "FeatureType": "Automatic",
@@ -1055,14 +998,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_EmptyBody",
     "TypeTags": [
       "Feature.EmptyBody"
     ]
   },
   {
     "Name": "Perfect Self",
-    "FC_ID": "FC_PerfectSelf",
+    "ID": "FC_PerfectSelf",
     "Description": "At 20th level, when you roll for initiative and have no ki points remaining, you regain 4 ki points.",
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
@@ -1071,14 +1013,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_PerfectSelf",
     "TypeTags": [
       "Feature.PerfectSelf"
     ]
   },
   {
     "Name": "Divine Sense",
-    "FC_ID": "FC_DivineSense",
+    "ID": "FC_DivineSense",
     "Description": "The presence of strong evil registers on your senses like a noxious odor, and powerful good rings like heavenly music in your ears. As an action, you can open your awareness to detect such forces. Until the end of your next turn, you know the location of any celestial, fiend, or undead within 60 feet of you that is not behind total cover. You know the type (celestial, fiend, or undead) of any being whose presence you sense, but not its identity. Within the same radius, you also detect the presence of any place or object that has been consecrated or desecrated, as with the hallow spell. You can use this feature a number of times equal to 1 + your Charisma modifier. When you finish a long rest, you regain all expended uses.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
@@ -1089,14 +1030,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_DivineSense",
     "TypeTags": [
       "Feature.DivineSense"
     ]
   },
   {
     "Name": "Lay on Hands",
-    "FC_ID": "FC_LayOnHands",
+    "ID": "FC_LayOnHands",
     "Description": "Your blessed touch can heal wounds. You have a pool of healing power that replenishes when you take a long rest. With that pool, you can restore a total number of hit points equal to your paladin level × 5. As an action, you can touch a creature and draw power from the pool to restore a number of hit points to that creature, up to the maximum amount remaining in your pool. Alternatively, you can expend 5 hit points from your pool of healing to cure the target of one disease or neutralize one poison affecting it. You can cure multiple diseases and neutralize multiple poisons with a single use of Lay on Hands, expending hit points separately for each one.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
@@ -1106,14 +1046,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_LayOnHands",
     "TypeTags": [
       "Feature.LayonHands"
     ]
   },
   {
     "Name": "Divine Smite",
-    "FC_ID": "FC_DivineSmite",
+    "ID": "FC_DivineSmite",
     "Description": "When you hit a creature with a melee weapon attack, you can expend one spell slot to deal radiant damage to the target, in addition to the weapon's damage. The extra damage is 2d8 for a 1st-level spell slot, plus 1d8 for each spell level higher than 1st, to a maximum of 5d8. The damage increases by 1d8 if the target is an undead or a fiend, to a maximum of 6d8.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
@@ -1124,14 +1063,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_DivineSmite",
     "TypeTags": [
       "Feature.DivineSmite"
     ]
   },
   {
     "Name": "Sacred Oath",
-    "FC_ID": "FC_SacredOath",
+    "ID": "FC_SacredOath",
     "Description": "When you reach 3rd level, you swear the oath that binds you as a paladin forever. Up to this time you have been in a preparatory stage, committed to the path but not yet sworn to it. Your choice grants you features at 3rd level and again at 7th, 15th, and 20th level.",
     "LevelUnlocked": 3,
     "FeatureType": "SubclassSelection",
@@ -1151,28 +1089,26 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_SacredOath",
     "TypeTags": [
       "Feature.SacredOath"
     ]
   },
   {
     "Name": "Divine Health",
-    "FC_ID": "FC_DivineHealth",
+    "ID": "FC_DivineHealth",
     "Description": "By 3rd level, the divine magic flowing through you makes you immune to disease.",
     "LevelUnlocked": 3,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_DivineHealth",
     "TypeTags": [
       "Feature.DivineHealth"
     ]
   },
   {
     "Name": "Aura of Protection",
-    "FC_ID": "FC_AuraOfProtection",
+    "ID": "FC_AuraOfProtection",
     "Description": "Starting at 6th level, whenever you or a friendly creature within 10 feet of you must make a saving throw, the creature gains a bonus to the saving throw equal to your Charisma modifier (with a minimum bonus of +1). You must be conscious to grant this bonus. At 18th level, the range of this aura increases to 30 feet.",
     "LevelUnlocked": 6,
     "FeatureType": "Automatic",
@@ -1182,14 +1118,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_AuraOfProtection",
     "TypeTags": [
       "Feature.AuraofProtection"
     ]
   },
   {
     "Name": "Improved Divine Smite",
-    "FC_ID": "FC_ImprovedDivineSmite",
+    "ID": "FC_ImprovedDivineSmite",
     "Description": "By 11th level, you are so suffused with righteous might that all your melee weapon strikes carry divine power with them. Whenever you hit a creature with a melee weapon, the creature takes an extra 1d8 radiant damage. If you also use your Divine Smite with an attack, you add this damage to the extra damage of your Divine Smite.",
     "LevelUnlocked": 11,
     "FeatureType": "Automatic",
@@ -1198,14 +1133,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_ImprovedDivineSmite",
     "TypeTags": [
       "Feature.ImprovedDivineSmite"
     ]
   },
   {
     "Name": "Aura of Courage",
-    "FC_ID": "FC_AuraOfCourage",
+    "ID": "FC_AuraOfCourage",
     "Description": "Starting at 10th level, you and friendly creatures within 10 feet of you can't be frightened while you are conscious. At 18th level, the range of this aura increases to 30 feet.",
     "LevelUnlocked": 10,
     "FeatureType": "Automatic",
@@ -1215,14 +1149,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_AuraOfCourage",
     "TypeTags": [
       "Feature.AuraofCourage"
     ]
   },
   {
     "Name": "Cleansing Touch",
-    "FC_ID": "FC_CleansingTouch",
+    "ID": "FC_CleansingTouch",
     "Description": "Beginning at 14th level, you can use your action to end one spell on yourself or on one willing creature that you touch. You can use this feature a number of times equal to your Charisma modifier (minimum of once). You regain expended uses when you finish a long rest.",
     "LevelUnlocked": 14,
     "FeatureType": "Automatic",
@@ -1232,14 +1165,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_CleansingTouch",
     "TypeTags": [
       "Feature.CleansingTouch"
     ]
   },
   {
     "Name": "Aura Improvements",
-    "FC_ID": "FC_AuraImprovements",
+    "ID": "FC_AuraImprovements",
     "Description": "At 18th level, the range of your auras increases to 30 feet.",
     "LevelUnlocked": 18,
     "FeatureType": "Automatic",
@@ -1248,14 +1180,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_AuraImprovements",
     "TypeTags": [
       "Feature.AuraImprovements"
     ]
   },
   {
     "Name": "Favored Enemy",
-    "FC_ID": "FC_FavoredEnemy",
+    "ID": "FC_FavoredEnemy",
     "Description": "Beginning at 1st level, you have significant experience studying, tracking, hunting, and even talking to a certain type of enemy. Choose a type of favored enemy: aberrations, beasts, celestials, constructs, dragons, elementals, fey, fiends, giants, monstrosities, oozes, plants, or undead. You have advantage on Wisdom (Survival) checks to track your favored enemies, as well as on Intelligence checks to recall information about them. When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all. Each time you gain this feature, you can choose one additional favored enemy and learn one associated language.",
     "LevelUnlocked": 1,
     "FeatureType": "Choice",
@@ -1266,14 +1197,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_FavoredEnemy",
     "TypeTags": [
       "Feature.FavoredEnemy"
     ]
   },
   {
     "Name": "Natural Explorer",
-    "FC_ID": "FC_NaturalExplorer",
+    "ID": "FC_NaturalExplorer",
     "Description": "You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions. Choose one type of favored terrain: arctic, coast, desert, forest, grassland, mountain, swamp, or the Underdark. When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you're proficient in. While traveling for an hour or more in your favored terrain, you gain the following benefits: Difficult terrain doesn't slow your group's travel. Your group can't become lost except by magical means. Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger. If you are traveling alone, you can move stealthily at a normal pace. When you forage, you find twice as much food as you normally would. While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area. Each time you gain this feature, you can choose one additional favored terrain type.",
     "LevelUnlocked": 1,
     "FeatureType": "Choice",
@@ -1283,14 +1213,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_NaturalExplorer",
     "TypeTags": [
       "Feature.NaturalExplorer"
     ]
   },
   {
     "Name": "Ranger Archetype",
-    "FC_ID": "FC_RangerArchetype",
+    "ID": "FC_RangerArchetype",
     "Description": "At 3rd level, you choose an archetype that you strive to emulate: the Hunter or the Beast Master. Your choice grants you features at 3rd level and again at 7th, 11th, and 15th level.",
     "LevelUnlocked": 3,
     "FeatureType": "SubclassSelection",
@@ -1306,14 +1235,13 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_RangerArchetype",
     "TypeTags": [
       "Feature.RangerArchetype"
     ]
   },
   {
     "Name": "Primeval Awareness",
-    "FC_ID": "FC_PrimevalAwareness",
+    "ID": "FC_PrimevalAwareness",
     "Description": "Beginning at 3rd level, you can use your action and expend one ranger spell slot to focus your awareness on the region around you. For 1 minute per level of the spell slot you expend, you can sense whether the following types of creatures are present within 1 mile of you (or within up to 6 miles if you are in your favored terrain): aberrations, celestials, dragons, elementals, fey, fiends, and undead. This feature doesn't reveal the creatures' location or number.",
     "LevelUnlocked": 3,
     "FeatureType": "Automatic",
@@ -1323,14 +1251,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_PrimevalAwareness",
     "TypeTags": [
       "Feature.PrimevalAwareness"
     ]
   },
   {
     "Name": "Hide in Plain Sight",
-    "FC_ID": "FC_HideInPlainSight",
+    "ID": "FC_HideInPlainSight",
     "Description": "Starting at 10th level, you can spend 1 minute creating camouflage for yourself. You must have access to fresh mud, dirt, plants, soot, and other naturally occurring materials with which to create your camouflage. Once you are camouflaged in this way, you can try to hide by pressing yourself up against a solid surface, such as a tree or wall, that is at least as tall and wide as you are. You gain a +10 bonus to Dexterity (Stealth) checks as long as you remain there without moving or taking actions. Once you move or take an action or a reaction, you must camouflage yourself again to gain this benefit.",
     "LevelUnlocked": 10,
     "FeatureType": "Automatic",
@@ -1339,28 +1266,26 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_HideInPlainSight",
     "TypeTags": [
       "Feature.HideinPlainSight"
     ]
   },
   {
     "Name": "Foe Slayer",
-    "FC_ID": "FC_FoeSlayer",
+    "ID": "FC_FoeSlayer",
     "Description": "At 20th level, you become an unparalleled hunter of your enemies. Once on each of your turns, you can add your Wisdom modifier to the attack roll or the damage roll of an attack you make against one of your favored enemies. You can choose to use this feature before or after the roll, but before any effects of the roll are applied.",
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_FoeSlayer",
     "TypeTags": [
       "Feature.FoeSlayer"
     ]
   },
   {
     "Name": "Sneak Attack",
-    "FC_ID": "FC_SneakAttack",
+    "ID": "FC_SneakAttack",
     "Description": "Beginning at 1st level, you know how to strike subtly and exploit a foe's distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon. You don't need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn't incapacitated, and you don't have disadvantage on the attack roll. The amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
@@ -1369,7 +1294,6 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_SneakAttack",
     "TypeTags": [
       "Feature.SneakAttack",
       "Feature.Combat"
@@ -1377,21 +1301,20 @@
   },
   {
     "Name": "Thieves' Cant",
-    "FC_ID": "FC_ThievesCant",
+    "ID": "FC_ThievesCant",
     "Description": "During your rogue training you learned thieves' cant, a secret mix of dialect, jargon, and code that allows you to hide messages in seemingly normal conversation. Only another creature that knows thieves' cant understands such messages. It takes four times longer to convey such a message than it does to speak the same idea plainly. In addition, you understand a set of secret signs and symbols used to convey short, simple messages, such as whether an area is dangerous or the territory of a thieves' guild, whether loot is nearby, or whether the people in an area are easy marks or will provide a safe house for thieves on the run.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_ThievesCant",
     "TypeTags": [
       "Feature.Thieves'Cant"
     ]
   },
   {
     "Name": "Cunning Action",
-    "FC_ID": "FC_CunningAction",
+    "ID": "FC_CunningAction",
     "Description": "Starting at 2nd level, your quick thinking and agility allow you to move and act quickly. You can take a bonus action on each of your turns in combat. This action can be used only to take the Dash, Disengage, or Hide action.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
@@ -1400,14 +1323,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_CunningAction",
     "TypeTags": [
       "Feature.CunningAction"
     ]
   },
   {
     "Name": "Roguish Archetype",
-    "FC_ID": "FC_RoguishArchetype",
+    "ID": "FC_RoguishArchetype",
     "Description": "At 3rd level, you choose an archetype that you emulate in the exercise of your rogue abilities: Thief, Assassin, or Arcane Trickster. Your archetype choice grants you features at 3rd level and again at 9th, 13th, and 17th level.",
     "LevelUnlocked": 3,
     "FeatureType": "SubclassSelection",
@@ -1427,14 +1349,13 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_RoguishArchetype",
     "TypeTags": [
       "Feature.RoguishArchetype"
     ]
   },
   {
     "Name": "Uncanny Dodge",
-    "FC_ID": "FC_UncannyDodge",
+    "ID": "FC_UncannyDodge",
     "Description": "Starting at 5th level, when an attacker that you can see hits you with an attack, you can use your reaction to halve the attack's damage against you.",
     "LevelUnlocked": 5,
     "FeatureType": "Automatic",
@@ -1443,28 +1364,26 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_UncannyDodge",
     "TypeTags": [
       "Feature.UncannyDodge"
     ]
   },
   {
     "Name": "Reliable Talent",
-    "FC_ID": "FC_ReliableTalent",
+    "ID": "FC_ReliableTalent",
     "Description": "By 11th level, you have refined your chosen skills until they approach perfection. Whenever you make an ability check that lets you add your proficiency bonus, you can treat a d20 roll of 9 or lower as a 10.",
     "LevelUnlocked": 11,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_ReliableTalent",
     "TypeTags": [
       "Feature.ReliableTalent"
     ]
   },
   {
     "Name": "Blindsense",
-    "FC_ID": "FC_Blindsense",
+    "ID": "FC_Blindsense",
     "Description": "Starting at 14th level, if you are able to hear, you are aware of the location of any hidden or invisible creature within 10 feet of you.",
     "LevelUnlocked": 14,
     "FeatureType": "Automatic",
@@ -1473,28 +1392,26 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_Blindsense",
     "TypeTags": [
       "Feature.Blindsense"
     ]
   },
   {
     "Name": "Slippery Mind",
-    "FC_ID": "FC_SlipperyMind",
+    "ID": "FC_SlipperyMind",
     "Description": "By 15th level, you have acquired greater mental strength. You gain proficiency in Wisdom saving throws.",
     "LevelUnlocked": 15,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_SlipperyMind",
     "TypeTags": [
       "Feature.SlipperyMind"
     ]
   },
   {
     "Name": "Stroke of Luck",
-    "FC_ID": "FC_StrokeOfLuck",
+    "ID": "FC_StrokeOfLuck",
     "Description": "At 20th level, you have an uncanny knack for succeeding when you need to. If your attack misses a target within range, you can turn the miss into a hit. Alternatively, if you fail an ability check, you can treat the d20 roll as a 20. Once you use this feature, you can't use it again until you finish a short or long rest.",
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
@@ -1503,14 +1420,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_StrokeOfLuck",
     "TypeTags": [
       "Feature.StrokeofLuck"
     ]
   },
   {
     "Name": "Sorcerous Origin",
-    "FC_ID": "FC_SorcerousOrigin",
+    "ID": "FC_SorcerousOrigin",
     "Description": "At 1st level, you choose a sorcerous origin, which describes the source of your innate magical power. Your choice grants you features at 1st level and again at 6th, 14th, and 18th level.",
     "LevelUnlocked": 1,
     "FeatureType": "SubclassSelection",
@@ -1526,14 +1442,13 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_SorcerousOrigin",
     "TypeTags": [
       "Feature.SorcerousOrigin"
     ]
   },
   {
     "Name": "Font of Magic",
-    "FC_ID": "FC_FontOfMagic",
+    "ID": "FC_FontOfMagic",
     "Description": "At 2nd level, you tap into a deep wellspring of magic within yourself. This wellspring is represented by sorcery points, which allow you to create a variety of magical effects. You have 2 sorcery points, and you gain more as you reach higher levels. You can never have more sorcery points than shown on the table for your level. You regain all spent sorcery points when you finish a long rest.",
     "LevelUnlocked": 2,
     "FeatureType": "Automatic",
@@ -1542,7 +1457,6 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_FontOfMagic",
     "TypeTags": [
       "Feature.FontofMagic",
       "Feature.Spellcasting"
@@ -1550,7 +1464,7 @@
   },
   {
     "Name": "Metamagic",
-    "FC_ID": "FC_Metamagic",
+    "ID": "FC_Metamagic",
     "Description": "At 3rd level, you gain the ability to twist your spells to suit your needs. You gain two Metamagic options of your choice. Each time you gain this feature, you gain one additional Metamagic option. The first instance gives you 2 options, subsequent instances give you 1 additional option each.",
     "LevelUnlocked": 3,
     "FeatureType": "Choice",
@@ -1561,14 +1475,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": true,
-    "FeatureID": "FC_Metamagic",
     "TypeTags": [
       "Feature.Metamagic"
     ]
   },
   {
     "Name": "Sorcerous Restoration",
-    "FC_ID": "FC_SorcerousRestoration",
+    "ID": "FC_SorcerousRestoration",
     "Description": "At 20th level, you regain 4 expended sorcery points whenever you finish a short rest.",
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
@@ -1577,14 +1490,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_SorcerousRestoration",
     "TypeTags": [
       "Feature.SorcerousRestoration"
     ]
   },
   {
     "Name": "Otherworldly Patron",
-    "FC_ID": "FC_OtherworldlyPatron",
+    "ID": "FC_OtherworldlyPatron",
     "Description": "At 1st level, you have struck a bargain with an otherworldly being of your choice: the Fiend, the Great Old One, or the Archfey. Your choice grants you features at 1st level and again at 6th, 10th, and 14th level.",
     "LevelUnlocked": 1,
     "FeatureType": "SubclassSelection",
@@ -1604,21 +1516,19 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_OtherworldlyPatron",
     "TypeTags": [
       "Feature.OtherworldlyPatron"
     ]
   },
   {
     "Name": "Pact Magic",
-    "FC_ID": "FC_PactMagic",
+    "ID": "FC_PactMagic",
     "Description": "Your arcane research and the magic bestowed on you by your patron have given you facility with spells. You know a number of spells and can cast them using spell slots. You regain all expended spell slots when you finish a short or long rest.",
     "LevelUnlocked": 1,
     "FeatureType": "Automatic",
     "FeatureData": {},
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_PactMagic",
     "TypeTags": [
       "Feature.PactMagic",
       "Feature.Spellcasting"
@@ -1626,7 +1536,7 @@
   },
   {
     "Name": "Eldritch Invocations",
-    "FC_ID": "FC_EldritchInvocations",
+    "ID": "FC_EldritchInvocations",
     "Description": "In your study of occult lore, you have unearthed eldritch invocations, fragments of forbidden knowledge that imbue you with an abiding magical ability. At 2nd level, you gain two eldritch invocations of your choice. Your invocation options are detailed at the end of the class description. Each time you gain this feature, you gain one additional invocation of your choice. The first instance gives you 2 invocations, subsequent instances give you 1 additional invocation each.",
     "LevelUnlocked": 2,
     "FeatureType": "Choice",
@@ -1637,14 +1547,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": true,
-    "FeatureID": "FC_EldritchInvocations",
     "TypeTags": [
       "Feature.EldritchInvocations"
     ]
   },
   {
     "Name": "Pact Boon",
-    "FC_ID": "FC_PactBoon",
+    "ID": "FC_PactBoon",
     "Description": "At 3rd level, your otherworldly patron bestows a gift upon you for your loyal service. You gain one of the following features of your choice: Pact of the Chain, Pact of the Blade, or Pact of the Tome.",
     "LevelUnlocked": 3,
     "FeatureType": "Choice",
@@ -1664,14 +1573,13 @@
       }
     ],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_PactBoon",
     "TypeTags": [
       "Feature.PactBoon"
     ]
   },
   {
     "Name": "Mystic Arcanum",
-    "FC_ID": "FC_MysticArcanum",
+    "ID": "FC_MysticArcanum",
     "Description": "At 11th level, your patron bestows upon you a magical secret called an arcanum. Choose one spell from the warlock spell list of the appropriate level as this arcanum. You can cast your arcanum spell once without expending a spell slot. You must finish a long rest before you can do so again. Each time you gain this feature, you gain one additional Mystic Arcanum spell of a higher level. The spell levels are: 6th at 11th level, 7th at 13th level, 8th at 15th level, and 9th at 17th level. You regain all uses of your Mystic Arcanum when you finish a long rest.",
     "LevelUnlocked": 11,
     "FeatureType": "Choice",
@@ -1682,14 +1590,13 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_MysticArcanum",
     "TypeTags": [
       "Feature.MysticArcanum"
     ]
   },
   {
     "Name": "Eldritch Master",
-    "FC_ID": "FC_EldritchMaster",
+    "ID": "FC_EldritchMaster",
     "Description": "At 20th level, you can draw on your inner reserve of mystical power while entreating your patron to regain expended spell slots. You can spend 1 minute entreating your patron for aid to regain all your expended spell slots from your Pact Magic feature. Once you regain spell slots with this feature, you must finish a long rest before you can do so again.",
     "LevelUnlocked": 20,
     "FeatureType": "Automatic",
@@ -1698,7 +1605,6 @@
     },
     "AvailableChoices": [],
     "bAllowMultipleChoices": false,
-    "FeatureID": "FC_EldritchMaster",
     "TypeTags": [
       "Feature.EldritchMaster"
     ]

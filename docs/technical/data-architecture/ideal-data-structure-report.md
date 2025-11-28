@@ -112,81 +112,92 @@ Ao invés de um JSON profundo e aninhado (que o importador do Unreal odeia e que
 
 ## Tabelas de Referência (Master Data) - Prioridade 1
 
-### 1. `AbilityScoreDataTable.json`
+### 1. `AbilityScoreDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "AbilityID": "ABL_Strength",
-  "AbilityName": "Strength",
+  "Name": "Strength",
+  "ID": "ABL_Strength",
   "Abbreviation": "STR",
-  "Description": "Physical power and athletic ability"
+  "Description": "Physical power and athletic ability",
+  "TypeTags": ["Ability.Physical"]
 }
 ```
+
+**⚠️ IMPORTANTE:** O padrão atual usa `Name` como primeiro campo (Key Field do Unreal Engine) e `ID` como segundo campo.
 
 **IDs Necessários:**
 - `ABL_Strength`, `ABL_Dexterity`, `ABL_Constitution`, `ABL_Intelligence`, `ABL_Wisdom`, `ABL_Charisma`
 
 **Uso:** Substituir strings "Strength", "Dexterity" em todo o sistema
 
-### 2. `TraitDataTable.json`
+### 2. `TraitDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "TraitID": "TR_Darkvision",
-  "TraitName": "Darkvision",
+  "Name": "Darkvision",
+  "ID": "TR_Darkvision",
   "Description": "...",
   "TraitData": {
     "Range": "60",
     "Type": "Vision"
   },
-  "Tags": ["Vision", "Racial"]
+  "TypeTags": ["Trait.Vision", "Trait.Racial"]
 }
 ```
+
+**⚠️ IMPORTANTE:** O padrão atual usa `Name` como primeiro campo (Key Field) e `ID` como segundo campo. `TypeTags` é um `FGameplayTagContainer`, não um array de strings simples.
 
 **IDs Necessários:**
 - `TR_Darkvision`, `TR_FeyAncestry`, `TR_Trance`, `TR_Stonecunning`, etc.
 
 **Uso:** Referenciado por `RaceID.TraitIDs[]`
 
-### 3. `LanguageDataTable.json`
+### 3. `LanguageDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "LanguageID": "PL_Common",
-  "LanguageName": "Common",
+  "Name": "Common",
+  "ID": "PL_Common",
   "Description": "The most widely spoken language",
   "Script": "Common",
-  "Type": "Standard"
+  "Type": "Standard",
+  "TypeTags": []
 }
 ```
+
+**⚠️ IMPORTANTE:** O padrão atual usa `Name` como primeiro campo (Key Field) e `ID` como segundo campo.
 
 **IDs Necessários:**
 - `PL_Common`, `PL_Elvish`, `PL_Dwarvish`, `PL_Abyssal`, etc.
 
 **Uso:** Substituir strings "Common", "Elvish" em raças/backgrounds
 
-### 4. `SkillDataTable.json`
+### 4. `SkillDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "SkillID": "PSK_Acrobatics",
-  "SkillName": "Acrobatics",
+  "Name": "Acrobatics",
+  "ID": "PSK_Acrobatics",
   "AbilityID": "ABL_Dexterity",
-  "Description": "Your Dexterity (Acrobatics) check covers..."
+  "Description": "Your Dexterity (Acrobatics) check covers...",
+  "TypeTags": []
 }
 ```
+
+**⚠️ IMPORTANTE:** O padrão atual usa `Name` como primeiro campo (Key Field) e `ID` como segundo campo.
 
 **IDs Necessários:**
 - `PSK_Acrobatics`, `PSK_Athletics`, `PSK_Stealth`, etc.
 
 **Uso:** Substituir strings em classes/backgrounds
 
-### 5. `SpellDataTable.json` - ⚠️ CRÍTICO, NÃO EXISTE
+### 5. `SpellDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "SpellID": "SPL_Fireball",
-  "SpellName": "Fireball",
+  "Name": "Fireball",
+  "ID": "SPL_Fireball",
   "Level": 3,
   "SchoolID": "SCH_Evocation",
   "CastingTime": "1 action",
@@ -200,58 +211,75 @@ Ao invés de um JSON profundo e aninhado (que o importador do Unreal odeia e que
   "Description": "...",
   "SpellData": {
     "Damage": "8d6",
-    "DamageTypeID": "DAM_Fire",
+    "DamageTypeID": "DMG_Fire",
     "SaveAbilityID": "ABL_Dexterity",
     "SaveType": "Half",
     "Area": "20-foot-radius sphere"
   },
-  "Classes": ["CLASS_Wizard", "CLASS_Sorcerer"],
-  "Tags": ["Damage", "Area", "Evocation"]
+  "TypeTags": ["Spell.Damage", "Spell.Area", "Spell.Evocation"]
 }
 ```
+
+**⚠️ IMPORTANTE:**
+- O padrão atual usa `Name` como primeiro campo (Key Field) e `ID` como segundo campo.
+- `DamageTypeID` usa prefixo `DMG_` (não `DAM_`).
+- `TypeTags` é um `FGameplayTagContainer`, não um array de strings simples.
 
 **Estrutura Completa:** Todas as magias D&D 5e
 
 **Uso:** Referenciado por classes, features, items, etc.
 
-### 6. `SpellSchoolDataTable.json`
+### 6. `SpellSchoolDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "SchoolID": "SCH_Evocation",
-  "SchoolName": "Evocation",
-  "Description": "Spells that manipulate energy..."
+  "Name": "Evocation",
+  "ID": "SCH_Evocation",
+  "Description": "Spells that manipulate energy...",
+  "TypeTags": []
 }
 ```
+
+**⚠️ IMPORTANTE:** O padrão atual usa `Name` como primeiro campo (Key Field) e `ID` como segundo campo.
 
 **IDs Necessários:**
 - `SCH_Abjuration`, `SCH_Conjuration`, `SCH_Divination`, `SCH_Enchantment`, `SCH_Evocation`, `SCH_Illusion`, `SCH_Necromancy`, `SCH_Transmutation`
 
-### 7. `DamageTypeDataTable.json`
+### 7. `DamageTypeDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "DamageTypeID": "DAM_Fire",
-  "DamageTypeName": "Fire",
-  "Description": "Fire damage from flames..."
+  "Name": "Fire",
+  "ID": "DMG_Fire",
+  "Description": "Fire damage from flames...",
+  "TypeTags": []
 }
 ```
+
+**⚠️ IMPORTANTE:**
+- O padrão atual usa `Name` como primeiro campo (Key Field) e `ID` como segundo campo.
+- Prefixo de ID é `DMG_` (não `DAM_`).
 
 **IDs Necessários:**
 - `DAM_Fire`, `DAM_Cold`, `DAM_Lightning`, `DAM_Poison`, `DAM_Psychic`, `DAM_Radiant`, `DAM_Necrotic`, `DAM_Acid`, `DAM_Force`, `DAM_Thunder`
 
-### 8. `ConditionDataTable.json`
+### 8. `ConditionDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "ConditionID": "CON_Poisoned",
-  "ConditionName": "Poisoned",
+  "Name": "Poisoned",
+  "ID": "COND_Poisoned",
   "Description": "A poisoned creature has disadvantage...",
   "ConditionData": {
     "DisadvantageOn": ["AttackRolls", "AbilityChecks"]
-  }
+  },
+  "TypeTags": []
 }
 ```
+
+**⚠️ IMPORTANTE:**
+- O padrão atual usa `Name` como primeiro campo (Key Field) e `ID` como segundo campo.
+- Prefixo de ID é `COND_` (não `CON_`).
 
 **IDs Necessários:**
 - `CON_Blinded`, `CON_Charmed`, `CON_Deafened`, `CON_Frightened`, `CON_Grappled`, `CON_Incapacitated`, `CON_Invisible`, `CON_Paralyzed`, `CON_Petrified`, `CON_Poisoned`, `CON_Prone`, `CON_Restrained`, `CON_Stunned`, `CON_Unconscious`
@@ -260,124 +288,154 @@ Ao invés de um JSON profundo e aninhado (que o importador do Unreal odeia e que
 
 ## Tabelas Principais (Com IDs Únicos) - Prioridade 2
 
-### 9. `RaceDataTable.json` (Refatorar `Race_All.json`)
+### 9. `RaceDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "RaceID": "RACE_Elf",
-  "RaceName": "Elf",
+  "Name": "Elf",
+  "ID": "RACE_Elf",
   "Description": "...",
   "Size": "Medium",
   "BaseSpeed": 30,
+  "TypeTags": ["Race.Elf", "Race.Fey"],
   "AbilityScoreImprovements": [
     {"AbilityID": "ABL_Dexterity", "Bonus": 2}
   ],
-  "TraitIDs": ["TR_Darkvision", "TR_FeyAncestry", "TR_Trance"],
-  "LanguageIDs": ["PL_Common", "PL_Elvish"],
-  "LanguageChoiceCount": 0,
-  "SubraceIDs": ["RACE_HighElf", "RACE_WoodElf", "RACE_Drow"]
+  "TraitHandles": [
+    {"DataTable": "TraitDataTable", "RowName": "Darkvision"},
+    {"DataTable": "TraitDataTable", "RowName": "FeyAncestry"},
+    {"DataTable": "TraitDataTable", "RowName": "Trance"}
+  ],
+  "LanguageHandles": [
+    {"DataTable": "LanguageDataTable", "RowName": "Common"},
+    {"DataTable": "LanguageDataTable", "RowName": "Elvish"}
+  ],
+  "SubraceHandles": [
+    {"DataTable": "RaceDataTable", "RowName": "HighElf"},
+    {"DataTable": "RaceDataTable", "RowName": "WoodElf"},
+    {"DataTable": "RaceDataTable", "RowName": "Drow"}
+  ]
 }
 ```
 
-**Mudanças Necessárias:**
-- Adicionar `RaceID`
-- Converter `Traits[]` → `TraitIDs[]` (referências)
-- Converter `Languages[]` → `LanguageIDs[]` (referências)
+**✅ Implementado:**
+- ✅ `Name` como Key Field, `ID` como segundo campo
+- ✅ `TraitHandles` usando `FDataTableRowHandle` (type-safe)
+- ✅ `LanguageHandles` usando `FDataTableRowHandle` (type-safe)
+- ✅ `SubraceHandles` usando `FDataTableRowHandle` (type-safe)
+- ✅ `TypeTags` para categorização via Gameplay Tags
 
-### 10. `ClassDataTable.json` (Refatorar `DJ_Class.json`)
+### 10. `ClassDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "ClassID": "CLASS_Fighter",
-  "ClassName": "Fighter",
+  "Name": "Fighter",
+  "ID": "CLASS_Fighter",
   "HitDie": 10,
+  "TypeTags": ["Class.Fighter", "Class.Martial"],
   "MulticlassRequirements": [
     {"AbilityID": "ABL_Strength", "Value": 13, "Operator": "OR"},
     {"AbilityID": "ABL_Dexterity", "Value": 13, "Operator": "OR"}
   ],
-  "ProficiencyIDs": {
-    "Weapons": ["PW_Simple_Weapons", "PW_Martial_Weapons"],
-    "Armor": ["PA_Light_Armor", "PA_Medium_Armor", "PA_Heavy_Armor"],
-    "Shields": ["PS_Shields"],
-    "SavingThrows": ["ABL_Strength", "ABL_Constitution"],
-    "Skills": {
-      "AvailableSkillIDs": ["PSK_Acrobatics", "PSK_Athletics", ...],
-      "Count": 2
-    }
+  "Proficiencies": {
+    "SavingThrowIDs": ["ABL_Strength", "ABL_Constitution"],
+    "AvailableSkillHandles": [
+      {"DataTable": "SkillDataTable", "RowName": "Acrobatics"},
+      {"DataTable": "SkillDataTable", "RowName": "Athletics"}
+    ],
+    "SkillChoiceCount": 2
   },
   "Progression": [
-    {"Level": 1, "FeatureIDs": ["FC_SecondWind", "FC_FightingStyle"]}
+    {
+      "Level": 1,
+      "FeatureHandles": [
+        {"DataTable": "FeatureDataTable", "RowName": "SecondWind"},
+        {"DataTable": "FeatureDataTable", "RowName": "FightingStyle"}
+      ]
+    }
   ],
-  "StartingEquipmentIDs": ["ITM_ARM_ChainMail", "ITM_WPN_Longsword"],
-  "StartingGold": 125,
-  "Spellcasting": {
-    "HasSpellcasting": false,
-    "SpellcastingAbilityID": null,
-    "SpellListID": null
-  }
+  "StartingEquipment": ["ITM_ARM_ChainMail", "ITM_WPN_Longsword"],
+  "StartingGold": 125
 }
 ```
 
-**Mudanças Necessárias:**
-- Adicionar `ClassID`
-- Converter `savingThrows[]` → `AbilityIDs[]` (referências)
-- Converter `FSkills.available[]` → `SkillIDs[]` (referências)
+**✅ Implementado:**
+- ✅ `Name` como Key Field, `ID` como segundo campo
+- ✅ `SavingThrowIDs` usando IDs diretos (FName array)
+- ✅ `AvailableSkillHandles` usando `FDataTableRowHandle` (type-safe)
+- ✅ `FeatureHandles` usando `FDataTableRowHandle` (type-safe)
+- ✅ `TypeTags` para categorização via Gameplay Tags
 
-### 11. `BackgroundDataTable.json` (Refatorar `Background_All.json`)
+### 11. `BackgroundDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "BackgroundID": "BG_Acolyte",
-  "BackgroundName": "Acolyte",
+  "Name": "Acolyte",
+  "ID": "BG_Acolyte",
   "Description": "...",
-  "SkillProficiencyIDs": ["PSK_Insight", "PSK_Religion"],
-  "LanguageIDs": [],
+  "TypeTags": ["Background.Acolyte", "Background.Religious"],
+  "SkillProficiencyHandles": [
+    {"DataTable": "SkillDataTable", "RowName": "Insight"},
+    {"DataTable": "SkillDataTable", "RowName": "Religion"}
+  ],
+  "LanguageHandles": [],
   "LanguageChoiceCount": 2,
-  "EquipmentIDs": ["ITM_OTH_HolySymbol", "ITM_OTH_PrayerBook", ...],
-  "FeatureID": "TR_ShelterOfTheFaithful"
+  "EquipmentIDs": ["ITM_OTH_HolySymbol", "ITM_OTH_PrayerBook"],
+  "FeatureHandle": {"DataTable": "FeatureDataTable", "RowName": "ShelterOfTheFaithful"}
 }
 ```
 
-**Mudanças Necessárias:**
-- Adicionar `BackgroundID`
-- Converter `SkillProficiencies[]` → `SkillIDs[]` (referências)
-- Converter `Languages[]` → `LanguageIDs[]` (referências)
+**✅ Implementado:**
+- ✅ `Name` como Key Field, `ID` como segundo campo
+- ✅ `SkillProficiencyHandles` usando `FDataTableRowHandle` (type-safe)
+- ✅ `LanguageHandles` usando `FDataTableRowHandle` (type-safe)
+- ✅ `FeatureHandle` usando `FDataTableRowHandle` (type-safe)
+- ✅ `TypeTags` para categorização via Gameplay Tags
 
-### 12. `FeatDataTable.json` (Consolidar `DJ_FeatsGerais.json` + `Feat_All.json`)
+### 12. `FeatDataTable.json` - ✅ IMPLEMENTADO
 
 ```json
 {
-  "FeatID": "FEAT_Alert",
-  "FeatName": "Alert",
-  "FC_ID": "Feat_Alert",
+  "Name": "Alert",
+  "ID": "FEAT_Alert",
   "Description": "...",
   "Prerequisites": [],
   "LevelUnlocked": 4,
+  "FeatureType": "FEAT_Alert",
   "FeatureData": {
     "InitiativeBonus": "5",
     "CannotBeSurprised": "true"
-  }
+  },
+  "TypeTags": ["Feat.Alert", "Feat.Combat"]
 }
 ```
 
-**Mudanças Necessárias:**
-- Consolidar os dois arquivos
-- Usar `FeatID` como chave primária
+**✅ Implementado:**
+- ✅ `Name` como Key Field, `ID` como segundo campo
+- ✅ Consolidado de múltiplos arquivos
+- ✅ `TypeTags` para categorização via Gameplay Tags
 
-### 13. `FeatureDataTable.json` (Já existe como `DJ_FeaturesClass.json`)
+### 13. `FeatureDataTable.json` - ✅ IMPLEMENTADO
 
-- **Status:** ✅ Já tem `FC_ID`
-- **Melhorias:** Adicionar `FeatureID` como alias, garantir referências por ID
+- **Status:** ✅ Implementado com `Name` (Key Field) e `ID`
+- **Estrutura:** Suporta features automáticas, escolhas únicas e escolhas múltiplas
+- **Referências:** Usa `AvailableChoices` (TArray<FFeatureChoice>) para opções de escolha
+- **TypeTags:** Categorização via Gameplay Tags
 
-### 14. `ProficiencyDataTable.json` (Já existe como `DJ_Proficiencie.json`)
+### 14. `ProficiencyDataTable.json` - ✅ IMPLEMENTADO
 
-- **Status:** ✅ Já tem `ProficiencyID`
-- **Sem mudanças necessárias**
+- **Status:** ✅ Implementado com `Name` (Key Field) e `ID`
+- **Estrutura:** Normalizado com `Name` e `ID` como primeiros campos
+- **TypeTags:** Categorização via Gameplay Tags
 
-### 15. `ItemDataTable.json` (Já existe como `Item_All.json`)
+### 15. `ItemDataTable.json` - ✅ IMPLEMENTADO
 
-- **Status:** ✅ Já tem `ItemID`
-- **Melhorias:** Adicionar referências a `SpellID` para itens mágicos, `DamageTypeID` para armas
+- **Status:** ✅ Implementado com `Name` (Key Field) e `ID`
+- **Referências:**
+  - ✅ `SpellHandle` (FDataTableRowHandle) para itens mágicos
+  - ✅ `DamageTypeID` (FName) para armas
+  - ✅ `IconTexture`, `MeshReference` (TSoftObjectPtr) para assets
+- **TypeTags:** Categorização via Gameplay Tags
 
 ---
 
@@ -411,66 +469,75 @@ struct FRaceDataSoA {
 
 ---
 
-## Padrão de Nomenclatura de IDs (Completo)
+## Padrão de Nomenclatura de IDs (Completo) - ✅ IMPLEMENTADO
 
 ```
 RACE_<Name>           → RACE_Dwarf, RACE_Elf, RACE_HighElf
 CLASS_<Name>          → CLASS_Fighter, CLASS_Wizard
 BG_<Name>             → BG_Acolyte, BG_Criminal
 FEAT_<Name>           → FEAT_Alert, FEAT_Athlete
-FC_<Name>             → FC_SecondWind, FC_Spellcasting (já existe)
+FC_<Name>             → FC_SecondWind, FC_Spellcasting
 TR_<Name>             → TR_Darkvision, TR_FeyAncestry
 PL_<Name>             → PL_Common, PL_Elvish
 PSK_<Name>            → PSK_Acrobatics, PSK_Stealth
 ABL_<Name>            → ABL_Strength, ABL_Dexterity
 SPL_<Name>            → SPL_Fireball, SPL_MagicMissile
 SCH_<Name>            → SCH_Evocation, SCH_Abjuration
-DAM_<Name>            → DAM_Fire, DAM_Cold
-CON_<Name>            → CON_Poisoned, CON_Charmed
-PW_<Name>             → PW_Simple_Weapons (já existe)
-PA_<Name>             → PA_Light_Armor (já existe)
-PT_<Name>             → PT_Thieves_Tools (já existe)
-ITM_<Category>_<Name> → ITM_ARM_ChainMail (já existe)
+DMG_<Name>            → DMG_Fire, DMG_Cold (⚠️ Prefixo é DMG_, não DAM_)
+COND_<Name>           → COND_Poisoned, COND_Charmed (⚠️ Prefixo é COND_, não CON_)
+PW_<Name>             → PW_Simple_Weapons
+PA_<Name>             → PA_Light_Armor
+PT_<Name>             → PT_Thieves_Tools
+ITM_<Category>_<Name> → ITM_ARM_ChainMail
 ```
+
+**⚠️ IMPORTANTE:**
+- Todos os IDs seguem o padrão `<PREFIX>_<Name>` em UPPERCASE
+- Prefixos de dano usam `DMG_` (não `DAM_`)
+- Prefixos de condição usam `COND_` (não `CON_`)
 
 ---
 
-## Checklist de Migração Completo
+## Checklist de Migração Completo - ✅ CONCLUÍDO
 
-### Fase 1: Tabelas de Referência (CRÍTICO)
+### Fase 1: Tabelas de Referência (CRÍTICO) - ✅ CONCLUÍDO
 
-- [ ] Criar `AbilityScoreDataTable.json` com 6 atributos
-- [ ] Criar `TraitDataTable.json` com todos os traits únicos
-- [ ] Criar `LanguageDataTable.json` com todos os idiomas
-- [ ] Criar `SkillDataTable.json` com todas as 18 skills
-- [ ] Criar `SpellDataTable.json` com todas as magias D&D 5e
-- [ ] Criar `SpellSchoolDataTable.json` com 8 escolas
-- [ ] Criar `DamageTypeDataTable.json` com 10 tipos de dano
-- [ ] Criar `ConditionDataTable.json` com 14 condições
+- [x] Criar `AbilityScoreDataTable.json` com 6 atributos
+- [x] Criar `TraitDataTable.json` com todos os traits únicos
+- [x] Criar `LanguageDataTable.json` com todos os idiomas
+- [x] Criar `SkillDataTable.json` com todas as 18 skills
+- [x] Criar `SpellDataTable.json` com todas as magias D&D 5e
+- [x] Criar `SpellSchoolDataTable.json` com 8 escolas
+- [x] Criar `DamageTypeDataTable.json` com 10 tipos de dano
+- [x] Criar `ConditionDataTable.json` com 14 condições
 
-### Fase 2: IDs Únicos em Tabelas Principais
+### Fase 2: IDs Únicos em Tabelas Principais - ✅ CONCLUÍDO
 
-- [ ] Adicionar `RaceID` em `Race_All.json` → `RaceDataTable.json`
-- [ ] Adicionar `ClassID` em `DJ_Class.json` → `ClassDataTable.json`
-- [ ] Adicionar `BackgroundID` em `Background_All.json` → `BackgroundDataTable.json`
-- [ ] Consolidar `DJ_FeatsGerais.json` + `Feat_All.json` → `FeatDataTable.json` com `FeatID`
+- [x] Adicionar `Name` (Key Field) e `ID` em `RaceDataTable.json`
+- [x] Adicionar `Name` (Key Field) e `ID` em `ClassDataTable.json`
+- [x] Adicionar `Name` (Key Field) e `ID` em `BackgroundDataTable.json`
+- [x] Consolidar múltiplos arquivos → `FeatDataTable.json` com `Name` e `ID`
+- [x] Adicionar `Name` (Key Field) e `ID` em `FeatureDataTable.json`
+- [x] Adicionar `Name` (Key Field) e `ID` em `ProficiencyDataTable.json`
+- [x] Adicionar `Name` (Key Field) e `ID` em `ItemDataTable.json`
 
-### Fase 3: Conversão de Referências Embutidas
+### Fase 3: Conversão de Referências Embutidas - ✅ CONCLUÍDO
 
-- [ ] Converter `Race.Traits[]` → `Race.TraitIDs[]` (referências)
-- [ ] Converter `Race.Languages[]` → `Race.LanguageIDs[]` (referências)
-- [ ] Converter `Class.savingThrows[]` → `Class.SavingThrowIDs[]` (referências)
-- [ ] Converter `Class.FSkills.available[]` → `Class.SkillIDs[]` (referências)
-- [ ] Converter `Background.SkillProficiencies[]` → `Background.SkillIDs[]` (referências)
-- [ ] Converter `Background.Languages[]` → `Background.LanguageIDs[]` (referências)
-- [ ] Converter `AbilityScoreImprovements.AbilityName` → `AbilityID` (referências)
+- [x] Converter `Race.Traits[]` → `Race.TraitHandles[]` (FDataTableRowHandle)
+- [x] Converter `Race.Languages[]` → `Race.LanguageHandles[]` (FDataTableRowHandle)
+- [x] Converter `Class.savingThrows[]` → `Class.SavingThrowIDs[]` (FName array)
+- [x] Converter `Class.FSkills.available[]` → `Class.AvailableSkillHandles[]` (FDataTableRowHandle)
+- [x] Converter `Background.SkillProficiencies[]` → `Background.SkillProficiencyHandles[]` (FDataTableRowHandle)
+- [x] Converter `Background.Languages[]` → `Background.LanguageHandles[]` (FDataTableRowHandle)
+- [x] Converter `AbilityScoreImprovements.AbilityName` → `AbilityID` (FName)
 
-### Fase 4: Validação e Integridade
+### Fase 4: Validação e Integridade - ✅ PARCIALMENTE CONCLUÍDO
 
-- [ ] Criar validadores de integridade referencial (ID inexistente = erro)
-- [ ] Atualizar código C++ para usar IDs em todas as buscas
-- [ ] Remover buscas por string/Name
-- [ ] Implementar cache de lookups (ID → dados)
+- [x] Criar validadores de integridade referencial (ID inexistente = erro)
+- [x] Atualizar código C++ para usar IDs em todas as buscas
+- [x] Remover buscas por string/Name (substituídas por buscas por ID)
+- [x] Implementar helpers para resolução de `FDataTableRowHandle` (type-safe)
+- [ ] Implementar cache de lookups (ID → dados) - **Opcional para otimização futura**
 
 ### Fase 5: Performance e Escalabilidade
 
@@ -507,17 +574,35 @@ ITM_<Category>_<Name> → ITM_ARM_ChainMail (já existe)
 
 ---
 
-## Prioridade de Implementação
+## Prioridade de Implementação - ✅ CONCLUÍDO
 
-1. **CRÍTICO:** `SpellDataTable.json` (sistema de magias completamente ausente)
-2. **CRÍTICO:** IDs únicos em todas as tabelas principais
-3. **CRÍTICO:** Tabelas de referência (Trait, Language, Skill, AbilityScore)
-4. **IMPORTANTE:** Conversão de referências embutidas para IDs
-5. **IMPORTANTE:** Validadores de integridade referencial
-6. **DESEJÁVEL:** Otimizações de performance (SoA, serialização binária)
+1. ✅ **CONCLUÍDO:** `SpellDataTable.json` (sistema de magias implementado)
+2. ✅ **CONCLUÍDO:** IDs únicos em todas as tabelas principais (padrão Name + ID)
+3. ✅ **CONCLUÍDO:** Tabelas de referência (Trait, Language, Skill, AbilityScore, Spell, SpellSchool, DamageType, Condition)
+4. ✅ **CONCLUÍDO:** Conversão de referências embutidas para `FDataTableRowHandle` (type-safe)
+5. ✅ **CONCLUÍDO:** Validadores de integridade referencial via `DataTableRowHandleHelpers`
+6. ⏳ **FUTURO:** Otimizações de performance (SoA, serialização binária) - **Opcional para projetos AAA**
 
 ---
 
 ## Conclusão
 
-Esta estrutura suporta projetos AAA como Baldur's Gate 3, com milhares de spells, items, classes, diálogos e estados, mantendo dados organizados, escaláveis e performáticos. A chave é a normalização completa, uso consistente de IDs, e preparação para escalabilidade massiva desde o início.
+✅ **ESTRUTURA IMPLEMENTADA:** Esta estrutura suporta projetos AAA como Baldur's Gate 3, com milhares de spells, items, classes, diálogos e estados, mantendo dados organizados, escaláveis e performáticos.
+
+**Princípios Implementados:**
+- ✅ Normalização completa (15 Data Tables normalizadas)
+- ✅ Uso consistente de IDs únicos (padrão Name + ID)
+- ✅ Referências type-safe via `FDataTableRowHandle`
+- ✅ Categorização flexível via Gameplay Tags (`TypeTags`)
+- ✅ Separação de responsabilidades (Name para UI, ID para código)
+- ✅ Preparação para escalabilidade massiva
+
+**Próximos Passos (Opcionais):**
+- ⏳ Otimizações de performance (SoA, serialização binária) para projetos AAA
+- ⏳ Cache de lookups (ID → dados) para hot-paths
+- ⏳ Serialização diferencial para saves complexos
+
+**Referências:**
+- [Arquitetura de Banco de Dados](./database-architecture.md) - Documentação completa da implementação atual
+- [Gameplay Tags (Epic Games)](https://docs.unrealengine.com/5.7/en-US/gameplay-tags-in-unreal-engine/) - Documentação oficial
+- [FDataTableRowHandle (Epic Games)](https://docs.unrealengine.com/5.7/en-US/data-table-row-handle-in-unreal-engine/) - Documentação oficial

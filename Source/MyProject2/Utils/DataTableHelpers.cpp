@@ -112,8 +112,8 @@ FClassDataRow *DataTableHelpers::FindClassRow(FName ClassName, UDataTable *Class
     {
         if (FClassDataRow *FoundRow = ClassDataTable->FindRow<FClassDataRow>(RowName, TEXT("FindClassRow")))
         {
-            // Usa FClass.Name da nova estrutura
-            if (FoundRow->FClass.Name == ClassName)
+            // Usa ClassName da estrutura flat
+            if (FoundRow->ClassName == ClassName)
             {
                 Row = FoundRow;
                 break;

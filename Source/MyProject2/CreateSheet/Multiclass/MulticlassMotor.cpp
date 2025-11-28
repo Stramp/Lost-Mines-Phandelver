@@ -24,6 +24,8 @@
 
 // Project includes - Utils
 #include "Utils/DataTableHelpers.h"
+#include "Utils/DataTableRowHandleHelpers.h"
+#include "Data/Tables/SkillDataTable.h"
 #include "Utils/DnDConstants.h"
 
 // Engine includes
@@ -80,13 +82,52 @@ bool FMulticlassMotor::LoadClassProficiencies(FName ClassName, int32 LevelInClas
         return false;
     }
 
-    // Converte todas as proficiências da classe (resolve IDs para nomes legíveis)
-    for (const FProficienciesEntry &SourceEntry : ClassRow->FClass.Proficiencies)
+    // Converte proficiências da estrutura flat (arrays de handles separados)
+    FMulticlassProficienciesEntry ConvertedEntry;
+
+    // Resolve WeaponProficiencyHandles para nomes legíveis
+    ConvertedEntry.armas = FMulticlassHelpers::ResolveProficiencyHandlesToNames(
+        ClassRow->WeaponProficiencyHandles, ProficiencyDataTable);
+
+    // Resolve ArmorProficiencyHandles para nomes legíveis
+    ConvertedEntry.armaduras = FMulticlassHelpers::ResolveProficiencyHandlesToNames(
+        ClassRow->ArmorProficiencyHandles, ProficiencyDataTable);
+
+    // Resolve SavingThrowHandles para IDs (Ability Scores)
+    ConvertedEntry.SavingThrowIDs.Empty();
+    ConvertedEntry.SavingThrowIDs.Reserve(ClassRow->SavingThrowHandles.Num());
+    for (const FDataTableRowHandle &Handle : ClassRow->SavingThrowHandles)
     {
-        FMulticlassProficienciesEntry ConvertedEntry =
-            FMulticlassHelpers::ConvertProficienciesEntry(SourceEntry, ProficiencyDataTable);
-        OutProficiencies.Add(ConvertedEntry);
+        if (Handle.RowName != NAME_None)
+        {
+            ConvertedEntry.SavingThrowIDs.Add(Handle.RowName);
+        }
     }
+
+    // Resolve AvailableSkillHandles para IDs
+    ConvertedEntry.FSkills.InitialAvailable.Empty();
+    ConvertedEntry.FSkills.InitialAvailable.Reserve(ClassRow->AvailableSkillHandles.Num());
+    for (const FDataTableRowHandle &SkillHandle : ClassRow->AvailableSkillHandles)
+    {
+        if (const FSkillDataRow *SkillRow = DataTableRowHandleHelpers::ResolveHandle<FSkillDataRow>(SkillHandle))
+        {
+            if (SkillRow->ID != NAME_None)
+            {
+                ConvertedEntry.FSkills.InitialAvailable.Add(SkillRow->ID);
+            }
+        }
+        else if (SkillHandle.RowName != NAME_None)
+        {
+            ConvertedEntry.FSkills.InitialAvailable.Add(SkillHandle.RowName);
+        }
+    }
+
+    ConvertedEntry.FSkills.available = NAME_None;
+    ConvertedEntry.FSkills.Selected.Empty();
+    ConvertedEntry.FSkills.qtdAvailable = ClassRow->SkillChoiceCount;
+    ConvertedEntry.FSkills.InitialQtdAvailable = ClassRow->SkillChoiceCount;
+
+    OutProficiencies.Add(ConvertedEntry);
 
     // Log quando proficiências são carregadas (ponto chave)
     if (OutProficiencies.Num() > 0)
@@ -134,9 +175,9 @@ bool FMulticlassMotor::LoadClassProgression(FName ClassName, int32 LevelInClass,
         FMulticlassProgressEntry ProgressEntry;
         ProgressEntry.Level = Level;
 
-        // Extrai features do nível específico
+        // Extrai features do nível específico (estrutura flat)
         const FProgressEntry *LevelEntry = nullptr;
-        if (!FMulticlassHelpers::ExtractLevelFeatures(ClassRow->FClass.Progression, Level, LevelEntry))
+        if (!FMulticlassHelpers::ExtractLevelFeatures(ClassRow->Progression, Level, LevelEntry))
         {
             // Nível sem entrada na progressão é válido (alguns níveis não têm features)
             // Cria entrada vazia para manter consistência
@@ -144,9 +185,9 @@ bool FMulticlassMotor::LoadClassProgression(FName ClassName, int32 LevelInClass,
             continue;
         }
 
-        // Carrega features detalhadas do ClassFeaturesDataTable
+        // Carrega features detalhadas do ClassFeaturesDataTable (estrutura flat com FeatureHandles)
         TArray<FMulticlassClassFeature> Features;
-        if (FMulticlassHelpers::LoadFeaturesForLevel(LevelEntry->Features, FeatureDataTable, Level, Features))
+        if (FMulticlassHelpers::LoadFeaturesForLevel(LevelEntry->FeatureHandles, FeatureDataTable, Level, Features))
         {
             ProgressEntry.Features = Features;
         }

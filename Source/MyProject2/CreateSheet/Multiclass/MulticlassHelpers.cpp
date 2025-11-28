@@ -18,6 +18,9 @@
 #include "Data/Tables/FeatureDataTable.h"
 #include "Data/Tables/SkillDataTable.h"
 
+// Project includes - Structures
+#include "Data/Structures/FProficienciesEntry.h"
+
 // Project includes - Logging
 #include "Logging/LoggingSystem.h"
 
@@ -114,8 +117,72 @@ bool FMulticlassHelpers::CanProcessProgression(FName ClassName, int32 LevelInCla
 // ============================================================================
 #pragma region Proficiencies Conversion
 
+TArray<FName> FMulticlassHelpers::ResolveProficiencyHandlesToNames(const TArray<FDataTableRowHandle> &ProficiencyHandles,
+                                                                    const UDataTable *ProficiencyDataTable)
+{
+    TArray<FName> ResolvedNames;
+    if (!ProficiencyDataTable || ProficiencyHandles.Num() == 0)
+    {
+        return ResolvedNames;
+    }
+
+    FLogContext Context(TEXT("Multiclass"), TEXT("ResolveProficiencyHandlesToNames"));
+    UDataTable *NonConstTable = const_cast<UDataTable *>(ProficiencyDataTable);
+    FString TableName = ProficiencyDataTable->GetName();
+    int32 UnresolvedCount = 0;
+
+    ResolvedNames.Reserve(ProficiencyHandles.Num());
+
+    for (const FDataTableRowHandle &Handle : ProficiencyHandles)
+    {
+        if (Handle.RowName == NAME_None)
+        {
+            continue;
+        }
+
+        // Resolve handle para obter ProficiencyRow
+        const FProficiencyDataRow *ProficiencyRow =
+            DataTableRowHandleHelpers::ResolveHandle<FProficiencyDataRow>(Handle);
+
+        if (!ProficiencyRow && Handle.DataTable.Get() != nullptr)
+        {
+            // Fallback: tenta buscar pelo RowName diretamente
+            ProficiencyRow = DataTableHelpers::FindProficiencyRowByID(Handle.RowName, NonConstTable);
+        }
+
+        if (ProficiencyRow && ProficiencyRow->Name != NAME_None)
+        {
+            // Usa nome legível se encontrado
+            ResolvedNames.Add(ProficiencyRow->Name);
+        }
+        else
+        {
+            // Fallback: usa ID original se não encontrado na tabela
+            ResolvedNames.Add(Handle.RowName);
+            UnresolvedCount++;
+
+            // Loga erro de Data Table
+            FLoggingSystem::LogDataTableError(
+                Context, TableName, Handle.RowName.ToString(), TEXT("ProficiencyHandle"),
+                FString::Printf(TEXT("Proficiência '%s' não encontrada na tabela. Verifique se o handle está correto."),
+                                *Handle.RowName.ToString()));
+        }
+    }
+
+    // Loga resumo se houver IDs não resolvidos (sistema ajusta automaticamente - sem popup)
+    if (UnresolvedCount > 0)
+    {
+        FLoggingSystem::LogWarning(
+            Context,
+            FString::Printf(TEXT("%d proficiência(s) não foram resolvidas para nomes legíveis."), UnresolvedCount),
+            false);
+    }
+
+    return ResolvedNames;
+}
+
 TArray<FName> FMulticlassHelpers::ResolveProficiencyIDsToNames(const TArray<FName> &ProficiencyIDs,
-                                                               const UDataTable *ProficiencyDataTable)
+                                                              const UDataTable *ProficiencyDataTable)
 {
     FLogContext Context(TEXT("Multiclass"), TEXT("ResolveProficiencyIDsToNames"));
     TArray<FName> ResolvedNames;
@@ -204,9 +271,9 @@ FMulticlassProficienciesEntry FMulticlassHelpers::ConvertProficienciesEntry(cons
         // Resolve handle para obter SkillID da FSkillDataRow
         if (const FSkillDataRow *SkillRow = DataTableRowHandleHelpers::ResolveHandle<FSkillDataRow>(SkillHandle))
         {
-            if (SkillRow->SkillID != NAME_None)
+            if (SkillRow->ID != NAME_None)
             {
-                Result.FSkills.InitialAvailable.Add(SkillRow->SkillID);
+                Result.FSkills.InitialAvailable.Add(SkillRow->ID);
             }
         }
         else if (SkillHandle.RowName != NAME_None)
@@ -402,8 +469,9 @@ FMulticlassClassFeature FMulticlassHelpers::ConvertFeatureRowToMulticlassFeature
     return Result;
 }
 
-bool FMulticlassHelpers::LoadFeaturesForLevel(const TArray<FName> &FeatureIDs, const UDataTable *FeatureDataTable,
-                                              int32 LevelUnlocked, TArray<FMulticlassClassFeature> &OutFeatures)
+bool FMulticlassHelpers::LoadFeaturesForLevel(const TArray<FDataTableRowHandle> &FeatureHandles,
+                                              const UDataTable *FeatureDataTable, int32 LevelUnlocked,
+                                              TArray<FMulticlassClassFeature> &OutFeatures)
 {
     FLogContext Context(TEXT("Multiclass"), TEXT("LoadFeaturesForLevel"));
     OutFeatures.Empty();
@@ -415,7 +483,7 @@ bool FMulticlassHelpers::LoadFeaturesForLevel(const TArray<FName> &FeatureIDs, c
         return false;
     }
 
-    if (FeatureIDs.Num() == 0)
+    if (FeatureHandles.Num() == 0)
     {
         // Nível sem features é válido (alguns níveis não têm features)
         return false;
@@ -426,15 +494,22 @@ bool FMulticlassHelpers::LoadFeaturesForLevel(const TArray<FName> &FeatureIDs, c
     int32 LoadedCount = 0;
     int32 NotFoundCount = 0;
 
-    for (const FName &FeatureID : FeatureIDs)
+    for (const FDataTableRowHandle &FeatureHandle : FeatureHandles)
     {
-        if (FeatureID == NAME_None)
+        if (FeatureHandle.RowName == NAME_None)
         {
             continue;
         }
 
-        // Busca feature na tabela pelo FC_ID
-        const FFeatureDataRow *FeatureRow = DataTableHelpers::FindFeatureRowByID(FeatureID, NonConstTable);
+        // Resolve handle para obter FeatureRow
+        const FFeatureDataRow *FeatureRow =
+            DataTableRowHandleHelpers::ResolveHandle<FFeatureDataRow>(FeatureHandle);
+
+        if (!FeatureRow && FeatureHandle.DataTable.Get() != nullptr)
+        {
+            // Fallback: tenta buscar pelo RowName diretamente
+            FeatureRow = DataTableHelpers::FindFeatureRowByID(FeatureHandle.RowName, NonConstTable);
+        }
 
         if (FeatureRow)
         {
@@ -449,9 +524,9 @@ bool FMulticlassHelpers::LoadFeaturesForLevel(const TArray<FName> &FeatureIDs, c
             NotFoundCount++;
 
             FLoggingSystem::LogDataTableError(
-                Context, TableName, FeatureID.ToString(), TEXT("FC_ID"),
-                FString::Printf(TEXT("Feature '%s' não encontrada na tabela. Verifique se o ID corresponde."),
-                                *FeatureID.ToString()));
+                Context, TableName, FeatureHandle.RowName.ToString(), TEXT("FeatureHandle"),
+                FString::Printf(TEXT("Feature '%s' não encontrada na tabela. Verifique se o handle está correto."),
+                                *FeatureHandle.RowName.ToString()));
         }
     }
 
@@ -505,8 +580,8 @@ bool FMulticlassHelpers::LoadClassBasicInfo(FName ClassName, const UDataTable *C
         return false;
     }
 
-    // Copia MulticlassRequirements da tabela
-    OutMulticlassRequirements = ClassRow->FClass.MulticlassRequirements;
+    // Copia MulticlassRequirements da tabela (estrutura flat)
+    OutMulticlassRequirements = ClassRow->MulticlassRequirements;
 
     return true;
 }
@@ -556,17 +631,26 @@ void FMulticlassHelpers::LogLevelChangeFeatures(FName ClassName, int32 LevelInCl
         return;
     }
 
-    // Extrai features do nível específico
+    // Extrai features do nível específico (estrutura flat)
     const FProgressEntry *LevelEntry = nullptr;
-    if (!ExtractLevelFeatures(ClassRow->FClass.Progression, LevelInClass, LevelEntry))
+    if (!ExtractLevelFeatures(ClassRow->Progression, LevelInClass, LevelEntry))
     {
         return;
     }
 
     // Log apenas quando há features ganhas (ponto chave)
-    if (LevelEntry->Features.Num() > 0)
+    // Converte FeatureHandles para FName[] para logging
+    TArray<FName> FeatureNames;
+    for (const FDataTableRowHandle &Handle : LevelEntry->FeatureHandles)
     {
-        FString FeaturesString = BuildFeaturesString(LevelEntry->Features);
+        if (Handle.RowName != NAME_None)
+        {
+            FeatureNames.Add(Handle.RowName);
+        }
+    }
+    if (FeatureNames.Num() > 0)
+    {
+        FString FeaturesString = BuildFeaturesString(FeatureNames);
         FLogContext Context(TEXT("Multiclass"), TEXT("LogLevelChangeFeatures"));
         FLoggingSystem::LogInfo(Context, FString::Printf(TEXT("Classe '%s' nível %d: features ganhas = [%s]"),
                                                          *ClassName.ToString(), LevelInClass, *FeaturesString));

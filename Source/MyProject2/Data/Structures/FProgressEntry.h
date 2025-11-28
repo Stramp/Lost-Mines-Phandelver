@@ -8,6 +8,7 @@
 #pragma region Includes
 
 #include "CoreMinimal.h"
+#include "Engine/DataTable.h"
 #include "FProgressEntry.generated.h"
 
 #pragma endregion Includes
@@ -19,21 +20,26 @@
 
 /**
  * Struct para armazenar uma entrada de progressão por nível.
- * Segue a estrutura do ClassDataTable.json.
+ * Atualizado para estrutura FLAT usando FeatureHandles ao invés de FName[].
  * Define quais features são desbloqueadas em cada nível da classe.
+ *
+ * Migrado de FName[] para FDataTableRowHandle[] para:
+ * - Type safety (referências validadas pelo editor)
+ * - Consistência com outros JSONs do projeto
+ * - Facilita migração futura para GAS
  */
 USTRUCT(BlueprintType)
 struct MYPROJECT2_API FProgressEntry
 {
     GENERATED_BODY()
 
-    /** Nível da classe (calculado automaticamente, não editável) */
-    UPROPERTY(BlueprintReadOnly, Category = "Progress")
+    /** Nível da classe */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress")
     int32 Level = 1;
 
-    /** Lista de features desbloqueadas neste nível */
+    /** Lista de handles para features desbloqueadas neste nível */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Progress")
-    TArray<FName> Features;
+    TArray<FDataTableRowHandle> FeatureHandles;
 
     FProgressEntry() : Level(1) {}
 };

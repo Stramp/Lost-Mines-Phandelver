@@ -106,12 +106,12 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
         {
             for (const FDataTableRowHandle &TraitHandle : RaceRow->TraitHandles)
             {
-                // Resolve handle para obter TraitID
+                // Resolve handle para obter ID
                 if (const FTraitDataRow *TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
                 {
-                    if (TraitRow->TraitID != NAME_None && !TraitsSet.Contains(TraitRow->TraitID))
+                    if (TraitRow->ID != NAME_None && !TraitsSet.Contains(TraitRow->ID))
                     {
-                        TraitsSet.Add(TraitRow->TraitID);
+                        TraitsSet.Add(TraitRow->ID);
                     }
                 }
             }
@@ -125,12 +125,12 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
             {
                 for (const FDataTableRowHandle &TraitHandle : SubraceRow->TraitHandles)
                 {
-                    // Resolve handle para obter TraitID
+                    // Resolve handle para obter ID
                     if (const FTraitDataRow *TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
                     {
-                        if (TraitRow->TraitID != NAME_None && !TraitsSet.Contains(TraitRow->TraitID))
+                        if (TraitRow->ID != NAME_None && !TraitsSet.Contains(TraitRow->ID))
                         {
-                            TraitsSet.Add(TraitRow->TraitID);
+                            TraitsSet.Add(TraitRow->ID);
                         }
                     }
                 }

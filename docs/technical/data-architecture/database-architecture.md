@@ -18,18 +18,21 @@
 
 ---
 
-## 🎯 Padrão "ID + Tags + Payload"
+## 🎯 Padrão "Name + ID + Tags + Payload"
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Conceito Fundamental</b></summary>
 
-> Cada entrada em uma Data Table segue o padrão **"ID + Tags + Payload"**:
+> Cada entrada em uma Data Table segue o padrão **"Name + ID + Tags + Payload"**:
 >
-> - **ID**: Identificador único (ex: `RaceID`, `ClassID`, `ItemID`)
+> - **Name**: Nome de exibição (Key Field do Unreal Engine) - usado como chave primária na Data Table
+> - **ID**: Identificador único interno (ex: `RACE_Elf`, `CLASS_Fighter`, `ITM_Longsword`)
 > - **Tags**: Metadados e categorização via Gameplay Tags (ex: `TypeTags`)
 > - **Payload**: Dados específicos do item (ex: `TraitData`, `FeatureData`, `ProficiencyData`)
 >
-> **Exemplo:**
+> **⚠️ IMPORTANTE:** O Unreal Engine exige que o primeiro campo `FName` seja o **Key Field** da Data Table. Por isso, `Name` é sempre o primeiro campo, seguido por `ID`.
+>
+> **Exemplo Atual (✅ CORRETO):**
 >
 > ```cpp
 > USTRUCT(BlueprintType)
@@ -37,19 +40,30 @@
 > {
 >     GENERATED_BODY()
 >
->     // ID: Identificador único
->     UPROPERTY(EditAnywhere, BlueprintReadWrite)
->     FName RaceID;  // Ex: "RACE_Elf"
+>     // Name: Key Field (obrigatório pelo Unreal Engine)
+>     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
+>     FName Name;  // Ex: "Elf" - usado como chave primária
+>
+>     // ID: Identificador único interno
+>     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
+>     FName ID;  // Ex: "RACE_Elf" - usado para referências no código
 >
 >     // Tags: Categorização flexível
->     UPROPERTY(EditAnywhere, BlueprintReadWrite)
+>     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
 >     FGameplayTagContainer TypeTags;  // Ex: ["Race.Elf", "Race.Fey"]
 >
->     // Payload: Dados específicos
->     UPROPERTY(EditAnywhere, BlueprintReadWrite)
->     TMap<FName, FString> RaceData;  // Dados customizados
+>     // Payload: Dados específicos (ex: TraitHandles, LanguageHandles, etc.)
+>     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Race")
+>     TArray<FDataTableRowHandle> TraitHandles;  // Referências type-safe
 > };
 > ```
+>
+> **Benefícios desta Estrutura:**
+>
+> - ✅ **Name para UI:** Nome de exibição amigável para designers e jogadores
+> - ✅ **ID para Código:** Identificador estável e único para referências no código
+> - ✅ **Separação de Responsabilidades:** Name pode ser traduzido, ID permanece estável
+> - ✅ **Type Safety:** Editor valida referências automaticamente via `FDataTableRowHandle`
 
 </details>
 
@@ -98,7 +112,8 @@
 > if (const FTraitDataRow* TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
 > {
 >     // Usar dados do trait
->     FString TraitName = TraitRow->TraitName.ToString();
+>     FString TraitName = TraitRow->Name.ToString();  // Name para exibição
+>     FName TraitID = TraitRow->ID;  // ID para referências no código
 > }
 > ```
 
@@ -326,14 +341,16 @@
 
 > **Sempre seguir:**
 >
-> - [ ] Adicionar campo `*ID` (ex: `RaceID`, `ClassID`)
-> - [ ] Adicionar campo `TypeTags` (FGameplayTagContainer)
-> - [ ] Usar `FDataTableRowHandle` para referências a outras tabelas
-> - [ ] Usar `TSoftObjectPtr` para referências a assets
+> - [ ] **Name como primeiro campo** (Key Field obrigatório do Unreal Engine)
+> - [ ] **ID como segundo campo** (identificador único interno)
+> - [ ] Adicionar campo `TypeTags` (FGameplayTagContainer) para categorização
+> - [ ] Usar `FDataTableRowHandle` para referências a outras tabelas (type-safe)
+> - [ ] Usar `TSoftObjectPtr` para referências a assets (lazy loading)
 > - [ ] Usar `TMap<FName, FString>` para dados customizados (Payload)
 > - [ ] Criar struct que herda de `FTableRowBase`
 > - [ ] Adicionar testes para carregamento e validação
 > - [ ] Documentar referências e dependências
+> - [ ] Criar JSON correspondente com `Name` e `ID` como primeiros campos
 
 </details>
 
@@ -354,5 +371,80 @@
 
 ---
 
-**Última atualização:** 2024-12-26
-**Versão:** 1.0
+---
+
+## ✅ Status de Implementação Atual
+
+<details open>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Estrutura Atual do Projeto</b></summary>
+
+> **Todas as 15 Data Tables seguem o padrão Name + ID + Tags + Payload:**
+>
+> ### Tabelas de Referência (Master Data) - ✅ Implementadas
+>
+> 1. ✅ **`AbilityScoreDataTable`** - 6 atributos (Strength, Dexterity, etc.)
+> 2. ✅ **`TraitDataTable`** - Traits reutilizáveis (Darkvision, FeyAncestry, etc.)
+> 3. ✅ **`LanguageDataTable`** - Idiomas (Common, Elvish, etc.)
+> 4. ✅ **`SkillDataTable`** - Skills (Acrobatics, Athletics, etc.)
+> 5. ✅ **`SpellDataTable`** - Magias (Fireball, Magic Missile, etc.)
+> 6. ✅ **`SpellSchoolDataTable`** - Escolas de magia (Evocation, Abjuration, etc.)
+> 7. ✅ **`DamageTypeDataTable`** - Tipos de dano (Fire, Cold, etc.)
+> 8. ✅ **`ConditionDataTable`** - Condições (Poisoned, Charmed, etc.)
+> 9. ✅ **`ProficiencyDataTable`** - Proficiências (Armor, Weapons, etc.)
+>
+> ### Tabelas Principais - ✅ Implementadas
+>
+> 1. ✅ **`RaceDataTable`** - Raças e sub-raças
+>    - Usa: `TraitHandles`, `LanguageHandles`, `SubraceHandles` (FDataTableRowHandle)
+>    - Referencia: `TraitDataTable`, `LanguageDataTable`, `AbilityScoreDataTable`
+>
+> 2. ✅ **`ClassDataTable`** - Classes e progressão
+>    - Usa: `SavingThrowIDs`, `AvailableSkillHandles` (FDataTableRowHandle)
+>    - Referencia: `AbilityScoreDataTable`, `SkillDataTable`, `ProficiencyDataTable`
+>
+> 3. ✅ **`BackgroundDataTable`** - Backgrounds
+>    - Usa: `SkillProficiencyHandles`, `LanguageHandles`, `FeatureHandle` (FDataTableRowHandle)
+>    - Referencia: `SkillDataTable`, `LanguageDataTable`, `FeatureDataTable`
+>
+> 4. ✅ **`FeatDataTable`** - Feats
+>    - Referencia: `FeatureDataTable` (via `ID`)
+>
+> 5. ✅ **`FeatureDataTable`** - Features de classe
+>    - Dados estruturados em `FeatureData` (TMap)
+>
+> 6. ✅ **`ItemDataTable`** - Itens
+>    - Referencia: `SpellDataTable` (via `SpellHandle` - FDataTableRowHandle)
+>    - Usa: `IconTexture`, `MeshReference` (TSoftObjectPtr)
+>
+> **Padrão de Nomenclatura de IDs Implementado:**
+>
+> - `RACE_<Name>` → `RACE_Elf`, `RACE_Dwarf`, `RACE_Human`
+> - `CLASS_<Name>` → `CLASS_Fighter`, `CLASS_Wizard`
+> - `BG_<Name>` → `BG_Acolyte`, `BG_Criminal`
+> - `FEAT_<Name>` → `FEAT_Alert`, `FEAT_Athlete`
+> - `FC_<Name>` → `FC_SecondWind`, `FC_FightingStyle`
+> - `TR_<Name>` → `TR_Darkvision`, `TR_FeyAncestry`
+> - `PL_<Name>` → `PL_Common`, `PL_Elvish`
+> - `PSK_<Name>` → `PSK_Acrobatics`, `PSK_Stealth`
+> - `ABL_<Name>` → `ABL_Strength`, `ABL_Dexterity`
+> - `SPL_<Name>` → `SPL_Fireball`, `SPL_MagicMissile`
+> - `SCH_<Name>` → `SCH_Evocation`, `SCH_Abjuration`
+> - `DMG_<Name>` → `DMG_Fire`, `DMG_Cold`
+> - `COND_<Name>` → `COND_Poisoned`, `COND_Charmed`
+> - `PW_<Name>` → `PW_Simple_Weapons`
+> - `PA_<Name>` → `PA_Light_Armor`
+> - `PT_<Name>` → `PT_Thieves_Tools`
+> - `ITM_<Category>_<Name>` → `ITM_ARM_ChainMail`
+>
+> **Gameplay Tags Configuradas:**
+>
+> - ✅ Arquivo: `Content/Data/GameplayTags/MyProject2Tags.ini`
+> - ✅ Tags organizadas por categoria: Race, Item, Spell, Trait, Ability, Skill, Language, SpellSchool, DamageType, Condition, Class, Background, Feat, Feature
+> - ✅ Todas as 15 Data Tables têm campo `TypeTags` (FGameplayTagContainer)
+
+</details>
+
+---
+
+**Última atualização:** 2024-12-27
+**Versão:** 2.0 - Refletindo estrutura atual com padrão Name + ID

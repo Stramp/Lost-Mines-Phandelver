@@ -26,13 +26,13 @@ struct MYPROJECT2_API FSpellDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** ID único da magia (ex: "SPL_Fireball", "SPL_MageHand") */
+    /** Nome da magia (ex: "Fireball", "Mage Hand", "Magic Missile") - Key Field */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spell")
-    FName SpellID;
+    FName Name;
 
-    /** Nome da magia (ex: "Fireball", "Mage Hand") */
+    /** ID único da magia (ex: "SPL_Fireball", "SPL_MageHand", "SPL_MagicMissile") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spell")
-    FText SpellName;
+    FName ID;
 
     /** Nível da magia (0 = Cantrip, 1-9 = Spell Level) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spell")
@@ -59,7 +59,9 @@ struct MYPROJECT2_API FSpellDataRow : public FTableRowBase
     TMap<FName, FString> SpellData;
 
     FSpellDataRow()
-        : SpellID(NAME_None), SpellLevel(0)
+        : Name(NAME_None)
+        , ID(NAME_None)
+        , SpellLevel(0)
     {
     }
 };

@@ -99,7 +99,7 @@ namespace CharacterSheetHelpers
      * Verifica se o jogador pode selecionar uma subclasse para a classe especificada no nível dado.
      * Em D&D 5e, subclasses são geralmente escolhidas no nível 3.
      * Nota: Atualmente apenas verifica o nível mínimo. Verificação de subclasses disponíveis
-     * será implementada quando necessário usando a nova estrutura FClassData.FProgress.
+     * será implementada quando necessário usando a estrutura flat de Progression com FeatureHandles.
      *
      * @param ClassName Nome da classe
      * @param ClassLevel Nível atual na classe

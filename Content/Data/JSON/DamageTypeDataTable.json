@@ -1,0 +1,82 @@
+[
+  {
+    "Name": "Fire",
+    "ID": "DMG_Fire",
+    "TypeTags": [
+      "DamageType.Fire"
+    ],
+    "Description": "Fire damage burns and ignites targets"
+  },
+  {
+    "Name": "Cold",
+    "ID": "DMG_Cold",
+    "TypeTags": [
+      "DamageType.Cold"
+    ],
+    "Description": "Cold damage freezes and slows targets"
+  },
+  {
+    "Name": "Lightning",
+    "ID": "DMG_Lightning",
+    "TypeTags": [
+      "DamageType.Lightning"
+    ],
+    "Description": "Lightning damage shocks and electrifies targets"
+  },
+  {
+    "Name": "Poison",
+    "ID": "DMG_Poison",
+    "TypeTags": [
+      "DamageType.Poison"
+    ],
+    "Description": "Poison damage sickens and weakens targets"
+  },
+  {
+    "Name": "Psychic",
+    "ID": "DMG_Psychic",
+    "TypeTags": [
+      "DamageType.Psychic"
+    ],
+    "Description": "Psychic damage attacks the mind and consciousness"
+  },
+  {
+    "Name": "Radiant",
+    "ID": "DMG_Radiant",
+    "TypeTags": [
+      "DamageType.Radiant"
+    ],
+    "Description": "Radiant damage is pure divine or positive energy"
+  },
+  {
+    "Name": "Necrotic",
+    "ID": "DMG_Necrotic",
+    "TypeTags": [
+      "DamageType.Necrotic"
+    ],
+    "Description": "Necrotic damage withers matter and even the soul"
+  },
+  {
+    "Name": "Acid",
+    "ID": "DMG_Acid",
+    "TypeTags": [
+      "DamageType.Acid"
+    ],
+    "Description": "Acid damage corrodes and dissolves matter"
+  },
+  {
+    "Name": "Force",
+    "ID": "DMG_Force",
+    "TypeTags": [
+      "DamageType.Force"
+    ],
+    "Description": "Force damage is pure magical energy focused into a damaging form"
+  },
+  {
+    "Name": "Thunder",
+    "ID": "DMG_Thunder",
+    "TypeTags": [
+      "DamageType.Thunder"
+    ],
+    "Description": "Thunder damage is a sound-based attack that can deafen"
+  }
+]

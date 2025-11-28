@@ -22,13 +22,13 @@ struct MYPROJECT2_API FTraitDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** ID único do trait (ex: "TR_Darkvision", "TR_FeyAncestry") */
+    /** Nome do trait (ex: "Darkvision", "Fey Ancestry", "Trance") - Key Field */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trait")
-    FName TraitID;
+    FName Name;
 
-    /** Nome do trait (ex: "Darkvision", "Fey Ancestry") */
+    /** ID único do trait (ex: "TR_Darkvision", "TR_FeyAncestry", "TR_Trance") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trait")
-    FText TraitName;
+    FName ID;
 
     /** Descrição textual do trait (localizável) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trait")
@@ -47,7 +47,8 @@ struct MYPROJECT2_API FTraitDataRow : public FTableRowBase
     FDataTableRowHandle SpellReference;
 
     FTraitDataRow()
-        : TraitID(NAME_None)
+        : Name(NAME_None)
+        , ID(NAME_None)
     {
     }
 };

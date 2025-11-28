@@ -22,13 +22,13 @@ struct MYPROJECT2_API FLanguageDataRow : public FTableRowBase
 {
     GENERATED_BODY()
 
-    /** ID único do idioma (ex: "PL_Common", "PL_Elvish") */
+    /** Nome do idioma (ex: "Common", "Elvish", "Dwarvish") - Key Field */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Language")
-    FName LanguageID;
+    FName Name;
 
-    /** Nome do idioma (ex: "Common", "Elvish") */
+    /** ID único do idioma (ex: "PL_Common", "PL_Elvish", "PL_Dwarvish") */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Language")
-    FText LanguageName;
+    FName ID;
 
     /** Descrição do idioma (localizável) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Language")
@@ -47,7 +47,10 @@ struct MYPROJECT2_API FLanguageDataRow : public FTableRowBase
     FGameplayTagContainer TypeTags;
 
     FLanguageDataRow()
-        : LanguageID(NAME_None), Script(NAME_None), Type(NAME_None)
+        : Name(NAME_None)
+        , ID(NAME_None)
+        , Script(NAME_None)
+        , Type(NAME_None)
     {
     }
 };
