@@ -1,0 +1,68 @@
+/* Custom CSS for MyProject2 Documentation */
+
+/* Custom styles for Material for MkDocs */
+
+/* Improve code block readability */
+.highlight {
+    border-radius: 4px;
+}
+
+/* Custom admonition styles */
+.md-typeset .admonition {
+    border-radius: 4px;
+}
+
+/* Custom table styles */
+.md-typeset table:not([class]) {
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Custom link styles */
+.md-typeset a {
+    color: var(--md-primary-fg-color);
+}
+
+.md-typeset a:hover {
+    color: var(--md-accent-fg-color);
+    text-decoration: underline;
+}
+
+/* Custom header styles */
+.md-header {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Custom footer styles */
+.md-footer {
+    background-color: var(--md-default-bg-color--dark);
+}
+
+/* Custom navigation styles */
+.md-nav__link--active {
+    font-weight: 600;
+}
+
+/* Custom search styles */
+.md-search__form {
+    border-radius: 4px;
+}
+
+/* Responsive improvements */
+@media screen and (max-width: 76.25em) {
+    .md-nav--primary .md-nav__title {
+        font-weight: 600;
+    }
+}
+
+/* Print styles */
+@media print {
+    .md-sidebar,
+    .md-header {
+        display: none;
+    }
+
+    .md-content {
+        margin-left: 0;
+    }
+}

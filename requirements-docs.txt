@@ -1,0 +1,23 @@
+# Requirements for MkDocs Material Documentation
+#
+# Install with: pip install -r requirements-docs.txt
+#
+# This file contains only documentation dependencies, separate from project dependencies.
+
+# MkDocs and Material Theme
+mkdocs>=1.5.0
+mkdocs-material>=9.5.0
+
+# Plugins
+mkdocs-git-revision-date-localized-plugin>=1.2.0
+mkdocs-git-committers-plugin-2>=1.2.0
+
+# Extensions
+pymdown-extensions>=10.0.0
+markdown-include>=0.8.0
+
+# Optional: For Mermaid diagrams (if using mermaid)
+# mkdocs-mermaid2-plugin>=1.0.0
+
+# Optional: For Math formulas (if using math)
+# python-markdown-math>=0.8.0

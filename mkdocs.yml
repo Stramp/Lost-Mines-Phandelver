@@ -1,0 +1,268 @@
+# MkDocs Material Configuration for MyProject2
+#
+# This configuration generates a beautiful HTML documentation site from Markdown files.
+#
+# Usage:
+#   1. Install dependencies: pip install -r requirements.txt
+#   2. Build site: mkdocs build
+#   3. Serve locally: mkdocs serve
+#   4. Deploy: mkdocs gh-deploy (for GitHub Pages)
+
+site_name: MyProject2 Documentation
+site_description: Complete documentation for MyProject2 - D&D 5e Action RPG on Unreal Engine 5.7
+site_author: MyProject2 Team
+site_url: https://yourusername.github.io/MyProject2
+
+# Custom assets
+extra_css:
+  - assets/css/custom.css
+extra_javascript:
+  - assets/js/custom.js
+
+# Repository configuration
+repo_name: MyProject2
+repo_url: https://github.com/yourusername/MyProject2
+edit_uri: edit/main/docs/
+watch:
+  - docs
+
+# Copyright
+copyright: Copyright &copy; 2024 MyProject2 Team
+
+# Theme: Material for MkDocs
+theme:
+  name: material
+  language: pt-BR
+  palette:
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Alternar para modo escuro
+    # Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Alternar para modo claro
+  features:
+    # Navigation features
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+    - navigation.path
+    - navigation.instant
+    - navigation.instant.prefetch
+    # Search features
+    - search.highlight
+    - search.share
+    - search.suggest
+    - search.boost
+    # Content features
+    - content.code.copy
+    - content.code.annotate
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    # Header features
+    - header.autohide
+    # Footer features
+    - footer
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/book-open-variant
+  # Custom logo (uncomment when logo is added)
+  # logo: assets/images/logo.svg
+  # favicon: assets/images/favicon.ico
+    admonition:
+      note: octicons/tag-16
+      abstract: octicons/checklist-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      success: octicons/check-16
+      question: octicons/question-16
+      warning: octicons/alert-16
+      failure: octicons/x-circle-16
+      danger: octicons/zap-16
+      bug: octicons/bug-16
+      example: octicons/beaker-16
+      quote: octicons/quote-16
+
+# Plugins
+plugins:
+  - search:
+      lang: en
+      separator: '[\s\-,:]+'
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: date
+      fallback_to_build_date: false
+      locale: pt_BR
+  - git-committers:
+      repository: yourusername/MyProject2
+      branch: main
+      enabled: !ENV [CI, false]
+  # Social cards plugin (for social media previews)
+  - social:
+      cards: true
+  # Privacy plugin (for GDPR compliance) - optional
+  # - privacy:
+  #     enabled: !ENV [CI, false]
+
+# Extensions
+markdown_extensions:
+  # Code highlighting
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      use_pygments: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: graphviz
+          class: graphviz
+          format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: math
+          class: math
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  # Content organization
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - admonition
+  - pymdownx.details
+  # Emojis and icons
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  # Attributes and HTML
+  - attr_list
+  - md_in_html
+  # Table of contents
+  - toc:
+      permalink: true
+      title: Nesta página
+      baselevel: 2
+      toc_depth: 3
+  # Math (optional, for formulas)
+  - pymdownx.arithmatex:
+      generic: true
+  # Better lists
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  # Keys (for keyboard shortcuts)
+  - pymdownx.keys
+  # Better tables
+  - tables
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+
+# Navigation
+nav:
+  - Home: index.md
+  - Navigation: NAVIGATION.md
+  - Glossary: GLOSSARY.md
+  - MkDocs:
+    - Quick Start: MKDOCS-QUICK-START.md
+    - Setup Complete: MKDOCS-SETUP-COMPLETE.md
+    - Improvements: MKDOCS-IMPROVEMENTS.md
+  - Design:
+    - Overview: design/index.md
+    - Game Design Document: design/gdd.md
+    - GAS + D&D 5e Adaptation: design/gas-dnd-adaptation.md
+    - D&D 5e Rules:
+      - Overview: design/dnd-rules/index.md
+      - Ability Scores: design/dnd-rules/ability-scores.md
+      - Point Buy System: design/dnd-rules/point-buy.md
+      - Races: design/dnd-rules/races.md
+      - Character Creation: design/dnd-rules/character-creation.md
+      - Multiclassing: design/dnd-rules/multiclassing.md
+      - Level Up: design/dnd-rules/level-up.md
+      - Spellcasting: design/dnd-rules/spellcasting.md
+  - Technical:
+    - Overview: technical/index.md
+    - Architecture: technical/architecture.md
+    - API Reference: technical/api.md
+    - Data Architecture:
+      - Overview: technical/data-architecture/index.md
+      - Database Architecture: technical/data-architecture/database-architecture.md
+      - Ideal Data Structure: technical/data-architecture/ideal-data-structure-report.md
+      - High Performance: technical/data-architecture/high-performance-architectures-report.md
+      - JSON Schema: technical/data-architecture/json-schema.md
+    - Guides:
+      - Overview: technical/guides/index.md
+      - Getting Started: technical/guides/getting-started.md
+      - Setup: technical/guides/setup.md
+      - Data Tables Setup: technical/guides/data-tables-setup.md
+      - Data Tables: technical/guides/data-tables.md
+      - Workflows: technical/guides/workflows.md
+      - Testing: technical/guides/testing.md
+      - TDD Complete Guide: technical/guides/tdd-complete-guide.md
+      - Testing Implementation Plan: technical/guides/testing-implementation-plan.md
+      - Troubleshooting: technical/guides/troubleshooting.md
+      - Algorithmic Guide: technical/guides/algorithmic/character-creation.md
+    - Reviews:
+      - Structural Review: technical/reviews/structural-review-report.md
+      - Structural Analysis: technical/reviews/structural-analysis-report.md
+      - Improvements Checklist: technical/reviews/structural-improvements-checklist.md
+      - Test Execution: technical/reviews/test-execution-report.md
+      - Implementation Summary: technical/reviews/implementation-summary.md
+      - Next Steps: technical/reviews/next-steps-implementation.md
+  - Planning:
+    - Overview: planning/index.md
+    - Roadmap: planning/roadmap.md
+    - Structural Review Integration: planning/revisao-estrutural-integracao.md
+    - Technical Plans:
+      - Starting Items: planning/roadmap-tecnico-itens-iniciais.md
+      - Inventory Boilerplate: planning/roadmap-tecnico-inventario-boilerplate.md
+
+# Extra
+extra:
+  # Social links
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yourusername/MyProject2
+      name: GitHub
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/yourinvite
+      name: Discord
+  # Versioning
+  version:
+    provider: mike
+  # Analytics (optional - uncomment and configure)
+  # analytics:
+  #   provider: google
+  #   property: G-XXXXXXXXXX
+  # Generator info
+  generator: false
+  # Consent (for GDPR compliance)
+  consent:
+    title: Consentimento de Cookies
+    description: >-
+      Usamos cookies para reconhecer suas visitas repetidas e preferências, bem
+      como para medir a eficácia de nossa documentação e se os usuários
+      encontram o que estão procurando. Com seu consentimento, você está nos
+      ajudando a tornar nossa documentação melhor.
+  # SEO and metadata
+  robots:
+    - index, follow
+  # Custom CSS (optional - create docs/assets/css/custom.css)
+  # extra_css:
+  #   - assets/css/custom.css
+  # Custom JavaScript (optional - create docs/assets/js/custom.js)
+  # extra_javascript:
+  #   - assets/js/custom.js
