@@ -81,7 +81,7 @@ related: [../roadmaps/roadmap.md, ../../technical/reviews/]
 
 >
 
-</details>>     > **Documentação:** `docs/design/dnd-rules/spellcasting.md`
+</details>>     > **Documentação:** `docs/03 - TDD/dnd-rules/spellcasting.md`
 >     >
 >     > **Status:** 📋 Documentado mas não implementado
 >     >
@@ -111,7 +111,7 @@ related: [../roadmaps/roadmap.md, ../../technical/reviews/]
         <details>
         <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔴 2. Sistema de ASI (Ability Score Improvements) - PARCIAL</summary>
 
-        > **Documentação:** `docs/design/dnd-rules/ability-scores.md`
+        > **Documentação:** `docs/03 - TDD/dnd-rules/ability-scores.md`
         >
         > **Status:** ⚠️ Parcial - Documentado mas sem sistema completo
         >
@@ -136,7 +136,7 @@ related: [../roadmaps/roadmap.md, ../../technical/reviews/]
         </details>
         <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🟡 3. Level Up System Completo - PARCIAL</summary>
 
-        > **Documentação:** `docs/design/dnd-rules/level-up.md`
+        > **Documentação:** `docs/03 - TDD/dnd-rules/level-up.md`
         >
         > **Status:** ⚠️ Parcial - Features desbloqueadas, mas sem processo de level up
         >
@@ -178,7 +178,7 @@ related: [../roadmaps/roadmap.md, ../../technical/reviews/]
         </details>
         <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🟢 5. Multiclassing Spell Slots - INTEGRADO</summary>
 
-        > **Documentação:** `docs/design/dnd-rules/multiclassing.md` e `spellcasting.md`
+        > **Documentação:** `docs/03 - TDD/dnd-rules/multiclassing.md` e `spellcasting.md`
         >
         > **Status:** 📋 Planejado (integrado em Spellcasting)
         >
@@ -289,11 +289,11 @@ related: [../roadmaps/roadmap.md, ../../technical/reviews/]
 >
 > **Regras D&D 5e:**
 >
-> - **[Regras D&D 5e](../design/dnd-rules/)** - Documentação das regras
-> - **[Spellcasting](../design/dnd-rules/spellcasting.md)** - Regras de spellcasting
-> - **[Ability Scores](../design/dnd-rules/ability-scores.md)** - Regras de ASI
-> - **[Level Up](../design/dnd-rules/level-up.md)** - Sistema de level up
-> - **[Multiclassing](../design/dnd-rules/multiclassing.md)** - Regras de multiclassing
+> - **[Regras D&D 5e](../03 - TDD/dnd-rules/)** - Documentação das regras
+> - **[Spellcasting](../03 - TDD/dnd-rules/spellcasting.md)** - Regras de spellcasting
+> - **[Ability Scores](../03 - TDD/dnd-rules/ability-scores.md)** - Regras de ASI
+> - **[Level Up](../03 - TDD/dnd-rules/level-up.md)** - Sistema de level up
+> - **[Multiclassing](../03 - TDD/dnd-rules/multiclassing.md)** - Regras de multiclassing
 >
 > **Arquitetura Técnica:**
 >

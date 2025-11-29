@@ -69,7 +69,7 @@ docs/design/
 
 ## 📖 Regras D&D 5e
 
-**Localização:** `docs/design/dnd-rules/`
+**Localização:** `docs/03 - TDD/dnd-rules/`
 
 **Status:**
 - ✅ Ability Scores, Point Buy, Raças, Criação, Multiclassing, Level Up (6/7 completos)

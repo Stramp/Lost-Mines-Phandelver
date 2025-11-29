@@ -39,20 +39,20 @@ last_updated: 2024-12-27
 >
 > **Documentos Principais:**
 >
-> - [Game Design Document (GDD)](design/gdd.md) - Visão completa do jogo final
+> - [Dashboard GDD](01%20-%20GDD/dashboard-template.md) - Dashboard com visão geral e navegação completa do GDD
 > - [Adaptação D&D 5e + GAS](design/gas-dnd-adaptation.md) - Como adaptar D&D 5e para Unreal Engine 5
-> - [Regras D&D 5e](design/dnd-rules/) - Documentação algorítmica das regras
+> - [Regras D&D 5e](03 - TDD/dnd-rules/) - Documentação algorítmica das regras
 >
-> **Subcategorias - Regras D&D 5e** (`design/dnd-rules/`):
+> **Subcategorias - Regras D&D 5e** (`03 - TDD/dnd-rules/`):
 >
-> - [Índice](design/dnd-rules/index.md)
-> - [Ability Scores](design/dnd-rules/ability-scores.md)
-> - [Point Buy System](design/dnd-rules/point-buy.md)
-> - [Raças](design/dnd-rules/races.md)
-> - [Criação de Personagem](design/dnd-rules/character-creation.md)
-> - [Multiclassing](design/dnd-rules/multiclassing.md)
-> - [Level Up](design/dnd-rules/level-up.md)
-> - [Spellcasting](design/dnd-rules/spellcasting.md)
+> - [Índice](03 - TDD/dnd-rules/index.md)
+> - [Ability Scores](03 - TDD/dnd-rules/ability-scores.md)
+> - [Point Buy System](03 - TDD/dnd-rules/point-buy.md)
+> - [Raças](03 - TDD/dnd-rules/races.md)
+> - [Criação de Personagem](03 - TDD/dnd-rules/character-creation.md)
+> - [Multiclassing](03 - TDD/dnd-rules/multiclassing.md)
+> - [Level Up](03 - TDD/dnd-rules/level-up.md)
+> - [Spellcasting](03 - TDD/dnd-rules/spellcasting.md)
 >
 
 </details>
@@ -128,7 +128,7 @@ last_updated: 2024-12-27
 </details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>👤 Quero criar um personagem</b></summary>
 
->     1. [docs/design/dnd-rules/character-creation.md](design/dnd-rules/character-creation.md) - Regras D&D 5e
+>     1. [docs/03 - TDD/dnd-rules/character-creation.md](03 - TDD/dnd-rules/character-creation.md) - Regras D&D 5e
 >     2. [docs/technical/guides/getting-started.md](technical/guides/getting-started.md) - Guia prático
 >     3. [docs/technical/guides/workflows.md](technical/guides/workflows.md) - Fluxos principais
 >     4. [docs/technical/guides/algorithmic/character-creation.md](technical/guides/algorithmic/character-creation.md) - Algoritmo completo
@@ -146,7 +146,7 @@ last_updated: 2024-12-27
 </details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚙️ Quero implementar uma feature</b></summary>
 
->     1. [docs/design/dnd-rules/](design/dnd-rules/) - Entender regras D&D 5e
+>     1. [docs/03 - TDD/dnd-rules/](03 - TDD/dnd-rules/) - Entender regras D&D 5e
 >     2. [docs/technical/architecture.md](technical/architecture.md) - Ver padrões arquiteturais
 >     3. [docs/technical/api.md](technical/api.md) - Ver classes disponíveis
 >     4. [docs/technical/guides/](technical/guides/) - Seguir guias práticos
@@ -197,7 +197,7 @@ last_updated: 2024-12-27
 </details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>💰 Point Buy System</b></summary>
 
->     - [Regras D&D 5e](design/dnd-rules/point-buy.md)
+>     - [Regras D&D 5e](03 - TDD/dnd-rules/point-buy.md)
 >     - [Workflows](technical/guides/workflows/workflows.md#point-buy-system)
 >     - [Glossário](GLOSSARY.md#point-buy-system)
 >
@@ -205,7 +205,7 @@ last_updated: 2024-12-27
 </details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎭 Multiclassing</b></summary>
 
->     - [Regras D&D 5e](design/dnd-rules/multiclassing.md)
+>     - [Regras D&D 5e](03 - TDD/dnd-rules/multiclassing.md)
 >     - [Workflows](technical/guides/workflows/workflows.md#multiclassing)
 >     - [Glossário](GLOSSARY.md#multiclassing)
 >
@@ -227,7 +227,7 @@ last_updated: 2024-12-27
 
 > - [API Reference](technical/api.md) - Classes e funções
 > - [Glossário](GLOSSARY.md) - Conceitos e termos
-> - [Regras D&D 5e](design/dnd-rules/) - Regras do jogo
+> - [Regras D&D 5e](03 - TDD/dnd-rules/) - Regras do jogo
 > - [JSON Schema](technical/data-architecture/json-schema.md) - Estrutura de dados
 >
 
@@ -272,9 +272,9 @@ last_updated: 2024-12-27
 > **"Data-Driven"** → [Arquitetura](technical/architecture.md#data-driven), [Glossário](GLOSSARY.md#data-driven-design)
 >
 
-> **"Point Buy"** → [Regras](design/dnd-rules/point-buy.md), [Workflows](technical/guides/workflows/workflows.md#point-buy-system)
+> **"Point Buy"** → [Regras](03 - TDD/dnd-rules/point-buy.md), [Workflows](technical/guides/workflows/workflows.md#point-buy-system)
 >
-> **"Multiclassing"** → [Regras](design/dnd-rules/multiclassing.md), [Workflows](technical/guides/workflows/workflows.md#multiclassing)
+> **"Multiclassing"** → [Regras](03 - TDD/dnd-rules/multiclassing.md), [Workflows](technical/guides/workflows/workflows.md#multiclassing)
 >
 > **"GAS"** → [Adaptação](design/gas-dnd-adaptation.md), [Arquitetura](technical/architecture.md#preparation-for-gas)
 >

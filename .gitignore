@@ -117,3 +117,6 @@ __pycache__/
 
 # Documentação pessoal (não versionada)
 memorias/
+
+# Pasta de execução temporária (relatórios e tarefas em andamento)
+docs/00 - Executando/

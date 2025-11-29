@@ -81,9 +81,9 @@ title: "Documentation"
 > **Documentos Disponíveis:**
 >
 
-> - [**GDD**](design/gdd.md) - Game Design Document completo
+> - [**Dashboard GDD**](01%20-%20GDD/dashboard-template.md) - Dashboard com visão geral e navegação completa do GDD
 >
-> - [**Regras D&D 5e**](design/dnd-rules/) - Documentação algorítmica das regras
+> - [**Regras D&D 5e**](03 - TDD/dnd-rules/) - Documentação algorítmica das regras
 >
 > - [**Adaptação GAS**](design/gas-dnd-adaptation.md) - Como adaptar D&D 5e para Unreal Engine 5
 >
@@ -91,11 +91,11 @@ title: "Documentation"
 >
 > | Regra | Status | Documento |
 > |-------|--------|-----------|
-> | Ability Scores | ✅ | [ability-scores.md](design/dnd-rules/ability-scores.md) |
-> | Point Buy | ✅ | [point-buy.md](design/dnd-rules/point-buy.md) |
-> | Raças | ✅ | [races.md](design/dnd-rules/races.md) |
-> | Multiclassing | ✅ | [multiclassing.md](design/dnd-rules/multiclassing.md) |
-> | Spellcasting | 🔮 | [spellcasting.md](design/dnd-rules/spellcasting.md) |
+> | Ability Scores | ✅ | [ability-scores.md](03 - TDD/dnd-rules/ability-scores.md) |
+> | Point Buy | ✅ | [point-buy.md](03 - TDD/dnd-rules/point-buy.md) |
+> | Raças | ✅ | [races.md](03 - TDD/dnd-rules/races.md) |
+> | Multiclassing | ✅ | [multiclassing.md](03 - TDD/dnd-rules/multiclassing.md) |
+> | Spellcasting | 🔮 | [spellcasting.md](03 - TDD/dnd-rules/spellcasting.md) |
 >
 > → [Ver documentação de design](design/index.md)
 >

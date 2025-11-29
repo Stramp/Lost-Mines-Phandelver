@@ -85,7 +85,7 @@ last_updated: 2024-12-27
 >
 > **Onde encontrar:**
 >
-> - [Regras D&D 5e](design/dnd-rules/point-buy.md)
+> - [Regras D&D 5e](03 - TDD/dnd-rules/point-buy.md)
 > - [Workflows](technical/guides/workflows/workflows.md#point-buy-system)
 > - [API Reference](technical/api.md#point-buy-motor)
 >
@@ -109,7 +109,7 @@ last_updated: 2024-12-27
 >
 > **Onde encontrar:**
 >
-> - [Regras D&D 5e](design/dnd-rules/multiclassing.md)
+> - [Regras D&D 5e](03 - TDD/dnd-rules/multiclassing.md)
 > - [Workflows](technical/guides/workflows/workflows.md#multiclassing)
 > - [API Reference](technical/api.md#multiclass-motor)
 >
@@ -452,7 +452,7 @@ last_updated: 2024-12-27
 >
 > **Onde encontrar:**
 >
-> - [Regras D&D 5e](design/dnd-rules/ability-scores.md)
+> - [Regras D&D 5e](03 - TDD/dnd-rules/ability-scores.md)
 > - [API Reference](technical/api.md#ability-scores)
 >
 > **Relacionado:** Point Buy System, Modifiers, Saving Throws
@@ -476,7 +476,7 @@ last_updated: 2024-12-27
 >
 > **Onde encontrar:**
 >
-> - [Regras D&D 5e](design/dnd-rules/)
+> - [Regras D&D 5e](03 - TDD/dnd-rules/)
 > - [API Reference](technical/api.md#proficiencies)
 >
 > **Relacionado:** Skills, Saving Throws, Weapon Proficiencies
@@ -498,7 +498,7 @@ last_updated: 2024-12-27
 >
 > **Onde encontrar:**
 >
-> - [Regras D&D 5e](design/dnd-rules/level-up.md)
+> - [Regras D&D 5e](03 - TDD/dnd-rules/level-up.md)
 > - [API Reference](technical/api.md#features)
 >
 > **Relacionado:** Class Features, Race Features, Feats

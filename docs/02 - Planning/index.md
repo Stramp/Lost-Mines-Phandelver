@@ -341,11 +341,11 @@ A documentação de planejamento está organizada nas seguintes categorias:
 >
 > **Outras Seções:**
 >
-> - [GDD](../design/gdd.md) - Visão do jogo final
+> - [Dashboard GDD](../01%20-%20GDD/dashboard-template.md) - Dashboard com visão geral e navegação completa do GDD
 >
 > - [Arquitetura Técnica](../technical/architecture.md) - Decisões técnicas
 >
-> - [Regras D&D 5e](../design/dnd-rules/) - Regras implementadas
+> - [Regras D&D 5e](../03 - TDD/dnd-rules/) - Regras implementadas
 >
 > **Recursos:**
 >
