@@ -117,13 +117,13 @@ title: "Documentation"
 >
 > **Guias Disponíveis:**
 >
-> - [Setup](technical/guides/setup.md) - Configurar ambiente
+> - [Setup](technical/guides/setup/setup.md) - Configurar ambiente
 >
-> - [Getting Started](technical/guides/getting-started.md) - Criar primeiro personagem
+> - [Getting Started](technical/guides/setup/getting-started.md) - Criar primeiro personagem
 >
-> - [Workflows](technical/guides/workflows.md) - Fluxos principais
+> - [Workflows](technical/guides/workflows/workflows.md) - Fluxos principais
 >
-> - [Testes](technical/guides/testing.md) - Testes automatizados
+> - [Testes](technical/guides/testing/testing.md) - Testes automatizados
 >
 > → [Ver documentação técnica](technical/index.md)
 >
@@ -136,11 +136,11 @@ title: "Documentation"
 > **Documentos Disponíveis:**
 >
 
-> - [**Roadmap**](planning/roadmap.md) - Roadmap completo com todas as fases
+> - [**Roadmap**](planning/roadmaps/roadmap.md) - Roadmap completo com todas as fases
 >
-> - [**Revisão Estrutural**](planning/revisao-estrutural-integracao.md) - Análise e melhorias
+> - [**Revisão Estrutural**](planning/architecture/revisao-estrutural-integracao.md) - Análise e melhorias
 >
-> - [**Planos Técnicos**](planning/roadmap-tecnico-itens-iniciais.md) - Implementação detalhada
+> - [**Planos Técnicos**](planning/roadmaps/roadmap-tecnico-itens-iniciais.md) - Implementação detalhada
 >
 > **Fases do Roadmap:**
 >
@@ -216,11 +216,11 @@ title: "Documentation"
 
 > 1. [Leia o README](../../README.md) - Entenda o projeto
 >
-> 2. [Configure o ambiente](technical/guides/setup.md) - Instale e configure
+> 2. [Configure o ambiente](technical/guides/setup/setup.md) - Instale e configure
 >
 > 3. [Crie Data Tables](technical/guides/data-tables-setup.md) - Configure dados
 >
-> 4. [Crie seu primeiro personagem](technical/guides/getting-started.md) - Primeiro uso
+> 4. [Crie seu primeiro personagem](technical/guides/setup/getting-started.md) - Primeiro uso
 >
 > **Quer entender a arquitetura?**
 >

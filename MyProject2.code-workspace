@@ -43,7 +43,8 @@
 		},
 		"editor.suggestFontSize": 0,
 		"powershell.cwd": "MyProject2",
-		"dotnet.defaultSolution": "UE5/Engine/Source/Programs/UnrealBuildTool/UnrealBuildTool.sln"
+		"dotnet.defaultSolution": "UE5/Engine/Source/Programs/UnrealBuildTool/UnrealBuildTool.sln",
+		"liveServer.settings.multiRootWorkspaceName": "MyProject2"
 	},
 	"extensions": {
 		"recommendations": [

@@ -26,6 +26,39 @@ last_updated: 2024-12-27
 </details>
 ---
 
+## Estrutura de Documentos
+
+A documentação de planejamento está organizada nas seguintes categorias:
+
+### 📊 Roadmaps (`roadmaps/`)
+- `roadmap.md` - Roadmap principal consolidado
+- `roadmap-estrutura.md` - Roadmap de estrutura
+- `roadmap-funcional.md` - Roadmap funcional
+- `roadmap-tecnico.md` - Roadmap técnico
+- `roadmap-tecnico-inventario-boilerplate.md` - Inventário de boilerplate
+- `roadmap-tecnico-itens-iniciais.md` - Itens técnicos iniciais
+
+### 🏗️ Arquitetura (`architecture/`)
+- `arquitetura-decisoes-criticas.md` - Decisões arquiteturais críticas (DEC-001, DEC-002, etc.)
+- `revisao-estrutural-integracao.md` - Revisão estrutural e integração
+
+### ✅ Validação (`validation/`)
+- `data-tables-validation.md` - Validação de data tables
+
+### 📋 Metodologia (`methodology/`)
+- `agile-methodology.md` - Metodologia ágil do projeto
+
+### 📝 Backlog (`backlog/`)
+- `backlog.md` - Backlog do projeto
+
+### 📅 Sprints (`sprints/`)
+- `sprints.md` - Visão geral das sprints
+- `sprint-1/` - Sprint 1 e seus documentos (DATA-000, DATA-001, etc.)
+- `sprint-2/`, `sprint-3/`, `sprint-4/` - Sprints futuras
+
+### 📜 Changelog (`changelog/`)
+- `CHANGELOG.md` - Histórico de mudanças no planejamento
+
 ## Documentos Principais
 
 <details>
@@ -33,20 +66,20 @@ last_updated: 2024-12-27
 
 > ### Roadmap do Projeto
 >
-> [**roadmap.md**](roadmap.md) - Roadmap principal (visão estratégica)
+> [**roadmap.md**](roadmaps/roadmap.md) - Roadmap principal (visão estratégica)
 >
 > **Roadmaps Específicos:**
 >
-> - [**data-tables-validation.md**](data-tables-validation.md) - 🔴 **PRIORIDADE CRÍTICA** - Checklist de validação de cada tabela (Fase 0)
-> - [**roadmap-tecnico.md**](roadmap-tecnico.md) - Bugs, correções e melhorias técnicas
-> - [**roadmap-funcional.md**](roadmap-funcional.md) - Features por categoria (Step 3-6)
-> - [**roadmap-estrutura.md**](roadmap-estrutura.md) - Estrutura hierárquica de roadmaps
+> - [**data-tables-validation.md**](validation/data-tables-validation.md) - 🔴 **PRIORIDADE CRÍTICA** - Checklist de validação de cada tabela (Fase 0)
+> - [**roadmap-tecnico.md**](roadmaps/roadmap-tecnico.md) - Bugs, correções e melhorias técnicas
+> - [**roadmap-funcional.md**](roadmaps/roadmap-funcional.md) - Features por categoria (Step 3-6)
+> - [**roadmap-estrutura.md**](roadmaps/roadmap-estrutura.md) - Estrutura hierárquica de roadmaps
 >
 > ### Metodologia Ágil
 >
-> [**agile-methodology.md**](agile-methodology.md) - Guia de uso de metodologias ágeis (Scrum/Kanban)
+> [**agile-methodology.md**](methodology/agile-methodology.md) - Guia de uso de metodologias ágeis (Scrum/Kanban)
 >
-> [**backlog.md**](backlog.md) - Lista priorizada de trabalho (MoSCoW)
+> [**backlog.md**](backlog/backlog.md) - Lista priorizada de trabalho (MoSCoW)
 >
 > [**sprints.md**](sprints.md) - Planejamento de sprints e iterações
 
@@ -75,7 +108,7 @@ last_updated: 2024-12-27
 
     - Histórico de mudanças
 
-    [Ver roadmap completo](roadmap.md)
+    [Ver roadmap completo](roadmaps/roadmap.md)
 
 
 <details>
@@ -85,7 +118,7 @@ last_updated: 2024-12-27
 </details>
     ### Análise e Melhorias
 
-    [**revisao-estrutural-integracao.md**](revisao-estrutural-integracao.md) - Revisão estrutural completa
+    [**revisao-estrutural-integracao.md**](architecture/revisao-estrutural-integracao.md) - Revisão estrutural completa
 
     | Aspecto | Status |
     |---------|--------|
@@ -95,7 +128,7 @@ last_updated: 2024-12-27
     | **Integração no roadmap** | ✅ Completo (Fase 1.5 criada) |
     | **Status de sistemas** | ✅ Documentado |
 
-    [Ver revisão estrutural](revisao-estrutural-integracao.md)
+    [Ver revisão estrutural](architecture/revisao-estrutural-integracao.md)
 
 
 <details>
@@ -105,7 +138,7 @@ last_updated: 2024-12-27
 </details>
     ### Implementação Detalhada
 
-    [**roadmap-tecnico-itens-iniciais.md**](roadmap-tecnico-itens-iniciais.md) - Plano técnico para itens iniciais
+    [**roadmap-tecnico-itens-iniciais.md**](roadmaps/roadmap-tecnico-itens-iniciais.md) - Plano técnico para itens iniciais
 
     | Etapa | Descrição |
     |-------|-----------|
@@ -116,7 +149,7 @@ last_updated: 2024-12-27
     | **Testes** | Estratégia de testes completa |
     | **Estimativa** | Tempo estimado por fase |
 
-    [Ver plano técnico](roadmap-tecnico-itens-iniciais.md)
+    [Ver plano técnico](roadmaps/roadmap-tecnico-itens-iniciais.md)
 
 ---
 
@@ -279,12 +312,12 @@ last_updated: 2024-12-27
 >
 > **Navegação rápida:**
 >
-> - 🗺️ **Visão Geral:** [roadmap.md](roadmap.md)
-> - 📋 **O Que Fazer Agora:** [backlog.md](backlog.md) → [sprints.md](sprints.md)
-> - 🔧 **Detalhes Técnicos:** [roadmap-tecnico.md](roadmap-tecnico.md)
-> - ⚙️ **Detalhes Funcionais:** [roadmap-funcional.md](roadmap-funcional.md)
-> - 📚 **Metodologia Ágil:** [agile-methodology.md](agile-methodology.md)
-> - 📝 **Histórico:** [CHANGELOG.md](CHANGELOG.md)
+> - 🗺️ **Visão Geral:** [roadmap.md](roadmaps/roadmap.md)
+> - 📋 **O Que Fazer Agora:** [backlog.md](backlog/backlog.md) → [sprints.md](sprints.md)
+> - 🔧 **Detalhes Técnicos:** [roadmap-tecnico.md](roadmaps/roadmap-tecnico.md)
+> - ⚙️ **Detalhes Funcionais:** [roadmap-funcional.md](roadmaps/roadmap-funcional.md)
+> - 📚 **Metodologia Ágil:** [agile-methodology.md](methodology/agile-methodology.md)
+> - 📝 **Histórico:** [CHANGELOG.md](changelog/CHANGELOG.md)
 
 </details>
 
@@ -298,13 +331,13 @@ last_updated: 2024-12-27
 > **Documentação Principal:**
 >
 
-> - [Roadmap Completo](roadmap.md) - Planejamento detalhado (com Fase 1.5 integrada)
+> - [Roadmap Completo](roadmaps/roadmap.md) - Planejamento detalhado (com Fase 1.5 integrada)
 >
-> - [Revisão Estrutural](revisao-estrutural-integracao.md) - Análise completa e melhorias identificadas
+> - [Revisão Estrutural](architecture/revisao-estrutural-integracao.md) - Análise completa e melhorias identificadas
 >
-> - [Plano Técnico: Itens Iniciais](roadmap-tecnico-itens-iniciais.md) - Implementação detalhada
+> - [Plano Técnico: Itens Iniciais](roadmaps/roadmap-tecnico-itens-iniciais.md) - Implementação detalhada
 >
-> - [Plano Técnico: Boilerplate de Inventário](roadmap-tecnico-inventario-boilerplate.md) - Estruturas modulares
+> - [Plano Técnico: Boilerplate de Inventário](roadmaps/roadmap-tecnico-inventario-boilerplate.md) - Estruturas modulares
 >
 > **Outras Seções:**
 >

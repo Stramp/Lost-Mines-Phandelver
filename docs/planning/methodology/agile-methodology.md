@@ -207,7 +207,7 @@ last_updated: 2024-12-27
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔗 Links Úteis</b></summary>
 
-> - **[Roadmap Principal](roadmap.md)** - Epics e fases
+> - **[Roadmap Principal](../roadmaps/roadmap.md)** - Epics e fases
 > > - **[Roadmap Técnico](roadmap-tecnico.md)** - User Stories técnicas
 > > - **[Roadmap Funcional](roadmap-funcional.md)** - User Stories funcionais
 > > - **[Backlog](backlog.md)** - Lista priorizada de trabalho

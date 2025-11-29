@@ -4,12 +4,14 @@ category: planning
 tags: [review, structural-analysis, roadmap-integration, dnd-5e-completeness]
 last_updated: 2024-12-27
 difficulty: intermediate
-related: [roadmap.md, ../technical/reviews/structural-review-report.md]
+related: [../roadmaps/roadmap.md, ../../technical/reviews/]
 ---
 
 **Navegação:** [Home](../../README.md) > [Documentação](index.md) > [Planejamento](planning/index.md) > Revisão Estrutural
 
 # Revisão Estrutural - Integração no Roadmap
+
+> **📖 Relacionado:** Este documento complementa [Decisões Arquiteturais Críticas](arquitetura-decisoes-criticas.md), identificando sistemas D&D 5e documentados mas não implementados.
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Resumo Executivo</b></summary>
@@ -214,7 +216,7 @@ related: [roadmap.md, ../technical/reviews/structural-review-report.md]
 > - **1.5.4:** Correção de Testes Proficiency Bonus (2-4 horas) - 🟡 Média
 > - **1.5.5:** Multiclassing Spell Slots (integrado em 1.5.1) - 🟢 Baixa
 >
-> **📖 Detalhes completos:** [roadmap.md](roadmap.md#fase-15-melhorias-e-completude-dd-5e)
+> **📖 Detalhes completos:** [roadmap.md](../roadmaps/roadmap.md#fase-15-melhorias-e-completude-dd-5e)
 >
 </details>
 ---
@@ -245,11 +247,25 @@ related: [roadmap.md, ../technical/reviews/structural-review-report.md]
 > - ✅ **Tarefas bem divididas** seguindo padrões do projeto
 > - ✅ **Integração completa** com roadmap existente
 >
+> **Alinhamento com Decisões Arquiteturais:**
+>
+> - ⚠️ **DEC-001 (GAS Attributes)** deve ser implementado **ANTES** da Fase 1.5
+>   - Spellcasting (Fase 1.5.1) depende de GAS Attributes para Ability Modifiers
+>   - ASI (Fase 1.5.2) precisa atualizar GAS Attributes
+>   - Ver [Decisões Arquiteturais Críticas](arquitetura-decisoes-criticas.md#-dec-001-replicação-de-tmap-crítico) para detalhes
+>
+> - ✅ **DEC-004 (Dice Rolling)** é necessário para Spellcasting
+>   - Parser de strings "1d4" para dados de spells
+>   - Deve ser implementado antes ou em paralelo com Fase 1.5.1
+>
 > **Próximos Passos:**
 >
-> 1. Finalizar Fase 1 (Sistema de Fichas - 80%)
-> 2. Iniciar Fase 1.5 (Melhorias D&D 5e)
-> 3. Preparar Fase 2 (Combate Básico com GAS)
+> 1. **Implementar DEC-001:** GAS Attributes (prioridade máxima - bloqueia Fase 1.5)
+> 2. **Implementar DEC-002:** GAS Completo (segunda prioridade - depende de DEC-001)
+> 3. Finalizar Fase 1 (Sistema de Fichas - 80%)
+> 4. **Implementar DEC-004:** Dice Rolling (necessário para Spellcasting)
+> 4. Iniciar Fase 1.5 (Melhorias D&D 5e)
+> 5. Preparar Fase 2 (Combate Básico com GAS)
 >
 </details>
 ---
@@ -259,12 +275,28 @@ related: [roadmap.md, ../technical/reviews/structural-review-report.md]
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔗 Documentação Relacionada</b></summary>
 
-> - **[Roadmap Principal](roadmap.md)** - Roadmap completo com Fase 1.5 integrada
+> **Documentos de Arquitetura:**
+>
+> - **[Decisões Arquiteturais Críticas](arquitetura-decisoes-criticas.md)** - Todas as decisões arquiteturais (DEC-001 a DEC-010, renumeradas por ordem de implementação)
+>   - **DEC-001:** GAS Attributes (prioridade máxima, bloqueia Fase 1.5)
+>   - **DEC-004:** Dice Rolling (necessário para Spellcasting)
+>   - **Status de Implementação:** Ver tabela completa de status
+>
+> **Roadmap e Planejamento:**
+>
+> - **[Roadmap Principal](../roadmaps/roadmap.md)** - Roadmap completo com Fase 1.5 integrada
+> - **[Fase 1.5 - Melhorias D&D 5e](../roadmaps/roadmap.md#fase-15-melhorias-e-completude-dd-5e)** - Detalhes da fase criada por esta revisão
+>
+> **Regras D&D 5e:**
+>
 > - **[Regras D&D 5e](../design/dnd-rules/)** - Documentação das regras
 > - **[Spellcasting](../design/dnd-rules/spellcasting.md)** - Regras de spellcasting
 > - **[Ability Scores](../design/dnd-rules/ability-scores.md)** - Regras de ASI
 > - **[Level Up](../design/dnd-rules/level-up.md)** - Sistema de level up
 > - **[Multiclassing](../design/dnd-rules/multiclassing.md)** - Regras de multiclassing
+>
+> **Arquitetura Técnica:**
+>
 > - **[planos5.md](../../memorias/planos5.md)** - Princípios de arquitetura
 > - **[Arquitetura Técnica](../technical/architecture.md)** - Decisões técnicas
 > - **[Database Architecture](../technical/data-architecture/database-architecture.md)** - Arquitetura de dados
@@ -272,5 +304,6 @@ related: [roadmap.md, ../technical/reviews/structural-review-report.md]
 
 </details>
 
-**Última atualização:** 2024-12-XX
-**Versão:** 1.0 - Revisão Estrutural Completa
+**Última atualização:** 2024-12-27
+**Versão:** 1.1 - Revisão Estrutural Completa
+**Melhorias:** Adicionadas referências cruzadas com Decisões Arquiteturais Críticas e alinhamento com DEC-001

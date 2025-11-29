@@ -23,36 +23,36 @@
 
 | # | Aspecto | Arquivo | Status | Pontuação |
 |---|---------|---------|--------|-----------|
-| 1 | **Arquitetura e Design Patterns** | [REVIEW-01-ARQUITETURA-DESIGN-PATTERNS.md](./REVIEW-01-ARQUITETURA-DESIGN-PATTERNS.md) | ✅ Completo | 7.5/10 |
-| 2 | **Clean Code e Qualidade de Código** | [REVIEW-02-CLEAN-CODE-QUALIDADE.md](./REVIEW-02-CLEAN-CODE-QUALIDADE.md) | ✅ Completo | 8.0/10 |
+| 1 | **Arquitetura e Design Patterns** | [architecture/REVIEW-01-ARQUITETURA-DESIGN-PATTERNS.md](./architecture/REVIEW-01-ARQUITETURA-DESIGN-PATTERNS.md) | ✅ Completo | 7.5/10 |
+| 2 | **Clean Code e Qualidade de Código** | [code-quality/REVIEW-02-CLEAN-CODE-QUALIDADE.md](./code-quality/REVIEW-02-CLEAN-CODE-QUALIDADE.md) | ✅ Completo | 8.0/10 |
 | 3 | **Testes e Cobertura** | [REVIEW-03-TESTES-COBERTURA.md](./REVIEW-03-TESTES-COBERTURA.md) | ✅ Completo | 6.5/10 |
-| 11 | **Networking e Multiplayer** | [REVIEW-11-NETWORKING-MULTIPLAYER.md](./REVIEW-11-NETWORKING-MULTIPLAYER.md) | ✅ Completo | 6.0/10 |
+| 11 | **Networking e Multiplayer** | [architecture/REVIEW-11-NETWORKING-MULTIPLAYER.md](./architecture/REVIEW-11-NETWORKING-MULTIPLAYER.md) | ✅ Completo | 6.0/10 |
 
 ### 🟡 Importantes (Média Prioridade)
 
 | # | Aspecto | Arquivo | Status | Pontuação |
 |---|---------|---------|--------|-----------|
 | 4 | **Documentação** | [REVIEW-04-DOCUMENTACAO.md](./REVIEW-04-DOCUMENTACAO.md) | ✅ Completo | 8.0/10 |
-| 5 | **Performance e Otimização** | [REVIEW-05-PERFORMANCE.md](./REVIEW-05-PERFORMANCE.md) | ✅ Completo | 7.5/10 |
-| 6 | **Segurança e Validação** | [REVIEW-06-SEGURANCA-VALIDACAO.md](./REVIEW-06-SEGURANCA-VALIDACAO.md) | ✅ Completo | 8.0/10 |
-| 7 | **Escalabilidade** | [REVIEW-07-ESCALABILIDADE.md](./REVIEW-07-ESCALABILIDADE.md) | ✅ Completo | 7.5/10 |
-| 8 | **Manutenibilidade** | [REVIEW-08-MANUTENIBILIDADE.md](./REVIEW-08-MANUTENIBILIDADE.md) | ✅ Completo | 8.5/10 |
-| 9 | **Integração C++/Blueprint** | [REVIEW-09-INTEGRACAO-CPP-BP.md](./REVIEW-09-INTEGRACAO-CPP-BP.md) | ✅ Completo | 7.5/10 |
-| 10 | **Data-Driven Design** | [REVIEW-10-DATA-DRIVEN-DESIGN.md](./REVIEW-10-DATA-DRIVEN-DESIGN.md) | ✅ Completo | 9.0/10 |
+| 5 | **Performance e Otimização** | [code-quality/REVIEW-05-PERFORMANCE.md](./code-quality/REVIEW-05-PERFORMANCE.md) | ✅ Completo | 7.5/10 |
+| 6 | **Segurança e Validação** | [code-quality/REVIEW-06-SEGURANCA-VALIDACAO.md](./code-quality/REVIEW-06-SEGURANCA-VALIDACAO.md) | ✅ Completo | 8.0/10 |
+| 7 | **Escalabilidade** | [architecture/REVIEW-07-ESCALABILIDADE.md](./architecture/REVIEW-07-ESCALABILIDADE.md) | ✅ Completo | 7.5/10 |
+| 8 | **Manutenibilidade** | [architecture/REVIEW-08-MANUTENIBILIDADE.md](./architecture/REVIEW-08-MANUTENIBILIDADE.md) | ✅ Completo | 8.5/10 |
+| 9 | **Integração C++/Blueprint** | [code-quality/REVIEW-09-INTEGRACAO-CPP-BP.md](./code-quality/REVIEW-09-INTEGRACAO-CPP-BP.md) | ✅ Completo | 7.5/10 |
+| 10 | **Data-Driven Design** | [code-quality/REVIEW-10-DATA-DRIVEN-DESIGN.md](./code-quality/REVIEW-10-DATA-DRIVEN-DESIGN.md) | ✅ Completo | 9.0/10 |
 
 ### 🟢 Complementares (Baixa Prioridade)
 
 | # | Aspecto | Arquivo | Status | Pontuação |
 |---|---------|---------|--------|-----------|
-| 12 | **Versionamento e CI/CD** | [REVIEW-12-VERSIONAMENTO-CICD.md](./REVIEW-12-VERSIONAMENTO-CICD.md) | ✅ Completo | 7.0/10 |
-| 13 | **Organização de Arquivos** | [REVIEW-13-ORGANIZACAO-ARQUIVOS.md](./REVIEW-13-ORGANIZACAO-ARQUIVOS.md) | ✅ Completo | 8.5/10 |
-| 14 | **Tratamento de Erros e Logging** | [REVIEW-14-ERROS-LOGGING.md](./REVIEW-14-ERROS-LOGGING.md) | ✅ Completo | 7.5/10 |
-| 15 | **Reusabilidade de Código** | [REVIEW-15-REUSABILIDADE-CODIGO.md](./REVIEW-15-REUSABILIDADE-CODIGO.md) | ✅ Completo | 8.5/10 |
-| 16 | **Nomenclatura e Convenções** | [REVIEW-16-NOMENCLATURA.md](./REVIEW-16-NOMENCLATURA.md) | ✅ Completo | 8.0/10 |
-| 17 | **Dependências e Build System** | [REVIEW-17-DEPENDENCIAS-BUILD.md](./REVIEW-17-DEPENDENCIAS-BUILD.md) | ✅ Completo | 8.5/10 |
-| 18 | **Editor Integration** | [REVIEW-18-EDITOR-INTEGRATION.md](./REVIEW-18-EDITOR-INTEGRATION.md) | ✅ Completo | 8.5/10 |
-| 19 | **Memory Management** | [REVIEW-19-MEMORY-MANAGEMENT.md](./REVIEW-19-MEMORY-MANAGEMENT.md) | ✅ Completo | 8.5/10 |
-| 20 | **Thread Safety e Concorrência** | [REVIEW-20-THREAD-SAFETY.md](./REVIEW-20-THREAD-SAFETY.md) | ✅ Completo | 3.0/10 |
+| 12 | **Versionamento e CI/CD** | [code-quality/REVIEW-12-VERSIONAMENTO-CICD.md](./code-quality/REVIEW-12-VERSIONAMENTO-CICD.md) | ✅ Completo | 7.0/10 |
+| 13 | **Organização de Arquivos** | [architecture/REVIEW-13-ORGANIZACAO-ARQUIVOS.md](./architecture/REVIEW-13-ORGANIZACAO-ARQUIVOS.md) | ✅ Completo | 8.5/10 |
+| 14 | **Tratamento de Erros e Logging** | [code-quality/REVIEW-14-ERROS-LOGGING.md](./code-quality/REVIEW-14-ERROS-LOGGING.md) | ✅ Completo | 7.5/10 |
+| 15 | **Reusabilidade de Código** | [code-quality/REVIEW-15-REUSABILIDADE-CODIGO.md](./code-quality/REVIEW-15-REUSABILIDADE-CODIGO.md) | ✅ Completo | 8.5/10 |
+| 16 | **Nomenclatura e Convenções** | [code-quality/REVIEW-16-NOMENCLATURA.md](./code-quality/REVIEW-16-NOMENCLATURA.md) | ✅ Completo | 8.0/10 |
+| 17 | **Dependências e Build System** | [code-quality/REVIEW-17-DEPENDENCIAS-BUILD.md](./code-quality/REVIEW-17-DEPENDENCIAS-BUILD.md) | ✅ Completo | 8.5/10 |
+| 18 | **Editor Integration** | [code-quality/REVIEW-18-EDITOR-INTEGRATION.md](./code-quality/REVIEW-18-EDITOR-INTEGRATION.md) | ✅ Completo | 8.5/10 |
+| 19 | **Memory Management** | [code-quality/REVIEW-19-MEMORY-MANAGEMENT.md](./code-quality/REVIEW-19-MEMORY-MANAGEMENT.md) | ✅ Completo | 8.5/10 |
+| 20 | **Thread Safety e Concorrência** | [code-quality/REVIEW-20-THREAD-SAFETY.md](./code-quality/REVIEW-20-THREAD-SAFETY.md) | ✅ Completo | 3.0/10 |
 
 ---
 
@@ -190,12 +190,19 @@
 ## 🔗 Relatórios Relacionados
 
 ### Relatórios Existentes
-- [ANALISE_ESTRUTURA_DADOS.md](./ANALISE_ESTRUTURA_DADOS.md) - Análise de estrutura de dados
-- [ANALISE_NOMENCLATURA_COMUNICACAO.md](./ANALISE_NOMENCLATURA_COMUNICACAO.md) - Análise de nomenclatura e comunicação
-- [CSV-DATA-COMPLETENESS-REVIEW.md](./CSV-DATA-COMPLETENESS-REVIEW.md) - Revisão de completude de dados CSV
+
+**Análises de Dados:**
+- [data-analysis/ANALISE_ESTRUTURA_DADOS.md](./data-analysis/ANALISE_ESTRUTURA_DADOS.md) - Análise de estrutura de dados runtime
+- [data-analysis/ANALISE_NOMENCLATURA_COMUNICACAO.md](./data-analysis/ANALISE_NOMENCLATURA_COMUNICACAO.md) - Análise de nomenclatura e comunicação
+- [data-analysis/DATATABLE-COMPLETENESS-REVIEW.md](./data-analysis/DATATABLE-COMPLETENESS-REVIEW.md) - Análise de completude das Data Tables (✅ Atualizado 2024-12-27)
+- [data-analysis/STRUCTS-REVIEW.md](./data-analysis/STRUCTS-REVIEW.md) - Revisão de structs (valor histórico)
+
+**Revisões Consolidadas:**
 - [PROJECT-REVIEW-CONSOLIDATED.md](./PROJECT-REVIEW-CONSOLIDATED.md) - Revisão consolidada do projeto
-- [SPELLS-DATA-INCOMPLETE.md](./SPELLS-DATA-INCOMPLETE.md) - Análise de dados de spells incompletos
-- [STRUCTS-REVIEW.md](./STRUCTS-REVIEW.md) - Revisão de structs
+- [REVIEW-CONSOLIDATION-SUMMARY.md](./REVIEW-CONSOLIDATION-SUMMARY.md) - Resumo de consolidação de reviews
+- [REVIEW-METODOLOGIA-AGIL-SOLO-DEV.md](./REVIEW-METODOLOGIA-AGIL-SOLO-DEV.md) - 🔴 **NOVO** - Análise de alinhamento com metodologias ágeis para desenvolvimento solo (✅ Atualizado 2024-12-27)
+
+**Nota:** Reviews obsoletos (SPELLS-DATA-INCOMPLETE, CSV-DATA-COMPLETENESS-REVIEW) foram removidos após conclusão da Fase 0.
 
 ### Documentação Técnica
 - [../architecture.md](../architecture.md) - Arquitetura técnica completa

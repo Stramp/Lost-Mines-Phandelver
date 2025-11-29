@@ -381,7 +381,7 @@ related: [ideal-data-structure-report.md, json-schema.md, ../architecture.md]
 
 > - **[Arquitetura Completa](../architecture.md)** - Arquitetura geral do projeto
 > - **[Estrutura de Dados Ideal](./ideal-data-structure-report.md)** - Relatório completo da estrutura ideal
-> - **[Guia de Data Tables](../guides/data-tables.md)** - Como usar Data Tables
+> - **[Guia de Data Tables](../guides/data-tables/data-tables.md)** - Como usar Data Tables
 > - **[Gameplay Tags (Epic Games)](https://docs.unrealengine.com/5.3/en-US/gameplay-tags-in-unreal-engine/)** - Documentação oficial
 > - **[FDataTableRowHandle (Epic Games)](https://docs.unrealengine.com/5.3/en-US/data-table-row-handle-in-unreal-engine/)** - Documentação oficial
 >

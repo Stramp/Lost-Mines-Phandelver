@@ -30,43 +30,43 @@ last_updated: 2024-12-27
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📖 Game Design Document</b></summary>
 
+> ### Game Design Document (GDD)
+>
+> [**gdd.md**](gdd.md) - Documento completo descrevendo a visão do jogo final
+>
+> | Aspecto | Descrição |
+> |---------|-----------|
+> | **Tipo de Jogo** | Action RPG baseado em D&D 5e |
+> | **Objetivos** | Experiência de jogo imersiva e fiel às regras |
+> | **Jogador** | Criação e progressão de personagens D&D 5e |
+> | **Roadmap** | Integração com desenvolvimento |
+> | **Sistema de Fichas** | Base para todas as mecânicas do jogo |
+>
+> [Ver GDD completo](gdd.md)
 
 </details>
-    ### Game Design Document (GDD)
-
-    [**gdd.md**](gdd.md) - Documento completo descrevendo a visão do jogo final
-
-    | Aspecto | Descrição |
-    |---------|-----------|
-    | **Tipo de Jogo** | Action RPG baseado em D&D 5e |
-    | **Objetivos** | Experiência de jogo imersiva e fiel às regras |
-    | **Jogador** | Criação e progressão de personagens D&D 5e |
-    | **Roadmap** | Integração com desenvolvimento |
-    | **Sistema de Fichas** | Base para todas as mecânicas do jogo |
-
-    [Ver GDD completo](gdd.md)
 
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚔️ Regras D&D 5e</b></summary>
 
+> ### Regras D&D 5ª Edição
+>
+> [**dnd-rules/**](dnd-rules/) - Documentação algorítmica das regras
+>
+> | Regra | Status | Documento |
+> |-------|--------|-----------|
+> | **Ability Scores** | ✅ Completo | [ability-scores.md](dnd-rules/ability-scores.md) |
+> | **Point Buy** | ✅ Completo | [point-buy.md](dnd-rules/point-buy.md) |
+> | **Raças** | ✅ Completo | [races.md](dnd-rules/races.md) |
+> | **Criação de Personagem** | ✅ Completo | [character-creation.md](dnd-rules/character-creation.md) |
+> | **Multiclassing** | ✅ Completo | [multiclassing.md](dnd-rules/multiclassing.md) |
+> | **Level Up** | ✅ Completo | [level-up.md](dnd-rules/level-up.md) |
+> | **Spellcasting** | 🔮 Planejado | [spellcasting.md](dnd-rules/spellcasting.md) |
+>
+> [Ver regras D&D 5e completas](dnd-rules/index.md)
 
 </details>
-    ### Regras D&D 5ª Edição
-
-    [**dnd-rules/**](dnd-rules/) - Documentação algorítmica das regras
-
-    | Regra | Status | Documento |
-    |-------|--------|-----------|
-    | **Ability Scores** | ✅ Completo | [ability-scores.md](dnd-rules/ability-scores.md) |
-    | **Point Buy** | ✅ Completo | [point-buy.md](dnd-rules/point-buy.md) |
-    | **Raças** | ✅ Completo | [races.md](dnd-rules/races.md) |
-    | **Criação de Personagem** | ✅ Completo | [character-creation.md](dnd-rules/character-creation.md) |
-    | **Multiclassing** | ✅ Completo | [multiclassing.md](dnd-rules/multiclassing.md) |
-    | **Level Up** | ✅ Completo | [level-up.md](dnd-rules/level-up.md) |
-    | **Spellcasting** | 🔮 Planejado | [spellcasting.md](dnd-rules/spellcasting.md) |
-
-    [Ver regras D&D 5e completas](dnd-rules/index.md)
 
 
 <details>

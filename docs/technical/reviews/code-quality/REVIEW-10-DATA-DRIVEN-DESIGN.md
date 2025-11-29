@@ -110,13 +110,22 @@ Algumas validações podem não cobrir todos os casos edge.
 - Validar referências circulares
 - Validar dependências entre Data Tables
 
-### 2. Falta de Versionamento de Schema
+### 2. Schemas JSON Criados (✅ Atualizado 2024-12-27)
+
+**Status:** ✅ **15 Schemas JSON criados** para validação de estrutura
+- Schemas em `Content/Data/JSON/Schemas/`
+- Validação de tipos, padrões e campos obrigatórios
+- JSON Schema Draft-07
+
+**Nota:** Versionamento explícito de schemas ainda não implementado (baixa prioridade).
+
+### 3. Falta de Versionamento de Schema
 
 **Severidade:** 🟢 Baixa
 **Prioridade:** Baixa
 
 **Problema:**
-Não há versionamento explícito de schemas de Data Tables.
+Não há versionamento explícito de schemas de Data Tables (apenas schemas JSON para validação).
 
 **Impacto:**
 - Dificulta migração de dados antigos
@@ -136,13 +145,13 @@ struct FDataTableRowBase : public FTableRowBase
 };
 ```
 
-### 3. Falta de Documentação de Schema
+### 4. Documentação de Schema Pode Melhorar
 
 **Severidade:** 🟢 Baixa
 **Prioridade:** Baixa
 
 **Problema:**
-Alguns schemas podem não estar completamente documentados.
+Schemas JSON criados (✅ 15 schemas), mas documentação detalhada de cada campo pode ser expandida.
 
 **Recomendação:**
 - Documentar todos os campos de cada struct
@@ -188,9 +197,10 @@ Alguns schemas podem não estar completamente documentados.
 | **Estrutura Normalizada** | ✅ Excelente | 10/10 |
 | **Editor-Friendly** | ✅ Excelente | 10/10 |
 | **Versionamento** | ⚠️ Não implementado | 0/10 |
+| **Schemas JSON** | ✅ Implementado (15 schemas) | 9/10 |
 | **Documentação de Schema** | ⚠️ Pode melhorar | 7/10 |
 
-**Média Geral: 9.3/10** (Excelente)
+**Média Geral: 9.4/10** (Excelente) - Atualizado com schemas JSON criados
 
 ---
 

@@ -32,7 +32,7 @@ last_updated: 2024-12-27
 
 > **Quero ver o panorama geral do projeto:**
 >
-> → **[roadmap.md](roadmap.md)** - Visão estratégica, fases principais, status geral
+> → **[roadmap.md](roadmaps/roadmap.md)** - Visão estratégica, fases principais, status geral
 >
 > **Quero ver o que preciso fazer agora:**
 >
@@ -66,7 +66,7 @@ last_updated: 2024-12-27
 
 > **Nível 1: Visão Estratégica**
 >
-> - `roadmap.md` - Epics (Fases), status geral
+> - `roadmaps/roadmap.md` - Epics (Fases), status geral
 >
 > **Nível 2: Planejamento Ágil**
 >
@@ -86,7 +86,7 @@ last_updated: 2024-12-27
 > **Fluxo Recomendado:**
 >
 > ```
-> roadmap.md (Epic)
+> roadmaps/roadmap.md (Epic)
 >   ↓
 > backlog.md (User Story priorizada)
 >   ↓
@@ -108,7 +108,7 @@ last_updated: 2024-12-27
 
 > **Roadmaps:**
 >
-> - `roadmap.md` - Principal
+> - `roadmaps/roadmap.md` - Principal
 > - `roadmap-tecnico.md` - Técnico
 > - `roadmap-funcional.md` - Funcional
 > - `roadmap-estrutura.md` - Estrutura hierárquica
@@ -121,13 +121,13 @@ last_updated: 2024-12-27
 >
 > **Planos Técnicos:**
 >
-> - `roadmap-tecnico-itens-iniciais.md` - Itens iniciais
+> - `roadmaps/roadmap-tecnico-itens-iniciais.md` - Itens iniciais
 > - `roadmap-tecnico-inventario-boilerplate.md` - Inventário
 >
 > **Outros:**
 >
 > - `index.md` - Índice principal
-> - `revisao-estrutural-integracao.md` - Revisão estrutural
+> - `architecture/revisao-estrutural-integracao.md` - Revisão estrutural
 
 </details>
 

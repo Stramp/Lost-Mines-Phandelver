@@ -57,27 +57,37 @@ related: [gas-dnd-adaptation.md, dnd-rules/index.md]
 > - ✅ Skills e Proficiencies
 >
 </details>
-    ### Combate
 
-    - 📋 Sistema de turnos adaptado para tempo real
-    - 📋 Ações baseadas em D&D 5e (Attack, Dodge, Dash, etc.)
-    - 📋 Cálculo de AC, dano, e ataques seguindo regras D&D
-    - 📋 Sistema de HP/MaxHP
-    - 📋 Death system
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚔️ Combate</b></summary>
 
-    ### Progressão
+> - 📋 Sistema de turnos adaptado para tempo real
+> - 📋 Ações baseadas em D&D 5e (Attack, Dodge, Dash, etc.)
+> - 📋 Cálculo de AC, dano, e ataques seguindo regras D&D
+> - 📋 Sistema de HP/MaxHP
+> - 📋 Death system
 
-    - 📋 Level up system (1-20)
-    - 📋 ASI (Ability Score Improvement)
-    - 📋 Feat selection
-    - 📋 Features de classes por nível
+</details>
 
-    ### Equipamentos
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📈 Progressão</b></summary>
 
-    - 📋 Sistema de armas e armaduras D&D 5e
-    - 📋 Propriedades de armas (versatile, finesse, two-handed, etc.)
-    - 📋 Bônus de equipamentos
-    - 📋 Inventário com peso (Carrying Capacity)
+> - 📋 Level up system (1-20)
+> - 📋 ASI (Ability Score Improvement)
+> - 📋 Feat selection
+> - 📋 Features de classes por nível
+
+</details>
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎒 Equipamentos</b></summary>
+
+> - 📋 Sistema de armas e armaduras D&D 5e
+> - 📋 Propriedades de armas (versatile, finesse, two-handed, etc.)
+> - 📋 Bônus de equipamentos
+> - 📋 Inventário com peso (Carrying Capacity)
+
+</details>
 
 ---
 
@@ -86,7 +96,7 @@ related: [gas-dnd-adaptation.md, dnd-rules/index.md]
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📅 Fases de Desenvolvimento</b></summary>
 
-> **Roadmap resumido** - Para versão completa e detalhada, veja [docs/planning/roadmap.md](../planning/roadmap.md)
+> **Roadmap resumido** - Para versão completa e detalhada, veja [docs/planning/roadmaps/roadmap.md](../planning/roadmaps/roadmap.md)
 >
 
 > **Status Atual:**
@@ -105,7 +115,7 @@ related: [gas-dnd-adaptation.md, dnd-rules/index.md]
 > - 📋 **Fase 6:** Skills e Saving Throws
 > - 🔮 **Fases 7-10:** Sistemas Avançados
 >
-> **📖 Para roadmap completo com prazos, dependências, status detalhado e decisões arquiteturais, veja [docs/planning/roadmap.md](../planning/roadmap.md)**
+> **📖 Para roadmap completo com prazos, dependências, status detalhado e decisões arquiteturais, veja [docs/planning/roadmaps/roadmap.md](../planning/roadmaps/roadmap.md)**
 >
 </details>
 ---
@@ -124,26 +134,36 @@ related: [gas-dnd-adaptation.md, dnd-rules/index.md]
 > - Escolhas de features e feats
 >
 </details>
-    ### Combate
 
-    - Combate estratégico baseado em D&D 5e
-    - Uso de habilidades e features de classes
-    - Spellcasting completo
-    - Sistema de ações e recursos
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚔️ Combate</b></summary>
 
-    ### Progressão
+> - Combate estratégico baseado em D&D 5e
+> - Uso de habilidades e features de classes
+> - Spellcasting completo
+> - Sistema de ações e recursos
 
-    - Level up de 1 a 20
-    - Ganho de features por nível
-    - ASI e feat selection
-    - Customização contínua do personagem
+</details>
 
-    ### Exploração
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📈 Progressão</b></summary>
 
-    - Mundos fantásticos para explorar
-    - Interação com NPCs e monsters
-    - Quests e missões
-    - Descoberta de itens e equipamentos
+> - Level up de 1 a 20
+> - Ganho de features por nível
+> - ASI e feat selection
+> - Customização contínua do personagem
+
+</details>
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🗺️ Exploração</b></summary>
+
+> - Mundos fantásticos para explorar
+> - Interação com NPCs e monsters
+> - Quests e missões
+> - Descoberta de itens e equipamentos
+
+</details>
 
 ---
 

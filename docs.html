@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação MyProject2</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: #2d2d2d;
+            color: #e0e0e0;
+            overflow-y: auto;
+            padding: 20px;
+            border-right: 1px solid #444;
+        }
+
+        .sidebar h2 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #555;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin: 3px 0;
+        }
+
+        .sidebar a {
+            color: #b0b0b0;
+            text-decoration: none;
+            display: block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .sidebar a:hover {
+            background: #3d3d3d;
+            color: #fff;
+        }
+
+        .sidebar a.active {
+            background: #0066cc;
+            color: #fff;
+        }
+
+        .sidebar .folder {
+            margin: 3px 0;
+        }
+
+        .sidebar .folder-name {
+            color: #fff;
+            font-weight: bold;
+            display: block;
+            padding: 5px 10px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+        .sidebar .folder-name::before {
+            content: "▼ ";
+            display: inline-block;
+            width: 15px;
+            margin-right: 5px;
+            font-size: 10px;
+        }
+
+        .sidebar .folder-name.collapsed::before {
+            content: "▶ ";
+        }
+
+        .sidebar .folder-name:hover {
+            background: #3d3d3d;
+        }
+
+        .sidebar .folder-content {
+            margin-left: 20px;
+            display: block;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.2s;
+            max-height: 5000px;
+            opacity: 1;
+        }
+
+        .sidebar .folder-content.collapsed {
+            max-height: 0 !important;
+            opacity: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            background: #fff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .content h1 {
+            color: #2d2d2d;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .content h2 {
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content h3 {
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .content code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .content pre {
+            background: #2d2d2d;
+            color: #e0e0e0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .content table th,
+        .content table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .content table th {
+            background: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .content blockquote {
+            border-left: 4px solid #0066cc;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+        }
+
+        .content details {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .content summary {
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>📚 Navegação</h2>
+        <ul id="sidebar-nav"></ul>
+    </div>
+    <div class="content" id="content">
+        <h1>Documentação MyProject2</h1>
+        <p>Selecione um arquivo na sidebar para visualizar.</p>
+    </div>
+
+    <script>
+        const files = {
+  "GLOSSARY.md": "docs/GLOSSARY.md",
+  "NAVIGATION.md": "docs/NAVIGATION.md",
+  "design":   {
+    "dnd-rules":     {
+      "ability-scores.md": "docs/design/dnd-rules/ability-scores.md",
+      "character-creation.md": "docs/design/dnd-rules/character-creation.md",
+      "index.md": "docs/design/dnd-rules/index.md",
+      "level-up.md": "docs/design/dnd-rules/level-up.md",
+      "multiclassing.md": "docs/design/dnd-rules/multiclassing.md",
+      "point-buy.md": "docs/design/dnd-rules/point-buy.md",
+      "races.md": "docs/design/dnd-rules/races.md",
+      "spellcasting.md": "docs/design/dnd-rules/spellcasting.md"
+    },
+    "gas-dnd-adaptation.md": "docs/design/gas-dnd-adaptation.md",
+    "gdd.md": "docs/design/gdd.md",
+    "index.md": "docs/design/index.md"
+  },
+  "index.md": "docs/index.md",
+  "planning":   {
+    "ANALISE_COERENCIA.md": "docs/planning/ANALISE_COERENCIA.md",
+    "README.md": "docs/planning/README.md",
+    "architecture":     {
+      "arquitetura-decisoes-criticas.md": "docs/planning/architecture/arquitetura-decisoes-criticas.md",
+      "revisao-estrutural-integracao.md": "docs/planning/architecture/revisao-estrutural-integracao.md"
+    },
+    "backlog":     {
+      "backlog.md": "docs/planning/backlog/backlog.md"
+    },
+    "changelog":     {
+      "CHANGELOG-DOCS.md": "docs/planning/changelog/CHANGELOG-DOCS.md",
+      "CHANGELOG.md": "docs/planning/changelog/CHANGELOG.md"
+    },
+    "index.md": "docs/planning/index.md",
+    "methodology":     {
+      "agile-methodology.md": "docs/planning/methodology/agile-methodology.md"
+    },
+    "roadmaps":     {
+      "roadmap-estrutura.md": "docs/planning/roadmaps/roadmap-estrutura.md",
+      "roadmap-funcional.md": "docs/planning/roadmaps/roadmap-funcional.md",
+      "roadmap-tecnico-inventario-boilerplate.md": "docs/planning/roadmaps/roadmap-tecnico-inventario-boilerplate.md",
+      "roadmap-tecnico-itens-iniciais.md": "docs/planning/roadmaps/roadmap-tecnico-itens-iniciais.md",
+      "roadmap-tecnico.md": "docs/planning/roadmaps/roadmap-tecnico.md",
+      "roadmap.md": "docs/planning/roadmaps/roadmap.md"
+    },
+    "sprints":     {
+      "sprint-1":       {
+        "DATA-000.md": "docs/planning/sprints/sprint-1/DATA-000.md",
+        "DATA-001.md": "docs/planning/sprints/sprint-1/DATA-001.md",
+        "DATA-002.md": "docs/planning/sprints/sprint-1/DATA-002.md",
+        "DATA-003.md": "docs/planning/sprints/sprint-1/DATA-003.md"
+      },
+      "sprint-1.md": "docs/planning/sprints/sprint-1.md",
+      "sprint-2":       {
+
+      },
+      "sprint-3":       {
+
+      },
+      "sprint-4":       {
+
+      }
+    },
+    "sprints.md": "docs/planning/sprints.md",
+    "validation":     {
+      "data-tables-validation.md": "docs/planning/validation/data-tables-validation.md"
+    }
+  },
+  "technical":   {
+    "api.md": "docs/technical/api.md",
+    "architecture.md": "docs/technical/architecture.md",
+    "data-architecture":     {
+      "REVIEW_SUMMARY.md": "docs/technical/data-architecture/REVIEW_SUMMARY.md",
+      "data-architecture-review-improvements.md": "docs/technical/data-architecture/data-architecture-review-improvements.md",
+      "data-registry-architecture.md": "docs/technical/data-architecture/data-registry-architecture.md",
+      "database-architecture.md": "docs/technical/data-architecture/database-architecture.md",
+      "high-performance-architectures-report.md": "docs/technical/data-architecture/high-performance-architectures-report.md",
+      "ideal-data-structure-report.md": "docs/technical/data-architecture/ideal-data-structure-report.md",
+      "index.md": "docs/technical/data-architecture/index.md",
+      "json-schema.md": "docs/technical/data-architecture/json-schema.md",
+      "planos5-improvements-summary.md": "docs/technical/data-architecture/planos5-improvements-summary.md"
+    },
+    "data-tables":     {
+      "class-datatable.md": "docs/technical/data-tables/class-datatable.md",
+      "index.md": "docs/technical/data-tables/index.md",
+      "race-datatable.md": "docs/technical/data-tables/race-datatable.md"
+    },
+    "guides":     {
+      "algorithmic":       {
+        "character-creation.md": "docs/technical/guides/algorithmic/character-creation.md"
+      },
+      "data-tables":       {
+        "data-tables-designer-guide.md": "docs/technical/guides/data-tables/data-tables-designer-guide.md",
+        "data-tables-setup.md": "docs/technical/guides/data-tables/data-tables-setup.md",
+        "data-tables.md": "docs/technical/guides/data-tables/data-tables.md",
+        "json-schema-validation-guide.md": "docs/technical/guides/data-tables/json-schema-validation-guide.md",
+        "schema-versioning-guide.md": "docs/technical/guides/data-tables/schema-versioning-guide.md"
+      },
+      "index.md": "docs/technical/guides/index.md",
+      "setup":       {
+        "getting-started.md": "docs/technical/guides/setup/getting-started.md",
+        "setup.md": "docs/technical/guides/setup/setup.md"
+      },
+      "testing":       {
+        "tdd-complete-guide.md": "docs/technical/guides/testing/tdd-complete-guide.md",
+        "testing-implementation-plan.md": "docs/technical/guides/testing/testing-implementation-plan.md",
+        "testing.md": "docs/technical/guides/testing/testing.md"
+      },
+      "workflows":       {
+        "troubleshooting.md": "docs/technical/guides/workflows/troubleshooting.md",
+        "workflows.md": "docs/technical/guides/workflows/workflows.md"
+      }
+    },
+    "index.md": "docs/technical/index.md",
+    "reviews":     {
+      "PROJECT-REVIEW-CONSOLIDATED.md": "docs/technical/reviews/PROJECT-REVIEW-CONSOLIDATED.md",
+      "REVIEW-03-TESTES-COBERTURA.md": "docs/technical/reviews/REVIEW-03-TESTES-COBERTURA.md",
+      "REVIEW-04-DOCUMENTACAO.md": "docs/technical/reviews/REVIEW-04-DOCUMENTACAO.md",
+      "REVIEW-CONSOLIDATION-SUMMARY.md": "docs/technical/reviews/REVIEW-CONSOLIDATION-SUMMARY.md",
+      "REVIEW-INDEX.md": "docs/technical/reviews/REVIEW-INDEX.md",
+      "REVIEW-METODOLOGIA-AGIL-SOLO-DEV.md": "docs/technical/reviews/REVIEW-METODOLOGIA-AGIL-SOLO-DEV.md",
+      "architecture":       {
+        "REVIEW-01-ARQUITETURA-DESIGN-PATTERNS.md": "docs/technical/reviews/architecture/REVIEW-01-ARQUITETURA-DESIGN-PATTERNS.md",
+        "REVIEW-07-ESCALABILIDADE.md": "docs/technical/reviews/architecture/REVIEW-07-ESCALABILIDADE.md",
+        "REVIEW-08-MANUTENIBILIDADE.md": "docs/technical/reviews/architecture/REVIEW-08-MANUTENIBILIDADE.md",
+        "REVIEW-11-NETWORKING-MULTIPLAYER.md": "docs/technical/reviews/architecture/REVIEW-11-NETWORKING-MULTIPLAYER.md",
+        "REVIEW-13-ORGANIZACAO-ARQUIVOS.md": "docs/technical/reviews/architecture/REVIEW-13-ORGANIZACAO-ARQUIVOS.md"
+      },
+      "code-quality":       {
+        "REVIEW-02-CLEAN-CODE-QUALIDADE.md": "docs/technical/reviews/code-quality/REVIEW-02-CLEAN-CODE-QUALIDADE.md",
+        "REVIEW-05-PERFORMANCE.md": "docs/technical/reviews/code-quality/REVIEW-05-PERFORMANCE.md",
+        "REVIEW-06-SEGURANCA-VALIDACAO.md": "docs/technical/reviews/code-quality/REVIEW-06-SEGURANCA-VALIDACAO.md",
+        "REVIEW-09-INTEGRACAO-CPP-BP.md": "docs/technical/reviews/code-quality/REVIEW-09-INTEGRACAO-CPP-BP.md",
+        "REVIEW-10-DATA-DRIVEN-DESIGN.md": "docs/technical/reviews/code-quality/REVIEW-10-DATA-DRIVEN-DESIGN.md",
+        "REVIEW-12-VERSIONAMENTO-CICD.md": "docs/technical/reviews/code-quality/REVIEW-12-VERSIONAMENTO-CICD.md",
+        "REVIEW-14-ERROS-LOGGING.md": "docs/technical/reviews/code-quality/REVIEW-14-ERROS-LOGGING.md",
+        "REVIEW-15-REUSABILIDADE-CODIGO.md": "docs/technical/reviews/code-quality/REVIEW-15-REUSABILIDADE-CODIGO.md",
+        "REVIEW-16-NOMENCLATURA.md": "docs/technical/reviews/code-quality/REVIEW-16-NOMENCLATURA.md",
+        "REVIEW-17-DEPENDENCIAS-BUILD.md": "docs/technical/reviews/code-quality/REVIEW-17-DEPENDENCIAS-BUILD.md",
+        "REVIEW-18-EDITOR-INTEGRATION.md": "docs/technical/reviews/code-quality/REVIEW-18-EDITOR-INTEGRATION.md",
+        "REVIEW-19-MEMORY-MANAGEMENT.md": "docs/technical/reviews/code-quality/REVIEW-19-MEMORY-MANAGEMENT.md",
+        "REVIEW-20-THREAD-SAFETY.md": "docs/technical/reviews/code-quality/REVIEW-20-THREAD-SAFETY.md"
+      },
+      "data-analysis":       {
+        "ANALISE_ESTRUTURA_DADOS.md": "docs/technical/reviews/data-analysis/ANALISE_ESTRUTURA_DADOS.md",
+        "ANALISE_NOMENCLATURA_COMUNICACAO.md": "docs/technical/reviews/data-analysis/ANALISE_NOMENCLATURA_COMUNICACAO.md",
+        "DATATABLE-COMPLETENESS-REVIEW.md": "docs/technical/reviews/data-analysis/DATATABLE-COMPLETENESS-REVIEW.md",
+        "STRUCTS-REVIEW.md": "docs/technical/reviews/data-analysis/STRUCTS-REVIEW.md"
+      }
+    }
+  }
+};
+
+        function buildSidebar(files, parent = null, level = 0) {
+            let html = '';
+            const indent = '  '.repeat(level);
+
+            for (const [key, value] of Object.entries(files).sort()) {
+                if (typeof value === 'string') {
+                    const displayName = key.replace('.md', '');
+                    html += `${indent}<li><a href="#" data-file="${value}">${displayName}</a></li>\n`;
+                } else {
+                    html += `${indent}<li class="folder">\n`;
+                    html += `${indent}  <span class="folder-name">${key}</span>\n`;
+                    html += `${indent}  <ul class="folder-content">\n`;
+                    html += buildSidebar(value, key, level + 1);
+                    html += `${indent}  </ul>\n`;
+                    html += `${indent}</li>\n`;
+                }
+            }
+
+            return html;
+        }
+
+        function initCollapse() {
+            const folders = document.querySelectorAll('li.folder');
+
+            folders.forEach(function(folder) {
+                const folderName = folder.querySelector('span.folder-name');
+                const folderContent = folder.querySelector('ul.folder-content');
+
+                if (folderName && folderContent) {
+                    folderName.classList.add('expanded');
+                    folderName.style.cursor = 'pointer';
+                    folderName.style.userSelect = 'none';
+
+                    folderName.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if (folderName.classList.contains('expanded')) {
+                            folderName.classList.remove('expanded');
+                            folderName.classList.add('collapsed');
+                            folderContent.classList.add('collapsed');
+                        } else {
+                            folderName.classList.remove('collapsed');
+                            folderName.classList.add('expanded');
+                            folderContent.classList.remove('collapsed');
+                        }
+                    });
+                }
+            });
+        }
+
+        async function loadMarkdown(filePath) {
+            try {
+                const response = await fetch(filePath);
+                if (!response.ok) {
+                    throw new Error('Arquivo não encontrado');
+                }
+                const text = await response.text();
+
+                let content = text;
+                if (content.startsWith('---')) {
+                    const parts = content.split('---', 3);
+                    if (parts.length >= 3) {
+                        content = parts[2].trim();
+                    }
+                }
+
+                const html = marked.parse(content);
+                document.getElementById('content').innerHTML = html;
+
+                document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+                document.querySelector(`.sidebar a[data-file="${filePath}"]`)?.classList.add('active');
+
+                const activeLink = document.querySelector('.sidebar a.active');
+                if (activeLink) {
+                    let parent = activeLink.closest('.folder-content');
+                    while (parent) {
+                        parent.classList.remove('collapsed');
+                        const folder = parent.closest('.folder');
+                        if (folder) {
+                            const folderName = folder.querySelector('.folder-name');
+                            if (folderName) {
+                                folderName.classList.remove('collapsed');
+                                folderName.classList.add('expanded');
+                            }
+                        }
+                        parent = parent.parentElement ? parent.parentElement.closest('.folder-content') : null;
+                    }
+                }
+            } catch (error) {
+                document.getElementById('content').innerHTML = `
+                    <h1>Erro ao carregar arquivo</h1>
+                    <p>Não foi possível carregar: ${filePath}</p>
+                    <p><strong>Nota:</strong> Este HTML precisa ser aberto via servidor HTTP.</p>
+                    <p>Use: <code>python docs_server.py</code> ou abra via servidor local</p>
+                `;
+            }
+        }
+
+        document.getElementById('sidebar-nav').innerHTML = buildSidebar(files);
+        initCollapse();
+
+        document.querySelectorAll('.sidebar a[data-file]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                loadMarkdown(this.getAttribute('data-file'));
+            });
+        });
+
+        if (files['index.md']) {
+            loadMarkdown(files['index.md']);
+        }
+    </script>
+</body>
+</html>

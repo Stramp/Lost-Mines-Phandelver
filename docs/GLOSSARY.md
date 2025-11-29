@@ -86,7 +86,7 @@ last_updated: 2024-12-27
 > **Onde encontrar:**
 >
 > - [Regras D&D 5e](design/dnd-rules/point-buy.md)
-> - [Workflows](technical/guides/workflows.md#point-buy-system)
+> - [Workflows](technical/guides/workflows/workflows.md#point-buy-system)
 > - [API Reference](technical/api.md#point-buy-motor)
 >
 > **Relacionado:** Ability Scores, FPointBuyMotor, FPointBuyValidator, PointBuyHelpers
@@ -110,7 +110,7 @@ last_updated: 2024-12-27
 > **Onde encontrar:**
 >
 > - [Regras D&D 5e](design/dnd-rules/multiclassing.md)
-> - [Workflows](technical/guides/workflows.md#multiclassing)
+> - [Workflows](technical/guides/workflows/workflows.md#multiclassing)
 > - [API Reference](technical/api.md#multiclass-motor)
 >
 > **Relacionado:** FMulticlassMotor, FMulticlassClassFeature, Class Features, Character Level
@@ -590,7 +590,7 @@ last_updated: 2024-12-27
 > **Onde encontrar:**
 >
 > - [TDD Complete Guide](technical/guides/tdd-complete-guide.md)
-> - [Testing Guide](technical/guides/testing.md)
+> - [Testing Guide](technical/guides/testing/testing.md)
 >
 > **Relacionado:** Unit Tests, Integration Tests, Clean Code
 >
@@ -610,7 +610,7 @@ last_updated: 2024-12-27
 >
 > **Onde encontrar:**
 >
-> - [Testing Guide](technical/guides/testing.md)
+> - [Testing Guide](technical/guides/testing/testing.md)
 > - [Source/MyProject2/Utils/Tests/](../Source/MyProject2/Utils/Tests/)
 >
 > **Relacionado:** Integration Tests, TDD, Test Coverage
@@ -631,7 +631,7 @@ last_updated: 2024-12-27
 >
 > **Onde encontrar:**
 >
-> - [Testing Guide](technical/guides/testing.md)
+> - [Testing Guide](technical/guides/testing/testing.md)
 > - [Source/MyProject2/Tests/Integration/](../Source/MyProject2/Tests/Integration/)
 >
 > **Relacionado:** Unit Tests, E2E Tests, Test Coverage

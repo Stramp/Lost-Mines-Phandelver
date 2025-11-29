@@ -301,7 +301,7 @@ related: [getting-started.md, data-tables-setup.md]
     2. Substitua pelos seus caminhos reais
     3. Use variáveis de ambiente se preferir
 
-    **📖 Para mais troubleshooting, veja [docs/technical/guides/troubleshooting.md](troubleshooting.md)**
+    **📖 Para mais troubleshooting, veja [docs/technical/guides/workflows/troubleshooting.md](../workflows/troubleshooting.md)**
 
 ---
 
@@ -338,7 +338,7 @@ related: [getting-started.md, data-tables-setup.md]
 > 1. **Leia o [Guia de Início Rápido](getting-started.md)** - Criar primeiro personagem
 > 2. **Configure Data Tables** - [Guia de Data Tables](data-tables-setup.md)
 > 3. **Explore a Arquitetura** - [ARCHITECTURE.md](../../../ARCHITECTURE.md)
-> 4. **Execute Testes** - [Guia de Testes](testing.md)
+> 4. **Execute Testes** - [Guia de Testes](../testing/testing.md)
 >
 > **📖 Para documentação completa, veja [docs/index.md](../../index.md)**
 >

@@ -5,7 +5,7 @@ subcategory: data-architecture
 tags: [json-schema, data-tables, validation, structure]
 last_updated: 2024-12-27
 difficulty: intermediate
-related: [database-architecture.md, ../../guides/data-tables.md]
+related: [database-architecture.md, ../../guides/data-tables/data-tables.md]
 ---
 
 **Navegação:** [Home](../../../README.md) > [Documentação](index.md) > [Técnico](../technical/index.md) > [Data Architecture](data-architecture/index.md) > JSON Schema

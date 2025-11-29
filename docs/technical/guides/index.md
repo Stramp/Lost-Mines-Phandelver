@@ -33,10 +33,10 @@ last_updated: 2024-12-27
 
     | Guia | Descrição |
     |------|-----------|
-    | [Setup Completo](setup.md) | Configurar ambiente de desenvolvimento |
-    | [Data Tables Setup](data-tables-setup.md) | Criar e configurar Data Tables |
+    | [Setup Completo](setup/setup.md) | Configurar ambiente de desenvolvimento |
+    | [Data Tables Setup](data-tables/data-tables-setup.md) | Criar e configurar Data Tables |
 
-    [Ver guias de setup](setup.md)
+    [Ver guias de setup](setup/setup.md)
 
 
 <details>
@@ -50,11 +50,11 @@ last_updated: 2024-12-27
 
     | Guia | Descrição |
     |------|-----------|
-    | [Getting Started](getting-started.md) | Criar primeiro personagem |
-    | [Workflows](workflows.md) | Fluxos principais do sistema |
-    | [Data Tables](data-tables.md) | Estrutura e uso dos Data Tables |
+    | [Getting Started](setup/getting-started.md) | Criar primeiro personagem |
+    | [Workflows](workflows/workflows.md) | Fluxos principais do sistema |
+    | [Data Tables](data-tables/data-tables.md) | Estrutura e uso dos Data Tables |
 
-    [Ver guias de uso](getting-started.md)
+    [Ver guias de uso](setup/getting-started.md)
 
 
 <details>
@@ -68,11 +68,11 @@ last_updated: 2024-12-27
 
     | Guia | Descrição |
     |------|-----------|
-    | [Data Tables](data-tables.md) | Estrutura completa dos Data Tables |
-    | [JSON Schema Validation](json-schema-validation-guide.md) | Validação de schemas |
-    | [Schema Versioning](schema-versioning-guide.md) | Versionamento de schemas |
+    | [Data Tables](data-tables/data-tables.md) | Estrutura completa dos Data Tables |
+    | [JSON Schema Validation](data-tables/json-schema-validation-guide.md) | Validação de schemas |
+    | [Schema Versioning](data-tables/schema-versioning-guide.md) | Versionamento de schemas |
 
-    [Ver guias de Data Tables](data-tables.md)
+    [Ver guias de Data Tables](data-tables/data-tables.md)
 
 
 <details>
@@ -86,11 +86,11 @@ last_updated: 2024-12-27
 
     | Guia | Descrição |
     |------|-----------|
-    | [Testing](testing.md) | Guia completo de testes |
-    | [TDD Complete Guide](tdd-complete-guide.md) | Test-Driven Development |
-    | [Testing Implementation Plan](testing-implementation-plan.md) | Plano de implementação |
+    | [Testing](testing/testing.md) | Guia completo de testes |
+    | [TDD Complete Guide](testing/tdd-complete-guide.md) | Test-Driven Development |
+    | [Testing Implementation Plan](testing/testing-implementation-plan.md) | Plano de implementação |
 
-    [Ver guias de testes](testing.md)
+    [Ver guias de testes](testing/testing.md)
 
 ---
 
@@ -99,7 +99,7 @@ last_updated: 2024-12-27
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚙️ Setup e Configuração - Configurar ambiente do zero</b></summary>
 
-> **[Setup Completo](setup.md)**
+> **[Setup Completo](setup/setup.md)**
 >
 
 > - Instalar Unreal Engine 5.7
@@ -110,7 +110,7 @@ last_updated: 2024-12-27
 >
 > - Compilar e verificar
 >
-> **[Data Tables Setup](data-tables-setup.md)**
+> **[Data Tables Setup](data-tables/data-tables-setup.md)**
 >
 > - Race Data Table
 >
@@ -120,7 +120,7 @@ last_updated: 2024-12-27
 >
 > - Feat Data Table
 >
-> [Ver guias de setup](setup.md)
+> [Ver guias de setup](setup/setup.md)
 >
 </details>
 ---
@@ -128,7 +128,7 @@ last_updated: 2024-12-27
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🚀 Getting Started - Criar primeiro personagem</b></summary>
 
-> **[getting-started.md](getting-started.md)**
+> **[getting-started.md](setup/getting-started.md)**
 >
 
 > - Configurar Data Tables (pré-requisito)
@@ -141,7 +141,7 @@ last_updated: 2024-12-27
 >
 > - Exemplos de código
 >
-> [Ver guia completo](getting-started.md)
+> [Ver guia completo](setup/getting-started.md)
 >
 </details>
 ---
@@ -149,7 +149,7 @@ last_updated: 2024-12-27
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔄 Fluxos Principais - Workflows do sistema</b></summary>
 
-> **[workflows.md](workflows.md)**
+> **[workflows.md](workflows/workflows.md)**
 >
 
 > - Criação completa de personagem (end-to-end)
@@ -164,7 +164,7 @@ last_updated: 2024-12-27
 >
 > - Diagramas de fluxo
 >
-> [Ver workflows](workflows.md)
+> [Ver workflows](workflows/workflows.md)
 >
 </details>
 ---
@@ -172,7 +172,7 @@ last_updated: 2024-12-27
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Data Tables - Estrutura e uso</b></summary>
 
-> **[data-tables.md](data-tables.md)**
+> **[data-tables.md](data-tables/data-tables.md)**
 >
 
 > - RaceDataTable
@@ -185,9 +185,9 @@ last_updated: 2024-12-27
 >
 > - Estrutura e relacionamentos
 >
-> [Para criar Data Tables, veja Data Tables Setup](data-tables-setup.md)
+> [Para criar Data Tables, veja Data Tables Setup](data-tables/data-tables-setup.md)
 >
-> **[json-schema-validation-guide.md](json-schema-validation-guide.md)**
+> **[json-schema-validation-guide.md](data-tables/json-schema-validation-guide.md)**
 >
 > - Validação local com Python
 >
@@ -199,7 +199,7 @@ last_updated: 2024-12-27
 >
 > - Troubleshooting e referências
 >
-> **[schema-versioning-guide.md](schema-versioning-guide.md)**
+> **[schema-versioning-guide.md](data-tables/schema-versioning-guide.md)**
 >
 > - Campos SchemaVersion e DataVersion
 >
@@ -217,7 +217,7 @@ last_updated: 2024-12-27
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚠️ Troubleshooting - Problemas comuns e soluções</b></summary>
 
-> **[troubleshooting.md](troubleshooting.md)**
+    > **[troubleshooting.md](workflows/troubleshooting.md)**
 >
 
 > - Problemas no Editor
@@ -228,7 +228,7 @@ last_updated: 2024-12-27
 >
 > - Problemas de Performance
 >
-> [Ver troubleshooting](troubleshooting.md)
+> [Ver troubleshooting](workflows/troubleshooting.md)
 >
 </details>
 ---
@@ -263,7 +263,7 @@ last_updated: 2024-12-27
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🧪 Testes Automatizados - Testes e TDD</b></summary>
 
-> **[testing.md](testing.md)**
+    > **[testing.md](testing/testing.md)**
 >
 
 > - Referências oficiais da Epic Games
@@ -278,7 +278,7 @@ last_updated: 2024-12-27
 >
 > - Integração com CI/CD
 >
-> **[tdd-complete-guide.md](tdd-complete-guide.md)**
+> **[tdd-complete-guide.md](testing/tdd-complete-guide.md)**
 >
 > - Ciclo Red-Green-Refactor
 >
@@ -294,7 +294,7 @@ last_updated: 2024-12-27
 >
 > - Recursos de aprendizado
 >
-> **[testing-implementation-plan.md](testing-implementation-plan.md)**
+> **[testing-implementation-plan.md](testing/testing-implementation-plan.md)**
 >
 > - Status atual dos testes
 >
@@ -304,7 +304,7 @@ last_updated: 2024-12-27
 >
 > - Rotina de segurança antes de commit
 >
-> [Ver guias de testes](testing.md)
+> [Ver guias de testes](testing/testing.md)
 >
 </details>
 ---

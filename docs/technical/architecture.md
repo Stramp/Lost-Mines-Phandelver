@@ -597,7 +597,7 @@ Este documento descreve a arquitetura do projeto, baseada em princípios de desi
     > - `ValidateChoice()` - Validar uma escolha contra as regras
     > - `ResolveDependencies()` - Resolver dependências entre escolhas
     >
-    > **📖 Para mais detalhes sobre planejamento, veja [docs/planning/roadmap.md](../../planning/roadmap.md)**
+    > **📖 Para mais detalhes sobre planejamento, veja [docs/planning/roadmaps/roadmap.md](../../planning/roadmaps/roadmap.md)**
 
     </details>
 

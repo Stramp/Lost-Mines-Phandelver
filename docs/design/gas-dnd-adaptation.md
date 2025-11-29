@@ -60,36 +60,47 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 
 </details>
 
-    **Responsabilidade:** Guardar todos os números do personagem.
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📋 Ficha do Personagem (AttributeSet)</summary>
 
-    - **Exemplos:** "Strength: 16", "HP: 45/50", "Proficiency: +3", "AC: 18"
-    - **Não decide:** Não rola dados, não aplica regras, não executa ações
-    - **Apenas armazena:** Valores que podem mudar durante o jogo
+> **Responsabilidade:** Guardar todos os números do personagem.
+>
+> - **Exemplos:** "Strength: 16", "HP: 45/50", "Proficiency: +3", "AC: 18"
+> - **Não decide:** Não rola dados, não aplica regras, não executa ações
+> - **Apenas armazena:** Valores que podem mudar durante o jogo
 
-    ### 📖 **Livro de Regras (GameplayEffect)**
+</details>
 
-    **Responsabilidade:** Definir o que acontece e quando.
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📖 Livro de Regras (GameplayEffect)</summary>
 
-    - **Exemplos:** "Ataque = d20 + Strength modifier + Proficiency", "Dano = 1d8 + Strength modifier", "Acerto reduz HP do alvo"
-    - **Define:** Fórmulas, condições, consequências, duração de efeitos
-    - **Não executa:** Apenas define as regras
+> **Responsabilidade:** Definir o que acontece e quando.
+>
+> - **Exemplos:** "Ataque = d20 + Strength modifier + Proficiency", "Dano = 1d8 + Strength modifier", "Acerto reduz HP do alvo"
+> - **Define:** Fórmulas, condições, consequências, duração de efeitos
+> - **Não executa:** Apenas define as regras
 
-    ### ⚔️ **Ação do Jogador (GameplayAbility)**
+</details>
 
-    **Responsabilidade:** Executar a ação declarada.
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⚔️ Ação do Jogador (GameplayAbility)</summary>
 
-    - **Exemplos:** "Eu ataco com espada!", "Uso spell Fireball", "Faço um teste de skill"
-    - **Orquestra:** Declara ação → Consulta regras (GameplayEffect) → Atualiza ficha (AttributeSet)
-    - **Coordena:** Todo o fluxo de execução
+> **Responsabilidade:** Executar a ação declarada.
+>
+> - **Exemplos:** "Eu ataco com espada!", "Uso spell Fireball", "Faço um teste de skill"
+> - **Orquestra:** Declara ação → Consulta regras (GameplayEffect) → Atualiza ficha (AttributeSet)
+> - **Coordena:** Todo o fluxo de execução
+>
+> **🔄 Fluxo Completo:**
+>
+> 1. **Jogador:** "Eu ataco!" → GameplayAbility (ação)
+> 2. **Regra:** "Rola d20 + Strength + Proficiency" → GameplayEffect (fórmula)
+> 3. **Ficha:** "Strength: 16 (+3), Proficiency: +3" → AttributeSet (valores)
+> 4. **Resultado:** d20(12) + 3 + 3 = 18 vs AC 15 → **Acertou!**
+> 5. **Regra:** "Dano = 1d8 + Strength modifier" → GameplayEffect
+> 6. **Ficha:** "HP do alvo: 50 → 42" → AttributeSet (atualiza)
 
-    **🔄 Fluxo Completo:**
-
-    1. **Jogador:** "Eu ataco!" → GameplayAbility (ação)
-    2. **Regra:** "Rola d20 + Strength + Proficiency" → GameplayEffect (fórmula)
-    3. **Ficha:** "Strength: 16 (+3), Proficiency: +3" → AttributeSet (valores)
-    4. **Resultado:** d20(12) + 3 + 3 = 18 vs AC 15 → **Acertou!**
-    5. **Regra:** "Dano = 1d8 + Strength modifier" → GameplayEffect
-    6. **Ficha:** "HP do alvo: 50 → 42" → AttributeSet (atualiza)
+</details>
 
 ---
 
@@ -122,37 +133,44 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > - **Meta-Attributes:** Health atual, Temporary modifiers
 >
 </details>
-    ### 2. **GameplayEffect - O Livro de Regras**
 
-    **Responsabilidade EXCLUSIVA:**
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📖 GameplayEffect - O Livro de Regras</summary>
 
-    - ✅ Definir o que acontece e quando
-    - ✅ Aplicar modificadores de atributos
-    - ✅ Definir duração de efeitos
-    - ✅ Estabelecer condições de aplicação
+> **Responsabilidade EXCLUSIVA:**
+>
+> - ✅ Definir o que acontece e quando
+> - ✅ Aplicar modificadores de atributos
+> - ✅ Definir duração de efeitos
+> - ✅ Estabelecer condições de aplicação
+>
+> **Para D&D 5e, define:**
+>
+> - **Fórmulas:** "Ataque = d20 + Strength modifier + Proficiency"
+> - **Efeitos Temporários:** "+2 Strength por 1 hora (spell)"
+> - **Condições:** "Envenenado = -1 em todos os checks"
+> - **Duração:** Instantâneo, 1 turno, 1 hora, permanente
 
-    **Para D&D 5e, define:**
+</details>
 
-    - **Fórmulas:** "Ataque = d20 + Strength modifier + Proficiency"
-    - **Efeitos Temporários:** "+2 Strength por 1 hora (spell)"
-    - **Condições:** "Envenenado = -1 em todos os checks"
-    - **Duração:** Instantâneo, 1 turno, 1 hora, permanente
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⚔️ GameplayAbility - A Ação do Jogador</summary>
 
-    ### 3. **GameplayAbility - A Ação do Jogador**
+> **Responsabilidade EXCLUSIVA:**
+>
+> - ✅ Executar ações e coordenar
+> - ✅ Orquestrar fluxo completo
+> - ✅ Chamar GameplayEffects
+> - ✅ Gerenciar cooldowns e custos
+>
+> **Para D&D 5e, executa:**
+>
+> - **Ataques:** "Ataque com espada", "Ataque à distância"
+> - **Spells:** "Fireball", "Cure Wounds", "Shield"
+> - **Habilidades:** "Action Surge", "Second Wind", "Rage"
+> - **Skills:** "Stealth", "Perception", "Athletics"
 
-    **Responsabilidade EXCLUSIVA:**
-
-    - ✅ Executar ações e coordenar
-    - ✅ Orquestrar fluxo completo
-    - ✅ Chamar GameplayEffects
-    - ✅ Gerenciar cooldowns e custos
-
-    **Para D&D 5e, executa:**
-
-    - **Ataques:** "Ataque com espada", "Ataque à distância"
-    - **Spells:** "Fireball", "Cure Wounds", "Shield"
-    - **Habilidades:** "Action Surge", "Second Wind", "Rage"
-    - **Skills:** "Stealth", "Perception", "Athletics"
+</details>
 
 ---
 
@@ -173,19 +191,23 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > 7. **DM:** "Goblin perde 8 HP, agora tem 2/10 HP"
 >
 </details>
-    ### **No Jogo (GAS):**
 
-    1. **Jogador:** Pressiona botão de ataque → **GameplayAbility** (ação)
-    2. **Sistema:** Consulta regra "Ataque = d20 + Strength + Proficiency" → **GameplayEffect** (fórmula)
-    3. **Sistema:** Lê valores "Strength: 16 (+3), Proficiency: +3" → **AttributeSet** (valores)
-    4. **Sistema:** Calcula 12 + 3 + 3 = 18 vs AC 15 → **Acertou!**
-    5. **Sistema:** Aplica regra "Dano = 1d8 + Strength modifier" → **GameplayEffect**
-    6. **Sistema:** Atualiza "HP do goblin: 10 → 2" → **AttributeSet** (atualiza)
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🎮 No Jogo (GAS)</summary>
 
-    **🎯 Diferença Principal:**
+> 1. **Jogador:** Pressiona botão de ataque → **GameplayAbility** (ação)
+> 2. **Sistema:** Consulta regra "Ataque = d20 + Strength + Proficiency" → **GameplayEffect** (fórmula)
+> 3. **Sistema:** Lê valores "Strength: 16 (+3), Proficiency: +3" → **AttributeSet** (valores)
+> 4. **Sistema:** Calcula 12 + 3 + 3 = 18 vs AC 15 → **Acertou!**
+> 5. **Sistema:** Aplica regra "Dano = 1d8 + Strength modifier" → **GameplayEffect**
+> 6. **Sistema:** Atualiza "HP do goblin: 10 → 2" → **AttributeSet** (atualiza)
+>
+> **🎯 Diferença Principal:**
+>
+> - **RPG de Mesa:** Jogador e DM fazem tudo manualmente
+> - **Jogo Digital:** Sistema automatiza cálculos, mas segue as mesmas regras
 
-    - **RPG de Mesa:** Jogador e DM fazem tudo manualmente
-    - **Jogo Digital:** Sistema automatiza cálculos, mas segue as mesmas regras
+</details>
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>💀 Exemplo 2: Condição Envenenado</b></summary>
@@ -202,20 +224,24 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > 7. **DM:** "A cada turno, você pode tentar fazer outro saving throw para se curar"
 >
 </details>
-    ### **No Jogo (GAS):**
 
-    1. **Sistema:** Goblin aplica ataque envenenado → **GameplayAbility** (ação)
-    2. **Sistema:** Cria efeito "Poison Effect" → **GameplayEffect** (regra)
-    3. **Sistema:** Solicita saving throw de Constitution → **GameplayEffect** (condição)
-    4. **Sistema:** Jogador falha (10 < 12) → Aplica condição "Envenenado"
-    5. **Sistema:** Modifica atributos "-1 em todos os checks e ataques" → **AttributeSet** (atualiza)
-    6. **Sistema:** A cada turno, permite novo saving throw → **GameplayEffect** (duração)
-    7. **Sistema:** Quando passar, remove efeito → **AttributeSet** (restaura valores)
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🎮 No Jogo (GAS)</summary>
 
-    **🎯 Diferença Principal:**
+> 1. **Sistema:** Goblin aplica ataque envenenado → **GameplayAbility** (ação)
+> 2. **Sistema:** Cria efeito "Poison Effect" → **GameplayEffect** (regra)
+> 3. **Sistema:** Solicita saving throw de Constitution → **GameplayEffect** (condição)
+> 4. **Sistema:** Jogador falha (10 < 12) → Aplica condição "Envenenado"
+> 5. **Sistema:** Modifica atributos "-1 em todos os checks e ataques" → **AttributeSet** (atualiza)
+> 6. **Sistema:** A cada turno, permite novo saving throw → **GameplayEffect** (duração)
+> 7. **Sistema:** Quando passar, remove efeito → **AttributeSet** (restaura valores)
+>
+> **🎯 Diferença Principal:**
+>
+> - **RPG de Mesa:** DM lembra de aplicar desvantagem manualmente
+> - **Jogo Digital:** Sistema aplica automaticamente, mas jogador vê feedback visual
 
-    - **RPG de Mesa:** DM lembra de aplicar desvantagem manualmente
-    - **Jogo Digital:** Sistema aplica automaticamente, mas jogador vê feedback visual
+</details>
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔥 Exemplo 3: Spell Fireball</b></summary>
@@ -234,22 +260,26 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > 9. **DM:** "Goblin 1: 14 de dano (metade), Goblin 2: 28 de dano (total), Goblin 3: 14 de dano (metade)"
 >
 </details>
-    ### **No Jogo (GAS):**
 
-    1. **Jogador:** Pressiona botão "Fireball" → **GameplayAbility** (ação)
-    2. **Sistema:** Verifica se tem spell slot disponível → **GameplayAbility** (custo)
-    3. **Sistema:** Jogador escolhe área (raio de 6 metros) → **GameplayAbility** (targeting)
-    4. **Sistema:** Identifica todos os alvos na área → **GameplayAbility** (detecção)
-    5. **Sistema:** Para cada alvo, aplica "Fireball Damage Effect" → **GameplayEffect** (regra)
-    6. **Sistema:** Cada alvo faz saving throw de Dexterity → **GameplayEffect** (condição)
-    7. **Sistema:** Calcula dano 8d6 = 28 → **GameplayEffect** (fórmula)
-    8. **Sistema:** Aplica dano (total ou metade) → **AttributeSet** (atualiza HP)
-    9. **Sistema:** Aplica efeito visual de explosão → **GameplayAbility** (feedback)
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🎮 No Jogo (GAS)</summary>
 
-    **🎯 Diferença Principal:**
+> 1. **Jogador:** Pressiona botão "Fireball" → **GameplayAbility** (ação)
+> 2. **Sistema:** Verifica se tem spell slot disponível → **GameplayAbility** (custo)
+> 3. **Sistema:** Jogador escolhe área (raio de 6 metros) → **GameplayAbility** (targeting)
+> 4. **Sistema:** Identifica todos os alvos na área → **GameplayAbility** (detecção)
+> 5. **Sistema:** Para cada alvo, aplica "Fireball Damage Effect" → **GameplayEffect** (regra)
+> 6. **Sistema:** Cada alvo faz saving throw de Dexterity → **GameplayEffect** (condição)
+> 7. **Sistema:** Calcula dano 8d6 = 28 → **GameplayEffect** (fórmula)
+> 8. **Sistema:** Aplica dano (total ou metade) → **AttributeSet** (atualiza HP)
+> 9. **Sistema:** Aplica efeito visual de explosão → **GameplayAbility** (feedback)
+>
+> **🎯 Diferença Principal:**
+>
+> - **RPG de Mesa:** DM calcula área e dano manualmente
+> - **Jogo Digital:** Sistema calcula automaticamente, mas jogador vê área e explosão visual
 
-    - **RPG de Mesa:** DM calcula área e dano manualmente
-    - **Jogo Digital:** Sistema calcula automaticamente, mas jogador vê área e explosão visual
+</details>
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚡ Exemplo 4: Habilidade Action Surge (Fighter)</b></summary>
@@ -265,20 +295,24 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > 6. **DM:** "Action Surge só pode ser usada uma vez por short rest"
 >
 </details>
-    ### **No Jogo (GAS):**
 
-    1. **Jogador:** Pressiona botão "Action Surge" → **GameplayAbility** (ação)
-    2. **Sistema:** Verifica se está disponível (cooldown) → **GameplayAbility** (validação)
-    3. **Sistema:** Aplica efeito "+1 ação extra neste turno" → **GameplayEffect** (regra)
-    4. **Sistema:** Modifica "ActionsAvailable: 1 → 2" → **AttributeSet** (atualiza)
-    5. **Sistema:** Jogador pode atacar novamente → **GameplayAbility** (permissão)
-    6. **Sistema:** Após usar, aplica cooldown "1x por short rest" → **GameplayEffect** (duração)
-    7. **Sistema:** Após short rest, restaura disponibilidade → **AttributeSet** (restaura)
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🎮 No Jogo (GAS)</summary>
 
-    **🎯 Diferença Principal:**
+> 1. **Jogador:** Pressiona botão "Action Surge" → **GameplayAbility** (ação)
+> 2. **Sistema:** Verifica se está disponível (cooldown) → **GameplayAbility** (validação)
+> 3. **Sistema:** Aplica efeito "+1 ação extra neste turno" → **GameplayEffect** (regra)
+> 4. **Sistema:** Modifica "ActionsAvailable: 1 → 2" → **AttributeSet** (atualiza)
+> 5. **Sistema:** Jogador pode atacar novamente → **GameplayAbility** (permissão)
+> 6. **Sistema:** Após usar, aplica cooldown "1x por short rest" → **GameplayEffect** (duração)
+> 7. **Sistema:** Após short rest, restaura disponibilidade → **AttributeSet** (restaura)
+>
+> **🎯 Diferença Principal:**
+>
+> - **RPG de Mesa:** Jogador e DM lembram de aplicar ação extra
+> - **Jogo Digital:** Sistema gerencia automaticamente, mas jogador vê feedback de ações disponíveis
 
-    - **RPG de Mesa:** Jogador e DM lembram de aplicar ação extra
-    - **Jogo Digital:** Sistema gerencia automaticamente, mas jogador vê feedback de ações disponíveis
+</details>
 
 ---
 
@@ -296,28 +330,38 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > - ✅ Balanceamento não é alterado
 >
 </details>
-    ### **2. Automação Inteligente**
 
-    - ✅ Sistema calcula automaticamente (não precisa rolar dados manualmente)
-    - ✅ Aplica modificadores automaticamente
-    - ✅ Gerencia duração de efeitos automaticamente
-    - ✅ Valida condições automaticamente
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🤖 Automação Inteligente</summary>
 
-    ### **3. Feedback Visual**
+> - ✅ Sistema calcula automaticamente (não precisa rolar dados manualmente)
+> - ✅ Aplica modificadores automaticamente
+> - ✅ Gerencia duração de efeitos automaticamente
+> - ✅ Valida condições automaticamente
 
-    - ✅ Jogador vê resultados de rolagens (opcional)
-    - ✅ Efeitos visuais para condições
-    - ✅ Feedback de acerto/erro
-    - ✅ Indicadores de buffs/debuffs
+</details>
 
-    ### **4. Action RPG: Colisão Real**
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">👁️ Feedback Visual</summary>
 
-    - ✅ Combate é em tempo real (não turn-based)
-    - ✅ Colisão física real (não abstrata)
-    - ✅ Projéteis têm física real
-    - ✅ Áreas de efeito são visuais e físicas
+> - ✅ Jogador vê resultados de rolagens (opcional)
+> - ✅ Efeitos visuais para condições
+> - ✅ Feedback de acerto/erro
+> - ✅ Indicadores de buffs/debuffs
 
-    **⚠️ IMPORTANTE:** As regras de D&D 5e são mantidas, mas a execução é adaptada para tempo real.
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⚔️ Action RPG: Colisão Real</summary>
+
+> - ✅ Combate é em tempo real (não turn-based)
+> - ✅ Colisão física real (não abstrata)
+> - ✅ Projéteis têm física real
+> - ✅ Áreas de efeito são visuais e físicas
+>
+> **⚠️ IMPORTANTE:** As regras de D&D 5e são mantidas, mas a execução é adaptada para tempo real.
+
+</details>
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Atributos e Cálculos</b></summary>
@@ -337,39 +381,43 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > - Exemplo: Strength 16 → Modifier +3
 >
 </details>
-    ### **Atributos Derivados (Meta-Attributes)**
 
-    **MaxHealth:**
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📊 Atributos Derivados (Meta-Attributes)</summary>
 
-    - **Level 1:** `Hit Die + Constitution Modifier`
-    - **Level 2+:** `(Hit Die / 2) + 1 + Constitution Modifier` (por nível adicional)
-    - Recalcula automaticamente quando Constitution muda ou nível aumenta
-    - **⚠️ IMPORTANTE:** Constitution Modifier é calculado a partir do Final Constitution Score (BASE_ABILITY_SCORE + Racial + PointBuy + ASI)
-    - **📖 Ver também:** [dnd-rules/level-up.md](../dnd-rules/level-up.md) - Fórmula completa de HP
+> **MaxHealth:**
+>
+> - **Level 1:** `Hit Die + Constitution Modifier`
+> - **Level 2+:** `(Hit Die / 2) + 1 + Constitution Modifier` (por nível adicional)
+> - Recalcula automaticamente quando Constitution muda ou nível aumenta
+> - **⚠️ IMPORTANTE:** Constitution Modifier é calculado a partir do Final Constitution Score (BASE_ABILITY_SCORE + Racial + PointBuy + ASI)
+> - **📖 Ver também:** [dnd-rules/level-up.md](../dnd-rules/level-up.md) - Fórmula completa de HP
+>
+> **ArmorClass (AC):**
+>
+> - Fórmula: `10 + Dexterity Modifier + Armor Bonus`
+> - Recalcula automaticamente quando Dexterity ou Armor muda
+>
+> **ProficiencyBonus:**
+>
+> - Tabela fixa baseada no **Total Level** (soma de todos os níveis de classes):
+> - Níveis 1-4: +2
+> - Níveis 5-8: +3
+> - Níveis 9-12: +4
+> - Níveis 13-16: +5
+> - Níveis 17-20: +6
+> - Fórmula: `2 + floor((TotalLevel - 1) / 4)`
+> - Recalcula automaticamente quando Total Level muda
+> - **⚠️ IMPORTANTE:** Em multiclassing, usa Total Level, não nível de classe específica
+> - **📖 Ver também:** [dnd-rules/level-up.md](../dnd-rules/level-up.md) - Tabela completa de Proficiency Bonus
+>
+> **🎯 Vantagem do GAS:**
+>
+> - Todos os cálculos são automáticos
+> - Modificadores temporários são aplicados automaticamente
+> - Sistema notifica quando valores mudam (para UI reativa)
 
-    **ArmorClass (AC):**
-
-    - Fórmula: `10 + Dexterity Modifier + Armor Bonus`
-    - Recalcula automaticamente quando Dexterity ou Armor muda
-
-    **ProficiencyBonus:**
-
-    - Tabela fixa baseada no **Total Level** (soma de todos os níveis de classes):
-    - Níveis 1-4: +2
-    - Níveis 5-8: +3
-    - Níveis 9-12: +4
-    - Níveis 13-16: +5
-    - Níveis 17-20: +6
-    - Fórmula: `2 + floor((TotalLevel - 1) / 4)`
-    - Recalcula automaticamente quando Total Level muda
-    - **⚠️ IMPORTANTE:** Em multiclassing, usa Total Level, não nível de classe específica
-    - **📖 Ver também:** [dnd-rules/level-up.md](../dnd-rules/level-up.md) - Tabela completa de Proficiency Bonus
-
-    **🎯 Vantagem do GAS:**
-
-    - Todos os cálculos são automáticos
-    - Modificadores temporários são aplicados automaticamente
-    - Sistema notifica quando valores mudam (para UI reativa)
+</details>
 
 ---
 
@@ -394,33 +442,37 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > - Colisão física real (não abstrata)
 >
 </details>
-    ### **Como Adaptar:**
 
-    **1. Ataques:**
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔄 Como Adaptar</summary>
 
-    - **RPG de Mesa:** "Eu ataco" → Rola d20 → DM diz se acertou
-    - **Jogo Digital:** Jogador pressiona botão → Sistema verifica se hitbox colidiu → Aplica dano
+> **1. Ataques:**
+>
+> - **RPG de Mesa:** "Eu ataco" → Rola d20 → DM diz se acertou
+> - **Jogo Digital:** Jogador pressiona botão → Sistema verifica se hitbox colidiu → Aplica dano
+>
+> **2. Saving Throws:**
+>
+> - **RPG de Mesa:** "Faça saving throw" → Rola d20 → DM diz resultado
+> - **Jogo Digital:** Sistema detecta efeito → Calcula saving throw automaticamente → Aplica resultado
+>
+> **3. Áreas de Efeito:**
+>
+> - **RPG de Mesa:** "Fireball em área de 6 metros" → DM decide quem está na área
+> - **Jogo Digital:** Sistema detecta colisão física → Aplica efeito em todos os alvos na área
+>
+> **4. Projéteis:**
+>
+> - **RPG de Mesa:** "Eu atiro uma flecha" → DM decide se acertou
+> - **Jogo Digital:** Flecha é objeto físico → Colisão real determina acerto → Aplica dano
+>
+> **🎯 Vantagem do GAS:**
+>
+> - Sistema gerencia regras automaticamente
+> - Colisão física é gerenciada pelo Unreal Engine
+> - GAS aplica efeitos baseados em regras D&D 5e
 
-    **2. Saving Throws:**
-
-    - **RPG de Mesa:** "Faça saving throw" → Rola d20 → DM diz resultado
-    - **Jogo Digital:** Sistema detecta efeito → Calcula saving throw automaticamente → Aplica resultado
-
-    **3. Áreas de Efeito:**
-
-    - **RPG de Mesa:** "Fireball em área de 6 metros" → DM decide quem está na área
-    - **Jogo Digital:** Sistema detecta colisão física → Aplica efeito em todos os alvos na área
-
-    **4. Projéteis:**
-
-    - **RPG de Mesa:** "Eu atiro uma flecha" → DM decide se acertou
-    - **Jogo Digital:** Flecha é objeto físico → Colisão real determina acerto → Aplica dano
-
-    **🎯 Vantagem do GAS:**
-
-    - Sistema gerencia regras automaticamente
-    - Colisão física é gerenciada pelo Unreal Engine
-    - GAS aplica efeitos baseados em regras D&D 5e
+</details>
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>💥 Sistema de Dano e Colisão</b></summary>
@@ -439,23 +491,27 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > 7. **Sistema:** Mostra feedback visual → **GameplayAbility** (feedback)
 >
 </details>
-    ### **Fluxo de Projétil com Colisão Real:**
 
-    1. **Jogador:** Pressiona botão de tiro → **GameplayAbility** (ação)
-    2. **Sistema:** Spawna projétil físico → **Unreal Engine** (física)
-    3. **Sistema:** Projétil voa com física real → **Unreal Engine** (movimento)
-    4. **Sistema:** Projétil colide com alvo → **Unreal Engine** (colisão)
-    5. **Sistema:** Calcula acerto usando regras D&D → **GameplayEffect** (fórmula)
-    - `d20 + Dexterity Modifier + Proficiency Bonus vs AC`
-    6. **Sistema:** Se acertou, calcula dano → **GameplayEffect** (fórmula)
-    - `Weapon Damage + Dexterity Modifier`
-    7. **Sistema:** Aplica dano no alvo → **AttributeSet** (atualiza HP)
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🏹 Fluxo de Projétil com Colisão Real</summary>
 
-    **🎯 Vantagem:**
+> 1. **Jogador:** Pressiona botão de tiro → **GameplayAbility** (ação)
+> 2. **Sistema:** Spawna projétil físico → **Unreal Engine** (física)
+> 3. **Sistema:** Projétil voa com física real → **Unreal Engine** (movimento)
+> 4. **Sistema:** Projétil colide com alvo → **Unreal Engine** (colisão)
+> 5. **Sistema:** Calcula acerto usando regras D&D → **GameplayEffect** (fórmula)
+>    - `d20 + Dexterity Modifier + Proficiency Bonus vs AC`
+> 6. **Sistema:** Se acertou, calcula dano → **GameplayEffect** (fórmula)
+>    - `Weapon Damage + Dexterity Modifier`
+> 7. **Sistema:** Aplica dano no alvo → **AttributeSet** (atualiza HP)
+>
+> **🎯 Vantagem:**
+>
+> - Colisão física real (não abstrata)
+> - Regras D&D 5e são mantidas
+> - Sistema automatiza cálculos
 
-    - Colisão física real (não abstrata)
-    - Regras D&D 5e são mantidas
-    - Sistema automatiza cálculos
+</details>
 
 ---
 
@@ -526,28 +582,32 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > - **Visual:** Personagem fica mais rápido visualmente
 >
 </details>
-    ### **Debuffs (Efeitos Negativos):**
 
-    **Slow (Spell):**
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⬇️ Debuffs (Efeitos Negativos)</summary>
 
-    - **RPG de Mesa:** "Velocidade reduzida, -2 AC, -2 em saving throws"
-    - **Jogo Digital:** **GameplayEffect** aplica modificadores → **AttributeSet** (atualiza)
-    - **Duração:** 1 minuto (gerenciada automaticamente)
-    - **Visual:** Personagem fica mais lento visualmente
+> **Slow (Spell):**
+>
+> - **RPG de Mesa:** "Velocidade reduzida, -2 AC, -2 em saving throws"
+> - **Jogo Digital:** **GameplayEffect** aplica modificadores → **AttributeSet** (atualiza)
+> - **Duração:** 1 minuto (gerenciada automaticamente)
+> - **Visual:** Personagem fica mais lento visualmente
+>
+> **Curse (Maldição):**
+>
+> - **RPG de Mesa:** "Atributo reduzido permanentemente até remover maldição"
+> - **Jogo Digital:** **GameplayEffect** aplica modificador permanente → **AttributeSet** (atualiza)
+> - **Duração:** Até remover (gerenciada por condição)
+> - **Visual:** Aura escura ou efeito visual
+>
+> **🎯 Vantagem do GAS:**
+>
+> - Efeitos são aplicados automaticamente
+> - Duração é gerenciada automaticamente
+> - Múltiplos efeitos podem ser combinados
+> - Sistema notifica quando efeitos expiram
 
-    **Curse (Maldição):**
-
-    - **RPG de Mesa:** "Atributo reduzido permanentemente até remover maldição"
-    - **Jogo Digital:** **GameplayEffect** aplica modificador permanente → **AttributeSet** (atualiza)
-    - **Duração:** Até remover (gerenciada por condição)
-    - **Visual:** Aura escura ou efeito visual
-
-    **🎯 Vantagem do GAS:**
-
-    - Efeitos são aplicados automaticamente
-    - Duração é gerenciada automaticamente
-    - Múltiplos efeitos podem ser combinados
-    - Sistema notifica quando efeitos expiram
+</details>
 
 ---
 
@@ -573,44 +633,51 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > - **GameplayEffect** restaura slots em long rest
 >
 </details>
-    ### **Spell Components (GameplayAbility):**
 
-    **RPG de Mesa:**
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📜 Spell Components (GameplayAbility)</summary>
 
-    - Verbal (V): Precisa falar
-    - Somatic (S): Precisa fazer gestos
-    - Material (M): Precisa de componente material
+> **RPG de Mesa:**
+>
+> - Verbal (V): Precisa falar
+> - Somatic (S): Precisa fazer gestos
+> - Material (M): Precisa de componente material
+>
+> **Jogo Digital:**
+>
+> - **GameplayAbility** valida componentes antes de lançar
+> - **GameplayAbility** verifica se tem material (se necessário)
+> - **GameplayAbility** bloqueia se componentes não disponíveis
 
-    **Jogo Digital:**
+</details>
 
-    - **GameplayAbility** valida componentes antes de lançar
-    - **GameplayAbility** verifica se tem material (se necessário)
-    - **GameplayAbility** bloqueia se componentes não disponíveis
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📈 Spell Levels e Scaling</summary>
 
-    ### **Spell Levels e Scaling:**
+> **RPG de Mesa:**
+>
+> - Spells têm níveis (1-9)
+> - Alguns spells podem ser upcast (usar slot maior)
+> - Dano/efeito aumenta com nível do slot
+>
+> **Jogo Digital:**
+>
+> - **GameplayEffect** define nível base do spell
+> - **GameplayEffect** calcula dano/efeito baseado no slot usado
+> - **GameplayAbility** permite escolher nível do slot (upcast)
+>
+> **🎯 Exemplo: Fireball:**
+>
+> 1. **Jogador:** Escolhe spell "Fireball" nível 3 → **GameplayAbility** (ação)
+> 2. **Sistema:** Valida se tem spell slot nível 3 → **GameplayAbility** (validação)
+> 3. **Sistema:** Jogador escolhe área → **GameplayAbility** (targeting)
+> 4. **Sistema:** Aplica "Fireball Effect" nível 3 → **GameplayEffect** (regra)
+> 5. **Sistema:** Calcula dano 8d6 → **GameplayEffect** (fórmula)
+> 6. **Sistema:** Se upcast para nível 4, dano = 9d6 → **GameplayEffect** (scaling)
+> 7. **Sistema:** Aplica dano em todos os alvos na área → **AttributeSet** (atualiza HP)
+> 8. **Sistema:** Consome spell slot → **AttributeSet** (atualiza slots)
 
-    **RPG de Mesa:**
-
-    - Spells têm níveis (1-9)
-    - Alguns spells podem ser upcast (usar slot maior)
-    - Dano/efeito aumenta com nível do slot
-
-    **Jogo Digital:**
-
-    - **GameplayEffect** define nível base do spell
-    - **GameplayEffect** calcula dano/efeito baseado no slot usado
-    - **GameplayAbility** permite escolher nível do slot (upcast)
-
-    **🎯 Exemplo: Fireball:**
-
-    1. **Jogador:** Escolhe spell "Fireball" nível 3 → **GameplayAbility** (ação)
-    2. **Sistema:** Valida se tem spell slot nível 3 → **GameplayAbility** (validação)
-    3. **Sistema:** Jogador escolhe área → **GameplayAbility** (targeting)
-    4. **Sistema:** Aplica "Fireball Effect" nível 3 → **GameplayEffect** (regra)
-    5. **Sistema:** Calcula dano 8d6 → **GameplayEffect** (fórmula)
-    6. **Sistema:** Se upcast para nível 4, dano = 9d6 → **GameplayEffect** (scaling)
-    7. **Sistema:** Aplica dano em todos os alvos na área → **AttributeSet** (atualiza HP)
-    8. **Sistema:** Consome spell slot → **AttributeSet** (atualiza slots)
+</details>
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚔️ Habilidades de Classe</b></summary>
@@ -631,42 +698,49 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > - **GameplayEffect** aplica cooldown "1x por short rest"
 >
 </details>
-    ### **Rage (Barbarian):**
 
-    **RPG de Mesa:**
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">😤 Rage (Barbarian)</summary>
 
-    - "+2 dano em ataques corpo a corpo"
-    - Resistência a dano físico
-    - Duração: 1 minuto ou até perder concentração
+> **RPG de Mesa:**
+>
+> - "+2 dano em ataques corpo a corpo"
+> - Resistência a dano físico
+> - Duração: 1 minuto ou até perder concentração
+>
+> **Jogo Digital:**
+>
+> - **GameplayAbility** ativa Rage
+> - **GameplayEffect** aplica "+2 dano corpo a corpo"
+> - **GameplayEffect** aplica "50% redução de dano físico"
+> - **AttributeSet** atualiza modificadores
+> - **GameplayEffect** gerencia duração (1 minuto ou até perder concentração)
 
-    **Jogo Digital:**
+</details>
 
-    - **GameplayAbility** ativa Rage
-    - **GameplayEffect** aplica "+2 dano corpo a corpo"
-    - **GameplayEffect** aplica "50% redução de dano físico"
-    - **AttributeSet** atualiza modificadores
-    - **GameplayEffect** gerencia duração (1 minuto ou até perder concentração)
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🗡️ Sneak Attack (Rogue)</summary>
 
-    ### **Sneak Attack (Rogue):**
+> **RPG de Mesa:**
+>
+> - "Dano extra se tiver vantagem ou aliado próximo ao alvo"
+> - Dano aumenta com nível (1d6 a cada 2 níveis)
+>
+> **Jogo Digital:**
+>
+> - **GameplayAbility** valida condições (vantagem ou aliado próximo)
+> - **GameplayEffect** calcula dano extra baseado no nível
+> - **GameplayEffect** aplica dano extra no ataque
+> - **AttributeSet** atualiza HP do alvo
+>
+> **🎯 Vantagem do GAS:**
+>
+> - Cada habilidade é um **GameplayAbility**
+> - Efeitos são **GameplayEffects** reutilizáveis
+> - Sistema gerencia cooldowns e custos automaticamente
+> - Pode combinar múltiplas habilidades
 
-    **RPG de Mesa:**
-
-    - "Dano extra se tiver vantagem ou aliado próximo ao alvo"
-    - Dano aumenta com nível (1d6 a cada 2 níveis)
-
-    **Jogo Digital:**
-
-    - **GameplayAbility** valida condições (vantagem ou aliado próximo)
-    - **GameplayEffect** calcula dano extra baseado no nível
-    - **GameplayEffect** aplica dano extra no ataque
-    - **AttributeSet** atualiza HP do alvo
-
-    **🎯 Vantagem do GAS:**
-
-    - Cada habilidade é um **GameplayAbility**
-    - Efeitos são **GameplayEffects** reutilizáveis
-    - Sistema gerencia cooldowns e custos automaticamente
-    - Pode combinar múltiplas habilidades
+</details>
 
 ---
 
@@ -686,35 +760,39 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > - ❌ **Nunca confiar no cliente:** Cliente pode ser modificado (cheating)
 >
 </details>
-    ### **Como GAS Gerencia Multiplayer:**
 
-    **1. AttributeSet - Replicação Automática:**
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔄 Como GAS Gerencia Multiplayer</summary>
 
-    - **Servidor:** Calcula valores (HP, atributos, modificadores)
-    - **Cliente:** Recebe valores replicados automaticamente
-    - **Sincronização:** GAS replica automaticamente quando valores mudam
-    - **Eventos:** Cliente recebe notificações quando valores mudam (OnRep)
+> **1. AttributeSet - Replicação Automática:**
+>
+> - **Servidor:** Calcula valores (HP, atributos, modificadores)
+> - **Cliente:** Recebe valores replicados automaticamente
+> - **Sincronização:** GAS replica automaticamente quando valores mudam
+> - **Eventos:** Cliente recebe notificações quando valores mudam (OnRep)
+>
+> **2. GameplayEffect - Aplicação Autoritativa:**
+>
+> - **Servidor:** Aplica efeitos (dano, buffs, debuffs)
+> - **Cliente:** Recebe notificação de efeitos aplicados
+> - **Validação:** Servidor valida se efeito pode ser aplicado
+> - **Duração:** Servidor gerencia duração de efeitos
+>
+> **3. GameplayAbility - Execução Autoritativa:**
+>
+> - **Cliente:** Solicita ação (pressiona botão)
+> - **Servidor:** Valida e executa ação
+> - **Resultado:** Servidor aplica resultado e replica para clientes
+> - **Feedback:** Cliente recebe feedback visual do resultado
+>
+> **🎯 Vantagem do GAS:**
+>
+> - Replicação automática de atributos
+> - Validação automática de ações
+> - Sincronização de estados garantida
+> - Prevenção de cheating nativa
 
-    **2. GameplayEffect - Aplicação Autoritativa:**
-
-    - **Servidor:** Aplica efeitos (dano, buffs, debuffs)
-    - **Cliente:** Recebe notificação de efeitos aplicados
-    - **Validação:** Servidor valida se efeito pode ser aplicado
-    - **Duração:** Servidor gerencia duração de efeitos
-
-    **3. GameplayAbility - Execução Autoritativa:**
-
-    - **Cliente:** Solicita ação (pressiona botão)
-    - **Servidor:** Valida e executa ação
-    - **Resultado:** Servidor aplica resultado e replica para clientes
-    - **Feedback:** Cliente recebe feedback visual do resultado
-
-    **🎯 Vantagem do GAS:**
-
-    - Replicação automática de atributos
-    - Validação automática de ações
-    - Sincronização de estados garantida
-    - Prevenção de cheating nativa
+</details>
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚔️ Exemplo: Ataque em Multiplayer</b></summary>
@@ -943,16 +1021,23 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > - [D&D 5e SRD](https://dnd.wizards.com/resources/systems-reference-document) - System Reference Document
 >
 </details>
-    ### **Unreal Engine GAS:**
 
-    - [GAS Documentation](https://dev.epicgames.com/documentation/en-us/unreal-engine/gameplay-ability-system-for-unreal-engine) - Documentação oficial do GAS
-    - [GAS Community Wiki](https://github.com/tranek/GASDocumentation) - Documentação da comunidade
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🎮 Unreal Engine GAS</summary>
 
-    ### **Projeto:**
+> - [GAS Documentation](https://dev.epicgames.com/documentation/en-us/unreal-engine/gameplay-ability-system-for-unreal-engine) - Documentação oficial do GAS
+> - [GAS Community Wiki](https://github.com/tranek/GASDocumentation) - Documentação da comunidade
 
-    - [ARCHITECTURE.md](../../ARCHITECTURE.md) - Arquitetura do projeto
-    - [GDD](gdd.md) - Game Design Document
-    - [Regras D&D 5e](dnd-rules/) - Regras implementadas
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📚 Projeto</summary>
+
+> - [ARCHITECTURE.md](../../ARCHITECTURE.md) - Arquitetura do projeto
+> - [GDD](gdd.md) - Game Design Document
+> - [Regras D&D 5e](dnd-rules/) - Regras implementadas
+
+</details>
 
 ---
 
@@ -969,51 +1054,67 @@ related: [gdd.md, dnd-rules/index.md, technical/architecture.md]
 > - ✅ Condições e efeitos funcionam igual
 >
 </details>
-    ### **2. Automação Inteligente**
 
-    - ✅ Sistema calcula automaticamente (não precisa rolar dados manualmente)
-    - ✅ Aplica modificadores automaticamente
-    - ✅ Gerencia duração de efeitos automaticamente
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🤖 Automação Inteligente</summary>
 
-    ### **3. Feedback Visual**
+> - ✅ Sistema calcula automaticamente (não precisa rolar dados manualmente)
+> - ✅ Aplica modificadores automaticamente
+> - ✅ Gerencia duração de efeitos automaticamente
 
-    - ✅ Jogador vê resultados de rolagens (opcional)
-    - ✅ Efeitos visuais para condições
-    - ✅ Feedback de acerto/erro
+</details>
 
-    ### **4. Action RPG: Colisão Real**
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">👁️ Feedback Visual</summary>
 
-    - ✅ Combate é em tempo real (não turn-based)
-    - ✅ Colisão física real (não abstrata)
-    - ✅ Projéteis têm física real
+> - ✅ Jogador vê resultados de rolagens (opcional)
+> - ✅ Efeitos visuais para condições
+> - ✅ Feedback de acerto/erro
 
-    ### **5. GAS: Os 3 Pilares**
+</details>
 
-    - ✅ **AttributeSet** = Ficha do personagem (armazena valores)
-    - ✅ **GameplayEffect** = Livro de regras (define o que acontece)
-    - ✅ **GameplayAbility** = Ação do jogador (executa ações)
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⚔️ Action RPG: Colisão Real</summary>
 
-    ### **6. Multiplayer: Autoridade do Servidor**
+> - ✅ Combate é em tempo real (não turn-based)
+> - ✅ Colisão física real (não abstrata)
+> - ✅ Projéteis têm física real
 
-    - ✅ Servidor é autoridade (todas as decisões importantes)
-    - ✅ Replicação automática de atributos e efeitos
-    - ✅ Validação automática de ações
-    - ✅ Prevenção de cheating nativa
+</details>
 
-    **🎯 Resultado Final:**
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🏗️ GAS: Os 3 Pilares</summary>
 
-    Um jogo Action RPG multiplayer que mantém todas as regras de D&D 5e, executa tudo automaticamente em tempo real com colisão física real, e garante sincronização perfeita entre todos os jogadores.
+> - ✅ **AttributeSet** = Ficha do personagem (armazena valores)
+> - ✅ **GameplayEffect** = Livro de regras (define o que acontece)
+> - ✅ **GameplayAbility** = Ação do jogador (executa ações)
 
-    **📌 Nota Importante:**
+</details>
 
-    Este documento descreve a **arquitetura futura** usando GAS. O projeto atual usa:
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🌐 Multiplayer: Autoridade do Servidor</summary>
 
-    - ✅ `UCharacterDataComponent` com replicação (`DOREPLIFETIME`) para dados em runtime
-    - 13 propriedades replicáveis: CharacterName, CharacterDescription, CharacterTotalLvl, SelectedRace, SelectedSubrace, SelectedBackground, Proficiencies, AvailableFeatures, SelectedFeat, SelectedSkill, CustomAbilityScoreChoices, RaceTraits, Languages
-    - `AbilityScores` (TMap) não é replicável diretamente (limitação do Unreal Engine)
-    - ✅ `UCharacterSheetComponent` como bridge component para aplicar regras
-    - ✅ `UCharacterSheetDataAsset` para configuração no editor
-    - 🔮 Migração futura para GAS manterá a mesma arquitetura de camadas, mas usando `AttributeSet`, `GameplayEffect` e `GameplayAbility`
+> - ✅ Servidor é autoridade (todas as decisões importantes)
+> - ✅ Replicação automática de atributos e efeitos
+> - ✅ Validação automática de ações
+> - ✅ Prevenção de cheating nativa
+
+</details>
+
+> **🎯 Resultado Final:**
+>
+> Um jogo Action RPG multiplayer que mantém todas as regras de D&D 5e, executa tudo automaticamente em tempo real com colisão física real, e garante sincronização perfeita entre todos os jogadores.
+>
+> **📌 Nota Importante:**
+>
+> Este documento descreve a **arquitetura futura** usando GAS. O projeto atual usa:
+>
+> - ✅ `UCharacterDataComponent` com replicação (`DOREPLIFETIME`) para dados em runtime
+> - 13 propriedades replicáveis: CharacterName, CharacterDescription, CharacterTotalLvl, SelectedRace, SelectedSubrace, SelectedBackground, Proficiencies, AvailableFeatures, SelectedFeat, SelectedSkill, CustomAbilityScoreChoices, RaceTraits, Languages
+> - `AbilityScores` (TMap) não é replicável diretamente (limitação do Unreal Engine)
+> - ✅ `UCharacterSheetComponent` como bridge component para aplicar regras
+> - ✅ `UCharacterSheetDataAsset` para configuração no editor
+> - 🔮 Migração futura para GAS manterá a mesma arquitetura de camadas, mas usando `AttributeSet`, `GameplayEffect` e `GameplayAbility`
 
 ---
 

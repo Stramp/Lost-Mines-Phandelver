@@ -101,9 +101,9 @@ last_updated: 2024-12-27
 >
 > **Documentos Principais:**
 >
-> - [Roadmap Completo](planning/roadmap.md) - Roadmap detalhado com todas as fases
-> - [Revisão Estrutural](planning/revisao-estrutural-integracao.md) - Análise e melhorias
-> - [Planos Técnicos](planning/roadmap-tecnico-itens-iniciais.md) - Planos detalhados de implementação
+> - [Roadmap Completo](planning/roadmaps/roadmap.md) - Roadmap detalhado com todas as fases
+> - [Revisão Estrutural](planning/architecture/revisao-estrutural-integracao.md) - Análise e melhorias
+> - [Planos Técnicos](planning/roadmaps/roadmap-tecnico-itens-iniciais.md) - Planos detalhados de implementação
 >
 
 </details>
@@ -120,9 +120,9 @@ last_updated: 2024-12-27
 >
 
 </details>>     1. [README.md](../README.md) - Entender o projeto
->     2. [docs/technical/guides/setup.md](technical/guides/setup.md) - Configurar ambiente
+>     2. [docs/technical/guides/setup/setup.md](technical/guides/setup/setup.md) - Configurar ambiente
 >     3. [docs/technical/guides/data-tables-setup.md](technical/guides/data-tables-setup.md) - Criar Data Tables
->     4. [docs/technical/guides/getting-started.md](technical/guides/getting-started.md) - Criar primeiro personagem
+>     4. [docs/technical/guides/setup/getting-started.md](technical/guides/setup/getting-started.md) - Criar primeiro personagem
 >
 
 </details>
@@ -150,13 +150,13 @@ last_updated: 2024-12-27
 >     2. [docs/technical/architecture.md](technical/architecture.md) - Ver padrões arquiteturais
 >     3. [docs/technical/api.md](technical/api.md) - Ver classes disponíveis
 >     4. [docs/technical/guides/](technical/guides/) - Seguir guias práticos
->     5. [docs/planning/roadmap.md](planning/roadmap.md) - Ver planejamento
+>     5. [docs/planning/roadmaps/roadmap.md](planning/roadmaps/roadmap.md) - Ver planejamento
 >
 
 </details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🐛 Tenho um problema</b></summary>
 
->     1. [docs/technical/guides/troubleshooting.md](technical/guides/troubleshooting.md) - Problemas comuns
+>     1. [docs/technical/guides/workflows/troubleshooting.md](technical/guides/workflows/troubleshooting.md) - Problemas comuns
 >     2. [docs/technical/architecture.md](technical/architecture.md) - Verificar padrões
 >     3. [docs/technical/guides/](technical/guides/) - Consultar guias
 >
@@ -164,7 +164,7 @@ last_updated: 2024-12-27
 </details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🧪 Quero escrever testes</b></summary>
 
->     1. [docs/technical/guides/testing.md](technical/guides/testing.md) - Guia de testes
+>     1. [docs/technical/guides/testing/testing.md](technical/guides/testing/testing.md) - Guia de testes
 >     2. [docs/technical/guides/tdd-complete-guide.md](technical/guides/tdd-complete-guide.md) - TDD completo
 >     3. [docs/technical/guides/testing-implementation-plan.md](technical/guides/testing-implementation-plan.md) - Plano de implementação
 >
@@ -198,7 +198,7 @@ last_updated: 2024-12-27
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>💰 Point Buy System</b></summary>
 
 >     - [Regras D&D 5e](design/dnd-rules/point-buy.md)
->     - [Workflows](technical/guides/workflows.md#point-buy-system)
+>     - [Workflows](technical/guides/workflows/workflows.md#point-buy-system)
 >     - [Glossário](GLOSSARY.md#point-buy-system)
 >
 
@@ -206,7 +206,7 @@ last_updated: 2024-12-27
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎭 Multiclassing</b></summary>
 
 >     - [Regras D&D 5e](design/dnd-rules/multiclassing.md)
->     - [Workflows](technical/guides/workflows.md#multiclassing)
+>     - [Workflows](technical/guides/workflows/workflows.md#multiclassing)
 >     - [Glossário](GLOSSARY.md#multiclassing)
 >
 
@@ -272,15 +272,15 @@ last_updated: 2024-12-27
 > **"Data-Driven"** → [Arquitetura](technical/architecture.md#data-driven), [Glossário](GLOSSARY.md#data-driven-design)
 >
 
-> **"Point Buy"** → [Regras](design/dnd-rules/point-buy.md), [Workflows](technical/guides/workflows.md#point-buy-system)
+> **"Point Buy"** → [Regras](design/dnd-rules/point-buy.md), [Workflows](technical/guides/workflows/workflows.md#point-buy-system)
 >
-> **"Multiclassing"** → [Regras](design/dnd-rules/multiclassing.md), [Workflows](technical/guides/workflows.md#multiclassing)
+> **"Multiclassing"** → [Regras](design/dnd-rules/multiclassing.md), [Workflows](technical/guides/workflows/workflows.md#multiclassing)
 >
 > **"GAS"** → [Adaptação](design/gas-dnd-adaptation.md), [Arquitetura](technical/architecture.md#preparation-for-gas)
 >
-> **"Data Tables"** → [Setup](technical/guides/data-tables-setup.md), [Estrutura](technical/guides/data-tables.md)
+> **"Data Tables"** → [Setup](technical/guides/data-tables/data-tables-setup.md), [Estrutura](technical/guides/data-tables/data-tables.md)
 >
-> **"Testes"** → [Testing](technical/guides/testing.md), [TDD](technical/guides/tdd-complete-guide.md)
+> **"Testes"** → [Testing](technical/guides/testing/testing.md), [TDD](technical/guides/testing/tdd-complete-guide.md)
 >
 > **"Arquitetura"** → [Resumo](../ARCHITECTURE.md), [Completo](technical/architecture.md)
 >
