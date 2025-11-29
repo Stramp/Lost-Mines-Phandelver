@@ -75,7 +75,7 @@ last_updated: 2024-12-27
 > - [Índice](technical/data-architecture/index.md)
 > - [Arquitetura de Banco de Dados](technical/data-architecture/database-architecture.md)
 > - [Estrutura de Dados Ideal](technical/data-architecture/ideal-data-structure-report.md)
-> - [Arquiteturas de Alta Performance](technical/data-architecture/high-performance-architectures-report.md)
+> - [Arquiteturas de Alta Performance](technical/RelatoriosEstudosReferencia/high-performance-architectures-report.md)
 > - [JSON Schema](technical/data-architecture/json-schema.md)
 >
 > **Guias Práticos** (`technical/guides/`):

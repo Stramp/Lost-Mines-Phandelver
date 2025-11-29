@@ -161,7 +161,7 @@ last_updated: 2024-12-27
 >
 > **Onde encontrar:**
 >
-> - [Arquiteturas de Alta Performance](technical/data-architecture/high-performance-architectures-report.md)
+> - [Arquiteturas de Alta Performance](technical/RelatoriosEstudosReferencia/high-performance-architectures-report.md)
 > - [Arquitetura Técnica](technical/architecture.md#data-oriented-design)
 >
 > **Relacionado:** ECS (Entity Component System), Performance, Memory Layout
@@ -182,7 +182,7 @@ last_updated: 2024-12-27
 >
 > **Onde encontrar:**
 >
-> - [Arquiteturas de Alta Performance](technical/data-architecture/high-performance-architectures-report.md)
+> - [Arquiteturas de Alta Performance](technical/RelatoriosEstudosReferencia/high-performance-architectures-report.md)
 > - [Arquitetura Técnica](technical/architecture.md#entity-component-system)
 >
 > **Relacionado:** Data-Oriented Design, Component-Based Architecture, Performance
