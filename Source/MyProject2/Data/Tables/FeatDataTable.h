@@ -98,14 +98,29 @@ struct MYPROJECT2_API FFeatDataRow : public FTableRowBase
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feat")
     TArray<FFeatureChoice> AvailableChoices;
 
+    /**
+     * Indica se o feat permite que o jogador escolha múltiplas opções.
+     *
+     * Comportamento:
+     * - false (padrão): Jogador escolhe apenas 1 opção (ex: Elemental Adept escolhe 1 tipo de dano)
+     * - true: Jogador pode escolher múltiplas opções (raro em feats D&D 5e)
+     *
+     * Apenas relevante quando há escolhas disponíveis em AvailableChoices.
+     * Campo oculto no editor - configurado apenas via JSON/Data Table.
+     */
+    UPROPERTY(BlueprintReadWrite, Category = "Feat", meta = (Hidden))
+    bool bAllowMultipleChoices = false;
+
     FFeatDataRow()
-        : Name(NAME_None), ID(NAME_None), Description(FText::GetEmpty()), LevelUnlocked(4), FeatureType(NAME_None)
+        : Name(NAME_None), ID(NAME_None), Description(FText::GetEmpty()), LevelUnlocked(4), FeatureType(NAME_None),
+          bAllowMultipleChoices(false)
     {
     }
 
     FFeatDataRow(const FName &InName, const FName &InID, const FText &InDescription, int32 InLevelUnlocked = 4,
                  const FName &InFeatureType = TEXT("Feat"))
-        : Name(InName), ID(InID), Description(InDescription), LevelUnlocked(InLevelUnlocked), FeatureType(InFeatureType)
+        : Name(InName), ID(InID), Description(InDescription), LevelUnlocked(InLevelUnlocked),
+          FeatureType(InFeatureType), bAllowMultipleChoices(false)
     {
     }
 

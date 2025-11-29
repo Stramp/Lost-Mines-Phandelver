@@ -11,6 +11,7 @@
       "NoAdvantageFromHidden": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -35,6 +36,7 @@
       "JumpDistance": "5"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -56,6 +58,7 @@
       "Mimicry": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -80,6 +83,7 @@
       "ShoveDistance": "10"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -101,6 +105,7 @@
       "BonusActionHandCrossbow": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -122,6 +127,7 @@
       "RequiresFinesseWeapon": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -143,6 +149,7 @@
       "DrawStowTwoWeapons": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -165,6 +172,7 @@
       "NoFastPacePenalty": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -185,6 +193,7 @@
       "MinHitDieHealing": "2xCON (min 2)"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -206,7 +215,29 @@
       "MinimumDamage": "2",
       "DamageTypes": "acid,cold,fire,lightning,thunder"
     },
-    "AvailableChoices": [],
+    "AvailableChoices": [
+      {
+        "ID": "DAM_Acid",
+        "Name": "Acid"
+      },
+      {
+        "ID": "DAM_Cold",
+        "Name": "Cold"
+      },
+      {
+        "ID": "DAM_Fire",
+        "Name": "Fire"
+      },
+      {
+        "ID": "DAM_Lightning",
+        "Name": "Lightning"
+      },
+      {
+        "ID": "DAM_Thunder",
+        "Name": "Thunder"
+      }
+    ],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -228,6 +259,7 @@
       "PinAction": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -249,6 +281,7 @@
       "BonusActionOnCritOrKill": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -269,6 +302,7 @@
       "ActionHeal": "1d6+4+HD"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -290,6 +324,7 @@
       "DamageReduction": "3"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -312,6 +347,7 @@
       "Range": "30"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -333,6 +369,7 @@
       "DirectionSense": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -352,7 +389,17 @@
       "AbilityScoreBonus": "1",
       "LightArmorProficiency": "true"
     },
-    "AvailableChoices": [],
+    "AvailableChoices": [
+      {
+        "ID": "ABL_Strength",
+        "Name": "Strength"
+      },
+      {
+        "ID": "ABL_Dexterity",
+        "Name": "Dexterity"
+      }
+    ],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -373,6 +420,7 @@
       "Languages": "3"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -392,6 +440,7 @@
       "LuckPoints": "3"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -413,6 +462,7 @@
       "SavingThrowAdvantage": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -433,7 +483,33 @@
       "FirstLevelSpells": "1",
       "Classes": "bard,cleric,druid,sorcerer,warlock,wizard"
     },
-    "AvailableChoices": [],
+    "AvailableChoices": [
+      {
+        "ID": "CLASS_Bard",
+        "Name": "Bard"
+      },
+      {
+        "ID": "CLASS_Cleric",
+        "Name": "Cleric"
+      },
+      {
+        "ID": "CLASS_Druid",
+        "Name": "Druid"
+      },
+      {
+        "ID": "CLASS_Sorcerer",
+        "Name": "Sorcerer"
+      },
+      {
+        "ID": "CLASS_Warlock",
+        "Name": "Warlock"
+      },
+      {
+        "ID": "CLASS_Wizard",
+        "Name": "Wizard"
+      }
+    ],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -454,6 +530,7 @@
       "SuperiorityDie": "1d6"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -475,6 +552,7 @@
       "MaxDexBonus": "3"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -496,6 +574,7 @@
       "DashDifficultTerrain": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -517,7 +596,17 @@
       "MediumArmorProficiency": "true",
       "ShieldProficiency": "true"
     },
-    "AvailableChoices": [],
+    "AvailableChoices": [
+      {
+        "ID": "ABL_Strength",
+        "Name": "Strength"
+      },
+      {
+        "ID": "ABL_Dexterity",
+        "Name": "Dexterity"
+      }
+    ],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -538,6 +627,7 @@
       "ProtectMount": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -559,7 +649,17 @@
       "PassiveInvestigationBonus": "5",
       "LipReading": "true"
     },
-    "AvailableChoices": [],
+    "AvailableChoices": [
+      {
+        "ID": "ABL_Wisdom",
+        "Name": "Wisdom"
+      },
+      {
+        "ID": "ABL_Intelligence",
+        "Name": "Intelligence"
+      }
+    ],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -580,6 +680,7 @@
       "ExtendedOpportunityAttack": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -599,7 +700,33 @@
       "AbilityScoreBonus": "1",
       "SavingThrowProficiency": "true"
     },
-    "AvailableChoices": [],
+    "AvailableChoices": [
+      {
+        "ID": "ABL_Strength",
+        "Name": "Strength"
+      },
+      {
+        "ID": "ABL_Dexterity",
+        "Name": "Dexterity"
+      },
+      {
+        "ID": "ABL_Constitution",
+        "Name": "Constitution"
+      },
+      {
+        "ID": "ABL_Intelligence",
+        "Name": "Intelligence"
+      },
+      {
+        "ID": "ABL_Wisdom",
+        "Name": "Wisdom"
+      },
+      {
+        "ID": "ABL_Charisma",
+        "Name": "Charisma"
+      }
+    ],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -621,7 +748,33 @@
       "RitualBook": "true",
       "Classes": "bard,cleric,druid,sorcerer,warlock,wizard"
     },
-    "AvailableChoices": [],
+    "AvailableChoices": [
+      {
+        "ID": "CLASS_Bard",
+        "Name": "Bard"
+      },
+      {
+        "ID": "CLASS_Cleric",
+        "Name": "Cleric"
+      },
+      {
+        "ID": "CLASS_Druid",
+        "Name": "Druid"
+      },
+      {
+        "ID": "CLASS_Sorcerer",
+        "Name": "Sorcerer"
+      },
+      {
+        "ID": "CLASS_Warlock",
+        "Name": "Warlock"
+      },
+      {
+        "ID": "CLASS_Wizard",
+        "Name": "Wizard"
+      }
+    ],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -641,6 +794,7 @@
       "RerollDamage": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -662,6 +816,7 @@
       "ReactionAttack": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -683,6 +838,7 @@
       "PowerAttack": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -703,6 +859,7 @@
       "ShieldShove": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -722,6 +879,7 @@
       "SkillProficiencies": "3"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -743,6 +901,7 @@
       "MissDoesntReveal": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -764,7 +923,33 @@
       "IgnoreCover": "true",
       "Cantrip": "1"
     },
-    "AvailableChoices": [],
+    "AvailableChoices": [
+      {
+        "ID": "CLASS_Bard",
+        "Name": "Bard"
+      },
+      {
+        "ID": "CLASS_Cleric",
+        "Name": "Cleric"
+      },
+      {
+        "ID": "CLASS_Druid",
+        "Name": "Druid"
+      },
+      {
+        "ID": "CLASS_Sorcerer",
+        "Name": "Sorcerer"
+      },
+      {
+        "ID": "CLASS_Warlock",
+        "Name": "Warlock"
+      },
+      {
+        "ID": "CLASS_Wizard",
+        "Name": "Wizard"
+      }
+    ],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -786,7 +971,17 @@
       "UnarmedStrikeDamage": "d4",
       "GrappleBonusAction": "true"
     },
-    "AvailableChoices": [],
+    "AvailableChoices": [
+      {
+        "ID": "ABL_Strength",
+        "Name": "Strength"
+      },
+      {
+        "ID": "ABL_Constitution",
+        "Name": "Constitution"
+      }
+    ],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -807,6 +1002,7 @@
       "LevelUpHPBonus": "2"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -829,6 +1025,7 @@
       "SpellOpportunityAttack": "true"
     },
     "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
@@ -848,7 +1045,17 @@
       "AbilityScoreBonus": "1",
       "WeaponProficiencies": "4"
     },
-    "AvailableChoices": [],
+    "AvailableChoices": [
+      {
+        "ID": "ABL_Strength",
+        "Name": "Strength"
+      },
+      {
+        "ID": "ABL_Dexterity",
+        "Name": "Dexterity"
+      }
+    ],
+    "bAllowMultipleChoices": false,
     "TypeTags": {
       "GameplayTags": [
         {
