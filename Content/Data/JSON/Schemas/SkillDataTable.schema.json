@@ -1,35 +1,35 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "AbilityScoreDataTable Schema",
-  "description": "Schema para validar AbilityScoreDataTable.json",
+  "title": "SkillDataTable Schema",
+  "description": "Schema para validar SkillDataTable.json",
   "type": "array",
   "items": {
     "type": "object",
     "required": [
       "Name",
       "ID",
-      "Abbreviation",
+      "AbilityID",
       "Description",
       "TypeTags"
     ],
     "properties": {
       "Name": {
         "type": "string",
-        "description": "Nome do atributo (Key Field)"
+        "description": "Nome da skill (Key Field)"
       },
       "ID": {
         "type": "string",
-        "description": "ID único do atributo",
-        "pattern": "^ABL_[A-Z][a-zA-Z0-9_]*$"
+        "description": "ID único da skill",
+        "pattern": "^PSK_[A-Z][a-zA-Z0-9_]*$"
       },
-      "Abbreviation": {
+      "AbilityID": {
         "type": "string",
-        "description": "Abreviação do atributo",
-        "pattern": "^[A-Z]{2,4}$"
+        "description": "ID do atributo associado",
+        "pattern": "^ABL_[A-Z][a-zA-Z0-9_]*$"
       },
       "Description": {
         "type": "string",
-        "description": "Descrição do atributo (localizável)"
+        "description": "Descrição da skill (localizável)"
       },
       "TypeTags": {
         "type": "object",

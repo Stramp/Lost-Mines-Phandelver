@@ -1,35 +1,36 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "AbilityScoreDataTable Schema",
-  "description": "Schema para validar AbilityScoreDataTable.json",
+  "title": "TraitDataTable Schema",
+  "description": "Schema para validar TraitDataTable.json",
   "type": "array",
   "items": {
     "type": "object",
     "required": [
       "Name",
       "ID",
-      "Abbreviation",
       "Description",
       "TypeTags"
     ],
     "properties": {
       "Name": {
         "type": "string",
-        "description": "Nome do atributo (Key Field)"
+        "description": "Nome do trait (Key Field)"
       },
       "ID": {
         "type": "string",
-        "description": "ID único do atributo",
-        "pattern": "^ABL_[A-Z][a-zA-Z0-9_]*$"
-      },
-      "Abbreviation": {
-        "type": "string",
-        "description": "Abreviação do atributo",
-        "pattern": "^[A-Z]{2,4}$"
+        "description": "ID único do trait",
+        "pattern": "^TR_[A-Z][a-zA-Z0-9_]*$"
       },
       "Description": {
         "type": "string",
-        "description": "Descrição do atributo (localizável)"
+        "description": "Descrição do trait (localizável)"
+      },
+      "TraitData": {
+        "type": "object",
+        "description": "Dados estruturados do trait",
+        "additionalProperties": {
+          "type": "string"
+        }
       },
       "TypeTags": {
         "type": "object",
@@ -65,6 +66,28 @@
             }
           }
         },
+        "additionalProperties": false
+      },
+      "SpellReference": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "description": "Referência a uma row em uma Data Table",
+        "properties": {
+          "DataTable": {
+            "type": "string",
+            "description": "Caminho da Data Table (ex: /Game/Data/DataTable/SpellDataTable)"
+          },
+          "RowName": {
+            "type": "string",
+            "description": "Nome da row na Data Table"
+          }
+        },
+        "required": [
+          "DataTable",
+          "RowName"
+        ],
         "additionalProperties": false
       }
     },

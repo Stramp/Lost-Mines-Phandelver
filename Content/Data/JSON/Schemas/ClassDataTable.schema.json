@@ -1,0 +1,310 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ClassDataTable Schema",
+  "description": "Schema para validar ClassDataTable.json",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "Name",
+      "ID",
+      "TypeTags",
+      "HitDie"
+    ],
+    "properties": {
+      "Name": {
+        "type": "string",
+        "description": "Nome da classe (Key Field)"
+      },
+      "ID": {
+        "type": "string",
+        "description": "ID único da classe",
+        "pattern": "^CLASS_[A-Z][a-zA-Z0-9_]*$"
+      },
+      "TypeTags": {
+        "type": "object",
+        "description": "Gameplay Tags para categorização",
+        "required": [
+          "GameplayTags",
+          "ParentTags"
+        ],
+        "properties": {
+          "GameplayTags": {
+            "type": "array",
+            "description": "Array de Gameplay Tags",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "TagName"
+              ],
+              "properties": {
+                "TagName": {
+                  "type": "string",
+                  "description": "Nome da Gameplay Tag"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "ParentTags": {
+            "type": "array",
+            "description": "Array de Parent Tags (geralmente vazio)",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "HitDie": {
+        "type": "integer",
+        "description": "Tipo de dado de vida (4, 6, 8, 10, 12)",
+        "enum": [
+          4,
+          6,
+          8,
+          10,
+          12
+        ]
+      },
+      "MulticlassRequirements": {
+        "type": "array",
+        "description": "Requisitos para multiclassing",
+        "items": {
+          "type": "string"
+        }
+      },
+      "WeaponProficiencyHandles": {
+        "type": "array",
+        "items": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Referência a uma row em uma Data Table",
+          "properties": {
+            "DataTable": {
+              "type": "string",
+              "description": "Caminho da Data Table (ex: /Game/Data/DataTable/SpellDataTable)"
+            },
+            "RowName": {
+              "type": "string",
+              "description": "Nome da row na Data Table"
+            }
+          },
+          "required": [
+            "DataTable",
+            "RowName"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "ArmorProficiencyHandles": {
+        "type": "array",
+        "items": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Referência a uma row em uma Data Table",
+          "properties": {
+            "DataTable": {
+              "type": "string",
+              "description": "Caminho da Data Table (ex: /Game/Data/DataTable/SpellDataTable)"
+            },
+            "RowName": {
+              "type": "string",
+              "description": "Nome da row na Data Table"
+            }
+          },
+          "required": [
+            "DataTable",
+            "RowName"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "SavingThrowHandles": {
+        "type": "array",
+        "items": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Referência a uma row em uma Data Table",
+          "properties": {
+            "DataTable": {
+              "type": "string",
+              "description": "Caminho da Data Table (ex: /Game/Data/DataTable/SpellDataTable)"
+            },
+            "RowName": {
+              "type": "string",
+              "description": "Nome da row na Data Table"
+            }
+          },
+          "required": [
+            "DataTable",
+            "RowName"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "AvailableSkillHandles": {
+        "type": "array",
+        "items": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Referência a uma row em uma Data Table",
+          "properties": {
+            "DataTable": {
+              "type": "string",
+              "description": "Caminho da Data Table (ex: /Game/Data/DataTable/SpellDataTable)"
+            },
+            "RowName": {
+              "type": "string",
+              "description": "Nome da row na Data Table"
+            }
+          },
+          "required": [
+            "DataTable",
+            "RowName"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "SkillChoiceCount": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "Progression": {
+        "type": "array",
+        "description": "Progressão de níveis da classe",
+        "items": {
+          "type": "object",
+          "required": [
+            "Level",
+            "FeatureHandles"
+          ],
+          "properties": {
+            "Level": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            },
+            "FeatureHandles": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "description": "Referência a uma row em uma Data Table",
+                "properties": {
+                  "DataTable": {
+                    "type": "string",
+                    "description": "Caminho da Data Table (ex: /Game/Data/DataTable/SpellDataTable)"
+                  },
+                  "RowName": {
+                    "type": "string",
+                    "description": "Nome da row na Data Table"
+                  }
+                },
+                "required": [
+                  "DataTable",
+                  "RowName"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "StartingEquipment": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "StartingEquipmentChoices": {
+        "type": "array",
+        "description": "Grupos de escolhas de equipamento inicial",
+        "items": {
+          "type": "object",
+          "required": [
+            "Options"
+          ],
+          "properties": {
+            "Options": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "Items"
+                ],
+                "properties": {
+                  "Items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "StartingGold": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "MulticlassRequirementGroups": {
+        "type": "array",
+        "description": "Grupos de requisitos para multiclassing",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Operator": {
+              "type": "string",
+              "enum": [
+                "OR",
+                "AND"
+              ]
+            },
+            "Requirements": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "AbilityID": {
+                    "type": "string"
+                  },
+                  "Value": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "AbilityID",
+                  "Value"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "Operator",
+            "Requirements"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "additionalProperties": false
+  }
+}

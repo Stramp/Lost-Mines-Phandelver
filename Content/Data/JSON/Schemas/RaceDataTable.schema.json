@@ -1,0 +1,190 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RaceDataTable Schema",
+  "description": "Schema para validar RaceDataTable.json",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "Name",
+      "ID",
+      "Description",
+      "TypeTags",
+      "Size",
+      "BaseSpeed"
+    ],
+    "properties": {
+      "Name": {
+        "type": "string",
+        "description": "Nome da raça (Key Field)"
+      },
+      "ID": {
+        "type": "string",
+        "description": "ID único da raça",
+        "pattern": "^RACE_[A-Z][a-zA-Z0-9_]*$"
+      },
+      "Description": {
+        "type": "string",
+        "description": "Descrição da raça (localizável)"
+      },
+      "TypeTags": {
+        "type": "object",
+        "description": "Gameplay Tags para categorização",
+        "required": [
+          "GameplayTags",
+          "ParentTags"
+        ],
+        "properties": {
+          "GameplayTags": {
+            "type": "array",
+            "description": "Array de Gameplay Tags",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "TagName"
+              ],
+              "properties": {
+                "TagName": {
+                  "type": "string",
+                  "description": "Nome da Gameplay Tag"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "ParentTags": {
+            "type": "array",
+            "description": "Array de Parent Tags (geralmente vazio)",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "AbilityScoreImprovements": {
+        "type": "array",
+        "description": "Modificadores de Ability Score",
+        "items": {
+          "type": "object",
+          "required": [
+            "AbilityID",
+            "Bonus"
+          ],
+          "properties": {
+            "AbilityID": {
+              "type": "string",
+              "description": "ID do atributo",
+              "pattern": "^ABL_[A-Z][a-zA-Z0-9_]*$"
+            },
+            "Bonus": {
+              "type": "integer",
+              "description": "Valor do bônus",
+              "minimum": 1,
+              "maximum": 2
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "Size": {
+        "type": "string",
+        "description": "Tamanho da raça",
+        "enum": [
+          "Small",
+          "Medium",
+          "Large"
+        ]
+      },
+      "BaseSpeed": {
+        "type": "integer",
+        "description": "Velocidade base em pés",
+        "minimum": 0
+      },
+      "TraitHandles": {
+        "type": "array",
+        "items": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Referência a uma row em uma Data Table",
+          "properties": {
+            "DataTable": {
+              "type": "string",
+              "description": "Caminho da Data Table (ex: /Game/Data/DataTable/SpellDataTable)"
+            },
+            "RowName": {
+              "type": "string",
+              "description": "Nome da row na Data Table"
+            }
+          },
+          "required": [
+            "DataTable",
+            "RowName"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "SubraceHandles": {
+        "type": "array",
+        "items": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Referência a uma row em uma Data Table",
+          "properties": {
+            "DataTable": {
+              "type": "string",
+              "description": "Caminho da Data Table (ex: /Game/Data/DataTable/SpellDataTable)"
+            },
+            "RowName": {
+              "type": "string",
+              "description": "Nome da row na Data Table"
+            }
+          },
+          "required": [
+            "DataTable",
+            "RowName"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "LanguageHandles": {
+        "type": "array",
+        "items": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Referência a uma row em uma Data Table",
+          "properties": {
+            "DataTable": {
+              "type": "string",
+              "description": "Caminho da Data Table (ex: /Game/Data/DataTable/SpellDataTable)"
+            },
+            "RowName": {
+              "type": "string",
+              "description": "Nome da row na Data Table"
+            }
+          },
+          "required": [
+            "DataTable",
+            "RowName"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "IconTexture": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Referência ao ícone da raça"
+      }
+    },
+    "additionalProperties": false
+  }
+}
