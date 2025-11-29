@@ -14,10 +14,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Shield",
@@ -34,10 +34,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Leather Armor",
@@ -54,10 +54,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Scale Mail",
@@ -74,10 +74,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Handaxe",
@@ -94,10 +94,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": "DMG_Slashing",
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Quarterstaff",
@@ -114,10 +114,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": "DMG_Bludgeoning",
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Mace",
@@ -134,10 +134,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": "DMG_Bludgeoning",
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Rapier",
@@ -154,10 +154,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": "DMG_Piercing",
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Shortsword",
@@ -174,10 +174,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": "DMG_Slashing",
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Shortbow",
@@ -194,10 +194,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": "DMG_Piercing",
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Longbow",
@@ -214,10 +214,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": "DMG_Piercing",
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Light Crossbow",
@@ -234,10 +234,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": "DMG_Piercing",
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Scimitar",
@@ -254,10 +254,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": "DMG_Slashing",
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Greataxe",
@@ -274,10 +274,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": "DMG_Slashing",
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Staff",
@@ -294,10 +294,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": "DMG_Bludgeoning",
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Martial Weapon",
@@ -314,10 +314,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Component Pouch",
@@ -334,10 +334,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Spellbook",
@@ -354,10 +354,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Holy Symbol",
@@ -374,10 +374,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Druidic Focus",
@@ -394,10 +394,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Dungeoneer's Pack",
@@ -414,10 +414,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Scholar's Pack",
@@ -434,10 +434,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Priest's Pack",
@@ -454,10 +454,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Burglar's Pack",
@@ -474,10 +474,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Diplomat's Pack",
@@ -494,10 +494,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Explorer's Pack",
@@ -514,10 +514,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Prayer Book",
@@ -534,10 +534,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Incense",
@@ -554,10 +554,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Vestments",
@@ -574,10 +574,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Common Clothes",
@@ -594,10 +594,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Dark Common Clothes",
@@ -614,10 +614,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Crowbar",
@@ -634,10 +634,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Artisan's Tools",
@@ -654,10 +654,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Shovel",
@@ -674,10 +674,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Iron Pot",
@@ -694,10 +694,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Fine Clothes",
@@ -714,10 +714,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Signet Ring",
@@ -734,10 +734,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Scroll of Pedigree",
@@ -754,10 +754,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Purse",
@@ -774,10 +774,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Bottle of Black Ink",
@@ -794,10 +794,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Quill",
@@ -814,10 +814,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Small Knife",
@@ -834,10 +834,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Letter from a Dead Colleague",
@@ -854,10 +854,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Insignia of Rank",
@@ -874,10 +874,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Trophy from Fallen Enemy",
@@ -894,10 +894,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Set of Bone Dice",
@@ -914,10 +914,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Scroll Case",
@@ -934,10 +934,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Winter Blanket",
@@ -954,10 +954,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Herbalism Kit",
@@ -974,10 +974,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Musical Instrument",
@@ -994,10 +994,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Costume",
@@ -1014,10 +1014,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Pouch",
@@ -1034,10 +1034,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Letter of Introduction from Guild",
@@ -1054,10 +1054,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Traveler's Clothes",
@@ -1074,10 +1074,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Hunting Trap",
@@ -1094,10 +1094,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Trophy from Animal",
@@ -1114,10 +1114,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Disguise Kit",
@@ -1134,10 +1134,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Tools of the Con",
@@ -1154,10 +1154,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Belaying Pin",
@@ -1174,10 +1174,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "50 feet of Silk Rope",
@@ -1194,10 +1194,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Lucky Charm",
@@ -1214,10 +1214,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "Lute",
@@ -1234,10 +1234,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "10 gp",
@@ -1254,10 +1254,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "15 gp",
@@ -1274,10 +1274,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "25 gp",
@@ -1294,10 +1294,10 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
   },
   {
     "Name": "5 gp",
@@ -1314,9 +1314,32 @@
       ],
       "ParentTags": []
     },
-    "IconTexture": null,
-    "MeshReference": null,
     "SpellHandle": null,
-    "DamageTypeID": null
+    "DamageTypeID": null,
+    "IconTexture": null,
+    "MeshReference": null
+  },
+  {
+    "Name": "Arrow",
+    "ID": "ITM_CNM_Arrow",
+    "ItemType": "Consumable",
+    "Weight": 0.05,
+    "Value": 0.05,
+    "Description": "Arrows are used with a bow to make ranged attacks. Each arrow weighs 0.05 pounds. A quiver can hold up to 20 arrows.",
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Item.Consumable"
+        },
+        {
+          "TagName": "Item.Ammunition"
+        }
+      ],
+      "ParentTags": []
+    },
+    "SpellHandle": null,
+    "DamageTypeID": "DMG_Piercing",
+    "IconTexture": null,
+    "MeshReference": null
   }
 ]

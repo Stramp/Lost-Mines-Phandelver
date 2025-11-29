@@ -21,38 +21,39 @@
     "BaseSpeed": 25,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Darkvision"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_DwarvenResilience"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Stonecunning"
-      }
-    ],
-    "LanguageHandles": [
-      {
-        "DataTable": "/Game/Data/LanguageDataTable",
-        "RowName": "PL_Common"
-      },
-      {
-        "DataTable": "/Game/Data/LanguageDataTable",
-        "RowName": "PL_Dwarvish"
       }
     ],
     "SubraceHandles": [
       {
-        "DataTable": "/Game/Data/RaceDataTable",
+        "DataTable": "/Game/Data/DataTable/RaceDataTable",
         "RowName": "RACE_HillDwarf"
       },
       {
-        "DataTable": "/Game/Data/RaceDataTable",
+        "DataTable": "/Game/Data/DataTable/RaceDataTable",
         "RowName": "RACE_MountainDwarf"
       }
-    ]
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
+        "RowName": "PL_Dwarvish"
+      }
+    ],
+    "IconTexture": null
   },
   {
     "Name": "Hill Dwarf",
@@ -79,12 +80,13 @@
     "BaseSpeed": 25,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_DwarvenToughness"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Mountain Dwarf",
@@ -111,12 +113,13 @@
     "BaseSpeed": 25,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_DwarvenArmorTraining"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Elf",
@@ -140,42 +143,43 @@
     "BaseSpeed": 30,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Darkvision"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_FeyAncestry"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Trance"
-      }
-    ],
-    "LanguageHandles": [
-      {
-        "DataTable": "/Game/Data/LanguageDataTable",
-        "RowName": "PL_Common"
-      },
-      {
-        "DataTable": "/Game/Data/LanguageDataTable",
-        "RowName": "PL_Elvish"
       }
     ],
     "SubraceHandles": [
       {
-        "DataTable": "/Game/Data/RaceDataTable",
+        "DataTable": "/Game/Data/DataTable/RaceDataTable",
         "RowName": "RACE_HighElf"
       },
       {
-        "DataTable": "/Game/Data/RaceDataTable",
+        "DataTable": "/Game/Data/DataTable/RaceDataTable",
         "RowName": "RACE_WoodElf"
       },
       {
-        "DataTable": "/Game/Data/RaceDataTable",
+        "DataTable": "/Game/Data/DataTable/RaceDataTable",
         "RowName": "RACE_Drow"
       }
-    ]
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
+        "RowName": "PL_Elvish"
+      }
+    ],
+    "IconTexture": null
   },
   {
     "Name": "High Elf",
@@ -202,20 +206,21 @@
     "BaseSpeed": 30,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_ElfWeaponTraining"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Cantrip"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_ExtraLanguage"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Wood Elf",
@@ -242,20 +247,21 @@
     "BaseSpeed": 35,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_ElfWeaponTraining"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_FleetOfFoot"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_MaskOfTheWild"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Drow",
@@ -282,20 +288,21 @@
     "BaseSpeed": 30,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_SuperiorDarkvision"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_SunlightSensitivity"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_DrowMagic"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Halfling",
@@ -319,38 +326,39 @@
     "BaseSpeed": 25,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Lucky"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Brave"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_HalflingNimbleness"
-      }
-    ],
-    "LanguageHandles": [
-      {
-        "DataTable": "/Game/Data/LanguageDataTable",
-        "RowName": "PL_Common"
-      },
-      {
-        "DataTable": "/Game/Data/LanguageDataTable",
-        "RowName": "PL_Halfling"
       }
     ],
     "SubraceHandles": [
       {
-        "DataTable": "/Game/Data/RaceDataTable",
+        "DataTable": "/Game/Data/DataTable/RaceDataTable",
         "RowName": "RACE_Lightfoot"
       },
       {
-        "DataTable": "/Game/Data/RaceDataTable",
+        "DataTable": "/Game/Data/DataTable/RaceDataTable",
         "RowName": "RACE_Stout"
       }
-    ]
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
+        "RowName": "PL_Halfling"
+      }
+    ],
+    "IconTexture": null
   },
   {
     "Name": "Lightfoot",
@@ -377,12 +385,13 @@
     "BaseSpeed": 25,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_NaturallyStealthy"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Stout",
@@ -409,12 +418,13 @@
     "BaseSpeed": 25,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_StoutResilience"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Human",
@@ -432,22 +442,23 @@
     "Size": "Medium",
     "BaseSpeed": 30,
     "TraitHandles": [],
-    "LanguageHandles": [
-      {
-        "DataTable": "/Game/Data/LanguageDataTable",
-        "RowName": "PL_Common"
-      }
-    ],
     "SubraceHandles": [
       {
-        "DataTable": "/Game/Data/RaceDataTable",
+        "DataTable": "/Game/Data/DataTable/RaceDataTable",
         "RowName": "RACE_StandardHuman"
       },
       {
-        "DataTable": "/Game/Data/RaceDataTable",
+        "DataTable": "/Game/Data/DataTable/RaceDataTable",
         "RowName": "RACE_VariantHuman"
       }
-    ]
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
+        "RowName": "PL_Common"
+      }
+    ],
+    "IconTexture": null
   },
   {
     "Name": "Standard Human",
@@ -493,13 +504,14 @@
     "Size": "Medium",
     "BaseSpeed": 30,
     "TraitHandles": [],
+    "SubraceHandles": [],
     "LanguageHandles": [
       {
-        "DataTable": "/Game/Data/LanguageDataTable",
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
         "RowName": "PL_Common"
       }
     ],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Variant Human",
@@ -530,21 +542,22 @@
     "BaseSpeed": 30,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_SkillProficiency"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Feat"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [
       {
-        "DataTable": "/Game/Data/LanguageDataTable",
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
         "RowName": "PL_Common"
       }
     ],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Dragonborn",
@@ -572,29 +585,30 @@
     "BaseSpeed": 30,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_DraconicAncestry"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_BreathWeapon"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_DamageResistance"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [
       {
-        "DataTable": "/Game/Data/LanguageDataTable",
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
         "RowName": "PL_Common"
       },
       {
-        "DataTable": "/Game/Data/LanguageDataTable",
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
         "RowName": "PL_Draconic"
       }
     ],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Gnome",
@@ -618,34 +632,35 @@
     "BaseSpeed": 25,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Darkvision"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_GnomeCunning"
-      }
-    ],
-    "LanguageHandles": [
-      {
-        "DataTable": "/Game/Data/LanguageDataTable",
-        "RowName": "PL_Common"
-      },
-      {
-        "DataTable": "/Game/Data/LanguageDataTable",
-        "RowName": "PL_Gnomish"
       }
     ],
     "SubraceHandles": [
       {
-        "DataTable": "/Game/Data/RaceDataTable",
+        "DataTable": "/Game/Data/DataTable/RaceDataTable",
         "RowName": "RACE_ForestGnome"
       },
       {
-        "DataTable": "/Game/Data/RaceDataTable",
+        "DataTable": "/Game/Data/DataTable/RaceDataTable",
         "RowName": "RACE_RockGnome"
       }
-    ]
+    ],
+    "LanguageHandles": [
+      {
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
+        "RowName": "PL_Common"
+      },
+      {
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
+        "RowName": "PL_Gnomish"
+      }
+    ],
+    "IconTexture": null
   },
   {
     "Name": "Forest Gnome",
@@ -672,16 +687,17 @@
     "BaseSpeed": 25,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_NaturalIllusionist"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_SpeakWithSmallBeasts"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Rock Gnome",
@@ -708,16 +724,17 @@
     "BaseSpeed": 25,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_ArtificersLore"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Tinker"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Half-Elf",
@@ -741,29 +758,30 @@
     "BaseSpeed": 30,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Darkvision"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_FeyAncestry"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_SkillVersatility"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [
       {
-        "DataTable": "/Game/Data/LanguageDataTable",
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
         "RowName": "PL_Common"
       },
       {
-        "DataTable": "/Game/Data/LanguageDataTable",
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
         "RowName": "PL_Elvish"
       }
     ],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Half-Orc",
@@ -791,33 +809,34 @@
     "BaseSpeed": 30,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Darkvision"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Menacing"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_RelentlessEndurance"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_SavageAttacks"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [
       {
-        "DataTable": "/Game/Data/LanguageDataTable",
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
         "RowName": "PL_Common"
       },
       {
-        "DataTable": "/Game/Data/LanguageDataTable",
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
         "RowName": "PL_Orc"
       }
     ],
-    "SubraceHandles": []
+    "IconTexture": null
   },
   {
     "Name": "Tiefling",
@@ -845,28 +864,29 @@
     "BaseSpeed": 30,
     "TraitHandles": [
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_Darkvision"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_HellishResistance"
       },
       {
-        "DataTable": "/Game/Data/TraitDataTable",
+        "DataTable": "/Game/Data/DataTable/TraitDataTable",
         "RowName": "TR_InfernalLegacy"
       }
     ],
+    "SubraceHandles": [],
     "LanguageHandles": [
       {
-        "DataTable": "/Game/Data/LanguageDataTable",
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
         "RowName": "PL_Common"
       },
       {
-        "DataTable": "/Game/Data/LanguageDataTable",
+        "DataTable": "/Game/Data/DataTable/LanguageDataTable",
         "RowName": "PL_Infernal"
       }
     ],
-    "SubraceHandles": []
+    "IconTexture": null
   }
 ]

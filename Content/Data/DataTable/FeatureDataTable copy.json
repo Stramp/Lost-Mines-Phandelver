@@ -2100,5 +2100,1138 @@
       ],
       "ParentTags": []
     }
+  },
+  {
+    "Name": "Archery",
+    "ID": "FC_Archery",
+    "Description": "You gain a +2 bonus to attack rolls you make with ranged weapons.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "AttackBonus": "+2",
+      "WeaponType": "Ranged"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.FightingStyle.Archery"
+        },
+        {
+          "TagName": "Feature.Combat"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Defense",
+    "ID": "FC_Defense",
+    "Description": "While you are wearing armor, you gain a +1 bonus to AC.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "ACBonus": "+1",
+      "RequiresArmor": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.FightingStyle.Defense"
+        },
+        {
+          "TagName": "Feature.Combat"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Dueling",
+    "ID": "FC_Dueling",
+    "Description": "When you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "DamageBonus": "+2",
+      "WeaponType": "OneHandedMelee",
+      "RequiresNoOtherWeapon": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.FightingStyle.Dueling"
+        },
+        {
+          "TagName": "Feature.Combat"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Great Weapon Fighting",
+    "ID": "FC_Great_Weapon_Fighting",
+    "Description": "When you roll a 1 or 2 on a damage die for an attack you make with a melee weapon that you are wielding with two hands, you can reroll the die and must use the new roll, even if the new roll is a 1 or a 2. The weapon must have the two-handed or versatile property for you to gain this benefit.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "RerollOn": "1,2",
+      "WeaponType": "TwoHanded",
+      "RequiresTwoHandedOrVersatile": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.FightingStyle.GreatWeaponFighting"
+        },
+        {
+          "TagName": "Feature.Combat"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Protection",
+    "ID": "FC_Protection",
+    "Description": "When a creature you can see attacks a target other than you that is within 5 feet of you, you can use your reaction to impose disadvantage on the attack roll. You must be wielding a shield.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "Type": "Reaction",
+      "Range": "5",
+      "RequiresShield": "true",
+      "Effect": "ImposeDisadvantage"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.FightingStyle.Protection"
+        },
+        {
+          "TagName": "Feature.Combat"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Two-Weapon Fighting",
+    "ID": "FC_Two_Weapon_Fighting",
+    "Description": "When you engage in two-weapon fighting, you can add your ability modifier to the damage of the second attack.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "AddAbilityModifierToOffHand": "true",
+      "RequiresTwoWeapons": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.FightingStyle.TwoWeaponFighting"
+        },
+        {
+          "TagName": "Feature.Combat"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Champion",
+    "ID": "FC_Champion",
+    "Description": "The archetypal Champion focuses on the development of raw physical power honed to deadly perfection. Those who model themselves on this archetype combine rigorous training with physical excellence to deal devastating blows.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "ImprovedCritical": "19-20"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.MartialArchetype.Champion"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Battle Master",
+    "ID": "FC_Battle_Master",
+    "Description": "Those who emulate the archetypal Battle Master employ martial techniques passed down through generations. To a Battle Master, combat is an academic field, sometimes including subjects beyond battle such as weaponsmithing and calligraphy. Not every fighter absorbs the lessons of history, theory, and artistry that are reflected in the Battle Master archetype, but those who do are well-rounded fighters of great skill and knowledge.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "SuperiorityDice": "4d8",
+      "ManeuversKnown": "3"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.MartialArchetype.BattleMaster"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Eldritch Knight",
+    "ID": "FC_Eldritch_Knight",
+    "Description": "The archetypal Eldritch Knight combines the martial mastery common to all fighters with a careful study of magic. Eldritch Knights use magical techniques similar to those practiced by wizards. They focus their study on two of the eight schools of magic: abjuration and evocation. Abjuration spells grant an Eldritch Knight additional protection in battle, and evocation spells deal damage to many foes at once, extending the fighter's reach in combat. These knights learn a comparatively small number of spells, committing them to memory instead of keeping them in a spellbook.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "SpellcastingAbility": "Intelligence",
+      "SpellSchools": "Abjuration,Evocation"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.MartialArchetype.EldritchKnight"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "School of Abjuration",
+    "ID": "FC_Abjuration",
+    "Description": "The School of Abjuration emphasizes magic that blocks, banishes, or protects. Detractors of this school say that its tradition is about denial, negation rather than positive assertion. You understand, however, that ending harmful effects, protecting the weak, and banishing evil influences is anything but a philosophical void. It is a proud and respected vocation.",
+    "LevelUnlocked": 2,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "ArcaneWard": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.ArcaneTradition.Abjuration"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "School of Conjuration",
+    "ID": "FC_Conjuration",
+    "Description": "As a conjurer, you favor spells that produce objects and creatures out of thin air. You can conjure billowing clouds of killing fog or summon creatures from elsewhere to fight on your behalf. As your mastery grows, you learn spells of transportation and can teleport yourself across vast distances, even to other planes of existence, in an instant.",
+    "LevelUnlocked": 2,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "MinorConjuration": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.ArcaneTradition.Conjuration"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "School of Divination",
+    "ID": "FC_Divination",
+    "Description": "The counsel of a diviner is sought by royalty and commoners alike, for all seek a clearer understanding of the past, present, and future. As a diviner, you strive to part the veils of space, time, and consciousness so that you can see clearly. You work to master spells of discernment, remote viewing, supernatural knowledge, and foresight.",
+    "LevelUnlocked": 2,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "Portent": "2d20"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.ArcaneTradition.Divination"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "School of Enchantment",
+    "ID": "FC_Enchantment",
+    "Description": "As a member of the School of Enchantment, you have honed your ability to magically entrance and beguile other people and monsters. Some enchanters are peacemakers who bewitch hostile creatures so that they can avoid violence. Other enchanters are tyrants who magically bind the minds of others, turning them into slaves. Most enchanters fall somewhere in between.",
+    "LevelUnlocked": 2,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "HypnoticGaze": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.ArcaneTradition.Enchantment"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "School of Evocation",
+    "ID": "FC_Evocation",
+    "Description": "You focus your study on magic that creates powerful elemental effects such as bitter cold, searing flame, rolling thunder, crackling lightning, and burning acid. Some evokers find employment in military forces, serving as artillery to blast enemy armies from afar. Others use their spectacular power to protect the weak, while some seek their own gain as bandits, adventurers, or aspiring tyrants.",
+    "LevelUnlocked": 2,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "SculptSpells": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.ArcaneTradition.Evocation"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "School of Illusion",
+    "ID": "FC_Illusion",
+    "Description": "You focus your studies on magic that dazzles the senses, befuddles the mind, and tricks even the wisest folk. Your magic is subtle, but the illusions crafted by your keen mind make the impossible seem real. Some illusionists—including many gnome wizards—are benign tricksters who use their spells to entertain. Others are more sinister masters of deception, using their illusions to frighten and fool others for their personal gain.",
+    "LevelUnlocked": 2,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "ImprovedMinorIllusion": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.ArcaneTradition.Illusion"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "School of Necromancy",
+    "ID": "FC_Necromancy",
+    "Description": "The School of Necromancy explores the cosmic forces of life, death, and undeath. As you focus your studies in this tradition, you learn to manipulate the energy that animates all living things. As you progress, you learn to sap the life force from a creature as your magic destroys its body, transforming that vital energy into magical power you can manipulate.",
+    "LevelUnlocked": 2,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "GrimHarvest": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.ArcaneTradition.Necromancy"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "School of Transmutation",
+    "ID": "FC_Transmutation",
+    "Description": "You are a student of spells that modify energy and matter. To you, the world is not a fixed thing, but eminently mutable, and you delight in being an agent of change. You cast the transmutation spells others use for convenience in an entirely different way: as an expression of the art that is at the core of your being.",
+    "LevelUnlocked": 2,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "MinorAlchemy": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.ArcaneTradition.Transmutation"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Path of the Berserker",
+    "ID": "FC_PathOfTheBerserker",
+    "Description": "For some barbarians, rage is a means to an end—that end being violence. The Path of the Berserker is a path of untrammeled fury, slick with blood. As you enter the berserker's rage, you thrill in the chaos of battle, heedless of your own health or well-being.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "Frenzy": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.PrimalPath.Berserker"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Path of the Totem Warrior",
+    "ID": "FC_PathOfTheTotemWarrior",
+    "Description": "The Path of the Totem Warrior is a spiritual journey, as the barbarian accepts a spirit animal as guide, protector, and inspiration. In battle, your totem spirit fills you with supernatural might, adding magical fuel to your barbarian rage.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "TotemSpirit": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.PrimalPath.TotemWarrior"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "College of Lore",
+    "ID": "FC_CollegeOfLore",
+    "Description": "Bards of the College of Lore know something about most things, collecting bits of knowledge from sources as diverse as scholarly tomes and peasant tales. Whether singing folk ballads in taverns or elaborate compositions in royal courts, these bards use their gifts to hold audiences spellbound. When the applause dies down, they take advantage of their popularity to spread rumors and gather information.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "BonusProficiencies": "3",
+      "CuttingWords": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.BardCollege.Lore"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "College of Valor",
+    "ID": "FC_CollegeOfValor",
+    "Description": "Bards of the College of Valor are daring skalds whose tales keep alive the memory of the great heroes of the past, and thereby inspire a new generation of heroes. These bards gather in mead halls or around great bonfires to sing the deeds of the mighty, both past and present. They travel the land to witness great events firsthand and to ensure that the memory of those events doesn't pass from the world. With their songs, they inspire others to reach the same heights of accomplishment as the heroes of old.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "CombatInspiration": "true",
+      "ExtraAttack": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.BardCollege.Valor"
+        },
+        {
+          "TagName": "Feature.Combat"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Knowledge Domain",
+    "ID": "FC_KnowledgeDomain",
+    "Description": "The gods of knowledge—including Oghma, Boccob, Gilean, Aureon, and Thoth—value learning and understanding above all. Some teach that knowledge is to be gathered and shared in libraries and universities, others promote practical knowledge that comes through experience. Followers of these gods study esoteric lore, collect old tomes, engage in philosophical debates, and share knowledge with others.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "BlessingsOfKnowledge": "2",
+      "Languages": "2"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.DivineDomain.Knowledge"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Life Domain",
+    "ID": "FC_LifeDomain",
+    "Description": "The Life domain focuses on the vibrant positive energy—one of the fundamental forces of the universe—that sustains all life. The gods of life promote vitality and health through healing the sick and wounded, caring for those in need, and driving away the forces of death and undeath. Almost any non-evil deity can claim influence over this domain, particularly agricultural deities (such as Chauntea, Arawai, and Demeter), sun gods (such as Lathander, Pelor, and Re-Horakhty), gods of healing or endurance (such as Ilmater, Mishakal, Apollo, and Diancecht), and gods of home and community (such as Hestia, Hathor, and Boldrei).",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "DiscipleOfLife": "true",
+      "BonusHealing": "2+spellLevel"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.DivineDomain.Life"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Light Domain",
+    "ID": "FC_LightDomain",
+    "Description": "Gods of light—including Helm, Lathander, Pholtus, Branchala, the Silver Flame, Belenus, Apollo, and Re-Horakhty—promote the ideals of rebirth and renewal, truth, vigilance, and beauty, often using the symbol of the sun. Some of these gods are portrayed as the sun itself or as a charioteer who guides the sun across the sky. Others are tireless sentinels whose eyes pierce every shadow and see through every deception. Some are deities of beauty and artistry, who teach that art is a vehicle for the soul's improvement. Clerics of a god of light are enlightened souls infused with radiance and the power of their gods' discerning vision, charged with chasing away lies and burning away darkness.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "WardingFlare": "true",
+      "BonusCantrip": "Light"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.DivineDomain.Light"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Nature Domain",
+    "ID": "FC_NatureDomain",
+    "Description": "Gods of nature are as varied as the natural world itself, from inscrutable gods of the deep forests (such as Silvanus, Obad-Hai, Chislev, Balinor, and Pan) to friendly deities associated with particular springs and groves (such as Eldath). Druids revere nature as a whole and might serve any of these gods, practicing mysterious rites and reciting all-but-forgotten prayers in their own secret tongue. But many of these gods' clerics, particularly those who share their faith with druids, are somewhat removed from the normal structure of organized religion. These clerics, sometimes called shamans, spend more time in the wilderness than in temples, and their communities might be small, scattered, or nomadic.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "AcolyteOfNature": "true",
+      "BonusCantrip": "1",
+      "SkillProficiency": "1"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.DivineDomain.Nature"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Tempest Domain",
+    "ID": "FC_TempestDomain",
+    "Description": "Gods whose portfolios include the Tempest domain—including Talos, Umberlee, Kord, Zeboim, the Queen of Air and Darkness, Akadi, Zeus, and Thor—govern storms, sea, and sky. They include gods of lightning and thunder, gods of earthquakes, some fire gods (especially those who use destruction by storm, fire, and earthquake), and certain gods of violence, physical strength, and courage. In some pantheons, a god of this domain rules over other deities and is known for swift justice delivered by lightning bolts. In the pantheons of seafaring people, gods of this domain are ocean deities and the patrons of sailors. Tempest gods send their clerics to inspire fear in the common folk, either to keep those folk on the path of righteousness or to encourage them to offer sacrifices of propitiation to ward off divine wrath.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "WrathOfTheStorm": "true",
+      "MaxDamage": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.DivineDomain.Tempest"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Trickery Domain",
+    "ID": "FC_TrickeryDomain",
+    "Description": "Gods of trickery—such as Tymora, Beshaba, Olidammara, the Traveler, Garl Glittergold, and Loki—are mischief-makers and instigators who stand as a constant challenge to the accepted order among both gods and mortals. They're patrons of thieves, scoundrels, gamblers, rebels, and liberators. Their clerics are a disruptive force in the world, puncturing pride, mocking tyrants, stealing from the rich, freeing captives, and flouting hollow traditions. They prefer subterfuge, pranks, deception, and theft rather than direct confrontation.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "BlessingOfTheTrickster": "true",
+      "InvokeDuplicity": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.DivineDomain.Trickery"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "War Domain",
+    "ID": "FC_WarDomain",
+    "Description": "War has many manifestations. It can make heroes of ordinary people. It can be desperate and horrific, with acts of cruelty and cowardice eclipsing instances of excellence and courage. In either case, the gods of war watch over warriors and reward them for their great deeds. The clerics of such gods excel in battle, inspiring others to fight the good fight or offering acts of violence as prayers. Gods of war include champions of honor and chivalry (such as Torm, Heironeous, and Kiri-Jolith) as well as gods of destruction and pillage (such as Garagos, Ares, and the Fury) and gods of conquest and domination (such as Bane, Hextor, and Maglubiyet). Other war gods (such as Tempus, Nike, and Nuada) take a more neutral stance, promoting war in all its manifestations and supporting warriors in any circumstance.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "WarPriest": "true",
+      "BonusAttacks": "WisdomModifier"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.DivineDomain.War"
+        },
+        {
+          "TagName": "Feature.Combat"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Circle of the Land",
+    "ID": "FC_CircleOfTheLand",
+    "Description": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet in sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the great teachers, and wanderers, preserving the circle's traditions and guiding the next generation of druids.",
+    "LevelUnlocked": 2,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "NaturalRecovery": "true",
+      "CircleSpells": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.DruidCircle.Land"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Circle of the Moon",
+    "ID": "FC_CircleOfTheMoon",
+    "Description": "Druids of the Circle of the Moon are fierce guardians of the wilds. Their order gathers under the full moon to share news and trade warnings. They haunt the deepest parts of the wilderness, where they might go for weeks on end before crossing paths with another humanoid or, indeed, another druid.",
+    "LevelUnlocked": 2,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "CombatWildShape": "true",
+      "CircleForms": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.DruidCircle.Moon"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Way of the Open Hand",
+    "ID": "FC_WayOfTheOpenHand",
+    "Description": "Monks of the Way of the Open Hand are the ultimate masters of martial arts combat, whether armed or unarmed. They learn techniques to push and trip their opponents, manipulate ki to heal damage to their bodies, and practice advanced meditation that can protect them from harm.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "OpenHandTechnique": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.MonasticTradition.OpenHand"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Way of Shadow",
+    "ID": "FC_WayOfShadow",
+    "Description": "Monks of the Way of Shadow follow a tradition that values stealth and subterfuge. These monks might be called ninjas or shadowdancers, and they serve as spies and assassins. Sometimes the members of a ninja monastery are family members, forming a clan sworn to secrecy about their arts and missions. Other monasteries are more like thieves' guilds, hiring out their services to nobles, rich merchants, or anyone else who can pay their fees. Regardless of their methods, the heads of these monasteries expect the unquestioning obedience of their students.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "ShadowArts": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.MonasticTradition.Shadow"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Way of the Four Elements",
+    "ID": "FC_WayOfTheFourElements",
+    "Description": "You follow a monastic tradition that teaches you to harness the elements. When you focus your ki, you can align yourself with the forces of creation and manipulate the four elements that sustain all life. Some members of this tradition dedicate themselves to a single element, but others weave the elements together.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "DiscipleOfTheElements": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.MonasticTradition.FourElements"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Oath of Devotion",
+    "ID": "FC_OathOfDevotion",
+    "Description": "The Oath of Devotion binds a paladin to the loftiest ideals of justice, virtue, and order. Sometimes called cavaliers, white knights, or holy warriors, these paladins meet the ideal of the knight in shining armor, acting with honor in pursuit of justice and the greater good. They hold themselves to the highest standards of conduct, and some, for better or worse, hold the rest of the world to the same standards. Many who swear this oath are devoted to gods of law and good and use their gods' tenets as a measure of their devotion. They hold angels—the perfect servants of good—as their ideals, and incorporate images of angelic wings into their helmets or coats of arms.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "SacredWeapon": "true",
+      "TurnTheUnholy": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.SacredOath.Devotion"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Oath of the Ancients",
+    "ID": "FC_OathOfTheAncients",
+    "Description": "The Oath of the Ancients is as old as the race of elves and the rituals of the druids. Sometimes called fey knights, green knights, or horned knights, paladins who swear this oath cast their lot with the side of the light in the cosmic struggle against darkness because they love the beautiful and life-giving things of the world, not necessarily because they believe in principles of honor, courage, and justice. They adorn their armor and clothing with images of growing things—leaves, antlers, or flowers—to reflect their commitment to preserving life and the light of hope.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "Nature'sWrath": "true",
+      "TurnTheFaithless": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.SacredOath.Ancients"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Oath of Vengeance",
+    "ID": "FC_OathOfVengeance",
+    "Description": "The Oath of Vengeance is a solemn commitment to punish those who have committed a grievous sin. When evil forces slaughter helpless villagers, when an entire people turns against the will of the gods, when a thieves' guild grows too violent and powerful, when a dragon rampages through the countryside—at times like these, paladins arise and swear an Oath of Vengeance to set right that which has gone wrong. To these paladins—sometimes called avengers or dark knights—their own purity is not as important as delivering justice.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "AbjureEnemy": "true",
+      "VowOfEnmity": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.SacredOath.Vengeance"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Hunter",
+    "ID": "FC_Hunter",
+    "Description": "Some rangers seek to master weapons to better protect civilization from the terrors of the wilderness. Members of the Hunter archetype learn specialized fighting techniques for use against the most dire threats, from rampaging ogres and hordes of orcs to hungry trolls and fearsome giants.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "Hunter'sPrey": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.RangerArchetype.Hunter"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Beast Master",
+    "ID": "FC_BeastMaster",
+    "Description": "The Beast Master archetype embodies a friendship between the civilized races and the beasts of the world. United in focus, beast and ranger work as one to fight the monstrous foes that threaten civilization and the wilderness alike. Emulating the Beast Master archetype means committing yourself to this ideal, working in partnership with an animal as its companion and friend.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "Ranger'sCompanion": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.RangerArchetype.BeastMaster"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Thief",
+    "ID": "FC_Thief",
+    "Description": "You hone your skills in the larcenous arts. Burglars, bandits, cutpurses, and other criminals typically follow this archetype, but so do rogues who prefer to think of themselves as professional treasure seekers, explorers, delvers, and investigators. In addition to improving your agility and stealth, you learn skills useful for delving into ancient ruins, reading unfamiliar languages, and using magic items you normally couldn't employ.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "FastHands": "true",
+      "SecondStoryWork": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.RoguishArchetype.Thief"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Assassin",
+    "ID": "FC_Assassin",
+    "Description": "You focus your training on the grim art of death. Those who adhere to this archetype are diverse: hired killers, spies, bounty hunters, and even specially anointed priests trained to exterminate the enemies of their deity. Stealth, poison, and disguise help you eliminate your foes with deadly efficiency.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "Assassinate": "true",
+      "ProficiencyWithDisguiseKit": "true",
+      "ProficiencyWithPoisonersKit": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.RoguishArchetype.Assassin"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Arcane Trickster",
+    "ID": "FC_ArcaneTrickster",
+    "Description": "Some rogues enhance their fine-honed skills of stealth and agility with magic, learning tricks of enchantment and illusion. These rogues include pickpockets and burglars, but also pranksters, mischief-makers, and a significant number of adventurers.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "SpellcastingAbility": "Intelligence",
+      "SpellSchools": "Enchantment,Illusion"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.RoguishArchetype.ArcaneTrickster"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Draconic Bloodline",
+    "ID": "FC_DraconicBloodline",
+    "Description": "Your innate magic comes from draconic magic that was mingled with your blood or that of your ancestors. Most often, sorcerers with this origin trace their descent back to a mighty sorcerer of ancient times who made a bargain with a dragon or who might even have claimed a dragon parent. Some of these bloodlines are well established in the world, but most are obscure. Any given sorcerer could be the first of a new bloodline, as a result of a pact or some other exceptional circumstance.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "DraconicAncestry": "true",
+      "DragonResistance": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.SorcerousOrigin.DraconicBloodline"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Wild Magic",
+    "ID": "FC_WildMagic",
+    "Description": "Your innate magic comes from the forces of chaos that underlie the order of creation. You might have endured exposure to some form of raw magic, perhaps through a planar portal leading to Limbo, the Elemental Planes, or the mysterious Far Realm. Perhaps you were blessed by a powerful fey creature or marked by a demon. Or your magic could be a fluke of your birth, with no apparent cause. However it came to be, this chaotic magic churns within you, waiting for any opportunity to burst free.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "WildMagicSurge": "true",
+      "TidesOfChaos": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.SorcerousOrigin.WildMagic"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "The Fiend",
+    "ID": "FC_TheFiend",
+    "Description": "You have made a pact with a fiend from the lower planes of existence, a being whose aims are evil, even if you strive against those aims. Such beings desire the corruption or destruction of all things, ultimately including you. Fiends powerful enough to forge a pact include demon lords such as Demogorgon, Orcus, Fraz'Urb'luu, and Baphomet; archdevils such as Asmodeus, Dispater, Mephistopheles, and Belial; pit fiends and balors that are especially mighty; and ultroloths and other lords of the yugoloths.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "DarkOnesBlessing": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.OtherworldlyPatron.TheFiend"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "The Great Old One",
+    "ID": "FC_TheGreatOldOne",
+    "Description": "Your patron is a mysterious entity whose nature is utterly foreign to the fabric of reality. It might come from the Far Realm, the space beyond reality, or it could be one of the elder gods known only in legends. Its motives are incomprehensible to mortals, and its knowledge so immense and ancient that even the greatest libraries pale in comparison to the vast secrets it holds. The Great Old One might be unaware of your existence or entirely indifferent to you, but the secrets you have learned allow you to draw your magic from it.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "AwakenedMind": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.OtherworldlyPatron.TheGreatOldOne"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "The Archfey",
+    "ID": "FC_TheArchfey",
+    "Description": "Your patron is a lord or lady of the fey, a creature of legend who holds secrets that were forgotten before the mortal races were born. This being's motivations are often inscrutable, and sometimes whimsical, and might involve a striving for greater magical power or the settling of age-old grudges. Beings of this sort include the Prince of Frost; the Queen of Air and Darkness, ruler of the Gloaming Court; Titania of the Summer Court; her consort Oberon, the Green Lord; Hyrsam, the Prince of Fools; and ancient hags.",
+    "LevelUnlocked": 1,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "FeyPresence": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.OtherworldlyPatron.TheArchfey"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Pact of the Chain",
+    "ID": "FC_PactOfTheChain",
+    "Description": "You learn the find familiar spell and can cast it as a ritual. The spell doesn't count against your number of spells known. When you cast the spell, you can choose one of the normal forms for your familiar or one of the following special forms: imp, pseudodragon, quasit, or sprite. Additionally, when you take the Attack action, you can forgo one of your own attacks to allow your familiar to make one attack of its own with its reaction.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "FindFamiliar": "true",
+      "SpecialFamiliarForms": "imp,pseudodragon,quasit,sprite"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.PactBoon.Chain"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Pact of the Blade",
+    "ID": "FC_PactOfTheBlade",
+    "Description": "You can use your action to create a pact weapon in your empty hand. You can choose the form each time you create it. You are proficient with it while you wield it. This weapon counts as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage. Your pact weapon disappears if it is more than 5 feet away from you for 1 minute or more. It also disappears if you use this feature again, if you dismiss the weapon (no action required), or if you die. You can transform one magic weapon into your pact weapon by performing a special ritual while you hold the weapon. You perform the ritual over the course of 1 hour, which can be done during a short rest. You can then dismiss the weapon, shunting it into an extradimensional space, and it appears whenever you create your pact weapon thereafter. You can't affect an artifact or a sentient weapon in this way. The weapon ceases being your pact weapon if you die, if you perform the 1-hour ritual on a different weapon, or if you use a 1-hour ritual to break your bond to it. The weapon appears at your feet if it is in the extradimensional space when the bond breaks.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "PactWeapon": "true",
+      "MagicalWeapon": "true"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.PactBoon.Blade"
+        },
+        {
+          "TagName": "Feature.Combat"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Pact of the Tome",
+    "ID": "FC_PactOfTheTome",
+    "Description": "Your patron gives you a grimoire called a Book of Shadows. When you gain this feature, choose three cantrips from any class's spell list (the three needn't be from the same list). While the book is on your person, you can cast those cantrips at will. They don't count against your number of cantrips known. If you lose your Book of Shadows, you can perform a 1-hour ceremony to receive a replacement from your patron. This ceremony can be performed during a short or long rest, and it destroys the previous book. The book turns to ash when you die.",
+    "LevelUnlocked": 3,
+    "FeatureType": "Automatic",
+    "FeatureData": {
+      "BookOfShadows": "true",
+      "BonusCantrips": "3"
+    },
+    "AvailableChoices": [],
+    "bAllowMultipleChoices": false,
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "Feature.PactBoon.Tome"
+        },
+        {
+          "TagName": "Feature.Spellcasting"
+        }
+      ],
+      "ParentTags": []
+    }
   }
 ]

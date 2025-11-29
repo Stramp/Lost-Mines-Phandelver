@@ -34,25 +34,11 @@ struct MYPROJECT2_API FLanguageDataRow : public FTableRowBase
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Language")
     FText Description;
 
-    /** Script usado pelo idioma (ex: "Common", "Elvish") */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Language")
-    FName Script;
-
-    /** Tipo do idioma (ex: "Standard", "Exotic") */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Language")
-    FName Type;
-
     /** Gameplay Tags para categorização (ex: Language.Standard, Language.Exotic) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Language")
     FGameplayTagContainer TypeTags;
 
-    FLanguageDataRow()
-        : Name(NAME_None)
-        , ID(NAME_None)
-        , Script(NAME_None)
-        , Type(NAME_None)
-    {
-    }
+    FLanguageDataRow() : Name(NAME_None), ID(NAME_None) {}
 };
 
 #pragma endregion Language Data Row

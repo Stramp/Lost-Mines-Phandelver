@@ -353,7 +353,7 @@
             "Items": ["ITM_ARM_ChainMail"]
           },
           {
-            "Items": ["ITM_ARM_LeatherArmor", "ITM_WPN_Longbow"]
+            "Items": ["ITM_ARM_LeatherArmor", "ITM_WPN_Longbow","ITM_CNM_Arrow"]
           }
         ]
       },
@@ -683,7 +683,7 @@
         ]
       }
     ],
-    "StartingGold": 40,
+    "StartingGold": 100,
     "MulticlassRequirementGroups": [
       {
         "Operator": "AND",
@@ -1010,7 +1010,7 @@
         ]
       }
     ],
-    "StartingGold": 0,
+    "StartingGold": 50,
     "MulticlassRequirementGroups": [
       {
         "Operator": "AND",
@@ -1387,7 +1387,7 @@
         ]
       }
     ],
-    "StartingGold": 0,
+    "StartingGold": 125,
     "MulticlassRequirementGroups": [
       {
         "Operator": "AND",
@@ -1684,7 +1684,7 @@
         ]
       }
     ],
-    "StartingGold": 0,
+    "StartingGold": 125,
     "MulticlassRequirementGroups": [
       {
         "Operator": "AND",
@@ -2024,7 +2024,7 @@
         ]
       }
     ],
-    "StartingGold": 0,
+    "StartingGold": 50,
     "MulticlassRequirementGroups": [
       {
         "Operator": "AND",
@@ -2358,7 +2358,7 @@
         ]
       }
     ],
-    "StartingGold": 0,
+    "StartingGold": 125,
     "MulticlassRequirementGroups": [
       {
         "Operator": "AND",
@@ -2704,7 +2704,7 @@
         ]
       }
     ],
-    "StartingGold": 0,
+    "StartingGold": 125,
     "MulticlassRequirementGroups": [
       {
         "Operator": "AND",
@@ -3044,7 +3044,7 @@
         ]
       }
     ],
-    "StartingGold": 0,
+    "StartingGold": 125,
     "MulticlassRequirementGroups": [
       {
         "Operator": "AND",
@@ -3415,7 +3415,7 @@
         ]
       }
     ],
-    "StartingGold": 0,
+    "StartingGold": 100,
     "MulticlassRequirementGroups": [
       {
         "Operator": "AND",
@@ -3716,7 +3716,7 @@
         ]
       }
     ],
-    "StartingGold": 0,
+    "StartingGold": 75,
     "MulticlassRequirementGroups": [
       {
         "Operator": "AND",
@@ -4044,7 +4044,7 @@
         ]
       }
     ],
-    "StartingGold": 0,
+    "StartingGold": 100,
     "MulticlassRequirementGroups": [
       {
         "Operator": "AND",

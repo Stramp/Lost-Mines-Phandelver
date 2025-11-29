@@ -3,8 +3,6 @@
     "Name": "Common",
     "ID": "PL_Common",
     "Description": "The most widely spoken language in the world. Most human settlements speak Common, and it serves as a lingua franca for trade and diplomacy.",
-    "Script": "Common",
-    "Type": "Standard",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -18,8 +16,6 @@
     "Name": "Elvish",
     "ID": "PL_Elvish",
     "Description": "The language of elves, known for its flowing, melodic sounds. Also called Elven.",
-    "Script": "Elvish",
-    "Type": "Standard",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -33,8 +29,6 @@
     "Name": "Dwarvish",
     "ID": "PL_Dwarvish",
     "Description": "The language of dwarves, characterized by its guttural sounds and runic script. Also called Dwarven.",
-    "Script": "Dwarvish",
-    "Type": "Standard",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -48,8 +42,6 @@
     "Name": "Halfling",
     "ID": "PL_Halfling",
     "Description": "The language of halflings, a simple and cheerful tongue.",
-    "Script": "Common",
-    "Type": "Standard",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -63,8 +55,6 @@
     "Name": "Gnomish",
     "ID": "PL_Gnomish",
     "Description": "The language of gnomes, known for its technical vocabulary and precise grammar.",
-    "Script": "Dwarvish",
-    "Type": "Standard",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -78,8 +68,6 @@
     "Name": "Orc",
     "ID": "PL_Orc",
     "Description": "The guttural language of orcs, used for communication among orc tribes.",
-    "Script": "Dwarvish",
-    "Type": "Standard",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -93,8 +81,6 @@
     "Name": "Draconic",
     "ID": "PL_Draconic",
     "Description": "The language of dragons, one of the oldest languages in existence. Many scholars learn Draconic to study ancient texts.",
-    "Script": "Draconic",
-    "Type": "Exotic",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -108,8 +94,6 @@
     "Name": "Infernal",
     "ID": "PL_Infernal",
     "Description": "The language of devils, used in contracts and legal documents in the Nine Hells.",
-    "Script": "Infernal",
-    "Type": "Exotic",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -123,8 +107,6 @@
     "Name": "Abyssal",
     "ID": "PL_Abyssal",
     "Description": "The language of demons, a chaotic and harsh tongue spoken in the Abyss.",
-    "Script": "Infernal",
-    "Type": "Exotic",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -138,8 +120,6 @@
     "Name": "Celestial",
     "ID": "PL_Celestial",
     "Description": "The language of celestials, used by angels and other divine beings.",
-    "Script": "Celestial",
-    "Type": "Exotic",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -153,8 +133,6 @@
     "Name": "Deep Speech",
     "ID": "PL_DeepSpeech",
     "Description": "A language spoken by aberrations and other creatures from the Far Realm. It has no script.",
-    "Script": "None",
-    "Type": "Exotic",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -168,8 +146,6 @@
     "Name": "Giant",
     "ID": "PL_Giant",
     "Description": "The language of giants, used by various giant races.",
-    "Script": "Dwarvish",
-    "Type": "Standard",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -183,8 +159,6 @@
     "Name": "Goblin",
     "ID": "PL_Goblin",
     "Description": "The language of goblins and hobgoblins.",
-    "Script": "Dwarvish",
-    "Type": "Standard",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -198,8 +172,6 @@
     "Name": "Primordial",
     "ID": "PL_Primordial",
     "Description": "The ancient language of elementals, with four dialects: Aquan, Auran, Ignan, and Terran.",
-    "Script": "Dwarvish",
-    "Type": "Exotic",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -213,8 +185,6 @@
     "Name": "Sylvan",
     "ID": "PL_Sylvan",
     "Description": "The language of fey creatures, spoken in the Feywild.",
-    "Script": "Elvish",
-    "Type": "Exotic",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -228,8 +198,6 @@
     "Name": "Undercommon",
     "ID": "PL_Undercommon",
     "Description": "A trade language spoken in the Underdark, derived from Elvish and Dwarvish.",
-    "Script": "Elvish",
-    "Type": "Standard",
     "TypeTags": {
       "GameplayTags": [
         {

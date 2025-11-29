@@ -2,6 +2,7 @@
   {
     "Name": "Fire",
     "ID": "DMG_Fire",
+    "Description": "Fire damage burns and ignites targets",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -9,12 +10,12 @@
         }
       ],
       "ParentTags": []
-    },
-    "Description": "Fire damage burns and ignites targets"
+    }
   },
   {
     "Name": "Cold",
     "ID": "DMG_Cold",
+    "Description": "Cold damage freezes and slows targets",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -22,12 +23,12 @@
         }
       ],
       "ParentTags": []
-    },
-    "Description": "Cold damage freezes and slows targets"
+    }
   },
   {
     "Name": "Lightning",
     "ID": "DMG_Lightning",
+    "Description": "Lightning damage shocks and electrifies targets",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -35,12 +36,12 @@
         }
       ],
       "ParentTags": []
-    },
-    "Description": "Lightning damage shocks and electrifies targets"
+    }
   },
   {
     "Name": "Poison",
     "ID": "DMG_Poison",
+    "Description": "Poison damage sickens and weakens targets",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -48,12 +49,12 @@
         }
       ],
       "ParentTags": []
-    },
-    "Description": "Poison damage sickens and weakens targets"
+    }
   },
   {
     "Name": "Psychic",
     "ID": "DMG_Psychic",
+    "Description": "Psychic damage attacks the mind and consciousness",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -61,12 +62,12 @@
         }
       ],
       "ParentTags": []
-    },
-    "Description": "Psychic damage attacks the mind and consciousness"
+    }
   },
   {
     "Name": "Radiant",
     "ID": "DMG_Radiant",
+    "Description": "Radiant damage is pure divine or positive energy",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -74,12 +75,12 @@
         }
       ],
       "ParentTags": []
-    },
-    "Description": "Radiant damage is pure divine or positive energy"
+    }
   },
   {
     "Name": "Necrotic",
     "ID": "DMG_Necrotic",
+    "Description": "Necrotic damage withers matter and even the soul",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -87,12 +88,12 @@
         }
       ],
       "ParentTags": []
-    },
-    "Description": "Necrotic damage withers matter and even the soul"
+    }
   },
   {
     "Name": "Acid",
     "ID": "DMG_Acid",
+    "Description": "Acid damage corrodes and dissolves matter",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -100,12 +101,12 @@
         }
       ],
       "ParentTags": []
-    },
-    "Description": "Acid damage corrodes and dissolves matter"
+    }
   },
   {
     "Name": "Force",
     "ID": "DMG_Force",
+    "Description": "Force damage is pure magical energy focused into a damaging form",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -113,12 +114,12 @@
         }
       ],
       "ParentTags": []
-    },
-    "Description": "Force damage is pure magical energy focused into a damaging form"
+    }
   },
   {
     "Name": "Thunder",
     "ID": "DMG_Thunder",
+    "Description": "Thunder damage is a sound-based attack that can deafen",
     "TypeTags": {
       "GameplayTags": [
         {
@@ -126,7 +127,45 @@
         }
       ],
       "ParentTags": []
-    },
-    "Description": "Thunder damage is a sound-based attack that can deafen"
+    }
+  },
+  {
+    "Name": "Slashing",
+    "ID": "DMG_Slashing",
+    "Description": "Slashing damage is dealt by weapons that cut or slice, such as swords, axes, and scimitars",
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Slashing"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Piercing",
+    "ID": "DMG_Piercing",
+    "Description": "Piercing damage is dealt by weapons that stab or penetrate, such as arrows, spears, and rapiers",
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Piercing"
+        }
+      ],
+      "ParentTags": []
+    }
+  },
+  {
+    "Name": "Bludgeoning",
+    "ID": "DMG_Bludgeoning",
+    "Description": "Bludgeoning damage is dealt by weapons that crush or bludgeon, such as maces, clubs, and hammers",
+    "TypeTags": {
+      "GameplayTags": [
+        {
+          "TagName": "DamageType.Bludgeoning"
+        }
+      ],
+      "ParentTags": []
+    }
   }
 ]
