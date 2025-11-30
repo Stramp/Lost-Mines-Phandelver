@@ -21,7 +21,7 @@
 > - ✅ Multiclassing completo com validação de pré-requisitos
 > - ✅ Features de classes (estrutura pronta)
 > - ✅ Skills e Proficiencies (estrutura pronta)
-> - 📋 Spellcasting (planejado - ver [Spellcasting](../03-ia-comportamento/spellcasting.md))
+> - ✅ Spellcasting (detalhado - ver [Sistema de Spellcasting](spellcasting.md))
 >
 > **📖 Documentação Técnica:** [Regras D&D 5e (TDD)](../../03%20-%20TDD/dnd-rules/index.md)
 
@@ -145,6 +145,8 @@
 > - Point Buy: +7 (alocação para Strength) → 15
 > - **Final Strength:** 8 + 0 (racial) + 7 (point buy) = 15
 > - **Final Constitution:** 8 + 2 (racial) + 0 (point buy) = 10
+>
+> **📖 Pseudocódigo:** Ver [Cálculo de Atributos Finais](../../pseudocodigo/atributos-finais.md)
 >
 > **📖 Ver também:** [Ability Scores (TDD)](../../03%20-%20TDD/dnd-rules/ability-scores.md) | [Point Buy System (TDD)](../../03%20-%20TDD/dnd-rules/point-buy.md)
 
@@ -314,6 +316,90 @@
 
 ---
 
+## 💡 Exemplos Práticos de Skills
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎯 Cenários da Campanha Phandelver</b></summary>
+
+> **Exemplo 1: Rogue Usa Furtividade (Stealth)**
+>
+> **Situação:** Rogue nível 2 (DEX +3, proficiency +2) tenta se aproximar furtivamente de goblins em Cragmaw Hideout.
+>
+> **Execução:**
+>
+> 1. Rogue ativa ação **Furtividade**
+> 2. **Skill Check:** d20 + 3 (DEX) + 2 (proficiency) = d20+5
+> 3. Rola 14, total **19**
+> 4. **DC:** 15 (Percepção passiva dos goblins)
+> 5. **Resultado:** **Sucesso!** (19 > 15)
+> 6. Rogue se move furtivamente sem ser detectado
+>
+> **Resultado:** Rogue pode se aproximar para ataque furtivo ou emboscada.
+>
+> **Exemplo 2: Clérigo Usa Percepção (Perception)**
+>
+> **Situação:** Clérigo nível 1 (WIS +3, proficiency +2) explora masmorra escura procurando armadilhas.
+>
+> **Execução:**
+>
+> 1. Clérigo faz teste de **Percepção** ativa
+> 2. **Skill Check:** d20 + 3 (WIS) + 2 (proficiency) = d20+5
+> 3. Rola 12, total **17**
+> 4. **DC:** 15 (dificuldade de detectar armadilha)
+> 5. **Resultado:** **Sucesso!** (17 > 15)
+> 6. Clérigo detecta armadilha de poço antes de pisar
+>
+> **Resultado:** Grupo evita armadilha e pode desarmá-la ou contorná-la.
+>
+> **Exemplo 3: Fighter Usa Atletismo (Athletics)**
+>
+> **Situação:** Fighter nível 1 (STR +3, proficiency +2) precisa escalar parede de 6m em Cragmaw Hideout.
+>
+> **Execução:**
+>
+> 1. Fighter faz teste de **Atletismo**
+> 2. **Skill Check:** d20 + 3 (STR) + 2 (proficiency) = d20+5
+> 3. Rola 8, total **13**
+> 4. **DC:** 15 (dificuldade de escalada)
+> 5. **Resultado:** **Falha!** (13 < 15)
+> 6. Fighter cai, sofre 1d6 de dano de queda = 4 de dano
+>
+> **Resultado:** Fighter precisa tentar novamente ou encontrar outra rota.
+>
+> **Exemplo 4: Wizard Usa Investigação (Investigation)**
+>
+> **Situação:** Wizard nível 3 (INT +4, proficiency +2) examina porta secreta em Wave Echo Cave.
+>
+> **Execução:**
+>
+> 1. Wizard faz teste de **Investigação**
+> 2. **Skill Check:** d20 + 4 (INT) + 2 (proficiency) = d20+6
+> 3. Rola 15, total **21**
+> 4. **DC:** 20 (dificuldade de encontrar mecanismo secreto)
+> 5. **Resultado:** **Sucesso!** (21 > 20)
+> 6. Wizard encontra alavanca escondida e abre passagem secreta
+>
+> **Resultado:** Grupo descobre área secreta com tesouro adicional.
+>
+> **Exemplo 5: Bard Usa Persuasão (Persuasion)**
+>
+> **Situação:** Bard nível 2 (CHA +3, proficiency +2) tenta convencer NPC em Phandalin a dar informação.
+>
+> **Execução:**
+>
+> 1. Bard faz teste de **Persuasão**
+> 2. **Skill Check:** d20 + 3 (CHA) + 2 (proficiency) = d20+5
+> 3. Rola 18, total **23**
+> 4. **DC:** 15 (NPC é amigável, DC baixo)
+> 5. **Resultado:** **Sucesso!** (23 > 15)
+> 6. NPC fornece informação sobre Redbrands e localização do esconderijo
+>
+> **Resultado:** Grupo obtém informação valiosa sem precisar de combate ou roubo.
+
+</details>
+
+---
+
 ## 📊 Tabela de Experiência (XP) e Curvas de Nível
 
 <details>
@@ -359,6 +445,8 @@
 > - Cada classe tem features específicas em cada nível
 > - Features são desbloqueadas conforme o nível da classe
 > - Em multiclassing, features são calculadas por classe individual
+>
+> **📖 Pseudocódigo:** Ver [Sistema de Level Up](../../pseudocodigo/level-up.md)
 >
 > **📖 Ver também:** [Level Up (TDD)](../../03%20-%20TDD/dnd-rules/level-up.md) | [FeatureDataTable](../../../../Content/Data/DataTable/FeatureDataTable.json)
 
@@ -527,7 +615,7 @@
 > - **Prepared (Cleric, Druid, Paladin, Wizard):** Prepara spells da lista de classe após Long Rest
 > - Número preparado = SpellcastingAbilityModifier + ClassLevel (mínimo 1)
 >
-> **📖 Ver também:** [Spellcasting (TDD)](../../03%20-%20TDD/dnd-rules/spellcasting.md) - Documentação completa
+> **📖 Ver também:** [Sistema de Spellcasting](spellcasting.md) - Documentação completa do GDD | [Spellcasting (TDD)](../../03%20-%20TDD/dnd-rules/spellcasting.md) - Documentação técnica
 
 </details>
 
@@ -649,5 +737,12 @@
 </details>
 
 ---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Sistemas de personagem baseados em D&D 5e |
+| v1.1 | 2024-12-27 | Adicionado pseudocódigo para cálculo de atributos finais, level up e recalculo de stats derivados |
 
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima: Sistema de Combate](sistema-combate.md)

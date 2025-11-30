@@ -27,6 +27,8 @@
 > | **Lendário** | 0.1% | 50000+ GP | Artefatos únicos, itens de boss final |
 >
 > **Nota:** Probabilidades baseadas em D&D 5e Dungeon Master's Guide (Tabela de Tesouro).
+>
+> **📖 Pseudocódigo:** Ver [Cálculo de Probabilidades de Loot](../../pseudocodigo/probabilidades-loot.md)
 
 </details>
 
@@ -153,26 +155,23 @@
 <details>
 <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">💻 Data Tables e Sistema</summary>
 
-> **Estrutura Sugerida (Unreal Engine):**
+> **Estrutura de Dados:**
 >
-> - **LootTableDataTable:** Tabela com probabilidades por inimigo
-> - **ItemDataTable:** Tabela com valores e raridades de itens
-> - **TreasureDataTable:** Tabela com tesouros de masmorras
+> O sistema utiliza tabelas de dados para configurar probabilidades de loot, valores de itens e tesouros de masmorras. Valores devem ser configuráveis para facilitar balanceamento.
 >
-> **Algoritmo de Drop:**
+> **📖 Pseudocódigo de Regras:** Ver [Sistema Completo de Roll de Loot](../../02-mecanicas/pseudocodigo/sistema-loot.md)
 >
-> ```
-> 1. Calcular roll aleatório (0-100)
-> 2. Verificar probabilidade baseada em CR do inimigo
-> 3. Aplicar multiplicadores por raridade
-> 4. Selecionar item da raridade correspondente
-> 5. Adicionar moedas baseado na tabela do inimigo
-> ```
->
-> **Nota:** Valores devem ser configuráveis em Data Tables para facilitar balanceamento.
+> **📖 Especificações Técnicas (Data Tables):** Ver [Loot Tables Implementation (TDD)](../../../02%20-%20TDD/08-pseudocodigo/economia/loot-tables.md)
 
 </details>
 
 ---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Tabelas de loot baseadas em D&D 5e |
+| v1.1 | 2024-12-27 | Adicionado pseudocódigo para cálculo de probabilidades e sistema de roll de loot |
 
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima: Monetização](monetizacao.md)

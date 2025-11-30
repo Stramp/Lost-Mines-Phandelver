@@ -21,7 +21,6 @@
 > - Organização visual pode ser refinada após testes de usabilidade
 > - Wireframes serão atualizados conforme feedback e iterações
 >
-> **Última atualização:** Versão inicial - Aguardando revisão e refinamento
 
 </details>
 
@@ -387,5 +386,11 @@ graph TB
 - **Tab:** Alternar entre elementos do HUD
 
 ---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Wireframes de baixa fidelidade para todas as telas principais |
 
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima: Fluxo de Navegação](fluxo-navegacao.md)

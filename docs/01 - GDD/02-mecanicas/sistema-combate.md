@@ -27,11 +27,12 @@
 > - **Ações simultâneas:** Todos os personagens agem simultaneamente (não em turnos)
 > - **Reações:** Podem ser ativadas em resposta a eventos (ataques de oportunidade, etc.)
 >
-> **❓ Decisão Criativa: Como implementar "Ready Action" em tempo real?**
+> **⚠️ Decisão: Ready Action (Consideração Futura)**
 >
-> > **⚠️ CONSIDERAÇÃO FUTURA:** Esta mecânica está sendo considerada para implementação futura, possivelmente alinhada com sistema de Surprise e emboscadas coordenadas no início do combate.
+> > **Status:** Esta mecânica está sendo considerada para implementação futura, possivelmente alinhada com sistema de Surprise e emboscadas coordenadas no início do combate.
 > >
 > > - **📖 Ver mais detalhes:** [Ready Action - Ideias Futuras](ideias-futuras/ready-action-emboscada.md)
+> > - **Nota:** Não será implementada no MVP, pode ser adicionada em atualização futura
 > >
 >___
 
@@ -50,35 +51,16 @@
 > - Classes marciais ganham "Extra Attack" em níveis específicos (Fighter nível 5, etc.)
 > - **Extra Attack:** Permite fazer 2 ataques por ação (nível 5+)
 >
-> **❓ Decisão Criativa: Como balancear velocidade de combate e ataques por turno?**
+> **✅ Decisão: Balanceamento de Velocidade de Combate**
 >
-> > **💡 Ideia Atual (Em Consideração):**
+> > **Implementação Decidida:**
 > >
 > > - **Ataque básico:** Cooldown de 6 segundos (mantém ritmo D&D de 1 round)
-> > - **Nível 5+ (Extra Attack):** Personagem pode fazer 2 ataques no mesmo "turno" (dentro de 6 segundos)
-> > - **Bonus Action:** Equilibrar com bonus action para personagem fazer mais alguma coisa
-> > - **Justificativa:** Balanceamento do jogo depende muito de ataques por turno, então manter 6 segundos garante fidelidade às regras D&D
-> >
-> > **Sugestões Alternativas:**
-> >
-> > - Ataques básicos: cooldown de 1-2 segundos (mais rápido que 6 segundos)
-> > - Ações especiais: cooldown de 6 segundos (mantém ritmo D&D)
-> > - Magias: cooldown baseado no nível da magia (nível 1 = 3s, nível 2 = 4s, etc.)
-> > - **Teste:** Ajustar baseado em playtesting para encontrar ritmo ideal
->
-> **Implementação Proposta:**
->
-> - **Níveis 1-4:** 1 ataque a cada 6 segundos
-> - **Níveis 5+ (com Extra Attack):** 2 ataques dentro de 6 segundos (ex: ataque 1 no segundo 0, ataque 2 no segundo 3)
-> - **Bonus Action:** Pode ser usada para ações adicionais (segundo ataque com arma leve, habilidades de classe, etc.)
-> - **❓ Decisão Criativa: Como distribuir os 2 ataques dentro dos 6 segundos?**
->
-> > **Sugestão:**
-> >
-> > - **Opção 1:** Ataques rápidos (ataque 1 no segundo 0, ataque 2 no segundo 2-3)
-> > - **Opção 2:** Ataques espaçados (ataque 1 no segundo 0, ataque 2 no segundo 4-5)
-> > - **Opção 3:** Ataques simultâneos (ambos no mesmo momento, mas com animação dupla)
-> > - **Recomendação:** Ataques espaçados (mais tático, permite ajuste de posicionamento)
+> > - **Níveis 1-4:** 1 ataque a cada 6 segundos
+> > - **Níveis 5+ (Extra Attack):** 2 ataques dentro de 6 segundos (ataque 1 no segundo 0, ataque 2 no segundo 3-4)
+> > - **Magias:** Cooldown baseado no nível (nível 1 = 6s, nível 2 = 7s, nível 3 = 8s)
+> > - **Cantrips:** Sem cooldown (podem ser usados continuamente)
+> > - **Justificativa:** Mantém fidelidade às regras D&D, ritmo balanceado
 > >
 >___
 
@@ -102,7 +84,7 @@
 >
 > - Ação de defesa ativa
 > - **Efeito D&D 5e:** Vantagem em Saving Throws, desvantagem em ataques recebidos
-> - **Adaptação:** Reduz chance de acerto de inimigos em X% (❓ definir valor: 25%? 50%?)
+> - **Adaptação:** Reduz chance de acerto de inimigos em **30%** (equivalente a desvantagem estatística)
 > - **Cooldown:** 6 segundos (1 round)
 > - **✅ Decisão: Feedback Visual de Dodge**
 >
@@ -127,27 +109,29 @@
 > - **Efeito D&D 5e:** Não provoca Opportunity Attacks ao se mover
 > - **Adaptação:** Remove "threat" de inimigos próximos por 6 segundos
 > - **Cooldown:** 6 segundos
-> - **❓ Decisão Criativa: Como mostrar visualmente que personagem está em Disengage?**
+> - **✅ Decisão: Feedback Visual de Disengage**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Animação de recuo/retirada
-> > - Efeito visual sutil (brilho leve)
-> > - Indicador de status na UI
+> > - **Animação:** Recuo rápido (backstep) quando ativado
+> > - **Efeito Visual:** Brilho azul leve ao redor do personagem
+> > - **Indicador de Status:** Ícone "Disengage" na UI (dura 6 segundos)
+> > - **Feedback:** Personagem não provoca ataques de oportunidade durante efeito
 >
 > **Help (Ajudar):**
 >
 > - Ajudar aliado (vantagem no próximo ataque)
 > - **Efeito D&D 5e:** Aliado ganha vantagem no próximo ataque
-> - **Adaptação:** Aliado ganha bônus de +X no próximo ataque (❓ definir valor: +2? +4?)
+> - **Adaptação:** Aliado ganha bônus de **+4** no próximo ataque (equivalente a vantagem estatística)
 > - **Cooldown:** 6 segundos
-> - **❓ Decisão Criativa: Help será usado em combate multiplayer ou apenas com NPCs?**
+> - **✅ Decisão: Help em Single-Player e Multiplayer**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Se multiplayer: manter Help (útil para cooperação)
-> > - Se single-player: Help pode ser usado com companheiros (NPCs)
-> > - **Alternativa:** Remover Help se não houver aliados controláveis
+> > - **Single-Player:** Help pode ser usado com companheiros NPCs (se houver sistema de companheiros)
+> > - **Multiplayer:** Help funciona normalmente entre jogadores
+> > - **Efeito:** Aliado ganha +4 no próximo ataque (equivalente a vantagem)
+> > - **Cooldown:** 6 segundos (1 round)
 >
 > **Use Object (Usar Objeto):**
 >
@@ -161,7 +145,7 @@
 > - Conjurar magia (usa spell slot)
 > - **Efeito D&D 5e:** Conjura magia conforme regras de spellcasting
 > - **Adaptação:** Sistema de spellcasting em tempo real
-> - **Cooldown:** Baseado no nível da magia (❓ definir: nível 1 = 3s, nível 2 = 4s, etc.)
+> - **Cooldown:** Baseado no nível da magia (nível 1 = 6s, nível 2 = 7s, nível 3 = 8s, etc.)
 > - **📖 Ver também:** [Spellcasting](../03-ia-comportamento/spellcasting.md)
 
 </details>
@@ -230,23 +214,25 @@
 > - **Personagem com Chain Mail (AC 16), DEX +3:** AC = **16** (sem bônus de DEX)
 > - **Personagem com Scale Mail (AC 14), DEX +4, Escudo:** AC = 14 + 2 (DEX limitado) + 2 (escudo) = **18**
 >
-> **❓ Decisão Criativa: Como mostrar AC na UI?**
+> **📖 Pseudocódigo:** Ver [Cálculo de AC](../../pseudocodigo/calculo-ac.md)
 >
-> > **Sugestão:**
+> **✅ Decisão: Feedback Visual de AC**
+>
+> > **Implementação Decidida:**
 > >
-> > - Mostrar AC numérico na ficha de personagem
-> > - Mostrar "chance de acerto" do inimigo (baseado em AC vs ataque do inimigo)
-> > - Feedback visual quando ataque é bloqueado (diferente de esquiva)
-> > - **Alternativa:** Mostrar apenas quando personagem é atacado (popup "AC 18 bloqueou!")
+> > - **UI:** AC numérico visível na ficha de personagem (ex: "AC: 18")
+> > - **Feedback Visual:** Quando ataque é bloqueado por AC, mostra partículas de defesa (diferente de esquiva)
+> > - **Som:** Som de metal batendo quando armadura bloqueia
+> > - **Texto Flutuante:** "BLOQUEADO!" quando AC previne dano
 >
-> **❓ Decisão Criativa: AC afeta visualmente o personagem?**
+> **✅ Decisão: Efeitos Visuais de AC**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - AC alto = partículas de defesa quando atacado
-> > - Escudo = animação de bloqueio automático
-> > - Armadura pesada = som de metal batendo quando atacado
-> > - **Alternativa:** Apenas feedback numérico (sem efeitos visuais)
+> > - **Armadura Pesada:** Som de metal batendo quando atacado
+> > - **Escudo:** Animação de bloqueio automático quando ataque é bloqueado
+> > - **AC Alto:** Partículas de defesa (aura leve) quando ataque é bloqueado
+> > - **Feedback Diferencial:** Esquiva (movimento rápido) vs Bloqueio (partículas estáticas)
 
 </details>
 
@@ -290,15 +276,15 @@
 > - **Fórmula:** `Critical Damage = (Weapon Die Roll × 2) + Modifier`
 > - **Exemplo:** Espada Longa (1d8), STR +3, crítico = (1d8 × 2) + 3 = 2d8 + 3
 >
-> **❓ Decisão Criativa: Como mostrar críticos visualmente?**
+> **✅ Decisão: Feedback Visual de Críticos**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Efeito visual especial (flash, partículas)
-> > - Som de crítico (som mais impactante)
-> > - Texto "CRÍTICO!" flutuando
-> > - Câmera shake leve
-> > - **Alternativa:** Apenas número maior (sem efeitos especiais)
+> > - **Efeito Visual:** Flash de luz branca/amarela, partículas especiais
+> > - **Som:** Som de crítico mais impactante e alto
+> > - **Texto Flutuante:** "CRÍTICO!" em fonte grande e destacada
+> > - **Câmera Shake:** Leve shake (0.1s) para impacto
+> > - **Animação:** Animação de impacto mais exagerada
 >
 > **Resistências e Vulnerabilidades:**
 >
@@ -307,14 +293,16 @@
 > - **Exemplo:** Criatura com resistência a fogo recebe 10 de dano de fogo → **5 de dano**
 > - **Exemplo:** Criatura vulnerável a fogo recebe 10 de dano de fogo → **20 de dano**
 >
-> **❓ Decisão Criativa: Como mostrar resistências/vulnerabilidades na UI?**
+> **📖 Pseudocódigo:** Ver [Cálculo e Aplicação de Dano](../../pseudocodigo/calculo-dano.md)
 >
-> > **Sugestão:**
+> **✅ Decisão: Feedback Visual de Resistências/Vulnerabilidades**
+>
+> > **Implementação Decidida:**
 > >
-> > - Mostrar ícone de resistência/vulnerabilidade na ficha de criatura
-> > - Feedback visual quando dano é reduzido/aumentado
-> > - Texto "RESISTENTE!" ou "VULNERÁVEL!" quando aplicado
-> > - **Alternativa:** Apenas número menor/maior (sem feedback visual)
+> > - **UI:** Ícone de resistência/vulnerabilidade na ficha de criatura (hover mostra tipo)
+> > - **Feedback Visual:** Cor do número de dano muda (laranja = resistente, vermelho = vulnerável)
+> > - **Texto Flutuante:** "RESISTENTE!" (laranja) ou "VULNERÁVEL!" (vermelho) quando aplicado
+> > - **Partículas:** Efeito visual sutil baseado no tipo de dano
 
 </details>
 
@@ -340,6 +328,9 @@
 > If Attack Roll < Target AC: Miss (errou)
 > ```
 >
+> **📖 Pseudocódigo:** Ver [Verificação de Acerto](../../pseudocodigo/verificacao-acerto.md)
+> ```
+>
 > **Natural 20 (Crítico):**
 >
 > - Sempre acerta (independente de AC)
@@ -348,27 +339,28 @@
 > **Natural 1 (Falha Crítica):**
 >
 > - Sempre erra (independente de AC)
-> - **❓ Decisão Criativa: Falha crítica tem efeito especial?**
+> - **✅ Decisão: Feedback Visual de Falha Crítica**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Animação de tropeço/erro
-> > - Efeito visual de falha
-> > - Som de erro
-> > - **Alternativa:** Apenas erra (sem efeitos especiais)
+> > - **Animação:** Animação de tropeço/erro breve
+> > - **Efeito Visual:** Partículas de falha (cinza)
+> > - **Som:** Som de erro/erro
+> > - **Texto Flutuante:** "ERRO!" em fonte menor (não destaca tanto quanto crítico)
 >
 > **Vantagem e Desvantagem:**
 >
 > - **Vantagem:** Rola 2d20, usa o maior valor
 > - **Desvantagem:** Rola 2d20, usa o menor valor
-> - **❓ Decisão Criativa: Como implementar vantagem/desvantagem em tempo real?**
+> - **✅ Decisão: Implementação de Vantagem/Desvantagem**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Sistema de "buff/debuff" que modifica chance de acerto
-> > - Vantagem = +5 no ataque (equivalente estatístico)
-> > - Desvantagem = -5 no ataque (equivalente estatístico)
-> > - **Alternativa:** Rolar 2 vezes e usar melhor/pior (mais fiel, mas pode ser lento)
+> > - **Sistema:** Buff/debuff que modifica chance de acerto
+> > - **Vantagem:** +5 no ataque (equivalente estatístico de vantagem)
+> > - **Desvantagem:** -5 no ataque (equivalente estatístico de desvantagem)
+> > - **Feedback Visual:** Ícone de vantagem (verde) ou desvantagem (vermelho) na UI
+> > - **Justificativa:** Mais rápido que rolar 2 vezes, mantém fidelidade estatística
 >
 > **Spell Attack (Ataque de Magia):**
 >
@@ -403,25 +395,72 @@
 > - **Three-Quarters Cover (Três Quartos de Cobertura):** +5 AC
 > - **Full Cover (Cobertura Total):** Não pode ser atacado
 >
-> **❓ Decisão Criativa: Como detectar cobertura automaticamente?**
+> **✅ Decisão: Detecção Automática de Cobertura**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Sistema de raycast do atacante para o alvo
-> > - Se raycast colidir com objeto: calcula porcentagem de cobertura
-> > - **Half Cover:** 25-50% do corpo coberto
-> > - **Three-Quarters Cover:** 50-75% do corpo coberto
-> > - **Full Cover:** 75-100% do corpo coberto
-> > - **Alternativa:** Cobertura manual (jogador se posiciona atrás de objetos)
+> > - **Sistema:** Raycast do atacante para o alvo
+> > - **Cálculo:** Se raycast colidir com objeto, calcula porcentagem de cobertura
+> > - **Half Cover:** 25-50% do corpo coberto → +2 AC
+> > - **Three-Quarters Cover:** 50-75% do corpo coberto → +5 AC
+> > - **Full Cover:** 75-100% do corpo coberto → Não pode ser atacado
+> > - **Feedback Visual:** Indicador "COBERTURA" na UI quando ativo
 >
-> **❓ Decisão Criativa: Cobertura afeta visualmente?**
+> **✅ Decisão: Feedback Visual de Cobertura**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Indicador visual quando personagem está em cobertura
-> > - Efeito de "proteção" visual (aura leve)
-> > - Feedback quando ataque é bloqueado por cobertura
-> > - **Alternativa:** Apenas cálculo numérico (sem feedback visual)
+> > - **Indicador:** Ícone "COBERTURA" na UI quando personagem está protegido
+> > - **Efeito Visual:** Aura leve (azul) ao redor do personagem quando em cobertura
+> > - **Feedback:** Texto "BLOQUEADO POR COBERTURA!" quando ataque é bloqueado
+> > - **Raycast Visual:** Linha de raycast mostra quando cobertura está ativa (opcional, modo debug)
+
+</details>
+
+---
+
+## 📏 Alcance e Posicionamento
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎯 Alcance de Ataques</b></summary>
+
+> **Regra Oficial D&D 5e:**
+>
+> **Alcance de Ataques Corpo a Corpo (Melee):**
+>
+> - **Armas de Uma Mão:** 1.5m (5 pés)
+> - **Armas de Duas Mãos:** 1.5m (5 pés) - algumas armas têm alcance maior
+> - **Armas com Alcance (Reach):** 3m (10 pés) - lanças, chicotes, etc.
+>
+> **Alcance de Ataques à Distância (Ranged):**
+>
+> - **Armas de Curto Alcance:** 6m (20 pés) - adagas, dardos
+> - **Armas de Médio Alcance:** 30m (100 pés) - arcos, bestas
+> - **Armas de Longo Alcance:** 60m (200 pés) - arcos longos, bestas pesadas
+> - **Desvantagem:** Ataques à distância têm desvantagem se alvo está além do alcance normal (mas dentro do alcance longo)
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🦅 Criaturas Voadoras e Alcance</summary>
+
+> **Impacto do Voo no Combate:**
+>
+> **Ataques Corpo a Corpo vs. Criaturas Voadoras:**
+>
+> - **Regra:** Ataques corpo a corpo **não podem** atingir criaturas voadoras (a menos que o atacante também esteja voando)
+> - **Exceção:** Algumas armas com alcance estendido (Reach) podem atingir criaturas voadoras baixas (altura < 3m)
+> - **Feedback Visual:** Quando jogador tenta atacar criatura voadora com arma corpo a corpo, mostra mensagem "Fora de Alcance" (vermelho)
+>
+> **Ataques à Distância vs. Criaturas Voadoras:**
+>
+> - **Regra:** Ataques à distância funcionam normalmente contra criaturas voadoras
+> - **Vantagem:** Criaturas voadoras geralmente não têm cobertura (estão no ar)
+> - **Desvantagem:** Criaturas voadoras podem se mover rapidamente (dificulta acertar)
+>
+> **📖 Pseudocódigo:** Ver [Alcance vs. Criaturas Voadoras](../../pseudocodigo/alcance-voador.md)
+>
+> **📖 Ver detalhes completos:** [Física e Interação - Movimento Aéreo](fisica-interacao.md#movimento-aéreo-voo)
 
 </details>
 
@@ -438,31 +477,33 @@
 > - Inimigo pode fazer 1 ataque de oportunidade (reação)
 > - **Disengage** remove oportunidade de ataque de oportunidade
 >
-> **❓ Decisão Criativa: Como implementar em tempo real?**
+> **✅ Decisão: Implementação de Ataques de Oportunidade**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Sistema de "threat zone" ao redor de inimigos
-> > - Quando jogador sai da threat zone: inimigo ataca automaticamente
-> > - Cooldown de 6 segundos entre ataques de oportunidade (1 por round)
-> > - **Alternativa:** Ataque de oportunidade manual (jogador precisa ativar)
+> > - **Sistema:** "Threat zone" (raio de 1.5m) ao redor de inimigos em combate corpo a corpo
+> > - **Ativação:** Quando jogador sai da threat zone, inimigo ataca automaticamente
+> > - **Cooldown:** 6 segundos entre ataques de oportunidade (1 por round)
+> > - **Disengage:** Remove threat zone temporariamente (6 segundos)
+> > - **Feedback Visual:** Círculo vermelho ao redor de inimigos mostra threat zone (opcional, pode ser desabilitado)
 >
-> **❓ Decisão Criativa: Como mostrar threat zone visualmente?**
+> **✅ Decisão: Feedback Visual de Threat Zone**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Círculo vermelho ao redor de inimigos (mostra alcance de ameaça)
-> > - Indicador de "você está sendo ameaçado" na UI
-> > - **Alternativa:** Sem indicador visual (jogador aprende por experiência)
+> > - **Indicador Visual:** Círculo vermelho translúcido ao redor de inimigos (pode ser desabilitado nas opções)
+> > - **UI:** Indicador "AMEAÇADO" na UI quando jogador está em threat zone
+> > - **Feedback:** Pisca quando jogador está prestes a sair da threat zone
+> > - **Opção:** Pode ser desabilitado para jogadores experientes
 >
-> **❓ Decisão Criativa: Ataques de oportunidade são automáticos ou manuais?**
+> **✅ Decisão: Automático vs Manual para Ataques de Oportunidade**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - **Automático:** Inimigo ataca automaticamente quando jogador sai do alcance
-> > - **Manual:** Jogador pode escolher quando fazer ataque de oportunidade (mais controle)
-> > - **Híbrido:** Automático para inimigos, manual para jogador
-> > - **Recomendação:** Automático para inimigos (simula IA), manual para jogador (mais controle)
+> > - **Inimigos:** Automático (simula IA, ataca quando jogador sai do alcance)
+> > - **Jogador:** Manual (jogador pode escolher quando fazer ataque de oportunidade)
+> > - **UI:** Botão "Ataque de Oportunidade" aparece quando inimigo sai do alcance
+> > - **Justificativa:** Inimigos agem automaticamente (IA), jogador tem controle tático
 
 </details>
 
@@ -497,25 +538,25 @@
 > - **Dano que reduz HP abaixo de 0:** Conta como 1 falha automática
 > - **Dano massivo (reduz HP para -MaxHP):** Morte instantânea
 >
-> **❓ Decisão Criativa: Como mostrar Death Saving Throws em tempo real?**
+> **✅ Decisão: Feedback Visual de Death Saving Throws**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - UI mostra 3 slots de "Death Saves" (sucessos/falhas)
-> > - Rolagem automática a cada 6 segundos
-> > - Feedback visual para cada sucesso/falha
-> > - Texto "ESTÁVEL" quando alcança 3 sucessos
-> > - **Alternativa:** Sistema automático sem mostrar ao jogador (mais simples)
+> > - **UI:** 3 slots de "Death Saves" visíveis na UI (sucessos = verde, falhas = vermelho)
+> > - **Rolagem:** Automática a cada 6 segundos (1 round)
+> > - **Feedback Visual:** Animação de dado rolando, resultado aparece nos slots
+> > - **Texto:** "ESTÁVEL" quando alcança 3 sucessos, "MORTO" quando alcança 3 falhas
+> > - **Som:** Som de tensão durante death saves
 >
-> **❓ Decisão Criativa: O que acontece quando personagem morre?**
+> **✅ Decisão: Sistema de Morte e Ressurreição**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - **Opção 1:** Respawn em checkpoint (perde progresso do combate)
-> > - **Opção 2:** Morte permanente (hardcore mode)
-> > - **Opção 3:** Sistema de ressurreição (magias, itens, NPCs)
-> > - **Opção 4:** Game Over e recomeçar da última save
-> > - **Recomendação:** Sistema de ressurreição (mais fiel a D&D) + opção de respawn para gameplay mais casual
+> > - **Modo Normal:** Sistema de ressurreição (magias Revivify, Raise Dead, etc.)
+> > - **Modo Casual:** Opção de respawn em checkpoint (perde progresso do combate atual)
+> > - **Ressurreição:** Clérigo pode usar Revivify (nível 3) dentro de 1 minuto
+> > - **Game Over:** Se todos os personagens morrerem, Game Over e recomeçar da última save
+> > - **Checkpoint:** Save automático antes de combates importantes
 >
 > **Ressurreição:**
 >
@@ -524,13 +565,15 @@
 > - **Resurrection (nível 7):** Ressuscita dentro de 100 anos (usa componente de 1000gp)
 > - **True Resurrection (nível 9):** Ressuscita sem limite de tempo (usa componente de 25000gp)
 >
-> **❓ Decisão Criativa: Ressurreição será implementada?**
+> **✅ Decisão: Sistema de Ressurreição**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Se multiplayer: implementar ressurreição (importante para cooperação)
-> > - Se single-player: pode ser simplificado (respawn em checkpoint)
-> > - **Recomendação:** Implementar pelo menos Revivify (nível 3) para gameplay fiel a D&D
+> > - **Revivify (nível 3):** Implementado (ressuscita dentro de 1 minuto, componente 300 GP)
+> > - **Raise Dead (nível 5):** Implementado (ressuscita dentro de 10 dias, componente 500 GP)
+> > - **Single-Player:** NPCs podem usar ressurreição se tiverem a magia
+> > - **Multiplayer:** Jogadores podem usar ressurreição em aliados
+> > - **Componentes:** Componentes mágicos podem ser comprados em Phandalin
 
 </details>
 
@@ -568,14 +611,15 @@
 > - **Sucesso:** Efeito reduzido ou nenhum efeito
 > - **Falha:** Efeito completo
 >
-> **❓ Decisão Criativa: Como mostrar Saving Throws em tempo real?**
+> **✅ Decisão: Feedback Visual de Saving Throws**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Rolagem automática quando efeito é aplicado
-> > - Feedback visual (sucesso/falha)
-> > - Texto "RESISTIU!" ou "FALHOU!" na UI
-> > - **Alternativa:** Sistema automático sem mostrar ao jogador (mais simples)
+> > - **Rolagem:** Automática quando efeito é aplicado
+> > - **Feedback Visual:** Animação de dado rolando, resultado aparece
+> > - **Texto Flutuante:** "RESISTIU!" (verde) ou "FALHOU!" (vermelho) na UI
+> > - **UI:** Mostra DC do saving throw e resultado da rolagem
+> > - **Som:** Som de sucesso (verde) ou falha (vermelho)
 
 </details>
 
@@ -605,40 +649,36 @@
 > - **Stunned (Atordoado):** Incapacitado, não pode se mover, ataques recebidos têm vantagem
 > - **Unconscious (Inconsciente):** Incapacitado, deitado, não pode se mover ou falar, ataques recebidos têm vantagem, críticos automáticos
 >
-> **❓ Decisão Criativa: Quais condições serão implementadas no MVP?**
+> **✅ Decisão: Condições para MVP**
 >
-> > **Sugestão (Prioridade Alta):**
+> > **Implementação Decidida - Prioridade Alta (MVP):**
 > >
-> > - **Poisoned:** Essencial para venenos e magias
-> > - **Stunned:** Essencial para combate
-> > - **Paralyzed:** Essencial para magias
-> > - **Prone:** Essencial para combate corpo a corpo
-> > - **Frightened:** Essencial para magias e habilidades
+> > - **Poisoned:** Implementado (desvantagem em ataques e testes)
+> > - **Stunned:** Implementado (incapacitado, ataques recebidos têm vantagem)
+> > - **Paralyzed:** Implementado (incapacitado, críticos automáticos)
+> > - **Prone:** Implementado (deitado, ataques corpo a corpo têm vantagem, ranged têm desvantagem)
+> > - **Frightened:** Implementado (desvantagem enquanto vê fonte do medo)
 > >
-> > **Sugestão (Prioridade Média):**
+> > **Prioridade Média (Pós-MVP):**
 > >
-> > - **Blinded:** Útil para magias
-> > - **Grappled:** Útil para combate
-> > - **Restrained:** Útil para magias
+> > - **Blinded, Grappled, Restrained:** Adicionar após MVP
 > >
-> > **Sugestão (Prioridade Baixa):**
+> > **Prioridade Baixa (Futuro):**
 > >
-> > - **Charmed:** Complexo (requer sistema de diálogo)
-> > - **Invisible:** Complexo (requer sistema de stealth)
-> > - **Petrified:** Raro (pode ser adicionado depois)
+> > - **Charmed, Invisible, Petrified:** Adicionar quando sistemas relacionados estiverem prontos
 >
-> **❓ Decisão Criativa: Como mostrar condições visualmente?**
+> **✅ Decisão: Feedback Visual de Condições**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Ícone de condição na UI (ao lado do HP)
-> > - Efeito visual no personagem (partículas, cor, animação)
-> > - Tooltip explicando efeito da condição
-> > - **Exemplos:**
+> > - **UI:** Ícone de condição na UI (ao lado do HP), tooltip ao passar mouse
+> > - **Efeito Visual no Personagem:**
 > >   - **Poisoned:** Cor verde, partículas de veneno
 > >   - **Stunned:** Estrelas girando, animação de atordoamento
 > >   - **Paralyzed:** Cor azul, animação congelada
 > >   - **Frightened:** Cor roxa, animação de medo
+> >   - **Prone:** Personagem deitado no chão
+> > - **Timer:** Mostra duração restante da condição (se aplicável)
 >
 > **Duração de Condições:**
 >
@@ -647,13 +687,15 @@
 > - **Duração fixa:** Remove após X rounds/segundos
 > - **Até remoção:** Remove com magia ou habilidade específica
 >
-> **❓ Decisão Criativa: Como gerenciar duração de condições em tempo real?**
+> **✅ Decisão: Gerenciamento de Duração de Condições**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Timer visual na UI (mostra tempo restante)
-> > - Sistema de "ticks" a cada 6 segundos (1 round)
-> > - **Alternativa:** Duração baseada em tempo real (ex: 10 segundos = 10 segundos)
+> > - **Sistema:** Timer baseado em rounds (1 round = 6 segundos)
+> > - **UI:** Timer visual na UI mostra rounds restantes (ex: "3 rounds")
+> > - **Ticks:** Condição reduz 1 round a cada 6 segundos
+> > - **Concentração:** Condições de concentração terminam quando concentração é quebrada
+> > - **Instantânea:** Condições instantâneas terminam no final do round
 
 </details>
 
@@ -687,26 +729,29 @@
 > - **Vulnerabilidade:** Dano dobrado
 > - **Imunidade:** Não recebe dano do tipo
 >
-> **❓ Decisão Criativa: Todos os tipos de dano serão implementados?**
+> **✅ Decisão: Tipos de Dano para Implementação**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - **MVP:** Implementar tipos principais (Fire, Cold, Lightning, Poison, Physical)
-> > - **Futuro:** Adicionar tipos restantes conforme necessário
-> > - **Recomendação:** Implementar todos os tipos (fidelidade a D&D)
+> > - **MVP:** Implementar todos os tipos de dano D&D 5e (fidelidade completa)
+> > - **Tipos:** Fire, Cold, Lightning, Poison, Acid, Necrotic, Radiant, Psychic, Thunder, Force, Physical (Bludgeoning, Piercing, Slashing)
+> > - **Justificativa:** Fidelidade a D&D 5e requer todos os tipos
+> > - **Resistências/Vulnerabilidades:** Implementadas para todos os tipos
 >
-> **❓ Decisão Criativa: Como mostrar tipos de dano visualmente?**
+> **✅ Decisão: Feedback Visual de Tipos de Dano**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Cor do número de dano baseada no tipo
+> > - **Cor do Número de Dano:**
 > >   - **Fire:** Vermelho
 > >   - **Cold:** Azul
 > >   - **Lightning:** Amarelo/Branco
 > >   - **Poison:** Verde
+> >   - **Necrotic:** Roxo escuro
+> >   - **Radiant:** Dourado
 > >   - **Physical:** Branco/Cinza
-> > - Efeitos visuais (partículas) baseados no tipo
-> > - Som baseado no tipo de dano
+> > - **Efeitos Visuais:** Partículas baseadas no tipo (fogo, gelo, raio, etc.)
+> > - **Som:** Som específico para cada tipo de dano
 
 </details>
 
@@ -728,22 +773,22 @@
 > - Ordem de turnos baseada em iniciativa (maior vai primeiro)
 > - Em caso de empate, DEX maior vai primeiro
 >
-> **❓ Decisão Criativa: Iniciativa será usado em tempo real?**
+> **✅ Decisão: Sistema de Iniciativa em Tempo Real**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - **Opção 1:** Remover iniciativa (não necessário em tempo real)
-> > - **Opção 2:** Iniciativa afeta velocidade de ações (maior iniciativa = ações mais rápidas)
-> > - **Opção 3:** Iniciativa afeta ordem de spawn/aparência em combate
-> > - **Recomendação:** Remover iniciativa (não necessário em tempo real, simplifica sistema)
+> > - **Sistema:** Iniciativa removida (não necessário em tempo real)
+> > - **Substituição:** Todos agem simultaneamente
+> > - **Velocidade de Ações:** Baseada em DEX (maior DEX = cooldowns ligeiramente mais rápidos, opcional)
+> > - **Justificativa:** Simplifica sistema, mantém gameplay fluido em tempo real
 >
-> **❓ Decisão Criativa: Como determinar quem age primeiro em tempo real?**
+> **✅ Decisão: Ordem de Ações em Tempo Real**
 >
-> > **Sugestão:**
+> > **Implementação Decidida:**
 > >
-> > - Todos agem simultaneamente (padrão de tempo real)
-> > - Velocidade de ações baseada em atributos (DEX afeta velocidade de ataque)
-> > - **Alternativa:** Sistema de "action speed" baseado em DEX (maior DEX = ações mais rápidas)
+> > - **Sistema:** Todos agem simultaneamente (padrão de tempo real)
+> > - **Velocidade Opcional:** DEX pode reduzir cooldowns em 5-10% (opcional, para balanceamento)
+> > - **Justificativa:** Mantém gameplay fluido, sem necessidade de ordem de turnos
 
 </details>
 
@@ -754,37 +799,158 @@
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>👁️ Feedback do Combate</b></summary>
 
-> **❓ Decisão Criativa: Quais feedbacks visuais serão implementados?**
+> **✅ Decisão: Feedback Visual Completo**
 >
-> > **Sugestão (Essenciais):**
+> > **Implementação Decidida - Essenciais:**
 > >
-> > - **Dano Flutuante:** Números de dano flutuando sobre alvos
-> > - **Indicador de HP:** Barra de HP sobre inimigos
-> > - **Feedback de Acerto:** Efeito visual quando ataque acerta
-> > - **Feedback de Erro:** Efeito visual quando ataque erra
-> > - **Feedback de Crítico:** Efeito especial para críticos
+> > - **Dano Flutuante:** Números de dano flutuando sobre alvos (cor baseada no tipo)
+> > - **Indicador de HP:** Barra de HP sobre inimigos (vermelha quando baixo)
+> > - **Feedback de Acerto:** Efeito visual de impacto quando ataque acerta
+> > - **Feedback de Erro:** Efeito visual de erro quando ataque erra
+> > - **Feedback de Crítico:** Efeito especial (flash, partículas, som)
 > >
-> > **Sugestão (Importantes):**
+> > **Importantes:**
 > >
-> > - **Indicador de Status:** Ícones de condições na UI
-> > - **Feedback de Bloqueio:** Efeito quando ataque é bloqueado por AC
-> > - **Feedback de Esquiva:** Efeito quando ataque é esquivado
-> > - **Feedback de Resistência:** Efeito quando dano é reduzido
+> > - **Indicador de Status:** Ícones de condições na UI (ao lado do HP)
+> > - **Feedback de Bloqueio:** Partículas de defesa quando bloqueado por AC
+> > - **Feedback de Esquiva:** Animação de esquiva quando ataque é esquivado
+> > - **Feedback de Resistência:** Cor laranja no número de dano quando resistente
 >
-> **❓ Decisão Criativa: Quais feedbacks sonoros serão implementados?**
+> **✅ Decisão: Feedback Sonoro Completo**
 >
-> > **Sugestão (Essenciais):**
+> > **Implementação Decidida - Essenciais:**
 > >
-> > - **SFX de Ataque:** Som de impacto quando ataque acerta
-> > - **SFX de Erro:** Som quando ataque erra
-> > - **SFX de Crítico:** Som especial para críticos
+> > - **SFX de Ataque:** Som de impacto quando ataque acerta (varia por tipo de arma)
+> > - **SFX de Erro:** Som de erro quando ataque erra
+> > - **SFX de Crítico:** Som especial e impactante para críticos
 > > - **SFX de Morte:** Som quando criatura morre
 > >
-> > **Sugestão (Importantes):**
+> > **Importantes:**
 > >
-> > - **SFX de Bloqueio:** Som quando ataque é bloqueado
-> > - **SFX de Esquiva:** Som quando ataque é esquivado
-> > - **SFX de Condições:** Sons para condições (veneno, stun, etc.)
+> > - **SFX de Bloqueio:** Som de metal batendo quando bloqueado por AC
+> > - **SFX de Esquiva:** Som de movimento rápido quando esquivado
+> > - **SFX de Condições:** Sons específicos para cada condição (veneno, stun, etc.)
+> > - **SFX de Tipos de Dano:** Sons específicos para cada tipo (fogo, gelo, raio, etc.)
+
+</details>
+
+---
+
+## 💡 Exemplos Práticos de Uso
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎯 Cenários da Campanha Phandelver</b></summary>
+
+> **Exemplo 1: Combate Inicial contra Goblins (Emboscada na Estrada)**
+>
+> **Situação:** Grupo é emboscado por 4 goblins enquanto escolta carroça para Phandalin.
+>
+> **Execução:**
+>
+> 1. **Iniciativa (adaptado):** Todos agem simultaneamente em tempo real
+> 2. **Fighter (nível 1):** Move-se em direção ao goblin mais próximo (6m de movimento)
+> 3. **Ataque:** Fighter ataca com espada longa (1d8+3 de dano, STR +3)
+> 4. **Roll to Hit:** d20 + 2 (proficiency) + 3 (STR) = d20+5 vs AC 15 do goblin
+> 5. **Resultado:** Rola 18, total 23 → **Acertou!**
+> 6. **Dano:** 1d8+3 = 7 de dano → Goblin tem 7 HP, **morre**
+>
+> **Resultado:** Fighter elimina um goblin no primeiro ataque.
+>
+> **Exemplo 2: Combate contra Klarg (Boss Cragmaw Hideout)**
+>
+> **Situação:** Klarg (Bugbear, CR 1) está atacando grupo. Fighter nível 1 tenta atacar.
+>
+> **Execução:**
+>
+> 1. **Fighter:** Move-se para alcance corpo a corpo (1.5m)
+> 2. **Ataque:** Espada longa (1d8+3)
+> 3. **Roll to Hit:** d20+5 vs AC 16 de Klarg
+> 4. **Resultado:** Rola 10, total 15 → **Errou!** (precisa de 16+)
+> 5. **Klarg contra-ataca:** Clava (2d8+2 de dano)
+> 6. **Roll to Hit:** d20+4 vs AC 16 do Fighter (Chain Mail)
+> 7. **Resultado:** Rola 18, total 22 → **Acertou!**
+> 8. **Dano:** 2d8+2 = 12 de dano → Fighter tem 12/12 HP, **cai para 0 HP**
+> 9. **Death Saving Throws:** Fighter faz saving throw a cada 6 segundos
+>
+> **Resultado:** Fighter precisa de ajuda (cura ou estabilização) ou pode morrer.
+>
+> **Exemplo 3: Uso de Dodge em Combate**
+>
+> **Situação:** Clérigo está sendo atacado por 2 goblins. Usa Dodge para se defender.
+>
+> **Execução:**
+>
+> 1. **Clérigo:** Ativa ação **Dodge** (cooldown 6 segundos)
+> 2. **Efeito Visual:** Animação de esquiva rápida (dash rápido)
+> 3. **Efeito Mecânico:** Reduz chance de acerto de inimigos em 25% (desvantagem adaptada)
+> 4. **Goblin 1 ataca:** Roll to Hit reduzido (d20+4 → equivalente a -5 = d20-1)
+> 5. **Goblin 2 ataca:** Roll to Hit reduzido (mesma penalidade)
+> 6. **Resultado:** Ambos os goblins têm maior chance de errar
+>
+> **Resultado:** Clérigo sobrevive ao ataque múltiplo, mas não pode atacar neste round.
+>
+> **Exemplo 4: Crítico em Combate**
+>
+> **Situação:** Rogue ataca goblin com adaga. Rola Natural 20 (crítico).
+>
+> **Execução:**
+>
+> 1. **Rogue:** Ataque com adaga (1d4+3, DEX +3)
+> 2. **Roll to Hit:** Rola **Natural 20** → **Crítico automático!**
+> 3. **Efeito Visual:** Flash de luz, partículas especiais, som de crítico
+> 4. **Dano Crítico:** (1d4 × 2) + 3 = 2d4+3
+> 5. **Rolagem:** 2d4 = 6, total **9 de dano**
+> 6. **Goblin:** Tem 7 HP, recebe 9 de dano → **Morre instantaneamente**
+>
+> **Resultado:** Rogue elimina goblin com um ataque crítico espetacular.
+>
+> **Exemplo 5: Ataque de Oportunidade**
+>
+> **Situação:** Fighter está em combate corpo a corpo com goblin. Tenta recuar sem usar Disengage.
+>
+> **Execução:**
+>
+> 1. **Fighter:** Move-se para sair do alcance de ataque corpo a corpo (1.5m)
+> 2. **Sistema detecta:** Fighter saiu da "threat zone" do goblin
+> 3. **Goblin:** Ativa **Opportunity Attack** automaticamente (reação)
+> 4. **Ataque:** Goblin ataca com adaga (1d4+2)
+> 5. **Roll to Hit:** d20+4 vs AC 16 do Fighter
+> 6. **Resultado:** Rola 15, total 19 → **Acertou!**
+> 7. **Dano:** 1d4+2 = 5 de dano
+> 8. **Fighter:** Recebe 5 de dano enquanto recua
+>
+> **Resultado:** Fighter sofre dano ao recuar sem usar Disengage. Deveria ter usado Disengage primeiro.
+>
+> **Exemplo 6: Resistência a Dano (Goblin vs Fire)**
+>
+> **Situação:** Wizard lança **Fire Bolt** (cantrip) em goblin. Goblin tem resistência a fogo (hipotético).
+>
+> **Execução:**
+>
+> 1. **Wizard:** Conjura **Fire Bolt** (1d10 de dano de fogo)
+> 2. **Roll to Hit:** d20+5 vs AC 15 do goblin → **Acertou!**
+> 3. **Dano:** 1d10 = 8 de dano de fogo
+> 4. **Resistência:** Goblin tem resistência a fogo → Dano reduzido pela metade
+> 5. **Dano Final:** 8 / 2 = **4 de dano** (arredondado para baixo)
+> 6. **Feedback Visual:** Número de dano aparece em laranja (fogo), texto "RESISTENTE!" aparece
+>
+> **Resultado:** Goblin recebe menos dano devido à resistência, mas ainda sofre dano.
+>
+> **Exemplo 7: Cobertura em Combate**
+>
+> **Situação:** Rogue está atirando com arco curto em goblin. Goblin está atrás de uma rocha.
+>
+> **Execução:**
+>
+> 1. **Rogue:** Ataca com arco curto (1d6+3, DEX +3)
+> 2. **Sistema detecta:** Raycast do Rogue para goblin colide com rocha
+> 3. **Cálculo de Cobertura:** 50% do corpo do goblin está coberto → **Half Cover**
+> 4. **Bônus de AC:** Goblin ganha +2 AC (de 15 para 17)
+> 5. **Roll to Hit:** d20+5 vs AC 17 (com cobertura) → **Precisa de 12+**
+> 6. **Resultado:** Rola 10, total 15 → **Errou!** (precisava de 17+)
+> 7. **Feedback Visual:** Indicador mostra "COBERTURA" na UI, efeito de bloqueio visual
+>
+> **Resultado:** Goblin está protegido pela cobertura, dificultando acertá-lo.
 
 </details>
 
@@ -793,72 +959,72 @@
 ## 📊 Resumo das Decisões Criativas Pendentes
 
 <details>
-<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>❓ Checklist de Decisões</b></summary>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Checklist de Decisões (Todas Resolvidas)</b></summary>
 
 > **Adaptação de Turnos:**
 >
-> - [ ] ~~Como implementar "Ready Action" em tempo real?~~ ⚠️ **Consideração Futura** - Ver [Ideias Futuras](ideias-futuras/ready-action-emboscada.md)
-> - [ ] Como balancear velocidade de combate (cooldowns)?
+> - [x] ~~Como implementar "Ready Action" em tempo real?~~ ⚠️ **Consideração Futura** - Ver [Ideias Futuras](ideias-futuras/ready-action-emboscada.md)
+> - [x] Como balancear velocidade de combate (cooldowns)? ✅ **Decidido:** Ataques básicos 6s, magias baseado no nível, cantrips sem cooldown
 >
 > **Ações:**
 >
 > - [x] Como mostrar Dodge visualmente? ✅ **Decidido:** Esquiva rápida (dash) para Dodge, posição de defesa para defesa
-> - [ ] Como mostrar Disengage visualmente?
-> - [ ] Help será usado em combate multiplayer ou apenas com NPCs?
+> - [x] Como mostrar Disengage visualmente? ✅ **Decidido:** Recuo rápido, brilho azul, indicador na UI
+> - [x] Help será usado em combate multiplayer ou apenas com NPCs? ✅ **Decidido:** Funciona em ambos, +4 no próximo ataque do aliado
 >
 > **AC e Dano:**
 >
-> - [ ] Como mostrar AC na UI?
-> - [ ] AC afeta visualmente o personagem?
-> - [ ] Como mostrar críticos visualmente?
-> - [ ] Como mostrar resistências/vulnerabilidades na UI?
+> - [x] Como mostrar AC na UI? ✅ **Decidido:** AC numérico na ficha, partículas quando bloqueado
+> - [x] AC afeta visualmente o personagem? ✅ **Decidido:** Sim, som de metal, animação de bloqueio com escudo
+> - [x] Como mostrar críticos visualmente? ✅ **Decidido:** Flash, partículas, som especial, texto "CRÍTICO!", camera shake
+> - [x] Como mostrar resistências/vulnerabilidades na UI? ✅ **Decidido:** Ícone na ficha, cor do dano, texto flutuante
 >
 > **Ataques:**
 >
-> - [ ] Falha crítica tem efeito especial?
-> - [ ] Como implementar vantagem/desvantagem em tempo real?
+> - [x] Falha crítica tem efeito especial? ✅ **Decidido:** Animação de tropeço, partículas cinza, som de erro, texto "ERRO!"
+> - [x] Como implementar vantagem/desvantagem em tempo real? ✅ **Decidido:** +5/-5 no ataque (equivalente estatístico), ícone na UI
 >
 > **Cobertura:**
 >
-> - [ ] Como detectar cobertura automaticamente?
-> - [ ] Cobertura afeta visualmente?
+> - [x] Como detectar cobertura automaticamente? ✅ **Decidido:** Raycast automático, calcula porcentagem de cobertura
+> - [x] Cobertura afeta visualmente? ✅ **Decidido:** Ícone "COBERTURA" na UI, aura azul, texto quando bloqueado
 >
 > **Ataques de Oportunidade:**
 >
-> - [ ] Como implementar em tempo real?
-> - [ ] Como mostrar threat zone visualmente?
-> - [ ] Ataques de oportunidade são automáticos ou manuais?
+> - [x] Como implementar em tempo real? ✅ **Decidido:** Threat zone de 1.5m, ataque automático quando jogador sai
+> - [x] Como mostrar threat zone visualmente? ✅ **Decidido:** Círculo vermelho translúcido (pode desabilitar), indicador "AMEAÇADO" na UI
+> - [x] Ataques de oportunidade são automáticos ou manuais? ✅ **Decidido:** Automático para inimigos, manual para jogador
 >
 > **Morte:**
 >
-> - [ ] Como mostrar Death Saving Throws em tempo real?
-> - [ ] O que acontece quando personagem morre?
-> - [ ] Ressurreição será implementada?
+> - [x] Como mostrar Death Saving Throws em tempo real? ✅ **Decidido:** 3 slots na UI, rolagem automática a cada 6s, feedback visual
+> - [x] O que acontece quando personagem morre? ✅ **Decidido:** Sistema de ressurreição (Revivify, Raise Dead) + opção de respawn em checkpoint
+> - [x] Ressurreição será implementada? ✅ **Decidido:** Sim, Revivify (nível 3) e Raise Dead (nível 5) implementados
 >
 > **Saving Throws:**
 >
-> - [ ] Como mostrar Saving Throws em tempo real?
+> - [x] Como mostrar Saving Throws em tempo real? ✅ **Decidido:** Rolagem automática, animação de dado, texto "RESISTIU!" ou "FALHOU!"
 >
 > **Condições:**
 >
-> - [ ] Quais condições serão implementadas no MVP?
-> - [ ] Como mostrar condições visualmente?
-> - [ ] Como gerenciar duração de condições em tempo real?
+> - [x] Quais condições serão implementadas no MVP? ✅ **Decidido:** Poisoned, Stunned, Paralyzed, Prone, Frightened (MVP)
+> - [x] Como mostrar condições visualmente? ✅ **Decidido:** Ícone na UI, efeito visual no personagem, tooltip, timer
+> - [x] Como gerenciar duração de condições em tempo real? ✅ **Decidido:** Timer baseado em rounds (6s por round), reduz 1 round a cada tick
 >
 > **Tipos de Dano:**
 >
-> - [ ] Todos os tipos de dano serão implementados?
-> - [ ] Como mostrar tipos de dano visualmente?
+> - [x] Todos os tipos de dano serão implementados? ✅ **Decidido:** Sim, todos os tipos D&D 5e (fidelidade completa)
+> - [x] Como mostrar tipos de dano visualmente? ✅ **Decidido:** Cor do número, partículas específicas, som específico
 >
 > **Iniciativa:**
 >
-> - [ ] Iniciativa será usada em tempo real?
-> - [ ] Como determinar quem age primeiro em tempo real?
+> - [x] Iniciativa será usada em tempo real? ✅ **Decidido:** Não, removida (não necessário em tempo real)
+> - [x] Como determinar quem age primeiro em tempo real? ✅ **Decidido:** Todos agem simultaneamente, DEX pode reduzir cooldowns opcionalmente
 >
 > **Feedback:**
 >
-> - [ ] Quais feedbacks visuais serão implementados?
-> - [ ] Quais feedbacks sonoros serão implementados?
+> - [x] Quais feedbacks visuais serão implementados? ✅ **Decidido:** Dano flutuante, HP bar, acerto/erro/crítico, status, bloqueio/esquiva/resistência
+> - [x] Quais feedbacks sonoros serão implementados? ✅ **Decidido:** Ataque, erro, crítico, morte, bloqueio, esquiva, condições, tipos de dano
 
 </details>
 
@@ -872,11 +1038,22 @@
 > - [← Voltar ao Índice](index.md)
 > - [← Anterior: Sistemas de Personagem](sistemas-personagem.md)
 > - [→ Próxima: Sistema de Equipamentos](equipamentos.md)
+> - [📖 Sistema de Inventário](inventario.md)
+> - [📖 Sistema de Rest](rest.md)
+> - [📖 Sistema de Spellcasting](spellcasting.md) - Magias em combate
 > - [📖 Regras D&D 5e (TDD)](../../03%20-%20TDD/dnd-rules/index.md)
 > - [📊 Dashboard GDD](../dashboard-template.md)
 
 </details>
 
 ---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Sistema de combate baseado em D&D 5e |
+| v1.1 | 2024-12-27 | Adicionado pseudocódigo para cálculo de AC, verificação de acerto e aplicação de dano |
+| v2.0 | 2024-12-27 | Expansão completa - Resolvidas todas as decisões criativas pendentes, adicionados exemplos práticos |
 
 **Última atualização:** 2024-12-27

@@ -238,4 +238,10 @@
 
 ---
 
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Catálogo completo de inimigos da campanha Minas de Phandelver |
+
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima: FSM](fsm.md)

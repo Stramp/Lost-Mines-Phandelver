@@ -211,4 +211,10 @@ graph TB
 
 ---
 
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Diagrama completo de navegação entre telas |
+
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima: Feedback Visual](feedback-visual.md)

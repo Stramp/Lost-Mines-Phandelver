@@ -128,4 +128,89 @@ flowchart TD
 
 ---
 
+## 💡 Exemplo Prático: Sessão Completa
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎯 Jornada Completa - Cragmaw Hideout</b></summary>
+
+> **Cenário:** Grupo de nível 1 explora Cragmaw Hideout para resgatar Sildar Hallwinter.
+>
+> **1. Exploração (10 minutos):**
+>
+> - Grupo chega à entrada da caverna
+> - Rogue faz teste de **Furtividade** (DEX +3, proficiency +2) = d20+5
+> - Rola 15, total 20 → **Sucesso!** Detecta goblins dentro sem ser detectado
+> - Grupo planeja estratégia de entrada
+>
+> **2. Combate Inicial (5 minutos):**
+>
+> - Grupo entra na caverna, encontra 2 goblins
+> - **Fighter** ataca goblin 1: Espada longa (1d8+3), acerta, 7 de dano → **Goblin morre**
+> - **Wizard** usa **Magic Missile**: 3 dardos, 1d4+1 cada = 9 de dano total → **Goblin 2 morre**
+> - **Recompensa:** 50 XP cada (100 XP total), loot: 2d6 CP (moedas de cobre)
+>
+> **3. Exploração da Caverna (15 minutos):**
+>
+> - Grupo explora salas, encontra baú com 50 GP
+> - Rogue detecta armadilha (teste de **Percepção** passou)
+> - Grupo desarma armadilha, abre baú com sucesso
+> - Encontra passagem secreta
+>
+> **4. Combate contra Klarg (Boss) (10 minutos):**
+>
+> - Grupo encontra Klarg (Bugbear, CR 1) e seu lobo
+> - **Combate difícil:** Klarg tem 27 HP, AC 16, ataca com 2d8+2
+> - **Fighter** recebe 12 de dano, cai para 0 HP → **Inconsciente**
+> - **Clérigo** usa **Healing Word** (ação bônus): Cura Fighter com 1d4+3 = 6 HP
+> - **Wizard** usa **Sleep**: Adormece lobo (HP total ≤ 5d8)
+> - Grupo foca em Klarg, derrota após 3 rounds
+> - **Recompensa:** 200 XP (Klarg), 50 GP + item incomum (arma mágica)
+>
+> **5. Resgate de Sildar (2 minutos):**
+>
+> - Grupo encontra Sildar preso
+> - **Interação Social:** Diálogo com Sildar
+> - Sildar oferece recompensa: 50 GP + informação sobre Phandalin
+> - **Quest completa:** "Resgatar Sildar" → 100 XP adicional
+>
+> **6. Level Up (se aplicável):**
+>
+> - **XP Total:** 100 (goblins) + 200 (Klarg) + 100 (quest) = **400 XP**
+> - Fighter tinha 0 XP, agora tem 400 XP
+> - **Nível 2 requer:** 300 XP → **Level Up!**
+> - Fighter ganha: +1d10+2 HP, nova feature de classe
+>
+> **7. Descanso (Short Rest):**
+>
+> - Grupo decide fazer **Short Rest** (1 hora) antes de sair
+> - Fighter gasta 1 Hit Die: d10+2 = 8 HP recuperados
+> - Warlock (se houver) recupera spell slots
+> - Grupo está pronto para continuar
+>
+> **8. Retorno a Phandalin:**
+>
+> - Grupo sai da caverna, retorna para Phandalin
+> - Entrega Sildar, recebe recompensa
+> - **Nova Quest desbloqueada:** "Investigar Redbrands"
+> - **Loop continua:** Próxima exploração/combate/quest
+>
+> **Tempo Total da Sessão:** ~45-60 minutos
+>
+> **Progressão:**
+>
+> - XP ganho: 400 XP
+> - Level up: Fighter nível 1 → 2
+> - Loot: 50 GP + item mágico
+> - Quests: 1 completa, 1 nova desbloqueada
+
+</details>
+
+---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Core Loop baseado em D&D 5e (Exploração, Combate, Interação Social) |
+
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima: Sistemas de Personagem](sistemas-personagem.md)

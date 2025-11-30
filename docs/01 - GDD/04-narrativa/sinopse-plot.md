@@ -238,4 +238,10 @@
 
 ---
 
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Sinopse completa da campanha Lost Mine of Phandelver |
+
 **Última atualização:** 2024-12-27

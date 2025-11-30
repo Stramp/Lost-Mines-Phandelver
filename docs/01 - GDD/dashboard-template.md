@@ -63,10 +63,10 @@
 
 > **Fase Atual:** Planejamento / Documentação
 >
-> **Progresso Geral:** ~5% (7 itens completos de ~150+ itens totais)
+> **Progresso Geral:** ~10% (12 itens completos de ~150+ itens totais)
 >
 > <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📝 Documentação (7/25)</summary>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📝 Documentação (12/25)</summary>
 >
 > > - ✅ Visão do Projeto (High Concept)
 > > - ✅ Estrutura do GDD (Modular)
@@ -75,6 +75,13 @@
 > > - ✅ Banco de Dados de Assets
 > > - ✅ Banco de Dados de Lore & Mundo
 > > - ✅ Core Loop Detalhado (diagrama visual)
+> > - ✅ Sistema de Spellcasting Completo (com exemplos práticos)
+> > - ✅ Sistema de Equipamentos Completo (tabelas, itens mágicos, exemplos)
+> > - ✅ Sistema de Inventário Completo (capacidade, moedas, consumíveis)
+> > - ✅ Sistema de Rest Completo (Short/Long Rest, regras completas)
+> > - ✅ Sistema de Diálogos Completo (ramificações, NPCs, exemplos)
+> > - ✅ Sistema de Quests Completo (tipos, rastreamento, exemplos)
+> > - ✅ Sistema de Save/Load Completo (automático, manual, dados salvos)
 > > - [ ] Wireframes de UI/UX completos
 > > - [ ] Todas as mecânicas do GDD detalhadas
 > > - [ ] Documentação técnica completa
@@ -97,28 +104,28 @@
 > </details>
 >
 > <details>
-> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🎮 Design de Jogo (0/30)</summary>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🎮 Design de Jogo (8/30)</summary>
 >
-> > - [ ] Core Loop finalizado e testado
-> > - [ ] Sistema de Personagem (D&D 5e) completo
-> > - [ ] Sistema de Combate em tempo real
-> > - [ ] Sistema de Equipamentos
-> > - [ ] Sistema de Inventário
-> > - [ ] Sistema de Skills e Proficiencies
-> > - [ ] Sistema de Spellcasting
+> > - [x] Core Loop finalizado e testado ✅ **Completo** - Diagrama visual + exemplos práticos
+> > - [x] Sistema de Personagem (D&D 5e) completo ✅ **Completo** - Estrutura completa + exemplos de skills
+> > - [x] Sistema de Combate em tempo real ✅ **Completo** - Todas as decisões resolvidas + exemplos práticos
+> > - [x] Sistema de Equipamentos ✅ **Completo** - Tabelas, propriedades, itens mágicos, exemplos
+> > - [x] Sistema de Inventário ✅ **Completo** - Capacidade, moedas, consumíveis, exemplos
+> > - [x] Sistema de Skills e Proficiencies ✅ **Completo** - Estrutura + 5 exemplos práticos
+> > - [x] Sistema de Spellcasting ✅ **Completo** - Sistema completo + exemplos práticos
+> > - [x] Sistema de Rest (Short/Long) ✅ **Completo** - Regras completas + exemplos práticos
+> > - [x] Sistema de Diálogos ✅ **Completo** - Ramificações, NPCs, exemplos
+> > - [x] Sistema de Quests ✅ **Completo** - Tipos, rastreamento, exemplos
+> > - [x] Sistema de Save/Load ✅ **Completo** - Automático, manual, dados salvos
 > > - [ ] Sistema de Level Up
 > > - [ ] Sistema de Multiclassing
 > > - [ ] Sistema de Feats
 > > - [ ] Sistema de Backgrounds
 > > - [ ] Sistema de Death Saving Throws
-> > - [ ] Sistema de Rest (Short/Long)
 > > - [ ] Sistema de Interação (objetos, NPCs)
-> > - [ ] Sistema de Diálogos
-> > - [ ] Sistema de Quests
 > > - [ ] Sistema de Economia (ouro, compra/venda)
 > > - [ ] Sistema de Loot
 > > - [ ] Sistema de Crafting (se aplicável)
-> > - [ ] Sistema de Save/Load
 > > - [ ] Sistema de Settings
 > > - [ ] Balanceamento de combate
 > > - [ ] Balanceamento de economia
@@ -141,8 +148,10 @@
 > > - [ ] Data Tables configuradas (Magias)
 > > - [ ] Data Tables configuradas (Inimigos/Bestiário)
 > > - [ ] Data Tables configuradas (Quests)
-> > - [ ] Sistema de Fichas (CharacterSheetComponent)
-> > - [ ] Sistema de Dados Runtime (CharacterDataComponent)
+> > - [ ] Sistema de Fichas
+> > - [ ] Sistema de Dados Runtime
+> >
+> > **📖 Especificações Técnicas:** Ver [Components Implementation (TDD)](../../02%20-%20TDD/08-pseudocodigo/componentes/components.md)
 > > - [ ] Sistema Point Buy
 > > - [ ] Sistema Race Bonus
 > > - [ ] Sistema Multiclassing
@@ -413,7 +422,7 @@
 >
 > **Total Estimado:** ~150+ itens
 >
-> **Progresso Atual:** 6/150+ (~4%)
+> **Progresso Atual:** 12/150+ (~8%)
 
 </details>
 
@@ -433,8 +442,8 @@
 >
 > **Progresso por Área:**
 >
-> - 📝 Documentação: 40% (Visão + GDD base criado)
-> - 🎮 Design: 20% (Pilares definidos + GDD estruturado)
+> - 📝 Documentação: 60% (Visão + GDD base + Todas as mecânicas expandidas)
+> - 🎮 Design: 40% (Pilares definidos + GDD estruturado + Exemplos práticos + Decisões resolvidas)
 > - 💻 Desenvolvimento: 0% (Ainda não iniciado)
 > - 🎨 Arte: 0% (Ainda não iniciado)
 > - 🔊 Áudio: 0% (Ainda não iniciado)
@@ -595,6 +604,7 @@
 >
 > **Versionamento:**
 >
+> - **v3.0** (2024-12-27): Expansão completa - Todas as mecânicas secundárias detalhadas, decisões criativas resolvidas, exemplos práticos adicionados
 > - **v2.0** (2024-12-27): Reestruturação modular - GDD dividido em módulos organizados por seção + Dashboard mesclado
 > - **v1.0** (2024-12-27): Criação inicial do GDD baseado na estrutura do compendio
 >

@@ -320,26 +320,22 @@ stateDiagram-v2
 <details>
 <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">📐 Estrutura de Dados Sugerida</summary>
 
-> **Classe Base: AIStateMachine**
+> **Estados da Máquina:**
 >
-> ```cpp
-> enum class EAIState {
->     Idle,
->     Patrol,
->     Alert,
->     Investigation,
->     Combat,
->     Flee
-> };
+> - **Idle:** Estado de repouso, sem ação
+> - **Patrol:** Patrulhamento em rotas definidas
+> - **Alert:** Alerta após detectar ameaça
+> - **Investigation:** Investigação de ruídos/suspeitas
+> - **Combat:** Estado de combate ativo
+> - **Flee:** Fuga quando saúde baixa
 >
-> class AIStateMachine {
->     EAIState CurrentState;
->     float DetectionRadius;
->     float FleeHealthThreshold;
->     float InvestigationDuration;
->     // ... métodos de transição
-> };
-> ```
+> **Parâmetros Configuráveis:**
+>
+> - **DetectionRadius:** Raio de detecção de ameaças
+> - **FleeHealthThreshold:** Limite de saúde para fuga
+> - **InvestigationDuration:** Duração da investigação
+>
+> **📖 Para implementação técnica (C++), veja:** [FSM Implementation (TDD)](../../../02%20-%20TDD/08-pseudocodigo/ia/fsm-implementation.md)
 >
 > **Comportamentos Específicos:**
 >
@@ -350,5 +346,11 @@ stateDiagram-v2
 </details>
 
 ---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Diagramas FSM completos com gatilhos de transição |
 
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima Seção: Narrativa](../04-narrativa/index.md)

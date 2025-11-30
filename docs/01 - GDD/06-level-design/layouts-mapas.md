@@ -280,4 +280,10 @@ graph TB
 
 ---
 
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Esboços 2D top-down de todas as áreas da campanha |
+
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima: Ritmo e Fluxo](ritmo-pacing.md)

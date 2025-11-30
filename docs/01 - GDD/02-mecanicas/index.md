@@ -17,8 +17,14 @@
 - [2.2. Sistemas de Personagem](sistemas-personagem.md)
 - [2.3. Sistema de Combate](sistema-combate.md)
 - [2.4. Sistema de Equipamentos](equipamentos.md)
-- [2.5. Controles e Inputs](controles-inputs.md)
-- [2.6. Física e Interação](fisica-interacao.md)
+- [2.5. Sistema de Inventário](inventario.md)
+- [2.6. Controles e Inputs](controles-inputs.md)
+- [2.7. Física e Interação](fisica-interacao.md)
+- [2.8. Sistema de Spellcasting](spellcasting.md)
+- [2.9. Sistema de Rest](rest.md)
+- [2.10. Sistema de Diálogos](dialogos.md)
+- [2.11. Sistema de Quests](quests.md)
+- [2.12. Sistema de Save/Load](save-load.md)
 
 ---
 

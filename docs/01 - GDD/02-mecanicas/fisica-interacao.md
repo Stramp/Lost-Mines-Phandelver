@@ -97,6 +97,117 @@
 
 </details>
 
+### Movimento Aéreo (Voo)
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🦅 Sistema de Voo em Top-Down 2D</summary>
+
+> **Criaturas Voadoras no Bestiário:**
+>
+> - **Green Dragon (Venomfang):** 24m voando (80 pés)
+> - **Flameskull:** 12m voando (40 pés)
+> - **Stirge:** 12m voando (40 pés)
+>
+> **Regra D&D 5e:**
+>
+> - Criaturas voadoras podem se mover pelo ar
+> - Velocidade de voo é geralmente maior que velocidade terrestre
+> - Criaturas voadoras podem cair se forem derrubadas (reduzidas a 0 HP ou efeitos especiais)
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🎨 Representação Visual em Top-Down 2D</summary>
+
+> **Objeto:** Criatura Voadora
+>
+> **Estado Inicial:** Voando (altura aérea)
+>
+> **Representação Visual:**
+>
+> 1. **Sombra no Chão:**
+>    - Criatura projeta sombra no chão indicando posição horizontal
+>    - Sombra se move independente de obstáculos terrestres
+>    - Sombra indica que criatura está voando (não no chão)
+>
+> 2. **Sprite Elevado:**
+>    - Sprite da criatura renderizado acima do chão (offset Y)
+>    - Tamanho do sprite reduzido proporcionalmente à altura (quanto mais alto, menor)
+>    - Sprite sempre visível acima de obstáculos terrestres
+>
+> 3. **Efeitos Visuais:**
+>    - **Partículas de Asas:** Animação constante de batidas de asas
+>    - **Aura/Brilho:** Efeito visual ao redor da criatura indicando estado voador
+>    - **Animação de Voo:** Sprite animado com movimento de voo constante
+>
+> 4. **Indicador de Estado:**
+>    - **Ícone de Voo:** Ícone de asas ou símbolo de voo na UI (ao selecionar criatura)
+>    - **Tooltip:** "Voador" aparece ao passar mouse sobre criatura
+>    - **Feedback Visual:** Criatura voadora tem outline ou brilho diferente
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🌍 Mecânicas de Movimento Aéreo</summary>
+
+> **Passagem sobre Obstáculos:**
+>
+> - **Objetos:** Criaturas voadoras podem voar sobre paredes, água, armadilhas e terreno difícil
+> - **Colisão:** Não são bloqueadas por obstáculos terrestres
+> - **Limites:** Apenas obstáculos aéreos (teto, estruturas altas) bloqueiam movimento
+>
+> **Velocidade de Voo:**
+>
+> - **Valor:** Baseado na velocidade de voo da criatura (D&D 5e)
+> - **Exemplo:** Green Dragon = 24m/s voando, Stirge = 12m/s voando
+> - **Modificadores:** Mesmos modificadores de velocidade terrestre (Haste, Exaustão, etc.)
+>
+> **Queda (Derrubar Criatura Voadora):**
+>
+> - **Condições para Queda:**
+>   - Criatura reduzida a 0 HP
+>   - Efeitos especiais que derrubam (magias, habilidades)
+>   - Criatura perde capacidade de voo temporariamente
+>
+> - **Reação ao Cair:**
+>   - Criatura cai no chão (posição da sombra)
+>   - Aplica dano de queda (regras D&D 5e)
+>   - Criatura perde capacidade de voo até recuperar HP ou efeito ser removido
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">⚔️ Impacto no Combate</summary>
+
+> **Alcance de Ataques:**
+>
+> - **Ataques Corpo a Corpo:** Não podem atingir criaturas voadoras (a menos que atacante também voe)
+> - **Ataques à Distância:** Funcionam normalmente (flechas, magias, etc.)
+> - **Magias Especiais:** Algumas magias podem derrubar criaturas voadoras
+>
+> **Vantagens Táticas:**
+>
+> - **Posicionamento:** Criaturas voadoras podem se posicionar sobre inimigos
+> - **Evasão:** Dificulta ataques corpo a corpo de inimigos terrestres
+> - **Mobilidade:** Pode voar sobre terreno difícil sem penalidades
+>
+> **Desvantagens:**
+>
+> - **Exposição:** Criaturas voadoras são mais visíveis (não podem se esconder atrás de cobertura baixa)
+> - **Vulnerabilidade:** Ataques à distância são mais eficazes (sem cobertura)
+> - **Queda:** Se derrubadas, sofrem dano de queda adicional
+>
+> **📖 Ver detalhes completos:** [Sistema de Combate - Alcance e Posicionamento](sistema-combate.md#alcance-e-posicionamento)
+
+</details>
+
+<details>
+<summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">💻 Pseudocódigo - Sistema de Voo</summary>
+
+> **📖 Pseudocódigo:** Ver [Sistema de Voo](../../pseudocodigo/sistema-voo.md)
+
+</details>
+
 ## Interações entre Objetos
 
 <details>
@@ -439,5 +550,12 @@
 </details>
 
 ---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Regras físicas e interações baseadas em D&D 5e e Unreal Engine |
+| v1.1 | 2024-12-27 | Atualizado - Referências corrigidas após expansão de mecânicas |
 
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima Seção: IA e Comportamento](../03-ia-comportamento/index.md)

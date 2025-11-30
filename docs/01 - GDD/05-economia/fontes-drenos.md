@@ -288,6 +288,9 @@
 <details open>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚖️ Modelagem Matemática</b></summary>
 
+> **📖 Pseudocódigo:** Ver [Sistema de Fontes e Drenos](../../pseudocodigo/fontes-drenos.md)
+>
+
 > **Cálculo por Sessão de Jogo (4 horas):**
 >
 > **Fontes (Entrada):**
@@ -362,5 +365,11 @@
 </details>
 
 ---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Modelagem matemática de fontes e drenos baseada em D&D 5e |
 
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima: Tabelas de Loot](tabelas-loot.md)
