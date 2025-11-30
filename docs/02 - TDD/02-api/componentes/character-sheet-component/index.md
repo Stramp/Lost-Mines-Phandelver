@@ -75,6 +75,19 @@ void InitializeFromDataAsset(UCharacterSheetDataAsset *DataAsset);
 
 ---
 
+## 📖 Design Relacionado
+
+Este componente implementa as seguintes regras de design:
+
+- **[GDD: Sistemas de Personagem](../../../../01%20-%20GDD/02-mecanicas/sistemas-personagem.md)** - Regras de criação de personagem D&D 5e
+
+**Separação de Responsabilidades:**
+
+- **GDD:** Define O QUÊ (criação de personagem D&D 5e) e PORQUÊ (fidelidade às regras oficiais)
+- **TDD:** Define COMO (classe `UCharacterSheetComponent`, método `InitializeFromDataAsset()`, estruturas C++)
+
+---
+
 ## 🔗 Referências
 
 <details>

@@ -728,4 +728,12 @@
 
 </details>
 
+---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Criação do guia completo para designers |
+
 **Última atualização:** 2024-12-27

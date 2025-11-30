@@ -612,3 +612,11 @@ ITM_<Category>_<Name> → ITM_ARM_ChainMail
 - [Arquitetura de Banco de Dados](./database-architecture.md) - Documentação completa da implementação atual
 - [Gameplay Tags (Epic Games)](https://docs.unrealengine.com/5.7/en-US/gameplay-tags-in-unreal-engine/) - Documentação oficial
 - [FDataTableRowHandle (Epic Games)](https://docs.unrealengine.com/5.7/en-US/data-table-row-handle-in-unreal-engine/) - Documentação oficial
+
+---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Relatório inicial sobre estrutura de dados ideal |

@@ -1164,3 +1164,11 @@ Guia completo sobre a estrutura, criação e uso dos Data Tables no sistema de f
     </details>
 
     </details>
+
+---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Documentação inicial completa de Data Tables |

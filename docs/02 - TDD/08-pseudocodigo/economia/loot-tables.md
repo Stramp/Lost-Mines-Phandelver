@@ -2,14 +2,6 @@
 
 ---
 
-## 📝 Changelog
-
-| Versão | Data | Alteração |
-|--------|------|-----------|
-| v1.0 | 2024-12-27 | Versão inicial - Extraído do GDD para TDD |
-
----
-
 ## Estrutura de Data Tables (Unreal Engine)
 
 <details>
@@ -27,12 +19,24 @@
 
 ---
 
-## Referências
+## 📖 Design Relacionado
 
-- **GDD:** [Tabelas de Loot](../../../01%20-%20GDD/05-economia/tabelas-loot.md) - Regras de design de loot
-- **Pseudocódigo Gameplay:** [Sistema Completo de Roll de Loot](../../../01%20-%20GDD/02-mecanicas/pseudocodigo/sistema-loot.md) - Pseudocódigo de regras
-- **Data Tables:** [Data Tables](../../../03-dados/data-tables/index.md) - Documentação de Data Tables
+Este documento implementa as seguintes regras de design:
+
+- **[GDD: Tabelas de Loot](../../../../01%20-%20GDD/05-economia/tabelas-loot.md)** - Probabilidades de drop e regras de design
+- **[GDD: Economia](../../../../01%20-%20GDD/05-economia/index.md)** - Visão geral do sistema econômico
+
 
 ---
 
-**Última atualização:** 2024-12-27
+## 🔗 Referências Técnicas
+
+- **[Data Tables Guide](../../05-guias/data-tables/index.md)** - Documentação de Data Tables
+
+---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v1.0 | 2024-12-27 | Versão inicial - Extraído do GDD para TDD |

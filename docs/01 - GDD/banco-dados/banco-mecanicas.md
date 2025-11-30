@@ -216,7 +216,7 @@
 >
 > **📖 Documentação Técnica:**
 >
-> - [Regras D&D 5e (TDD)](../../../03%20-%20TDD/dnd-rules/index.md) - Documentação algorítmica
-> - [Arquitetura Técnica](../../../03%20-%20TDD/architecture.md) - Como os Data Tables são usados
+> - [Algoritmos D&D 5e (TDD)](../../../02%20-%20TDD/04-regras-dnd/index.md) - Documentação algorítmica
+> - [Arquitetura Técnica](../../../02%20-%20TDD/01-arquitetura/principios/architecture.md) - Como os Data Tables são usados
 
 </details>

@@ -204,7 +204,7 @@
 <details>
 <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">💻 Pseudocódigo - Sistema de Voo</summary>
 
-> **📖 Pseudocódigo:** Ver [Sistema de Voo](../../pseudocodigo/sistema-voo.md)
+> **📖 Documentação Técnica:** Para implementação técnica, veja [TDD: Pseudocódigo de Combate](../../02%20-%20TDD/08-pseudocodigo/combate/combat-system.md)
 
 </details>
 

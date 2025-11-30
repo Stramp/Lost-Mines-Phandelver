@@ -288,7 +288,7 @@
 <details open>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚖️ Modelagem Matemática</b></summary>
 
-> **📖 Pseudocódigo:** Ver [Sistema de Fontes e Drenos](../../pseudocodigo/fontes-drenos.md)
+> **📖 Documentação Técnica:** Para implementação técnica, veja [TDD: Pseudocódigo de Economia](../../02%20-%20TDD/08-pseudocodigo/economia/loot-tables.md)
 >
 
 > **Cálculo por Sessão de Jogo (4 horas):**

@@ -225,8 +225,13 @@
 > - [← Voltar ao Índice](index.md)
 > - [← Anterior: Sistema de Equipamentos](equipamentos.md)
 > - [→ Próxima: Sistema de Equipamentos](equipamentos.md) | [→ Próxima: Controles e Inputs](controles-inputs.md)
-> - [📖 Regras D&D 5e - Inventário (TDD)](../../03%20-%20TDD/dnd-rules/inventory.md)
-> - [📊 Dashboard GDD](../dashboard-template.md)
+> **🔗 Implementação Técnica (TDD):**
+>
+> Para detalhes de implementação técnica, consulte:
+>
+> - **[TDD: UI Components - Inventory Widget](../../02%20-%20TDD/02-api/componentes/ui/inventory-widget.md)** - Widget de inventário
+> - **[TDD: Data Tables](../../02%20-%20TDD/05-guias/data-tables/index.md)** - Data Tables de itens
+>
 
 </details>
 

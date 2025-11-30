@@ -8,6 +8,7 @@ alwaysApply: true
 ## 🎯 Objetivo
 
 **ALWAYS** usar sistema de colapse (`<details>` e `<summary>`) para organizar arquivos Markdown, especialmente:
+
 - Relatórios longos
 - Documentação técnica
 - Análises de código
@@ -32,6 +33,7 @@ alwaysApply: true
 ```
 
 **Padrão de Estilo para Títulos:**
+
 - Títulos principais: `background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;`
 - Sub-seções: `background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;`
 - Usar `<b>` para negrito nos títulos principais
@@ -70,6 +72,7 @@ alwaysApply: true
 ```
 
 **Hierarquia Visual:**
+
 - **Nível 1 (Principal):** Fundo `#e8e8e8` + Bloco de citação `>`
 - **Nível 2 (Sub-seção):** Fundo `#d8d8d8` + Bloco de citação aninhado `>>`
 - **Nível 3 (Itens):** Dentro de `>>` para manter hierarquia
@@ -105,12 +108,14 @@ Conteúdo visível por padrão.
 ```
 
 **Quando usar `open`:**
+
 - ✅ Resumo executivo
 - ✅ Conclusões principais
 - ✅ Informações críticas
 - ✅ Primeira seção importante
 
 **Quando NÃO usar `open`:**
+
 - ❌ Detalhes técnicos extensos
 - ❌ Listas longas de problemas
 - ❌ Informações secundárias
@@ -193,6 +198,7 @@ Conteúdo visível por padrão.
 ### 6. Documentação Técnica com Tabulação
 
 **ALWAYS** usar colapsos com blocos de citação para:
+
 - Exemplos de código extensos
 - Configurações detalhadas
 - Troubleshooting
@@ -236,13 +242,25 @@ Conteúdo visível por padrão.
 **ALWAYS** usar blocos de citação (`>`) para criar indentação e fundo cinza:
 
 **Padrão de Cores:**
+
 - **Títulos principais:** `background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;`
 - **Sub-seções:** `background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;`
 
 **Hierarquia de Blocos de Citação:**
+
 - **Nível 1:** `>` - Conteúdo principal (fundo cinza clarinho)
 - **Nível 2:** `>>` - Sub-seções (mais indentado)
 - **Nível 3:** `>>>` - Itens dentro de sub-seções (se necessário)
+
+**Padrão de Fechamento de Blocos:**
+
+**ALWAYS** fechar blocos de citação antes de fechar o `</details>` usando o padrão:
+
+```markdown
+> Conteúdo final do bloco
+>
+>___
+```
 
 **Exemplo Completo:**
 
@@ -261,6 +279,8 @@ Conteúdo visível por padrão.
 > > - Item 2
 >
 > </details>
+>
+>___
 
 </details>
 
@@ -268,7 +288,9 @@ Conteúdo visível por padrão.
 ```
 
 **Separadores:**
+
 - Use `---` entre seções principais para melhor separação visual
+- Use `>___` no final do conteúdo dentro de blocos de citação antes de fechar `</details>` para fechar corretamente os blocos
 
 ## ✅ Checklist
 
@@ -285,10 +307,12 @@ Antes de criar/editar arquivo Markdown:
 - [ ] Estrutura hierárquica está clara?
 - [ ] Código extenso está em colapsos?
 - [ ] Separadores `---` entre seções principais?
+- [ ] Blocos de citação fechados com `>___` antes de `</details>`?
 
 ## 🚫 Quando NÃO Usar Colapsos
 
 **NÃO usar colapsos para:**
+
 - ❌ Arquivos muito curtos (< 50 linhas)
 - ❌ README simples
 - ❌ Títulos principais (H1)
@@ -418,16 +442,19 @@ Antes de criar/editar arquivo Markdown:
 ## 🎨 Padrão de Cores e Estilos
 
 **Títulos Principais:**
+
 ```html
 style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"
 ```
 
 **Sub-seções:**
+
 ```html
 style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;"
 ```
 
 **Hierarquia de Blocos:**
+
 - `>` - Nível 1 (conteúdo principal)
 - `>>` - Nível 2 (sub-seções)
 - `>>>` - Nível 3 (itens aninhados, se necessário)

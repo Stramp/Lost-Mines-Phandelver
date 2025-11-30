@@ -519,8 +519,14 @@
 > - [← Voltar ao Índice](index.md)
 > - [← Anterior: Física e Interação](fisica-interacao.md)
 > - [→ Próxima: Sistema de Rest](rest.md)
-> - [📖 Regras D&D 5e - Spellcasting (TDD)](../../03%20-%20TDD/dnd-rules/spellcasting.md)
-> - [📊 Dashboard GDD](../dashboard-template.md)
+> **🔗 Implementação Técnica (TDD):**
+>
+> Para detalhes de implementação técnica, consulte:
+>
+> - **[TDD: Algoritmo de Spellcasting](../../02%20-%20TDD/04-regras-dnd/progressao/spellcasting-algorithm.md)** - Algoritmo técnico completo
+> - **[TDD: Data Tables - Spells](../../02%20-%20TDD/05-guias/data-tables/combate/spell-datatable.md)** - SpellDataTable
+> - **[TDD: API de Componentes](../../02%20-%20TDD/02-api/componentes/index.md)** - Componentes de spellcasting
+>
 
 </details>
 

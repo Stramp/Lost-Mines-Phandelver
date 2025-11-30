@@ -335,8 +335,6 @@ stateDiagram-v2
 > - **FleeHealthThreshold:** Limite de saúde para fuga
 > - **InvestigationDuration:** Duração da investigação
 >
-> **📖 Para implementação técnica (C++), veja:** [FSM Implementation (TDD)](../../../02%20-%20TDD/08-pseudocodigo/ia/fsm-implementation.md)
->
 > **Comportamentos Específicos:**
 >
 > - Herdar de `AIStateMachine` base
@@ -344,6 +342,15 @@ stateDiagram-v2
 > - Configurar parâmetros por tipo de criatura
 
 </details>
+
+---
+
+## 🔗 Implementação Técnica
+
+Para detalhes de implementação técnica, consulte:
+
+- **[TDD: FSM Implementation](../../02%20-%20TDD/08-pseudocodigo/ia/fsm-implementation.md)** - Implementação técnica completa
+
 
 ---
 

@@ -15,7 +15,7 @@
 
 - **[Visão do Projeto](../parte1-visao-projeto.md)** - High Concept e visão de alto nível
 - **[Dashboard GDD](../dashboard-template.md)** - Visão geral e status do GDD
-- **[Arquitetura Técnica](../../../03%20-%20TDD/architecture.md)** - Detalhes técnicos de implementação
+- **[Arquitetura Técnica](../../../02%20-%20TDD/01-arquitetura/principios/architecture.md)** - Detalhes técnicos de implementação
 - **[Roadmap](../../../02%20-%20Planning/roadmaps/roadmap.md)** - Fases de desenvolvimento
 
 ## Documentação Externa

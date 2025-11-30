@@ -230,8 +230,13 @@
 > - [← Voltar ao Índice](index.md)
 > - [← Anterior: Sistema de Combate](sistema-combate.md)
 > - [→ Próxima: Sistema de Inventário](inventario.md) | [→ Próxima: Controles e Inputs](controles-inputs.md)
-> - [📖 Regras D&D 5e - Equipamentos (TDD)](../../03%20-%20TDD/dnd-rules/equipment.md)
-> - [📊 Dashboard GDD](../dashboard-template.md)
+> **🔗 Implementação Técnica (TDD):**
+>
+> Para detalhes de implementação técnica, consulte:
+>
+> - **[TDD: Data Tables - Equipment](../../02%20-%20TDD/05-guias/data-tables/index.md)** - EquipmentDataTable
+> - **[TDD: API - Componentes](../../02%20-%20TDD/02-api/componentes/index.md)** - Componentes de equipamento
+>
 
 </details>
 

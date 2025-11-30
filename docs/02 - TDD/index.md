@@ -24,6 +24,17 @@
 </details>
 ---
 
+## 📋 Seções Principais
+
+- **[1. Arquitetura](01-arquitetura/index.md)** - Princípios e camadas arquiteturais
+- **[2. API Reference](02-api/index.md)** - Classes, funções e componentes
+- **[3. Dados](03-dados/index.md)** - Arquitetura de dados e Data Tables
+- **[4. Regras D&D Algorítmicas](04-regras-dnd/index.md)** - Algoritmos técnicos D&D 5e
+- **[5. Guias Práticos](05-guias/index.md)** - Guias passo a passo
+- **[8. Pseudocódigo Técnico](08-pseudocodigo/index.md)** - Especificações de implementação
+
+---
+
 ## Navegação Rápida
 
 <details>
@@ -72,6 +83,22 @@
 
     [Ver arquitetura de dados](03-dados/arquitetura/implementacao/index.md)
 
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔧 Regras D&D Algorítmicas</b></summary>
+
+> **[4. Regras D&D Algorítmicas](04-regras-dnd/index.md)** - Algoritmos técnicos de implementação
+
+    | Categoria | Algoritmos Disponíveis |
+    |------------|----------------------|
+    | **Criação** | Character Creation, Point Buy, Multiclass |
+    | **Combate** | AC Calculation, Damage Calculation, Attack Roll |
+    | **Progressão** | Level Up, Spellcasting |
+    | **Sistemas** | Rest, Conditions |
+
+    [Ver todos os algoritmos](04-regras-dnd/index.md)
+
+</details>
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Guias Práticos</b></summary>

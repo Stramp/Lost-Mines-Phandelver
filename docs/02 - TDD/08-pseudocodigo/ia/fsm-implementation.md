@@ -46,10 +46,24 @@
 
 ---
 
-## Referências
+## 📖 Design Relacionado
 
-- **GDD:** [FSM - Máquinas de Estados Finitos](../../../01%20-%20GDD/03-ia-comportamento/fsm.md) - Descrição conceitual dos estados
-- **Arquitetura:** [Architecture](../../../01-arquitetura/principios/architecture.md) - Arquitetura completa do projeto
+Este documento implementa as seguintes regras de design:
+
+- **[GDD: FSM - Máquinas de Estados Finitos](../../../../01%20-%20GDD/03-ia-comportamento/fsm.md)** - Diagramas de estado e gatilhos de transição
+- **[GDD: Bestiário](../../../../01%20-%20GDD/03-ia-comportamento/bestiario.md)** - Comportamentos específicos por criatura
+- **[GDD: IA e Comportamento](../../../../01%20-%20GDD/03-ia-comportamento/index.md)** - Visão geral do sistema de IA
+
+**Separação de Responsabilidades:**
+
+- **GDD:** Define O QUÊ (estados Ocioso, Alerta, Combate, Fuga) e PORQUÊ (comportamento realista de IA)
+- **TDD:** Define COMO (classe `AIStateMachine`, enum `EAIState`, métodos de transição, estruturas C++)
+
+---
+
+## 🔗 Referências Técnicas
+
+- **[Arquitetura](../../../01-arquitetura/principios/index.md)** - Arquitetura completa do projeto
 
 ---
 

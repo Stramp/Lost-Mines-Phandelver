@@ -393,4 +393,18 @@ graph TB
 |--------|------|-----------|
 | v1.0 | 2024-12-27 | Versão inicial - Wireframes de baixa fidelidade para todas as telas principais |
 
+---
+
+## 🔗 Implementação Técnica
+
+Para detalhes de implementação técnica, consulte:
+
+- **[TDD: UI Components](../../02%20-%20TDD/02-api/componentes/ui/index.md)** - Widgets e componentes de UI
+- **[TDD: Inventory Widget](../../02%20-%20TDD/02-api/componentes/ui/inventory-widget.md)** - Widget de inventário
+- **[TDD: HUD Widget](../../02%20-%20TDD/02-api/componentes/ui/hud-widget.md)** - Widget de HUD
+- **[TDD: Menu Widget](../../02%20-%20TDD/02-api/componentes/ui/menu-widget.md)** - Widgets de menu
+
+
+---
+
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima: Fluxo de Navegação](fluxo-navegacao.md)

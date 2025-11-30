@@ -26,14 +26,16 @@
   - [Getting Started](setup/getting-started.md)
 - [5.2. Uso](uso/workflows.md)
   - [Troubleshooting](uso/troubleshooting.md)
-- [5.3. Data Tables](data-tables/data-tables.md)
-  - [Setup](data-tables/data-tables-setup.md)
-  - [Designer Guide](data-tables/data-tables-designer-guide.md)
-  - [JSON Schema Validation](data-tables/json-schema-validation-guide.md)
-  - [Schema Versioning](data-tables/schema-versioning-guide.md)
+- [5.3. Data Tables](data-tables/index.md)
+  - [Visão Geral](data-tables/visao-geral.md)
+  - [Estrutura Comum](data-tables/estrutura-comum.md)
+  - [RaceDataTable](data-tables/personagem/race-datatable.md)
+  - [ClassDataTable](data-tables/personagem/class-datatable.md)
+  - [ProficiencyDataTable](data-tables/suporte/proficiency-datatable.md)
+  - [SpellDataTable](data-tables/combate/spell-datatable.md)
 - [5.4. Testes](testes/testing.md)
   - [Implementation Plan](testes/testing-implementation-plan.md)
-- [5.5. Referência Rápida](referencia-rapida/) (a ser documentado)
+- [5.5. Referência Rápida](referencia-rapida/index.md)
 
 ---
 

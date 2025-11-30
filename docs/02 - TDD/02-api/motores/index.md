@@ -234,6 +234,42 @@ static void AdjustProgressionArraySize(TArray<FClassLevelEntry> &Progression, in
 
 ---
 
+## 📊 Fluxo dos Motores
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚙️ Diagrama de Orquestração</b></summary>
+
+> ```mermaid
+> graph TD
+>     Start([RecalculateFinalScores]) --> Reset[1. Reset Final Scores<br/>para 8 base]
+>     Reset --> RaceMotor[2. RaceBonusMotor<br/>ApplyRacialBonuses]
+>     RaceMotor --> PointBuyMotor[3. PointBuyMotor<br/>ApplyPointBuy]
+>     PointBuyMotor --> Validate{Point Buy<br/>Válido?}
+>     Validate -->|Não| Adjust[Ajustar Alocação]
+>     Adjust --> PointBuyMotor
+>     Validate -->|Sim| End([Final Scores<br/>Calculados])
+>
+>     style Start fill:#c8e6c9
+>     style End fill:#c8e6c9
+>     style RaceMotor fill:#fff3e0
+>     style PointBuyMotor fill:#e3f2fd
+>     style Validate fill:#fff3e0
+> ```
+>
+> **📖 [Ver documentação completa do Core](../../01-arquitetura/createsheet.md)**
+
+</details>
+
+---
+
+## 📖 Motores Disponíveis
+
+- **[PointBuyMotor](point-buy-motor.md)** - Motor de Point Buy para criação de personagem
+- **[MulticlassMotor](multiclass-motor.md)** - Motor de Multiclasse para validação e aplicação de regras
+- **[RaceBonusMotor](race-bonus-motor.md)** - Motor de Bônus Raciais para aplicação de bônus
+
+---
+
 ## 🔗 Referências
 
 <details>

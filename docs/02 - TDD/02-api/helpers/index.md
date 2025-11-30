@@ -227,6 +227,32 @@ Funções helper para ler e processar `ProficiencyData` de proficiências. Funç
 
 ---
 
+## 📖 Helpers Disponíveis
+
+### Helpers Principais (Documentação Completa)
+
+- **[ComponentHelpers](component-helpers.md)** - Busca e manipulação de componentes
+- **[CalculationHelpers](calculation-helpers.md)** - Cálculos de dados de personagem D&D 5e
+- **[ValidationHelpers](validation-helpers.md)** - Validação de dados de personagem D&D 5e
+- **[DataTableHelpers](data-table-helpers.md)** - Busca de rows em Data Tables
+
+### Helpers Secundários (Documentação Completa)
+
+- **[FormattingHelpers](formatting-helpers.md)** - Formatação de dados de personagem
+- **[ChoiceHelpers](choice-helpers.md)** - Parsing e formatação de strings de escolhas
+- **[CharacterSheetHelpers](character-sheet-helpers.md)** - Leitura, filtragem e validação de Data Tables
+- **[ProficiencyHelpers](proficiency-helpers.md)** - Leitura e processamento de ProficiencyData
+
+### Helpers Específicos (Documentação Completa)
+
+- **[CharacterSheetDataAssetHelpers](character-sheet-data-asset-helpers.md)** - Helpers reutilizáveis para CharacterSheetDataAsset (18 testes)
+
+### Outros Helpers (Documentação no Index)
+
+- `Sistema de Logging (FLoggingSystem)` - Sistema centralizado de logging ([Documentação](./logging-system/index.md))
+
+---
+
 ## 🔗 Referências
 
 <details>

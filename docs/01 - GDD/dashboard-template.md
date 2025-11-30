@@ -536,11 +536,10 @@
 >
 > **Documentação Técnica:**
 >
-> - [📖 Arquitetura Técnica](../../03%20-%20TDD/architecture.md) - Detalhes técnicos de implementação
-> - [⚔️ Regras D&D 5e (TDD)](../../03%20-%20TDD/dnd-rules/index.md) - Documentação algorítmica das regras
+> - [📖 Arquitetura Técnica](../../02%20-%20TDD/01-arquitetura/principios/architecture.md) - Detalhes técnicos de implementação
+> - [⚔️ Algoritmos D&D 5e (TDD)](../../02%20-%20TDD/04-regras-dnd/index.md) - Documentação algorítmica das regras
 > - [📅 Roadmap](../../02%20-%20Planning/roadmaps/roadmap.md) - Fases de desenvolvimento
-> - [📖 Compêndio de Arquitetura](../../03%20-%20TDD/RelatoriosEstudosReferencia/compendio-arquitetura-design-jogos.md)
-> - [📋 Padrões de Relatórios](../../03%20-%20TDD/RelatoriosEstudosReferencia/padroes-relatorios.md)
+> - [📖 Compêndio de Arquitetura](../../Estudos/compendio-arquitetura-design-jogos.md)
 
 </details>
 
@@ -619,5 +618,13 @@
 </details>
 
 ---
+
+## 📝 Changelog
+
+| Versão | Data | Alteração |
+|--------|------|-----------|
+| v3.0 | 2024-12-27 | Expansão completa - Todas as mecânicas secundárias detalhadas |
+| v2.0 | 2024-12-27 | Reestruturação modular - GDD dividido em módulos organizados |
+| v1.0 | 2024-12-27 | Criação inicial do GDD baseado na estrutura do compendio |
 
 **Última atualização:** 2024-12-27

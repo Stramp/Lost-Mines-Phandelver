@@ -214,7 +214,7 @@
 > - **Personagem com Chain Mail (AC 16), DEX +3:** AC = **16** (sem bônus de DEX)
 > - **Personagem com Scale Mail (AC 14), DEX +4, Escudo:** AC = 14 + 2 (DEX limitado) + 2 (escudo) = **18**
 >
-> **📖 Pseudocódigo:** Ver [Cálculo de AC](../../pseudocodigo/calculo-ac.md)
+> **📖 Documentação Técnica:** Para implementação técnica, veja [TDD: Algoritmo de Cálculo de AC](../../02%20-%20TDD/04-regras-dnd/combate/ac-calculation-algorithm.md)
 >
 > **✅ Decisão: Feedback Visual de AC**
 >
@@ -293,7 +293,7 @@
 > - **Exemplo:** Criatura com resistência a fogo recebe 10 de dano de fogo → **5 de dano**
 > - **Exemplo:** Criatura vulnerável a fogo recebe 10 de dano de fogo → **20 de dano**
 >
-> **📖 Pseudocódigo:** Ver [Cálculo e Aplicação de Dano](../../pseudocodigo/calculo-dano.md)
+> **📖 Documentação Técnica:** Para implementação técnica, veja [TDD: Algoritmo de Cálculo de Dano](../../02%20-%20TDD/04-regras-dnd/combate/damage-calculation-algorithm.md)
 >
 > **✅ Decisão: Feedback Visual de Resistências/Vulnerabilidades**
 >
@@ -328,7 +328,7 @@
 > If Attack Roll < Target AC: Miss (errou)
 > ```
 >
-> **📖 Pseudocódigo:** Ver [Verificação de Acerto](../../pseudocodigo/verificacao-acerto.md)
+> **📖 Documentação Técnica:** Para implementação técnica, veja [TDD: Algoritmo de Attack Roll](../../02%20-%20TDD/04-regras-dnd/combate/attack-roll-algorithm.md)
 > ```
 >
 > **Natural 20 (Crítico):**
@@ -458,7 +458,7 @@
 > - **Vantagem:** Criaturas voadoras geralmente não têm cobertura (estão no ar)
 > - **Desvantagem:** Criaturas voadoras podem se mover rapidamente (dificulta acertar)
 >
-> **📖 Pseudocódigo:** Ver [Alcance vs. Criaturas Voadoras](../../pseudocodigo/alcance-voador.md)
+> **📖 Documentação Técnica:** Para implementação técnica, veja [TDD: Pseudocódigo de Combate](../../02%20-%20TDD/08-pseudocodigo/combate/combat-system.md)
 >
 > **📖 Ver detalhes completos:** [Física e Interação - Movimento Aéreo](fisica-interacao.md#movimento-aéreo-voo)
 
@@ -1041,8 +1041,14 @@
 > - [📖 Sistema de Inventário](inventario.md)
 > - [📖 Sistema de Rest](rest.md)
 > - [📖 Sistema de Spellcasting](spellcasting.md) - Magias em combate
-> - [📖 Regras D&D 5e (TDD)](../../03%20-%20TDD/dnd-rules/index.md)
-> - [📊 Dashboard GDD](../dashboard-template.md)
+**📖 Documentação Técnica (TDD):**
+
+Para implementação técnica, consulte:
+
+- **[TDD: Pseudocódigo de Combate](../../02%20-%20TDD/08-pseudocodigo/combate/combat-system.md)** - Sistema completo de combate
+- **[TDD: Algoritmos de Combate](../../02%20-%20TDD/04-regras-dnd/combate/index.md)** - Algoritmos técnicos (AC, Dano, Ataque)
+- **[TDD: Data Tables - Combate](../../02%20-%20TDD/05-guias/data-tables/combate/spell-datatable.md)** - SpellDataTable, DamageTypeDataTable, ConditionDataTable
+- **[TDD: API de Componentes](../../02%20-%20TDD/02-api/componentes/index.md)** - Componentes de combate
 
 </details>
 
@@ -1053,7 +1059,7 @@
 | Versão | Data | Alteração |
 |--------|------|-----------|
 | v1.0 | 2024-12-27 | Versão inicial - Sistema de combate baseado em D&D 5e |
-| v1.1 | 2024-12-27 | Adicionado pseudocódigo para cálculo de AC, verificação de acerto e aplicação de dano |
+| v1.1 | 2024-12-27 | Adicionadas referências para documentação técnica (TDD) |
 | v2.0 | 2024-12-27 | Expansão completa - Resolvidas todas as decisões criativas pendentes, adicionados exemplos práticos |
 
 **Última atualização:** 2024-12-27

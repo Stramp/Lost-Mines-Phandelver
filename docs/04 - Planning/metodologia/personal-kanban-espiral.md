@@ -1,7 +1,7 @@
 # Metodologia de Desenvolvimento: Personal Kanban + Espiral
 
-**Metodologia:** Personal Kanban + Desenvolvimento em Espiral  
-**Data:** 2024-12-27  
+**Metodologia:** Personal Kanban + Desenvolvimento em Espiral
+**Data:** 2024-12-27
 **Baseado em:** [Roadmap](../roadmap/Roadmap.md) e [Metodologia Ágil](../../Referencias%20Tecnicas/MetodologiaAgil.md)
 
 ---
@@ -303,4 +303,3 @@
 ---
 
 **Última atualização:** 2024-12-27
-

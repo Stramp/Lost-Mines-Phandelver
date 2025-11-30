@@ -23,7 +23,7 @@
 > - ✅ Skills e Proficiencies (estrutura pronta)
 > - ✅ Spellcasting (detalhado - ver [Sistema de Spellcasting](spellcasting.md))
 >
-> **📖 Documentação Técnica:** [Regras D&D 5e (TDD)](../../03%20-%20TDD/dnd-rules/index.md)
+> **📖 Documentação Técnica:** [Algoritmos D&D 5e (TDD)](../../02%20-%20TDD/04-regras-dnd/index.md)
 
 </details>
 
@@ -108,7 +108,7 @@
 > - STR 15 → Modifier = +2
 > - STR 18 → Modifier = +4
 >
-> **📖 Ver também:** [Ability Scores (TDD)](../../03%20-%20TDD/dnd-rules/ability-scores.md)
+> **📖 Ver também:** [Algoritmos D&D 5e (TDD)](../../02%20-%20TDD/04-regras-dnd/index.md)
 
 </details>
 
@@ -146,9 +146,9 @@
 > - **Final Strength:** 8 + 0 (racial) + 7 (point buy) = 15
 > - **Final Constitution:** 8 + 2 (racial) + 0 (point buy) = 10
 >
-> **📖 Pseudocódigo:** Ver [Cálculo de Atributos Finais](../../pseudocodigo/atributos-finais.md)
+> **📖 Documentação Técnica:** Para implementação técnica, veja [TDD: Algoritmo de Criação de Personagem](../../02%20-%20TDD/04-regras-dnd/criacao/character-creation-algorithm.md)
 >
-> **📖 Ver também:** [Ability Scores (TDD)](../../03%20-%20TDD/dnd-rules/ability-scores.md) | [Point Buy System (TDD)](../../03%20-%20TDD/dnd-rules/point-buy.md)
+> **📖 Ver também:** [Algoritmos D&D 5e (TDD)](../../02%20-%20TDD/04-regras-dnd/index.md) | [Point Buy Algorithm (TDD)](../../02%20-%20TDD/04-regras-dnd/criacao/point-buy-algorithm.md)
 
 </details>
 
@@ -180,7 +180,7 @@
 > - Opção 1: STR +2 (de 16 para 18)
 > - Opção 2: STR +1 e DEX +1 (de 16 para 17 e de 14 para 15)
 >
-> **📖 Ver também:** [Level Up (TDD)](../../03%20-%20TDD/dnd-rules/level-up.md)
+> **📖 Ver também:** [Algoritmo de Level Up (TDD)](../../02%20-%20TDD/04-regras-dnd/progressao/level-up-algorithm.md)
 
 </details>
 
@@ -421,7 +421,7 @@
 > - XP é ganho após combates, quests e desafios
 > - Seguindo tabelas oficiais da campanha Phandelver
 >
-> **📖 Ver também:** [Level Up (TDD)](../../03%20-%20TDD/dnd-rules/level-up.md)
+> **📖 Ver também:** [Algoritmo de Level Up (TDD)](../../02%20-%20TDD/04-regras-dnd/progressao/level-up-algorithm.md)
 
 </details>
 
@@ -446,9 +446,9 @@
 > - Features são desbloqueadas conforme o nível da classe
 > - Em multiclassing, features são calculadas por classe individual
 >
-> **📖 Pseudocódigo:** Ver [Sistema de Level Up](../../pseudocodigo/level-up.md)
+> **📖 Documentação Técnica:** Para implementação técnica, veja [TDD: Algoritmo de Level Up](../../02%20-%20TDD/04-regras-dnd/progressao/level-up-algorithm.md)
 >
-> **📖 Ver também:** [Level Up (TDD)](../../03%20-%20TDD/dnd-rules/level-up.md) | [FeatureDataTable](../../../../Content/Data/DataTable/FeatureDataTable.json)
+> **📖 Ver também:** [Algoritmo de Level Up (TDD)](../../02%20-%20TDD/04-regras-dnd/progressao/level-up-algorithm.md) | [FeatureDataTable](../../../../Content/Data/DataTable/FeatureDataTable.json)
 
 </details>
 
@@ -517,7 +517,7 @@
 > - Recupera HP = rolagem de Hit Die + CON modifier
 > - Recupera todos os Hit Dice em Long Rest
 >
-> **📖 Ver também:** [Level Up (TDD)](../../03%20-%20TDD/dnd-rules/level-up.md)
+> **📖 Ver também:** [Algoritmo de Level Up (TDD)](../../02%20-%20TDD/04-regras-dnd/progressao/level-up-algorithm.md)
 
 </details>
 
@@ -569,7 +569,7 @@
 > - Warlock: separado (Pact Magic, não combina)
 > - Fórmula: `CasterLevel = FullCasterLevels + floor(HalfCasterLevels / 2)`
 >
-> **📖 Ver também:** [Multiclassing (TDD)](../../03%20-%20TDD/dnd-rules/multiclassing.md)
+> **📖 Ver também:** [Algoritmo de Multiclassing (TDD)](../../02%20-%20TDD/04-regras-dnd/criacao/multiclass-algorithm.md)
 
 </details>
 
@@ -615,7 +615,7 @@
 > - **Prepared (Cleric, Druid, Paladin, Wizard):** Prepara spells da lista de classe após Long Rest
 > - Número preparado = SpellcastingAbilityModifier + ClassLevel (mínimo 1)
 >
-> **📖 Ver também:** [Sistema de Spellcasting](spellcasting.md) - Documentação completa do GDD | [Spellcasting (TDD)](../../03%20-%20TDD/dnd-rules/spellcasting.md) - Documentação técnica
+> **📖 Ver também:** [Sistema de Spellcasting](spellcasting.md) - Documentação completa do GDD | [Algoritmo de Spellcasting (TDD)](../../02%20-%20TDD/04-regras-dnd/progressao/spellcasting-algorithm.md) - Documentação técnica
 
 </details>
 
@@ -697,7 +697,7 @@
 > 6. **Come Together** → Revisão final
 > 7. **Beyond 1st Level** → Leveling up e progressão
 >
-> **📖 Ver também:** [Character Creation (TDD)](../../03%20-%20TDD/dnd-rules/character-creation.md) - Ordem técnica e oficial
+> **📖 Ver também:** [Algoritmo de Criação de Personagem (TDD)](../../02%20-%20TDD/04-regras-dnd/criacao/character-creation-algorithm.md) - Ordem técnica e oficial
 
 </details>
 
@@ -708,15 +708,16 @@
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📚 Links Relacionados</b></summary>
 
-> **Documentação Técnica (TDD):**
+> **🔗 Implementação Técnica (TDD):**
 >
-> - [Ability Scores](../../03%20-%20TDD/dnd-rules/ability-scores.md) - Cálculo de atributos
-> - [Point Buy System](../../03%20-%20TDD/dnd-rules/point-buy.md) - Sistema de distribuição de pontos
-> - [Raças e Sub-raças](../../03%20-%20TDD/dnd-rules/races.md) - Bônus raciais
-> - [Character Creation](../../03%20-%20TDD/dnd-rules/character-creation.md) - Ordem de criação
-> - [Level Up](../../03%20-%20TDD/dnd-rules/level-up.md) - Sistema de progressão
-> - [Multiclassing](../../03%20-%20TDD/dnd-rules/multiclassing.md) - Regras de multiclassing
-> - [Spellcasting](../../03%20-%20TDD/dnd-rules/spellcasting.md) - Sistema completo de magias
+> Para detalhes de implementação técnica, consulte:
+>
+> - **[TDD: API de Componentes](../../02%20-%20TDD/02-api/componentes/character-sheet-component/index.md)** - CharacterSheetComponent e CharacterDataComponent
+> - **[TDD: Algoritmos de Criação](../../02%20-%20TDD/04-regras-dnd/criacao/index.md)** - Algoritmos técnicos (Character Creation, Point Buy, Multiclass)
+> - **[TDD: Data Tables - Personagem](../../02%20-%20TDD/05-guias/data-tables/personagem/race-datatable.md)** - RaceDataTable e ClassDataTable
+> - **[TDD: Motores](../../02%20-%20TDD/02-api/motores/index.md)** - PointBuyMotor, RaceBonusMotor, MulticlassMotor
+> - **[TDD: Arquitetura em Camadas](../../02%20-%20TDD/01-arquitetura/camadas/index.md)** - Estrutura de componentes
+>
 >
 > **Data Tables:**
 >
@@ -743,6 +744,6 @@
 | Versão | Data | Alteração |
 |--------|------|-----------|
 | v1.0 | 2024-12-27 | Versão inicial - Sistemas de personagem baseados em D&D 5e |
-| v1.1 | 2024-12-27 | Adicionado pseudocódigo para cálculo de atributos finais, level up e recalculo de stats derivados |
+| v1.1 | 2024-12-27 | Adicionadas referências para documentação técnica (TDD) |
 
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima: Sistema de Combate](sistema-combate.md)

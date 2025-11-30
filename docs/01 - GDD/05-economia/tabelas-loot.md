@@ -28,7 +28,7 @@
 >
 > **Nota:** Probabilidades baseadas em D&D 5e Dungeon Master's Guide (Tabela de Tesouro).
 >
-> **📖 Pseudocódigo:** Ver [Cálculo de Probabilidades de Loot](../../pseudocodigo/probabilidades-loot.md)
+> **📖 Documentação Técnica:** Para implementação técnica, veja [TDD: Loot Tables](../../02%20-%20TDD/08-pseudocodigo/economia/loot-tables.md)
 
 </details>
 
@@ -159,11 +159,18 @@
 >
 > O sistema utiliza tabelas de dados para configurar probabilidades de loot, valores de itens e tesouros de masmorras. Valores devem ser configuráveis para facilitar balanceamento.
 >
-> **📖 Pseudocódigo de Regras:** Ver [Sistema Completo de Roll de Loot](../../02-mecanicas/pseudocodigo/sistema-loot.md)
->
-> **📖 Especificações Técnicas (Data Tables):** Ver [Loot Tables Implementation (TDD)](../../../02%20-%20TDD/08-pseudocodigo/economia/loot-tables.md)
+> **📖 Documentação Técnica:** Para implementação técnica, veja [TDD: Loot Tables](../../02%20-%20TDD/08-pseudocodigo/economia/loot-tables.md)
 
 </details>
+
+---
+
+## 🔗 Implementação Técnica
+
+Para detalhes de implementação técnica, consulte:
+
+- **[TDD: Loot Tables Implementation](../../02%20-%20TDD/08-pseudocodigo/economia/loot-tables.md)** - Data Tables e sistema técnico
+
 
 ---
 
@@ -172,6 +179,6 @@
 | Versão | Data | Alteração |
 |--------|------|-----------|
 | v1.0 | 2024-12-27 | Versão inicial - Tabelas de loot baseadas em D&D 5e |
-| v1.1 | 2024-12-27 | Adicionado pseudocódigo para cálculo de probabilidades e sistema de roll de loot |
+| v1.1 | 2024-12-27 | Adicionadas referências para documentação técnica (TDD) |
 
 **Navegação:** [← Voltar ao Índice](index.md) | [→ Próxima: Monetização](monetizacao.md)

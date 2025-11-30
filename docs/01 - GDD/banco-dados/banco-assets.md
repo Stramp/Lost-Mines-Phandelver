@@ -249,7 +249,7 @@
 >
 > **📖 Documentação Técnica:**
 >
-> - [Regras D&D 5e (TDD)](../../../03%20-%20TDD/dnd-rules/index.md) - Documentação algorítmica
+> - [Algoritmos D&D 5e (TDD)](../../../02%20-%20TDD/04-regras-dnd/index.md) - Documentação algorítmica
 > - [Banco de Mecânicas](banco-mecanicas.md) - Mecânicas com referências aos Data Tables
 
 </details>

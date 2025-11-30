@@ -185,8 +185,12 @@
 > - [← Voltar ao Índice](index.md)
 > - [← Anterior: Sistema de Spellcasting](spellcasting.md)
 > - [→ Próxima: Sistema de Diálogos](dialogos.md) | [→ Próxima: Sistema de Equipamentos](equipamentos.md)
-> - [📖 Regras D&D 5e - Rest (TDD)](../../03%20-%20TDD/dnd-rules/rest.md)
-> - [📊 Dashboard GDD](../dashboard-template.md)
+> **🔗 Implementação Técnica (TDD):**
+>
+> Para detalhes de implementação técnica, consulte:
+>
+> - **[TDD: Rest Algorithm](../../02%20-%20TDD/04-regras-dnd/sistemas/rest-algorithm.md)** - Algoritmo técnico completo
+>
 
 </details>
 

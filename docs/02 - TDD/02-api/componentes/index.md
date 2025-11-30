@@ -57,6 +57,18 @@ Structs auxiliares usadas no sistema de fichas:
 
 ---
 
+### 5. UI Components
+
+Componentes de interface de usuário:
+
+- **UInventoryWidget** - Widget de inventário
+- **UHUDWidget** - HUD principal
+- **UMainMenuWidget** - Menu principal
+
+**Documentação:** [UI Components](./ui/index.md)
+
+---
+
 ## ⚙️ Motores de Criação
 
 Sistema modular com motores desacoplados para cálculo de ability scores finais.
@@ -106,6 +118,17 @@ Funções helper organizadas em namespaces em `Utils/`:
 > - **[CHANGELOG.md](../../../CHANGELOG.md)** - Histórico de mudanças
 > - **[Índice de Documentação](../../index.md)** - Organização completa
 > - **[Índice da API](../index.md)** - Organização da API
+
+</details>
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎮 Documentação de Design (GDD)</b></summary>
+
+> **Regras de Gameplay:**
+>
+> - [Sistemas de Personagem (GDD)](../../../01%20-%20GDD/02-mecanicas/sistemas-personagem.md) - Regras D&D 5e de criação de personagem
+> - [Sistema de Combate (GDD)](../../../01%20-%20GDD/02-mecanicas/sistema-combate.md) - Regras de combate D&D 5e
+> - [Mecânicas (GDD)](../../../01%20-%20GDD/02-mecanicas/index.md) - Visão geral das mecânicas
 
 </details>
 
