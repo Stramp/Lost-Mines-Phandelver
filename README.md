@@ -91,10 +91,12 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > ├── Config/                     # Configurações (.ini)
 > ├── .cursor/                    # Regras e configurações do Cursor
 > │   └── rules/                 # Regras de código e arquitetura
-> ├── docs/                      # Documentação completa organizada
-│   ├── design/               # Design (GDD, regras D&D 5e)
-│   └── technical/            # Técnico (arquitetura, API, guias)
-├── ARCHITECTURE.md            # Resumo da arquitetura (linka para docs/)
+> ├── Documentacao/             # Documentação completa organizada
+│   ├── 01-GDD/              # Design (GDD, regras D&D 5e)
+│   ├── 02-TDD/              # Técnico (arquitetura, API, guias)
+│   ├── 04-Planning/         # Planejamento e roadmap
+│   └── Referencias-Tecnicas/ # Referências técnicas
+├── ARCHITECTURE.md            # Resumo da arquitetura (linka para Documentacao/)
 > └── README.md                  # Este arquivo
 > ```
 
@@ -116,7 +118,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > # File → Open Workspace from File → MyProject2.code-workspace
 > ```
 >
-> **📖 Para instruções completas de setup, veja [docs/technical/guides/setup.md](docs/technical/guides/setup.md)**
+> **📖 Para instruções completas de setup, veja [Documentacao/02-TDD/05-guias/setup/setup.md](Documentacao/02-TDD/05-guias/setup/setup.md)**
 >
 > ### 2. Gerar Arquivos do Projeto
 >
@@ -134,7 +136,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 > "SEU_CAMINHO_UE\Engine\Build\BatchFiles\RunUBT.bat" -projectfiles -project="SEU_CAMINHO_PROJETO\MyProject2.uproject" -game -engine
 > ```
 >
-> **📖 Para instruções completas de setup, veja [docs/technical/guides/setup.md](docs/technical/guides/setup.md)**
+> **📖 Para instruções completas de setup, veja [Documentacao/02-TDD/05-guias/setup/setup.md](Documentacao/02-TDD/05-guias/setup/setup.md)**
 >
 > ### 3. Compilar o Projeto
 >
@@ -149,7 +151,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >
 > ### 4. Configurar Data Tables
 >
-> **📖 Para instruções completas, veja [docs/technical/guides/data-tables-setup.md](docs/technical/guides/data-tables-setup.md)**
+> **📖 Para instruções completas, veja [Documentacao/02-TDD/05-guias/data-tables/data-tables-setup.md](Documentacao/02-TDD/05-guias/data-tables/data-tables-setup.md)**
 >
 > Resumo rápido:
 >
@@ -159,7 +161,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >
 > ### 5. Configurar um Personagem
 >
-> **📖 Para guia completo, veja [docs/technical/guides/getting-started.md](docs/technical/guides/getting-started.md)**
+> **📖 Para guia completo, veja [Documentacao/02-TDD/05-guias/setup/getting-started.md](Documentacao/02-TDD/05-guias/setup/getting-started.md)**
 >
 > Resumo rápido:
 >
@@ -394,7 +396,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 >     style CM fill:#fff59d
 > ```
 >
-> **📖 Para mais detalhes sobre o fluxo de dados, veja [ARCHITECTURE.md](ARCHITECTURE.md) ou [documentação completa](docs/technical/architecture.md)**
+> **📖 Para mais detalhes sobre o fluxo de dados, veja [ARCHITECTURE.md](ARCHITECTURE.md) ou [documentação completa](Documentacao/02-TDD/01-arquitetura)**
 
 </details>
 
@@ -435,7 +437,7 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
     **Níveis de Profundidade:**
 
     - **Nível 1 (Superfície):** Visão geral e resumos - `README.md` e `ARCHITECTURE.md` na raiz
-    - **Nível 2 (Intermediário):** Documentos organizados por categoria - `docs/design/` e `docs/technical/`
+    - **Nível 2 (Intermediário):** Documentos organizados por categoria - `Documentacao/01-GDD/` e `Documentacao/02-TDD/`
     - **Nível 3 (Profundo):** Documentos específicos e detalhados - arquivos individuais dentro de cada categoria
     - **Nível 4+ (Muito Profundo):** Seções específicas dentro de documentos, exemplos de código, referências técnicas
 
@@ -447,25 +449,25 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 
     **Principais Documentos:**
 
-    - **[docs/index.md](docs/index.md)** - Índice completo da documentação
-    - **[docs/NAVIGATION.md](docs/NAVIGATION.md)** - Mapa completo de navegação
-    - **[docs/GLOSSARY.md](docs/GLOSSARY.md)** - Glossário de conceitos e termos
-    - **[docs/design/gdd.md](docs/design/gdd.md)** - Game Design Document
-    - **[docs/technical/architecture.md](docs/technical/architecture.md)** - Arquitetura técnica completa
-    - **[docs/technical/api.md](docs/technical/api.md)** - Referência completa da API
-    - **[docs/planning/roadmap.md](docs/planning/roadmap.md)** - Roadmap completo do projeto
+    - **[Home.md](Documentacao/Home)** - Página inicial da documentação
+    - **[NAVIGATION.md](Documentacao/NAVIGATION)** - Mapa completo de navegação
+    - **[GLOSSARY.md](Documentacao/GLOSSARY)** - Glossário de conceitos e termos
+    - **[GDD](Documentacao/01-GDD)** - Game Design Document
+    - **[Arquitetura Técnica](Documentacao/02-TDD/01-arquitetura)** - Arquitetura técnica completa
+    - **[API Reference](Documentacao/02-TDD/02-api)** - Referência completa da API
+    - **[Roadmap](Documentacao/04-Planning/roadmap/Roadmap)** - Roadmap completo do projeto
 
 
 <details>
 <summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📖 Documentação Completa</b></summary>
 
-> A documentação completa está em `docs/` e pode ser visualizada de duas formas:
+> A documentação completa está em `Documentacao/` e pode ser visualizada de duas formas:
 >
 > ### 📄 Markdown (GitHub)
 >
 > - Navegue pelos arquivos `.md` diretamente no GitHub
-> - Use [docs/NAVIGATION.md](docs/NAVIGATION.md) para mapa completo
-> - Consulte [docs/GLOSSARY.md](docs/GLOSSARY.md) para conceitos
+> - Use [NAVIGATION.md](Documentacao/NAVIGATION) para mapa completo
+> - Consulte [GLOSSARY.md](Documentacao/GLOSSARY) para conceitos
 >
 
 </details>
@@ -477,22 +479,23 @@ Projeto Unreal Engine 5.7 para implementação de um sistema completo de fichas 
 
 > ### Documentação Principal
 >
-> **📖 Para documentação completa e organizada, veja [docs/index.md](docs/index.md)**
+> **📖 Para documentação completa e organizada, veja [Home.md](Documentacao/Home)**
 >
 > ### Documentação Principal
 >
-> - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Resumo da arquitetura (veja [completo](docs/technical/architecture.md))
-> - **[GDD](docs/design/gdd.md)** - Game Design Document (visão do jogo final)
-> - **[API Reference](docs/technical/api.md)** - Referência completa da API (inclui sistema de logging)
+> - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Resumo da arquitetura (veja [completo](Documentacao/02-TDD/01-arquitetura))
+> - **[GDD](Documentacao/01-GDD)** - Game Design Document (visão do jogo final)
+> - **[API Reference](Documentacao/02-TDD/02-api)** - Referência completa da API (inclui sistema de logging)
 > - **[CHANGELOG.md](CHANGELOG.md)** - Histórico de mudanças
 > - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guia para contribuidores
 > - **[.cursor/rules/](.cursor/rules/)** - Regras de código e padrões
 >
 > ### Documentação Organizada
 >
-> - **[Design](docs/design/)** - GDD e regras D&D 5e
-> - **[Técnico](docs/technical/)** - Arquitetura, API e guias
-> - **[Índice Completo](docs/index.md)** - Organização da documentação
+> - **[Design](Documentacao/01-GDD)** - GDD e regras D&D 5e
+> - **[Técnico](Documentacao/02-TDD)** - Arquitetura, API e guias
+> - **[Planejamento](Documentacao/04-Planning)** - Roadmap e ciclos de execução
+> - **[Home](Documentacao/Home)** - Página inicial da documentação
 >
 > ### Regras Críticas
 >

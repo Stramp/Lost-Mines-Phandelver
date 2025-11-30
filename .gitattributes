@@ -1,0 +1,60 @@
+# Git LFS Configuration for Unreal Engine 5.7
+# Optimized to track only large files that are essential for the project
+# This reduces LFS storage usage and costs
+
+# ============================================================================
+# Unreal Engine Assets and Maps (ESSENTIAL - Always track)
+# ============================================================================
+*.uasset filter=lfs diff=lfs merge=lfs -text
+*.umap filter=lfs diff=lfs merge=lfs -text
+
+# ============================================================================
+# Textures (Only large textures - small icons/textures should not be tracked)
+# ============================================================================
+# High-resolution textures (typically large)
+*.exr filter=lfs diff=lfs merge=lfs -text
+*.hdr filter=lfs diff=lfs merge=lfs -text
+*.dds filter=lfs diff=lfs merge=lfs -text
+*.tga filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+
+# NOTE: *.png, *.jpg, *.jpeg are NOT tracked by default
+# These are often small icons/textures. Only add if you have large textures.
+# If needed, uncomment and use: git lfs track "*.png" --lockable
+
+# ============================================================================
+# 3D Models (Only source files - compiled assets are in .uasset)
+# ============================================================================
+*.fbx filter=lfs diff=lfs merge=lfs -text
+*.obj filter=lfs diff=lfs merge=lfs -text
+# NOTE: *.blend, *.dae, *.3ds are typically source files kept outside repo
+# Uncomment if you version source 3D files:
+# *.blend filter=lfs diff=lfs merge=lfs -text
+
+# ============================================================================
+# Audio Files (Only uncompressed/large files)
+# ============================================================================
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.flac filter=lfs diff=lfs merge=lfs -text
+# NOTE: *.mp3, *.ogg are compressed and often small - not tracked by default
+
+# ============================================================================
+# Video Files (Only if you version videos)
+# ============================================================================
+# Uncomment if you version video files:
+# *.mp4 filter=lfs diff=lfs merge=lfs -text
+# *.mov filter=lfs diff=lfs merge=lfs -text
+
+# ============================================================================
+# Archives (Only if you version large archives)
+# ============================================================================
+# Uncomment if you version archives:
+# *.zip filter=lfs diff=lfs merge=lfs -text
+# *.rar filter=lfs diff=lfs merge=lfs -text
+# *.7z filter=lfs diff=lfs merge=lfs -text
+
+# ============================================================================
+# Other Unreal-specific binaries
+# ============================================================================
+*.pak filter=lfs diff=lfs merge=lfs -text
+# NOTE: *.dat files are often small config files - not tracked by default

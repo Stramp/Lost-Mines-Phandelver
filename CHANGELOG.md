@@ -76,6 +76,15 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Estrutura backward compatible (proficiências sem ProficiencyData continuam funcionando)
 > >    - Preparação para migração futura para GAS (Gameplay Ability System)
 >
+> > 7. Reorganização completa da documentação e correção de links
+> >    - Corrigidos todos os links duplicados em arquivos de motores e revisões
+> >    - Corrigidas referências `docs/02 - TDD/` → `02-TDD/` em arquivos de pseudocódigo
+> >    - Sidebar reorganizado com estrutura hierárquica completa usando colapsos
+> >    - Sidebar agora corresponde exatamente à estrutura de pastas (GDD, TDD, Planning)
+> >    - Removidos scripts temporários PowerShell da pasta de ciclos
+> >    - Removidos relatórios consolidados obsoletos
+> >    - Criado INDEX.md centralizado na raiz da documentação
+>
 > </details>
 >
 > <details>
@@ -96,6 +105,13 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Remoção de funções obsoletas e depreciadas
 > >    - Refatoração completa de handlers seguindo Clean Code
 > >    - Melhor separação de responsabilidades
+>
+> > 3. Correção de links e organização da documentação
+> >    - Corrigidos links duplicados em `motores.md`, `multiclass-motor.md`, `point-buy-motor.md`, `race-bonus-motor.md`
+> >    - Corrigidos links duplicados em `REVIEW_SUMMARY.md`
+> >    - Corrigidas referências `docs/02 - TDD/` → `02-TDD/` em `08-pseudocodigo.md`
+> >    - Sidebar reorganizado com colapsos hierárquicos correspondendo à estrutura de pastas
+> >    - Removidos arquivos obsoletos e scripts temporários
 >
 > </details>
 >

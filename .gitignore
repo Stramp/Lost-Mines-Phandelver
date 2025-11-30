@@ -43,11 +43,9 @@ build_output.txt
 compile_commands.json
 compile_commands_*.json
 
-# Arquivos específicos do Unreal (gerados)
-*.uasset
-*.umap
-!*_BuiltData.uasset
-!*_BuiltData.umap
+# Arquivos específicos do Unreal
+# NOTA: *.uasset e *.umap são rastreados pelo Git LFS (veja .gitattributes)
+# Não precisam ser ignorados aqui, pois o LFS gerencia esses arquivos
 
 # Arquivos de cache
 *.cache
@@ -114,6 +112,9 @@ __pycache__/
 .env
 .env.local
 .env.*.local
+
+# Configuração do Git LFS Monitor (contém token do GitHub)
+scripts/git-lfs-config.json
 
 # Documentação pessoal (não versionada)
 memorias/
