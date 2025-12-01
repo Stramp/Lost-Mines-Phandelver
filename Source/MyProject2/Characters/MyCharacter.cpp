@@ -7,6 +7,10 @@
 
 #include "Characters/MyCharacter.h"
 
+// Project includes - Components
+#include "Characters/Components/Input/InputActionManagerComponent.h"
+#include "Characters/Components/Input/InputActionType.h"
+
 // Project includes - Helpers
 #include "Characters/Helpers/MovementHelpers.h"
 
@@ -32,6 +36,9 @@ AMyCharacter::AMyCharacter()
     // Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need
     // it.
     PrimaryActorTick.bCanEverTick = true;
+
+    // Cria e inicializa o componente de Input Actions
+    InputActionManager = CreateDefaultSubobject<UInputActionManagerComponent>(TEXT("InputActionManager"));
 
     // Configuração de rotação seguindo padrão Lyra para third person
     // Câmera rotaciona livremente ao redor do personagem
@@ -83,31 +90,38 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputCompone
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-    UEnhancedInputComponent *EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-    if (EnhancedInputComponent)
+    if (!InputActionManager)
     {
-        // Bind Move Action
-        if (MoveAction)
-        {
-            EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMyCharacter::Move);
-        }
+        return;
+    }
 
-        // Bind Look Action
-        if (LookAction)
-        {
-            EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMyCharacter::Look);
-        }
+    UEnhancedInputComponent *EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+    if (!EnhancedInputComponent)
+    {
+        return;
+    }
 
-        // Bind Toggle Rotation Mode Action
-        if (ToggleRotationModeAction)
-        {
-            // Quando pressionado (hold) - ativa modo câmera
-            EnhancedInputComponent->BindAction(ToggleRotationModeAction, ETriggerEvent::Triggered, this,
-                                               &AMyCharacter::ToggleRotationMode);
-            // Quando solto - volta para modo movimento
-            EnhancedInputComponent->BindAction(ToggleRotationModeAction, ETriggerEvent::Completed, this,
-                                               &AMyCharacter::ReleaseRotationMode);
-        }
+    // Bind Move Action
+    if (UInputAction *MoveAction = InputActionManager->GetInputAction(EInputActionType::Move))
+    {
+        EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMyCharacter::Move);
+    }
+
+    // Bind Look Action
+    if (UInputAction *LookAction = InputActionManager->GetInputAction(EInputActionType::Look))
+    {
+        EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMyCharacter::Look);
+    }
+
+    // Bind Toggle Rotation Mode Action
+    if (UInputAction *ToggleAction = InputActionManager->GetInputAction(EInputActionType::ToggleRotationMode))
+    {
+        // Quando pressionado (hold) - ativa modo câmera
+        EnhancedInputComponent->BindAction(ToggleAction, ETriggerEvent::Triggered, this,
+                                           &AMyCharacter::ToggleRotationMode);
+        // Quando solto - volta para modo movimento
+        EnhancedInputComponent->BindAction(ToggleAction, ETriggerEvent::Completed, this,
+                                           &AMyCharacter::ReleaseRotationMode);
     }
 }
 

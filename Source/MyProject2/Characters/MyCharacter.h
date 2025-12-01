@@ -22,6 +22,7 @@
 
 class UInputMappingContext;
 class UInputAction;
+class UInputActionManagerComponent;
 
 #pragma endregion Forward Declarations
 
@@ -63,26 +64,12 @@ protected:
     UInputMappingContext *IMC;
 
     /**
-     * Input Action para movimento (W/A/S/D ou gamepad left stick).
-     * Value Type: Vector2D (Axis2D)
+     * Componente gerenciador de Input Actions.
+     * Modular e escalável - facilita adicionar novas Input Actions.
+     * Configurável no editor via Blueprint (Data-Driven).
      */
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-    UInputAction *MoveAction;
-
-    /**
-     * Input Action para rotação/look (Mouse ou gamepad right stick).
-     * Value Type: Vector2D (Axis2D)
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-    UInputAction *LookAction;
-
-    /**
-     * Input Action para alternar modo de rotação (hold para modo câmera, soltar para modo movimento).
-     * Value Type: Digital (bool)
-     * Trigger: Pressed (hold) e Completed (release)
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-    UInputAction *ToggleRotationModeAction;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Input")
+    UInputActionManagerComponent *InputActionManager;
 
     /**
      * Handler para movimento do personagem.
