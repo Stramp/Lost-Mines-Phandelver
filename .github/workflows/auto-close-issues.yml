@@ -1,0 +1,93 @@
+name: Auto-Close Issues on Merge
+
+on:
+  push:
+    branches: [ main, master ]
+    types: [ push ]
+
+jobs:
+  close-issue:
+    name: Close related issue
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Busca todo histórico para ver commits merged
+    
+    - name: Setup GitHub CLI
+      run: |
+        type gh > /dev/null 2>&1 || (echo "GitHub CLI não encontrado" && exit 1)
+        gh --version
+    
+    - name: Extract issue number and close
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Busca último commit merged
+        LAST_COMMIT=$(git log -1 --pretty=%B)
+        LAST_BRANCH=$(git log -1 --pretty=%D)
+        
+        echo "Último commit: $LAST_COMMIT"
+        echo "Última branch: $LAST_BRANCH"
+        
+        ISSUE_NUM=""
+        
+        # Tenta extrair #número do commit message (padrão: "feat(Scope): ... #568")
+        if echo "$LAST_COMMIT" | grep -qE '#[0-9]+'; then
+          ISSUE_NUM=$(echo "$LAST_COMMIT" | grep -oE '#[0-9]+' | head -1 | sed 's/#//')
+          echo "✅ Issue #$ISSUE_NUM encontrada no commit message"
+        # Tenta extrair do nome da branch no histórico (feat/issue-XXX__...)
+        elif echo "$LAST_BRANCH" | grep -qE 'issue-[0-9]+'; then
+          ISSUE_NUM=$(echo "$LAST_BRANCH" | grep -oE 'issue-[0-9]+' | head -1 | sed 's/issue-//')
+          echo "✅ Issue #$ISSUE_NUM encontrada no nome da branch"
+        # Tenta buscar em todos os commits recentes merged
+        else
+          # Busca nos últimos 10 commits por padrão de branch ou commit message
+          for i in {1..10}; do
+            COMMIT_MSG=$(git log -$i --pretty=%B -1 2>/dev/null || echo "")
+            COMMIT_BRANCH=$(git log -$i --pretty=%D -1 2>/dev/null || echo "")
+            
+            if echo "$COMMIT_MSG" | grep -qE '#[0-9]+'; then
+              ISSUE_NUM=$(echo "$COMMIT_MSG" | grep -oE '#[0-9]+' | head -1 | sed 's/#//')
+              echo "✅ Issue #$ISSUE_NUM encontrada no commit #$i"
+              break
+            elif echo "$COMMIT_BRANCH" | grep -qE 'issue-[0-9]+'; then
+              ISSUE_NUM=$(echo "$COMMIT_BRANCH" | grep -oE 'issue-[0-9]+' | head -1 | sed 's/issue-//')
+              echo "✅ Issue #$ISSUE_NUM encontrada no commit #$i"
+              break
+            fi
+          done
+        fi
+        
+        # Fecha a issue se encontrou número
+        if [ -n "$ISSUE_NUM" ]; then
+          echo "🔒 Fechando issue #$ISSUE_NUM..."
+          
+          # Verifica se issue está aberta antes de fechar
+          ISSUE_STATE=$(gh issue view $ISSUE_NUM --repo ${{ github.repository }} --json state -q .state 2>/dev/null || echo "not_found")
+          
+          if [ "$ISSUE_STATE" = "OPEN" ]; then
+            gh issue close $ISSUE_NUM --repo ${{ github.repository }} \
+              --comment "✅ **Task completada e merged para main**
+
+**Status:**
+- ✅ Código merged para \`main\`
+- ✅ Build passou com sucesso
+- ✅ Issue fechada automaticamente via GitHub Actions
+
+**Próximo passo:** Mover card no Project board para 'Done' (se aplicável)."
+            echo "✅ Issue #$ISSUE_NUM fechada com sucesso"
+          elif [ "$ISSUE_STATE" = "CLOSED" ]; then
+            echo "ℹ️ Issue #$ISSUE_NUM já está fechada"
+          else
+            echo "⚠️ Issue #$ISSUE_NUM não encontrada ou sem permissão"
+          fi
+        else
+          echo "ℹ️ Nenhuma issue encontrada para fechar (nenhum padrão #número ou issue-XXX detectado)"
+        fi
+
