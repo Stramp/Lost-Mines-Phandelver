@@ -126,7 +126,17 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Mudanças em Funcionalidades Existentes
 >
-> > 1. Enhancement de ProficiencyDataTable
+> > 1. **Correção de Links na Documentação** (2024-12-30)
+> >    - Scripts criados para verificar e corrigir links na documentação
+> >    - `verificar-links-documentacao.py` - Verifica links quebrados ou fora do padrão
+> >    - `corrigir-links-documentacao.py` - Corrige links automaticamente
+> >    - 1.636 links corrigidos em 374 arquivos
+> >    - Todos os links agora seguem padrão do sidebar: nome único sem path
+> >    - Links podem referenciar arquivos em qualquer pasta usando apenas o nome único
+> >    - Âncoras (#) preservadas nos links
+> >    - Links externos (http/https) preservados
+>
+> > 2. Enhancement de ProficiencyDataTable
 > >    - Corrigido JSON `DJ_Proficiencie.json`: `type` → `Type`, `description` → `Description` (case-sensitive para compatibilidade com Unreal Engine)
 >
 > > 2. Commit [`be8dbcd`] - Tornar todas as 6 tabelas obrigatórias e remover popup
