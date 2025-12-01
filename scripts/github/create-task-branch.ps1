@@ -45,28 +45,33 @@ function Get-IssueByTitle {
     Write-Host "  Buscando issue: `"$title`"..." -ForegroundColor Gray
 
     try {
-        $issueJson = & $ghPath issue list --repo $meuRepo --search "`"$title`" in:title" --json number,url,title --limit 1 2>&1
+        # Usa busca sem aspas e depois filtra pelo título exato
+        $searchQuery = "$title in:title"
+        $issueJson = & $ghPath issue list --repo $meuRepo --search $searchQuery --json number,url,title --limit 10 2>&1
 
         if ($LASTEXITCODE -eq 0 -and $issueJson) {
             $issues = $issueJson | ConvertFrom-Json
 
             if ($issues -and $issues.Count -gt 0) {
-                $issue = $issues[0]
+                # Procura issue com título exato
+                $exactMatch = $issues | Where-Object { $_.title -eq $title } | Select-Object -First 1
 
-                # Verifica se o título é exatamente igual
-                if ($issue.title -eq $title) {
-                    Write-Host "  [OK] Issue encontrada: #$($issue.number)" -ForegroundColor Green
-                    return $issue
+                if ($exactMatch) {
+                    Write-Host "  [OK] Issue encontrada: #$($exactMatch.number)" -ForegroundColor Green
+                    return $exactMatch
                 } else {
-                    Write-Host "  [AVISO] Issue encontrada mas título não confere:" -ForegroundColor Yellow
+                    Write-Host "  [AVISO] Issues encontradas mas nenhuma com título exato:" -ForegroundColor Yellow
                     Write-Host "    Esperado: `"$title`"" -ForegroundColor Yellow
-                    Write-Host "    Encontrado: `"$($issue.title)`"" -ForegroundColor Yellow
+                    foreach ($issue in $issues | Select-Object -First 3) {
+                        Write-Host "    Encontrado: `"$($issue.title)`"" -ForegroundColor Yellow
+                    }
                     return $null
                 }
             }
         }
 
         Write-Host "  [ERRO] Issue não encontrada no GitHub" -ForegroundColor Red
+        Write-Host "  Debug: Search query = `"$searchQuery`"" -ForegroundColor Gray
         return $null
     } catch {
         Write-Host "  [ERRO] Erro ao buscar issue: $_" -ForegroundColor Red
@@ -174,12 +179,12 @@ function Create-TaskBranch {
     Write-Host "Nome da branch: $branchName" -ForegroundColor Cyan
     Write-Host ""
 
-    # Verifica se branch já existe
-    $branchExists = git show-ref --verify --quiet "refs/heads/$branchName" 2>$null
+    # Verifica se branch já existe localmente
     $currentBranch = git rev-parse --abbrev-ref HEAD 2>$null
+    $branchExistsLocal = git show-ref --verify --quiet "refs/heads/$branchName" 2>$null
 
     if ($LASTEXITCODE -eq 0) {
-        # Branch existe
+        # Branch existe localmente
         if ($currentBranch -eq $branchName) {
             Write-Host "[OK] Já está na branch: $branchName" -ForegroundColor Green
             Write-Host "  Conectada com: Issue #$($issue.number) - $taskTitle" -ForegroundColor Gray
@@ -187,7 +192,7 @@ function Create-TaskBranch {
             return $true
         } else {
             if ($Force) {
-                Write-Host "[AVISO] Branch já existe. Fazendo checkout..." -ForegroundColor Yellow
+                Write-Host "[AVISO] Branch já existe localmente. Fazendo checkout..." -ForegroundColor Yellow
                 git checkout $branchName 2>&1 | Out-Null
                 if ($LASTEXITCODE -eq 0) {
                     Write-Host "[OK] Checkout realizado: $branchName" -ForegroundColor Green
@@ -199,31 +204,42 @@ function Create-TaskBranch {
                     return $false
                 }
             } else {
-                Write-Host "[ERRO] Branch já existe: $branchName" -ForegroundColor Red
+                Write-Host "[ERRO] Branch já existe localmente: $branchName" -ForegroundColor Red
                 Write-Host "  Use -Force para fazer checkout da branch existente" -ForegroundColor Yellow
                 return $false
             }
         }
     }
 
-    # Cria nova branch
-    Write-Host "Criando branch: $branchName..." -ForegroundColor Cyan
+    # Cria nova branch conectada com a issue no GitHub
+    Write-Host "Criando branch conectada com issue: $branchName..." -ForegroundColor Cyan
 
-    git checkout -b $branchName 2>&1 | Out-Null
+    # Usa GitHub CLI para criar branch conectada com a issue
+    $ghResult = & $ghPath issue develop $($issue.number) --repo $meuRepo --name $branchName --checkout 2>&1
 
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "[OK] Branch criada com sucesso!" -ForegroundColor Green
+        Write-Host "[OK] Branch criada e conectada com sucesso!" -ForegroundColor Green
         Write-Host ""
         Write-Host "=== RESUMO ===" -ForegroundColor Cyan
         Write-Host "  Branch: $branchName" -ForegroundColor White
         Write-Host "  Issue: #$($issue.number) - $taskTitle" -ForegroundColor White
         Write-Host "  URL: $($issue.url)" -ForegroundColor White
         Write-Host ""
-        Write-Host "Branch conectada com issue #$($issue.number)" -ForegroundColor Green
+        Write-Host "Branch conectada com issue #$($issue.number) no GitHub" -ForegroundColor Green
         return $true
     } else {
-        Write-Host "[ERRO] Falha ao criar branch" -ForegroundColor Red
-        return $false
+        # Fallback: cria branch localmente se GitHub CLI falhar
+        Write-Host "[AVISO] GitHub CLI falhou, criando branch localmente..." -ForegroundColor Yellow
+        git checkout -b $branchName 2>&1 | Out-Null
+
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "[OK] Branch criada localmente (não conectada no GitHub)" -ForegroundColor Yellow
+            Write-Host "  Para conectar, use: gh issue develop $($issue.number) --name $branchName" -ForegroundColor Gray
+            return $true
+        } else {
+            Write-Host "[ERRO] Falha ao criar branch" -ForegroundColor Red
+            return $false
+        }
     }
 }
 
