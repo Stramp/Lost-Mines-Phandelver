@@ -97,6 +97,17 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputCompone
         {
             EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMyCharacter::Look);
         }
+
+        // Bind Toggle Rotation Mode Action
+        if (ToggleRotationModeAction)
+        {
+            // Quando pressionado (hold) - ativa modo câmera
+            EnhancedInputComponent->BindAction(ToggleRotationModeAction, ETriggerEvent::Triggered, this,
+                                               &AMyCharacter::ToggleRotationMode);
+            // Quando solto - volta para modo movimento
+            EnhancedInputComponent->BindAction(ToggleRotationModeAction, ETriggerEvent::Completed, this,
+                                               &AMyCharacter::ReleaseRotationMode);
+        }
     }
 }
 
@@ -163,6 +174,37 @@ void AMyCharacter::Look(const FInputActionValue &Value)
     // Aplica rotação Pitch (vertical) - rotaciona apenas a câmera
     // (invertido porque mouse Y geralmente precisa ser invertido para pitch em third person)
     AddControllerPitchInput(-LookAxisVector.Y);
+}
+
+void AMyCharacter::ToggleRotationMode(const FInputActionValue &Value)
+{
+    // Modo 2: Personagem sempre olha na direção da câmera
+    UpdateRotationMode(true);
+}
+
+void AMyCharacter::ReleaseRotationMode(const FInputActionValue &Value)
+{
+    // Modo 1: Personagem rotaciona na direção do movimento
+    UpdateRotationMode(false);
+}
+
+void AMyCharacter::UpdateRotationMode(bool bLookAtCamera)
+{
+    if (UCharacterMovementComponent *MovementComp = GetCharacterMovement())
+    {
+        if (bLookAtCamera)
+        {
+            // Modo 2: Personagem sempre olha na direção da câmera
+            bUseControllerRotationYaw = true;
+            MovementComp->bOrientRotationToMovement = false;
+        }
+        else
+        {
+            // Modo 1: Personagem rotaciona na direção do movimento
+            bUseControllerRotationYaw = false;
+            MovementComp->bOrientRotationToMovement = true;
+        }
+    }
 }
 
 #pragma endregion Input Handlers

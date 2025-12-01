@@ -77,6 +77,14 @@ protected:
     UInputAction *LookAction;
 
     /**
+     * Input Action para alternar modo de rotação (hold para modo câmera, soltar para modo movimento).
+     * Value Type: Digital (bool)
+     * Trigger: Pressed (hold) e Completed (release)
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+    UInputAction *ToggleRotationModeAction;
+
+    /**
      * Handler para movimento do personagem.
      * Converte input Vector2D em movimento relativo à rotação da câmera.
      *
@@ -91,6 +99,30 @@ protected:
      * @param Value Input Action Value contendo Vector2D (X = Yaw, Y = Pitch)
      */
     void Look(const FInputActionValue &Value);
+
+    /**
+     * Handler para quando pressionar a tecla de alternar modo de rotação (hold).
+     * Ativa modo 2: Personagem sempre olha na direção da câmera.
+     *
+     * @param Value Input Action Value (não usado, mas necessário para assinatura)
+     */
+    void ToggleRotationMode(const FInputActionValue &Value);
+
+    /**
+     * Handler para quando soltar a tecla de alternar modo de rotação.
+     * Volta para modo 1: Personagem rotaciona na direção do movimento.
+     *
+     * @param Value Input Action Value (não usado, mas necessário para assinatura)
+     */
+    void ReleaseRotationMode(const FInputActionValue &Value);
+
+    /**
+     * Atualiza o modo de rotação do personagem.
+     *
+     * @param bLookAtCamera Se true, personagem sempre olha na direção da câmera (modo 2)
+     *                      Se false, personagem rotaciona na direção do movimento (modo 1)
+     */
+    void UpdateRotationMode(bool bLookAtCamera);
 
 public:
     /**
