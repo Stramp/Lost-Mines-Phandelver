@@ -110,24 +110,21 @@ void AMyCharacter::Move(const FInputActionValue &Value)
     FVector ForwardDirection = MovementHelpers::CalculateForwardDirection(ControlRotation);
     FVector RightDirection = MovementHelpers::CalculateRightDirection(ControlRotation);
 
-    // Aplica movimento Forward/Backward (Y do input)
-    AddMovementInput(ForwardDirection, MovementVector.Y);
+    // Combina as direções em um único vetor de movimento
+    FVector MovementDirection = (ForwardDirection * MovementVector.Y) + (RightDirection * MovementVector.X);
 
-    // Aplica movimento Left/Right (X do input)
-    AddMovementInput(RightDirection, MovementVector.X);
-
-    // Log para debug (pode ser removido em produção)
-    FLoggingSystem::LogInfo(
-        FLogContext(TEXT("MyCharacter"), TEXT("Move")),
-        FString::Printf(TEXT("Move - Input: X=%.2f Y=%.2f | Forward: (%.2f, %.2f, %.2f) | Right: (%.2f, %.2f, %.2f)"),
-                        MovementVector.X, MovementVector.Y, ForwardDirection.X, ForwardDirection.Y, ForwardDirection.Z,
-                        RightDirection.X, RightDirection.Y, RightDirection.Z));
+    // Aplica movimento em uma única chamada
+    AddMovementInput(MovementDirection, 1.0f);
 }
 
 void AMyCharacter::Look(const FInputActionValue &Value)
 {
     // Obtém o Vector2D do input (X = Yaw, Y = Pitch)
     FVector2D LookAxisVector = Value.Get<FVector2D>();
+
+    // Log para debug
+    FLoggingSystem::LogInfo(FLogContext(TEXT("MyCharacter"), TEXT("Look")),
+                            FString::Printf(TEXT("Look - Input: X=%.2f Y=%.2f"), LookAxisVector.X, LookAxisVector.Y));
 
     // Se o input for muito pequeno, ignora (evita drift)
     if (LookAxisVector.IsNearlyZero())
@@ -147,10 +144,6 @@ void AMyCharacter::Look(const FInputActionValue &Value)
 
     // Aplica rotação Pitch (vertical) - rotaciona a câmera
     AddControllerPitchInput(LookAxisVector.Y);
-
-    // Log para debug (pode ser removido em produção)
-    FLoggingSystem::LogInfo(FLogContext(TEXT("MyCharacter"), TEXT("Look")),
-                            FString::Printf(TEXT("Look - Input: X=%.2f Y=%.2f"), LookAxisVector.X, LookAxisVector.Y));
 }
 
 #pragma endregion Input Handlers
