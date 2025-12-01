@@ -52,6 +52,20 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Funções simplificadas (Module + Message) e completas (Module + Function + Message + AssetName)
 > >    - Testado em C++ e Blueprint
 > >    - Compilação validada (19.85s, 0 erros, 0 warnings)
+> >
+> > 3. **Ciclo 1.6: Sistema de Salvamento MVP** (2024-12-30)
+> >    - `UMyProject2SaveGame` implementado (herda de USaveGame)
+> >    - Estrutura de dados básica (CharacterName, Level, Race, Class, SaveTimestamp, SaveVersion)
+> >    - `USaveGameHelpers` criada com funções estáticas para save/load
+> >    - `SaveGameToSlot()` - Salva dados do jogo em slot
+> >    - `LoadGameFromSlot()` - Carrega dados do jogo de slot
+> >    - `DoesSaveGameExist()` - Verifica se save existe
+> >    - `DeleteGameInSlot()` - Deleta save de slot
+> >    - Logging integrado em todas as operações
+> >    - Serialização automática via USaveGame (UPROPERTY(SaveGame))
+> >    - 15 testes automatizados criados (todos passando - 100%)
+> >    - Testes validados conforme TDD guide (sem lógica interna)
+> >    - Compilação validada (24.88s, 0 erros, 0 warnings)
 >
 > > 2. Commit [`302c25c`] - Adicionar regra de Test-Driven Development (TDD)
 > >    - Criada regra `test-driven-development.mdc` com metodologia TDD completa
