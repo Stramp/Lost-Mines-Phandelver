@@ -37,6 +37,8 @@ AMyCharacter::AMyCharacter()
     // Câmera rotaciona livremente ao redor do personagem
     // Personagem rotaciona apenas quando se move, na direção do movimento (que é baseado na câmera)
     bUseControllerRotationYaw = false;
+    bUseControllerRotationPitch = false; // Personagem NÃO rotaciona no pitch (apenas câmera)
+    bUseControllerRotationRoll = false;  // Personagem NÃO rotaciona no roll (apenas câmera)
 
     // Personagem se orienta na direção do movimento automaticamente
     // (o movimento já usa a direção da câmera, então o personagem rotaciona na direção da câmera quando se move)
@@ -159,7 +161,8 @@ void AMyCharacter::Look(const FInputActionValue &Value)
     AddControllerYawInput(LookAxisVector.X);
 
     // Aplica rotação Pitch (vertical) - rotaciona apenas a câmera
-    AddControllerPitchInput(LookAxisVector.Y);
+    // (invertido porque mouse Y geralmente precisa ser invertido para pitch em third person)
+    AddControllerPitchInput(-LookAxisVector.Y);
 }
 
 #pragma endregion Input Handlers
