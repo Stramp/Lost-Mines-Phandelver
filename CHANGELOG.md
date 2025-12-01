@@ -33,7 +33,17 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 >
 > > Novas Funcionalidades
 >
-> > 1. Commit [`302c25c`] - Adicionar regra de Test-Driven Development (TDD)
+> > 1. **Ciclo 1.1: Setup Projeto** (2024-12-30)
+> >    - Projeto Unreal Engine 5.7 configurado e funcional
+> >    - Estrutura de pastas criada (Source/, Content/, Config/)
+> >    - Arquivo `.uproject` configurado com módulo MyProject2
+> >    - Arquivo `.Build.cs` configurado com dependências básicas
+> >    - Compilação validada (46.06s, 0 erros, 0 warnings)
+> >    - Editor abre e funciona corretamente
+> >    - Assets do Unreal Engine commitados via Git LFS
+> >    - Script `create-task-branch.ps1` para criar branches conectadas com GitHub issues
+>
+> > 2. Commit [`302c25c`] - Adicionar regra de Test-Driven Development (TDD)
 > >    - Criada regra `test-driven-development.mdc` com metodologia TDD completa
 > >    - Definido ciclo Red-Green-Refactor obrigatório para código crítico
 > >    - Test-first obrigatório para Helpers/Utils, Motores, Validators e lógica de negócio
