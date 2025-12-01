@@ -16,6 +16,7 @@
 // Engine includes
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/PlayerController.h"
 
@@ -31,6 +32,18 @@ AMyCharacter::AMyCharacter()
     // Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need
     // it.
     PrimaryActorTick.bCanEverTick = true;
+
+    // Configuração de rotação seguindo padrão Lyra para third person
+    // Câmera rotaciona livremente ao redor do personagem
+    // Personagem rotaciona apenas quando se move, na direção do movimento (que é baseado na câmera)
+    bUseControllerRotationYaw = false;
+
+    // Personagem se orienta na direção do movimento automaticamente
+    // (o movimento já usa a direção da câmera, então o personagem rotaciona na direção da câmera quando se move)
+    if (UCharacterMovementComponent *MovementComp = GetCharacterMovement())
+    {
+        MovementComp->bOrientRotationToMovement = true;
+    }
 }
 
 #pragma endregion Construction
@@ -141,13 +154,9 @@ void AMyCharacter::Look(const FInputActionValue &Value)
         return;
     }
 
-    // Aplica rotação Yaw (horizontal) - rotaciona o controller (câmera)
+    // Aplica rotação Yaw (horizontal) - rotaciona apenas a câmera
+    // (personagem não rotaciona automaticamente, apenas quando se move)
     AddControllerYawInput(LookAxisVector.X);
-
-    // Rotaciona o personagem para seguir a direção da câmera (apenas Yaw)
-    FRotator ControlRotation = GetControlRotation();
-    FRotator CharacterRotation(0.0f, ControlRotation.Yaw, 0.0f);
-    SetActorRotation(CharacterRotation);
 
     // Aplica rotação Pitch (vertical) - rotaciona apenas a câmera
     AddControllerPitchInput(LookAxisVector.Y);
