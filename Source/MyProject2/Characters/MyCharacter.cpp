@@ -94,8 +94,10 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputCompone
 
 void AMyCharacter::Move(const FInputActionValue &Value)
 {
-    // Obtém o Vector2D do input (X = Left/Right, Y = Forward/Backward)
     FVector2D MovementVector = Value.Get<FVector2D>();
+    FLoggingSystem::LogInfo(FLogContext(TEXT("MyCharacter"), TEXT("Move")),
+                            FString::Printf(TEXT("Move - Input: X=%.2f Y=%.2f"), MovementVector.X, MovementVector.Y));
+    // Obtém o Vector2D do input (X = Left/Right, Y = Forward/Backward)
 
     // Se o movimento for muito pequeno, ignora (evita drift)
     if (MovementVector.IsNearlyZero())
@@ -139,10 +141,15 @@ void AMyCharacter::Look(const FInputActionValue &Value)
         return;
     }
 
-    // Aplica rotação Yaw (horizontal) - rotaciona o personagem
+    // Aplica rotação Yaw (horizontal) - rotaciona o controller (câmera)
     AddControllerYawInput(LookAxisVector.X);
 
-    // Aplica rotação Pitch (vertical) - rotaciona a câmera
+    // Rotaciona o personagem para seguir a direção da câmera (apenas Yaw)
+    FRotator ControlRotation = GetControlRotation();
+    FRotator CharacterRotation(0.0f, ControlRotation.Yaw, 0.0f);
+    SetActorRotation(CharacterRotation);
+
+    // Aplica rotação Pitch (vertical) - rotaciona apenas a câmera
     AddControllerPitchInput(LookAxisVector.Y);
 }
 
