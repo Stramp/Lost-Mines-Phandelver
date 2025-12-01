@@ -3,10 +3,12 @@
 /.git
 /.github
 /.vscode
+/Assets
 /Content
 /DerivedDataCache
-/docs
 /Intermediate
-/memorias
+/Packages
+/ProjectSettings
 /Saved
 /scripts
+/UserSettings
