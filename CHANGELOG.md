@@ -42,6 +42,16 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Editor abre e funciona corretamente
 > >    - Assets do Unreal Engine commitados via Git LFS
 > >    - Script `create-task-branch.ps1` para criar branches conectadas com GitHub issues
+> >
+> > 2. **Ciclo 1.2: Sistema de Logging MVP** (2024-12-30)
+> >    - `FLoggingSystem` implementado com categorias de log por módulo
+> >    - Suporte para Debug, Info, Warning, Error e Fatal
+> >    - `FLogContext` para rastreamento contextual (Module, Function, AssetName, LineNumber)
+> >    - Feedback no editor (popups para erros, mensagens throttled para warnings)
+> >    - `ULoggingSystemBlueprintLibrary` criada para expor funções ao Blueprint
+> >    - Funções simplificadas (Module + Message) e completas (Module + Function + Message + AssetName)
+> >    - Testado em C++ e Blueprint
+> >    - Compilação validada (19.85s, 0 erros, 0 warnings)
 >
 > > 2. Commit [`302c25c`] - Adicionar regra de Test-Driven Development (TDD)
 > >    - Criada regra `test-driven-development.mdc` com metodologia TDD completa
