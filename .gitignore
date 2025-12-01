@@ -121,3 +121,6 @@ memorias/
 
 # Pasta de execução temporária (relatórios e tarefas em andamento)
 docs/00 - Executando/
+
+# Arquivo especial do Windows (nul é dispositivo, não pode ser versionado)
+nul
