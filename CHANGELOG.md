@@ -185,6 +185,17 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Documentação técnica completa
 > >    - Guias para designers implementados
 > >
+> > 12. **Ciclo 2.4: Data Table de Skills MVP** (2024-12-27)
+> >    - `SkillDataTable.h` criado com estrutura `FSkillDataRow` completa
+> >    - Campos implementados: Name, ID, AbilityID, Description, TypeTags
+> >    - Estrutura simples e direta para as 18 skills D&D 5e
+> >    - Integração com AbilityScoreDataTable via AbilityID
+> >    - Integração com ClassDataTable e BackgroundDataTable para proficiências
+> >    - Validação de integridade implementada via `DataTableIntegrityValidator`
+> >    - Data Table asset criado e preenchido com todas as 18 skills D&D 5e
+> >    - Documentação técnica completa
+> >    - Guias para designers implementados
+> >
 > </details>
 >
 > <details>
