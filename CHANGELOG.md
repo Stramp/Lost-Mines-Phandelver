@@ -170,6 +170,21 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Documentação técnica completa (`class-datatable.md`)
 > >    - Guias para designers implementados
 > >
+> > 11. **Ciclo 2.3: Data Table de Backgrounds MVP** (2024-12-27)
+> >    - `BackgroundDataTable.h` criado com estrutura `FBackgroundDataRow` completa
+> >    - Estrutura `FLanguageChoices` para escolhas de idiomas
+> >    - Campos implementados: Name, ID, Description, TypeTags, SkillProficiencyHandles, LanguageHandles
+> >    - Suporte para LanguageChoices, Equipment e TraitHandle via `FDataTableRowHandle`
+> >    - Helpers implementados: `FindBackgroundRow()`, `IsBackgroundDataTable()`
+> >    - Validators implementados: `DataTableIntegrityValidator` com validação de BackgroundDataTable
+> >    - Integração completa com `CharacterSheetDataAsset` e sistema de idiomas
+> >    - Testes automatizados criados:
+> >      - `DataTableHelpersTests.cpp` - Testes para busca e validação de backgrounds
+> >      - `LanguageHelpers.cpp` - Testes de integração com sistema de idiomas
+> >    - Data Table asset criado e preenchido com todos os backgrounds D&D 5e
+> >    - Documentação técnica completa
+> >    - Guias para designers implementados
+> >
 > </details>
 >
 > <details>
