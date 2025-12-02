@@ -196,6 +196,23 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Documentação técnica completa
 > >    - Guias para designers implementados
 > >
+> > 13. **Ciclo 2.5: Data Table de Proficiências MVP** (2024-12-27)
+> >    - `ProficiencyDataTable.h` criado com estrutura `FProficiencyDataRow` completa
+> >    - Campos implementados: Name, ID, Type, Description, TypeTags, ProficiencyData
+> >    - Suporte para múltiplos tipos: Weapon, Armor, Shield, Tool, Skill, SavingThrow, Language
+> >    - Campo `ProficiencyData` (TMap<FName, FString>) para dados estruturados opcionais
+> >    - Helpers implementados: `FindProficiencyRowByID()`, `IsProficiencyDataTable()`
+> >    - `ProficiencyHelpers` namespace com funções para ler ProficiencyData
+> >    - Validators implementados: `DataTableIntegrityValidator` com validação de ProficiencyDataTable
+> >    - Integração completa com ClassDataTable, RaceDataTable e BackgroundDataTable
+> >    - Testes automatizados criados:
+> >      - `ProficiencyDataTableTests.cpp` - Testes para estrutura de dados
+> >      - `ProficiencyHelpersTests.cpp` - Testes para helpers (12 testes)
+> >      - `DataTableHelpersTests.cpp` - Testes para busca e validação
+> >    - Data Table asset criado e preenchido com todas as proficiências D&D 5e
+> >    - Documentação técnica completa
+> >    - Guias para designers implementados
+> >
 > </details>
 >
 > <details>
