@@ -2,72 +2,73 @@
 description: CRITICAL RULE - Task execution workflow. All tasks must follow TDD, be modular, and integrate with GitHub workflow (branch creation, status updates).
 globs: ["*.cpp", "*.h", "*.ps1"]
 alwaysApply: true
+priority: 5
 ---
 
 # 🎯 Task Execution Rules
 
-## 🚨 REGRA PRINCIPAL - INTEGRIDADE E MODULARIDADE 🚨
+## 🚨 MAIN RULE - INTEGRITY AND MODULARITY 🚨
 
-**ALWAYS** seguir estas regras ao executar qualquer task:
+**ALWAYS** follow these rules when executing any task:
 
-- ✅ **TDD obrigatório**: Todas tasks devem ser testadas e todos testes devem passar
-- ✅ **Modularidade**: Focar somente na integridade da task sempre sendo modular
-- ✅ **GitHub Integration**: Mover task de TODO para In Progress no GitHub
-- ✅ **Branch Creation**: Sempre criar branch para iniciar uma task
-- ✅ **Auto Status Update**: Ao adicionar branch na issue, mover automaticamente para In Progress
+- ✅ **TDD mandatory**: All tasks must be tested and all tests must pass
+- ✅ **Modularity**: Focus only on task integrity while always being modular
+- ✅ **GitHub Integration**: Move task from TODO to In Progress on GitHub
+- ✅ **Branch Creation**: Always create branch to start a task
+- ✅ **Auto Status Update**: When adding branch to issue, automatically move to In Progress
 
-## 📋 Workflow de Execução de Task
+## 📋 Task Execution Workflow
 
-### 1. Início da Task
+### 1. Task Start
 
-**ALWAYS** seguir esta sequência:
+**ALWAYS** follow this sequence:
 
-1. **Criar branch** para a task
+1. **Create branch** for the task
    ```bash
-   git checkout -b feature/task-XX-nome-da-task
+   git checkout -b feature/task-XX-task-name
    ```
 
-2. **Adicionar branch na issue** do GitHub
-   - Usar script `create-task-branch.ps1` ou equivalente
-   - Script deve automaticamente mover issue para "In Progress"
+2. **Add branch to issue** on GitHub
+   - Use script `create-task-branch.ps1` or equivalent
+   - Script must automatically move issue to "In Progress"
 
-3. **Escrever testes PRIMEIRO** (TDD - Red)
-   - Seguir regra `test-driven-development.mdc`
-   - Testes devem falhar inicialmente (Red)
+3. **Write tests FIRST** (TDD - Red)
+   - Follow rule `test-driven-development-core.mdc`
+   - Tests must fail initially (Red)
 
-4. **Implementar funcionalidade mínima** (TDD - Green)
-   - Fazer testes passarem com implementação mínima
+4. **Implement minimal functionality** (TDD - Green)
+   - Make tests pass with minimal implementation
 
-5. **Refatorar com segurança** (TDD - Refactor)
-   - Melhorar código mantendo testes verdes
+5. **Refactor safely** (TDD - Refactor)
+   - Improve code while keeping tests green
 
-### 2. Durante o Desenvolvimento
+### 2. During Development
 
-**ALWAYS** manter:
+**ALWAYS** maintain:
 
-- ✅ **Modularidade**: Cada função/classe com responsabilidade única
-- ✅ **Testes passando**: Todos testes devem passar antes de commit
-- ✅ **Clean Code**: Seguir `clean-code-mandatory.mdc`
-- ✅ **Arquitetura**: Respeitar `project-architecture.mdc`
+- ✅ **Modularity**: Each function/class with single responsibility
+- ✅ **Tests passing**: All tests must pass before commit
+- ✅ **Clean Code**: Follow `clean-code-mandatory.mdc`
+- ✅ **Architecture**: Respect `project-architecture.mdc`
 
 **NEVER**:
 
-- ❌ Commitar código sem testes
-- ❌ Commitar código com testes falhando
-- ❌ Criar código não modular
-- ❌ Violar princípios de Clean Code
+- ❌ Commit code without tests
+- ❌ Commit code with failing tests
+- ❌ Create non-modular code
+- ❌ Violate Clean Code principles
 
-### 3. Finalização da Task
+### 3. Task Completion
 
-**ALWAYS** verificar antes de marcar como concluída:
+**ALWAYS** verify before marking as completed:
 
-- [ ] Todos testes passam?
-- [ ] Código segue Clean Code?
-- [ ] Código é modular?
-- [ ] Arquitetura respeitada?
-- [ ] Documentação atualizada (se necessário)?
-- [ ] Branch adicionada na issue?
-- [ ] Issue movida para "In Progress" (ou "Done" se finalizada)?
+- [ ] All tests pass?
+- [ ] Code follows Clean Code?
+- [ ] Code is modular?
+- [ ] Architecture respected?
+- [ ] Documentation updated (if necessary)?
+- [ ] Branch added to issue?
+- [ ] Issue moved to "In Progress" (or "Done" if completed)?
 
 ## 🔄 Integração com GitHub
 
@@ -79,124 +80,124 @@ alwaysApply: true
 2. Adiciona branch na issue do GitHub
 3. **Automaticamente move issue para "In Progress"**
 
-**Exemplo de fluxo:**
+**Flow example:**
 
 ```powershell
-# Script deve fazer:
-# 1. git checkout -b feature/task-XX-nome
+# Script must do:
+# 1. git checkout -b feature/task-XX-name
 # 2. gh issue edit <issue-number> --add-assignee "@me"
-# 3. gh issue edit <issue-number> --add-project "Nome do Projeto"
-# 4. gh issue edit <issue-number> --body "Branch: feature/task-XX-nome"
-# 5. Mover para "In Progress" automaticamente
+# 3. gh issue edit <issue-number> --add-project "Project Name"
+# 4. gh issue edit <issue-number> --body "Branch: feature/task-XX-name"
+# 5. Automatically move to "In Progress"
 ```
 
-### Status da Issue
+### Issue Status
 
-**ALWAYS** manter status atualizado:
+**ALWAYS** keep status updated:
 
-- **TODO** → Quando task é criada
-- **In Progress** → Quando branch é criada e adicionada na issue
-- **In Review** → Quando PR é criado
-- **Done** → Quando PR é mergeado
+- **TODO** → When task is created
+- **In Progress** → When branch is created and added to issue
+- **In Review** → When PR is created
+- **Done** → When PR is merged
 
-## 🧪 TDD Obrigatório para Tasks
+## 🧪 TDD Mandatory for Tasks
 
-### Regra de Ouro
+### Golden Rule
 
-> **"Nenhuma task é considerada completa sem testes que passam."**
+> **"No task is considered complete without passing tests."**
 
-### Checklist TDD para Task
+### TDD Checklist for Task
 
-Antes de considerar task completa:
+Before considering task complete:
 
-- [ ] Testes escritos ANTES da implementação (Red)?
-- [ ] Testes definem comportamento esperado claramente?
-- [ ] Testes NÃO têm lógica interna (valor esperado é hardcoded)?
-- [ ] Testes chamam função real do módulo oficial?
-- [ ] Implementação mínima faz testes passarem (Green)?
-- [ ] Código foi refatorado com testes garantindo (Refactor)?
-- [ ] Todos testes passam?
-- [ ] Testes cobrem casos válidos, inválidos e edge cases?
+- [ ] Tests written BEFORE implementation (Red)?
+- [ ] Tests clearly define expected behavior?
+- [ ] Tests do NOT have internal logic (expected value is hardcoded)?
+- [ ] Tests call real function from official module?
+- [ ] Minimal implementation makes tests pass (Green)?
+- [ ] Code was refactored with tests ensuring (Refactor)?
+- [ ] All tests pass?
+- [ ] Tests cover valid, invalid and edge cases?
 
-### Quando Aplicar TDD
+### When to Apply TDD
 
-**ALWAYS** aplicar TDD quando:
+**ALWAYS** apply TDD when:
 
-- ✅ Criando nova funcionalidade
-- ✅ Adicionando helper/utility
-- ✅ Implementando lógica de negócio
-- ✅ Refatorando código crítico
+- ✅ Creating new functionality
+- ✅ Adding helper/utility
+- ✅ Implementing business logic
+- ✅ Refactoring critical code
 
-**Pode pular TDD quando:**
+**Can skip TDD when:**
 
-- ❌ Getters/Setters simples
-- ❌ Wrappers diretos de API
-- ❌ Mudanças muito pequenas (< 5 linhas)
+- ❌ Simple Getters/Setters
+- ❌ Direct API wrappers
+- ❌ Very small changes (< 5 lines)
 
-## 🎯 Modularidade Obrigatória
+## 🎯 Mandatory Modularity
 
-### Princípio Fundamental
+### Fundamental Principle
 
-> **"Cada task deve ser completa e modular, sem depender de outras tasks incompletas."**
+> **"Each task must be complete and modular, without depending on other incomplete tasks."**
 
-### Regras de Modularidade
+### Modularity Rules
 
 **ALWAYS**:
 
-- ✅ Task deve ser independente
-- ✅ Task deve ter responsabilidade única
-- ✅ Task não deve quebrar funcionalidades existentes
-- ✅ Task deve seguir Single Responsibility Principle
+- ✅ Task must be independent
+- ✅ Task must have single responsibility
+- ✅ Task must not break existing functionalities
+- ✅ Task must follow Single Responsibility Principle
 
 **NEVER**:
 
-- ❌ Criar task que depende de outra task incompleta
-- ❌ Misturar múltiplas responsabilidades em uma task
-- ❌ Quebrar funcionalidades existentes
-- ❌ Criar código acoplado
+- ❌ Create task that depends on another incomplete task
+- ❌ Mix multiple responsibilities in one task
+- ❌ Break existing functionalities
+- ❌ Create coupled code
 
-### Integridade da Task
+### Task Integrity
 
-**ALWAYS** garantir que:
+**ALWAYS** ensure that:
 
-- ✅ Task resolve completamente o problema proposto
-- ✅ Task não deixa código incompleto
-- ✅ Task não cria dívida técnica
-- ✅ Task segue padrões do projeto
+- ✅ Task completely solves the proposed problem
+- ✅ Task does not leave incomplete code
+- ✅ Task does not create technical debt
+- ✅ Task follows project patterns
 
-## 📝 Checklist de Execução de Task
+## 📝 Task Execution Checklist
 
-### Antes de Iniciar
+### Before Starting
 
-- [ ] Task está clara e bem definida?
-- [ ] Entendi o que precisa ser feito?
-- [ ] Verifiquei dependências?
-- [ ] Branch será criada?
+- [ ] Is task clear and well defined?
+- [ ] Do I understand what needs to be done?
+- [ ] Did I check dependencies?
+- [ ] Will branch be created?
 
-### Durante o Desenvolvimento
+### During Development
 
-- [ ] Testes escritos primeiro (TDD)?
-- [ ] Código é modular?
-- [ ] Testes passam?
-- [ ] Clean Code aplicado?
-- [ ] Arquitetura respeitada?
+- [ ] Tests written first (TDD)?
+- [ ] Is code modular?
+- [ ] Do tests pass?
+- [ ] Clean Code applied?
+- [ ] Architecture respected?
 
-### Antes de Finalizar
+### Before Finishing
 
-- [ ] Todos testes passam?
-- [ ] Código revisado?
-- [ ] Branch adicionada na issue?
-- [ ] Issue movida para status correto?
-- [ ] PR criado (se aplicável)?
+- [ ] All tests pass?
+- [ ] Code reviewed?
+- [ ] Branch added to issue?
+- [ ] Issue moved to correct status?
+- [ ] PR created (if applicable)?
 
 ## 🔗 Integração com Outras Regras
 
 ### Test-Driven Development
 
-**Esta regra complementa `test-driven-development.mdc`:**
+**This rule complements `test-driven-development-core.mdc`:**
 
-- `test-driven-development.mdc`: **COMO** aplicar TDD (metodologia)
-- `task-execution.mdc`: **QUANDO** aplicar TDD (no contexto de tasks)
+- `test-driven-development-core.mdc`: **HOW** to apply TDD (methodology)
+- `task-execution.mdc`: **WHEN** to apply TDD (in task context)
 
 ### Clean Code
 
@@ -214,59 +215,59 @@ Antes de considerar task completa:
 - Task Execution garante integridade da task
 - Ambas trabalham juntas para manter qualidade
 
-## 🚫 O Que NÃO Fazer
+## 🚫 What NOT to Do
 
-- ❌ **NUNCA** iniciar task sem criar branch
-- ❌ **NUNCA** commitar código sem testes
-- ❌ **NUNCA** commitar código com testes falhando
-- ❌ **NUNCA** criar código não modular
-- ❌ **NUNCA** deixar task incompleta
-- ❌ **NUNCA** ignorar testes
-- ❌ **NUNCA** violar Clean Code
-- ❌ **NUNCA** quebrar funcionalidades existentes
+- ❌ **NEVER** start task without creating branch
+- ❌ **NEVER** commit code without tests
+- ❌ **NEVER** commit code with failing tests
+- ❌ **NEVER** create non-modular code
+- ❌ **NEVER** leave task incomplete
+- ❌ **NEVER** ignore tests
+- ❌ **NEVER** violate Clean Code
+- ❌ **NEVER** break existing functionalities
 
-## ✅ Benefícios
+## ✅ Benefits
 
-- ✅ **Qualidade garantida**: TDD garante código testado
-- ✅ **Modularidade**: Tasks independentes e completas
-- ✅ **Rastreabilidade**: GitHub integration mostra progresso
-- ✅ **Confiança**: Testes passando garantem funcionamento
-- ✅ **Manutenibilidade**: Código modular é mais fácil de manter
-- ✅ **Integridade**: Tasks completas não deixam código incompleto
+- ✅ **Guaranteed quality**: TDD ensures tested code
+- ✅ **Modularity**: Independent and complete tasks
+- ✅ **Traceability**: GitHub integration shows progress
+- ✅ **Confidence**: Passing tests ensure functionality
+- ✅ **Maintainability**: Modular code is easier to maintain
+- ✅ **Integrity**: Complete tasks don't leave incomplete code
 
 ## 📚 Referências
 
 ### Regras Relacionadas
 
-- `.cursor/rules/test-driven-development.mdc` - Metodologia TDD
-- `.cursor/rules/clean-code-mandatory.mdc` - Clean Code obrigatório
-- `.cursor/rules/project-architecture.mdc` - Arquitetura do projeto
-- `.cursor/rules/execution-guard.mdc` - Proteção de integridade
-- `.cursor/rules/testing.mdc` - Como escrever testes
+- `.cursor/rules/test-driven-development-core.mdc` - TDD methodology
+- `.cursor/rules/clean-code-mandatory.mdc` - Clean Code mandatory
+- `.cursor/rules/project-architecture.mdc` - Project architecture
+- `.cursor/rules/execution-guard.mdc` - Integrity protection
+- `.cursor/rules/testing.mdc` - How to write tests
 
-### Scripts Relacionados
+### Related Scripts
 
-- `scripts/github/create-task-branch.ps1` - Criar branch e atualizar issue
-- `scripts/github/createOrUpdateTask.ps1` - Gerenciar tasks no GitHub
+- `scripts/github/create-task-branch.ps1` - Create branch and update issue
+- `scripts/github/createOrUpdateTask.ps1` - Manage tasks on GitHub
 
-## 🎯 Resumo Executivo
+## 🎯 Executive Summary
 
-**Workflow obrigatório:**
+**Mandatory workflow:**
 
-1. **Criar branch** → Adicionar na issue → **Mover para In Progress**
-2. **Escrever testes primeiro** (TDD - Red)
-3. **Implementar funcionalidade** (TDD - Green)
-4. **Refatorar** (TDD - Refactor)
-5. **Garantir que todos testes passam**
-6. **Manter modularidade e integridade**
+1. **Create branch** → Add to issue → **Move to In Progress**
+2. **Write tests first** (TDD - Red)
+3. **Implement functionality** (TDD - Green)
+4. **Refactor** (TDD - Refactor)
+5. **Ensure all tests pass**
+6. **Maintain modularity and integrity**
 
-**Regras de ouro:**
+**Golden rules:**
 
-- ✅ TDD obrigatório para todas tasks
-- ✅ Modularidade obrigatória
-- ✅ Integridade da task obrigatória
-- ✅ GitHub integration obrigatória
-- ✅ Branch creation obrigatória
+- ✅ TDD mandatory for all tasks
+- ✅ Modularity mandatory
+- ✅ Task integrity mandatory
+- ✅ GitHub integration mandatory
+- ✅ Branch creation mandatory
 
 ---
 

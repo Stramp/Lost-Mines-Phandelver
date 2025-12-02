@@ -118,7 +118,25 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Removidos scripts temporários PowerShell da pasta de ciclos
 > >    - Removidos relatórios consolidados obsoletos
 > >    - Criado INDEX.md centralizado na raiz da documentação
->
+> >
+> > 8. **Ciclo 1.7 / 4.2: Sistema de Movimento Third-Person Completo** (2024-12-XX)
+> >    - `AMyCharacter` implementado com movimento third-person completo
+> >    - Movimento em todas as direções (Forward/Backward, Left/Right) baseado na rotação da câmera
+> >    - Look baseado no mouse (Yaw/Pitch) com inversão de Pitch para third-person
+> >    - Rotação do personagem seguindo padrão Lyra (`bOrientRotationToMovement`, `bUseControllerDesiredRotation`)
+> >    - Sistema de toggle de rotação (modo movimento vs modo câmera)
+> >    - `UInputActionManagerComponent` criado para gerenciamento modular de Input Actions
+> >    - Enum `EInputActionType` para type-safety e escalabilidade
+> >    - `MovementHelpers` namespace com funções puras para cálculos de direção
+> >    - 25 testes automatizados criados:
+> >      - `InputActionManagerComponentTests.cpp` (9 testes - 100% cobertura)
+> >      - `MovementHelpersTests.cpp` (8 testes - 100% cobertura)
+> >      - `MyCharacterIntegrationTests.cpp` (8 testes - configuração e integração)
+> >    - Guia completo de testes de integração (`integration-testing-guide.md`)
+> >    - Sistema preparado para transição Third Person → Top Down
+> >    - Compilação validada (22.07s, 0 erros, 0 warnings)
+> >    - Testado e funcionando no editor
+> 
 > </details>
 >
 > <details>

@@ -201,15 +201,9 @@ FClassDataRow *DataTableHelpers::FindClassRow(FName ClassName, UDataTable *Class
         }
     }
 
-    if (!Row)
-    {
-        FLogContext ErrorContext(TEXT("DataTable"), TEXT("FindClassRow"));
-        FString TableName = ClassDataTable ? ClassDataTable->GetName() : TEXT("Unknown");
-        FLoggingSystem::LogDataTableError(ErrorContext, TableName, ClassName.ToString(), TEXT("Name"),
-                                          FString::Printf(TEXT("Classe '%s' não encontrada na tabela após todas as "
-                                                               "tentativas (direto, Class_ prefixo, busca manual)."),
-                                                          *ClassName.ToString()));
-    }
+    // Nota: Não logamos erro quando Row é nullptr porque isso é um comportamento esperado
+    // quando a classe não existe na tabela. O log de erro só deve ocorrer em casos inesperados
+    // ou quando há um problema real de configuração (não quando simplesmente não encontramos a classe).
 
     return Row;
 }

@@ -1,6 +1,6 @@
 ---
 description: Git commit patterns for the project
-globs: []
+globs: "**/*"
 alwaysApply: true
 ---
 

@@ -1,6 +1,7 @@
 ---
 description: Rule for AI to be honest about limitations and ask questions when needed
 alwaysApply: true
+globs: "**/*"
 ---
 
 # Honesty and Questions Rule

@@ -1,6 +1,7 @@
 ---
 description: Structure and organization of Unreal Engine 5.7 project
 alwaysApply: true
+globs: "**/*"
 ---
 
 # Unreal Engine 5.7 Project Structure

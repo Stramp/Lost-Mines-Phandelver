@@ -1,0 +1,175 @@
+---
+description: Rules for creating reports, reviews, and documentation files
+alwaysApply: true
+globs: ["*.md", "*.mdc"]
+priority: 5
+---
+
+# Documentation and Reports Rules
+
+## 🚨 MANDATORY RULE - Reports Location 🚨
+
+**ALWAYS, ALWAYS, ALWAYS** create reports, reviews, and analysis documents in the **"00 - Executando"** folder.
+
+### 📁 Mandatory Location
+
+**ALL files created by agents in the following categories MUST be saved in:**
+
+```
+F:\UNREAL GAME\minasphandelver\Documentacao\00 - Executando\relatorios\
+```
+
+### 📋 File Types That Must Follow This Rule
+
+**ALWAYS** save in `00 - Executando/relatorios/` when creating:
+
+- ✅ **Relatórios de Revisão** (Code Reviews)
+  - Exemplo: `revisao-task-input-mvp-2025-01-25.md`
+  - Exemplo: `revisao-arquitetura-componentes.md`
+
+- ✅ **Análises de Código** (Code Analysis)
+  - Exemplo: `analise-performance-movement.md`
+  - Exemplo: `analise-clean-code-compliance.md`
+
+- ✅ **Relatórios de Tarefas** (Task Reports)
+  - Exemplo: `relatorio-implementacao-input-system.md`
+  - Exemplo: `relatorio-refatoracao-helpers.md`
+
+- ✅ **Relatórios de Testes** (Test Reports)
+  - Exemplo: `relatorio-cobertura-testes.md`
+  - Exemplo: `relatorio-resultados-tdd.md`
+
+- ✅ **Relatórios de Arquitetura** (Architecture Reports)
+  - Exemplo: `relatorio-analise-componentes.md`
+  - Exemplo: `relatorio-proposta-refatoracao.md`
+
+- ✅ **Relatórios de Performance** (Performance Reports)
+  - Exemplo: `relatorio-profiling-movement.md`
+  - Exemplo: `relatorio-otimizacoes-recomendadas.md`
+
+- ✅ **Relatórios de Qualidade** (Quality Reports)
+  - Exemplo: `relatorio-code-quality-review.md`
+  - Exemplo: `relatorio-conformidade-clean-code.md`
+
+- ✅ **Relatórios de Debugging** (Debugging Reports)
+  - Exemplo: `relatorio-investigacao-bug-movimento.md`
+  - Exemplo: `relatorio-analise-crash.md`
+
+- ✅ **Relatórios de Refatoração** (Refactoring Reports)
+  - Exemplo: `relatorio-refatoracao-helpers.md`
+  - Exemplo: `relatorio-migracao-componentes.md`
+
+- ✅ **Relatórios de Integração** (Integration Reports)
+  - Exemplo: `relatorio-integracao-enhanced-input.md`
+  - Exemplo: `relatorio-integracao-gas.md`
+
+### 📝 Naming Convention
+
+**ALWAYS** use the following naming pattern:
+
+```
+{type}-{description}-{date}.md
+```
+
+**Examples:**
+- `revisao-task-input-mvp-2025-01-25.md`
+- `analise-performance-movement-2025-01-25.md`
+- `relatorio-implementacao-input-system-2025-01-25.md`
+
+**Pattern Breakdown:**
+- `{type}`: `revisao`, `analise`, `relatorio`
+- `{description}`: kebab-case description (ex: `task-input-mvp`, `performance-movement`)
+- `{date}`: `YYYY-MM-DD` format
+
+### 🚫 What NOT to Save Here
+
+**DO NOT** save in `00 - Executando/relatorios/`:
+
+- ❌ **Documentação de Referência Técnica** → `Referencias-Tecnicas/`
+- ❌ **Guias e Tutoriais** → `docs/technical/guides/`
+- ❌ **Documentação de Arquitetura** → `ARCHITECTURE.md` (root) or `docs/architecture/`
+- ❌ **README files** → Respective folders
+- ❌ **CHANGELOG** → `CHANGELOG.md` (root)
+
+### ✅ File Structure
+
+**ALWAYS** use the following structure for reports:
+
+```markdown
+# Title of Report
+
+**Data:** YYYY-MM-DD  
+**Task/Context:** Description  
+**Autor:** Agent/User  
+**Status:** ✅/⚠️/❌ Status
+
+---
+
+<details open>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Resumo Executivo</b></summary>
+
+> Summary content here...
+
+</details>
+
+---
+
+## Sections...
+
+---
+
+**Data de Criação:** YYYY-MM-DD  
+**Versão:** X.Y  
+**Autor:** Agent/User  
+**Status:** ✅ Completo
+```
+
+### 📋 Checklist Before Creating Report
+
+**BEFORE creating any report, verify:**
+
+- [ ] Is this a report/review/analysis? → Save in `00 - Executando/relatorios/`
+- [ ] Is this technical reference documentation? → Save in `Referencias-Tecnicas/`
+- [ ] Is this a guide/tutorial? → Save in `docs/technical/guides/`
+- [ ] File name follows naming convention?
+- [ ] File structure follows template?
+- [ ] Markdown organization rules applied? (see `markdown-organization.mdc`)
+
+### 🔗 Related Rules
+
+- `.cursor/rules/markdown-organization.mdc` - Markdown formatting rules
+- `.cursor/rules/markdown-organization-advanced.mdc` - Advanced markdown patterns
+- `.cursor/rules/task-execution.mdc` - Task execution workflow
+
+### 📚 Examples
+
+**✅ CORRECT - Report Location:**
+
+```
+F:\UNREAL GAME\minasphandelver\Documentacao\00 - Executando\relatorios\revisao-task-input-mvp-2025-01-25.md
+```
+
+**❌ WRONG - Report Location:**
+
+```
+F:\UNREAL GAME\minasphandelver\Documentacao\Referencias-Tecnicas\revisao-task-input-mvp-2025-01-25.md
+```
+
+**❌ WRONG - Report Location:**
+
+```
+F:\UNREAL GAME\MyProject2\docs\revisao-task-input-mvp-2025-01-25.md
+```
+
+### 🎯 Purpose
+
+This rule ensures:
+
+- ✅ **Organization:** All execution reports in one place
+- ✅ **Traceability:** Easy to find reports by date/task
+- ✅ **Consistency:** Standardized location for all agent-generated reports
+- ✅ **Separation:** Clear distinction between reports (execution) and references (technical)
+
+---
+
+**This rule has MEDIUM priority (5) and applies to ALL markdown files created by agents.**

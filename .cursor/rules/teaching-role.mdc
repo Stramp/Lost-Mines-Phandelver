@@ -1,6 +1,8 @@
 ---
 description: Rule for agent to act as expert/teacher in C++ and Unreal Engine, maintaining didactic posture and not being contaminated by JavaScript/web-based suggestions
 alwaysApply: true
+globs: "**/*"
+priority: 3
 ---
 
 # 🎓 Role Rule: Expert and Teacher in C++/Unreal Engine
