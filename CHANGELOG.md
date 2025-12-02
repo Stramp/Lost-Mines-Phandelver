@@ -136,7 +136,40 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Sistema preparado para transição Third Person → Top Down
 > >    - Compilação validada (22.07s, 0 erros, 0 warnings)
 > >    - Testado e funcionando no editor
-> 
+> >
+> > 9. **Ciclo 2.1: Data Table de Raças MVP** (2024-12-27)
+> >    - `RaceDataTable.h` criado com estrutura `FRaceDataRow` completa
+> >    - Estrutura `FAbilityScoreImprovement` para bônus de atributos
+> >    - Campos implementados: Name, ID, Description, TypeTags, AbilityScoreImprovements, Size, BaseSpeed
+> >    - Suporte para Traits, Subraces e Languages via `FDataTableRowHandle`
+> >    - Helpers implementados: `FindRaceRow()`, `FindSubraceRow()`, `IsRaceDataTable()`
+> >    - Validators implementados: `DataTableIntegrityValidator` com validação de RaceDataTable
+> >    - Integração completa com `CharacterSheetDataAsset`
+> >    - Testes automatizados criados:
+> >      - `DataTableHelpersTests.cpp` - Testes para busca e validação de raças
+> >      - `Step1_ChooseRaceTests.cpp` - Testes de criação de personagem
+> >      - `DataTableRowHandleHelpersTests.cpp` - Testes de handles
+> >    - Data Table asset criado e preenchido com todas as raças D&D 5e
+> >    - Documentação técnica completa (`race-datatable.md`)
+> >    - Guias para designers implementados
+> >
+> > 10. **Ciclo 2.2: Data Table de Classes MVP** (2024-12-27)
+> >    - `ClassDataTable.h` criado com estrutura `FClassDataRow` completa
+> >    - Estruturas auxiliares: `FEquipmentOption`, `FStartingEquipmentGroup`, `FProficienciesEntry`
+> >    - Campos implementados: Name, ID, Description, TypeTags, HitDie, HitPointsAtFirstLevel, HitPointsPerLevel
+> >    - Suporte para Proficiencies, StartingEquipment, MulticlassRequirements via estruturas tipadas
+> >    - Suporte para Features e ProgressEntries via `FDataTableRowHandle`
+> >    - Helpers implementados: `FindClassRow()`, `IsClassDataTable()`
+> >    - Validators implementados: `DataTableIntegrityValidator` com validação de ClassDataTable
+> >    - Integração completa com `CharacterSheetDataAsset` e sistema de multiclassing
+> >    - Testes automatizados criados:
+> >      - `DataTableHelpersTests.cpp` - Testes para busca e validação de classes
+> >      - `Step2_ChooseClassTests.cpp` - Testes de criação de personagem
+> >      - `CalculationHelpersTests.cpp` - Testes de cálculos relacionados a classes
+> >    - Data Table asset criado e preenchido com todas as classes D&D 5e
+> >    - Documentação técnica completa (`class-datatable.md`)
+> >    - Guias para designers implementados
+> >
 > </details>
 >
 > <details>
