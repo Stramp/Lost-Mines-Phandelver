@@ -1,0 +1,257 @@
+---
+description: Rules for organizing Markdown files with collapsible sections - Advanced structures, reports, and complex hierarchies
+alwaysApply: true
+globs: "**/*"
+---
+
+# Markdown Organization Rules - Advanced
+
+## 📋 Estrutura de Relatórios com Tabulação Visual
+
+**ALWAYS** seguir esta estrutura para relatórios com hierarquia visual:
+
+```markdown
+# Título do Relatório
+
+<details open>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Resumo Executivo</b></summary>
+
+> Tabelas, métricas principais, conclusões rápidas.
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>✅ Pontos Fortes</b></summary>
+
+> Lista de pontos positivos...
+>
+> - Ponto 1
+> - Ponto 2
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚠️ Problemas Encontrados</b></summary>
+
+> Descrição geral dos problemas...
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔴 Crítico (Alta Prioridade)</summary>
+>
+> > Problemas críticos...
+> > - Item 1
+> > - Item 2
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🟡 Médio (Média Prioridade)</summary>
+>
+> > Problemas médios...
+> > - Item 1
+> > - Item 2
+>
+> </details>
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Recomendações</b></summary>
+
+> Recomendações aqui...
+
+</details>
+
+---
+
+<details open>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🎯 Conclusão</b></summary>
+
+> Conclusão principal sempre visível.
+
+</details>
+```
+
+**Nota:** Use `---` para separar seções principais visualmente.
+
+## 📋 Documentação Técnica com Tabulação
+
+**ALWAYS** usar colapsos com blocos de citação para:
+
+- Exemplos de código extensos
+- Configurações detalhadas
+- Troubleshooting
+- Referências de API
+- Guias passo-a-passo
+
+```markdown
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>💡 Exemplo de Implementação</b></summary>
+
+> Descrição do exemplo...
+>
+> ```cpp
+> // Código aqui
+> ```
+>
+> Explicação adicional se necessário...
+
+</details>
+```
+
+## 📋 Listas Longas com Tabulação
+
+**ALWAYS** colapsar listas com mais de 5 itens usando blocos de citação:
+
+```markdown
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Lista de Verificação (15 itens)</b></summary>
+
+> 1. Item 1
+> 2. Item 2
+> 3. Item 3
+> ...
+> 15. Item 15
+
+</details>
+```
+
+## 📋 Exemplo Completo com Hierarquia
+
+```markdown
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Título Principal</b></summary>
+
+> Descrição ou conteúdo principal
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">➕ Sub-seção</summary>
+>
+> > Conteúdo da sub-seção
+> >
+> > - Item 1
+> > - Item 2
+>
+> </details>
+>
+>___
+
+</details>
+
+---
+```
+
+**Separadores:**
+
+- Use `---` entre seções principais para melhor separação visual
+- Use `>___` no final do conteúdo dentro de blocos de citação antes de fechar `</details>` para fechar corretamente os blocos
+
+## 📝 Exemplos Avançados
+
+### Exemplo 1: Documentação Técnica
+
+```markdown
+# Guia de Uso
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>🔧 Configuração</b></summary>
+
+> Passos de configuração...
+>
+> 1. Passo 1
+> 2. Passo 2
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>💡 Exemplos</b></summary>
+
+> Exemplos de código...
+>
+> ```cpp
+> // Código exemplo
+> ```
+
+</details>
+```
+
+### Exemplo 2: CHANGELOG (Padrão Completo)
+
+```markdown
+# Changelog
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>[0.2.0] - 2024-12-XX</b></summary>
+
+> ✨ Descrição da versão
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">➕ Added</summary>
+>
+> > Novas Funcionalidades
+> >
+> > - Item 1
+> > - Item 2
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔄 Changed</summary>
+>
+> > Mudanças...
+> > - Item 1
+>
+> </details>
+
+</details>
+
+---
+```
+
+## 🎯 Benefícios
+
+- ✅ Melhor organização visual com hierarquia clara
+- ✅ Tabulação visível facilita entendimento dos níveis
+- ✅ Fundos cinza criam contraste e separação visual
+- ✅ Navegação mais fácil com títulos clicáveis
+- ✅ Foco no conteúdo relevante
+- ✅ Reduz poluição visual
+- ✅ Melhor experiência de leitura
+- ✅ Compatível com GitHub, GitLab, etc.
+
+## 🎨 Padrão de Cores e Estilos
+
+**Títulos Principais:**
+
+```html
+style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"
+```
+
+**Sub-seções:**
+
+```html
+style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;"
+```
+
+**Hierarquia de Blocos:**
+
+- `>` - Nível 1 (conteúdo principal)
+- `>>` - Nível 2 (sub-seções)
+- `>>>` - Nível 3 (itens aninhados, se necessário)
+
+## 📚 Referências
+
+- [GitHub Flavored Markdown - Details](https://github.github.com/gfm/)
+- [HTML Details Element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details)
+
+---
+
+**Lembre-se:** O objetivo é melhorar a legibilidade e organização, não complicar. Use colapsos de forma inteligente e consistente.

@@ -71,53 +71,23 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Input")
     UInputActionManagerComponent *InputActionManager;
 
-    /**
-     * Handler para movimento do personagem.
-     * Converte input Vector2D em movimento relativo à rotação da câmera.
-     *
-     * @param Value Input Action Value contendo Vector2D (X = Left/Right, Y = Forward/Backward)
-     */
     void Move(const FInputActionValue &Value);
-
-    /**
-     * Handler para rotação/look do personagem.
-     * Rotaciona o personagem baseado na direção do mouse.
-     *
-     * @param Value Input Action Value contendo Vector2D (X = Yaw, Y = Pitch)
-     */
     void Look(const FInputActionValue &Value);
-
-    /**
-     * Handler para quando pressionar a tecla de alternar modo de rotação (hold).
-     * Ativa modo 2: Personagem sempre olha na direção da câmera.
-     *
-     * @param Value Input Action Value (não usado, mas necessário para assinatura)
-     */
     void ToggleRotationMode(const FInputActionValue &Value);
-
-    /**
-     * Handler para quando soltar a tecla de alternar modo de rotação.
-     * Volta para modo 1: Personagem rotaciona na direção do movimento.
-     *
-     * @param Value Input Action Value (não usado, mas necessário para assinatura)
-     */
     void ReleaseRotationMode(const FInputActionValue &Value);
 
-    /**
-     * Atualiza o modo de rotação do personagem.
-     *
-     * @param bLookAtCamera Se true, personagem sempre olha na direção da câmera (modo 2)
-     *                      Se false, personagem rotaciona na direção do movimento (modo 1)
-     */
     void UpdateRotationMode(bool bLookAtCamera);
 
+    void SetupInputMappingContext();
+    void BindInputActions(UEnhancedInputComponent *EnhancedInputComponent);
+
 public:
-    /**
-     * Chamado para vincular funcionalidades ao input.
-     * Configura os bindings das Input Actions.
-     *
-     * @param PlayerInputComponent Componente de input do jogador
-     */
+    UFUNCTION(BlueprintCallable, Category = "Character|Input")
+    UInputActionManagerComponent *GetInputActionManager() const { return InputActionManager; }
+
+    UFUNCTION(BlueprintCallable, Category = "Character|Rotation")
+    void SetRotationMode(bool bLookAtCamera) { UpdateRotationMode(bLookAtCamera); }
+
     virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 };
 

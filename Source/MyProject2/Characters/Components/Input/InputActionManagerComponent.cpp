@@ -27,7 +27,7 @@ UInputActionManagerComponent::UInputActionManagerComponent() { PrimaryComponentT
 
 UInputAction *UInputActionManagerComponent::GetInputAction(EInputActionType ActionType) const
 {
-    if (const UInputAction *const *FoundAction = InputActions.Find(ActionType))
+    if (UInputAction *const *FoundAction = InputActions.Find(ActionType))
     {
         return *FoundAction;
     }
@@ -36,10 +36,20 @@ UInputAction *UInputActionManagerComponent::GetInputAction(EInputActionType Acti
 
 void UInputActionManagerComponent::RegisterInputAction(EInputActionType ActionType, UInputAction *InputAction)
 {
-    if (InputAction)
+    if (!InputAction)
     {
-        InputActions.Add(ActionType, InputAction);
+        UE_LOG(LogTemp, Warning, TEXT("RegisterInputAction recebeu nullptr para ActionType %d"),
+               static_cast<int32>(ActionType));
+        return;
     }
+
+    if (InputActions.Contains(ActionType))
+    {
+        UE_LOG(LogTemp, Warning, TEXT("RegisterInputAction sobrescrevendo InputAction existente para ActionType %d"),
+               static_cast<int32>(ActionType));
+    }
+
+    InputActions.Add(ActionType, InputAction);
 }
 
 bool UInputActionManagerComponent::HasInputAction(EInputActionType ActionType) const

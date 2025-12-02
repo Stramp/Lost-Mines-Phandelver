@@ -99,6 +99,144 @@ function Convert-FileNameToBranchFormat {
     return $baseName
 }
 
+function Move-CardToInProgress {
+    param(
+        [int]$issueNumber
+    )
+
+    Write-Host "  Movendo card para 'In Progress'..." -ForegroundColor Gray
+
+    try {
+        # Lista projetos do usuário/organização
+        $projectsJson = & $ghPath project list --owner Stramp --limit 100 --json id,title 2>&1
+
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "  [AVISO] Não foi possível listar projetos (gh CLI pode não ter permissão)" -ForegroundColor Yellow
+            return $false
+        }
+
+        $projects = $projectsJson | ConvertFrom-Json
+
+        if (-not $projects -or $projects.Count -eq 0) {
+            Write-Host "  [AVISO] Nenhum projeto encontrado" -ForegroundColor Yellow
+            return $false
+        }
+
+        # Procura projeto que contenha a issue (geralmente o primeiro projeto ativo)
+        $targetProject = $projects | Select-Object -First 1
+
+        if (-not $targetProject) {
+            Write-Host "  [AVISO] Projeto não encontrado" -ForegroundColor Yellow
+            return $false
+        }
+
+        Write-Host "  Projeto: $($targetProject.title)" -ForegroundColor Gray
+
+        # Busca o item (card) da issue no projeto
+        $itemJson = & $ghPath project item-list $($targetProject.id) --owner Stramp --format json 2>&1
+
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "  [AVISO] Não foi possível listar items do projeto" -ForegroundColor Yellow
+            return $false
+        }
+
+        $items = $itemJson | ConvertFrom-Json
+
+        # Procura o item que corresponde à issue
+        # O formato do JSON pode variar, tenta diferentes propriedades
+        $targetItem = $null
+        foreach ($item in $items) {
+            if ($item.content -and $item.content.number -eq $issueNumber) {
+                $targetItem = $item
+                break
+            }
+            elseif ($item.contentId -and $item.contentId -match "issue_$issueNumber") {
+                $targetItem = $item
+                break
+            }
+        }
+
+        if (-not $targetItem) {
+            Write-Host "  [AVISO] Card da issue #$issueNumber não encontrado no projeto" -ForegroundColor Yellow
+            Write-Host "  (Issue pode não estar adicionada ao projeto ainda)" -ForegroundColor Gray
+            return $false
+        }
+
+        # Busca colunas do projeto via API
+        $columnsJson = & $ghPath api "projects/$($targetProject.id)/columns" --jq '.[] | {id: .id, name: .name}' 2>&1
+
+        if ($LASTEXITCODE -ne 0 -or -not $columnsJson) {
+            Write-Host "  [AVISO] Não foi possível listar colunas do projeto" -ForegroundColor Yellow
+            return $false
+        }
+
+        $columns = $columnsJson | ConvertFrom-Json
+
+        # Procura coluna "In Progress" (várias variações possíveis)
+        $inProgressColumn = $columns | Where-Object {
+            $_.name -match "In Progress|InProgress|in-progress|Doing|Em Progresso|Em Andamento"
+        } | Select-Object -First 1
+
+        if (-not $inProgressColumn) {
+            Write-Host "  [AVISO] Coluna 'In Progress' não encontrada no projeto" -ForegroundColor Yellow
+            Write-Host "  Colunas disponíveis: $($columns.name -join ', ')" -ForegroundColor Gray
+            return $false
+        }
+
+        Write-Host "  Coluna encontrada: $($inProgressColumn.name)" -ForegroundColor Gray
+
+        # Move o card para a coluna In Progress usando API
+        # Obtém o ID do item (card)
+        $itemId = $targetItem.id
+
+        # Obtém a coluna atual do item (se houver)
+        $currentColumnId = $targetItem.columnId
+
+        # Se já está na coluna In Progress, não precisa mover
+        if ($currentColumnId -eq $inProgressColumn.id) {
+            Write-Host "  [OK] Card já está em '$($inProgressColumn.name)'" -ForegroundColor Green
+            return $true
+        }
+
+        # Move o item para a coluna In Progress usando a API do GitHub Projects
+        # API do GitHub Projects v2: POST /projects/columns/{column_id}/moves
+        # Formato do body: {"position": "top", "item_id": "item_id"}
+        $bodyJson = @{
+            position = "top"
+            item_id = $itemId
+        } | ConvertTo-Json -Compress
+
+        $moveResult = & $ghPath api -X POST "projects/columns/$($inProgressColumn.id)/moves" `
+            --input "$bodyJson" 2>&1
+
+        # Método alternativo: usa gh project item-edit se disponível
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "  [AVISO] Tentando método alternativo..." -ForegroundColor Yellow
+
+            # Tenta usar gh project item-edit (se disponível na versão do gh CLI)
+            $editResult = & $ghPath project item-edit $itemId --owner Stramp --field-id "Status" --single-select-option-id "$($inProgressColumn.id)" 2>&1
+
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "  [OK] Card movido para '$($inProgressColumn.name)'" -ForegroundColor Green
+                return $true
+            } else {
+                Write-Host "  [AVISO] Não foi possível mover card automaticamente" -ForegroundColor Yellow
+                Write-Host "  Mova manualmente o card da issue #$issueNumber para 'In Progress' no GitHub Project" -ForegroundColor Gray
+                Write-Host "  URL do projeto: https://github.com/users/Stramp/projects" -ForegroundColor Gray
+                return $false
+            }
+        } else {
+            Write-Host "  [OK] Card movido para '$($inProgressColumn.name)'" -ForegroundColor Green
+            return $true
+        }
+
+    } catch {
+        Write-Host "  [AVISO] Erro ao mover card: $_" -ForegroundColor Yellow
+        Write-Host "  (Card pode ser movido manualmente no GitHub Project)" -ForegroundColor Gray
+        return $false
+    }
+}
+
 function Create-TaskBranch {
     param(
         [string]$taskFile,
@@ -220,6 +358,11 @@ function Create-TaskBranch {
     if ($LASTEXITCODE -eq 0) {
         Write-Host "[OK] Branch criada e conectada com sucesso!" -ForegroundColor Green
         Write-Host ""
+
+        # Tenta mover card para "In Progress"
+        Move-CardToInProgress -issueNumber $issue.number
+
+        Write-Host ""
         Write-Host "=== RESUMO ===" -ForegroundColor Cyan
         Write-Host "  Branch: $branchName" -ForegroundColor White
         Write-Host "  Issue: #$($issue.number) - $taskTitle" -ForegroundColor White
@@ -264,4 +407,5 @@ if ($args.Count -gt 0) {
     Write-Host "  2. Buscar a issue no GitHub pelo título" -ForegroundColor Gray
     Write-Host "  3. Criar branch no formato: feat/issue-123__1x1-setup-projeto" -ForegroundColor Gray
     Write-Host "  4. Fazer checkout automaticamente" -ForegroundColor Gray
+    Write-Host "  5. Tentar mover card do projeto de 'TODO' para 'In Progress'" -ForegroundColor Gray
 }

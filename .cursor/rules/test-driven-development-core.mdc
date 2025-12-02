@@ -1,0 +1,329 @@
+---
+description: CRITICAL RULE - Test-Driven Development (TDD) core methodology. Red-Green-Refactor cycle and fundamental principles.
+globs: ["*.cpp", "*.h"]
+alwaysApply: true
+priority: 4
+---
+
+# 🧪 Test-Driven Development (TDD) - Core
+
+## 🎯 Objetivo
+
+**ALWAYS** seguir o paradigma Test-Driven Development (TDD) para código crítico e reutilizável, garantindo que testes sejam escritos **ANTES** da implementação, seguindo o ciclo **Red-Green-Refactor**.
+
+## 🚨 REGRA PRINCIPAL - TEST-FIRST 🚨
+
+**ALWAYS** escrever testes **ANTES** da implementação quando:
+
+- ✅ **Criando nova função helper/utility** (em `Utils/` ou `Helpers/`)
+- ✅ **Implementando lógica de negócio** (cálculos, validações, transformações)
+- ✅ **Criando novos motores** (`*Motor.cpp` - PointBuy, Multiclass, RaceBonus)
+- ✅ **Criando novos validators** (`*Validator.cpp`)
+- ✅ **Adicionando cálculos complexos** (modificadores, proficiências, atributos)
+- ✅ **Implementando regras de negócio** (regras D&D, multiclassing, point buy)
+- ✅ **Refatorando código crítico** (escrever testes primeiro para garantir comportamento)
+
+**NEVER** implementar código crítico sem testes correspondentes.
+
+## 🔄 O Ciclo Red-Green-Refactor
+
+### 1. Red: Escrever Teste que Falha
+
+**ALWAYS** começar escrevendo o teste que define o comportamento esperado:
+
+```cpp
+// ✅ CORRETO - Teste primeiro
+BEGIN_DEFINE_SPEC(FPointBuyMotorSpec, "MyProject2.CreateSheet.PointBuy",
+                  EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
+    FPointBuyMotor* Motor;
+END_DEFINE_SPEC(FPointBuyMotorSpec)
+
+void FPointBuyMotorSpec::Define()
+{
+    Describe("CalculatePointBuyCost", [this]()
+    {
+        It("deve calcular custo correto para score 15 (9 pontos)", [this]()
+        {
+            // Arrange
+            int32 Score = 15;
+
+            // Act
+            int32 Result = FPointBuyMotor::CalculatePointBuyCost(Score);
+
+            // Assert
+            TestEqual("Custo para score 15 deve ser 9", Result, 9);
+        });
+    });
+}
+```
+
+**Por que começar pelo teste:**
+- Define o contrato antes da implementação
+- Força pensar na interface primeiro
+- Garante que o teste pode detectar erros
+- Confirma que a infraestrutura de teste funciona
+
+**🚨 REGRA CRÍTICA: Teste NUNCA Pode Ter Lógica Interna**
+
+> **"Se você pode remover a função sendo testada e o teste ainda passa, o teste está errado."**
+
+**ALWAYS seguir estes princípios:**
+
+1. **Teste usa mocks para simular dados** - NÃO para implementar lógica
+2. **Teste envia dados para módulo oficial** - Sempre chama a função real
+3. **Teste não resolve por si só** - NÃO tem lógica interna que faça passar
+4. **Valor esperado é hardcoded** - NÃO calculado internamente
+
+**❌ ERRADO - Teste com lógica interna:**
+
+```cpp
+It("deve calcular modificador correto para score 15", [this]()
+{
+    // ❌ ERRADO: Teste calcula o resultado internamente
+    int32 Score = 15;
+    int32 ExpectedModifier = (Score - 10) / 2;  // ❌ Lógica interna!
+
+    int32 Result = CalculationHelpers::CalculateAbilityModifier(Score);
+
+    TestEqual("Modificador deve ser correto", Result, ExpectedModifier);
+    // ❌ Este teste passaria mesmo se CalculateAbilityModifier estivesse errado!
+});
+```
+
+**✅ CORRETO - Teste sem lógica interna:**
+
+```cpp
+It("deve calcular modificador correto para score 15 (modificador +2)", [this]()
+{
+    // ✅ CORRETO: Valor esperado é hardcoded, não calculado
+    int32 Score = 15;
+    int32 ExpectedModifier = 2;  // ✅ Valor fixo conhecido
+
+    // Act: Envia para o módulo oficial
+    int32 Result = CalculationHelpers::CalculateAbilityModifier(Score);
+
+    // Assert: Compara com valor fixo
+    TestEqual("Modificador para score 15 deve ser +2", Result, ExpectedModifier);
+    // ✅ Este teste falha se CalculateAbilityModifier estiver errado!
+});
+```
+
+**🎭 Uso Correto de Mocks:**
+
+**Mocks são para simular dados, NÃO para implementar lógica:**
+
+```cpp
+// ✅ CORRETO: Mock simula dados conhecidos
+It("deve encontrar feat row quando existe", [this]()
+{
+    // Arrange: Mock de DataTable com dados conhecidos
+    UDataTable* MockDataTable = NewObject<UDataTable>();
+    FFeatDataRow* TestRow = new FFeatDataRow();
+    TestRow->FeatName = TEXT("Great Weapon Master");
+    MockDataTable->AddRow(FName(TEXT("Great Weapon Master")), *TestRow);
+
+    // Act: Envia para o módulo oficial
+    FFeatDataRow* Result = DataTableHelpers::FindFeatRow(
+        TEXT("Great Weapon Master"),
+        MockDataTable  // ✅ Mock apenas simula dados, não implementa lógica
+    );
+
+    // Assert: Verifica resultado com valor conhecido
+    TestNotNull("Deve encontrar row", Result);
+    TestEqual("FeatName deve ser Great Weapon Master",
+              Result->FeatName, TEXT("Great Weapon Master"));  // ✅ Valor fixo
+    // ✅ Teste falha se FindFeatRow estiver errado!
+});
+```
+
+**❌ ERRADO - Mock implementa lógica:**
+
+```cpp
+// ❌ ERRADO: Teste implementa lógica de busca internamente
+It("deve encontrar feat row quando existe", [this]()
+{
+    UDataTable* MockDataTable = NewObject<UDataTable>();
+    // ... setup mock ...
+
+    // ❌ ERRADO: Teste implementa lógica de busca
+    FFeatDataRow* ExpectedRow = nullptr;
+    for (auto& Pair : MockDataTable->GetRowMap())
+    {
+        if (Pair.Key == TEXT("Great Weapon Master"))
+        {
+            ExpectedRow = (FFeatDataRow*)Pair.Value;
+            break;
+        }
+    }
+
+    FFeatDataRow* Result = DataTableHelpers::FindFeatRow(TEXT("Great Weapon Master"), MockDataTable);
+
+    TestEqual("Deve ser o mesmo row", Result, ExpectedRow);
+    // ❌ Este teste passaria mesmo se FindFeatRow estiver errado!
+});
+```
+
+**Checklist obrigatório:**
+
+- [ ] Valor esperado é hardcoded (não calculado)?
+- [ ] Teste chama a função real do módulo oficial?
+- [ ] Mock apenas simula dados (não implementa lógica)?
+- [ ] Teste falharia se o código estivesse errado?
+- [ ] Não há lógica de cálculo no teste?
+
+### 2. Green: Implementação Mínima
+
+**ALWAYS** implementar a solução mais simples que faz o teste passar:
+
+```cpp
+// Implementação mínima para passar no teste
+int32 FPointBuyMotor::CalculatePointBuyCost(int32 Score)
+{
+    if (Score == 15) return 9;  // Implementação mínima
+    return 0;
+}
+```
+
+**Por que implementação mínima:**
+- Foca em fazer o teste passar
+- Evita over-engineering
+- Permite evoluir incrementalmente
+- Mantém o ciclo rápido
+
+### 3. Refactor: Melhorar com Segurança
+
+**ALWAYS** refatorar com testes verdes garantindo que nada quebra:
+
+```cpp
+// Refatoração com testes garantindo comportamento
+int32 FPointBuyMotor::CalculatePointBuyCost(int32 Score)
+{
+    // Lógica completa, mas testes garantem que funciona
+    if (Score < DnDConstants::MIN_POINT_BUY_SCORE || Score > DnDConstants::MAX_POINT_BUY_SCORE)
+    {
+        return 0;
+    }
+
+    // Tabela de custos D&D 5e
+    const TMap<int32, int32> CostTable = {
+        {8, 0}, {9, 1}, {10, 2}, {11, 3}, {12, 4},
+        {13, 5}, {14, 7}, {15, 9}
+    };
+
+    return CostTable.Contains(Score) ? CostTable[Score] : 0;
+}
+```
+
+**Por que refatorar com testes:**
+- Testes garantem que comportamento não muda
+- Permite refatorações agressivas sem medo
+- Detecta regressões imediatamente
+- Mantém código limpo e eficiente
+
+## 🔗 Integração com Outras Regras
+
+### Clean Code Mandatory
+
+**TDD força testabilidade, que é um princípio de Clean Code:**
+
+- ✅ Funções testáveis são desacopladas
+- ✅ Testes forçam Single Responsibility
+- ✅ TDD elimina dependências ocultas
+- ✅ Testes documentam comportamento esperado
+
+**SINERGIA:** TDD + Clean Code = Código de alta qualidade
+
+### Execution Guard
+
+**STOP execution se código crítico não tiver testes:**
+
+```
+🛑 EXECUTION STOPPED - Missing Tests
+
+I cannot implement this critical function without tests first.
+According to TDD rule, all helpers/motors/validators must have
+tests written BEFORE implementation.
+
+**Missing:**
+- Test for CalculatePointBuyCost()
+- Test for ValidateMulticlassRequirements()
+
+**Correct Approach:**
+1. Write tests that define expected behavior (Red)
+2. Implement minimal solution (Green)
+3. Refactor with tests ensuring nothing breaks (Refactor)
+
+**Reference:**
+- TDD Rule: Test-First for critical code
+- Clean Code: Testability principle
+```
+
+### Testing Rules
+
+**Complementa `testing.mdc`:**
+
+- `testing.mdc`: **COMO** testar (estrutura, padrões, organização)
+- `test-driven-development-core.mdc`: **QUANDO** testar (antes ou depois) e **POR QUÊ**
+
+## 📚 Referências e Documentação
+
+### Conceitos Fundamentais
+
+**Red-Green-Refactor:**
+1. **Red**: Escrever teste que falha (define contrato)
+2. **Green**: Implementação mínima (faz teste passar)
+3. **Refactor**: Melhorar código (com testes garantindo)
+
+**Testability:**
+- Funções puras (sem side effects)
+- Parâmetros claros (sem dependências ocultas)
+- Retornos verificáveis (não void sem efeitos observáveis)
+
+**Automation Spec (Unreal Engine):**
+- `BEGIN_DEFINE_SPEC` / `END_DEFINE_SPEC` para classes de teste
+- `Describe` / `It` para especificações hierárquicas
+- `BeforeEach` / `AfterEach` para setup/teardown
+- Flags: `ProductFilter`, `ApplicationContextMask`
+
+## 🎓 Benefícios do TDD
+
+- ✅ **Documentação Viva**: Testes documentam comportamento esperado
+- ✅ **Confiança em Refatoração**: Testes garantem que nada quebra
+- ✅ **Detecção Precoce de Bugs**: Testes falham imediatamente quando algo quebra
+- ✅ **Design Melhor**: TDD força interfaces claras e desacopladas
+- ✅ **Redução de Dívida Técnica**: Código testado é mais fácil de manter
+- ✅ **Facilita CI/CD**: Testes automatizados permitem integração contínua
+
+## 🚫 O Que NÃO Fazer
+
+- ❌ **NUNCA** implementar código crítico sem testes
+- ❌ **NUNCA** escrever testes depois "só para cobrir"
+- ❌ **NUNCA** pular o ciclo Red-Green-Refactor
+- ❌ **NUNCA** criar testes que dependem de ordem de execução
+- ❌ **NUNCA** criar testes lentos ou não determinísticos
+- ❌ **NUNCA** aceitar código crítico sem testes correspondentes
+- ❌ **NUNCA** criar testes com lógica interna (calcular resultado esperado)
+- ❌ **NUNCA** usar mocks para implementar lógica (apenas para simular dados)
+- ❌ **NUNCA** fazer teste que passa mesmo se a função estiver errada
+
+## 🔄 Fluxo de Trabalho TDD
+
+```
+1. Escrever Teste (Red)
+   ↓
+2. Verificar que Teste Falha
+   ↓
+3. Implementação Mínima (Green)
+   ↓
+4. Verificar que Teste Passa
+   ↓
+5. Refatorar (Refactor)
+   ↓
+6. Verificar que Testes Ainda Passam
+   ↓
+7. Próximo Teste (voltar ao passo 1)
+```
+
+---
+
+**This rule has HIGH priority (4) and integrates with `clean-code-mandatory.mdc` and `testing.mdc`.**

@@ -1,0 +1,157 @@
+---
+description: 🚨 MAXIMUM PRIORITY (0) - Initialization rule that forces Cursor to read all rules from .cursor/rules folder. MUST be applied BEFORE all other rules.
+alwaysApply: true
+priority: 0
+globs: "**/*"
+---
+
+# 🚨 INITIALIZATION RULE - MANDATORY RULES LOADING 🚨
+
+## 🎯 MAXIMUM PRIORITY (0) - APPLY BEFORE ALL OTHERS 🎯
+
+**This rule has MAXIMUM PRIORITY (`priority: 0`) and MUST be applied BEFORE any other rule.**
+
+## ⚠️ CRITICAL INSTRUCTION - EXECUTE FIRST ⚠️
+
+**🚨 MANDATORY FIRST CHECK - BEFORE ANYTHING ELSE 🚨**
+
+**BEFORE reading rules, BEFORE responding, ALWAYS check:**
+
+1. **Am I in ASK Mode?** 
+   - Check available tools: if only read-only tools → ASK Mode
+   - If ASK Mode → **Response MUST be ONE sentence maximum, NO code, brief**
+   - If Agent Mode → Can proceed normally
+
+2. **If in ASK Mode and response is longer than one sentence → STOP and rewrite**
+
+**ALWAYS, ALWAYS, ALWAYS** start each chat session by doing the following:
+
+### 1. Verify Rules Existence
+
+**BEFORE responding to ANYTHING, you MUST:**
+
+1. **🚨 FIRST: Check if in ASK Mode** (read-only tools = ASK Mode)
+   - If ASK Mode → Response MUST be ONE sentence, brief, NO code
+   - If Agent Mode → Can proceed normally
+
+2. **Verify that the `.cursor/rules/` folder exists**
+3. **List ALL `.mdc` files in the `.cursor/rules/` folder**
+4. **Read and apply ALL found rules**
+
+### 2. Mandatory Confirmation
+
+**ALWAYS** start your first response with:
+
+```
+✅ RULES LOADED: [number] rules found and applied in .cursor/rules/
+```
+
+**If you CANNOT read the rules, you MUST:**
+
+```
+⚠️ WARNING: Could not read rules from .cursor/rules/
+Please verify that the folder exists and that .mdc files are present.
+```
+
+### 3. Rules Priority Order
+
+**ALWAYS** apply rules in this priority order:
+
+1. **PRIORITY 0 (MAXIMUM):**
+   - `000-cursor-rules-loader.mdc` - This rule (loader)
+
+2. **PRIORITY 1 (CRITICAL):**
+   - `ask-mode-behavior.mdc` - ASK Mode behavior (ONE sentence, NO code)
+   - `clean-code-mandatory.mdc` - Clean Code MANDATORY
+   - `execution-guard.mdc` - Integrity protection
+
+3. **PRIORITY 2 (CRITICAL):**
+   - `project-architecture.mdc` - Project architecture
+
+4. **PRIORITY 3 (HIGH):**
+   - `teaching-role.mdc` - Expert/teacher posture
+
+5. **PRIORITY 4 (HIGH):**
+   - `test-driven-development-core.mdc` - TDD core
+   - `test-driven-development-practices.mdc` - TDD practices
+
+6. **PRIORITY 5 (HIGH):**
+   - `task-execution.mdc` - Task execution
+
+7. **PRIORITY 6+ (MEDIUM):**
+   - All other rules in `.cursor/rules/`
+
+### 4. Application Verification
+
+**ALWAYS** verify that you are following:
+
+- ✅ **ASK Mode behavior** (if in ASK Mode: ONE sentence, NO code, brief)
+- ✅ Clean Code and Design Patterns
+- ✅ Project architecture (Data-Driven, Modular, Editor-Friendly, Multiplayer-Ready)
+- ✅ Expert/teacher posture in C++/Unreal
+- ✅ TDD for critical code
+- ✅ Responses in Brazilian Portuguese (when user speaks Portuguese)
+
+### 5. If Rules Are Not Being Followed
+
+**If you notice that you are not following the rules:**
+
+1. **STOP immediately**
+2. **Reread all rules**
+3. **Warn the user:**
+   ```
+   ⚠️ WARNING: I detected that I was not following the rules correctly.
+   Rereading all rules now...
+   ```
+4. **Restart following the rules correctly**
+
+## 📋 Initialization Checklist
+
+**BEFORE responding to ANY user message:**
+
+- [ ] Did I read all `.mdc` files in `.cursor/rules/`?
+- [ ] **Am I in ASK Mode? If YES, is my response ONE sentence and brief?**
+- [ ] Did I apply maximum priority rules?
+- [ ] Did I confirm that I'm following Clean Code?
+- [ ] Did I verify that I'm following the architecture?
+- [ ] Am I responding in Brazilian Portuguese (when user speaks Portuguese)?
+- [ ] Am I maintaining expert/teacher posture?
+
+**If ANY item is incomplete → STOP and complete before responding**
+
+## 🎯 Purpose of This Rule
+
+This rule exists to ensure that:
+
+1. ✅ All rules are read at the start of each session
+2. ✅ No rule is ignored
+3. ✅ Behavior is consistent between sessions
+4. ✅ Problems are detected immediately
+
+## 🔝 Maximum Priority Guaranteed
+
+**This rule has `priority: 0` in the frontmatter, ensuring it is applied BEFORE all other rules.**
+
+**Application order:**
+1. **PRIORITY 0 (MAXIMUM):** This rule (`000-cursor-rules-loader.mdc`) - MUST be applied first
+2. **PRIORITY 1 (CRITICAL):** `ask-mode-behavior.mdc` (ASK Mode: ONE sentence), `clean-code-mandatory.mdc`, `execution-guard.mdc`
+3. **PRIORITY 2 (CRITICAL):** `project-architecture.mdc`
+4. **PRIORITY 3 (HIGH):** `teaching-role.mdc`
+5. **PRIORITY 4 (HIGH):** `test-driven-development-core.mdc`, `test-driven-development-practices.mdc`
+6. **PRIORITY 5 (HIGH):** `task-execution.mdc`
+7. **PRIORITY 6+ (MEDIUM):** Other rules
+
+## 🔄 Integration with Other Rules
+
+This rule works together with:
+
+- `ai-context.mdc` - Provides project context
+- `clean-code-mandatory.mdc` - Enforces Clean Code
+- `execution-guard.mdc` - Protects integrity
+- `teaching-role.mdc` - Maintains expert posture
+
+**ALL these rules must be applied simultaneously.**
+
+---
+
+**Remember:** This rule exists because Cursor sometimes ignores rules. You MUST be proactive in reading and applying all rules, not wait for them to be applied automatically.

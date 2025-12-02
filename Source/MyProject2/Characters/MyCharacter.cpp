@@ -14,15 +14,12 @@
 // Project includes - Helpers
 #include "Characters/Helpers/MovementHelpers.h"
 
-// Project includes - Logging
-#include "Logging/LoggingSystem.h"
-
 // Engine includes
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/Controller.h"
 #include "GameFramework/PlayerController.h"
+#include "Engine/LocalPlayer.h"
 
 #pragma endregion Includes
 
@@ -33,25 +30,20 @@
 
 AMyCharacter::AMyCharacter()
 {
-    // Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need
-    // it.
-    PrimaryActorTick.bCanEverTick = true;
+    PrimaryActorTick.bCanEverTick = false;
 
-    // Cria e inicializa o componente de Input Actions
     InputActionManager = CreateDefaultSubobject<UInputActionManagerComponent>(TEXT("InputActionManager"));
 
     // Configuração de rotação seguindo padrão Lyra para third person
-    // Câmera rotaciona livremente ao redor do personagem
-    // Personagem rotaciona apenas quando se move, na direção do movimento (que é baseado na câmera)
+    // Câmera rotaciona livremente; personagem rotaciona apenas quando se move
     bUseControllerRotationYaw = false;
-    bUseControllerRotationPitch = false; // Personagem NÃO rotaciona no pitch (apenas câmera)
-    bUseControllerRotationRoll = false;  // Personagem NÃO rotaciona no roll (apenas câmera)
+    bUseControllerRotationPitch = false;
+    bUseControllerRotationRoll = false;
 
-    // Personagem se orienta na direção do movimento automaticamente
-    // (o movimento já usa a direção da câmera, então o personagem rotaciona na direção da câmera quando se move)
     if (UCharacterMovementComponent *MovementComp = GetCharacterMovement())
     {
-        MovementComp->bOrientRotationToMovement = true;
+        MovementComp->bOrientRotationToMovement = false;
+        MovementComp->bUseControllerDesiredRotation = true;
     }
 }
 
@@ -65,17 +57,28 @@ AMyCharacter::AMyCharacter()
 void AMyCharacter::BeginPlay()
 {
     Super::BeginPlay();
+    SetupInputMappingContext();
+}
 
-    // Configura o Input Mapping Context
+void AMyCharacter::SetupInputMappingContext()
+{
     APlayerController *PlayerController = Cast<APlayerController>(GetController());
-    if (PlayerController)
+    if (!PlayerController)
     {
-        UEnhancedInputLocalPlayerSubsystem *Subsystem =
-            ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
-        if (Subsystem && IMC)
-        {
-            Subsystem->AddMappingContext(IMC, 0);
-        }
+        return;
+    }
+
+    UEnhancedInputLocalPlayerSubsystem *Subsystem =
+        ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+    if (!Subsystem)
+    {
+        return;
+    }
+
+    ensureMsgf(IMC, TEXT("Input Mapping Context não configurado em %s. Input não funcionará."), *GetName());
+    if (IMC)
+    {
+        Subsystem->AddMappingContext(IMC, 0);
     }
 }
 
@@ -86,42 +89,66 @@ void AMyCharacter::BeginPlay()
 // ============================================================================
 #pragma region Input Setup
 
+namespace
+{
+    constexpr float INPUT_DEADZONE = 0.01f;
+}
+
 void AMyCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+    ensureMsgf(InputActionManager, TEXT("InputActionManager não configurado em %s. Input não funcionará."), *GetName());
     if (!InputActionManager)
     {
         return;
     }
 
     UEnhancedInputComponent *EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+    ensureMsgf(EnhancedInputComponent, TEXT("EnhancedInputComponent não encontrado em %s. Input não funcionará."),
+               *GetName());
     if (!EnhancedInputComponent)
     {
         return;
     }
 
-    // Bind Move Action
+    BindInputActions(EnhancedInputComponent);
+}
+
+void AMyCharacter::BindInputActions(UEnhancedInputComponent *EnhancedInputComponent)
+{
+    check(InputActionManager);
+    check(EnhancedInputComponent);
+
     if (UInputAction *MoveAction = InputActionManager->GetInputAction(EInputActionType::Move))
     {
         EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMyCharacter::Move);
     }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("MoveAction não encontrada em InputActionManager de %s"), *GetName());
+    }
 
-    // Bind Look Action
     if (UInputAction *LookAction = InputActionManager->GetInputAction(EInputActionType::Look))
     {
         EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMyCharacter::Look);
     }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("LookAction não encontrada em InputActionManager de %s"), *GetName());
+    }
 
-    // Bind Toggle Rotation Mode Action
     if (UInputAction *ToggleAction = InputActionManager->GetInputAction(EInputActionType::ToggleRotationMode))
     {
-        // Quando pressionado (hold) - ativa modo câmera
         EnhancedInputComponent->BindAction(ToggleAction, ETriggerEvent::Triggered, this,
                                            &AMyCharacter::ToggleRotationMode);
-        // Quando solto - volta para modo movimento
         EnhancedInputComponent->BindAction(ToggleAction, ETriggerEvent::Completed, this,
                                            &AMyCharacter::ReleaseRotationMode);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("ToggleRotationModeAction não encontrada em InputActionManager de %s"),
+               *GetName());
     }
 }
 
@@ -135,72 +162,41 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputCompone
 void AMyCharacter::Move(const FInputActionValue &Value)
 {
     FVector2D MovementVector = Value.Get<FVector2D>();
-    FLoggingSystem::LogInfo(FLogContext(TEXT("MyCharacter"), TEXT("Move")),
-                            FString::Printf(TEXT("Move - Input: X=%.2f Y=%.2f"), MovementVector.X, MovementVector.Y));
-    // Obtém o Vector2D do input (X = Left/Right, Y = Forward/Backward)
-
-    // Se o movimento for muito pequeno, ignora (evita drift)
-    if (MovementVector.IsNearlyZero())
+    if (MovementVector.IsNearlyZero(INPUT_DEADZONE))
     {
         return;
     }
 
-    // Obtém a rotação do controle (câmera)
     FRotator ControlRotation = GetControlRotation();
-
-    // Calcula direções Forward e Right baseadas na rotação da câmera
     FVector ForwardDirection = MovementHelpers::CalculateForwardDirection(ControlRotation);
     FVector RightDirection = MovementHelpers::CalculateRightDirection(ControlRotation);
-
-    // Combina as direções em um único vetor de movimento
     FVector MovementDirection = (ForwardDirection * MovementVector.Y) + (RightDirection * MovementVector.X);
 
-    // Aplica movimento em uma única chamada
     AddMovementInput(MovementDirection, 1.0f);
 }
 
 void AMyCharacter::Look(const FInputActionValue &Value)
 {
-    // Obtém o Vector2D do input (X = Yaw, Y = Pitch)
     FVector2D LookAxisVector = Value.Get<FVector2D>();
-
-    // Log para debug
-    FLoggingSystem::LogInfo(FLogContext(TEXT("MyCharacter"), TEXT("Look")),
-                            FString::Printf(TEXT("Look - Input: X=%.2f Y=%.2f"), LookAxisVector.X, LookAxisVector.Y));
-
-    // Se o input for muito pequeno, ignora (evita drift)
-    if (LookAxisVector.IsNearlyZero())
+    if (LookAxisVector.IsNearlyZero(INPUT_DEADZONE))
     {
         return;
     }
 
-    // Obtém o controller
     APlayerController *PlayerController = Cast<APlayerController>(GetController());
     if (!PlayerController)
     {
         return;
     }
 
-    // Aplica rotação Yaw (horizontal) - rotaciona apenas a câmera
-    // (personagem não rotaciona automaticamente, apenas quando se move)
     AddControllerYawInput(LookAxisVector.X);
-
-    // Aplica rotação Pitch (vertical) - rotaciona apenas a câmera
-    // (invertido porque mouse Y geralmente precisa ser invertido para pitch em third person)
+    // Invertido para comportamento padrão de mouse em third person
     AddControllerPitchInput(-LookAxisVector.Y);
 }
 
-void AMyCharacter::ToggleRotationMode(const FInputActionValue &Value)
-{
-    // Modo 2: Personagem sempre olha na direção da câmera
-    UpdateRotationMode(true);
-}
+void AMyCharacter::ToggleRotationMode(const FInputActionValue &Value) { UpdateRotationMode(true); }
 
-void AMyCharacter::ReleaseRotationMode(const FInputActionValue &Value)
-{
-    // Modo 1: Personagem rotaciona na direção do movimento
-    UpdateRotationMode(false);
-}
+void AMyCharacter::ReleaseRotationMode(const FInputActionValue &Value) { UpdateRotationMode(false); }
 
 void AMyCharacter::UpdateRotationMode(bool bLookAtCamera)
 {
@@ -208,15 +204,13 @@ void AMyCharacter::UpdateRotationMode(bool bLookAtCamera)
     {
         if (bLookAtCamera)
         {
-            // Modo 2: Personagem sempre olha na direção da câmera
-            bUseControllerRotationYaw = true;
-            MovementComp->bOrientRotationToMovement = false;
+            MovementComp->bUseControllerDesiredRotation = false;
+            MovementComp->bOrientRotationToMovement = true;
         }
         else
         {
-            // Modo 1: Personagem rotaciona na direção do movimento
-            bUseControllerRotationYaw = false;
-            MovementComp->bOrientRotationToMovement = true;
+            MovementComp->bOrientRotationToMovement = false;
+            MovementComp->bUseControllerDesiredRotation = true;
         }
     }
 }

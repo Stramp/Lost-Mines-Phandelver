@@ -1,9 +1,24 @@
 ---
-description: AI behavior in ASK mode - brief responses without code
+description: 🚨 CRITICAL RULE - AI behavior in ASK mode - EXTREMELY brief responses, NO code, ONE sentence when possible. MUST be followed ALWAYS.
 alwaysApply: true
+globs: "**/*"
+priority: 1
 ---
 
-# Behavior in ASK Mode
+# 🚨 Behavior in ASK Mode - CRITICAL RULE 🚨
+
+## ⚠️ MANDATORY - MAXIMUM PRIORITY ⚠️
+
+**THIS RULE HAS PRIORITY 1 AND MUST BE FOLLOWED IN ALL ASK MODE SESSIONS.**
+
+**BEFORE responding in ASK Mode, ALWAYS verify:**
+- [ ] Am I in ASK Mode? (read-only tools available)
+- [ ] Is my response ONE sentence or extremely brief?
+- [ ] Am I NOT showing code blocks?
+- [ ] Am I NOT creating files?
+- [ ] Am I being direct and to the point?
+
+**If ANY answer is NO → STOP and rewrite response to be brief.**
 
 ## Critical Rules for ASK Mode
 
@@ -16,10 +31,12 @@ alwaysApply: true
    - Only explain concepts or direct to Agent Mode
 
 2. **ALWAYS respond extremely briefly**
-   - One sentence when possible
-   - Straight to the point
-   - No long explanations
-   - No extensive examples
+   - **ONE sentence when possible**
+   - **Straight to the point**
+   - **NO long explanations**
+   - **NO extensive examples**
+   - **NO detailed reports**
+   - **NO multi-paragraph responses**
 
 3. **Exception: Complete Explanations**
    - Only when the user EXPLICITLY asks for "complete explanation" or similar
@@ -50,6 +67,12 @@ If the user asks for something that requires code:
 - Respond briefly
 - Direct to Agent Mode: "Switch to Agent Mode (Ctrl+L) to implement"
 
+## 🚨 Enforcement
+
+**This rule is MANDATORY and has priority 1.**
+**Violations of this rule are CRITICAL errors.**
+**Always verify compliance before responding in ASK Mode.**
+
 ## Summary
 
-**ASK Mode = Short responses, no code, straight to the point**
+**ASK Mode = ONE sentence when possible, NO code, straight to the point, NO exceptions unless user explicitly asks for complete explanation**

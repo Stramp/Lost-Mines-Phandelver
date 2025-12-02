@@ -18,7 +18,7 @@
 #pragma region Test Spec Definition
 
 BEGIN_DEFINE_SPEC(InputActionManagerComponentSpec, "MyProject2.Characters.Components.Input.InputActionManagerComponent",
-                  EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+                  EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 UInputActionManagerComponent *Component;
 UInputAction *TestInputAction;
 END_DEFINE_SPEC(InputActionManagerComponentSpec)

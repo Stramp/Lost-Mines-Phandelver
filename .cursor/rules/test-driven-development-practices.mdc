@@ -1,0 +1,251 @@
+---
+description: CRITICAL RULE - Test-Driven Development (TDD) practices. When to apply TDD, examples, checklists, and exceptions.
+globs: ["*.cpp", "*.h"]
+alwaysApply: true
+priority: 4
+---
+
+# 🧪 Test-Driven Development (TDD) - Practices
+
+## 📋 Checklist TDD Obrigatório
+
+**BEFORE escrever QUALQUER código crítico, SEMPRE verificar:**
+
+1. **[ ] Escrevi o teste que falha (Red)?**
+   - Teste define comportamento esperado?
+   - Teste pode detectar erros?
+   - Teste compila (mesmo que função não exista ainda)?
+
+2. **[ ] O teste é atômico e focado?**
+   - Testa uma única coisa?
+   - Nome descritivo (`<Scenario>_<Condition>_<ExpectedResult>`)?
+   - Independente de outros testes?
+
+3. **[ ] O teste NÃO tem lógica interna?**
+   - Valor esperado é hardcoded (não calculado)?
+   - Teste chama a função real do módulo oficial?
+   - Mock apenas simula dados (não implementa lógica)?
+   - Teste falharia se o código estivesse errado?
+   - Não há lógica de cálculo no teste?
+
+4. **[ ] A função será testável isoladamente?**
+   - Sem dependências ocultas?
+   - Parâmetros claros?
+   - Retorno verificável?
+
+5. **[ ] Implementação mínima faz teste passar (Green)?**
+   - Solução mais simples possível?
+   - Teste fica verde?
+   - Comportamento básico funciona?
+
+6. **[ ] Refatorei com segurança (Refactor)?**
+   - Testes ainda passam?
+   - Código melhorado sem quebrar comportamento?
+   - Clean Code aplicado?
+
+**Se QUALQUER resposta for NÃO → PARAR e corrigir antes de continuar**
+
+## ⚠️ Exceções: Quando Test-After é Aceitável
+
+**Test-After (escrever teste depois) é aceitável quando:**
+
+- ❌ **Getters/Setters simples** (sem lógica)
+  ```cpp
+  // Não precisa de teste primeiro
+  float GetHealth() const { return Health; }
+  void SetHealth(float NewHealth) { Health = NewHealth; }
+  ```
+
+- ❌ **Wrappers diretos de API Unreal** (sem lógica customizada)
+  ```cpp
+  // Wrapper simples, testar depois se necessário
+  UDataTable* GetRaceDataTable() const { return RaceDataTable; }
+  ```
+
+- ❌ **Integração com Blueprint** (testar depois pode ser mais prático)
+  ```cpp
+  // Integração complexa, testar depois
+  UFUNCTION(BlueprintCallable)
+  void InitializeFromBlueprint(UCharacterSheetDataAsset* Asset);
+  ```
+
+- ❌ **Mudanças muito pequenas** (< 5 linhas, sem lógica complexa)
+  ```cpp
+  // Ajuste simples, não precisa de teste primeiro
+  void LogMessage(const FString& Message) { UE_LOG(LogTemp, Warning, TEXT("%s"), *Message); }
+  ```
+
+- ❌ **Correções de bugs** (escrever teste que reproduz bug, depois corrigir)
+  ```cpp
+  // Bug fix: escrever teste que reproduz, depois corrigir
+  It("deve corrigir bug X", [this]() { /* reproduz bug */ });
+  ```
+
+**IMPORTANTE:** Mesmo em exceções, **SEMPRE** escrever testes quando código for crítico ou reutilizável.
+
+## 🎯 Quando Aplicar TDD Rigorosamente
+
+### 1. Helpers e Utils (SEMPRE TDD)
+
+**ALWAYS** test-first para funções em `Utils/` ou `Helpers/`:
+
+```cpp
+// ✅ CORRETO - Teste primeiro
+// 1. Red: Escrever teste
+It("deve calcular modificador correto para score 10 (modificador 0)", [this]()
+{
+    int32 Result = CalculationHelpers::CalculateAbilityModifier(10);
+    TestEqual("Modificador para score 10 deve ser 0", Result, 0);
+});
+
+// 2. Green: Implementação mínima
+int32 CalculationHelpers::CalculateAbilityModifier(int32 Score)
+{
+    return (Score - 10) / 2;  // Fórmula D&D
+}
+
+// 3. Refactor: Melhorar (com testes garantindo)
+```
+
+### 2. Motores (SEMPRE TDD)
+
+**ALWAYS** test-first para lógica de motores:
+
+```cpp
+// ✅ CORRETO - Teste primeiro para motor
+Describe("PointBuyMotor", [this]()
+{
+    It("deve validar alocação que gasta exatamente 27 pontos", [this]()
+    {
+        // Teste define comportamento esperado
+        TMap<FName, int32> BaseScores;
+        // ... setup ...
+        bool Result = FPointBuyMotor::ValidateAllocation(BaseScores, 27);
+        TestTrue("Alocação válida deve ser aceita", Result);
+    });
+});
+```
+
+### 3. Validators (SEMPRE TDD)
+
+**ALWAYS** test-first para regras de validação:
+
+```cpp
+// ✅ CORRETO - Teste primeiro para validator
+Describe("ValidateAbilityScoreRange", [this]()
+{
+    It("deve validar score dentro do range padrão (1-30)", [this]()
+    {
+        bool Result = ValidationHelpers::ValidateAbilityScoreRange(15);
+        TestTrue("Score 15 deve ser válido", Result);
+    });
+
+    It("deve rejeitar score fora do range (0 ou negativo)", [this]()
+    {
+        bool Result = ValidationHelpers::ValidateAbilityScoreRange(0);
+        TestFalse("Score 0 deve ser inválido", Result);
+    });
+});
+```
+
+## 📝 Exemplo Completo: TDD de Helper
+
+### Passo 1: Red (Teste que Falha)
+
+```cpp
+// CalculationHelpersTests.cpp
+Describe("CalculateProficiencyBonus", [this]()
+{
+    It("deve calcular bônus correto para nível 1 (bônus +2)", [this]()
+    {
+        // Arrange
+        int32 Level = 1;
+
+        // Act
+        int32 Result = CalculationHelpers::CalculateProficiencyBonus(Level);
+
+        // Assert
+        TestEqual("Bônus de proficiência para nível 1 deve ser +2", Result, 2);
+    });
+});
+```
+
+### Passo 2: Green (Implementação Mínima)
+
+```cpp
+// CalculationHelpers.cpp
+int32 CalculationHelpers::CalculateProficiencyBonus(int32 Level)
+{
+    if (Level == 1) return 2;  // Implementação mínima
+    return 0;
+}
+```
+
+### Passo 3: Refactor (Melhorar com Segurança)
+
+```cpp
+// CalculationHelpers.cpp
+int32 CalculationHelpers::CalculateProficiencyBonus(int32 Level)
+{
+    // Fórmula D&D 5e: +2 a cada 4 níveis (arredondado para cima)
+    // Nível 1-4: +2, 5-8: +3, 9-12: +4, etc.
+    return 2 + ((Level - 1) / 4);
+}
+```
+
+**Testes garantem que comportamento não muda durante refatoração!**
+
+## ✅ Checklist Final
+
+Antes de considerar código "pronto" com TDD:
+
+- [ ] Teste foi escrito ANTES da implementação (Red)?
+- [ ] Teste define comportamento esperado claramente?
+- [ ] **Teste NÃO tem lógica interna (valor esperado é hardcoded)?**
+- [ ] **Teste chama a função real do módulo oficial?**
+- [ ] **Mock apenas simula dados (não implementa lógica)?**
+- [ ] **Teste falharia se o código estivesse errado?**
+- [ ] Implementação mínima faz teste passar (Green)?
+- [ ] Código foi refatorado com testes garantindo (Refactor)?
+- [ ] Testes cobrem casos válidos, inválidos e edge cases?
+- [ ] Testes são independentes e rápidos (< 1 segundo cada)?
+- [ ] Nomes de testes são descritivos (`<Scenario>_<Condition>_<ExpectedResult>`)?
+- [ ] Testes servem como documentação viva do comportamento?
+
+## 📚 Referências e Documentação
+
+### Documentação do Projeto
+
+- **[TDD Complete Guide](../../docs/technical/guides/tdd-complete-guide.md)** - Guia completo consolidado de TDD
+  - Ciclo Red-Green-Refactor detalhado
+  - Princípios fundamentais
+  - Quando aplicar TDD vs Test-After
+  - TDD na Unreal Engine 5.7
+  - Erros comuns e anti-padrões
+  - Benefícios e boas práticas
+  - Recursos de aprendizado
+- `memorias/TDD.md` - Relatório completo sobre TDD na Unreal Engine
+- `docs/technical/guides/testing.md` - Guia de testes do projeto
+- `docs/technical/guides/testing-implementation-plan.md` - Plano de implementação
+
+## 🎯 Resumo Executivo
+
+**TDD é OBRIGATÓRIO para:**
+- ✅ Helpers/Utils
+- ✅ Motores
+- ✅ Validators
+- ✅ Lógica de negócio crítica
+
+**TDD é OPCIONAL para:**
+- ❌ Getters/Setters simples
+- ❌ Wrappers de API
+- ❌ Integração Blueprint
+- ❌ Mudanças muito pequenas
+
+**Ciclo sempre: Red → Green → Refactor**
+
+**Benefício principal:** Código testável, desacoplado e confiável.
+
+---
+
+**This rule has HIGH priority (4) and integrates with `test-driven-development-core.mdc`, `clean-code-mandatory.mdc` and `testing.mdc`.**

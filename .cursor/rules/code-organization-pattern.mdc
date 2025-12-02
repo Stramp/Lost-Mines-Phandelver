@@ -1,24 +1,25 @@
 ---
-description: Padrão de organização de código com regions, comentários de seção e estrutura hierárquica
+description: Code organization pattern with regions, section comments and hierarchical structure
 alwaysApply: true
+globs: "**/*"
 ---
 
 # Code Organization Pattern
 
-## 🎯 Objetivo
+## 🎯 Objective
 
-**ALWAYS** organizar arquivos C++ seguindo um padrão consistente com:
-- Comentários de seção claros
-- Regions para agrupar código relacionado
-- Includes agrupados por categoria
-- Organização lógica por responsabilidade
-- Comentários explicativos em funções importantes
+**ALWAYS** organize C++ files following a consistent pattern with:
+- Clear section comments
+- Regions to group related code
+- Includes grouped by category
+- Logical organization by responsibility
+- Explanatory comments in important functions
 
-## 📋 Estrutura Obrigatória
+## 📋 Mandatory Structure
 
-### 1. Header do Arquivo
+### 1. File Header
 
-**ALWAYS** começar com:
+**ALWAYS** start with:
 
 ```cpp
 // Copyright Epic Games, Inc. All Rights Reserved.
@@ -39,41 +40,41 @@ alwaysApply: true
 #pragma endregion Includes
 ```
 
-### 2. Organização com Regions
+### 2. Organization with Regions
 
-**ALWAYS** usar `#pragma region` para agrupar código relacionado:
-
-```cpp
-// ============================================================================
-// [Nome da Seção]
-// ============================================================================
-#pragma region [Nome da Seção]
-
-// Código relacionado aqui...
-
-#pragma endregion [Nome da Seção]
-```
-
-### 3. Comentários de Seção
-
-**ALWAYS** usar comentários de seção com separadores:
+**ALWAYS** use `#pragma region` to group related code:
 
 ```cpp
 // ============================================================================
-// Nome da Seção
+// [Section Name]
+// ============================================================================
+#pragma region [Section Name]
+
+// Related code here...
+
+#pragma endregion [Section Name]
+```
+
+### 3. Section Comments
+
+**ALWAYS** use section comments with separators:
+
+```cpp
+// ============================================================================
+// Section Name
 // ============================================================================
 ```
 
-**Padrão de separadores:**
-- Usar `===` para criar linha visual
-- Espaçamento consistente
-- Títulos em PascalCase ou descritivos
+**Separator pattern:**
+- Use `===` to create visual line
+- Consistent spacing
+- Titles in PascalCase or descriptive
 
-## 📁 Organização por Tipo de Arquivo
+## 📁 Organization by File Type
 
-### Arquivos .cpp (Implementation)
+### .cpp Files (Implementation)
 
-**Estrutura obrigatória:**
+**Mandatory structure:**
 
 ```cpp
 // Copyright Epic Games, Inc. All Rights Reserved.
@@ -135,9 +136,9 @@ void Function1()
 - `Project includes - CreateSheet`
 - `Engine includes`
 
-### Arquivos .h (Header)
+### .h Files (Header)
 
-**Estrutura obrigatória:**
+**Mandatory structure:**
 
 ```cpp
 // Copyright Epic Games, Inc. All Rights Reserved.
@@ -242,11 +243,11 @@ struct MYPROJECT2_API FMyStruct
 #pragma endregion Ability Scores Helpers
 ```
 
-## ✅ Regras de Organização
+## ✅ Organization Rules
 
-### 1. Hierarquia Lógica
+### 1. Logical Hierarchy
 
-**ALWAYS** organizar por hierarquia lógica:
+**ALWAYS** organize by logical hierarchy:
 - Structs auxiliares primeiro
 - Structs principais depois
 - Classes/Structs de DataTable por último
@@ -293,13 +294,13 @@ FSkills → FProficienciesEntry → FProgressEntry → FClassData → FClassData
 
 ## 🚫 O Que NÃO Fazer
 
-- ❌ **NUNCA** misturar includes sem organização
-- ❌ **NUNCA** criar regions sem comentários de seção
-- ❌ **NUNCA** pular a organização de includes
-- ❌ **NUNCA** criar seções muito genéricas ("Misc", "Other")
-- ❌ **NUNCA** usar regions sem fechar com `#pragma endregion`
+- ❌ **NEVER** mix includes without organization
+- ❌ **NEVER** create regions without section comments
+- ❌ **NEVER** skip include organization
+- ❌ **NEVER** create very generic sections ("Misc", "Other")
+- ❌ **NEVER** use regions without closing with `#pragma endregion`
 
-## 📝 Checklist de Organização
+## 📝 Organization Checklist
 
 Antes de considerar um arquivo "organizado":
 
@@ -393,16 +394,16 @@ struct FClassData { ... };
 
 ## 🔄 Quando Aplicar
 
-**ALWAYS** aplicar este padrão quando:
-- ✅ Criar novos arquivos
-- ✅ Refatorar arquivos existentes
-- ✅ Reorganizar código
-- ✅ Adicionar novas seções grandes
+**ALWAYS** apply this pattern when:
+- ✅ Creating new files
+- ✅ Refactoring existing files
+- ✅ Reorganizing code
+- ✅ Adding new large sections
 
-**Pode pular** (mas ainda recomendado) quando:
-- Arquivos muito pequenos (< 50 linhas)
-- Arquivos temporários (mas lembre-se: não deve ter arquivos temporários!)
+**Can skip** (but still recommended) when:
+- Very small files (< 50 lines)
+- Temporary files (but remember: should not have temporary files!)
 
 ---
 
-**Lembre-se:** Consistência é a chave. Todos os arquivos devem seguir o mesmo padrão para facilitar navegação e manutenção.
+**Remember:** Consistency is key. All files must follow the same pattern to facilitate navigation and maintenance.
