@@ -1,0 +1,226 @@
+---
+description: Rules for organizing Markdown files with collapsible sections - Basic rules and structure
+alwaysApply: true
+globs: "**/*"
+---
+
+# Markdown Organization Rules - Basic
+
+## 🎯 Objective
+
+**ALWAYS** use collapsible system (`<details>` and `<summary>`) to organize Markdown files, especially:
+
+- Long reports
+- Technical documentation
+- Code analysis
+- Guides and tutorials
+- Files with multiple sections
+
+## 📋 Mandatory Rules
+
+### 1. Always Use Collapsibles in Main Sections
+
+**ALWAYS** organize main sections with `<details>`:
+
+```markdown
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>Main Title</b></summary>
+
+> Description or main content here...
+>
+> More content if necessary...
+
+</details>
+```
+
+**Style Pattern for Titles:**
+
+- Main titles: `background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;`
+- Sub-sections: `background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;`
+- Use `<b>` for bold in main titles
+
+### 2. Hierarchical Structure with Visual Indentation
+
+**ALWAYS** use nested collapsibles with quote blocks (`>`) to create visual hierarchy:
+
+```markdown
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚠️ Problemas Encontrados</b></summary>
+
+> Descrição geral dos problemas...
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔴 Crítico (Alta Prioridade)</summary>
+>
+> > Conteúdo de problemas críticos...
+> >
+> > - Item 1
+> > - Item 2
+>
+> </details>
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🟡 Médio (Média Prioridade)</summary>
+>
+> > Conteúdo de problemas médios...
+> >
+> > - Item 1
+> > - Item 2
+>
+> </details>
+
+</details>
+```
+
+**Visual Hierarchy:**
+
+- **Level 1 (Main):** Background `#e8e8e8` + Quote block `>`
+- **Level 2 (Sub-section):** Background `#d8d8d8` + Nested quote block `>>`
+- **Level 3 (Items):** Inside `>>` to maintain hierarchy
+
+### 3. Emojis in Summary
+
+**ALWAYS** use descriptive emojis in `<summary>` for better visualization:
+
+- 📊 For summaries/statistics
+- ✅ For positive points
+- ⚠️ For warnings/problems
+- 🔴 For critical/high priority
+- 🟡 For medium/medium priority
+- 🟢 For low/low priority
+- 📋 For lists/checklists
+- 💡 For tips/suggestions
+- 🎯 For objectives/goals
+- 📈 For metrics/analysis
+- 🔧 For tools/configurations
+- 📚 For documentation/references
+
+### 4. Default State
+
+**ALWAYS** use `<details open>` for sections that should be open by default:
+
+```markdown
+<details open>
+<summary>📊 Resumo Executivo</summary>
+
+Conteúdo visível por padrão.
+
+</details>
+```
+
+**When to use `open`:**
+
+- ✅ Executive summary
+- ✅ Main conclusions
+- ✅ Critical information
+- ✅ First important section
+
+**When NOT to use `open`:**
+
+- ❌ Extensive technical details
+- ❌ Long problem lists
+- ❌ Secondary information
+- ❌ Nested sub-sections
+
+### 5. Indentation and Visual Hierarchy
+
+**ALWAYS** use quote blocks (`>`) to create indentation and gray background:
+
+**Color Pattern:**
+
+- **Main titles:** `background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;`
+- **Sub-sections:** `background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;`
+
+**Quote Block Hierarchy:**
+
+- **Level 1:** `>` - Main content (light gray background)
+- **Level 2:** `>>` - Sub-sections (more indented)
+- **Level 3:** `>>>` - Items inside sub-sections (if necessary)
+
+**Block Closing Pattern:**
+
+**ALWAYS** close quote blocks before closing `</details>` using the pattern:
+
+```markdown
+> Conteúdo final do bloco
+>
+>___
+```
+
+## ✅ Checklist
+
+Antes de criar/editar arquivo Markdown:
+
+- [ ] Seções principais estão com `<details>`?
+- [ ] Títulos principais têm estilo com fundo `#e8e8e8`?
+- [ ] Sub-seções têm estilo com fundo `#d8d8d8`?
+- [ ] Blocos de citação (`>`) estão criando hierarquia visual?
+- [ ] Sub-seções importantes estão aninhadas?
+- [ ] Emojis descritivos no `<summary>`?
+- [ ] Seções críticas têm `<details open>`?
+- [ ] Listas longas estão colapsadas?
+- [ ] Estrutura hierárquica está clara?
+- [ ] Código extenso está em colapsos?
+- [ ] Separadores `---` entre seções principais?
+- [ ] Blocos de citação fechados com `>___` antes de `</details>`?
+
+## 🚫 Quando NÃO Usar Colapsos
+
+**NÃO usar colapsos para:**
+
+- ❌ Arquivos muito curtos (< 50 linhas)
+- ❌ README simples
+- ❌ Títulos principais (H1)
+- ❌ Parágrafos únicos
+- ❌ Text that needs to always be visible
+
+## 📝 Exemplos de Uso
+
+### Exemplo 1: Relatório de Análise
+
+```markdown
+# Análise de Código
+
+<details open>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📊 Resumo</b></summary>
+
+> | Métrica | Valor |
+> |---------|-------|
+> | Clean Code | 8/10 |
+
+</details>
+
+---
+
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>⚠️ Problemas</b></summary>
+
+> Descrição dos problemas...
+>
+> <details>
+> <summary style="background-color: #d8d8d8; padding: 3px 6px; border-radius: 3px;">🔴 Críticos</summary>
+>
+> > - Problema 1
+> > - Problema 2
+>
+> </details>
+
+</details>
+```
+
+### Exemplo 2: Checklist
+
+```markdown
+<details>
+<summary style="background-color: #e8e8e8; padding: 4px 8px; border-radius: 4px;"><b>📋 Checklist de Implementação</b></summary>
+
+> - [ ] Item 1
+> - [ ] Item 2
+> - [ ] Item 3
+
+</details>
+```
+
+---
+
+**Remember:** The goal is to improve readability and organization, not complicate. Use collapsibles intelligently and consistently.

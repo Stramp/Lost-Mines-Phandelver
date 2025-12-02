@@ -1,6 +1,7 @@
 ---
 description: Rules for organizing Markdown files with collapsible sections
 alwaysApply: true
+globs: "**/*"
 ---
 
 # Markdown Organization Rules

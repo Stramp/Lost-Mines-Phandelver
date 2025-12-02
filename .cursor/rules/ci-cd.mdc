@@ -1,6 +1,6 @@
 ---
 description: Rules and configuration for CI/CD in the project
-globs: []
+globs: "**/*"
 alwaysApply: true
 ---
 

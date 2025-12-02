@@ -1,6 +1,7 @@
 ---
 description: Rules to keep code clean, organized and of quality
 alwaysApply: true
+globs: "**/*"
 ---
 
 # Code Quality and Organization

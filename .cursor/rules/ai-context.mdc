@@ -1,6 +1,7 @@
 ---
 description: Rules to provide better context to AI about the project
 alwaysApply: true
+globs: "**/*"
 ---
 
 # AI Context

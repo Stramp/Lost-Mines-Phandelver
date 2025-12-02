@@ -2,28 +2,29 @@
 description: CRITICAL RULE - Clean Code and Design Patterns are MANDATORY in ALL situations
 globs: ["*.cpp", "*.h", "*.hpp", "*.cs"]
 alwaysApply: true
+priority: 1
 ---
 
 # ⚠️ CRITICAL RULE - CLEAN CODE AND DESIGN PATTERNS MANDATORY ⚠️
 
-## 🚨 REGRA ZERO - VALIDAÇÃO PRÉ-CÓDIGO OBRIGATÓRIA 🚨
+## 🚨 RULE ZERO - MANDATORY PRE-CODE VALIDATION 🚨
 
-**ANTES de escrever QUALQUER função, SEMPRE verificar:**
+**BEFORE writing ANY function, ALWAYS verify:**
 
-1. **Esta função pode ser reutilizada?** → Vai para `Utils/` ou `Helpers/`
-2. **Esta função é pura (sem side effects)?** → Pode ser helper
-3. **Esta função está no lugar certo?** → Motor só tem lógica de motor, não helpers
-4. **Esta função segue Single Responsibility?** → Uma função = uma responsabilidade
-5. **Esta função está testável isoladamente?** → Se não, refatorar
+1. **Can this function be reused?** → Goes to `Utils/` or `Helpers/`
+2. **Is this function pure (no side effects)?** → Can be helper
+3. **Is this function in the right place?** → Motor only has motor logic, no helpers
+4. **Does this function follow Single Responsibility?** → One function = one responsibility
+5. **Is this function testable in isolation?** → If not, refactor
 
-**🚨 REGRA CRÍTICA DE LOCALIZAÇÃO:**
+**🚨 CRITICAL LOCATION RULE:**
 
-- **MOTOR NÃO TEM HELPERS** - Motores (`*Motor.cpp`) só contêm lógica de motor
-- **VALIDATOR NÃO TEM HELPERS** - Validators só validam
-- **UPDATER NÃO TEM HELPERS** - Updaters só atualizam
-- **HELPERS NÃO TEM LÓGICA DE MOTOR** - Helpers são funções puras e reutilizáveis
+- **MOTOR DOES NOT HAVE HELPERS** - Motors (`*Motor.cpp`) only contain motor logic
+- **VALIDATOR DOES NOT HAVE HELPERS** - Validators only validate
+- **UPDATER DOES NOT HAVE HELPERS** - Updaters only update
+- **HELPERS DO NOT HAVE MOTOR LOGIC** - Helpers are pure and reusable functions
 
-**Se a função pode ser helper → CRIAR EM Helpers/, NÃO no arquivo atual**
+**If the function can be a helper → CREATE IN Helpers/, NOT in current file**
 
 ## 🚨 ABSOLUTE RULE - NO EXCEPTIONS 🚨
 
@@ -50,12 +51,12 @@ alwaysApply: true
 
 **CRITICAL RULE:** Any function that can be reused MUST be in a separate helpers/utilities file.
 
-**🚨 REGRA DE LOCALIZAÇÃO ABSOLUTA:**
+**🚨 ABSOLUTE LOCATION RULE:**
 
-- ❌ **NUNCA** criar helper dentro de `*Motor.cpp` (ex: `MulticlassMotor.cpp`, `PointBuyMotor.cpp`)
-- ❌ **NUNCA** criar helper dentro de `*Validator.cpp` (ex: `PointBuyValidator.cpp`)
-- ❌ **NUNCA** criar helper dentro de `*Updater.cpp`
-- ✅ **SEMPRE** criar helper em `*Helpers.h/cpp` correspondente (ex: `MulticlassHelpers.h`)
+- ❌ **NEVER** create helper inside `*Motor.cpp` (ex: `MulticlassMotor.cpp`, `PointBuyMotor.cpp`)
+- ❌ **NEVER** create helper inside `*Validator.cpp` (ex: `PointBuyValidator.cpp`)
+- ❌ **NEVER** create helper inside `*Updater.cpp`
+- ✅ **ALWAYS** create helper in corresponding `*Helpers.h/cpp` (ex: `MulticlassHelpers.h`)
 
 **ALWAYS:**
 
@@ -212,21 +213,21 @@ private:
 
 **BEFORE writing ANY code, ALWAYS ask (in this order):**
 
-1. **[ ] Esta função pode ser reutilizada?** → Se SIM, vai para `Utils/` ou `Helpers/`
-2. **[ ] Esta função é pura (sem side effects)?** → Se SIM, pode ser helper
-3. **[ ] Esta função está no arquivo correto?**
-   - Motor? → Só lógica de motor, SEM helpers
-   - Validator? → Só validação, SEM helpers
-   - Updater? → Só atualização, SEM helpers
-   - Helper? → Só funções puras, SEM lógica de motor
-4. **[ ] Esta função depende de estado interno?** → Pode ser parameterizada?
-5. **[ ] Estou duplicando código?** → Extrair para helper
-6. **[ ] Esta função tem single responsibility?** → Uma função = uma ação
-7. **[ ] Esta função é testável isoladamente?** → Se não, refatorar
-8. **[ ] Estou seguindo Clean Code?** → Verificar todos os princípios
-9. **[ ] Estou seguindo Design Patterns apropriados?** → Verificar padrões
+1. **[ ] Can this function be reused?** → If YES, goes to `Utils/` or `Helpers/`
+2. **[ ] Is this function pure (no side effects)?** → If YES, can be helper
+3. **[ ] Is this function in the correct file?**
+   - Motor? → Only motor logic, NO helpers
+   - Validator? → Only validation, NO helpers
+   - Updater? → Only update, NO helpers
+   - Helper? → Only pure functions, NO motor logic
+4. **[ ] Does this function depend on internal state?** → Can it be parameterized?
+5. **[ ] Am I duplicating code?** → Extract to helper
+6. **[ ] Does this function have single responsibility?** → One function = one action
+7. **[ ] Is this function testable in isolation?** → If not, refactor
+8. **[ ] Am I following Clean Code?** → Verify all principles
+9. **[ ] Am I following appropriate Design Patterns?** → Verify patterns
 
-**Se QUALQUER resposta indicar que deve ser helper → PARAR e criar em Helpers/**
+**If ANY answer indicates it should be a helper → STOP and create in Helpers/**
 
 ## Helpers/Utils Structure
 
@@ -266,37 +267,37 @@ Source/MyProject2/
 
 ---
 
-## 📚 Referências de Documentação
+## 📚 Documentation References
 
-**Sempre consultar estas referências ao aplicar Clean Code e Design Patterns:**
+**Always consult these references when applying Clean Code and Design Patterns:**
 
 ### Clean Code
-- **Princípios fundamentais**: Funções pequenas, nomes descritivos, responsabilidade única
-- **DRY (Don't Repeat Yourself)**: Eliminar duplicação de código
-- **Separation of Concerns**: Separar lógica de negócio de lógica auxiliar
-- **Testability**: Código deve ser testável isoladamente
+- **Fundamental principles**: Small functions, descriptive names, single responsibility
+- **DRY (Don't Repeat Yourself)**: Eliminate code duplication
+- **Separation of Concerns**: Separate business logic from auxiliary logic
+- **Testability**: Code must be testable in isolation
 
 ### C++ Design Patterns
-- **Strategy Pattern**: Para algoritmos intercambiáveis
-- **Factory Pattern**: Para criação de objetos
-- **Observer Pattern**: Para eventos e notificações
-- **RAII (Resource Acquisition Is Initialization)**: Gerenciamento automático de recursos
-- **Guard Pattern**: Para garantir limpeza de recursos (ex: `FValidationGuard`)
+- **Strategy Pattern**: For interchangeable algorithms
+- **Factory Pattern**: For object creation
+- **Observer Pattern**: For events and notifications
+- **RAII (Resource Acquisition Is Initialization)**: Automatic resource management
+- **Guard Pattern**: To ensure resource cleanup (ex: `FValidationGuard`)
 
 ### Unreal Engine 5.7
-- **UPROPERTY/UFUNCTION**: Macros para expor propriedades e funções ao Blueprint
-- **USTRUCT**: Para estruturas de dados
-- **Component-Based Architecture**: Separar funcionalidades em componentes
-- **Data-Driven Design**: Usar Data Tables e Data Assets ao invés de hardcode
-- **Replication**: Preparar código para multiplayer desde o início
+- **UPROPERTY/UFUNCTION**: Macros to expose properties and functions to Blueprint
+- **USTRUCT**: For data structures
+- **Component-Based Architecture**: Separate functionalities into components
+- **Data-Driven Design**: Use Data Tables and Data Assets instead of hardcode
+- **Replication**: Prepare code for multiplayer from the start
 
-### Regras Relacionadas
-- `.cursor/rules/clean-code-mandatory.mdc` - Esta regra (máxima prioridade)
-- `.cursor/rules/test-driven-development.mdc` - TDD obrigatório para código crítico
-- `.cursor/rules/execution-guard.mdc` - Proteção de integridade do projeto
-- `.cursor/rules/project-architecture.mdc` - Arquitetura do projeto
-- `.cursor/rules/unreal-engine-cpp.mdc` - Convenções C++ para Unreal Engine
-- `memorias/erros-comuns-para-evitar.md` - Erros comuns para não repetir
+### Related Rules
+- `.cursor/rules/clean-code-mandatory.mdc` - This rule (maximum priority)
+- `.cursor/rules/test-driven-development-core.mdc` - TDD mandatory for critical code
+- `.cursor/rules/execution-guard.mdc` - Project integrity protection
+- `.cursor/rules/project-architecture.mdc` - Project architecture
+- `.cursor/rules/unreal-engine-cpp.mdc` - C++ conventions for Unreal Engine
+- `memorias/erros-comuns-para-evitar.md` - Common errors to avoid
 
 ---
 
