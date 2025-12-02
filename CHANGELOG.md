@@ -213,6 +213,21 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Documentação técnica completa
 > >    - Guias para designers implementados
 > >
+> > 14. **Ciclo 2.6: Data Table de Itens Básicos MVP** (2024-12-27)
+> >    - `ItemDataTable.h` criado com estrutura `FItemDataRow` completa
+> >    - Campos implementados: Name, ID, ItemType, Weight, Value, Description, TypeTags
+> >    - Suporte para múltiplos tipos: Weapon, Armor, Tool, Consumable, Pack, Other, Gold
+> >    - Campos opcionais: SpellHandle, DamageTypeID, IconTexture, MeshReference
+> >    - Helpers implementados: `IsItemDataTable()`
+> >    - Validators implementados: `DataTableIntegrityValidator` com validação de ItemDataTable
+> >    - Integração completa com sistema de inventário e equipamentos
+> >    - Testes automatizados criados:
+> >      - `DataTableHelpersTests.cpp` - Testes para validação de ItemDataTable
+> >      - `CharacterSheetDataAssetHelpersTests.cpp` - Testes de integração
+> >    - Data Table asset criado e preenchido com itens básicos D&D 5e (armas, armaduras, consumíveis)
+> >    - Documentação técnica completa
+> >    - Guias para designers implementados
+> >
 > </details>
 >
 > <details>
