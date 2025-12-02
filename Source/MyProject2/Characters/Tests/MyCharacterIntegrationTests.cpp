@@ -104,85 +104,166 @@ void MyCharacterIntegrationSpec::Define()
             TestWorldWrapper.TickTestWorld(0.1f);
         });
 
-    Describe("Move Integration",
-             [this]()
-             {
-                 It("deve processar input de movimento sem crash",
-                    [this]()
-                    {
-                        if (!TestCharacter)
-                        {
-                            TestTrue("Character deve existir", false);
-                            return;
-                        }
+    Describe(
+        "Move Integration",
+        [this]()
+        {
+            It("deve processar input de movimento sem crash",
+               [this]()
+               {
+                   if (!TestCharacter)
+                   {
+                       TestTrue("Character deve existir", false);
+                       return;
+                   }
 
-                        UInputActionManagerComponent *InputManager = TestCharacter->GetInputActionManager();
-                        TestTrue("Character deve ter InputActionManager", InputManager != nullptr);
+                   UInputActionManagerComponent *InputManager = TestCharacter->GetInputActionManager();
+                   TestTrue("Character deve ter InputActionManager", InputManager != nullptr);
 
-                        UWorld *TestWorld = TestWorldWrapper.GetTestWorld();
-                        if (TestWorld)
-                        {
-                            TestWorldWrapper.TickTestWorld(0.1f);
-                        }
+                   UWorld *TestWorld = TestWorldWrapper.GetTestWorld();
+                   if (TestWorld)
+                   {
+                       TestWorldWrapper.TickTestWorld(0.1f);
+                   }
 
-                        TestTrue("Character deve estar válido", IsValid(TestCharacter));
-                    });
+                   TestTrue("Character deve estar válido", IsValid(TestCharacter));
+               });
 
-                 It("deve validar InputActionManager não é nullptr",
-                    [this]()
-                    {
-                        if (!TestCharacter)
-                        {
-                            TestTrue("Character deve existir", false);
-                            return;
-                        }
+            It("deve validar InputActionManager não é nullptr",
+               [this]()
+               {
+                   if (!TestCharacter)
+                   {
+                       TestTrue("Character deve existir", false);
+                       return;
+                   }
 
-                        UInputActionManagerComponent *InputManager = TestCharacter->GetInputActionManager();
-                        TestNotNull("InputActionManager não deve ser nullptr", InputManager);
-                    });
+                   UInputActionManagerComponent *InputManager = TestCharacter->GetInputActionManager();
+                   TestNotNull("InputActionManager não deve ser nullptr", InputManager);
+               });
 
-                 It("deve ter InputActionManager configurado corretamente",
-                    [this]()
-                    {
-                        if (!TestCharacter)
-                        {
-                            TestTrue("Character deve existir", false);
-                            return;
-                        }
+            It("deve ter InputActionManager configurado corretamente",
+               [this]()
+               {
+                   if (!TestCharacter)
+                   {
+                       TestTrue("Character deve existir", false);
+                       return;
+                   }
 
-                        UInputActionManagerComponent *InputManager = TestCharacter->GetInputActionManager();
-                        TestNotNull("InputActionManager deve existir", InputManager);
+                   UInputActionManagerComponent *InputManager = TestCharacter->GetInputActionManager();
+                   TestNotNull("InputActionManager deve existir", InputManager);
 
-                        if (InputManager)
-                        {
-                            TestTrue("Move Action deve estar registrada",
-                                     InputManager->HasInputAction(EInputActionType::Move));
-                            TestTrue("Look Action deve estar registrada",
-                                     InputManager->HasInputAction(EInputActionType::Look));
-                        }
-                    });
+                   if (InputManager)
+                   {
+                       TestTrue("Move Action deve estar registrada",
+                                InputManager->HasInputAction(EInputActionType::Move));
+                       TestTrue("Look Action deve estar registrada",
+                                InputManager->HasInputAction(EInputActionType::Look));
+                   }
+               });
 
-                 It("deve ter CharacterMovement configurado corretamente",
-                    [this]()
-                    {
-                        if (!TestCharacter)
-                        {
-                            TestTrue("Character deve existir", false);
-                            return;
-                        }
+            It("deve ter CharacterMovement configurado corretamente",
+               [this]()
+               {
+                   if (!TestCharacter)
+                   {
+                       TestTrue("Character deve existir", false);
+                       return;
+                   }
 
-                        UCharacterMovementComponent *MovementComp = TestCharacter->GetCharacterMovement();
-                        TestNotNull("CharacterMovement deve existir", MovementComp);
+                   UCharacterMovementComponent *MovementComp = TestCharacter->GetCharacterMovement();
+                   TestNotNull("CharacterMovement deve existir", MovementComp);
 
-                        if (MovementComp)
-                        {
-                            TestFalse("bOrientRotationToMovement deve ser false (modo movimento)",
-                                      MovementComp->bOrientRotationToMovement);
-                            TestTrue("bUseControllerDesiredRotation deve ser true (modo movimento)",
-                                     MovementComp->bUseControllerDesiredRotation);
-                        }
-                    });
-             });
+                   if (MovementComp)
+                   {
+                       TestFalse("bOrientRotationToMovement deve ser false (modo movimento)",
+                                 MovementComp->bOrientRotationToMovement);
+                       TestTrue("bUseControllerDesiredRotation deve ser true (modo movimento)",
+                                MovementComp->bUseControllerDesiredRotation);
+                   }
+               });
+
+            It("deve ter configurações de velocidade e aceleração corretas",
+               [this]()
+               {
+                   if (!TestCharacter)
+                   {
+                       TestTrue("Character deve existir", false);
+                       return;
+                   }
+
+                   UCharacterMovementComponent *MovementComp = TestCharacter->GetCharacterMovement();
+                   TestNotNull("CharacterMovement deve existir", MovementComp);
+
+                   if (MovementComp)
+                   {
+                       // Valores esperados (hardcoded - sem lógica interna)
+                       const float ExpectedMaxWalkSpeed = 600.0f;
+                       const float ExpectedMaxAcceleration = 2048.0f;
+                       const float ExpectedBrakingDeceleration = 512.0f;
+
+                       TestEqual("MaxWalkSpeed deve ser 600.0", MovementComp->MaxWalkSpeed, ExpectedMaxWalkSpeed);
+                       TestEqual("MaxAcceleration deve ser 2048.0", MovementComp->MaxAcceleration,
+                                 ExpectedMaxAcceleration);
+                       TestEqual("BrakingDecelerationWalking deve ser 512.0", MovementComp->BrakingDecelerationWalking,
+                                 ExpectedBrakingDeceleration);
+                   }
+               });
+
+            It("deve ter configurações de física corretas",
+               [this]()
+               {
+                   if (!TestCharacter)
+                   {
+                       TestTrue("Character deve existir", false);
+                       return;
+                   }
+
+                   UCharacterMovementComponent *MovementComp = TestCharacter->GetCharacterMovement();
+                   TestNotNull("CharacterMovement deve existir", MovementComp);
+
+                   if (MovementComp)
+                   {
+                       // Valores esperados (hardcoded - sem lógica interna)
+                       const float ExpectedGroundFriction = 8.0f;
+                       const float ExpectedGravityScale = 1.0f;
+                       const float ExpectedJumpZVelocity = 420.0f;
+                       const float ExpectedAirControl = 0.35f;
+
+                       TestEqual("GroundFriction deve ser 8.0", MovementComp->GroundFriction, ExpectedGroundFriction);
+                       TestEqual("GravityScale deve ser 1.0", MovementComp->GravityScale, ExpectedGravityScale);
+                       TestEqual("JumpZVelocity deve ser 420.0", MovementComp->JumpZVelocity, ExpectedJumpZVelocity);
+                       TestEqual("AirControl deve ser 0.35", MovementComp->AirControl, ExpectedAirControl);
+                   }
+               });
+
+            It("deve ter configurações de rotação corretas",
+               [this]()
+               {
+                   if (!TestCharacter)
+                   {
+                       TestTrue("Character deve existir", false);
+                       return;
+                   }
+
+                   UCharacterMovementComponent *MovementComp = TestCharacter->GetCharacterMovement();
+                   TestNotNull("CharacterMovement deve existir", MovementComp);
+
+                   if (MovementComp)
+                   {
+                       // Valor esperado (hardcoded - sem lógica interna)
+                       const FRotator ExpectedRotationRate(0.0f, 540.0f, 0.0f);
+
+                       TestEqual("RotationRate.Yaw deve ser 540.0", MovementComp->RotationRate.Yaw,
+                                 ExpectedRotationRate.Yaw);
+                       TestEqual("RotationRate.Pitch deve ser 0.0", MovementComp->RotationRate.Pitch,
+                                 ExpectedRotationRate.Pitch);
+                       TestEqual("RotationRate.Roll deve ser 0.0", MovementComp->RotationRate.Roll,
+                                 ExpectedRotationRate.Roll);
+                   }
+               });
+        });
 
     Describe(
         "Look Integration",

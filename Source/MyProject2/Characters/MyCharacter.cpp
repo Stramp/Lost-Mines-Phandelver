@@ -40,10 +40,36 @@ AMyCharacter::AMyCharacter()
     bUseControllerRotationPitch = false;
     bUseControllerRotationRoll = false;
 
+    // ============================================================================
+    // Physics and Movement Configuration
+    // ============================================================================
+    // Configuração básica de física e movimento para MVP
+    // Valores podem ser ajustados no Editor via Blueprint se necessário
     if (UCharacterMovementComponent *MovementComp = GetCharacterMovement())
     {
+        // Rotation Configuration
         MovementComp->bOrientRotationToMovement = false;
         MovementComp->bUseControllerDesiredRotation = true;
+
+        // Movement Speed Configuration
+        MovementComp->MaxWalkSpeed = 600.0f;               // Velocidade máxima de caminhada (cm/s)
+        MovementComp->MaxAcceleration = 2048.0f;           // Aceleração máxima (cm/s²)
+        MovementComp->BrakingDecelerationWalking = 512.0f; // Desaceleração ao parar (cm/s²)
+
+        // Ground Friction
+        MovementComp->GroundFriction = 8.0f; // Atrito no chão (padrão: 8.0)
+
+        // Rotation Rate
+        MovementComp->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // Taxa de rotação (graus/s) - Yaw apenas
+
+        // Jump Configuration (preparação para futuro)
+        MovementComp->JumpZVelocity = 420.0f; // Velocidade inicial do pulo (cm/s)
+        MovementComp->AirControl = 0.35f;     // Controle no ar (0.0-1.0)
+
+        // Physics Configuration
+        MovementComp->GravityScale = 1.0f;                    // Escala de gravidade (padrão: 1.0)
+        MovementComp->bCanWalkOffLedges = true;               // Permite caminhar de bordas
+        MovementComp->bCanWalkOffLedgesWhenCrouching = false; // Não permite caminhar de bordas agachado
     }
 }
 
