@@ -1,6 +1,8 @@
 ---
 description: Project architecture - Design principles and structure
 alwaysApply: true
+globs: "**/*"
+priority: 2
 ---
 
 # Project Architecture - MyProject2

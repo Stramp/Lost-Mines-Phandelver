@@ -1,6 +1,8 @@
 ---
 description: CRITICAL RULE - Stop execution when requests conflict with architecture, Clean Code, or are unviable. Protect project integrity above user satisfaction.
 alwaysApply: true
+globs: "**/*"
+priority: 1
 ---
 
 # 🛡️ Execution Guard - Project Protection Rule
@@ -280,28 +282,28 @@ Agent: [EXECUTES] "Done! Created the function as requested."
 
 ---
 
-## 📚 Referências de Documentação
+## 📚 Documentation References
 
-**Sempre consultar estas referências ao proteger integridade do projeto:**
+**Always consult these references when protecting project integrity:**
 
-### Arquitetura e Clean Code
-- `.cursor/rules/project-architecture.mdc` - Princípios arquiteturais do projeto
-- `.cursor/rules/clean-code-mandatory.mdc` - Regras de Clean Code (máxima prioridade)
-- `ARCHITECTURE.md` - Documentação completa da arquitetura
+### Architecture and Clean Code
+- `.cursor/rules/project-architecture.mdc` - Project architectural principles
+- `.cursor/rules/clean-code-mandatory.mdc` - Clean Code rules (maximum priority)
+- `ARCHITECTURE.md` - Complete architecture documentation
 
 ### Design Patterns
 - **C++ Design Patterns**: Strategy, Factory, Observer, RAII, Guard Pattern
-- **Component-Based Architecture**: Separação de responsabilidades em componentes
-- **Data-Driven Design**: Regras vêm de Data Tables/Assets, nunca hardcoded
+- **Component-Based Architecture**: Separation of responsibilities into components
+- **Data-Driven Design**: Rules come from Data Tables/Assets, never hardcoded
 
 ### Unreal Engine 5.7
-- **Component-Based Architecture**: Padrão nativo do Unreal Engine
-- **Data Tables e Data Assets**: Para configuração data-driven
-- **Replication**: Preparação para multiplayer
-- **Editor Integration**: Validação em `PostEditChangeProperty`
+- **Component-Based Architecture**: Native Unreal Engine pattern
+- **Data Tables and Data Assets**: For data-driven configuration
+- **Replication**: Preparation for multiplayer
+- **Editor Integration**: Validation in `PostEditChangeProperty`
 
-### Regras Relacionadas
-- `.cursor/rules/execution-guard.mdc` - Esta regra (proteção de integridade)
-- `.cursor/rules/clean-code-mandatory.mdc` - Clean Code obrigatório
-- `.cursor/rules/project-architecture.mdc` - Arquitetura do projeto
-- `memorias/erros-comuns-para-evitar.md` - Erros comuns para não repetir
+### Related Rules
+- `.cursor/rules/execution-guard.mdc` - This rule (integrity protection)
+- `.cursor/rules/clean-code-mandatory.mdc` - Clean Code mandatory
+- `.cursor/rules/project-architecture.mdc` - Project architecture
+- `memorias/erros-comuns-para-evitar.md` - Common errors to avoid
