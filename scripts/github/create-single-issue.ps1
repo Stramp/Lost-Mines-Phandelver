@@ -4,6 +4,86 @@
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
+# ============================================================================
+# COMO USAR
+# ============================================================================
+#
+# 1. Importar o script:
+#    . .\scripts\github\create-single-issue.ps1
+#
+# 2. Criar uma issue simples:
+#    Create-SingleIssue -Title "Refatorar scripts de teste" -Body "Descrição da refatoração"
+#
+# 3. Issue completa com todos os parâmetros:
+#    Create-SingleIssue `
+#        -Title "Refatorar scripts de teste" `
+#        -Body "Reorganizar scripts e adicionar seleção de categorias" `
+#        -Labels @("refatoração", "enhancement") `
+#        -Categoria "infraestrutura" `
+#        -Milestone "v1.0" `
+#        -Assignee "@me"
+#
+# ============================================================================
+# PARÂMETROS
+# ============================================================================
+#
+# -Title (obrigatório)
+#    Título da issue
+#
+# -Body (opcional)
+#    Corpo/descrição da issue (markdown)
+#
+# -Labels (opcional)
+#    Array de labels (ex: @("bug", "enhancement"))
+#
+# -Milestone (opcional)
+#    Milestone associado
+#
+# -Categoria (opcional)
+#    Categoria para determinar projeto automaticamente
+#    Exemplos: "infraestrutura", "narrativa", "arte"
+#
+# -Assignee (opcional)
+#    Responsável pela issue (padrão: "@me")
+#
+# -Project (opcional)
+#    Projeto GitHub (se não informado, determina automaticamente baseado em labels e categoria)
+#    Opções: "Core Engineering", "Narrative & Quest Design", "Art & World Building"
+#
+# ============================================================================
+# EXEMPLOS PRÁTICOS
+# ============================================================================
+#
+# # Issue simples
+# Create-SingleIssue -Title "Corrigir bug" -Body "Descrição do bug"
+#
+# # Issue com labels e categoria (projeto determinado automaticamente)
+# Create-SingleIssue `
+#     -Title "Nova feature" `
+#     -Body "Descrição" `
+#     -Labels @("enhancement", "feature") `
+#     -Categoria "infraestrutura"
+#
+# # Issue completa com todos os parâmetros
+# Create-SingleIssue `
+#     -Title "Refatorar código" `
+#     -Body "Descrição" `
+#     -Labels @("refatoração") `
+#     -Milestone "v1.0" `
+#     -Categoria "código" `
+#     -Project "Core Engineering"
+#
+# ============================================================================
+# FUNCIONALIDADES
+# ============================================================================
+#
+# - Determina o projeto automaticamente baseado em labels e categoria
+# - Suporta todos os parâmetros: title, body, labels, milestone, categoria, assignee, project
+# - Retorna número, URL e projeto da issue criada
+# - Validação de parâmetros obrigatórios
+#
+# ============================================================================
+
 # ===== CONFIGURAÇÃO =====
 $meuRepo = "Stramp/Lost-Mines-Phandelver"
 $ghPath = "C:\Program Files\GitHub CLI\gh.exe"
