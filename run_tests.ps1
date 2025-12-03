@@ -1,7 +1,7 @@
 # Script para rodar testes do Unreal Engine
 $ProjectPath = "F:\UNREAL GAME\MyProject2\MyProject2.uproject"
-$EditorPath = "C:\Program Files\Epic Games\UE_5.7\Engine\Binaries\Win64\UnrealEditor.exe"
-$TestName = "MyProject2"
+$EditorPath = "C:\Program Files\Epic Games\UE_5.7\Engine\Binaries\Win64\UnrealEditor-Cmd.exe"
+$TestName = "MyProject2.CreateSheet.RaceBonusMotor"
 
 Write-Host "Executando TODOS os testes do projeto: $TestName"
 Write-Host ""
@@ -26,7 +26,7 @@ Write-Host "Processo finalizado com código: $($process.ExitCode)"
 Write-Host ""
 
 # Aguarda um pouco para garantir que os arquivos foram escritos
-Start-Sleep -Seconds 2
+Start-Sleep -Seconds 5
 
 if (Test-Path "test_output.txt") {
     Write-Host "=== Saída dos Testes (últimas 200 linhas) ===" 

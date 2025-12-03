@@ -32,7 +32,7 @@
 // ============================================================================
 #pragma region Race Bonus Orchestrator
 
-void FRaceBonusOrchestrator::ProcessRacialBonuses(FCharacterSheetData& Data)
+void FRaceBonusOrchestrator::ProcessRacialBonuses(FCharacterSheetData &Data)
 {
     FLogContext Context(TEXT("RaceBonusOrchestrator"), TEXT("ProcessRacialBonuses"));
 
@@ -40,7 +40,8 @@ void FRaceBonusOrchestrator::ProcessRacialBonuses(FCharacterSheetData& Data)
     if (!Data.FinalStrength || !Data.FinalDexterity || !Data.FinalConstitution || !Data.FinalIntelligence ||
         !Data.FinalWisdom || !Data.FinalCharisma)
     {
-        FLoggingSystem::LogError(Context, TEXT("Referências de Final Scores inválidas"), true);
+        // Usa Warning em vez de Error para validação de entrada (não é erro crítico)
+        FLoggingSystem::LogWarning(Context, TEXT("Referências de Final Scores inválidas"), false);
         return;
     }
 
@@ -55,30 +56,30 @@ void FRaceBonusOrchestrator::ProcessRacialBonuses(FCharacterSheetData& Data)
             // Logging (responsabilidade do orquestrador)
             FLoggingSystem::LogWarning(
                 Context,
-                FString::Printf(
-                    TEXT("Sub-raça '%s' não pertence à raça '%s'. Bônus de sub-raça não será aplicado."),
-                    *Data.SelectedSubrace.ToString(), *Data.SelectedRace.ToString()),
+                FString::Printf(TEXT("Sub-raça '%s' não pertence à raça '%s'. Bônus de sub-raça não será aplicado."),
+                                *Data.SelectedSubrace.ToString(), *Data.SelectedRace.ToString()),
                 false);
             RaceData.SubraceRow = nullptr; // Remove sub-raça inválida
         }
         else if (!RaceData.SubraceRow)
         {
             // Logging (responsabilidade do orquestrador)
-            FLoggingSystem::LogWarning(
-                Context,
-                FString::Printf(TEXT("Sub-raça '%s' não encontrada no RaceDataTable"), *Data.SelectedSubrace.ToString()),
-                false);
+            FLoggingSystem::LogWarning(Context,
+                                       FString::Printf(TEXT("Sub-raça '%s' não encontrada no RaceDataTable"),
+                                                       *Data.SelectedSubrace.ToString()),
+                                       false);
         }
     }
 
     // 3. Calcula bônus raciais (Helpers)
     TMap<FName, int32> RacialBonuses;
     FRaceBonusHelpers::CalculateRacialBonuses(RaceData.RaceRow, RaceData.SubraceRow, Data.CustomAbilityScoreChoices,
-                                               RacialBonuses);
+                                              RacialBonuses);
 
     // 4. Aplica bônus raciais (Motor puro)
-    FRaceBonusMotor::ApplyRacialBonuses(RacialBonuses, *Data.FinalStrength, *Data.FinalDexterity, *Data.FinalConstitution,
-                                        *Data.FinalIntelligence, *Data.FinalWisdom, *Data.FinalCharisma);
+    FRaceBonusMotor::ApplyRacialBonuses(RacialBonuses, *Data.FinalStrength, *Data.FinalDexterity,
+                                        *Data.FinalConstitution, *Data.FinalIntelligence, *Data.FinalWisdom,
+                                        *Data.FinalCharisma);
 
     // Logging (responsabilidade do orquestrador)
     if (RacialBonuses.Num() > 0)

@@ -69,7 +69,7 @@ void FRaceBonusHelpers::CalculateRacialBonuses(const FRaceDataRow *RaceRow, cons
         }
 
         // Processa CustomChoices UMA VEZ se houver entrada "Custom"
-        // Variant Human permite escolher 2 atributos para receber +1 cada
+        // Variant Human tem 2 pontos para distribuir: pode ser +2 em 1 atributo ou +1 em cada de 2 atributos
         if (bHasCustomEntry)
         {
             const int32 BonusPerItem = (CustomChoices.Num() == 1) ? 2 : 1;
