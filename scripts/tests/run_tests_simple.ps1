@@ -2,6 +2,13 @@
 $EditorPath = "C:\Program Files\Epic Games\UE_5.7\Engine\Binaries\Win64\UnrealEditor.exe"
 $ProjectPath = "F:\UNREAL GAME\MyProject2\MyProject2.uproject"
 
+# Limpa a pasta de resultados antes de executar os testes
+$TestResultsPath = "Saved\TestResults"
+if (Test-Path $TestResultsPath) {
+    Remove-Item -Path $TestResultsPath -Recurse -Force -ErrorAction SilentlyContinue
+    Write-Host "Pasta de resultados limpa: $TestResultsPath" -ForegroundColor Gray
+}
+
 Write-Host "Executando" -NoNewline
 
 $arguments = "`"$ProjectPath`" -nosplash -Unattended -nopause -ExecCmds=`"Automation RunTests MyProject2; Quit`" -log -ReportOutputPath=`"F:\UNREAL GAME\MyProject2\Saved\TestResults`""

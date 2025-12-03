@@ -2,6 +2,13 @@
 $EditorPath = "C:\Program Files\Epic Games\UE_5.7\Engine\Binaries\Win64\UnrealEditor.exe"
 $ProjectPath = "F:\UNREAL GAME\MyProject2\MyProject2.uproject"
 
+# Limpa a pasta de resultados antes de executar os testes
+$TestResultsPath = "Saved\TestResults"
+if (Test-Path $TestResultsPath) {
+    Remove-Item -Path $TestResultsPath -Recurse -Force -ErrorAction SilentlyContinue
+    Write-Host "Pasta de resultados limpa: $TestResultsPath" -ForegroundColor Gray
+}
+
 # ============================================================================
 # Função: Executa todos os testes
 # ============================================================================
@@ -32,7 +39,7 @@ function Run-AllTests {
 # ============================================================================
 function Get-TestResultsSummary {
     param($jsonContent)
-    
+
     $successCount = 0
     $failedCount = 0
 
@@ -59,18 +66,18 @@ function Get-TestResultsSummary {
 # ============================================================================
 function Get-TestCategories {
     param($jsonContent)
-    
+
     $categories = @{}
-    
+
     if ($jsonContent.tests) {
         foreach ($test in $jsonContent.tests) {
             $fullTestPath = $test.fullTestPath
-            
+
             # Extrai a categoria (ex: "MyProject2.CharacterCreation.Step1_ChooseRace")
             # Pega tudo até o último ponto antes do nome do teste
             if ($fullTestPath -match "^([^.]+(?:\.[^.]+)*)\.") {
                 $category = $matches[1]
-                
+
                 # Conta testes por categoria
                 if (-not $categories.ContainsKey($category)) {
                     $categories[$category] = @{
@@ -80,7 +87,7 @@ function Get-TestCategories {
                         Failed = 0
                     }
                 }
-                
+
                 $categories[$category].Count++
                 if ($test.state -eq "Success") {
                     $categories[$category].Success++
@@ -90,7 +97,7 @@ function Get-TestCategories {
             }
         }
     }
-    
+
     return $categories
 }
 
@@ -99,18 +106,18 @@ function Get-TestCategories {
 # ============================================================================
 function Select-Category {
     param($categories)
-    
+
     Write-Host ""
     Write-Host "=== CATEGORIAS DISPONÍVEIS ===" -ForegroundColor Cyan
     Write-Host ""
-    
+
     $categoryList = @()
     $index = 1
-    
+
     # Opção "Todas"
     Write-Host "[0] Todas" -ForegroundColor Yellow
     $categoryList += "Todas"
-    
+
     # Lista categorias
     foreach ($category in ($categories.Values | Sort-Object Name)) {
         $status = ""
@@ -121,10 +128,10 @@ function Select-Category {
         $categoryList += $category.Name
         $index++
     }
-    
+
     Write-Host ""
     $selectedIndex = Read-Host "Escolha uma categoria (número)"
-    
+
     try {
         $selectedIndex = [int]$selectedIndex
         if ($selectedIndex -ge 0 -and $selectedIndex -lt $categoryList.Count) {
@@ -144,7 +151,7 @@ function Select-Category {
 # ============================================================================
 function Show-TestResults {
     param($jsonContent, $selectedCategory)
-    
+
     Write-Host ""
     Write-Host "=== RESULTADOS DOS TESTES" -NoNewline
     if ($selectedCategory -ne "Todas") {
