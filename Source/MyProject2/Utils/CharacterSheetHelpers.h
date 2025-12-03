@@ -284,27 +284,6 @@ namespace CharacterSheetHelpers
     // ============================================================================
 
     /**
-     * Calcula o custo em pontos do Point Buy para um ability score específico.
-     * Segue tabela oficial D&D 5e:
-     * - Score MIN_POINT_BUY_SCORE: 0 pontos
-     * - Score (MIN_POINT_BUY_SCORE+1) até (MAX_POINT_BUY_SCORE-2): (score - BASE_ABILITY_SCORE) pontos
-     * - Score INTERMEDIATE_POINT_BUY_SCORE: POINT_BUY_COST_14 pontos
-     * - Score MAX_POINT_BUY_SCORE: POINT_BUY_COST_15 pontos
-     *
-     * @param Score Ability score (deve estar entre MIN_POINT_BUY_SCORE e MAX_POINT_BUY_SCORE)
-     * @return Custo em pontos, ou 0 se score inválido
-     */
-    int32 CalculatePointBuyCost(int32 Score);
-
-    /**
-     * Calcula o custo total do Point Buy para todos os ability scores.
-     *
-     * @param AbilityScores Map com ability scores (chave: FName do atributo, valor: score)
-     * @return Custo total em pontos
-     */
-    int32 CalculateTotalPointBuyCost(const TMap<FName, int32> &AbilityScores);
-
-    /**
      * Cria TMap de PointBuy a partir de valores individuais.
      * Helper puro para eliminar duplicação de código.
      *
@@ -328,17 +307,6 @@ namespace CharacterSheetHelpers
      * @return Map com BaseScores calculados (BASE_ABILITY_SCORE + PointBuy para cada atributo)
      */
     TMap<FName, int32> CreateBaseScoresFromPointBuy(const TMap<FName, int32> &PointBuyMap);
-
-    /**
-     * Ajusta alocação de Point Buy para não exceder o máximo de pontos.
-     * Reduz valores do final da fila até que o custo total seja <= MaxPoints.
-     * Helper puro e reutilizável para ajuste automático de alocação.
-     *
-     * @param PointBuyMap [IN/OUT] Map com valores de Point Buy (será modificado se necessário)
-     * @param MaxPoints Pontos máximos disponíveis (padrão: DnDConstants::MAX_POINT_BUY_POINTS)
-     * @return Mensagem de feedback descrevendo o ajuste realizado
-     */
-    FString AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMap, int32 MaxPoints = 27);
 
     // ============================================================================
     // Level Calculation Helpers

@@ -9,6 +9,7 @@
 
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
+#include "Utils/PointBuyHelpers.h"
 #include "Utils/DnDConstants.h"
 
 // Project includes - Characters
@@ -38,7 +39,7 @@ bool ValidationHelpers::ValidatePointBuy(const TMap<FName, int32> &BaseScores, i
     }
 
     // Calcula pontos gastos usando helper
-    int32 TotalCost = CharacterSheetHelpers::CalculateTotalPointBuyCost(BaseScores);
+    int32 TotalCost = PointBuyHelpers::CalculateTotalPointBuyCost(BaseScores);
     PointsRemaining = MaxPoints - TotalCost;
 
     // Retorna true se todos os scores estão no range válido
