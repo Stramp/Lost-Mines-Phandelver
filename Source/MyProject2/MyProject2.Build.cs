@@ -17,6 +17,12 @@ public class MyProject2 : ModuleRules
 		{
 			PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd", "AutomationTest" });
 		}
+		
+		// Low-Level Tests support (quando compilando o Target de Test)
+		if (Target.Type == TargetType.Test)
+		{
+			PrivateDependencyModuleNames.AddRange(new string[] { "AutomationTest" });
+		}
 
 		// Adiciona raiz do módulo como include path para evitar includes relativos (../../)
 		// Permite usar: #include "Utils/CharacterSheetHelpers.h" ao invés de #include "../../Utils/CharacterSheetHelpers.h"
