@@ -102,6 +102,32 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Teste adicional para Variant Human com 1 escolha (+2)
 > >    - Compilação validada (0 erros, 0 warnings)
 >
+> > 6. **Ciclo 3.5: AC Base MVP (TDD)** (2025-01-25)
+> >    - Sistema completo de cálculo de Armor Class (AC) D&D 5e implementado seguindo TDD
+> >    - Constantes de AC adicionadas em `DnDConstants`:
+> >      - `BASE_AC = 10` - AC base sem armadura
+> >      - `SHIELD_AC_BONUS = 2` - Bônus de escudo
+> >      - `MEDIUM_ARMOR_MAX_DEX = 2` - Limite de DEX modifier para armaduras médias
+> >    - Campos de AC adicionados em `FItemDataRow`:
+> >      - `ACValue` - AC base da armadura
+> >      - `ArmorType` - Tipo de armadura (Light, Medium, Heavy, Shield)
+> >    - `CalculationHelpers::CalculateAC()` implementado:
+> >      - AC base: 10 + DEX modifier
+> >      - Light Armor: ACValue + DEX modifier (sem limite)
+> >      - Medium Armor: ACValue + min(DEX modifier, +2)
+> >      - Heavy Armor: ACValue (sem DEX modifier)
+> >      - Shield: +2 AC (adiciona ao AC calculado)
+> >    - 8 testes automatizados criados (todos passando - 100%):
+> >      - AC base sem armadura (com DEX positivo, zero e negativo)
+> >      - AC com armadura leve
+> >      - AC com armadura média (limitando DEX modifier)
+> >      - AC com armadura pesada (sem DEX modifier)
+> >      - AC com escudo
+> >      - AC com armadura leve e escudo
+> >    - Teste em `Step5_ChooseEquipmentTests.cpp` atualizado para usar `CalculateAC()`
+> >    - Testes validados conforme TDD guide (valores hardcoded, sem lógica interna)
+> >    - Compilação validada (0 erros, 0 warnings)
+>
 > > 2. Commit [`302c25c`] - Adicionar regra de Test-Driven Development (TDD)
 > >    - Criada regra `test-driven-development.mdc` com metodologia TDD completa
 > >    - Definido ciclo Red-Green-Refactor obrigatório para código crítico

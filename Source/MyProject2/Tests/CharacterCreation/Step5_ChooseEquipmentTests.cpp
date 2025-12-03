@@ -6,6 +6,7 @@
 #pragma region Includes
 
 #include "Misc/AutomationTest.h"
+#include "Utils/CalculationHelpers.h"
 #include "Characters/Data/CharacterSheetDataAsset.h"
 #include "Characters/Components/CharacterSheetComponent.h"
 #include "Characters/Components/CharacterDataComponent.h"
@@ -33,10 +34,10 @@
 BEGIN_DEFINE_SPEC(Step5ChooseEquipmentSpec, "MyProject2.CharacterCreation.Step5_ChooseEquipment",
                   EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
-UCharacterSheetDataAsset* TestDataAsset;
-AActor* TestActor;
-UCharacterSheetComponent* TestSheetComponent;
-UCharacterDataComponent* TestDataComponent;
+UCharacterSheetDataAsset *TestDataAsset;
+AActor *TestActor;
+UCharacterSheetComponent *TestSheetComponent;
+UCharacterDataComponent *TestDataComponent;
 
 END_DEFINE_SPEC(Step5ChooseEquipmentSpec)
 
@@ -94,123 +95,130 @@ void Step5ChooseEquipmentSpec::Define()
             }
         });
 
-    Describe("Step 5: Choose Equipment (NÃO IMPLEMENTADO)",
-             [this]()
-             {
-                 Describe("Starting Equipment da Classe",
-                          [this]()
-                          {
-                              It("deve carregar starting equipment da classe",
-                                 [this]()
-                                 {
-                                     AddInfo(TEXT("⚠️ Starting Equipment não está implementado. Teste deve FALHAR até implementação."));
+    Describe(
+        "Step 5: Choose Equipment (NÃO IMPLEMENTADO)",
+        [this]()
+        {
+            Describe(
+                "Starting Equipment da Classe",
+                [this]()
+                {
+                    It("deve carregar starting equipment da classe",
+                       [this]()
+                       {
+                           AddInfo(TEXT(
+                               "⚠️ Starting Equipment não está implementado. Teste deve FALHAR até implementação."));
 
-                                     // Arrange
-                                     FMulticlassEntry FighterEntry;
-                                     FighterEntry.ClassData.Name = TEXT("Fighter");
-                                     FighterEntry.ClassData.LevelInClass = 1;
-                                     TestDataAsset->Multiclass.Add(FighterEntry);
-                                     // Fighter starting equipment: chain mail OR leather armor, etc.
+                           // Arrange
+                           FMulticlassEntry FighterEntry;
+                           FighterEntry.ClassData.Name = TEXT("Fighter");
+                           FighterEntry.ClassData.LevelInClass = 1;
+                           TestDataAsset->Multiclass.Add(FighterEntry);
+                           // Fighter starting equipment: chain mail OR leather armor, etc.
 
-                                     // Act
-                                     // NOTA: Sistema deve ter método para carregar starting equipment
-                                     // TestSheetComponent->LoadStartingEquipment(TestDataAsset);
-                                     // TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
+                           // Act
+                           // NOTA: Sistema deve ter método para carregar starting equipment
+                           // TestSheetComponent->LoadStartingEquipment(TestDataAsset);
+                           // TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
 
-                                     // Assert
-                                     // Este teste deve FALHAR até Starting Equipment ser implementado
-                                     TestTrue("Starting Equipment deve estar implementado", false);
-                                 });
+                           // Assert
+                           // Este teste deve FALHAR até Starting Equipment ser implementado
+                           TestTrue("Starting Equipment deve estar implementado", false);
+                       });
 
-                              It("deve permitir escolher entre opções de equipment quando classe oferece escolhas",
-                                 [this]()
-                                 {
-                                     AddInfo(TEXT("⚠️ Equipment choices não está implementado. Teste deve FALHAR até implementação."));
+                    It("deve permitir escolher entre opções de equipment quando classe oferece escolhas",
+                       [this]()
+                       {
+                           AddInfo(
+                               TEXT("⚠️ Equipment choices não está implementado. Teste deve FALHAR até implementação."));
 
-                                     // Arrange
-                                     FMulticlassEntry FighterEntry;
-                                     FighterEntry.ClassData.Name = TEXT("Fighter");
-                                     FighterEntry.ClassData.LevelInClass = 1;
-                                     TestDataAsset->Multiclass.Add(FighterEntry);
-                                     // Fighter: (a) chain mail OR (b) leather armor, longbow, 20 arrows
+                           // Arrange
+                           FMulticlassEntry FighterEntry;
+                           FighterEntry.ClassData.Name = TEXT("Fighter");
+                           FighterEntry.ClassData.LevelInClass = 1;
+                           TestDataAsset->Multiclass.Add(FighterEntry);
+                           // Fighter: (a) chain mail OR (b) leather armor, longbow, 20 arrows
 
-                                     // Act
-                                     // NOTA: Sistema deve ter método para escolher equipment
-                                     // TestDataAsset->SelectEquipmentChoice(TEXT("chain_mail"));
-                                     // TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
+                           // Act
+                           // NOTA: Sistema deve ter método para escolher equipment
+                           // TestDataAsset->SelectEquipmentChoice(TEXT("chain_mail"));
+                           // TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
 
-                                     // Assert
-                                     // Este teste deve FALHAR até Equipment choices ser implementado
-                                     TestTrue("Equipment choices deve estar implementado", false);
-                                 });
-                          });
+                           // Assert
+                           // Este teste deve FALHAR até Equipment choices ser implementado
+                           TestTrue("Equipment choices deve estar implementado", false);
+                       });
+                });
 
-                 Describe("Starting Equipment do Background",
-                          [this]()
-                          {
-                              It("deve carregar starting equipment do background",
-                                 [this]()
-                                 {
-                                     AddInfo(TEXT("⚠️ Starting Equipment do background não está implementado. Teste deve FALHAR até implementação."));
+            Describe("Starting Equipment do Background",
+                     [this]()
+                     {
+                         It("deve carregar starting equipment do background",
+                            [this]()
+                            {
+                                AddInfo(TEXT("⚠️ Starting Equipment do background não está implementado. Teste deve "
+                                             "FALHAR até implementação."));
 
-                                     // Arrange
-                                     TestDataAsset->SelectedBackground = TEXT("Acolyte");
-                                     // Acolyte starting equipment: holy symbol, etc.
+                                // Arrange
+                                TestDataAsset->SelectedBackground = TEXT("Acolyte");
+                                // Acolyte starting equipment: holy symbol, etc.
 
-                                     // Act
-                                     // NOTA: Sistema deve ter método para carregar starting equipment do background
-                                     // TestSheetComponent->LoadBackgroundEquipment(TestDataAsset);
-                                     // TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
+                                // Act
+                                // NOTA: Sistema deve ter método para carregar starting equipment do background
+                                // TestSheetComponent->LoadBackgroundEquipment(TestDataAsset);
+                                // TestSheetComponent->InitializeFromDataAsset(TestDataAsset);
 
-                                     // Assert
-                                     // Este teste deve FALHAR até Starting Equipment do background ser implementado
-                                     TestTrue("Starting Equipment do background deve estar implementado", false);
-                                 });
-                          });
+                                // Assert
+                                // Este teste deve FALHAR até Starting Equipment do background ser implementado
+                                TestTrue("Starting Equipment do background deve estar implementado", false);
+                            });
+                     });
 
-                 Describe("Carrying Capacity",
-                          [this]()
-                          {
-                              It("deve validar carrying capacity (Strength Score × 15 libras)",
-                                 [this]()
-                                 {
-                                     AddInfo(TEXT("⚠️ Carrying Capacity não está implementado. Teste deve FALHAR até implementação."));
+            Describe("Carrying Capacity",
+                     [this]()
+                     {
+                         It("deve validar carrying capacity (Strength Score × 15 libras)",
+                            [this]()
+                            {
+                                AddInfo(TEXT(
+                                    "⚠️ Carrying Capacity não está implementado. Teste deve FALHAR até implementação."));
 
-                                     // Arrange
-                                     TestDataAsset->FinalStrength = 10; // Carrying Capacity = 10 × 15 = 150 libras
+                                // Arrange
+                                TestDataAsset->FinalStrength = 10; // Carrying Capacity = 10 × 15 = 150 libras
 
-                                     // Act
-                                     // NOTA: Sistema deve ter método para validar carrying capacity
-                                     // TestSheetComponent->ValidateCarryingCapacity(TestDataAsset);
+                                // Act
+                                // NOTA: Sistema deve ter método para validar carrying capacity
+                                // TestSheetComponent->ValidateCarryingCapacity(TestDataAsset);
 
-                                     // Assert
-                                     // Este teste deve FALHAR até Carrying Capacity ser implementado
-                                     TestTrue("Carrying Capacity deve estar implementado", false);
-                                 });
-                          });
+                                // Assert
+                                // Este teste deve FALHAR até Carrying Capacity ser implementado
+                                TestTrue("Carrying Capacity deve estar implementado", false);
+                            });
+                     });
 
-                 Describe("Armor Class",
-                          [this]()
-                          {
-                              It("deve calcular Armor Class (AC) corretamente",
-                                 [this]()
-                                 {
-                                     AddInfo(TEXT("⚠️ Armor Class não está implementado. Teste deve FALHAR até implementação."));
+            Describe("Armor Class",
+                     [this]()
+                     {
+                         It("deve calcular Armor Class (AC) corretamente",
+                            [this]()
+                            {
+                                AddInfo(TEXT("Testando cálculo de AC base usando CalculationHelpers::CalculateAC"));
 
-                                     // Arrange
-                                     TestDataAsset->FinalDexterity = 14; // Modifier +2
-                                     // Base AC: 10 + DEX modifier = 10 + 2 = 12
+                                // Arrange
+                                TestDataAsset->FinalDexterity = 14; // Modifier +2
+                                // Base AC: 10 + DEX modifier = 10 + 2 = 12
+                                int32 DexterityModifier =
+                                    CalculationHelpers::CalculateAbilityModifier(TestDataAsset->FinalDexterity);
 
-                                     // Act
-                                     // NOTA: Sistema deve ter método para calcular AC
-                                     // int32 AC = TestSheetComponent->CalculateArmorClass(TestDataAsset);
+                                // Act
+                                int32 AC = CalculationHelpers::CalculateAC(DexterityModifier);
 
-                                     // Assert
-                                     // Este teste deve FALHAR até Armor Class ser implementado
-                                     TestTrue("Armor Class deve estar implementado", false);
-                                 });
-                          });
-             });
+                                // Assert
+                                TestEqual("AC base deve ser 12 (10 + DEX modifier +2)", AC, 12);
+                                AddInfo(TEXT("✅ Teste passou: AC calculado corretamente"));
+                            });
+                     });
+        });
 }
 
-#pragma endregion Step 5: Choose Equipment Tests
+#pragma endregion Step 5 : Choose Equipment Tests

@@ -89,8 +89,10 @@ namespace CalculationHelpers
      * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
      * @return Array com nomes de proficiências coletadas
      */
-    TArray<FName> CollectProficienciesFromBackgroundAndVariantHuman(FName RaceName, FName SubraceName, FName BackgroundName, FName SelectedSkill,
-                                         UDataTable *RaceDataTable, UDataTable *BackgroundDataTable);
+    TArray<FName> CollectProficienciesFromBackgroundAndVariantHuman(FName RaceName, FName SubraceName,
+                                                                    FName BackgroundName, FName SelectedSkill,
+                                                                    UDataTable *RaceDataTable,
+                                                                    UDataTable *BackgroundDataTable);
 
     // ============================================================================
     // Language Calculations
@@ -109,8 +111,8 @@ namespace CalculationHelpers
      * @return Array com nomes de idiomas coletados de todas as fontes
      */
     TArray<FName> CollectLanguagesFromAllSources(FName RaceName, FName SubraceName, FName BackgroundName,
-                                     const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
-                                     UDataTable *BackgroundDataTable);
+                                                 const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
+                                                 UDataTable *BackgroundDataTable);
 
     // ============================================================================
     // Hit Points Calculations
@@ -142,4 +144,26 @@ namespace CalculationHelpers
      */
     int32 CalculateMaxHP(const TArray<FName> &ClassNames, const TArray<int32> &LevelsInClass,
                          int32 ConstitutionModifier, UDataTable *ClassDataTable);
+
+    // ============================================================================
+    // Armor Class (AC) Calculations
+    // ============================================================================
+
+    /**
+     * Calcula Armor Class (AC) baseado em DEX modifier e armadura.
+     * Fórmula D&D 5e:
+     * - Sem armadura: 10 + DEX modifier
+     * - Light Armor: ACValue + DEX modifier (sem limite)
+     * - Medium Armor: ACValue + min(DEX modifier, +2)
+     * - Heavy Armor: ACValue (sem DEX modifier)
+     * - Shield: +2 AC (adiciona ao AC calculado)
+     *
+     * @param DexterityModifier Modificador de Dexterity
+     * @param ArmorACValue AC base da armadura (0 se sem armadura)
+     * @param ArmorType Tipo de armadura: "Light", "Medium", "Heavy", "Shield", ou NAME_None (sem armadura)
+     * @param bHasShield Se personagem está usando escudo (adiciona +2 AC)
+     * @return AC calculado
+     */
+    int32 CalculateAC(int32 DexterityModifier, int32 ArmorACValue = 0, FName ArmorType = NAME_None,
+                      bool bHasShield = false);
 } // namespace CalculationHelpers

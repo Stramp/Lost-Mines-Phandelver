@@ -93,9 +93,11 @@ int32 CalculationHelpers::CalculateProficiencyBonus(int32 TotalLevel)
 // ============================================================================
 #pragma region Feature Calculations
 
-TArray<FName> CalculationHelpers::CollectProficienciesFromBackgroundAndVariantHuman(FName RaceName, FName SubraceName, FName BackgroundName,
-                                                         FName SelectedSkill, UDataTable *RaceDataTable,
-                                                         UDataTable *BackgroundDataTable)
+TArray<FName> CalculationHelpers::CollectProficienciesFromBackgroundAndVariantHuman(FName RaceName, FName SubraceName,
+                                                                                    FName BackgroundName,
+                                                                                    FName SelectedSkill,
+                                                                                    UDataTable *RaceDataTable,
+                                                                                    UDataTable *BackgroundDataTable)
 {
     TSet<FName> ProficienciesSet;
 
@@ -110,7 +112,8 @@ TArray<FName> CalculationHelpers::CollectProficienciesFromBackgroundAndVariantHu
             {
                 // Resolve handle para obter ID
                 FName SkillProf = NAME_None;
-                if (const FSkillDataRow *SkillRow = DataTableRowHandleHelpers::ResolveHandle<FSkillDataRow>(SkillProfHandle))
+                if (const FSkillDataRow *SkillRow =
+                        DataTableRowHandleHelpers::ResolveHandle<FSkillDataRow>(SkillProfHandle))
                 {
                     SkillProf = SkillRow->ID;
                 }
@@ -152,9 +155,11 @@ TArray<FName> CalculationHelpers::CollectProficienciesFromBackgroundAndVariantHu
 // ============================================================================
 #pragma region Language Calculations
 
-TArray<FName> CalculationHelpers::CollectLanguagesFromAllSources(FName RaceName, FName SubraceName, FName BackgroundName,
-                                                     const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
-                                                     UDataTable *BackgroundDataTable)
+TArray<FName> CalculationHelpers::CollectLanguagesFromAllSources(FName RaceName, FName SubraceName,
+                                                                 FName BackgroundName,
+                                                                 const TArray<FName> &SelectedLanguages,
+                                                                 UDataTable *RaceDataTable,
+                                                                 UDataTable *BackgroundDataTable)
 {
     TSet<FName> LanguagesSet;
 
@@ -166,7 +171,8 @@ TArray<FName> CalculationHelpers::CollectLanguagesFromAllSources(FName RaceName,
             // Resolve LanguageHandles para obter ID
             for (const FDataTableRowHandle &LanguageHandle : RaceRow->LanguageHandles)
             {
-                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
+                if (const FLanguageDataRow *LanguageRow =
+                        DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
                     if (LanguageRow->ID != NAME_None)
                     {
@@ -190,7 +196,8 @@ TArray<FName> CalculationHelpers::CollectLanguagesFromAllSources(FName RaceName,
             // Resolve LanguageHandles para obter ID
             for (const FDataTableRowHandle &LanguageHandle : SubraceRow->LanguageHandles)
             {
-                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
+                if (const FLanguageDataRow *LanguageRow =
+                        DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
                     if (LanguageRow->ID != NAME_None)
                     {
@@ -215,7 +222,8 @@ TArray<FName> CalculationHelpers::CollectLanguagesFromAllSources(FName RaceName,
             // Adiciona idiomas automáticos (não-escolhas) - agora via LanguageHandles
             for (const FDataTableRowHandle &LanguageHandle : BackgroundRow->LanguageHandles)
             {
-                if (const FLanguageDataRow *LanguageRow = DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
+                if (const FLanguageDataRow *LanguageRow =
+                        DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
                 {
                     if (LanguageRow->ID != NAME_None)
                     {
@@ -324,3 +332,54 @@ int32 CalculationHelpers::CalculateMaxHP(const TArray<FName> &ClassNames, const 
 }
 
 #pragma endregion Hit Points Calculations
+
+// ============================================================================
+// Armor Class (AC) Calculations
+// ============================================================================
+#pragma region Armor Class Calculations
+
+int32 CalculationHelpers::CalculateAC(int32 DexterityModifier, int32 ArmorACValue, FName ArmorType, bool bHasShield)
+{
+    int32 AC = 0;
+
+    // Se não tem armadura, usa AC base (10 + DEX modifier)
+    if (ArmorACValue == 0 || ArmorType == NAME_None)
+    {
+        AC = DnDConstants::BASE_AC + DexterityModifier;
+    }
+    else
+    {
+        // Calcula AC baseado no tipo de armadura
+        if (ArmorType == TEXT("Light"))
+        {
+            // Light Armor: ACValue + DEX modifier (sem limite)
+            AC = ArmorACValue + DexterityModifier;
+        }
+        else if (ArmorType == TEXT("Medium"))
+        {
+            // Medium Armor: ACValue + min(DEX modifier, +2)
+            int32 LimitedDexModifier = FMath::Min(DexterityModifier, DnDConstants::MEDIUM_ARMOR_MAX_DEX);
+            AC = ArmorACValue + LimitedDexModifier;
+        }
+        else if (ArmorType == TEXT("Heavy"))
+        {
+            // Heavy Armor: ACValue (sem DEX modifier)
+            AC = ArmorACValue;
+        }
+        else
+        {
+            // Tipo de armadura desconhecido, usa AC base como fallback
+            AC = DnDConstants::BASE_AC + DexterityModifier;
+        }
+    }
+
+    // Adiciona bônus de escudo se aplicável
+    if (bHasShield)
+    {
+        AC += DnDConstants::SHIELD_AC_BONUS;
+    }
+
+    return AC;
+}
+
+#pragma endregion Armor Class Calculations
