@@ -1,5 +1,7 @@
 # Backup de Testes - Antes da Reorganização
 
+**NOTA:** Esta pasta foi renomeada para `_backupteste` (com underscore) para que o Unreal Engine não reconheça como pasta de testes e não compile esses arquivos.
+
 Este diretório contém um backup completo de todos os testes do projeto antes da reorganização por issue executada.
 
 ## Data do Backup
