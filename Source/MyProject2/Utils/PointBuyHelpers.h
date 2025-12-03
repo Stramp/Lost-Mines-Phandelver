@@ -41,6 +41,29 @@ class UDataTable;
 namespace PointBuyHelpers
 {
     /**
+     * Calcula o custo em pontos de Point Buy para um ability score.
+     * Implementa a tabela oficial D&D 5e Point Buy.
+     *
+     * Tabela de custos:
+     * - Score MIN_POINT_BUY_SCORE (8): 0 pontos
+     * - Score (MIN_POINT_BUY_SCORE+1) até (MAX_POINT_BUY_SCORE-2) (9-13): (score - BASE_ABILITY_SCORE) pontos
+     * - Score INTERMEDIATE_POINT_BUY_SCORE (14): POINT_BUY_COST_14 pontos
+     * - Score MAX_POINT_BUY_SCORE (15): POINT_BUY_COST_15 pontos
+     *
+     * @param Score Ability score (deve estar entre MIN_POINT_BUY_SCORE e MAX_POINT_BUY_SCORE)
+     * @return Custo em pontos, ou 0 se score inválido
+     */
+    int32 CalculatePointBuyCost(int32 Score);
+
+    /**
+     * Calcula o custo total do Point Buy para todos os ability scores.
+     *
+     * @param AbilityScores Map com ability scores (chave: FName do atributo, valor: score)
+     * @return Custo total em pontos
+     */
+    int32 CalculateTotalPointBuyCost(const TMap<FName, int32> &AbilityScores);
+
+    /**
      * Calcula pontos restantes de uma alocação de Point Buy.
      * Helper puro para evitar duplicação de código.
      *

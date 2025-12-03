@@ -66,6 +66,24 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - 15 testes automatizados criados (todos passando - 100%)
 > >    - Testes validados conforme TDD guide (sem lógica interna)
 > >    - Compilação validada (24.88s, 0 erros, 0 warnings)
+> >
+> > 4. **Ciclo 3.1: Point Buy MVP (TDD)** (2025-01-25)
+> >    - Sistema completo de Point Buy D&D 5e implementado seguindo TDD
+> >    - `PointBuyHelpers` namespace criado com funções puras:
+> >      - `CalculatePointBuyCost()` - Calcula custo por score (8-15)
+> >      - `CalculateTotalPointBuyCost()` - Calcula custo total
+> >      - `CalculatePointsRemaining()` - Calcula pontos restantes
+> >      - `AdjustPointBuyAllocation()` - Ajusta alocação que excede 27 pontos
+> >    - `FPointBuyMotor` implementado (motor puro para aplicar Point Buy)
+> >    - `FPointBuyValidator` implementado (validação de alocações)
+> >    - `FPointBuyOrchestrator` implementado (orquestração completa)
+> >    - `FPointBuyConverter` e `FPointBuyFormatter` para conversão e formatação
+> >    - Tabela completa de custos D&D 5e implementada (8-15)
+> >    - 19 testes automatizados criados (todos passando - 100%)
+> >    - Testes validados conforme TDD guide (valores hardcoded, sem lógica interna)
+> >    - Refatoração completa: helpers separados em `PointBuyHelpers` namespace
+> >    - Correções em testes de outras tasks (CalculateProficiencyBonus, CreateBaseScoresFromPointBuy)
+> >    - Compilação validada (0 erros, 0 warnings)
 >
 > > 2. Commit [`302c25c`] - Adicionar regra de Test-Driven Development (TDD)
 > >    - Criada regra `test-driven-development.mdc` com metodologia TDD completa

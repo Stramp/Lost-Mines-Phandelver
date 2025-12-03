@@ -150,7 +150,7 @@ void CalculationHelpersSpec::Define()
     Describe("CalculateProficiencyBonus",
              [this]()
              {
-                 It("deve calcular bônus correto para nível 1 (bônus +1)",
+                 It("deve calcular bônus correto para nível 1 (bônus +2)",
                     [this]()
                     {
                         AddInfo(TEXT("Testando CalculateProficiencyBonus com nível 1 (bônus inicial)"));
@@ -159,22 +159,24 @@ void CalculationHelpersSpec::Define()
                         int32 Result = CalculationHelpers::CalculateProficiencyBonus(1);
 
                         // Assert
-                        // Implementação usa: 1 + floor((1-1)/4) = 1 + floor(0) = 1
-                        TestEqual("Bônus de proficiência para nível 1 deve ser +1", Result, 1);
+                        // D&D 5e: 2 + floor((1-1)/4) = 2 + 0 = 2
+                        int32 ExpectedBonus = 2; // Valor hardcoded conhecido
+                        TestEqual("Bônus de proficiência para nível 1 deve ser +2", Result, ExpectedBonus);
                         AddInfo(TEXT("✅ Teste passou: bônus inicial calculado corretamente"));
                     });
 
-                 It("deve calcular bônus correto para nível 4 (bônus +1)",
+                 It("deve calcular bônus correto para nível 4 (bônus +2)",
                     [this]()
                     {
-                        AddInfo(TEXT("Testando CalculateProficiencyBonus com nível 4 (ainda +1)"));
+                        AddInfo(TEXT("Testando CalculateProficiencyBonus com nível 4 (ainda +2)"));
 
                         // Act
                         int32 Result = CalculationHelpers::CalculateProficiencyBonus(4);
 
                         // Assert
-                        // Implementação usa: 1 + floor((4-1)/4) = 1 + floor(0.75) = 1 + 0 = 1
-                        TestEqual("Bônus de proficiência para nível 4 deve ser +1", Result, 1);
+                        // D&D 5e: 2 + floor((4-1)/4) = 2 + floor(0.75) = 2 + 0 = 2
+                        int32 ExpectedBonus = 2; // Valor hardcoded conhecido
+                        TestEqual("Bônus de proficiência para nível 4 deve ser +2", Result, ExpectedBonus);
                         AddInfo(TEXT("✅ Teste passou: bônus calculado corretamente"));
                     });
 
@@ -204,7 +206,7 @@ void CalculationHelpersSpec::Define()
                         AddInfo(TEXT("✅ Teste passou: segundo aumento de bônus calculado corretamente"));
                     });
 
-                 It("deve calcular bônus correto para nível 13 (bônus +4)",
+                 It("deve calcular bônus correto para nível 13 (bônus +5)",
                     [this]()
                     {
                         AddInfo(TEXT("Testando CalculateProficiencyBonus com nível 13 (terceiro aumento)"));
@@ -213,12 +215,13 @@ void CalculationHelpersSpec::Define()
                         int32 Result = CalculationHelpers::CalculateProficiencyBonus(13);
 
                         // Assert
-                        // Implementação usa: 1 + floor((13-1)/4) = 1 + floor(3) = 1 + 3 = 4
-                        TestEqual("Bônus de proficiência para nível 13 deve ser +4", Result, 4);
+                        // D&D 5e: 2 + floor((13-1)/4) = 2 + floor(3) = 2 + 3 = 5
+                        int32 ExpectedBonus = 5; // Valor hardcoded conhecido
+                        TestEqual("Bônus de proficiência para nível 13 deve ser +5", Result, ExpectedBonus);
                         AddInfo(TEXT("✅ Teste passou: terceiro aumento de bônus calculado corretamente"));
                     });
 
-                 It("deve calcular bônus correto para nível 17 (bônus +5)",
+                 It("deve calcular bônus correto para nível 17 (bônus +6)",
                     [this]()
                     {
                         AddInfo(TEXT("Testando CalculateProficiencyBonus com nível 17 (quarto aumento)"));
@@ -227,12 +230,13 @@ void CalculationHelpersSpec::Define()
                         int32 Result = CalculationHelpers::CalculateProficiencyBonus(17);
 
                         // Assert
-                        // Implementação usa: 1 + floor((17-1)/4) = 1 + floor(4) = 1 + 4 = 5
-                        TestEqual("Bônus de proficiência para nível 17 deve ser +5", Result, 5);
+                        // D&D 5e: 2 + floor((17-1)/4) = 2 + floor(4) = 2 + 4 = 6
+                        int32 ExpectedBonus = 6; // Valor hardcoded conhecido
+                        TestEqual("Bônus de proficiência para nível 17 deve ser +6", Result, ExpectedBonus);
                         AddInfo(TEXT("✅ Teste passou: quarto aumento de bônus calculado corretamente"));
                     });
 
-                 It("deve calcular bônus correto para nível 20 (bônus máximo +5)",
+                 It("deve calcular bônus correto para nível 20 (bônus máximo +6)",
                     [this]()
                     {
                         AddInfo(TEXT("Testando CalculateProficiencyBonus com nível 20 (bônus máximo)"));
@@ -241,8 +245,9 @@ void CalculationHelpersSpec::Define()
                         int32 Result = CalculationHelpers::CalculateProficiencyBonus(20);
 
                         // Assert
-                        // Implementação usa: 1 + floor((20-1)/4) = 1 + floor(4.75) = 1 + 4 = 5
-                        TestEqual("Bônus de proficiência para nível 20 deve ser +5", Result, 5);
+                        // D&D 5e: 2 + floor((20-1)/4) = 2 + floor(4.75) = 2 + 4 = 6
+                        int32 ExpectedBonus = 6; // Valor hardcoded conhecido
+                        TestEqual("Bônus de proficiência para nível 20 deve ser +6", Result, ExpectedBonus);
                         AddInfo(TEXT("✅ Teste passou: bônus máximo calculado corretamente"));
                     });
 
