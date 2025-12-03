@@ -85,6 +85,23 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Correções em testes de outras tasks (CalculateProficiencyBonus, CreateBaseScoresFromPointBuy)
 > >    - Compilação validada (0 erros, 0 warnings)
 >
+> > 5. **Ciclo 3.2: Race Bonus MVP (TDD)** (2025-01-25)
+> >    - Sistema completo de Race Bonus D&D 5e implementado seguindo TDD
+> >    - `RaceBonusHelpers` namespace criado com funções puras:
+> >      - `CalculateRacialBonuses()` - Calcula bônus raciais (raça base + sub-raça + custom)
+> >      - Suporte para Variant Human (2 pontos para distribuir: +2 em 1 atributo ou +1 em 2 atributos)
+> >    - `FRaceBonusMotor` implementado (motor puro para aplicar bônus raciais)
+> >    - `FRaceBonusOrchestrator` implementado (orquestração completa)
+> >    - `FRaceDataLoader` implementado (carregamento de dados da Data Table)
+> >    - `FRaceValidator` implementado (validação de sub-raças)
+> >    - Suporte completo para raças base, sub-raças e Variant Human
+> >    - 8 testes automatizados criados (todos passando - 100%)
+> >    - Testes validados conforme TDD guide (valores hardcoded, sem lógica interna)
+> >    - Correções: `LogError` → `LogWarning` para validação de entrada (não é erro crítico)
+> >    - Correções: `AddRow` faz cópia - `SubraceHandles` deve ser adicionado antes de `AddRow`
+> >    - Teste adicional para Variant Human com 1 escolha (+2)
+> >    - Compilação validada (0 erros, 0 warnings)
+>
 > > 2. Commit [`302c25c`] - Adicionar regra de Test-Driven Development (TDD)
 > >    - Criada regra `test-driven-development.mdc` com metodologia TDD completa
 > >    - Definido ciclo Red-Green-Refactor obrigatório para código crítico

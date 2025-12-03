@@ -34,25 +34,27 @@ END_DEFINE_SPEC(RaceBonusMotorSpec)
 
 void RaceBonusMotorSpec::Define()
 {
-    BeforeEach([this]()
-               {
-                   // Arrange: Inicializar Final Scores com valores base
-                   TestFinalStrength = DnDConstants::BASE_ABILITY_SCORE;
-                   TestFinalDexterity = DnDConstants::BASE_ABILITY_SCORE;
-                   TestFinalConstitution = DnDConstants::BASE_ABILITY_SCORE;
-                   TestFinalIntelligence = DnDConstants::BASE_ABILITY_SCORE;
-                   TestFinalWisdom = DnDConstants::BASE_ABILITY_SCORE;
-                   TestFinalCharisma = DnDConstants::BASE_ABILITY_SCORE;
+    BeforeEach(
+        [this]()
+        {
+            // Arrange: Inicializar Final Scores com valores base
+            TestFinalStrength = DnDConstants::BASE_ABILITY_SCORE;
+            TestFinalDexterity = DnDConstants::BASE_ABILITY_SCORE;
+            TestFinalConstitution = DnDConstants::BASE_ABILITY_SCORE;
+            TestFinalIntelligence = DnDConstants::BASE_ABILITY_SCORE;
+            TestFinalWisdom = DnDConstants::BASE_ABILITY_SCORE;
+            TestFinalCharisma = DnDConstants::BASE_ABILITY_SCORE;
 
-                   // Criar Data Table mock
-                   TestRaceDataTable = NewObject<UDataTable>();
-                   TestRaceDataTable->RowStruct = FRaceDataRow::StaticStruct();
-               });
+            // Criar Data Table mock
+            TestRaceDataTable = NewObject<UDataTable>();
+            TestRaceDataTable->RowStruct = FRaceDataRow::StaticStruct();
+        });
 
     Describe("ApplyRacialBonuses",
              [this]()
              {
-                 It("deve aplicar bônus de raça base apenas (Dwarf +2 CON)", [this]()
+                 It("deve aplicar bônus de raça base apenas (Dwarf +2 CON)",
+                    [this]()
                     {
                         // Arrange: Raça base com bônus
                         FRaceDataRow *DwarfRow = new FRaceDataRow();
@@ -80,26 +82,27 @@ void RaceBonusMotorSpec::Define()
                         TestEqual("Final Dexterity deve permanecer 8", TestFinalDexterity, 8);
                     });
 
-                 It("deve aplicar bônus de raça base e sub-raça (Dwarf +2 CON, Hill Dwarf +1 WIS)", [this]()
+                 It("deve aplicar bônus de raça base e sub-raça (Dwarf +2 CON, Hill Dwarf +1 WIS)",
+                    [this]()
                     {
                         // Arrange: Raça base + sub-raça
-                        FRaceDataRow *DwarfRow = new FRaceDataRow();
-                        DwarfRow->Name = TEXT("Dwarf");
-                        DwarfRow->ID = TEXT("RACE_Dwarf");
-                        DwarfRow->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Constitution"), 2));
-                        TestRaceDataTable->AddRow(TEXT("Dwarf"), *DwarfRow);
+                        FRaceDataRow DwarfRow;
+                        DwarfRow.Name = TEXT("Dwarf");
+                        DwarfRow.ID = TEXT("RACE_Dwarf");
+                        DwarfRow.AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Constitution"), 2));
 
-                        FRaceDataRow *HillDwarfRow = new FRaceDataRow();
-                        HillDwarfRow->Name = TEXT("Hill Dwarf");
-                        HillDwarfRow->ID = TEXT("RACE_HillDwarf");
-                        HillDwarfRow->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Wisdom"), 1));
-                        TestRaceDataTable->AddRow(TEXT("Hill Dwarf"), *HillDwarfRow);
+                        FRaceDataRow HillDwarfRow;
+                        HillDwarfRow.Name = TEXT("Hill Dwarf");
+                        HillDwarfRow.ID = TEXT("RACE_HillDwarf");
+                        HillDwarfRow.AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Wisdom"), 1));
+                        TestRaceDataTable->AddRow(TEXT("Hill Dwarf"), HillDwarfRow);
 
-                        // Adicionar sub-raça à raça base
+                        // Adicionar sub-raça à raça base ANTES de AddRow (AddRow faz cópia)
                         FDataTableRowHandle HillDwarfHandle;
                         HillDwarfHandle.DataTable = TestRaceDataTable;
                         HillDwarfHandle.RowName = TEXT("Hill Dwarf");
-                        DwarfRow->SubraceHandles.Add(HillDwarfHandle);
+                        DwarfRow.SubraceHandles.Add(HillDwarfHandle);
+                        TestRaceDataTable->AddRow(TEXT("Dwarf"), DwarfRow);
 
                         FCharacterSheetData Data;
                         Data.SelectedRace = TEXT("Dwarf");
@@ -121,25 +124,26 @@ void RaceBonusMotorSpec::Define()
                         TestEqual("Final Strength deve permanecer 8", TestFinalStrength, 8);
                     });
 
-                 It("deve aplicar Variant Human com 2 escolhas customizadas (+1 cada)", [this]()
+                 It("deve aplicar Variant Human com 2 escolhas customizadas (+1 cada)",
+                    [this]()
                     {
                         // Arrange: Variant Human
-                        FRaceDataRow *HumanRow = new FRaceDataRow();
-                        HumanRow->Name = TEXT("Human");
-                        HumanRow->ID = TEXT("RACE_Human");
-                        TestRaceDataTable->AddRow(TEXT("Human"), *HumanRow);
+                        FRaceDataRow HumanRow;
+                        HumanRow.Name = TEXT("Human");
+                        HumanRow.ID = TEXT("RACE_Human");
 
-                        FRaceDataRow *VariantHumanRow = new FRaceDataRow();
-                        VariantHumanRow->Name = TEXT("Variant Human");
-                        VariantHumanRow->ID = TEXT("RACE_VariantHuman");
-                        VariantHumanRow->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Custom"), 1));
-                        TestRaceDataTable->AddRow(TEXT("Variant Human"), *VariantHumanRow);
+                        FRaceDataRow VariantHumanRow;
+                        VariantHumanRow.Name = TEXT("Variant Human");
+                        VariantHumanRow.ID = TEXT("RACE_VariantHuman");
+                        VariantHumanRow.AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Custom"), 1));
+                        TestRaceDataTable->AddRow(TEXT("Variant Human"), VariantHumanRow);
 
-                        // Adicionar sub-raça à raça base
+                        // Adicionar sub-raça à raça base ANTES de AddRow (AddRow faz cópia)
                         FDataTableRowHandle VariantHumanHandle;
                         VariantHumanHandle.DataTable = TestRaceDataTable;
                         VariantHumanHandle.RowName = TEXT("Variant Human");
-                        HumanRow->SubraceHandles.Add(VariantHumanHandle);
+                        HumanRow.SubraceHandles.Add(VariantHumanHandle);
+                        TestRaceDataTable->AddRow(TEXT("Human"), HumanRow);
 
                         TArray<FName> CustomChoices;
                         CustomChoices.Add(TEXT("Strength"));
@@ -166,7 +170,53 @@ void RaceBonusMotorSpec::Define()
                         TestEqual("Final Constitution deve permanecer 8", TestFinalConstitution, 8);
                     });
 
-                 It("deve não aplicar bônus quando RaceDataTable é nullptr", [this]()
+                 It("deve aplicar Variant Human com 1 escolha customizada (+2)",
+                    [this]()
+                    {
+                        // Arrange: Variant Human com apenas 1 escolha
+                        FRaceDataRow HumanRow;
+                        HumanRow.Name = TEXT("Human");
+                        HumanRow.ID = TEXT("RACE_Human");
+
+                        FRaceDataRow VariantHumanRow;
+                        VariantHumanRow.Name = TEXT("Variant Human");
+                        VariantHumanRow.ID = TEXT("RACE_VariantHuman");
+                        VariantHumanRow.AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Custom"), 1));
+                        TestRaceDataTable->AddRow(TEXT("Variant Human"), VariantHumanRow);
+
+                        // Adicionar sub-raça à raça base ANTES de AddRow (AddRow faz cópia)
+                        FDataTableRowHandle VariantHumanHandle;
+                        VariantHumanHandle.DataTable = TestRaceDataTable;
+                        VariantHumanHandle.RowName = TEXT("Variant Human");
+                        HumanRow.SubraceHandles.Add(VariantHumanHandle);
+                        TestRaceDataTable->AddRow(TEXT("Human"), HumanRow);
+
+                        TArray<FName> CustomChoices;
+                        CustomChoices.Add(TEXT("Strength"));
+
+                        FCharacterSheetData Data;
+                        Data.SelectedRace = TEXT("Human");
+                        Data.SelectedSubrace = TEXT("Variant Human");
+                        Data.CustomAbilityScoreChoices = CustomChoices;
+                        Data.RaceDataTable = TestRaceDataTable;
+                        Data.FinalStrength = &TestFinalStrength;
+                        Data.FinalDexterity = &TestFinalDexterity;
+                        Data.FinalConstitution = &TestFinalConstitution;
+                        Data.FinalIntelligence = &TestFinalIntelligence;
+                        Data.FinalWisdom = &TestFinalWisdom;
+                        Data.FinalCharisma = &TestFinalCharisma;
+
+                        // Act
+                        FRaceBonusOrchestrator::ProcessRacialBonuses(Data);
+
+                        // Assert: Valores hardcoded conhecidos (1 escolha = +2)
+                        TestEqual("Final Strength deve ser 10 (8 + 2)", TestFinalStrength, 10);
+                        TestEqual("Final Dexterity deve permanecer 8", TestFinalDexterity, 8);
+                        TestEqual("Final Constitution deve permanecer 8", TestFinalConstitution, 8);
+                    });
+
+                 It("deve não aplicar bônus quando RaceDataTable é nullptr",
+                    [this]()
                     {
                         // Arrange: Sem Data Table
                         FCharacterSheetData Data;
@@ -188,7 +238,8 @@ void RaceBonusMotorSpec::Define()
                         TestEqual("Final Constitution deve permanecer 8", TestFinalConstitution, 8);
                     });
 
-                 It("deve não aplicar bônus quando SelectedRace é NAME_None", [this]()
+                 It("deve não aplicar bônus quando SelectedRace é NAME_None",
+                    [this]()
                     {
                         // Arrange: Sem raça selecionada
                         FCharacterSheetData Data;
@@ -210,7 +261,8 @@ void RaceBonusMotorSpec::Define()
                         TestEqual("Final Constitution deve permanecer 8", TestFinalConstitution, 8);
                     });
 
-                 It("deve não aplicar bônus quando referências de Final Scores são nullptr", [this]()
+                 It("deve não aplicar bônus quando referências de Final Scores são nullptr",
+                    [this]()
                     {
                         // Arrange: Referências inválidas
                         FCharacterSheetData Data;
@@ -225,7 +277,8 @@ void RaceBonusMotorSpec::Define()
                         TestTrue("Teste deve passar (função valida referências)", true);
                     });
 
-                 It("deve não aplicar bônus de sub-raça quando sub-raça não pertence à raça", [this]()
+                 It("deve não aplicar bônus de sub-raça quando sub-raça não pertence à raça",
+                    [this]()
                     {
                         // Arrange: Sub-raça inválida
                         FRaceDataRow *DwarfRow = new FRaceDataRow();
@@ -256,7 +309,8 @@ void RaceBonusMotorSpec::Define()
 
                         // Assert: Apenas bônus de raça base deve ser aplicado
                         TestEqual("Final Constitution deve ser 10 (8 + 2)", TestFinalConstitution, 10);
-                        TestEqual("Final Dexterity deve permanecer 8 (sub-raça inválida ignorada)", TestFinalDexterity, 8);
+                        TestEqual("Final Dexterity deve permanecer 8 (sub-raça inválida ignorada)", TestFinalDexterity,
+                                  8);
                     });
              });
 }
