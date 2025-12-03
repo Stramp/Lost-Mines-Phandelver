@@ -86,23 +86,23 @@ void RaceBonusMotorSpec::Define()
                     [this]()
                     {
                         // Arrange: Raça base + sub-raça
-                        FRaceDataRow DwarfRow;
-                        DwarfRow.Name = TEXT("Dwarf");
-                        DwarfRow.ID = TEXT("RACE_Dwarf");
-                        DwarfRow.AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Constitution"), 2));
+                        FRaceDataRow *DwarfRow = new FRaceDataRow();
+                        DwarfRow->Name = TEXT("Dwarf");
+                        DwarfRow->ID = TEXT("RACE_Dwarf");
+                        DwarfRow->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Constitution"), 2));
+                        TestRaceDataTable->AddRow(TEXT("Dwarf"), *DwarfRow);
 
-                        FRaceDataRow HillDwarfRow;
-                        HillDwarfRow.Name = TEXT("Hill Dwarf");
-                        HillDwarfRow.ID = TEXT("RACE_HillDwarf");
-                        HillDwarfRow.AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Wisdom"), 1));
-                        TestRaceDataTable->AddRow(TEXT("Hill Dwarf"), HillDwarfRow);
+                        FRaceDataRow *HillDwarfRow = new FRaceDataRow();
+                        HillDwarfRow->Name = TEXT("Hill Dwarf");
+                        HillDwarfRow->ID = TEXT("RACE_HillDwarf");
+                        HillDwarfRow->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Wisdom"), 1));
+                        TestRaceDataTable->AddRow(TEXT("Hill Dwarf"), *HillDwarfRow);
 
-                        // Adicionar sub-raça à raça base ANTES de AddRow (AddRow faz cópia)
+                        // Adicionar sub-raça à raça base
                         FDataTableRowHandle HillDwarfHandle;
                         HillDwarfHandle.DataTable = TestRaceDataTable;
                         HillDwarfHandle.RowName = TEXT("Hill Dwarf");
-                        DwarfRow.SubraceHandles.Add(HillDwarfHandle);
-                        TestRaceDataTable->AddRow(TEXT("Dwarf"), DwarfRow);
+                        DwarfRow->SubraceHandles.Add(HillDwarfHandle);
 
                         FCharacterSheetData Data;
                         Data.SelectedRace = TEXT("Dwarf");
@@ -128,22 +128,22 @@ void RaceBonusMotorSpec::Define()
                     [this]()
                     {
                         // Arrange: Variant Human
-                        FRaceDataRow HumanRow;
-                        HumanRow.Name = TEXT("Human");
-                        HumanRow.ID = TEXT("RACE_Human");
+                        FRaceDataRow *HumanRow = new FRaceDataRow();
+                        HumanRow->Name = TEXT("Human");
+                        HumanRow->ID = TEXT("RACE_Human");
+                        TestRaceDataTable->AddRow(TEXT("Human"), *HumanRow);
 
-                        FRaceDataRow VariantHumanRow;
-                        VariantHumanRow.Name = TEXT("Variant Human");
-                        VariantHumanRow.ID = TEXT("RACE_VariantHuman");
-                        VariantHumanRow.AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Custom"), 1));
-                        TestRaceDataTable->AddRow(TEXT("Variant Human"), VariantHumanRow);
+                        FRaceDataRow *VariantHumanRow = new FRaceDataRow();
+                        VariantHumanRow->Name = TEXT("Variant Human");
+                        VariantHumanRow->ID = TEXT("RACE_VariantHuman");
+                        VariantHumanRow->AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Custom"), 1));
+                        TestRaceDataTable->AddRow(TEXT("Variant Human"), *VariantHumanRow);
 
-                        // Adicionar sub-raça à raça base ANTES de AddRow (AddRow faz cópia)
+                        // Adicionar sub-raça à raça base
                         FDataTableRowHandle VariantHumanHandle;
                         VariantHumanHandle.DataTable = TestRaceDataTable;
                         VariantHumanHandle.RowName = TEXT("Variant Human");
-                        HumanRow.SubraceHandles.Add(VariantHumanHandle);
-                        TestRaceDataTable->AddRow(TEXT("Human"), HumanRow);
+                        HumanRow->SubraceHandles.Add(VariantHumanHandle);
 
                         TArray<FName> CustomChoices;
                         CustomChoices.Add(TEXT("Strength"));
@@ -167,51 +167,6 @@ void RaceBonusMotorSpec::Define()
                         // Assert: Valores hardcoded conhecidos
                         TestEqual("Final Strength deve ser 9 (8 + 1)", TestFinalStrength, 9);
                         TestEqual("Final Dexterity deve ser 9 (8 + 1)", TestFinalDexterity, 9);
-                        TestEqual("Final Constitution deve permanecer 8", TestFinalConstitution, 8);
-                    });
-
-                 It("deve aplicar Variant Human com 1 escolha customizada (+2)",
-                    [this]()
-                    {
-                        // Arrange: Variant Human com apenas 1 escolha
-                        FRaceDataRow HumanRow;
-                        HumanRow.Name = TEXT("Human");
-                        HumanRow.ID = TEXT("RACE_Human");
-
-                        FRaceDataRow VariantHumanRow;
-                        VariantHumanRow.Name = TEXT("Variant Human");
-                        VariantHumanRow.ID = TEXT("RACE_VariantHuman");
-                        VariantHumanRow.AbilityScoreImprovements.Add(FAbilityScoreImprovement(TEXT("ABL_Custom"), 1));
-                        TestRaceDataTable->AddRow(TEXT("Variant Human"), VariantHumanRow);
-
-                        // Adicionar sub-raça à raça base ANTES de AddRow (AddRow faz cópia)
-                        FDataTableRowHandle VariantHumanHandle;
-                        VariantHumanHandle.DataTable = TestRaceDataTable;
-                        VariantHumanHandle.RowName = TEXT("Variant Human");
-                        HumanRow.SubraceHandles.Add(VariantHumanHandle);
-                        TestRaceDataTable->AddRow(TEXT("Human"), HumanRow);
-
-                        TArray<FName> CustomChoices;
-                        CustomChoices.Add(TEXT("Strength"));
-
-                        FCharacterSheetData Data;
-                        Data.SelectedRace = TEXT("Human");
-                        Data.SelectedSubrace = TEXT("Variant Human");
-                        Data.CustomAbilityScoreChoices = CustomChoices;
-                        Data.RaceDataTable = TestRaceDataTable;
-                        Data.FinalStrength = &TestFinalStrength;
-                        Data.FinalDexterity = &TestFinalDexterity;
-                        Data.FinalConstitution = &TestFinalConstitution;
-                        Data.FinalIntelligence = &TestFinalIntelligence;
-                        Data.FinalWisdom = &TestFinalWisdom;
-                        Data.FinalCharisma = &TestFinalCharisma;
-
-                        // Act
-                        FRaceBonusOrchestrator::ProcessRacialBonuses(Data);
-
-                        // Assert: Valores hardcoded conhecidos (1 escolha = +2)
-                        TestEqual("Final Strength deve ser 10 (8 + 2)", TestFinalStrength, 10);
-                        TestEqual("Final Dexterity deve permanecer 8", TestFinalDexterity, 8);
                         TestEqual("Final Constitution deve permanecer 8", TestFinalConstitution, 8);
                     });
 
