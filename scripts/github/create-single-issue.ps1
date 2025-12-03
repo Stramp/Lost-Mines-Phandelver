@@ -99,30 +99,30 @@ $projetos = @{
 
 function Get-ProjectForIssue {
     param(
-        [string[]]$labels, 
+        [string[]]$labels,
         [string]$categoria
     )
-    
+
     $labelsLower = $labels | ForEach-Object { $_.ToLower() }
     $categoriaLower = if ($categoria) { $categoria.ToLower() } else { "" }
-    
+
     $projectScores = @{
         "Core Engineering" = 0
         "Narrative & Quest Design" = 0
         "Art & World Building" = 0
     }
-    
+
     foreach ($label in $labelsLower) {
         if ($label -match "^sys:|^type:") { $projectScores["Core Engineering"] += 3 }
-        if ($label -match "infraestrutura|fundacao|data-tables|data-driven|criacao-personagem|combate|spellcasting|rest|save|load|persistencia|ui|ux|inventario") { 
-            $projectScores["Core Engineering"] += 3 
+        if ($label -match "infraestrutura|fundacao|data-tables|data-driven|criacao-personagem|combate|spellcasting|rest|save|load|persistencia|ui|ux|inventario") {
+            $projectScores["Core Engineering"] += 3
         }
         if ($label -match "^quest:|^writ:|^act:") { $projectScores["Narrative & Quest Design"] += 3 }
         if ($label -match "narrativa|dialogos|quests|missao") { $projectScores["Narrative & Quest Design"] += 3 }
         if ($label -match "^art:|^stage:") { $projectScores["Art & World Building"] += 3 }
         if ($label -match "environment|character|visual|mapa|level-design") { $projectScores["Art & World Building"] += 3 }
     }
-    
+
     if ($categoriaLower -match "fundação|infraestrutura|data|sistema|código|combate|spellcasting|personagem") {
         $projectScores["Core Engineering"] += 2
     }
@@ -132,10 +132,10 @@ function Get-ProjectForIssue {
     if ($categoriaLower -match "arte|visual|mapa|level|environment|character") {
         $projectScores["Art & World Building"] += 2
     }
-    
+
     $maxScore = ($projectScores.Values | Measure-Object -Maximum).Maximum
     if ($maxScore -eq 0) { return "Core Engineering" }
-    
+
     $selectedProject = $projectScores.GetEnumerator() | Where-Object { $_.Value -eq $maxScore } | Select-Object -First 1
     return $selectedProject.Key
 }
@@ -179,7 +179,7 @@ function Push-NewTask {
 
     # Executa o comando passando o body via pipe (stdin)
     $cmdOutput = $body | & $ghPath $issueArgs 2>&1
-    
+
     # Retorna o output do comando
     return $cmdOutput
 }
@@ -190,22 +190,22 @@ function Create-SingleIssue {
     param(
         [Parameter(Mandatory=$true)]
         [string]$Title,              # Título da issue (obrigatório)
-        
+
         [Parameter(Mandatory=$false)]
         [string]$Body = "",           # Corpo/descrição da issue (markdown)
-        
+
         [Parameter(Mandatory=$false)]
         [string[]]$Labels = @(),      # Array de labels
-        
+
         [Parameter(Mandatory=$false)]
         [string]$Milestone = "",      # Milestone associado
-        
+
         [Parameter(Mandatory=$false)]
         [string]$Categoria = "",      # Categoria (para determinar projeto automaticamente)
-        
+
         [Parameter(Mandatory=$false)]
         [string]$Assignee = "@me",    # Responsável pela issue (padrão: eu)
-        
+
         [Parameter(Mandatory=$false)]
         [string]$Project = ""         # Projeto GitHub (se não informado, determina automaticamente)
     )
@@ -247,7 +247,7 @@ function Create-SingleIssue {
         # Extrai a URL da issue criada
         $issueUrl = ($cmdOutput | Select-String -Pattern "https://github\.com/.*/issues/(\d+)").Matches.Value
         $issueNumber = ($issueUrl -match "issues/(\d+)$").Groups[1].Value
-        
+
         Write-Host "  [OK] Issue criada com sucesso!" -ForegroundColor Green
         Write-Host ""
         Write-Host "=== RESULTADO ===" -ForegroundColor Cyan
@@ -255,7 +255,7 @@ function Create-SingleIssue {
         Write-Host "  URL: $issueUrl" -ForegroundColor White
         Write-Host "  Projeto: $Project" -ForegroundColor White
         Write-Host ""
-        
+
         return @{
             Number = [int]$issueNumber
             Url = $issueUrl
@@ -274,7 +274,7 @@ function Create-SingleIssue {
 if ($args.Count -gt 0) {
     # Exemplo de uso via linha de comando:
     # .\create-single-issue.ps1 -Title "Minha Issue" -Body "Descrição" -Labels @("bug", "enhancement")
-    
+
     Write-Host "Use a função Create-SingleIssue diretamente no PowerShell:" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "Exemplo:" -ForegroundColor Cyan
