@@ -72,6 +72,10 @@ void DataTablesBaseSpec::Define()
 
                         // Assert
                         TestNull("FindRaceRow deve retornar nullptr quando DataTable está vazio", Result);
+
+                        // Nota: Um warning "LogDataTable: UDataTable::FindRow : 'FindRaceRow' requested row 'Human' not
+                        // in DataTable" é esperado aqui, pois FindRow do Unreal Engine loga warning quando a row não
+                        // existe. Isso é comportamento normal do Unreal Engine e não indica um problema.
                     });
 
                  It("deve retornar nullptr quando row não existe no DataTable",
@@ -91,6 +95,10 @@ void DataTablesBaseSpec::Define()
 
                         // Assert
                         TestNull("FindRaceRow deve retornar nullptr quando row não existe", Result);
+
+                        // Nota: Um warning "LogDataTable: UDataTable::FindRow : 'FindRaceRow' requested row 'Human' not
+                        // in DataTable" é esperado aqui, pois FindRow do Unreal Engine loga warning quando a row não
+                        // existe. Isso é comportamento normal do Unreal Engine e não indica um problema.
 
                         // Cleanup
                         delete TestRow;
