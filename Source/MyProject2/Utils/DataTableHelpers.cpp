@@ -488,3 +488,41 @@ bool DataTableHelpers::IsItemDataTable(UDataTable *DataTable)
 }
 
 #pragma endregion Data Table Type Validation Helpers
+
+// ============================================================================
+// Item Data Table Helpers
+// ============================================================================
+#pragma region Item Data Table Helpers
+
+FItemDataRow *DataTableHelpers::FindItemRow(FName ItemName, UDataTable *ItemDataTable)
+{
+    if (!ItemDataTable || ItemName == NAME_None)
+    {
+        return nullptr;
+    }
+
+    // Tenta FindRow direto primeiro (otimização)
+    FItemDataRow *Row = ItemDataTable->FindRow<FItemDataRow>(ItemName, TEXT("FindItemRow"));
+
+    // Fallback: busca manual O(n) se FindRow não encontrou
+    // (pode acontecer se RowName != ItemName no JSON)
+    if (!Row)
+    {
+        TArray<FName> RowNames = ItemDataTable->GetRowNames();
+        for (const FName &RowName : RowNames)
+        {
+            if (FItemDataRow *FoundRow = ItemDataTable->FindRow<FItemDataRow>(RowName, TEXT("FindItemRow")))
+            {
+                if (FoundRow->Name == ItemName)
+                {
+                    Row = FoundRow;
+                    break;
+                }
+            }
+        }
+    }
+
+    return Row;
+}
+
+#pragma endregion Item Data Table Helpers

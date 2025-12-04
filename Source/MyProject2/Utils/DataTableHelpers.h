@@ -258,4 +258,18 @@ namespace DataTableHelpers
      * @return true se é ItemDataTable, false caso contrário
      */
     bool IsItemDataTable(UDataTable *DataTable);
+
+    // ============================================================================
+    // Item Data Table Helpers
+    // ============================================================================
+
+    /**
+     * Busca row de item no Data Table.
+     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     *
+     * @param ItemName Nome do item para buscar (ex: "Leather Armor", "Chain Mail")
+     * @param ItemDataTable Data Table de itens (pode ser nullptr)
+     * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
+     */
+    FItemDataRow *FindItemRow(FName ItemName, UDataTable *ItemDataTable);
 } // namespace DataTableHelpers
