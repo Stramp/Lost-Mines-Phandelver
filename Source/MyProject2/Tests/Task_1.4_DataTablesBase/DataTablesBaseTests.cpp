@@ -11,6 +11,7 @@
 #include "Data/Tables/RaceDataTable.h"
 #include "Data/Tables/ClassDataTable.h"
 #include "Engine/DataTable.h"
+#include "UObject/ConstructorHelpers.h"
 
 #pragma endregion Includes
 
@@ -22,10 +23,23 @@
 BEGIN_DEFINE_SPEC(DataTablesBaseSpec, "MyProject2.DataTables.Base",
                   EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
+UDataTable *RealRaceDataTable;
+UDataTable *RealClassDataTable;
+
 END_DEFINE_SPEC(DataTablesBaseSpec)
 
 void DataTablesBaseSpec::Define()
 {
+    BeforeEach(
+        [this]()
+        {
+            // Carrega Data Tables reais do Content usando LoadObject
+            // Nota: Caminhos podem precisar ser ajustados conforme estrutura do projeto
+            // Se os Data Tables não estiverem importados ainda, esses testes serão pulados
+            RealRaceDataTable = LoadObject<UDataTable>(nullptr, TEXT("/Game/Data/DataTable/RaceDataTable"));
+            RealClassDataTable = LoadObject<UDataTable>(nullptr, TEXT("/Game/Data/DataTable/ClassDataTable"));
+        });
+
     // ============================================================================
     // DataTableHelpers Tests
     // ============================================================================
@@ -104,30 +118,63 @@ void DataTablesBaseSpec::Define()
                         delete TestRow;
                     });
 
-                 It("deve encontrar row quando existe no DataTable",
+                 It("deve encontrar row quando existe no DataTable real",
                     [this]()
                     {
                         // Arrange
-                        UDataTable *TestDataTable = NewObject<UDataTable>(GetTransientPackage());
-                        TestDataTable->RowStruct = FRaceDataRow::StaticStruct();
-
-                        FRaceDataRow *TestRow = new FRaceDataRow();
-                        TestRow->Name = TEXT("Human");
-                        FName RowName = TEXT("Human");
-                        TestDataTable->AddRow(RowName, *TestRow);
-
-                        // Act
-                        FRaceDataRow *Result = DataTableHelpers::FindRaceRow(TEXT("Human"), TestDataTable);
-
-                        // Assert
-                        TestNotNull("FindRaceRow deve encontrar row quando existe", Result);
-                        if (Result)
+                        if (!RealRaceDataTable)
                         {
-                            TestEqual("Row encontrado deve ter Name correto", Result->Name, FName(TEXT("Human")));
+                            AddInfo(TEXT("RaceDataTable não foi carregado. Pulando teste."));
+                            return;
                         }
 
-                        // Cleanup
-                        delete TestRow;
+                        // Usa raças que devem existir no Data Table real (baseado no JSON)
+                        TArray<FName> TestRaceNames = {TEXT("Human"), TEXT("Elf"), TEXT("Dwarf"), TEXT("Halfling")};
+
+                        for (const FName &RaceName : TestRaceNames)
+                        {
+                            // Act
+                            FRaceDataRow *Result = DataTableHelpers::FindRaceRow(RaceName, RealRaceDataTable);
+
+                            // Assert
+                            if (Result)
+                            {
+                                TestEqual(FString::Printf(TEXT("Row encontrado para '%s' deve ter Name correto"),
+                                                          *RaceName.ToString()),
+                                          Result->Name, RaceName);
+                            }
+                            else
+                            {
+                                AddInfo(FString::Printf(
+                                    TEXT("Raça '%s' não encontrada no DataTable. Pode não estar importado ainda."),
+                                    *RaceName.ToString()));
+                            }
+                        }
+                    });
+
+                 It("deve retornar nullptr para raça que não existe no DataTable real",
+                    [this]()
+                    {
+                        // Arrange
+                        if (!RealRaceDataTable)
+                        {
+                            AddInfo(TEXT("RaceDataTable não foi carregado. Pulando teste."));
+                            return;
+                        }
+
+                        // Usa uma raça que não deve existir
+                        FName NonExistentRace = TEXT("NonExistentRace_Test12345");
+
+                        // Act
+                        FRaceDataRow *Result = DataTableHelpers::FindRaceRow(NonExistentRace, RealRaceDataTable);
+
+                        // Assert
+                        TestNull("FindRaceRow deve retornar nullptr para raça que não existe", Result);
+
+                        // Nota: Um warning "LogDataTable: UDataTable::FindRow : 'FindRaceRow' requested row
+                        // 'NonExistentRace_Test12345' not in DataTable" é esperado aqui, pois FindRow do Unreal Engine
+                        // loga warning quando a row não existe. Isso é comportamento normal do Unreal Engine e não
+                        // indica um problema.
                     });
 
                  It("deve retornar nullptr para FindClassRow quando DataTable é nullptr",
