@@ -62,100 +62,189 @@ function Get-TestResultsSummary {
 }
 
 # ============================================================================
-# Função: Extrai categorias únicas dos fullTestPath
+# Função: Extrai issues e subcategorias dos fullTestPath
 # ============================================================================
 function Get-TestCategories {
     param($jsonContent)
 
-    $categories = @{}
+    # Estrutura: Issues > Subcategorias > Testes
+    # Exemplo: Issue-1.2 > FLogContext > [testes]
+    $issues = @{}
 
     if ($jsonContent.tests) {
         foreach ($test in $jsonContent.tests) {
             $fullTestPath = $test.fullTestPath
 
-            # Extrai a categoria (ex: "MyProject2.CharacterCreation.Step1_ChooseRace")
-            # Pega tudo até o último ponto antes do nome do teste
-            if ($fullTestPath -match "^([^.]+(?:\.[^.]+)*)\.") {
-                $category = $matches[1]
+            # Extrai issue e subcategoria do formato: "MyProject2.Logging.LoggingSystem.Issue-1.2/ FLogContext.nomeDoTeste"
+            # Regex: captura "Issue-X.X" seguido de "/ " ou " " e depois o nome da subcategoria até o próximo ponto
+            if ($fullTestPath -match "Issue-(\d+\.\d+)[/ ]+([^\.]+)\.?") {
+                $issueNumber = "Issue-$($matches[1])"
+                $subcategory = $matches[2].Trim()
 
-                # Conta testes por categoria
-                if (-not $categories.ContainsKey($category)) {
-                    $categories[$category] = @{
-                        Name = $category
+                # Cria estrutura de issue se não existir
+                if (-not $issues.ContainsKey($issueNumber)) {
+                    $issues[$issueNumber] = @{
+                        Name = $issueNumber
+                        Subcategories = @{}
                         Count = 0
                         Success = 0
                         Failed = 0
                     }
                 }
 
-                $categories[$category].Count++
+                # Cria subcategoria se não existir
+                if (-not $issues[$issueNumber].Subcategories.ContainsKey($subcategory)) {
+                    $issues[$issueNumber].Subcategories[$subcategory] = @{
+                        Name = $subcategory
+                        Count = 0
+                        Success = 0
+                        Failed = 0
+                    }
+                }
+
+                # Conta testes
+                $issues[$issueNumber].Count++
+                $issues[$issueNumber].Subcategories[$subcategory].Count++
+
                 if ($test.state -eq "Success") {
-                    $categories[$category].Success++
+                    $issues[$issueNumber].Success++
+                    $issues[$issueNumber].Subcategories[$subcategory].Success++
                 } elseif ($test.state -eq "Fail") {
-                    $categories[$category].Failed++
+                    $issues[$issueNumber].Failed++
+                    $issues[$issueNumber].Subcategories[$subcategory].Failed++
                 }
             }
         }
     }
 
-    return $categories
+    return $issues
 }
 
 # ============================================================================
-# Função: Exibe menu de categorias e retorna a escolhida
+# Função: Exibe menu hierárquico de issues e subcategorias
 # ============================================================================
 function Select-Category {
-    param($categories)
+    param($issues)
 
     Write-Host ""
-    Write-Host "=== CATEGORIAS DISPONÍVEIS ===" -ForegroundColor Cyan
+    Write-Host "=== ISSUES DISPONÍVEIS ===" -ForegroundColor Cyan
     Write-Host ""
 
-    $categoryList = @()
+    $issueList = @()
     $index = 1
 
     # Opção "Todas"
     Write-Host "[0] Todas" -ForegroundColor Yellow
-    $categoryList += "Todas"
+    $issueList += "Todas"
 
-    # Lista categorias
-    foreach ($category in ($categories.Values | Sort-Object Name)) {
-        $status = ""
-        if ($category.Failed -gt 0) {
-            $status = " [X] $($category.Failed) falharam"
+    # Ordena issues por número (1.2 antes de 1.3, etc.)
+    $sortedIssues = $issues.Values | Sort-Object {
+        if ($_.Name -match "Issue-(\d+)\.(\d+)") {
+            $major = [int]$matches[1]
+            $minor = [int]$matches[2]
+            return $major * 1000 + $minor
+        } else {
+            return 99999
         }
-        Write-Host "[$index] $($category.Name) ($($category.Count) testes$status)" -ForegroundColor $(if ($category.Failed -gt 0) { "Red" } else { "Green" })
-        $categoryList += $category.Name
+    }
+
+    # Mostra menu de issues
+    foreach ($issue in $sortedIssues) {
+        $status = ""
+        if ($issue.Failed -gt 0) {
+            $status = " [X] $($issue.Failed) falharam"
+        }
+        Write-Host "[$index] $($issue.Name) ($($issue.Count) testes$status)" -ForegroundColor $(if ($issue.Failed -gt 0) { "Red" } else { "Green" })
+        $issueList += $issue.Name
         $index++
     }
 
     Write-Host ""
-    $selectedIndex = Read-Host "Escolha uma categoria (número)"
+    $selectedIssueIndex = Read-Host "Escolha uma issue (número)"
 
     try {
-        $selectedIndex = [int]$selectedIndex
-        if ($selectedIndex -ge 0 -and $selectedIndex -lt $categoryList.Count) {
-            return $categoryList[$selectedIndex]
-        } else {
+        $selectedIssueIndex = [int]$selectedIssueIndex
+        if ($selectedIssueIndex -lt 0 -or $selectedIssueIndex -ge $issueList.Count) {
             Write-Host "Opção inválida. Usando 'Todas'." -ForegroundColor Yellow
-            return "Todas"
+            return @{ Issue = "Todas"; Subcategory = "Todas" }
         }
+
+        $selectedIssue = $issueList[$selectedIssueIndex]
+
+        # Se escolheu "Todas", retorna
+        if ($selectedIssue -eq "Todas") {
+            return @{ Issue = "Todas"; Subcategory = "Todas" }
+        }
+
+        # Mostra subcategorias da issue selecionada
+        $issueData = $issues[$selectedIssue]
+        Write-Host ""
+        Write-Host "=== SUBCATEGORIAS DE $selectedIssue ===" -ForegroundColor Cyan
+        Write-Host ""
+
+        $subcategoryList = @()
+        $subIndex = 0
+
+        # Opção "Todas" para subcategorias
+        Write-Host "[$subIndex] Todas subcategorias" -ForegroundColor Yellow
+        $subcategoryList += "Todas"
+        $subIndex++
+
+        # Ordena subcategorias alfabeticamente
+        $sortedSubcategories = $issueData.Subcategories.Values | Sort-Object Name
+
+        foreach ($subcategory in $sortedSubcategories) {
+            $subStatus = ""
+            if ($subcategory.Failed -gt 0) {
+                $subStatus = " [X] $($subcategory.Failed) falharam"
+            }
+            Write-Host "[$subIndex] $($subcategory.Name) ($($subcategory.Count) testes$subStatus)" -ForegroundColor $(if ($subcategory.Failed -gt 0) { "Red" } else { "Green" })
+            $subcategoryList += $subcategory.Name
+            $subIndex++
+        }
+
+        Write-Host ""
+        $selectedSubcategoryIndex = Read-Host "Escolha uma subcategoria (número)"
+
+        try {
+            $selectedSubcategoryIndex = [int]$selectedSubcategoryIndex
+            if ($selectedSubcategoryIndex -ge 0 -and $selectedSubcategoryIndex -lt $subcategoryList.Count) {
+                return @{
+                    Issue = $selectedIssue
+                    Subcategory = $subcategoryList[$selectedSubcategoryIndex]
+                }
+            } else {
+                Write-Host "Opção inválida. Usando todas subcategorias." -ForegroundColor Yellow
+                return @{ Issue = $selectedIssue; Subcategory = "Todas" }
+            }
+        } catch {
+            Write-Host "Opção inválida. Usando todas subcategorias." -ForegroundColor Yellow
+            return @{ Issue = $selectedIssue; Subcategory = "Todas" }
+        }
+
     } catch {
         Write-Host "Opção inválida. Usando 'Todas'." -ForegroundColor Yellow
-        return "Todas"
+        return @{ Issue = "Todas"; Subcategory = "Todas" }
     }
 }
 
 # ============================================================================
-# Função: Exibe resultados filtrados por categoria
+# Função: Exibe resultados filtrados por issue e subcategoria
 # ============================================================================
 function Show-TestResults {
-    param($jsonContent, $selectedCategory)
+    param($jsonContent, $selection)
+
+    $selectedIssue = $selection.Issue
+    $selectedSubcategory = $selection.Subcategory
 
     Write-Host ""
     Write-Host "=== RESULTADOS DOS TESTES" -NoNewline
-    if ($selectedCategory -ne "Todas") {
-        Write-Host " ($selectedCategory)" -NoNewline -ForegroundColor Cyan
+    if ($selectedIssue -ne "Todas") {
+        Write-Host " ($selectedIssue" -NoNewline -ForegroundColor Cyan
+        if ($selectedSubcategory -ne "Todas") {
+            Write-Host " / $selectedSubcategory" -NoNewline -ForegroundColor Cyan
+        }
+        Write-Host ")" -NoNewline -ForegroundColor Cyan
     }
     Write-Host " ===" -ForegroundColor Cyan
     Write-Host ""
@@ -171,10 +260,28 @@ function Show-TestResults {
             $state = $test.state
             $entries = $test.entries
 
-            # Filtra por categoria se necessário
-            if ($selectedCategory -ne "Todas") {
-                if ($fullTestPath -notlike "$selectedCategory.*") {
+            # Filtra por issue e subcategoria
+            if ($selectedIssue -ne "Todas") {
+                # Verifica se o teste pertence à issue selecionada
+                if ($fullTestPath -notmatch "Issue-(\d+\.\d+)") {
                     continue
+                }
+                $testIssue = "Issue-$($matches[1])"
+                if ($testIssue -ne $selectedIssue) {
+                    continue
+                }
+
+                # Se subcategoria específica foi selecionada, filtra por ela
+                if ($selectedSubcategory -ne "Todas") {
+                    # Extrai subcategoria do fullTestPath: "Issue-X.X/ Subcategory.nomeDoTeste"
+                    if ($fullTestPath -match "Issue-(\d+\.\d+)[/ ]+([^\.]+)\.?") {
+                        $testSubcategory = $matches[2].Trim()
+                        if ($testSubcategory -ne $selectedSubcategory) {
+                            continue
+                        }
+                    } else {
+                        continue
+                    }
                 }
             }
 
@@ -271,19 +378,19 @@ if (Test-Path $TestResultsFile) {
         Write-Host "=== RESUMO GERAL ===" -ForegroundColor Cyan
         Write-Host "Total: $($summary.Total) testes | [V] $($summary.Success) passaram | [X] $($summary.Failed) falharam" -ForegroundColor Cyan
 
-        # 2. Extrai categorias e permite seleção
-        $categories = Get-TestCategories -jsonContent $jsonContent
-        $selectedCategory = Select-Category -categories $categories
+        # 2. Extrai issues e subcategorias e permite seleção hierárquica
+        $issues = Get-TestCategories -jsonContent $jsonContent
+        $selection = Select-Category -issues $issues
 
         # 3. Exibe resultados filtrados
-        Show-TestResults -jsonContent $jsonContent -selectedCategory $selectedCategory
+        Show-TestResults -jsonContent $jsonContent -selection $selection
 
     } catch {
         Write-Host "Erro ao processar JSON: $_" -ForegroundColor Red
         Write-Host "Verificando se o arquivo existe e está acessível..." -ForegroundColor Gray
     }
 } else {
-    Write-Host "Arquivo de resultados não encontrado: $TestResultsFile" -ForegroundColor Yellow
+    Write-Host "Arquivo de resultados não encontrado (POSSIVEL CRASH DO EDITOR): $TestResultsFile" -ForegroundColor Yellow
     Write-Host "Verificando se a pasta existe..." -ForegroundColor Gray
     if (Test-Path "Saved\TestResults") {
         $jsonFiles = Get-ChildItem -Path "Saved\TestResults" -Filter "*.json" -ErrorAction SilentlyContinue
