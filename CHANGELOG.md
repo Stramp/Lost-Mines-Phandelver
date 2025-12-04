@@ -120,7 +120,24 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Função já estava implementada, testes adicionados para garantir cobertura completa
 > >    - Compilação validada (0 erros, 0 warnings)
 > >
-> > 7. **Ciclo 3.5: AC Base MVP (TDD)** (2025-01-25)
+> > 7. **Ciclo 3.4: Proficiency Bonus MVP (TDD)** (2025-01-25)
+> >    - Sistema completo de cálculo de Proficiency Bonus D&D 5e implementado seguindo TDD
+> >    - Constantes de Proficiency Bonus adicionadas em `DnDConstants`:
+> >      - `PROFICIENCY_BONUS_BASE = 2` - Valor base para cálculo de bônus
+> >      - `PROFICIENCY_BONUS_DIVISOR = 4.0f` - Divisor para cálculo de bônus
+> >    - `CalculationHelpers::CalculateProficiencyBonus()` implementado:
+> >      - Fórmula D&D 5e: `2 + floor((Level - 1) / 4)`
+> >      - Suporte para níveis 1-20
+> >      - Progressão por faixas: 1-4: +2, 5-8: +3, 9-12: +4, 13-16: +5, 17-20: +6
+> >      - Retorna 0 para níveis < 1
+> >    - 10 testes automatizados criados (todos passando - 100%):
+> >      - Cálculo correto para níveis 1, 4, 5, 8, 9, 12, 13, 16, 17, 20
+> >      - Validação de progressão por faixas de nível
+> >      - Testes seguem TDD (valores esperados hardcoded, sem lógica interna)
+> >    - Função já estava implementada, testes adicionados para garantir cobertura completa
+> >    - Compilação validada (0 erros, 0 warnings)
+> >
+> > 8. **Ciclo 3.5: AC Base MVP (TDD)** (2025-01-25)
 > >    - Sistema completo de cálculo de Armor Class (AC) D&D 5e implementado seguindo TDD
 > >    - Constantes de AC adicionadas em `DnDConstants`:
 > >      - `BASE_AC = 10` - AC base sem armadura
