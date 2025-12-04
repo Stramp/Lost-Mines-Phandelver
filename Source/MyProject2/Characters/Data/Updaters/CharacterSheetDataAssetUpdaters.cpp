@@ -23,6 +23,7 @@
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/CalculationHelpers.h"
+#include "Utils/DataTableHelpers.h"
 #include "Utils/FeatureChoiceHelpers.h"
 
 // Project includes - Data Tables
@@ -348,20 +349,26 @@ void FCharacterSheetDataAssetUpdaters::RecalculateMaxHP(UCharacterSheetDataAsset
     }
 
     // Coleta informações de todas as classes
-    TArray<FName> ClassNames;
+    // Converte Name (de FMulticlassClassData) para ID (necessário para FindClassRow)
+    TArray<FName> ClassIDs;
     TArray<int32> LevelsInClass;
 
     for (const FMulticlassEntry &Entry : Asset->Multiclass)
     {
         if (Entry.ClassData.Name != NAME_None && Entry.ClassData.LevelInClass > 0)
         {
-            ClassNames.Add(Entry.ClassData.Name);
-            LevelsInClass.Add(Entry.ClassData.LevelInClass);
+            // Converte Name para ID usando helper
+            FName ClassID = DataTableHelpers::FindClassIDByName(Entry.ClassData.Name, Asset->ClassDataTable);
+            if (ClassID != NAME_None)
+            {
+                ClassIDs.Add(ClassID);
+                LevelsInClass.Add(Entry.ClassData.LevelInClass);
+            }
         }
     }
 
     // Se não há classes, HP é 0
-    if (ClassNames.Num() == 0)
+    if (ClassIDs.Num() == 0)
     {
         Asset->MaxHealth = 0;
         Asset->CurrentHealth = 0;
@@ -373,7 +380,7 @@ void FCharacterSheetDataAssetUpdaters::RecalculateMaxHP(UCharacterSheetDataAsset
 
     // Calcula HP máximo usando helper
     const int32 NewMaxHealth =
-        CalculationHelpers::CalculateMaxHP(ClassNames, LevelsInClass, ConstitutionModifier, Asset->ClassDataTable);
+        CalculationHelpers::CalculateMaxHP(ClassIDs, LevelsInClass, ConstitutionModifier, Asset->ClassDataTable);
 
     // Atualiza MaxHealth
     Asset->MaxHealth = NewMaxHealth;

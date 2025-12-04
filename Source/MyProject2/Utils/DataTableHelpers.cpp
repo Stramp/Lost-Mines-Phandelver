@@ -87,6 +87,30 @@ FClassDataRow *DataTableHelpers::FindClassRow(FName ClassID, UDataTable *ClassDa
     return FindRowByID<FClassDataRow>(ClassID, ClassDataTable, TEXT("FindClassRow"));
 }
 
+FName DataTableHelpers::FindClassIDByName(FName ClassName, UDataTable *ClassDataTable)
+{
+    if (!ClassDataTable || ClassName == NAME_None)
+    {
+        return NAME_None;
+    }
+
+    // Itera sobre todas as rows do Data Table
+    TArray<FName> RowNames = ClassDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
+    {
+        if (FClassDataRow *Row = ClassDataTable->FindRow<FClassDataRow>(RowName, TEXT("FindClassIDByName")))
+        {
+            // Compara Name (não ID) para encontrar a classe
+            if (Row->Name == ClassName)
+            {
+                return Row->ID; // Retorna ID correspondente
+            }
+        }
+    }
+
+    return NAME_None;
+}
+
 #pragma endregion Class Data Table Helpers
 
 // ============================================================================
@@ -99,7 +123,7 @@ FFeatDataRow *DataTableHelpers::FindFeatRow(FName FeatID, UDataTable *FeatDataTa
     return FindRowByID<FFeatDataRow>(FeatID, FeatDataTable, TEXT("FindFeatRow"));
 }
 
-FName DataTableHelpers::ConvertFeatNameToFCID(FName FeatName, UDataTable *FeatDataTable)
+FName DataTableHelpers::FindFeatIDByName(FName FeatName, UDataTable *FeatDataTable)
 {
     if (!FeatDataTable || FeatName == NAME_None)
     {
@@ -110,7 +134,7 @@ FName DataTableHelpers::ConvertFeatNameToFCID(FName FeatName, UDataTable *FeatDa
     TArray<FName> RowNames = FeatDataTable->GetRowNames();
     for (const FName &RowName : RowNames)
     {
-        if (FFeatDataRow *FoundRow = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("ConvertFeatNameToFCID")))
+        if (FFeatDataRow *FoundRow = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("FindFeatIDByName")))
         {
             if (FoundRow->Name == FeatName)
             {
@@ -240,10 +264,6 @@ TArray<FNameWithID> DataTableHelpers::GetAllSkillNames(UDataTable *ProficiencyDa
 }
 
 #pragma endregion Proficiency Data Table Helpers - GetAllSkillNames
-
-// ============================================================================
-// Proficiency Data Table Helpers - GetAllLanguageNames (Wrapper)
-// ============================================================================
 
 // ============================================================================
 // Proficiency Data Table Helpers - GetAllLanguageNames (Wrapper)

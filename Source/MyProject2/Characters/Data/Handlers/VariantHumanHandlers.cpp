@@ -47,14 +47,14 @@ void FCharacterSheetDataAssetHandlers::HandleVariantHumanChoicesChange(UCharacte
     FValidationGuard Guard(Asset);
 
     // Converte SelectedFeat de Name para FC_ID se necessário
-    // Dropdown retorna Name (ex: "Magic Initiate"), mas código espera FC_ID (ex: "Feat_MagicInitiate")
+    // Dropdown retorna Name (ex: "Magic Initiate"), mas código espera ID (ex: "Feat_MagicInitiate")
     if (Asset->SelectedFeat != NAME_None && Asset->FeatDataTable)
     {
-        FName FeatFC_ID = DataTableHelpers::ConvertFeatNameToFCID(Asset->SelectedFeat, Asset->FeatDataTable);
-        if (FeatFC_ID != NAME_None && FeatFC_ID != Asset->SelectedFeat)
+        FName FeatID = DataTableHelpers::FindFeatIDByName(Asset->SelectedFeat, Asset->FeatDataTable);
+        if (FeatID != NAME_None && FeatID != Asset->SelectedFeat)
         {
-            // Converte Name para FC_ID
-            Asset->SelectedFeat = FeatFC_ID;
+            // Converte Name para ID
+            Asset->SelectedFeat = FeatID;
         }
     }
 

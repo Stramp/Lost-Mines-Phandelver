@@ -159,6 +159,17 @@ namespace DataTableHelpers
      */
     FClassDataRow *FindClassRow(FName ClassID, UDataTable *ClassDataTable);
 
+    /**
+     * Busca row de classe no Data Table pelo Name e retorna o ID correspondente.
+     * Útil para converter Name (usado em FMulticlassClassData) para ID (usado em FindClassRow).
+     * Busca manual O(n) comparando Name de cada row.
+     *
+     * @param ClassName Name da classe para buscar (ex: "Fighter", "Wizard")
+     * @param ClassDataTable Data Table de classes (pode ser nullptr)
+     * @return ID da classe encontrada, ou NAME_None se não encontrado ou Data Table inválido
+     */
+    FName FindClassIDByName(FName ClassName, UDataTable *ClassDataTable);
+
     // ============================================================================
     // Feat Data Table Helpers
     // ============================================================================
@@ -174,15 +185,15 @@ namespace DataTableHelpers
     FFeatDataRow *FindFeatRow(FName FeatID, UDataTable *FeatDataTable);
 
     /**
-     * Converte Name de feat para ID.
-     * Busca feat pelo Name e retorna seu ID.
-     * Retorna NAME_None se feat não encontrado ou Data Table inválido.
+     * Busca row de feat no Data Table pelo Name e retorna o ID correspondente.
+     * Útil para converter Name (usado em UI) para ID (usado em FindFeatRow).
+     * Busca manual O(n) comparando Name de cada row.
      *
-     * @param FeatName Name do feat (ex: "Magic Initiate")
+     * @param FeatName Name do feat para buscar (ex: "Magic Initiate")
      * @param FeatDataTable Data Table de feats (pode ser nullptr)
-     * @return ID do feat (ex: "Feat_MagicInitiate") ou NAME_None se não encontrado
+     * @return ID do feat (ex: "Feat_MagicInitiate") ou NAME_None se não encontrado ou Data Table inválido
      */
-    FName ConvertFeatNameToFCID(FName FeatName, UDataTable *FeatDataTable);
+    FName FindFeatIDByName(FName FeatName, UDataTable *FeatDataTable);
 
     // ============================================================================
     // Background Data Table Helpers

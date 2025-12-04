@@ -127,15 +127,41 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >      - Fallbacks (tipo desconhecido, ArmorACValue = 0)
 > >    - Testes usam abordagem data-driven: carregam `ItemDataTable` real e buscam itens pelo ID
 > >    - Testes validados conforme TDD guide (valores hardcoded, sem lógica interna)
+> >
+> > 7. **Ciclo 3.6: HP/MaxHP MVP (TDD)** (2025-01-25)
+> >    - Sistema completo de cálculo de HP/MaxHP D&D 5e implementado seguindo TDD
+> >    - `CalculationHelpers::CalculateHPGainForLevel()` implementado:
+> >      - HP nível 1: HitDie + CON modifier
+> >      - HP níveis 2+: ceil(HitDie/2) + CON modifier (média do dado, arredondado para cima)
+> >      - HP nunca pode ser menor que MIN_HP (1)
+> >    - `CalculationHelpers::CalculateMaxHP()` implementado:
+> >      - Calcula HP máximo para single class e multiclass
+> >      - Usa dados reais da `ClassDataTable` (data-driven)
+> >      - Busca classes por `ClassID` (não `Name`) para consistência
+> >      - Suporta múltiplas classes com diferentes níveis
+> >    - Helper `DataTableHelpers::FindClassIDByName()` criado para conversão Name → ID
+> >    - Bug fix: `CharacterSheetDataAssetUpdaters` agora converte `Name` para `ID` antes de chamar `CalculateMaxHP`
+> >    - Nomenclatura corrigida: `ClassNames` → `ClassIDs` em `CalculateMaxHP` e seus callers
+> >    - 15 testes automatizados criados (todos passando - 100%):
+> >      - 7 testes para `CalculateHPGainForLevel` (nível 1, 2+, diferentes HitDie, CON modifiers)
+> >      - 8 testes para `CalculateMaxHP` (single class, multiclass, error cases)
+> >    - Testes usam abordagem data-driven: carregam `ClassDataTable` real e buscam classes pelo ID
+> >    - Testes validados conforme TDD guide (valores hardcoded, sem lógica interna)
 > >    - Compilação validada (0 erros, 0 warnings)
 >
-> > 7. **Refatorações: Eliminação de Duplicação de Código** (2025-01-25)
+> > 8. **Refatorações: Eliminação de Duplicação de Código e SRP** (2025-01-25)
 > >    - Criada função template `FindRowByID<TDataRow>` para eliminar 12 implementações duplicadas
 > >    - Refatoradas todas as funções `Find*Row` para usar template (FindAbilityScoreRow, FindRaceRow, FindSubraceRow, FindClassRow, FindFeatRow, FindBackgroundRow, FindProficiencyRowByID, FindFeatureRowByID, FindItemRow)
 > >    - Removida função duplicada `FindFeatureRowByID` de `FeatureChoiceHelpers.cpp`
 > >    - Removida função morta `GetAllClassNames` de `CharacterSheetHelpers` (não utilizada)
 > >    - Removidos comentários duplicados em `DataTableHelpers.cpp`
-> >    - Benefícios: ~200 linhas de código duplicado eliminadas, manutenibilidade melhorada
+> >    - **SRP e Nomenclatura:**
+> >      - Renomeado `ConvertFeatNameToFCID` → `FindFeatIDByName` (nome mais claro, segue padrão)
+> >      - Refatorado `CollectProficienciesFromBackgroundAndVariantHuman`: separado em `CollectProficienciesFromBackground` + função orquestradora
+> >      - Refatorado `CollectLanguagesFromAllSources`: separado em `CollectLanguagesFromRace`, `CollectLanguagesFromSubrace`, `CollectLanguagesFromBackground` + função orquestradora
+> >      - Helper interno `ResolveLanguageHandles` criado para eliminar duplicação
+> >      - Função `CollectLanguagesFromAllSources` reduzida de ~100 linhas para ~30 linhas
+> >    - Benefícios: ~200 linhas de código duplicado eliminadas, 100% conformidade com SRP, manutenibilidade melhorada
 > >    - Compilação validada (0 erros, 0 warnings)
 >
 > > 2. Commit [`302c25c`] - Adicionar regra de Test-Driven Development (TDD)

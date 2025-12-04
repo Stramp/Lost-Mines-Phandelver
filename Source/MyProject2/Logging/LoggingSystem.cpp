@@ -319,7 +319,6 @@ void FLoggingSystem::ShowEditorFeedback(const FLogContext &Context, const FStrin
         NotificationPtr->SetExpireDuration(0.0f);
     }
 
-    // Debug: Log que notificação foi criada
     UE_LOG(LogMyProject2DataTable, Log, TEXT("[ShowEditorFeedback] Notificação criada: %s (Severity: %d)"), *Message,
            (int32)Severity);
 }
