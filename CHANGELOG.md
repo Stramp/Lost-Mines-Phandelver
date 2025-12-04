@@ -102,7 +102,25 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Teste adicional para Variant Human com 1 escolha (+2)
 > >    - Compilação validada (0 erros, 0 warnings)
 >
-> > 6. **Ciclo 3.5: AC Base MVP (TDD)** (2025-01-25)
+> > 6. **Ciclo 3.3: Ability Modifiers MVP (TDD)** (2025-01-25)
+> >    - Sistema completo de cálculo de Ability Modifiers D&D 5e implementado seguindo TDD
+> >    - Constantes de Ability Modifier adicionadas em `DnDConstants`:
+> >      - `ABILITY_MODIFIER_BASE = 10` - Valor base para cálculo de modificador
+> >      - `ABILITY_MODIFIER_DIVISOR = 2.0f` - Divisor para cálculo de modificador
+> >    - `CalculationHelpers::CalculateAbilityModifier()` implementado:
+> >      - Fórmula D&D 5e: `floor((Score - 10) / 2)`
+> >      - Suporte para scores 1-30
+> >      - Suporte para modificadores negativos (scores < 10)
+> >      - Suporte para modificadores positivos (scores > 10)
+> >      - Modificador zero para score 10 (base)
+> >    - 10 testes automatizados criados (todos passando - 100%):
+> >      - Cálculo correto para scores 1, 8, 10, 11, 12, 13, 14, 15, 20, 30
+> >      - Validação de modificadores negativos, zero e positivos
+> >      - Testes seguem TDD (valores esperados hardcoded, sem lógica interna)
+> >    - Função já estava implementada, testes adicionados para garantir cobertura completa
+> >    - Compilação validada (0 erros, 0 warnings)
+> >
+> > 7. **Ciclo 3.5: AC Base MVP (TDD)** (2025-01-25)
 > >    - Sistema completo de cálculo de Armor Class (AC) D&D 5e implementado seguindo TDD
 > >    - Constantes de AC adicionadas em `DnDConstants`:
 > >      - `BASE_AC = 10` - AC base sem armadura
