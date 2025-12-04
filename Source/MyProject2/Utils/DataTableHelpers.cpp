@@ -27,37 +27,29 @@
 // ============================================================================
 #pragma region Ability Score Data Table Helpers
 
-FAbilityScoreDataRow *DataTableHelpers::FindAbilityScoreRow(FName AbilityName, UDataTable *AbilityScoreDataTable)
+FAbilityScoreDataRow *DataTableHelpers::FindAbilityScoreRow(FName AbilityID, UDataTable *AbilityScoreDataTable)
 {
-    if (!AbilityScoreDataTable || AbilityName == NAME_None)
+    if (!AbilityScoreDataTable || AbilityID == NAME_None)
     {
         return nullptr;
     }
 
-    // Tenta FindRow direto primeiro (otimização)
-    FAbilityScoreDataRow *Row =
-        AbilityScoreDataTable->FindRow<FAbilityScoreDataRow>(AbilityName, TEXT("FindAbilityScoreRow"));
-
-    // Fallback: busca manual O(n) se FindRow não encontrou
-    // (pode acontecer se RowName != AbilityName no JSON)
-    if (!Row)
+    // Busca manual O(n) comparando ID de cada row
+    // (RowName pode ser diferente do ID, então sempre busca pelo campo ID)
+    TArray<FName> RowNames = AbilityScoreDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
     {
-        TArray<FName> RowNames = AbilityScoreDataTable->GetRowNames();
-        for (const FName &RowName : RowNames)
+        if (FAbilityScoreDataRow *FoundRow =
+                AbilityScoreDataTable->FindRow<FAbilityScoreDataRow>(RowName, TEXT("FindAbilityScoreRow")))
         {
-            if (FAbilityScoreDataRow *FoundRow =
-                    AbilityScoreDataTable->FindRow<FAbilityScoreDataRow>(RowName, TEXT("FindAbilityScoreRow")))
+            if (FoundRow->ID == AbilityID)
             {
-                if (FoundRow->Name == AbilityName)
-                {
-                    Row = FoundRow;
-                    break;
-                }
+                return FoundRow;
             }
         }
     }
 
-    return Row;
+    return nullptr;
 }
 
 TArray<FName> DataTableHelpers::GetAllAbilityScoreNames(UDataTable *AbilityScoreDataTable)
@@ -93,65 +85,52 @@ TArray<FName> DataTableHelpers::GetAllAbilityScoreNames(UDataTable *AbilityScore
 // ============================================================================
 #pragma region Race Data Table Helpers
 
-FRaceDataRow *DataTableHelpers::FindRaceRow(FName RaceName, UDataTable *RaceDataTable)
+FRaceDataRow *DataTableHelpers::FindRaceRow(FName RaceID, UDataTable *RaceDataTable)
 {
-    if (!RaceDataTable || RaceName == NAME_None)
+    if (!RaceDataTable || RaceID == NAME_None)
     {
         return nullptr;
     }
 
-    // Tenta FindRow direto primeiro (otimização)
-    FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(RaceName, TEXT("FindRaceRow"));
-
-    // Fallback: busca manual O(n) se FindRow não encontrou
-    // (pode acontecer se RowName != RaceName no JSON)
-    if (!Row)
+    // Busca manual O(n) comparando ID de cada row
+    // (RowName pode ser diferente do ID, então sempre busca pelo campo ID)
+    TArray<FName> RowNames = RaceDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
     {
-        TArray<FName> RowNames = RaceDataTable->GetRowNames();
-        for (const FName &RowName : RowNames)
+        if (FRaceDataRow *FoundRow = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("FindRaceRow")))
         {
-            if (FRaceDataRow *FoundRow = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("FindRaceRow")))
+            if (FoundRow->ID == RaceID)
             {
-                if (FoundRow->Name == RaceName)
-                {
-                    Row = FoundRow;
-                    break;
-                }
+                return FoundRow;
             }
         }
     }
 
-    return Row;
+    return nullptr;
 }
 
-FRaceDataRow *DataTableHelpers::FindSubraceRow(FName SubraceName, UDataTable *RaceDataTable)
+FRaceDataRow *DataTableHelpers::FindSubraceRow(FName SubraceID, UDataTable *RaceDataTable)
 {
-    if (!RaceDataTable || SubraceName == NAME_None)
+    if (!RaceDataTable || SubraceID == NAME_None)
     {
         return nullptr;
     }
 
-    // Tenta FindRow direto primeiro (otimização)
-    FRaceDataRow *Row = RaceDataTable->FindRow<FRaceDataRow>(SubraceName, TEXT("FindSubraceRow"));
-
-    // Fallback: busca manual O(n) se FindRow não encontrou
-    if (!Row)
+    // Busca manual O(n) comparando ID de cada row
+    // (RowName pode ser diferente do ID, então sempre busca pelo campo ID)
+    TArray<FName> RowNames = RaceDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
     {
-        TArray<FName> RowNames = RaceDataTable->GetRowNames();
-        for (const FName &RowName : RowNames)
+        if (FRaceDataRow *FoundRow = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("FindSubraceRow")))
         {
-            if (FRaceDataRow *FoundRow = RaceDataTable->FindRow<FRaceDataRow>(RowName, TEXT("FindSubraceRow")))
+            if (FoundRow->ID == SubraceID)
             {
-                if (FoundRow->Name == SubraceName)
-                {
-                    Row = FoundRow;
-                    break;
-                }
+                return FoundRow;
             }
         }
     }
 
-    return Row;
+    return nullptr;
 }
 
 #pragma endregion Race Data Table Helpers
@@ -161,51 +140,28 @@ FRaceDataRow *DataTableHelpers::FindSubraceRow(FName SubraceName, UDataTable *Ra
 // ============================================================================
 #pragma region Class Data Table Helpers
 
-FClassDataRow *DataTableHelpers::FindClassRow(FName ClassName, UDataTable *ClassDataTable)
+FClassDataRow *DataTableHelpers::FindClassRow(FName ClassID, UDataTable *ClassDataTable)
 {
-    if (!ClassDataTable || ClassName == NAME_None)
+    if (!ClassDataTable || ClassID == NAME_None)
     {
         return nullptr;
     }
 
-    // Otimização: Tenta FindRow direto primeiro (pode funcionar se RowName == ClassName)
-    FClassDataRow *Row = ClassDataTable->FindRow<FClassDataRow>(ClassName, TEXT("FindClassRow"));
-
-    if (Row)
-    {
-        return Row;
-    }
-
-    // Otimização: Tenta com prefixo "Class_" (padrão comum em DataTables)
-    FName ClassRowName = FName(*FString::Printf(TEXT("Class_%s"), *ClassName.ToString()));
-    Row = ClassDataTable->FindRow<FClassDataRow>(ClassRowName, TEXT("FindClassRow"));
-
-    if (Row)
-    {
-        return Row;
-    }
-
-    // Fallback: busca manual O(n) se FindRow não encontrou (último recurso)
+    // Busca manual O(n) comparando ID de cada row
+    // (RowName pode ser diferente do ID, então sempre busca pelo campo ID)
     TArray<FName> RowNames = ClassDataTable->GetRowNames();
-
     for (const FName &RowName : RowNames)
     {
         if (FClassDataRow *FoundRow = ClassDataTable->FindRow<FClassDataRow>(RowName, TEXT("FindClassRow")))
         {
-            // Usa Name da estrutura flat
-            if (FoundRow->Name == ClassName)
+            if (FoundRow->ID == ClassID)
             {
-                Row = FoundRow;
-                break;
+                return FoundRow;
             }
         }
     }
 
-    // Nota: Não logamos erro quando Row é nullptr porque isso é um comportamento esperado
-    // quando a classe não existe na tabela. O log de erro só deve ocorrer em casos inesperados
-    // ou quando há um problema real de configuração (não quando simplesmente não encontramos a classe).
-
-    return Row;
+    return nullptr;
 }
 
 #pragma endregion Class Data Table Helpers
@@ -215,36 +171,28 @@ FClassDataRow *DataTableHelpers::FindClassRow(FName ClassName, UDataTable *Class
 // ============================================================================
 #pragma region Feat Data Table Helpers
 
-FFeatDataRow *DataTableHelpers::FindFeatRow(FName FeatName, UDataTable *FeatDataTable)
+FFeatDataRow *DataTableHelpers::FindFeatRow(FName FeatID, UDataTable *FeatDataTable)
 {
-    if (!FeatDataTable || FeatName == NAME_None)
+    if (!FeatDataTable || FeatID == NAME_None)
     {
         return nullptr;
     }
 
-    // Tenta FindRow direto primeiro (otimização)
-    FFeatDataRow *Row = FeatDataTable->FindRow<FFeatDataRow>(FeatName, TEXT("FindFeatRow"));
-
-    // Fallback: busca manual O(n) se FindRow não encontrou
-    // Procura por ID primeiro, depois por Name
-    if (!Row)
+    // Busca manual O(n) comparando ID de cada row
+    // (RowName pode ser diferente do ID, então sempre busca pelo campo ID)
+    TArray<FName> RowNames = FeatDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
     {
-        TArray<FName> RowNames = FeatDataTable->GetRowNames();
-        for (const FName &RowName : RowNames)
+        if (FFeatDataRow *FoundRow = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("FindFeatRow")))
         {
-            if (FFeatDataRow *FoundRow = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("FindFeatRow")))
+            if (FoundRow->ID == FeatID)
             {
-                // Verifica ID primeiro (identificador principal), depois Name
-                if (FoundRow->ID == FeatName || FoundRow->Name == FeatName)
-                {
-                    Row = FoundRow;
-                    break;
-                }
+                return FoundRow;
             }
         }
     }
 
-    return Row;
+    return nullptr;
 }
 
 FName DataTableHelpers::ConvertFeatNameToFCID(FName FeatName, UDataTable *FeatDataTable)
@@ -254,11 +202,18 @@ FName DataTableHelpers::ConvertFeatNameToFCID(FName FeatName, UDataTable *FeatDa
         return NAME_None;
     }
 
-    // Busca feat pelo Name
-    if (FFeatDataRow *Row = DataTableHelpers::FindFeatRow(FeatName, FeatDataTable))
+    // Busca feat pelo Name (busca manual porque FindFeatRow agora busca por ID)
+    TArray<FName> RowNames = FeatDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
     {
-        // Retorna ID se disponível, senão retorna Name (fallback)
-        return Row->ID != NAME_None ? Row->ID : Row->Name;
+        if (FFeatDataRow *FoundRow = FeatDataTable->FindRow<FFeatDataRow>(RowName, TEXT("ConvertFeatNameToFCID")))
+        {
+            if (FoundRow->Name == FeatName)
+            {
+                // Retorna ID se disponível, senão retorna Name (fallback)
+                return FoundRow->ID != NAME_None ? FoundRow->ID : FoundRow->Name;
+            }
+        }
     }
 
     return NAME_None;
@@ -271,36 +226,29 @@ FName DataTableHelpers::ConvertFeatNameToFCID(FName FeatName, UDataTable *FeatDa
 // ============================================================================
 #pragma region Background Data Table Helpers
 
-FBackgroundDataRow *DataTableHelpers::FindBackgroundRow(FName BackgroundName, UDataTable *BackgroundDataTable)
+FBackgroundDataRow *DataTableHelpers::FindBackgroundRow(FName BackgroundID, UDataTable *BackgroundDataTable)
 {
-    if (!BackgroundDataTable || BackgroundName == NAME_None)
+    if (!BackgroundDataTable || BackgroundID == NAME_None)
     {
         return nullptr;
     }
 
-    // Tenta FindRow direto primeiro (otimização)
-    FBackgroundDataRow *Row =
-        BackgroundDataTable->FindRow<FBackgroundDataRow>(BackgroundName, TEXT("FindBackgroundRow"));
-
-    // Fallback: busca manual O(n) se FindRow não encontrou
-    if (!Row)
+    // Busca manual O(n) comparando ID de cada row
+    // (RowName pode ser diferente do ID, então sempre busca pelo campo ID)
+    TArray<FName> RowNames = BackgroundDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
     {
-        TArray<FName> RowNames = BackgroundDataTable->GetRowNames();
-        for (const FName &RowName : RowNames)
+        if (FBackgroundDataRow *FoundRow =
+                BackgroundDataTable->FindRow<FBackgroundDataRow>(RowName, TEXT("FindBackgroundRow")))
         {
-            if (FBackgroundDataRow *FoundRow =
-                    BackgroundDataTable->FindRow<FBackgroundDataRow>(RowName, TEXT("FindBackgroundRow")))
+            if (FoundRow->ID == BackgroundID)
             {
-                if (FoundRow->Name == BackgroundName)
-                {
-                    Row = FoundRow;
-                    break;
-                }
+                return FoundRow;
             }
         }
     }
 
-    return Row;
+    return nullptr;
 }
 
 #pragma endregion Background Data Table Helpers

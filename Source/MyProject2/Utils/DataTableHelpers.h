@@ -34,14 +34,14 @@ namespace DataTableHelpers
     // ============================================================================
 
     /**
-     * Busca row de ability score no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de ability score no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param AbilityName Nome do ability score para buscar (ex: "Strength", "Dexterity")
+     * @param AbilityID ID do ability score para buscar (ex: "ABL_Strength", "ABL_Dexterity")
      * @param AbilityScoreDataTable Data Table de ability scores (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FAbilityScoreDataRow *FindAbilityScoreRow(FName AbilityName, UDataTable *AbilityScoreDataTable);
+    FAbilityScoreDataRow *FindAbilityScoreRow(FName AbilityID, UDataTable *AbilityScoreDataTable);
 
     /**
      * Retorna todos os nomes de ability scores do Data Table.
@@ -57,52 +57,52 @@ namespace DataTableHelpers
     // ============================================================================
 
     /**
-     * Busca row de raça no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de raça no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param RaceName Nome da raça para buscar
+     * @param RaceID ID da raça para buscar (ex: "RACE_Human", "RACE_Elf")
      * @param RaceDataTable Data Table de raças (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FRaceDataRow *FindRaceRow(FName RaceName, UDataTable *RaceDataTable);
+    FRaceDataRow *FindRaceRow(FName RaceID, UDataTable *RaceDataTable);
 
     /**
-     * Busca row de sub-raça no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de sub-raça no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param SubraceName Nome da sub-raça para buscar
+     * @param SubraceID ID da sub-raça para buscar
      * @param RaceDataTable Data Table de raças (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FRaceDataRow *FindSubraceRow(FName SubraceName, UDataTable *RaceDataTable);
+    FRaceDataRow *FindSubraceRow(FName SubraceID, UDataTable *RaceDataTable);
 
     // ============================================================================
     // Class Data Table Helpers
     // ============================================================================
 
     /**
-     * Busca row de classe no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de classe no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param ClassName Nome da classe para buscar
+     * @param ClassID ID da classe para buscar (ex: "CLASS_Fighter", "CLASS_Wizard")
      * @param ClassDataTable Data Table de classes (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FClassDataRow *FindClassRow(FName ClassName, UDataTable *ClassDataTable);
+    FClassDataRow *FindClassRow(FName ClassID, UDataTable *ClassDataTable);
 
     // ============================================================================
     // Feat Data Table Helpers
     // ============================================================================
 
     /**
-     * Busca row de feat no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de feat no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param FeatName Nome do feat para buscar
+     * @param FeatID ID do feat para buscar (ex: "Feat_Alert", "Feat_MagicInitiate")
      * @param FeatDataTable Data Table de feats (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FFeatDataRow *FindFeatRow(FName FeatName, UDataTable *FeatDataTable);
+    FFeatDataRow *FindFeatRow(FName FeatID, UDataTable *FeatDataTable);
 
     /**
      * Converte Name de feat para ID.
@@ -120,14 +120,14 @@ namespace DataTableHelpers
     // ============================================================================
 
     /**
-     * Busca row de background no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de background no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param BackgroundName Nome do background para buscar
+     * @param BackgroundID ID do background para buscar (ex: "BG_Acolyte", "BG_Criminal")
      * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FBackgroundDataRow *FindBackgroundRow(FName BackgroundName, UDataTable *BackgroundDataTable);
+    FBackgroundDataRow *FindBackgroundRow(FName BackgroundID, UDataTable *BackgroundDataTable);
 
     // ============================================================================
     // Proficiency Data Table Helpers
