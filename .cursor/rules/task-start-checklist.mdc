@@ -1,0 +1,337 @@
+# 📋 Roteiro de Início de Nova Task
+
+## 🎯 Objetivo
+
+Este documento define o roteiro completo e obrigatório para **iniciar uma nova task**, garantindo que a branch seja criada corretamente, conectada com a issue no GitHub, e que o desenvolvimento siga TDD desde o início.
+
+---
+
+## ✅ Checklist de Início de Task
+
+### 1. Verificações Pré-Início
+
+- [ ] **Task está clara e bem definida?**
+  - [ ] Li a documentação da task (arquivo `.md` em `04-Planning/ciclos/`)
+  - [ ] Entendi o que precisa ser feito
+  - [ ] Verifiquei dependências (outras tasks que precisam estar completas)
+  - [ ] Task tem issue criada no GitHub?
+
+- [ ] **Ambiente está pronto?**
+  - [ ] Estou na branch `main` (ou branch base correta)
+  - [ ] Branch local está atualizada (`git pull origin main`)
+  - [ ] Working tree está limpo (`git status` limpo)
+  - [ ] Projeto compila sem erros
+
+### 2. Criar Branch e Conectar com Issue
+
+- [ ] **Criar branch conectada com issue**
+  - [ ] Usar script `create-task-branch.ps1`
+  - [ ] Script cria branch no formato: `feat/issue-<NUMBER>__<ciclo>-<nome>`
+  - [ ] Script conecta branch com issue no GitHub
+  - [ ] Script move issue automaticamente para "In Progress"
+
+**Comando:**
+```powershell
+cd "F:\UNREAL GAME\MyProject2"
+.\scripts\github\create-task-branch.ps1 <arquivo-task.md>
+```
+
+**Exemplo:**
+```powershell
+.\scripts\github\create-task-branch.ps1 "fase-1\03-criacao-personagem\03-05-ac-base-mvp.md"
+```
+
+**O que o script faz:**
+1. Lê o arquivo `.md` e extrai o título
+2. Busca a issue no GitHub pelo título
+3. Cria branch no formato: `feat/issue-<NUMBER>__<ciclo>-<nome>`
+4. Faz checkout automaticamente
+5. Conecta branch com issue no GitHub
+6. Tenta mover card do projeto para "In Progress"
+
+- [ ] **Verificar que branch foi criada corretamente**
+  - [ ] Branch existe localmente?
+  - [ ] Estou na branch correta?
+  - [ ] Branch está conectada com issue no GitHub?
+  - [ ] Issue foi movida para "In Progress"?
+
+**Comandos de verificação:**
+```bash
+# Verificar branch atual
+git branch --show-current
+
+# Verificar issue conectada
+gh issue view <NUMBER> --json number,title,state,url
+```
+
+### 3. Iniciar Desenvolvimento (TDD)
+
+- [ ] **Escrever testes PRIMEIRO (TDD - Red)**
+  - [ ] Criar arquivo de testes (se não existir)
+  - [ ] Escrever testes que definem comportamento esperado
+  - [ ] Testes devem falhar inicialmente (Red)
+  - [ ] Seguir `test-driven-development-core.mdc`
+  - [ ] Valores esperados hardcoded (sem lógica interna)
+
+**Localização dos testes:**
+```
+Source/MyProject2/Tests/Task_<X.Y>_<Nome>/<Nome>Tests.cpp
+```
+
+**Estrutura do teste:**
+```cpp
+BEGIN_DEFINE_SPEC(<Nome>Spec, "MyProject2.<Categoria>", 
+                  EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
+END_DEFINE_SPEC(<Nome>Spec)
+
+void <Nome>Spec::Define()
+{
+    Describe("Issue-<X.Y>/ <Subcategoria>", [this]()
+    {
+        It("deve <comportamento esperado>", [this]()
+        {
+            // Arrange
+            // Act
+            // Assert
+            TestEqual("Descrição", Result, ExpectedValue);
+        });
+    });
+}
+```
+
+- [ ] **Verificar que testes falham (Red)**
+  - [ ] Executar testes
+  - [ ] Confirmar que falham (como esperado)
+  - [ ] Se testes passam, revisar - podem estar errados
+
+**Comando para executar testes:**
+```powershell
+.\scripts\tests\run_tests_with_categories.ps1
+# Selecionar categoria da task (ex: Issue-3.5)
+```
+
+### 4. Implementação Mínima (TDD - Green)
+
+- [ ] **Implementar funcionalidade mínima**
+  - [ ] Implementar apenas o necessário para testes passarem
+  - [ ] Não fazer over-engineering
+  - [ ] Focar em fazer testes passarem (Green)
+
+- [ ] **Verificar que testes passam (Green)**
+  - [ ] Executar testes novamente
+  - [ ] Confirmar que todos passam
+  - [ ] Se algum falha, corrigir implementação
+
+### 5. Refatoração (TDD - Refactor)
+
+- [ ] **Refatorar com segurança**
+  - [ ] Melhorar código mantendo testes passando
+  - [ ] Aplicar Clean Code (`clean-code-mandatory.mdc`)
+  - [ ] Seguir arquitetura do projeto (`project-architecture.mdc`)
+  - [ ] Manter modularidade
+
+- [ ] **Verificar que testes ainda passam (Refactor)**
+  - [ ] Executar testes após refatoração
+  - [ ] Confirmar que todos ainda passam
+  - [ ] Se algum falha, revisar refatoração
+
+### 6. Commits Durante Desenvolvimento
+
+- [ ] **Fazer commits frequentes**
+  - [ ] Commits pequenos e focados
+  - [ ] Usar formato Conventional Commits
+  - [ ] Mensagem descritiva do que foi feito
+  - [ ] Nunca commitar código sem testes (se aplicável TDD)
+
+**Formato de commit:**
+```bash
+git commit -m "feat(Module): implementar funcionalidade X
+
+- Detalhes do que foi implementado
+- Testes adicionados
+- Refatorações realizadas"
+```
+
+---
+
+## 🔍 Verificações Intermediárias
+
+**SEMPRE verificar após cada passo:**
+
+### Após Criar Branch
+- [ ] Branch foi criada corretamente?
+- [ ] Branch está conectada com issue?
+- [ ] Issue foi movida para "In Progress"?
+- [ ] Estou na branch correta?
+
+### Após Escrever Testes (Red)
+- [ ] Testes compilam?
+- [ ] Testes falham como esperado?
+- [ ] Testes definem comportamento claramente?
+- [ ] Valores esperados são hardcoded?
+
+### Após Implementação (Green)
+- [ ] Testes passam?
+- [ ] Implementação é mínima?
+- [ ] Não há over-engineering?
+
+### Após Refatoração (Refactor)
+- [ ] Testes ainda passam?
+- [ ] Código segue Clean Code?
+- [ ] Código segue arquitetura?
+- [ ] Modularidade mantida?
+
+---
+
+## 📋 Template de Comandos
+
+### Iniciar Nova Task Completo
+
+```bash
+# 1. Ir para main e atualizar
+cd "F:\UNREAL GAME\MyProject2"
+git checkout main
+git pull origin main
+
+# 2. Criar branch conectada com issue
+.\scripts\github\create-task-branch.ps1 "fase-1\03-criacao-personagem\03-05-ac-base-mvp.md"
+
+# 3. Verificar que branch foi criada
+git branch --show-current
+gh issue view <NUMBER> --json number,title,state
+
+# 4. Criar arquivo de testes (se necessário)
+# Criar: Source/MyProject2/Tests/Task_<X.Y>_<Nome>/<Nome>Tests.cpp
+
+# 5. Escrever testes (TDD - Red)
+# Implementar testes que falham
+
+# 6. Executar testes para confirmar que falham
+.\scripts\tests\run_tests_with_categories.ps1
+
+# 7. Implementar funcionalidade mínima (TDD - Green)
+# Fazer testes passarem
+
+# 8. Executar testes para confirmar que passam
+.\scripts\tests\run_tests_with_categories.ps1
+
+# 9. Refatorar (TDD - Refactor)
+# Melhorar código mantendo testes passando
+
+# 10. Executar testes para confirmar que ainda passam
+.\scripts\tests\run_tests_with_categories.ps1
+
+# 11. Commitar mudanças
+git add -A
+git commit -m "feat(Module): implementar funcionalidade X"
+```
+
+---
+
+## 🔍 Como Obter Informações da Task
+
+### Arquivo da Task
+
+Localização: `F:\UNREAL GAME\minasphandelver\Documentacao\04-Planning\ciclos\fase-<X>\<categoria>\<XX-XX-nome-task>.md`
+
+### Issue Number
+
+- Geralmente está no nome da branch após criar: `feat/issue-<NUMBER>__...`
+- Ou no arquivo de documentação da task
+- Ou buscar no GitHub pelo título da task
+
+### Labels e Milestone
+
+As informações estão na documentação da task:
+
+```markdown
+**Milestone:** Fase 1: Começo
+**Label:** Sys: Character, P0: Critical
+```
+
+---
+
+## ⚠️ Importante
+
+**SEMPRE verificar antes de começar:**
+
+1. ✅ Task está clara e bem definida?
+2. ✅ Dependências estão completas?
+3. ✅ Estou na branch correta (main atualizada)?
+4. ✅ Working tree está limpo?
+5. ✅ Branch foi criada e conectada com issue?
+6. ✅ Issue foi movida para "In Progress"?
+
+**NUNCA começar sem:**
+- ❌ Task não clara ou mal definida
+- ❌ Dependências não completas
+- ❌ Branch não criada
+- ❌ Branch não conectada com issue
+- ❌ Working tree sujo (commits não commitados)
+
+---
+
+## 🔗 Integração com Outras Regras
+
+### Task Execution
+
+**Este roteiro complementa `task-execution.mdc`:**
+- `task-start-checklist.mdc`: **COMO** começar uma task (roteiro passo a passo)
+- `task-execution.mdc`: **COMO** executar uma task (TDD, modularidade, etc.)
+
+### Test-Driven Development
+
+**Seguir `test-driven-development-core.mdc`:**
+- Testes PRIMEIRO (Red)
+- Implementação mínima (Green)
+- Refatoração (Refactor)
+
+### Clean Code
+
+**Seguir `clean-code-mandatory.mdc`:**
+- Helpers em `Utils/` ou `Helpers/`
+- Funções puras e testáveis
+- Single Responsibility Principle
+- DRY (Don't Repeat Yourself)
+
+### Project Architecture
+
+**Seguir `project-architecture.mdc`:**
+- Data-Driven (Data Tables/Assets)
+- Modularidade
+- Editor-Friendly
+- Multiplayer-Ready
+
+---
+
+## 📚 Referências
+
+### Scripts Relacionados
+
+- `scripts/github/create-task-branch.ps1` - Criar branch conectada com issue
+- `scripts/tests/run_tests_with_categories.ps1` - Executar testes por categoria
+
+### Regras Relacionadas
+
+- `.cursor/rules/task-execution.mdc` - Execução de tasks (TDD, modularidade)
+- `.cursor/rules/task-finalization-checklist.mdc` - Finalização de tasks
+- `.cursor/rules/test-driven-development-core.mdc` - Metodologia TDD
+- `.cursor/rules/clean-code-mandatory.mdc` - Clean Code obrigatório
+- `.cursor/rules/project-architecture.mdc` - Arquitetura do projeto
+
+---
+
+## 📝 Fluxo Completo Resumido
+
+1. **Verificar Task** → Ler documentação, verificar dependências ✅
+2. **Atualizar Main** → `git checkout main && git pull origin main` ✅
+3. **Criar Branch** → `create-task-branch.ps1 <arquivo-task.md>` ✅
+4. **Verificar Branch** → Confirmar criação e conexão com issue ✅
+5. **Escrever Testes** → TDD Red (testes que falham) ✅
+6. **Implementar** → TDD Green (implementação mínima) ✅
+7. **Refatorar** → TDD Refactor (melhorar código) ✅
+8. **Commits** → Commits frequentes e descritivos ✅
+
+---
+
+**Última atualização:** 2025-01-25
