@@ -10,6 +10,7 @@
 // Project includes - Utils
 #include "Utils/PointBuyHelpers.h"
 #include "Utils/DnDConstants.h"
+#include "Utils/DataTableHelpers.h"
 
 #pragma endregion Includes
 
@@ -24,7 +25,12 @@ TMap<FName, int32> CharacterSheetHelpers::CreatePointBuyMapFromData(int32 PointB
                                                                     int32 PointBuyCharisma)
 {
     TMap<FName, int32> PointBuyMap;
-    TArray<FName> AbilityNames = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FNameWithID> AbilityNamesWithIDs = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FName> AbilityNames;
+    for (const FNameWithID &AbilityWithID : AbilityNamesWithIDs)
+    {
+        AbilityNames.Add(AbilityWithID.Name);
+    }
     TArray<int32> Values = {PointBuyStrength,     PointBuyDexterity, PointBuyConstitution,
                             PointBuyIntelligence, PointBuyWisdom,    PointBuyCharisma};
 

@@ -12,6 +12,7 @@
 
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
+#include "Utils/DataTableHelpers.h"
 
 #pragma endregion Includes
 
@@ -58,7 +59,13 @@ FValidationResult FCharacterSheetDataAssetValidators::ValidateLanguageChoices(co
 
     // Valida nomes: todos devem ser válidos
     // Usa ProficiencyDataTable do Asset se disponível (Data-Driven), caso contrário usa fallback hardcoded
-    TArray<FName> ValidLanguages = CharacterSheetHelpers::GetAvailableLanguageNames(Asset->ProficiencyDataTable);
+    TArray<FNameWithID> ValidLanguagesWithIDs =
+        CharacterSheetHelpers::GetAvailableLanguageNames(Asset->ProficiencyDataTable);
+    TArray<FName> ValidLanguages;
+    for (const FNameWithID &LanguageWithID : ValidLanguagesWithIDs)
+    {
+        ValidLanguages.Add(LanguageWithID.Name);
+    }
     for (int32 i = 0; i < Asset->SelectedLanguages.Num(); ++i)
     {
         const FName &Language = Asset->SelectedLanguages[i];

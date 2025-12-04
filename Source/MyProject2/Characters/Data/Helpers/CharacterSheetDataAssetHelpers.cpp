@@ -77,7 +77,12 @@ TMap<FName, int32> FCharacterSheetDataAssetHelpers::CreateAbilityScoresMap(int32
                                                                            int32 FinalIntelligence, int32 FinalWisdom,
                                                                            int32 FinalCharisma)
 {
-    TArray<FName> AbilityNames = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FNameWithID> AbilityNamesWithIDs = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FName> AbilityNames;
+    for (const FNameWithID &AbilityWithID : AbilityNamesWithIDs)
+    {
+        AbilityNames.Add(AbilityWithID.Name);
+    }
     TArray<int32> AbilityValues = {FinalStrength,     FinalDexterity, FinalConstitution,
                                    FinalIntelligence, FinalWisdom,    FinalCharisma};
 
@@ -118,7 +123,12 @@ void FCharacterSheetDataAssetHelpers::UpdatePointBuyFromFinalAllocation(UCharact
         return;
     }
 
-    TArray<FName> AbilityNames = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FNameWithID> AbilityNamesWithIDs = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FName> AbilityNames;
+    for (const FNameWithID &AbilityWithID : AbilityNamesWithIDs)
+    {
+        AbilityNames.Add(AbilityWithID.Name);
+    }
     int32 *PointBuyFields[] = {&Asset->PointBuyStrength,     &Asset->PointBuyDexterity, &Asset->PointBuyConstitution,
                                &Asset->PointBuyIntelligence, &Asset->PointBuyWisdom,    &Asset->PointBuyCharisma};
 

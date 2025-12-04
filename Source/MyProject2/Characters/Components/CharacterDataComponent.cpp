@@ -91,7 +91,12 @@ bool UCharacterDataComponent::ValidateDataIntegrity() const
 bool UCharacterDataComponent::ValidateAbilityScoresIntegrity(const FLogContext &Context) const
 {
     bool bIsValid = true;
-    TArray<FName> RequiredAbilities = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FNameWithID> RequiredAbilitiesWithIDs = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FName> RequiredAbilities;
+    for (const FNameWithID &AbilityWithID : RequiredAbilitiesWithIDs)
+    {
+        RequiredAbilities.Add(AbilityWithID.Name);
+    }
 
     for (const FName &AbilityName : RequiredAbilities)
     {
@@ -247,7 +252,12 @@ void UCharacterDataComponent::LogVariantHumanChoices(const FLogContext &Context)
 void UCharacterDataComponent::LogAbilityScores(const FLogContext &Context) const
 {
     FLoggingSystem::LogInfo(Context, TEXT("--- Ability Scores ---"));
-    TArray<FName> AbilityOrder = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FNameWithID> AbilityOrderWithIDs = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FName> AbilityOrder;
+    for (const FNameWithID &AbilityWithID : AbilityOrderWithIDs)
+    {
+        AbilityOrder.Add(AbilityWithID.Name);
+    }
     for (const FName &AbilityName : AbilityOrder)
     {
         if (AbilityScores.Contains(AbilityName))

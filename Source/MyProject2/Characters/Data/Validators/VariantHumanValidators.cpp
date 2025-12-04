@@ -13,6 +13,7 @@
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/ValidationHelpers.h"
+#include "Utils/DataTableHelpers.h"
 
 #pragma endregion Includes
 
@@ -56,7 +57,12 @@ FCharacterSheetDataAssetValidators::ValidateVariantHumanAbilityScoreChoices(cons
     }
 
     // Valida usando função pura (apenas valida, não aplica)
-    TArray<FName> ValidAbilityNames = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FNameWithID> ValidAbilityNamesWithIDs = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FName> ValidAbilityNames;
+    for (const FNameWithID &AbilityWithID : ValidAbilityNamesWithIDs)
+    {
+        ValidAbilityNames.Add(AbilityWithID.Name);
+    }
     TArray<int32> InvalidIndices;
     bool bHasDuplicates = false;
     bool bExceedsMax = false;
@@ -129,7 +135,12 @@ FValidationResult FCharacterSheetDataAssetValidators::ValidateVariantHumanSkill(
     }
 
     // Usa ProficiencyDataTable do Asset se disponível (Data-Driven), caso contrário usa fallback hardcoded
-    TArray<FName> ValidSkills = Asset->GetSkillNames();
+    TArray<FNameWithID> ValidSkillsWithIDs = Asset->GetSkillNames();
+    TArray<FName> ValidSkills;
+    for (const FNameWithID &SkillWithID : ValidSkillsWithIDs)
+    {
+        ValidSkills.Add(SkillWithID.Name);
+    }
     bool bIsValid = ValidationHelpers::ValidateSkillSelectionPure(Asset->SelectedSkill, ValidSkills);
 
     if (!bIsValid)

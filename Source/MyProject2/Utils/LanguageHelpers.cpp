@@ -211,7 +211,12 @@ CharacterSheetHelpers::GetAvailableLanguagesForChoice(FName RaceName, FName Subr
 {
     // Obtém todos os idiomas disponíveis
     // Usa ProficiencyDataTable se fornecido (Data-Driven), caso contrário usa fallback hardcoded
-    TArray<FName> AllLanguages = GetAvailableLanguageNames(ProficiencyDataTable);
+    TArray<FNameWithID> AllLanguagesWithIDs = GetAvailableLanguageNames(ProficiencyDataTable);
+    TArray<FName> AllLanguages;
+    for (const FNameWithID &LanguageWithID : AllLanguagesWithIDs)
+    {
+        AllLanguages.Add(LanguageWithID.Name);
+    }
 
     // Calcula idiomas automáticos já conhecidos
     TArray<FName> AutomaticLanguages =

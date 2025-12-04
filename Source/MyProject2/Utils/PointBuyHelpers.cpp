@@ -10,6 +10,7 @@
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
 #include "Utils/DnDConstants.h"
+#include "Utils/DataTableHelpers.h"
 
 // Engine includes
 #include "Engine/DataTable.h"
@@ -110,7 +111,12 @@ FString PointBuyHelpers::AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMa
     }
 
     // Obtém ordem de ability scores (Data-Driven)
-    TArray<FName> AbilityNames = CharacterSheetHelpers::GetAbilityScoreNames(AbilityScoreDataTable);
+    TArray<FNameWithID> AbilityNamesWithIDs = CharacterSheetHelpers::GetAbilityScoreNames(AbilityScoreDataTable);
+    TArray<FName> AbilityNames;
+    for (const FNameWithID &AbilityWithID : AbilityNamesWithIDs)
+    {
+        AbilityNames.Add(AbilityWithID.Name);
+    }
 
     // Ordem de redução: do final da fila (último ability score primeiro)
     // Isso mantém atributos mais importantes (Strength, Dexterity) intactos quando possível

@@ -7,6 +7,7 @@
 
 // Project includes - CreateSheet
 #include "Data/Structures/MulticlassTypes.h"
+#include "Utils/DataTableHelpers.h"
 
 #include "CharacterSheetDataAsset.generated.h"
 
@@ -206,25 +207,25 @@ public:
     UFUNCTION(CallInEditor)
     TArray<FName> GetBackgroundNames() const;
 
-    /** Retorna todos os nomes de ability scores (Strength, Dexterity, etc.) */
+    /** Retorna todos os nomes de ability scores com seus IDs (Strength, Dexterity, etc.) */
     UFUNCTION(CallInEditor)
-    TArray<FName> GetAbilityScoreNames() const;
+    TArray<FNameWithID> GetAbilityScoreNames() const;
 
     /** Retorna todos os feats disponíveis para Variant Human */
     UFUNCTION(CallInEditor)
     TArray<FName> GetAvailableFeatNames() const;
 
-    /** Retorna todos os nomes de skills de D&D 5e */
+    /** Retorna todos os nomes de skills de D&D 5e com seus IDs */
     UFUNCTION(CallInEditor)
-    TArray<FName> GetSkillNames() const;
+    TArray<FNameWithID> GetSkillNames() const;
 
     /** Retorna todos os nomes de skills disponíveis para escolha em multiclasse */
     UFUNCTION(CallInEditor)
     TArray<FName> GetAvailableSkills() const;
 
-    /** Retorna todos os nomes de idiomas disponíveis (para dropdown de escolhas de idiomas) */
+    /** Retorna todos os nomes de idiomas disponíveis com seus IDs (para dropdown de escolhas de idiomas) */
     UFUNCTION(CallInEditor)
-    TArray<FName> GetAvailableLanguageNames() const;
+    TArray<FNameWithID> GetAvailableLanguageNames() const;
 
     /** Retorna os nomes das escolhas disponíveis (para dropdown de SelectedChoice em FMulticlassClassFeature) */
     UFUNCTION(CallInEditor)
