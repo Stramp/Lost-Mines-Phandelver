@@ -122,4 +122,17 @@ namespace DnDConstants
 
     /** Número de feats que Variant Human pode escolher (1) */
     constexpr int32 VARIANT_HUMAN_FEAT_CHOICES = 1;
+
+    // ============================================================================
+    // Armor Class (AC)
+    // ============================================================================
+
+    /** AC base sem armadura (10) - D&D 5e: 10 + DEX modifier */
+    constexpr int32 BASE_AC = 10;
+
+    /** Bônus de AC de escudo (+2) - D&D 5e */
+    constexpr int32 SHIELD_AC_BONUS = 2;
+
+    /** Modificador máximo de DEX para armaduras médias (+2) - D&D 5e */
+    constexpr int32 MEDIUM_ARMOR_MAX_DEX = 2;
 } // namespace DnDConstants

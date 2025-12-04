@@ -72,7 +72,8 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetBackgroundNames(const UData
  * Retorna todos os nomes de idiomas disponíveis (para dropdown de escolhas de idiomas).
  * Usa ProficiencyDataTable se fornecido (Data-Driven), caso contrário usa fallback hardcoded.
  */
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNames(const UDataTable *ProficiencyDataTable)
+TArray<FNameWithID>
+FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNames(const UDataTable *ProficiencyDataTable)
 {
     return CharacterSheetHelpers::GetAvailableLanguageNames(const_cast<UDataTable *>(ProficiencyDataTable));
 }
@@ -81,13 +82,33 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNames(cons
  * Retorna idiomas disponíveis para escolha baseado em raça, sub-raça e background.
  * Exclui idiomas já selecionados.
  */
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
+TArray<FNameWithID> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
     FName RaceName, FName SubraceName, FName BackgroundName, const TArray<FName> &SelectedLanguages,
     const UDataTable *RaceDataTable, const UDataTable *BackgroundDataTable, const UDataTable *ProficiencyDataTable)
 {
-    return CharacterSheetHelpers::GetAvailableLanguagesForChoice(
+    TArray<FName> LanguageNames = CharacterSheetHelpers::GetAvailableLanguagesForChoice(
         RaceName, SubraceName, BackgroundName, SelectedLanguages, const_cast<UDataTable *>(RaceDataTable),
         const_cast<UDataTable *>(BackgroundDataTable), const_cast<UDataTable *>(ProficiencyDataTable));
+
+    // Converte TArray<FName> para TArray<FNameWithID>
+    // Busca o ID correspondente de cada nome na ProficiencyDataTable
+    if (ProficiencyDataTable)
+    {
+        TArray<FNameWithID> AllLanguages =
+            CharacterSheetHelpers::GetAvailableLanguageNames(const_cast<UDataTable *>(ProficiencyDataTable));
+        return DataTableHelpers::ConvertNamesToFNameWithID(LanguageNames, AllLanguages);
+    }
+    else
+    {
+        // Fallback: usa Name como ID temporário
+        TArray<FNameWithID> LanguageNamesWithIDs;
+        LanguageNamesWithIDs.Reserve(LanguageNames.Num());
+        for (const FName &LanguageName : LanguageNames)
+        {
+            LanguageNamesWithIDs.Add(FNameWithID(LanguageName, LanguageName));
+        }
+        return LanguageNamesWithIDs;
+    }
 }
 
 #pragma endregion Race and Background Options
@@ -100,7 +121,7 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForCh
 /**
  * Retorna todos os nomes de ability scores (Strength, Dexterity, etc.).
  */
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetAbilityScoreNames()
+TArray<FNameWithID> FCharacterSheetDataAssetGetOptions::GetAbilityScoreNames()
 {
     return CharacterSheetHelpers::GetAbilityScoreNames();
 }
@@ -109,7 +130,7 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAbilityScoreNames()
  * Retorna todos os nomes de skills de D&D 5e.
  * Usa ProficiencyDataTable se fornecido (Data-Driven), caso contrário usa fallback hardcoded.
  */
-TArray<FName> FCharacterSheetDataAssetGetOptions::GetSkillNames(const UDataTable *ProficiencyDataTable)
+TArray<FNameWithID> FCharacterSheetDataAssetGetOptions::GetSkillNames(const UDataTable *ProficiencyDataTable)
 {
     return CharacterSheetHelpers::GetSkillNames(const_cast<UDataTable *>(ProficiencyDataTable));
 }
@@ -237,7 +258,8 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNamesForFeat
  */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableSkills(const UDataTable *ProficiencyDataTable)
 {
-    return CharacterSheetHelpers::GetSkillNames(const_cast<UDataTable *>(ProficiencyDataTable));
+    return DataTableHelpers::ExtractNames(
+        CharacterSheetHelpers::GetSkillNames(const_cast<UDataTable *>(ProficiencyDataTable)));
 }
 
 #pragma endregion Skills Options

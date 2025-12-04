@@ -163,7 +163,7 @@ TArray<FName> UCharacterSheetDataAsset::GetBackgroundNames() const
     return FCharacterSheetDataAssetGetOptions::GetBackgroundNames(BackgroundDataTable);
 }
 
-TArray<FName> UCharacterSheetDataAsset::GetAbilityScoreNames() const
+TArray<FNameWithID> UCharacterSheetDataAsset::GetAbilityScoreNames() const
 {
     return FCharacterSheetDataAssetGetOptions::GetAbilityScoreNames();
 }
@@ -176,7 +176,7 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableFeatNames() const
     return FCharacterSheetDataAssetGetOptions::GetAvailableFeatNames(FeatDataTable, AbilityScores);
 }
 
-TArray<FName> UCharacterSheetDataAsset::GetSkillNames() const
+TArray<FNameWithID> UCharacterSheetDataAsset::GetSkillNames() const
 {
     return FCharacterSheetDataAssetGetOptions::GetSkillNames(ProficiencyDataTable);
 }
@@ -186,7 +186,7 @@ TArray<FName> UCharacterSheetDataAsset::GetAvailableSkills() const
     return FCharacterSheetDataAssetGetOptions::GetAvailableSkills(ProficiencyDataTable);
 }
 
-TArray<FName> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
+TArray<FNameWithID> UCharacterSheetDataAsset::GetAvailableLanguageNames() const
 {
     return FCharacterSheetDataAssetGetOptions::GetAvailableLanguageNamesForChoice(
         SelectedRace, SelectedSubrace, SelectedBackground, SelectedLanguages, RaceDataTable, BackgroundDataTable,

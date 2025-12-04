@@ -109,12 +109,38 @@ struct MYPROJECT2_API FItemDataRow : public FTableRowBase
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
     TSoftObjectPtr<UStaticMesh> MeshReference;
 
-    FItemDataRow() : Name(NAME_None), ID(NAME_None), ItemType(NAME_None), Weight(0.0f), Value(0), DamageTypeID(NAME_None) {}
+    // ============================================================================
+    // Armor Properties (apenas para ItemType == "Armor")
+    // ============================================================================
+
+    /**
+     * AC base da armadura (ex: 11 para Leather Armor, 16 para Chain Mail).
+     * Usado apenas quando ItemType == "Armor".
+     * Para armaduras leves: AC = ACValue + DEX modifier
+     * Para armaduras médias: AC = ACValue + min(DEX modifier, +2)
+     * Para armaduras pesadas: AC = ACValue (sem DEX modifier)
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Armor")
+    int32 ACValue = 0;
+
+    /**
+     * Tipo de armadura: "Light", "Medium", "Heavy", "Shield".
+     * Usado apenas quando ItemType == "Armor".
+     * Determina como o DEX modifier é aplicado ao AC.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Armor")
+    FName ArmorType;
+
+    FItemDataRow()
+        : Name(NAME_None), ID(NAME_None), ItemType(NAME_None), Weight(0.0f), Value(0), DamageTypeID(NAME_None),
+          ACValue(0), ArmorType(NAME_None)
+    {
+    }
 
     FItemDataRow(const FName &InName, const FName &InID, const FName &InItemType, float InWeight, int32 InValue,
                  const FText &InDescription)
-        : Name(InName), ID(InID), ItemType(InItemType), Weight(InWeight), Value(InValue),
-          Description(InDescription), DamageTypeID(NAME_None)
+        : Name(InName), ID(InID), ItemType(InItemType), Weight(InWeight), Value(InValue), Description(InDescription),
+          DamageTypeID(NAME_None), ACValue(0), ArmorType(NAME_None)
     {
     }
 };

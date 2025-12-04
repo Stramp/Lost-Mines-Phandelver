@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "DataTableHelpers.generated.h"
 
 // Forward declarations
 class UDataTable;
@@ -16,6 +17,36 @@ struct FProficiencyDataRow;
 struct FFeatureDataRow;
 struct FItemDataRow;
 struct FAbilityScoreDataRow;
+
+// ============================================================================
+// Name With ID Struct
+// ============================================================================
+#pragma region Name With ID Struct
+
+/**
+ * Struct para retornar Name + ID juntos.
+ * Sempre que retornamos dados parciais (não o Row completo), incluímos o ID junto.
+ * O ID é a referência exata do dado na Data Table.
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FNameWithID
+{
+    GENERATED_BODY()
+
+    /** Nome legível (ex: "Human", "Strength", "Athletics") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+    FName Name;
+
+    /** ID único (ex: "RACE_Human", "ABL_Strength", "PW_Skill_Athletics") - Referência exata na Data Table */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+    FName ID;
+
+    FNameWithID() : Name(NAME_None), ID(NAME_None) {}
+
+    FNameWithID(const FName &InName, const FName &InID) : Name(InName), ID(InID) {}
+};
+
+#pragma endregion Name With ID Struct
 
 /**
  * Funções helper para busca de rows em Data Tables com fallback manual.
@@ -30,79 +61,117 @@ struct FAbilityScoreDataRow;
 namespace DataTableHelpers
 {
     // ============================================================================
+    // Internal Template Helper - FindRowByID
+    // ============================================================================
+
+    /**
+     * Função template interna para busca genérica de rows por ID.
+     * Elimina duplicação de código entre todas as funções Find*Row.
+     *
+     * @tparam TDataRow Tipo da row (ex: FRaceDataRow, FClassDataRow)
+     * @param RowID ID da row para buscar
+     * @param DataTable Data Table onde buscar (pode ser nullptr)
+     * @param ContextString String de contexto para logs (ex: "FindRaceRow")
+     * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
+     */
+    template <typename TDataRow> TDataRow *FindRowByID(FName RowID, UDataTable *DataTable, const TCHAR *ContextString)
+    {
+        if (!DataTable || RowID == NAME_None)
+        {
+            return nullptr;
+        }
+
+        // Busca manual O(n) comparando ID de cada row
+        // (RowName pode ser diferente do ID, então sempre busca pelo campo ID)
+        TArray<FName> RowNames = DataTable->GetRowNames();
+        for (const FName &RowName : RowNames)
+        {
+            if (TDataRow *FoundRow = DataTable->FindRow<TDataRow>(RowName, ContextString))
+            {
+                if (FoundRow->ID == RowID)
+                {
+                    return FoundRow;
+                }
+            }
+        }
+
+        return nullptr;
+    }
+    // ============================================================================
     // Ability Score Data Table Helpers
     // ============================================================================
 
     /**
-     * Busca row de ability score no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de ability score no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param AbilityName Nome do ability score para buscar (ex: "Strength", "Dexterity")
+     * @param AbilityID ID do ability score para buscar (ex: "ABL_Strength", "ABL_Dexterity")
      * @param AbilityScoreDataTable Data Table de ability scores (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FAbilityScoreDataRow *FindAbilityScoreRow(FName AbilityName, UDataTable *AbilityScoreDataTable);
+    FAbilityScoreDataRow *FindAbilityScoreRow(FName AbilityID, UDataTable *AbilityScoreDataTable);
 
     /**
-     * Retorna todos os nomes de ability scores do Data Table.
+     * Retorna todos os nomes de ability scores do Data Table com seus IDs.
      * Se Data Table não fornecido, retorna array vazio.
+     * Sempre retorna Name + ID juntos (ID é a referência exata na Data Table).
      *
      * @param AbilityScoreDataTable Data Table de ability scores (pode ser nullptr)
-     * @return Array com nomes de ability scores (do Data Table ou vazio)
+     * @return Array com Name + ID de ability scores (do Data Table ou vazio)
      */
-    TArray<FName> GetAllAbilityScoreNames(UDataTable *AbilityScoreDataTable);
+    TArray<FNameWithID> GetAllAbilityScoreNames(UDataTable *AbilityScoreDataTable);
 
     // ============================================================================
     // Race Data Table Helpers
     // ============================================================================
 
     /**
-     * Busca row de raça no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de raça no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param RaceName Nome da raça para buscar
+     * @param RaceID ID da raça para buscar (ex: "RACE_Human", "RACE_Elf")
      * @param RaceDataTable Data Table de raças (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FRaceDataRow *FindRaceRow(FName RaceName, UDataTable *RaceDataTable);
+    FRaceDataRow *FindRaceRow(FName RaceID, UDataTable *RaceDataTable);
 
     /**
-     * Busca row de sub-raça no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de sub-raça no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param SubraceName Nome da sub-raça para buscar
+     * @param SubraceID ID da sub-raça para buscar
      * @param RaceDataTable Data Table de raças (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FRaceDataRow *FindSubraceRow(FName SubraceName, UDataTable *RaceDataTable);
+    FRaceDataRow *FindSubraceRow(FName SubraceID, UDataTable *RaceDataTable);
 
     // ============================================================================
     // Class Data Table Helpers
     // ============================================================================
 
     /**
-     * Busca row de classe no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de classe no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param ClassName Nome da classe para buscar
+     * @param ClassID ID da classe para buscar (ex: "CLASS_Fighter", "CLASS_Wizard")
      * @param ClassDataTable Data Table de classes (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FClassDataRow *FindClassRow(FName ClassName, UDataTable *ClassDataTable);
+    FClassDataRow *FindClassRow(FName ClassID, UDataTable *ClassDataTable);
 
     // ============================================================================
     // Feat Data Table Helpers
     // ============================================================================
 
     /**
-     * Busca row de feat no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de feat no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param FeatName Nome do feat para buscar
+     * @param FeatID ID do feat para buscar (ex: "Feat_Alert", "Feat_MagicInitiate")
      * @param FeatDataTable Data Table de feats (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FFeatDataRow *FindFeatRow(FName FeatName, UDataTable *FeatDataTable);
+    FFeatDataRow *FindFeatRow(FName FeatID, UDataTable *FeatDataTable);
 
     /**
      * Converte Name de feat para ID.
@@ -120,14 +189,14 @@ namespace DataTableHelpers
     // ============================================================================
 
     /**
-     * Busca row de background no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de background no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param BackgroundName Nome do background para buscar
+     * @param BackgroundID ID do background para buscar (ex: "BG_Acolyte", "BG_Criminal")
      * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FBackgroundDataRow *FindBackgroundRow(FName BackgroundName, UDataTable *BackgroundDataTable);
+    FBackgroundDataRow *FindBackgroundRow(FName BackgroundID, UDataTable *BackgroundDataTable);
 
     // ============================================================================
     // Proficiency Data Table Helpers
@@ -144,36 +213,66 @@ namespace DataTableHelpers
     FProficiencyDataRow *FindProficiencyRowByID(FName ProficiencyID, UDataTable *ProficiencyDataTable);
 
     /**
-     * Retorna todos os nomes de proficiências de um tipo específico no ProficiencyDataTable.
+     * Retorna todos os nomes de proficiências de um tipo específico no ProficiencyDataTable com seus IDs.
      * Função genérica que filtra proficiências por tipo (ex: "Skill", "Language", "Weapon", etc.).
      * Helper interno reutilizável para evitar duplicação de código (DRY).
+     * Sempre retorna Name + ID juntos (ID é a referência exata na Data Table).
      *
      * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
      * @param ProficiencyType Tipo de proficiência para filtrar (ex: "Skill", "Language")
-     * @return Array com nomes de todas as proficiências do tipo especificado, ou array vazio se Data Table inválido ou
-     * sem proficiências do tipo
+     * @return Array com Name + ID de todas as proficiências do tipo especificado, ou array vazio se Data Table inválido
+     * ou sem proficiências do tipo
      */
-    TArray<FName> GetProficiencyNamesByType(UDataTable *ProficiencyDataTable, FName ProficiencyType);
+    TArray<FNameWithID> GetProficiencyNamesByType(UDataTable *ProficiencyDataTable, FName ProficiencyType);
 
     /**
-     * Retorna todos os nomes de skills disponíveis no ProficiencyDataTable.
+     * Retorna todos os nomes de skills disponíveis no ProficiencyDataTable com seus IDs.
      * Filtra apenas proficiências do tipo "Skill".
      * Wrapper que chama GetProficiencyNamesByType com tipo "Skill".
+     * Sempre retorna Name + ID juntos (ID é a referência exata na Data Table).
      *
      * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
-     * @return Array com nomes de todas as skills, ou array vazio se Data Table inválido ou sem skills
+     * @return Array com Name + ID de todas as skills, ou array vazio se Data Table inválido ou sem skills
      */
-    TArray<FName> GetAllSkillNames(UDataTable *ProficiencyDataTable);
+    TArray<FNameWithID> GetAllSkillNames(UDataTable *ProficiencyDataTable);
 
     /**
-     * Retorna todos os nomes de languages disponíveis no ProficiencyDataTable.
+     * Retorna todos os nomes de languages disponíveis no ProficiencyDataTable com seus IDs.
      * Filtra apenas proficiências do tipo "Language".
      * Wrapper que chama GetProficiencyNamesByType com tipo "Language".
+     * Sempre retorna Name + ID juntos (ID é a referência exata na Data Table).
      *
      * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
-     * @return Array com nomes de todos os languages, ou array vazio se Data Table inválido ou sem languages
+     * @return Array com Name + ID de todos os languages, ou array vazio se Data Table inválido ou sem languages
      */
-    TArray<FName> GetAllLanguageNames(UDataTable *ProficiencyDataTable);
+    TArray<FNameWithID> GetAllLanguageNames(UDataTable *ProficiencyDataTable);
+
+    // ============================================================================
+    // FNameWithID Helpers
+    // ============================================================================
+
+    /**
+     * Extrai apenas os Names de um TArray<FNameWithID>.
+     * Helper reutilizável para eliminar duplicação quando apenas Names são necessários.
+     * Função pura, testável e sem side effects.
+     *
+     * @param NamesWithIDs Array de FNameWithID
+     * @return Array contendo apenas os Names
+     */
+    TArray<FName> ExtractNames(const TArray<FNameWithID> &NamesWithIDs);
+
+    /**
+     * Converte TArray<FName> para TArray<FNameWithID> buscando IDs correspondentes.
+     * Helper reutilizável para conversão quando temos apenas Names mas precisamos Name + ID.
+     * Busca o ID de cada Name em AllNamesWithIDs.
+     * Função pura, testável e sem side effects.
+     *
+     * @param Names Array de FName (apenas nomes)
+     * @param AllNamesWithIDs Array completo de FNameWithID para buscar IDs correspondentes
+     * @return Array de FNameWithID com Name + ID correspondente
+     */
+    TArray<FNameWithID> ConvertNamesToFNameWithID(const TArray<FName> &Names,
+                                                  const TArray<FNameWithID> &AllNamesWithIDs);
 
     // ============================================================================
     // Feature Data Table Helpers
@@ -258,4 +357,18 @@ namespace DataTableHelpers
      * @return true se é ItemDataTable, false caso contrário
      */
     bool IsItemDataTable(UDataTable *DataTable);
+
+    // ============================================================================
+    // Item Data Table Helpers
+    // ============================================================================
+
+    /**
+     * Busca row de item no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
+     *
+     * @param ItemID ID do item para buscar (ex: "ITM_ARM_LeatherArmor", "ITM_ARM_ChainMail")
+     * @param ItemDataTable Data Table de itens (pode ser nullptr)
+     * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
+     */
+    FItemDataRow *FindItemRow(FName ItemID, UDataTable *ItemDataTable);
 } // namespace DataTableHelpers

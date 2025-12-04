@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "Utils/DataTableHelpers.h"
 #include "CharacterSheetHelpers.generated.h"
 
 // Forward declarations
@@ -87,13 +88,7 @@ namespace CharacterSheetHelpers
     // Class Data Table Helpers
     // ============================================================================
 
-    /**
-     * Retorna todos os nomes de classes disponíveis no Data Table.
-     *
-     * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @return Array com nomes de todas as classes, ou array vazio se Data Table inválido
-     */
-    TArray<FName> GetAllClassNames(UDataTable *ClassDataTable);
+    // Removido: GetAllClassNames - não utilizado (dead code)
 
     /**
      * Verifica se o jogador pode selecionar uma subclasse para a classe especificada no nível dado.
@@ -181,48 +176,51 @@ namespace CharacterSheetHelpers
     // ============================================================================
 
     /**
-     * Retorna array com os nomes de ability scores.
+     * Retorna array com os nomes de ability scores e seus IDs.
      * Se AbilityScoreDataTable for fornecido, busca do Data Table (Data-Driven).
      * Caso contrário, retorna array hardcoded com os 6 ability scores padrão D&D 5e (fallback).
+     * Sempre retorna Name + ID juntos (ID é a referência exata na Data Table).
      *
      * Ordem padrão: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
      *
      * @param AbilityScoreDataTable Data Table de ability scores (pode ser nullptr para fallback hardcoded)
-     * @return Array com nomes de ability scores (do Data Table ou hardcoded)
+     * @return Array com Name + ID de ability scores (do Data Table ou hardcoded)
      */
-    TArray<FName> GetAbilityScoreNames(UDataTable *AbilityScoreDataTable = nullptr);
+    TArray<FNameWithID> GetAbilityScoreNames(UDataTable *AbilityScoreDataTable = nullptr);
 
     // ============================================================================
     // Skill Helpers
     // ============================================================================
 
     /**
-     * Retorna array com os nomes de skills disponíveis.
+     * Retorna array com os nomes de skills disponíveis e seus IDs.
      * Se ProficiencyDataTable for fornecido, busca skills do Data Table (Data-Driven).
      * Caso contrário, retorna array hardcoded com os 18 skills padrão D&D 5e (fallback).
+     * Sempre retorna Name + ID juntos (ID é a referência exata na Data Table).
      *
      * Ordem alfabética: Acrobatics, Animal Handling, Arcana, Athletics, Deception,
      * History, Insight, Intimidation, Investigation, Medicine, Nature, Perception,
      * Performance, Persuasion, Religion, Sleight of Hand, Stealth, Survival
      *
      * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr para fallback hardcoded)
-     * @return Array com nomes de skills (do Data Table ou hardcoded)
+     * @return Array com Name + ID de skills (do Data Table ou hardcoded)
      */
-    TArray<FName> GetSkillNames(UDataTable *ProficiencyDataTable = nullptr);
+    TArray<FNameWithID> GetSkillNames(UDataTable *ProficiencyDataTable = nullptr);
 
     // ============================================================================
     // Language Helpers
     // ============================================================================
 
     /**
-     * Retorna array com os nomes de idiomas disponíveis.
+     * Retorna array com os nomes de idiomas disponíveis e seus IDs.
      * Se ProficiencyDataTable for fornecido, busca languages do Data Table (Data-Driven).
      * Caso contrário, retorna array hardcoded com os idiomas padrão D&D 5e (fallback).
+     * Sempre retorna Name + ID juntos (ID é a referência exata na Data Table).
      *
      * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr para fallback hardcoded)
-     * @return Array com nomes de idiomas (do Data Table ou hardcoded)
+     * @return Array com Name + ID de idiomas (do Data Table ou hardcoded)
      */
-    TArray<FName> GetAvailableLanguageNames(UDataTable *ProficiencyDataTable = nullptr);
+    TArray<FNameWithID> GetAvailableLanguageNames(UDataTable *ProficiencyDataTable = nullptr);
 
     /**
      * Detecta se raça/sub-raça permite escolha de idiomas via TraitData.

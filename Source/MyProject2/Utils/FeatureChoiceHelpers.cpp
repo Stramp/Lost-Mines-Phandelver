@@ -10,6 +10,9 @@
 // Project includes - Data Tables
 #include "Data/Tables/FeatureDataTable.h"
 
+// Project includes - Utils
+#include "Utils/DataTableHelpers.h"
+
 // Engine includes
 #include "Engine/DataTable.h"
 
@@ -25,39 +28,8 @@
 // ============================================================================
 #pragma region Internal Helpers
 
-/**
- * Helper interno: busca FFeatureDataRow por FC_ID na tabela.
- * Função pura e reutilizável, usada por todas as funções públicas.
- *
- * @param FeatureDataTable Data Table de features
- * @param FeatureID ID da feature a buscar
- * @return Ponteiro para FFeatureDataRow se encontrado, nullptr caso contrário
- */
-static const FFeatureDataRow *FindFeatureRowByID(const UDataTable *FeatureDataTable, FName FeatureID)
-{
-    if (!FeatureDataTable || FeatureID == NAME_None)
-    {
-        return nullptr;
-    }
-
-    // Itera por todas as features na tabela procurando pelo FC_ID
-    TArray<FName> RowNames = FeatureDataTable->GetRowNames();
-
-    for (const FName &RowName : RowNames)
-    {
-        if (const FFeatureDataRow *FeatureRow =
-                FeatureDataTable->FindRow<FFeatureDataRow>(RowName, TEXT("FindFeatureRowByID")))
-        {
-            // Verifica se esta feature corresponde ao FC_ID procurado
-            if (FeatureRow->ID == FeatureID)
-            {
-                return FeatureRow;
-            }
-        }
-    }
-
-    return nullptr;
-}
+// Removido: FindFeatureRowByID duplicado
+// Agora usa DataTableHelpers::FindFeatureRowByID diretamente
 
 #pragma endregion Internal Helpers
 
@@ -73,8 +45,9 @@ FName FeatureChoiceHelpers::FindChoiceIDByName(const UDataTable *FeatureDataTabl
         return NAME_None;
     }
 
-    // Usa helper interno para buscar feature row
-    const FFeatureDataRow *FeatureRow = FindFeatureRowByID(FeatureDataTable, FeatureID);
+    // Usa DataTableHelpers::FindFeatureRowByID para buscar feature row
+    const FFeatureDataRow *FeatureRow =
+        DataTableHelpers::FindFeatureRowByID(FeatureID, const_cast<UDataTable *>(FeatureDataTable));
     if (!FeatureRow)
     {
         return NAME_None;
@@ -99,8 +72,9 @@ FName FeatureChoiceHelpers::FindChoiceNameByID(const UDataTable *FeatureDataTabl
         return NAME_None;
     }
 
-    // Usa helper interno para buscar feature row
-    const FFeatureDataRow *FeatureRow = FindFeatureRowByID(FeatureDataTable, FeatureID);
+    // Usa DataTableHelpers::FindFeatureRowByID para buscar feature row
+    const FFeatureDataRow *FeatureRow =
+        DataTableHelpers::FindFeatureRowByID(FeatureID, const_cast<UDataTable *>(FeatureDataTable));
     if (!FeatureRow)
     {
         return NAME_None;
@@ -118,13 +92,13 @@ FName FeatureChoiceHelpers::FindChoiceNameByID(const UDataTable *FeatureDataTabl
     return NAME_None;
 }
 
-TArray<FName> FeatureChoiceHelpers::GetAvailableChoiceIDsForFeature(const UDataTable *FeatureDataTable,
-                                                                     FName FeatureID)
+TArray<FName> FeatureChoiceHelpers::GetAvailableChoiceIDsForFeature(const UDataTable *FeatureDataTable, FName FeatureID)
 {
     TArray<FName> Result;
 
-    // Usa helper interno para buscar feature row
-    const FFeatureDataRow *FeatureRow = FindFeatureRowByID(FeatureDataTable, FeatureID);
+    // Usa DataTableHelpers::FindFeatureRowByID para buscar feature row
+    const FFeatureDataRow *FeatureRow =
+        DataTableHelpers::FindFeatureRowByID(FeatureID, const_cast<UDataTable *>(FeatureDataTable));
     if (!FeatureRow)
     {
         return Result;
@@ -147,8 +121,9 @@ TArray<FName> FeatureChoiceHelpers::GetAvailableChoiceNamesForFeature(const UDat
 {
     TArray<FName> Result;
 
-    // Usa helper interno para buscar feature row
-    const FFeatureDataRow *FeatureRow = FindFeatureRowByID(FeatureDataTable, FeatureID);
+    // Usa DataTableHelpers::FindFeatureRowByID para buscar feature row
+    const FFeatureDataRow *FeatureRow =
+        DataTableHelpers::FindFeatureRowByID(FeatureID, const_cast<UDataTable *>(FeatureDataTable));
     if (!FeatureRow)
     {
         return Result;

@@ -102,6 +102,42 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >    - Teste adicional para Variant Human com 1 escolha (+2)
 > >    - Compilação validada (0 erros, 0 warnings)
 >
+> > 6. **Ciclo 3.5: AC Base MVP (TDD)** (2025-01-25)
+> >    - Sistema completo de cálculo de Armor Class (AC) D&D 5e implementado seguindo TDD
+> >    - Constantes de AC adicionadas em `DnDConstants`:
+> >      - `BASE_AC = 10` - AC base sem armadura
+> >      - `SHIELD_AC_BONUS = 2` - Bônus de escudo
+> >      - `MEDIUM_ARMOR_MAX_DEX = 2` - Limite de DEX modifier para armaduras médias
+> >    - Campos de AC adicionados em `FItemDataRow`:
+> >      - `ACValue` - AC base da armadura
+> >      - `ArmorType` - Tipo de armadura (Light, Medium, Heavy, Shield)
+> >    - `CalculationHelpers::CalculateAC()` implementado:
+> >      - AC base: 10 + DEX modifier
+> >      - Light Armor: ACValue + DEX modifier (sem limite)
+> >      - Medium Armor: ACValue + min(DEX modifier, +2)
+> >      - Heavy Armor: ACValue (sem DEX modifier)
+> >      - Shield: +2 AC (adiciona ao AC calculado)
+> >    - 13 testes automatizados criados (todos passando - 100%):
+> >      - AC base sem armadura (com DEX positivo, zero e negativo)
+> >      - AC com armadura leve (Leather Armor) usando dados da Data Table
+> >      - AC com armadura média (Scale Mail) limitando DEX modifier usando dados da Data Table
+> >      - AC com armadura pesada (Chain Mail) sem DEX modifier usando dados da Data Table
+> >      - AC com escudo (+2)
+> >      - AC com combinações (armadura leve/média/pesada + escudo)
+> >      - Fallbacks (tipo desconhecido, ArmorACValue = 0)
+> >    - Testes usam abordagem data-driven: carregam `ItemDataTable` real e buscam itens pelo ID
+> >    - Testes validados conforme TDD guide (valores hardcoded, sem lógica interna)
+> >    - Compilação validada (0 erros, 0 warnings)
+>
+> > 7. **Refatorações: Eliminação de Duplicação de Código** (2025-01-25)
+> >    - Criada função template `FindRowByID<TDataRow>` para eliminar 12 implementações duplicadas
+> >    - Refatoradas todas as funções `Find*Row` para usar template (FindAbilityScoreRow, FindRaceRow, FindSubraceRow, FindClassRow, FindFeatRow, FindBackgroundRow, FindProficiencyRowByID, FindFeatureRowByID, FindItemRow)
+> >    - Removida função duplicada `FindFeatureRowByID` de `FeatureChoiceHelpers.cpp`
+> >    - Removida função morta `GetAllClassNames` de `CharacterSheetHelpers` (não utilizada)
+> >    - Removidos comentários duplicados em `DataTableHelpers.cpp`
+> >    - Benefícios: ~200 linhas de código duplicado eliminadas, manutenibilidade melhorada
+> >    - Compilação validada (0 erros, 0 warnings)
+>
 > > 2. Commit [`302c25c`] - Adicionar regra de Test-Driven Development (TDD)
 > >    - Criada regra `test-driven-development.mdc` com metodologia TDD completa
 > >    - Definido ciclo Red-Green-Refactor obrigatório para código crítico

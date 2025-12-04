@@ -20,30 +20,7 @@
 // ============================================================================
 #pragma region Class Data Table Helpers
 
-TArray<FName> CharacterSheetHelpers::GetAllClassNames(UDataTable *ClassDataTable)
-{
-    if (!ClassDataTable)
-    {
-        return TArray<FName>();
-    }
-
-    TSet<FName> ClassNamesSet;
-    TArray<FName> RowNames = ClassDataTable->GetRowNames();
-    for (const FName &RowName : RowNames)
-    {
-        if (FClassDataRow *Row = ClassDataTable->FindRow<FClassDataRow>(RowName, TEXT("GetAllClassNames")))
-        {
-            // Usa Name da estrutura flat
-            if (Row->Name != NAME_None)
-            {
-                ClassNamesSet.Add(Row->Name);
-            }
-        }
-    }
-
-    // Converte TSet para TArray (ordem não importa para nomes de classes)
-    return ClassNamesSet.Array();
-}
+// Removido: GetAllClassNames - não utilizado (dead code)
 
 bool CharacterSheetHelpers::CanSelectSubclass(FName ClassName, int32 ClassLevel, UDataTable *ClassDataTable)
 {

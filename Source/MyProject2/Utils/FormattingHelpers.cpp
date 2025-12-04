@@ -9,6 +9,7 @@
 
 // Project includes - Utils
 #include "Utils/CharacterSheetHelpers.h"
+#include "Utils/DataTableHelpers.h"
 
 #pragma endregion Includes
 
@@ -44,7 +45,7 @@ FString FormattingHelpers::FormatProficienciesList(const TArray<FName> &Proficie
 FString FormattingHelpers::FormatAbilityScores(const TMap<FName, int32> &AbilityScores)
 {
     FString FormattedScores;
-    TArray<FName> AbilityOrder = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FName> AbilityOrder = DataTableHelpers::ExtractNames(CharacterSheetHelpers::GetAbilityScoreNames());
 
     for (const FName &AbilityName : AbilityOrder)
     {

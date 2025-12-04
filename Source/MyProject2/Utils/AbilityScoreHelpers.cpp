@@ -17,23 +17,29 @@
 // ============================================================================
 #pragma region Ability Score Helpers
 
-TArray<FName> CharacterSheetHelpers::GetAbilityScoreNames(UDataTable *AbilityScoreDataTable)
+TArray<FNameWithID> CharacterSheetHelpers::GetAbilityScoreNames(UDataTable *AbilityScoreDataTable)
 {
     // Se Data Table fornecido, busca do Data Table (Data-Driven)
+    // Sempre retorna Name + ID juntos (ID é a referência exata na Data Table)
     if (AbilityScoreDataTable)
     {
-        TArray<FName> AbilityNames = DataTableHelpers::GetAllAbilityScoreNames(AbilityScoreDataTable);
+        TArray<FNameWithID> AbilityNamesWithIDs = DataTableHelpers::GetAllAbilityScoreNames(AbilityScoreDataTable);
         // Se encontrou ability scores no Data Table, retorna
-        if (AbilityNames.Num() > 0)
+        if (AbilityNamesWithIDs.Num() > 0)
         {
-            return AbilityNames;
+            return AbilityNamesWithIDs;
         }
     }
 
     // Fallback: retorna array estático com os 6 nomes de ability scores padrão D&D 5e
     // Ordem: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
-    return TArray<FName>{TEXT("Strength"),     TEXT("Dexterity"), TEXT("Constitution"),
-                         TEXT("Intelligence"), TEXT("Wisdom"),    TEXT("Charisma")};
+    // No fallback, usamos Name como ID temporário (já que não temos Data Table)
+    return TArray<FNameWithID>{FNameWithID(TEXT("Strength"), TEXT("Strength")),
+                               FNameWithID(TEXT("Dexterity"), TEXT("Dexterity")),
+                               FNameWithID(TEXT("Constitution"), TEXT("Constitution")),
+                               FNameWithID(TEXT("Intelligence"), TEXT("Intelligence")),
+                               FNameWithID(TEXT("Wisdom"), TEXT("Wisdom")),
+                               FNameWithID(TEXT("Charisma"), TEXT("Charisma"))};
 }
 
 #pragma endregion Ability Score Helpers

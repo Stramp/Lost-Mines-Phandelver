@@ -44,7 +44,7 @@ UCharacterSheetComponent::UCharacterSheetComponent() { PrimaryComponentTick.bCan
 // ============================================================================
 #pragma region Replication
 
-void UCharacterSheetComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void UCharacterSheetComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
@@ -159,7 +159,8 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
             for (const FDataTableRowHandle &TraitHandle : RaceRow->TraitHandles)
             {
                 // Resolve handle para obter ID
-                if (const FTraitDataRow *TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
+                if (const FTraitDataRow *TraitRow =
+                        DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
                 {
                     if (TraitRow->ID != NAME_None && !TraitsSet.Contains(TraitRow->ID))
                     {
@@ -178,7 +179,8 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
                 for (const FDataTableRowHandle &TraitHandle : SubraceRow->TraitHandles)
                 {
                     // Resolve handle para obter ID
-                    if (const FTraitDataRow *TraitRow = DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
+                    if (const FTraitDataRow *TraitRow =
+                            DataTableRowHandleHelpers::ResolveHandle<FTraitDataRow>(TraitHandle))
                     {
                         if (TraitRow->ID != NAME_None && !TraitsSet.Contains(TraitRow->ID))
                         {
@@ -196,7 +198,7 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     // Copia ability scores (valores finais dos campos dedicados)
     // Usa helper GetAbilityScoreNames para eliminar duplicação (DRY)
     CharacterDataComponent->AbilityScores.Empty();
-    TArray<FName> AbilityNames = CharacterSheetHelpers::GetAbilityScoreNames();
+    TArray<FName> AbilityNames = DataTableHelpers::ExtractNames(CharacterSheetHelpers::GetAbilityScoreNames());
     TArray<int32 *> AbilityValues = {&DataAsset->FinalStrength,     &DataAsset->FinalDexterity,
                                      &DataAsset->FinalConstitution, &DataAsset->FinalIntelligence,
                                      &DataAsset->FinalWisdom,       &DataAsset->FinalCharisma};

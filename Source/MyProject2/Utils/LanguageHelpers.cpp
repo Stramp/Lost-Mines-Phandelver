@@ -211,7 +211,7 @@ CharacterSheetHelpers::GetAvailableLanguagesForChoice(FName RaceName, FName Subr
 {
     // Obtém todos os idiomas disponíveis
     // Usa ProficiencyDataTable se fornecido (Data-Driven), caso contrário usa fallback hardcoded
-    TArray<FName> AllLanguages = GetAvailableLanguageNames(ProficiencyDataTable);
+    TArray<FName> AllLanguages = DataTableHelpers::ExtractNames(GetAvailableLanguageNames(ProficiencyDataTable));
 
     // Calcula idiomas automáticos já conhecidos
     TArray<FName> AutomaticLanguages =

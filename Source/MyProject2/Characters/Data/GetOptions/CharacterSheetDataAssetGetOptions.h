@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Utils/DataTableHelpers.h"
 
 // Forward declarations
 class UDataTable;
@@ -37,7 +38,7 @@ public:
     /**
      * Returns all ability score names (Strength, Dexterity, etc.).
      */
-    static TArray<FName> GetAbilityScoreNames();
+    static TArray<FNameWithID> GetAbilityScoreNames();
 
     /**
      * Returns all available feats for Variant Human.
@@ -47,22 +48,22 @@ public:
                                                const TMap<FName, int32> &AbilityScores);
 
     /**
-     * Returns all skill names from D&D 5e.
+     * Returns all skill names from D&D 5e with their IDs.
      * Uses ProficiencyDataTable if provided (Data-Driven), otherwise falls back to hardcoded list.
      *
      * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
-     * @return Array com nomes de skills
+     * @return Array com nomes de skills e seus IDs
      */
-    static TArray<FName> GetSkillNames(const UDataTable *ProficiencyDataTable = nullptr);
+    static TArray<FNameWithID> GetSkillNames(const UDataTable *ProficiencyDataTable = nullptr);
 
     /**
-     * Returns all available language names from D&D 5e.
+     * Returns all available language names from D&D 5e with their IDs.
      * Uses ProficiencyDataTable if provided (Data-Driven), otherwise falls back to hardcoded list.
      *
      * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
-     * @return Array com nomes de languages
+     * @return Array com nomes de languages e seus IDs
      */
-    static TArray<FName> GetAvailableLanguageNames(const UDataTable *ProficiencyDataTable = nullptr);
+    static TArray<FNameWithID> GetAvailableLanguageNames(const UDataTable *ProficiencyDataTable = nullptr);
 
     /**
      * Returns available languages for choice, filtered (excluding already known automatic languages and already
@@ -77,13 +78,14 @@ public:
      * @param RaceDataTable Race Data Table (can be nullptr)
      * @param BackgroundDataTable Background Data Table (can be nullptr)
      * @param ProficiencyDataTable Proficiency Data Table (can be nullptr for hardcoded fallback)
-     * @return Array with available languages for choice (excluding already known and already selected)
+     * @return Array with available languages for choice with their IDs (excluding already known and already selected)
      */
-    static TArray<FName> GetAvailableLanguageNamesForChoice(FName RaceName, FName SubraceName, FName BackgroundName,
-                                                            const TArray<FName> &SelectedLanguages,
-                                                            const UDataTable *RaceDataTable,
-                                                            const UDataTable *BackgroundDataTable,
-                                                            const UDataTable *ProficiencyDataTable = nullptr);
+    static TArray<FNameWithID> GetAvailableLanguageNamesForChoice(FName RaceName, FName SubraceName,
+                                                                  FName BackgroundName,
+                                                                  const TArray<FName> &SelectedLanguages,
+                                                                  const UDataTable *RaceDataTable,
+                                                                  const UDataTable *BackgroundDataTable,
+                                                                  const UDataTable *ProficiencyDataTable = nullptr);
 
     /**
      * Returns all available class names with attribute requirement verification.
