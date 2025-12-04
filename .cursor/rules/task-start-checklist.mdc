@@ -64,6 +64,62 @@ git branch --show-current
 gh issue view <NUMBER> --json number,title,state,url
 ```
 
+- [ ] **Verificar Issue Online no GitHub**
+  - [ ] Issue existe no GitHub?
+  - [ ] Issue tem título correto?
+  - [ ] Issue tem labels corretos?
+  - [ ] Issue tem milestone correto?
+  - [ ] Issue tem assignee?
+  - [ ] Issue está no project correto?
+  - [ ] Issue está no status correto ("In Progress")?
+
+**Comandos de verificação:**
+```bash
+# Verificar issue completa
+gh issue view <NUMBER> --json number,title,state,labels,milestone,assignees,projectCards,url
+
+# Verificar apenas status
+gh issue view <NUMBER> --json state
+
+# Verificar labels
+gh issue view <NUMBER> --json labels
+
+# Verificar milestone
+gh issue view <NUMBER> --json milestone
+
+# Abrir issue no navegador para verificação visual
+gh issue view <NUMBER> --web
+```
+
+- [ ] **Sincronizar Branch com GitHub**
+  - [ ] Branch local existe?
+  - [ ] Branch remota existe? (se já foi push anteriormente)
+  - [ ] Branch local está sincronizada com remota?
+  - [ ] Fazer push da branch (se necessário)
+
+**Comandos de sincronização:**
+```bash
+# Verificar se branch remota existe
+git ls-remote --heads origin <branch-name>
+
+# Verificar status da branch
+git status
+
+# Verificar diferenças entre local e remota
+git fetch origin
+git log HEAD..origin/<branch-name>  # Commits na remota que não estão local
+git log origin/<branch-name>..HEAD  # Commits locais que não estão na remota
+
+# Fazer push da branch (primeira vez)
+git push -u origin <branch-name>
+
+# Fazer push de commits novos
+git push origin <branch-name>
+
+# Sincronizar branch local com remota (se remota existe)
+git pull origin <branch-name>
+```
+
 ### 3. Iniciar Desenvolvimento (TDD)
 
 - [ ] **Escrever testes PRIMEIRO (TDD - Red)**
@@ -164,6 +220,19 @@ git commit -m "feat(Module): implementar funcionalidade X
 - [ ] Issue foi movida para "In Progress"?
 - [ ] Estou na branch correta?
 
+### Após Verificar Issue Online
+- [ ] Issue existe e tem informações corretas?
+- [ ] Labels estão corretos?
+- [ ] Milestone está correto?
+- [ ] Assignee está definido?
+- [ ] Issue está no project correto?
+- [ ] Status está "In Progress"?
+
+### Após Sincronizar Branch
+- [ ] Branch local e remota estão sincronizadas?
+- [ ] Não há commits divergentes?
+- [ ] Push foi realizado com sucesso?
+
 ### Após Escrever Testes (Red)
 - [ ] Testes compilam?
 - [ ] Testes falham como esperado?
@@ -200,28 +269,37 @@ git pull origin main
 git branch --show-current
 gh issue view <NUMBER> --json number,title,state
 
-# 4. Criar arquivo de testes (se necessário)
+# 4. Verificar Issue Online no GitHub
+gh issue view <NUMBER> --json number,title,state,labels,milestone,assignees,projectCards,url
+gh issue view <NUMBER> --web  # Abrir no navegador para verificação visual
+
+# 5. Sincronizar Branch com GitHub
+git fetch origin
+git status  # Verificar status
+git push -u origin <branch-name>  # Push inicial (se necessário)
+
+# 6. Criar arquivo de testes (se necessário)
 # Criar: Source/MyProject2/Tests/Task_<X.Y>_<Nome>/<Nome>Tests.cpp
 
-# 5. Escrever testes (TDD - Red)
+# 7. Escrever testes (TDD - Red)
 # Implementar testes que falham
 
-# 6. Executar testes para confirmar que falham
+# 8. Executar testes para confirmar que falham
 .\scripts\tests\run_tests_with_categories.ps1
 
-# 7. Implementar funcionalidade mínima (TDD - Green)
+# 9. Implementar funcionalidade mínima (TDD - Green)
 # Fazer testes passarem
 
-# 8. Executar testes para confirmar que passam
+# 10. Executar testes para confirmar que passam
 .\scripts\tests\run_tests_with_categories.ps1
 
-# 9. Refatorar (TDD - Refactor)
+# 11. Refatorar (TDD - Refactor)
 # Melhorar código mantendo testes passando
 
-# 10. Executar testes para confirmar que ainda passam
+# 12. Executar testes para confirmar que ainda passam
 .\scripts\tests\run_tests_with_categories.ps1
 
-# 11. Commitar mudanças
+# 13. Commitar mudanças
 git add -A
 git commit -m "feat(Module): implementar funcionalidade X"
 ```
@@ -261,6 +339,8 @@ As informações estão na documentação da task:
 4. ✅ Working tree está limpo?
 5. ✅ Branch foi criada e conectada com issue?
 6. ✅ Issue foi movida para "In Progress"?
+7. ✅ Issue online tem labels, milestone, assignee corretos?
+8. ✅ Branch está sincronizada com GitHub (push realizado)?
 
 **NUNCA começar sem:**
 - ❌ Task não clara ou mal definida
@@ -327,10 +407,12 @@ As informações estão na documentação da task:
 2. **Atualizar Main** → `git checkout main && git pull origin main` ✅
 3. **Criar Branch** → `create-task-branch.ps1 <arquivo-task.md>` ✅
 4. **Verificar Branch** → Confirmar criação e conexão com issue ✅
-5. **Escrever Testes** → TDD Red (testes que falham) ✅
-6. **Implementar** → TDD Green (implementação mínima) ✅
-7. **Refatorar** → TDD Refactor (melhorar código) ✅
-8. **Commits** → Commits frequentes e descritivos ✅
+5. **Verificar Issue Online** → Confirmar labels, milestone, assignee, project ✅
+6. **Sincronizar Branch** → Verificar e fazer push se necessário ✅
+7. **Escrever Testes** → TDD Red (testes que falham) ✅
+8. **Implementar** → TDD Green (implementação mínima) ✅
+9. **Refatorar** → TDD Refactor (melhorar código) ✅
+10. **Commits** → Commits frequentes e descritivos ✅
 
 ---
 
