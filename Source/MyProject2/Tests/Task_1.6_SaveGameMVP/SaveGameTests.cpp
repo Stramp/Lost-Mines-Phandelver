@@ -48,7 +48,8 @@ void SaveGameSpec::Define()
 
                         // Assert
                         TestEqual("CharacterName deve estar vazio", SaveGame->CharacterName, FString(TEXT("")));
-                        TestEqual("CharacterLevel deve ser 1", SaveGame->CharacterLevel, 1);
+                        // Regra: Se character tem classe, ele tem nível. Se não tem classe, não tem nível.
+                        TestEqual("CharacterLevel deve ser 0 (sem classe = sem nível)", SaveGame->CharacterLevel, 0);
                         TestEqual("CharacterRace deve ser NAME_None", SaveGame->CharacterRace, FName(NAME_None));
                         TestEqual("CharacterClass deve ser NAME_None", SaveGame->CharacterClass, FName(NAME_None));
                         TestEqual("SaveVersion deve ser 1", SaveGame->SaveVersion, 1);
@@ -67,15 +68,34 @@ void SaveGameSpec::Define()
 
                         // Act
                         SaveGame->CharacterName = TestName;
-                        SaveGame->CharacterLevel = TestLevel;
                         SaveGame->CharacterRace = TestRace;
                         SaveGame->CharacterClass = TestClass;
+                        // Regra: Se character tem classe, ele tem nível. Se não tem classe, não tem nível.
+                        SaveGame->CharacterLevel = TestLevel; // Com classe, pode ter nível
 
                         // Assert
                         TestEqual("CharacterName deve ser 'TestCharacter'", SaveGame->CharacterName, TestName);
-                        TestEqual("CharacterLevel deve ser 5", SaveGame->CharacterLevel, TestLevel);
+                        TestEqual("CharacterLevel deve ser 5 (com classe pode ter nível)", SaveGame->CharacterLevel,
+                                  TestLevel);
                         TestEqual("CharacterRace deve ser 'Human'", SaveGame->CharacterRace, TestRace);
                         TestEqual("CharacterClass deve ser 'Fighter'", SaveGame->CharacterClass, TestClass);
+                    });
+
+                 It("deve validar regra: sem classe = sem nível",
+                    [this]()
+                    {
+                        // Arrange
+                        UMyProject2SaveGame *SaveGame = NewObject<UMyProject2SaveGame>(GetTransientPackage());
+
+                        // Act & Assert
+                        // Por padrão, CharacterClass = NAME_None e CharacterLevel = 0
+                        TestEqual("CharacterClass deve ser NAME_None", SaveGame->CharacterClass, FName(NAME_None));
+                        TestEqual("CharacterLevel deve ser 0 quando não tem classe", SaveGame->CharacterLevel, 0);
+
+                        // Se definir classe, pode ter nível
+                        SaveGame->CharacterClass = TEXT("Fighter");
+                        SaveGame->CharacterLevel = 3;
+                        TestEqual("CharacterLevel pode ser > 0 quando tem classe", SaveGame->CharacterLevel, 3);
                     });
 
                  It("deve definir SaveTimestamp corretamente",

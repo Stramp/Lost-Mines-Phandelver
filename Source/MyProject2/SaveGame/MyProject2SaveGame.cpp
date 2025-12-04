@@ -31,9 +31,10 @@ UMyProject2SaveGame::UMyProject2SaveGame()
 {
     // Inicializa valores padrão
     CharacterName = TEXT("");
-    CharacterLevel = 1;
     CharacterRace = NAME_None;
     CharacterClass = NAME_None;
+    // Regra: Se character tem classe, ele tem nível. Se não tem classe, não tem nível.
+    CharacterLevel = 0; // Inicializa como 0 (sem classe = sem nível)
     SaveTimestamp = FDateTime::Now();
     SaveVersion = 1; // Versão inicial do save system
 }
