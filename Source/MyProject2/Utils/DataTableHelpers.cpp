@@ -307,16 +307,20 @@ TArray<FNameWithID> DataTableHelpers::ConvertNamesToFNameWithID(const TArray<FNa
     TArray<FNameWithID> NamesWithIDs;
     NamesWithIDs.Reserve(Names.Num()); // Otimização: pre-aloca memória
 
+    // Cria mapa para busca O(1) ao invés de O(n) - otimização de O(n*m) para O(n+m)
+    TMap<FName, FNameWithID> NameToFNameWithIDMap;
+    NameToFNameWithIDMap.Reserve(AllNamesWithIDs.Num());
+    for (const FNameWithID &NameWithID : AllNamesWithIDs)
+    {
+        NameToFNameWithIDMap.Add(NameWithID.Name, NameWithID);
+    }
+
+    // Busca cada Name no mapa O(1) ao invés de loop O(n)
     for (const FName &Name : Names)
     {
-        // Busca ID correspondente em AllNamesWithIDs
-        for (const FNameWithID &NameWithID : AllNamesWithIDs)
+        if (const FNameWithID *FoundNameWithID = NameToFNameWithIDMap.Find(Name))
         {
-            if (NameWithID.Name == Name)
-            {
-                NamesWithIDs.Add(NameWithID);
-                break;
-            }
+            NamesWithIDs.Add(*FoundNameWithID);
         }
     }
 
