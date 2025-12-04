@@ -52,30 +52,30 @@ FAbilityScoreDataRow *DataTableHelpers::FindAbilityScoreRow(FName AbilityID, UDa
     return nullptr;
 }
 
-TArray<FName> DataTableHelpers::GetAllAbilityScoreNames(UDataTable *AbilityScoreDataTable)
+TArray<FNameWithID> DataTableHelpers::GetAllAbilityScoreNames(UDataTable *AbilityScoreDataTable)
 {
-    TArray<FName> AbilityNames;
+    TArray<FNameWithID> AbilityNamesWithIDs;
 
     if (!AbilityScoreDataTable)
     {
-        return AbilityNames;
+        return AbilityNamesWithIDs;
     }
 
     TArray<FName> RowNames = AbilityScoreDataTable->GetRowNames();
-    AbilityNames.Reserve(RowNames.Num()); // Otimização: pre-aloca memória
+    AbilityNamesWithIDs.Reserve(RowNames.Num()); // Otimização: pre-aloca memória
     for (const FName &RowName : RowNames)
     {
         if (FAbilityScoreDataRow *Row =
                 AbilityScoreDataTable->FindRow<FAbilityScoreDataRow>(RowName, TEXT("GetAllAbilityScoreNames")))
         {
-            if (Row->Name != NAME_None)
+            if (Row->Name != NAME_None && Row->ID != NAME_None)
             {
-                AbilityNames.Add(Row->Name);
+                AbilityNamesWithIDs.Add(FNameWithID(Row->Name, Row->ID));
             }
         }
     }
 
-    return AbilityNames;
+    return AbilityNamesWithIDs;
 }
 
 #pragma endregion Ability Score Data Table Helpers
@@ -290,32 +290,33 @@ FProficiencyDataRow *DataTableHelpers::FindProficiencyRowByID(FName ProficiencyI
 // ============================================================================
 #pragma region Proficiency Data Table Helpers - GetProficiencyNamesByType
 
-TArray<FName> DataTableHelpers::GetProficiencyNamesByType(UDataTable *ProficiencyDataTable, FName ProficiencyType)
+TArray<FNameWithID> DataTableHelpers::GetProficiencyNamesByType(UDataTable *ProficiencyDataTable, FName ProficiencyType)
 {
-    TArray<FName> ProficiencyNames;
+    TArray<FNameWithID> ProficiencyNamesWithIDs;
 
     if (!ProficiencyDataTable || ProficiencyType == NAME_None)
     {
-        return ProficiencyNames; // Retorna array vazio
+        return ProficiencyNamesWithIDs; // Retorna array vazio
     }
 
     // Itera sobre todas as rows do Data Table
     TArray<FName> RowNames = ProficiencyDataTable->GetRowNames();
-    ProficiencyNames.Reserve(RowNames.Num()); // Otimização: pre-aloca memória
+    ProficiencyNamesWithIDs.Reserve(RowNames.Num()); // Otimização: pre-aloca memória
     for (const FName &RowName : RowNames)
     {
         if (FProficiencyDataRow *Row =
                 ProficiencyDataTable->FindRow<FProficiencyDataRow>(RowName, TEXT("GetProficiencyNamesByType")))
         {
             // Filtra apenas proficiências do tipo especificado
-            if (Row->Type == ProficiencyType && Row->Name != NAME_None)
+            // Sempre retorna Name + ID juntos (ID é a referência exata na Data Table)
+            if (Row->Type == ProficiencyType && Row->Name != NAME_None && Row->ID != NAME_None)
             {
-                ProficiencyNames.Add(Row->Name);
+                ProficiencyNamesWithIDs.Add(FNameWithID(Row->Name, Row->ID));
             }
         }
     }
 
-    return ProficiencyNames;
+    return ProficiencyNamesWithIDs;
 }
 
 #pragma endregion Proficiency Data Table Helpers - GetProficiencyNamesByType
@@ -325,7 +326,7 @@ TArray<FName> DataTableHelpers::GetProficiencyNamesByType(UDataTable *Proficienc
 // ============================================================================
 #pragma region Proficiency Data Table Helpers - GetAllSkillNames
 
-TArray<FName> DataTableHelpers::GetAllSkillNames(UDataTable *ProficiencyDataTable)
+TArray<FNameWithID> DataTableHelpers::GetAllSkillNames(UDataTable *ProficiencyDataTable)
 {
     return GetProficiencyNamesByType(ProficiencyDataTable, TEXT("Skill"));
 }
@@ -341,7 +342,7 @@ TArray<FName> DataTableHelpers::GetAllSkillNames(UDataTable *ProficiencyDataTabl
 // ============================================================================
 #pragma region Proficiency Data Table Helpers - GetAllLanguageNames
 
-TArray<FName> DataTableHelpers::GetAllLanguageNames(UDataTable *ProficiencyDataTable)
+TArray<FNameWithID> DataTableHelpers::GetAllLanguageNames(UDataTable *ProficiencyDataTable)
 {
     return GetProficiencyNamesByType(ProficiencyDataTable, TEXT("Language"));
 }

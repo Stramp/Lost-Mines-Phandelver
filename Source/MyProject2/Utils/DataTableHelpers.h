@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "DataTableHelpers.generated.h"
 
 // Forward declarations
 class UDataTable;
@@ -16,6 +17,36 @@ struct FProficiencyDataRow;
 struct FFeatureDataRow;
 struct FItemDataRow;
 struct FAbilityScoreDataRow;
+
+// ============================================================================
+// Name With ID Struct
+// ============================================================================
+#pragma region Name With ID Struct
+
+/**
+ * Struct para retornar Name + ID juntos.
+ * Sempre que retornamos dados parciais (não o Row completo), incluímos o ID junto.
+ * O ID é a referência exata do dado na Data Table.
+ */
+USTRUCT(BlueprintType)
+struct MYPROJECT2_API FNameWithID
+{
+    GENERATED_BODY()
+
+    /** Nome legível (ex: "Human", "Strength", "Athletics") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+    FName Name;
+
+    /** ID único (ex: "RACE_Human", "ABL_Strength", "PW_Skill_Athletics") - Referência exata na Data Table */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+    FName ID;
+
+    FNameWithID() : Name(NAME_None), ID(NAME_None) {}
+
+    FNameWithID(const FName &InName, const FName &InID) : Name(InName), ID(InID) {}
+};
+
+#pragma endregion Name With ID Struct
 
 /**
  * Funções helper para busca de rows em Data Tables com fallback manual.
@@ -44,13 +75,14 @@ namespace DataTableHelpers
     FAbilityScoreDataRow *FindAbilityScoreRow(FName AbilityID, UDataTable *AbilityScoreDataTable);
 
     /**
-     * Retorna todos os nomes de ability scores do Data Table.
+     * Retorna todos os nomes de ability scores do Data Table com seus IDs.
      * Se Data Table não fornecido, retorna array vazio.
+     * Sempre retorna Name + ID juntos (ID é a referência exata na Data Table).
      *
      * @param AbilityScoreDataTable Data Table de ability scores (pode ser nullptr)
-     * @return Array com nomes de ability scores (do Data Table ou vazio)
+     * @return Array com Name + ID de ability scores (do Data Table ou vazio)
      */
-    TArray<FName> GetAllAbilityScoreNames(UDataTable *AbilityScoreDataTable);
+    TArray<FNameWithID> GetAllAbilityScoreNames(UDataTable *AbilityScoreDataTable);
 
     // ============================================================================
     // Race Data Table Helpers
@@ -144,36 +176,39 @@ namespace DataTableHelpers
     FProficiencyDataRow *FindProficiencyRowByID(FName ProficiencyID, UDataTable *ProficiencyDataTable);
 
     /**
-     * Retorna todos os nomes de proficiências de um tipo específico no ProficiencyDataTable.
+     * Retorna todos os nomes de proficiências de um tipo específico no ProficiencyDataTable com seus IDs.
      * Função genérica que filtra proficiências por tipo (ex: "Skill", "Language", "Weapon", etc.).
      * Helper interno reutilizável para evitar duplicação de código (DRY).
+     * Sempre retorna Name + ID juntos (ID é a referência exata na Data Table).
      *
      * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
      * @param ProficiencyType Tipo de proficiência para filtrar (ex: "Skill", "Language")
-     * @return Array com nomes de todas as proficiências do tipo especificado, ou array vazio se Data Table inválido ou
-     * sem proficiências do tipo
+     * @return Array com Name + ID de todas as proficiências do tipo especificado, ou array vazio se Data Table inválido
+     * ou sem proficiências do tipo
      */
-    TArray<FName> GetProficiencyNamesByType(UDataTable *ProficiencyDataTable, FName ProficiencyType);
+    TArray<FNameWithID> GetProficiencyNamesByType(UDataTable *ProficiencyDataTable, FName ProficiencyType);
 
     /**
-     * Retorna todos os nomes de skills disponíveis no ProficiencyDataTable.
+     * Retorna todos os nomes de skills disponíveis no ProficiencyDataTable com seus IDs.
      * Filtra apenas proficiências do tipo "Skill".
      * Wrapper que chama GetProficiencyNamesByType com tipo "Skill".
+     * Sempre retorna Name + ID juntos (ID é a referência exata na Data Table).
      *
      * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
-     * @return Array com nomes de todas as skills, ou array vazio se Data Table inválido ou sem skills
+     * @return Array com Name + ID de todas as skills, ou array vazio se Data Table inválido ou sem skills
      */
-    TArray<FName> GetAllSkillNames(UDataTable *ProficiencyDataTable);
+    TArray<FNameWithID> GetAllSkillNames(UDataTable *ProficiencyDataTable);
 
     /**
-     * Retorna todos os nomes de languages disponíveis no ProficiencyDataTable.
+     * Retorna todos os nomes de languages disponíveis no ProficiencyDataTable com seus IDs.
      * Filtra apenas proficiências do tipo "Language".
      * Wrapper que chama GetProficiencyNamesByType com tipo "Language".
+     * Sempre retorna Name + ID juntos (ID é a referência exata na Data Table).
      *
      * @param ProficiencyDataTable Data Table de proficiências (pode ser nullptr)
-     * @return Array com nomes de todos os languages, ou array vazio se Data Table inválido ou sem languages
+     * @return Array com Name + ID de todos os languages, ou array vazio se Data Table inválido ou sem languages
      */
-    TArray<FName> GetAllLanguageNames(UDataTable *ProficiencyDataTable);
+    TArray<FNameWithID> GetAllLanguageNames(UDataTable *ProficiencyDataTable);
 
     // ============================================================================
     // Feature Data Table Helpers
