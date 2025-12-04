@@ -20,8 +20,6 @@
 // ============================================================================
 #pragma region Class Data Table Helpers
 
-// Removido: GetAllClassNames - não utilizado (dead code)
-
 bool CharacterSheetHelpers::CanSelectSubclass(FName ClassName, int32 ClassLevel, UDataTable *ClassDataTable)
 {
     // Validação básica

@@ -28,9 +28,6 @@
 // ============================================================================
 #pragma region Internal Helpers
 
-// Removido: FindFeatureRowByID duplicado
-// Agora usa DataTableHelpers::FindFeatureRowByID diretamente
-
 #pragma endregion Internal Helpers
 
 // ============================================================================

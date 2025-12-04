@@ -88,8 +88,6 @@ namespace CharacterSheetHelpers
     // Class Data Table Helpers
     // ============================================================================
 
-    // Removido: GetAllClassNames - não utilizado (dead code)
-
     /**
      * Verifica se o jogador pode selecionar uma subclasse para a classe especificada no nível dado.
      * Em D&D 5e, subclasses são geralmente escolhidas no nível 3.

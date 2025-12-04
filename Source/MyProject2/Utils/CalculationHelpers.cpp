@@ -93,15 +93,11 @@ int32 CalculationHelpers::CalculateProficiencyBonus(int32 TotalLevel)
 // ============================================================================
 #pragma region Feature Calculations
 
-TArray<FName> CalculationHelpers::CollectProficienciesFromBackgroundAndVariantHuman(FName RaceName, FName SubraceName,
-                                                                                    FName BackgroundName,
-                                                                                    FName SelectedSkill,
-                                                                                    UDataTable *RaceDataTable,
-                                                                                    UDataTable *BackgroundDataTable)
+TArray<FName> CalculationHelpers::CollectProficienciesFromBackground(FName BackgroundName,
+                                                                     UDataTable *BackgroundDataTable)
 {
     TSet<FName> ProficienciesSet;
 
-    // Coleta proficiências de background
     if (BackgroundDataTable && BackgroundName != NAME_None)
     {
         if (FBackgroundDataRow *BackgroundRow =
@@ -134,6 +130,20 @@ TArray<FName> CalculationHelpers::CollectProficienciesFromBackgroundAndVariantHu
         }
     }
 
+    // Converte TSet para TArray (ordem não importa para proficiências)
+    return ProficienciesSet.Array();
+}
+
+TArray<FName> CalculationHelpers::CollectProficienciesFromBackgroundAndVariantHuman(FName RaceName, FName SubraceName,
+                                                                                    FName BackgroundName,
+                                                                                    FName SelectedSkill,
+                                                                                    UDataTable *RaceDataTable,
+                                                                                    UDataTable *BackgroundDataTable)
+{
+    // Coleta proficiências de background (responsabilidade única)
+    TArray<FName> Proficiencies = CollectProficienciesFromBackground(BackgroundName, BackgroundDataTable);
+    TSet<FName> ProficienciesSet(Proficiencies);
+
     // Adiciona skill do Variant Human (se aplicável)
     // Variant Human permite escolher 1 skill proficiency no nível 1
     if (SubraceName == TEXT("Variant Human") && SelectedSkill != NAME_None)
@@ -155,6 +165,72 @@ TArray<FName> CalculationHelpers::CollectProficienciesFromBackgroundAndVariantHu
 // ============================================================================
 #pragma region Language Calculations
 
+namespace
+{
+    /**
+     * Helper interno: Resolve LanguageHandles e retorna array de IDs.
+     * Responsabilidade única: converter handles para IDs.
+     */
+    TArray<FName> ResolveLanguageHandles(const TArray<FDataTableRowHandle> &LanguageHandles)
+    {
+        TArray<FName> LanguageIDs;
+        for (const FDataTableRowHandle &LanguageHandle : LanguageHandles)
+        {
+            if (const FLanguageDataRow *LanguageRow =
+                    DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
+            {
+                if (LanguageRow->ID != NAME_None)
+                {
+                    LanguageIDs.Add(LanguageRow->ID);
+                }
+            }
+            else if (LanguageHandle.RowName != NAME_None)
+            {
+                // Fallback: usa RowName se resolução falhar
+                LanguageIDs.Add(LanguageHandle.RowName);
+            }
+        }
+        return LanguageIDs;
+    }
+} // namespace
+
+TArray<FName> CalculationHelpers::CollectLanguagesFromRace(FName RaceName, UDataTable *RaceDataTable)
+{
+    if (RaceDataTable && RaceName != NAME_None)
+    {
+        if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(RaceName, RaceDataTable))
+        {
+            return ResolveLanguageHandles(RaceRow->LanguageHandles);
+        }
+    }
+    return TArray<FName>();
+}
+
+TArray<FName> CalculationHelpers::CollectLanguagesFromSubrace(FName SubraceName, UDataTable *RaceDataTable)
+{
+    if (RaceDataTable && SubraceName != NAME_None)
+    {
+        if (FRaceDataRow *SubraceRow = DataTableHelpers::FindSubraceRow(SubraceName, RaceDataTable))
+        {
+            return ResolveLanguageHandles(SubraceRow->LanguageHandles);
+        }
+    }
+    return TArray<FName>();
+}
+
+TArray<FName> CalculationHelpers::CollectLanguagesFromBackground(FName BackgroundName, UDataTable *BackgroundDataTable)
+{
+    if (BackgroundDataTable && BackgroundName != NAME_None)
+    {
+        if (FBackgroundDataRow *BackgroundRow =
+                DataTableHelpers::FindBackgroundRow(BackgroundName, BackgroundDataTable))
+        {
+            return ResolveLanguageHandles(BackgroundRow->LanguageHandles);
+        }
+    }
+    return TArray<FName>();
+}
+
 TArray<FName> CalculationHelpers::CollectLanguagesFromAllSources(FName RaceName, FName SubraceName,
                                                                  FName BackgroundName,
                                                                  const TArray<FName> &SelectedLanguages,
@@ -163,80 +239,23 @@ TArray<FName> CalculationHelpers::CollectLanguagesFromAllSources(FName RaceName,
 {
     TSet<FName> LanguagesSet;
 
-    // Coleta idiomas automáticos da raça base
-    if (RaceDataTable && RaceName != NAME_None)
-    {
-        if (FRaceDataRow *RaceRow = DataTableHelpers::FindRaceRow(RaceName, RaceDataTable))
-        {
-            // Resolve LanguageHandles para obter ID
-            for (const FDataTableRowHandle &LanguageHandle : RaceRow->LanguageHandles)
-            {
-                if (const FLanguageDataRow *LanguageRow =
-                        DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
-                {
-                    if (LanguageRow->ID != NAME_None)
-                    {
-                        LanguagesSet.Add(LanguageRow->ID);
-                    }
-                }
-                else if (LanguageHandle.RowName != NAME_None)
-                {
-                    // Fallback: usa RowName se resolução falhar
-                    LanguagesSet.Add(LanguageHandle.RowName);
-                }
-            }
-        }
-    }
+    // Coleta idiomas automáticos de cada fonte (responsabilidades separadas)
+    TArray<FName> RaceLanguages = CollectLanguagesFromRace(RaceName, RaceDataTable);
+    TArray<FName> SubraceLanguages = CollectLanguagesFromSubrace(SubraceName, RaceDataTable);
+    TArray<FName> BackgroundLanguages = CollectLanguagesFromBackground(BackgroundName, BackgroundDataTable);
 
-    // Coleta idiomas automáticos da sub-raça
-    if (RaceDataTable && SubraceName != NAME_None)
+    // Adiciona idiomas coletados ao set (sem duplicatas)
+    for (const FName &LanguageID : RaceLanguages)
     {
-        if (FRaceDataRow *SubraceRow = DataTableHelpers::FindSubraceRow(SubraceName, RaceDataTable))
-        {
-            // Resolve LanguageHandles para obter ID
-            for (const FDataTableRowHandle &LanguageHandle : SubraceRow->LanguageHandles)
-            {
-                if (const FLanguageDataRow *LanguageRow =
-                        DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
-                {
-                    if (LanguageRow->ID != NAME_None)
-                    {
-                        LanguagesSet.Add(LanguageRow->ID);
-                    }
-                }
-                else if (LanguageHandle.RowName != NAME_None)
-                {
-                    // Fallback: usa RowName se resolução falhar
-                    LanguagesSet.Add(LanguageHandle.RowName);
-                }
-            }
-        }
+        LanguagesSet.Add(LanguageID);
     }
-
-    // Coleta idiomas automáticos do background
-    if (BackgroundDataTable && BackgroundName != NAME_None)
+    for (const FName &LanguageID : SubraceLanguages)
     {
-        if (FBackgroundDataRow *BackgroundRow =
-                DataTableHelpers::FindBackgroundRow(BackgroundName, BackgroundDataTable))
-        {
-            // Adiciona idiomas automáticos (não-escolhas) - agora via LanguageHandles
-            for (const FDataTableRowHandle &LanguageHandle : BackgroundRow->LanguageHandles)
-            {
-                if (const FLanguageDataRow *LanguageRow =
-                        DataTableRowHandleHelpers::ResolveHandle<FLanguageDataRow>(LanguageHandle))
-                {
-                    if (LanguageRow->ID != NAME_None)
-                    {
-                        LanguagesSet.Add(LanguageRow->ID);
-                    }
-                }
-                else if (LanguageHandle.RowName != NAME_None)
-                {
-                    // Fallback: usa RowName se resolução falhar
-                    LanguagesSet.Add(LanguageHandle.RowName);
-                }
-            }
-        }
+        LanguagesSet.Add(LanguageID);
+    }
+    for (const FName &LanguageID : BackgroundLanguages)
+    {
+        LanguagesSet.Add(LanguageID);
     }
 
     // Adiciona idiomas escolhidos pelo jogador
@@ -285,10 +304,10 @@ int32 CalculationHelpers::CalculateHPGainForLevel(int32 HitDie, int32 Level, int
     return FMath::Max(DnDConstants::MIN_HP, HPGain);
 }
 
-int32 CalculationHelpers::CalculateMaxHP(const TArray<FName> &ClassNames, const TArray<int32> &LevelsInClass,
+int32 CalculationHelpers::CalculateMaxHP(const TArray<FName> &ClassIDs, const TArray<int32> &LevelsInClass,
                                          int32 ConstitutionModifier, UDataTable *ClassDataTable)
 {
-    if (!ClassDataTable || ClassNames.Num() != LevelsInClass.Num() || ClassNames.Num() == 0)
+    if (!ClassDataTable || ClassIDs.Num() != LevelsInClass.Num() || ClassIDs.Num() == 0)
     {
         return 0;
     }
@@ -296,18 +315,18 @@ int32 CalculationHelpers::CalculateMaxHP(const TArray<FName> &ClassNames, const 
     int32 TotalHP = 0;
     UDataTable *NonConstTable = ClassDataTable;
 
-    for (int32 i = 0; i < ClassNames.Num(); ++i)
+    for (int32 i = 0; i < ClassIDs.Num(); ++i)
     {
-        const FName &ClassName = ClassNames[i];
+        const FName &ClassID = ClassIDs[i];
         const int32 LevelInClass = LevelsInClass[i];
 
-        if (ClassName == NAME_None || LevelInClass < DnDConstants::MIN_LEVEL)
+        if (ClassID == NAME_None || LevelInClass < DnDConstants::MIN_LEVEL)
         {
             continue;
         }
 
         // Busca dados da classe para obter HitDie
-        const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassName, NonConstTable);
+        const FClassDataRow *ClassRow = DataTableHelpers::FindClassRow(ClassID, NonConstTable);
         if (!ClassRow)
         {
             continue;

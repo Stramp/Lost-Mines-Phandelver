@@ -78,16 +78,26 @@ namespace CalculationHelpers
     int32 CalculateProficiencyBonus(int32 TotalLevel);
 
     /**
-     * Coleta proficiências de background e Variant Human.
-     * Nome específico indica exatamente o que faz: coleta de múltiplas fontes.
+     * Coleta proficiências de skills de Background.
+     * Background fornece proficiências automáticas via SkillProficiencyHandles.
      *
-     * @param RaceName Nome da raça selecionada (para Variant Human)
-     * @param SubraceName Nome da sub-raça selecionada (pode ser NAME_None)
-     * @param BackgroundName Nome do background selecionado
-     * @param SelectedSkill Skill escolhido para Variant Human (pode ser NAME_None)
-     * @param RaceDataTable Data Table de raças (pode ser nullptr)
+     * @param BackgroundName Nome do background selecionado (pode ser NAME_None)
      * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
-     * @return Array com nomes de proficiências coletadas
+     * @return Array com IDs de proficiências de skills do background (sem duplicatas)
+     */
+    TArray<FName> CollectProficienciesFromBackground(FName BackgroundName, UDataTable *BackgroundDataTable);
+
+    /**
+     * Coleta proficiências de skills de Background e Variant Human.
+     * Função orquestradora que combina proficiências de Background e adiciona skill do Variant Human.
+     *
+     * @param RaceName Nome da raça selecionada (não usado atualmente, mas mantido para compatibilidade futura)
+     * @param SubraceName Nome da sub-raça selecionada (deve ser "Variant Human" para adicionar skill)
+     * @param BackgroundName Nome do background selecionado
+     * @param SelectedSkill Skill escolhido pelo Variant Human (pode ser NAME_None)
+     * @param RaceDataTable Data Table de raças (não usado atualmente)
+     * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
+     * @return Array com IDs de proficiências de skills (sem duplicatas)
      */
     TArray<FName> CollectProficienciesFromBackgroundAndVariantHuman(FName RaceName, FName SubraceName,
                                                                     FName BackgroundName, FName SelectedSkill,
@@ -99,8 +109,35 @@ namespace CalculationHelpers
     // ============================================================================
 
     /**
-     * Coleta idiomas de todas as fontes (raça + sub-raça + background + escolhas do jogador + feats).
-     * Nome específico indica exatamente o que faz: coleta de múltiplas fontes.
+     * Coleta idiomas automáticos da raça base.
+     *
+     * @param RaceName Nome da raça selecionada (pode ser NAME_None)
+     * @param RaceDataTable Data Table de raças (pode ser nullptr)
+     * @return Array com IDs de idiomas automáticos da raça
+     */
+    TArray<FName> CollectLanguagesFromRace(FName RaceName, UDataTable *RaceDataTable);
+
+    /**
+     * Coleta idiomas automáticos da sub-raça.
+     *
+     * @param SubraceName Nome da sub-raça selecionada (pode ser NAME_None)
+     * @param RaceDataTable Data Table de raças (pode ser nullptr)
+     * @return Array com IDs de idiomas automáticos da sub-raça
+     */
+    TArray<FName> CollectLanguagesFromSubrace(FName SubraceName, UDataTable *RaceDataTable);
+
+    /**
+     * Coleta idiomas automáticos do background.
+     *
+     * @param BackgroundName Nome do background selecionado (pode ser NAME_None)
+     * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
+     * @return Array com IDs de idiomas automáticos do background
+     */
+    TArray<FName> CollectLanguagesFromBackground(FName BackgroundName, UDataTable *BackgroundDataTable);
+
+    /**
+     * Coleta idiomas de todas as fontes (raça + sub-raça + background + escolhas do jogador).
+     * Função orquestradora que combina idiomas de múltiplas fontes.
      *
      * @param RaceName Nome da raça selecionada
      * @param SubraceName Nome da sub-raça selecionada (pode ser NAME_None)
@@ -108,7 +145,7 @@ namespace CalculationHelpers
      * @param SelectedLanguages Array com idiomas escolhidos pelo jogador (quando há escolhas)
      * @param RaceDataTable Data Table de raças (pode ser nullptr)
      * @param BackgroundDataTable Data Table de backgrounds (pode ser nullptr)
-     * @return Array com nomes de idiomas coletados de todas as fontes
+     * @return Array com nomes de idiomas coletados de todas as fontes (sem duplicatas)
      */
     TArray<FName> CollectLanguagesFromAllSources(FName RaceName, FName SubraceName, FName BackgroundName,
                                                  const TArray<FName> &SelectedLanguages, UDataTable *RaceDataTable,
@@ -136,14 +173,15 @@ namespace CalculationHelpers
      * Soma HP de cada nível de cada classe.
      * Fórmula: Soma de CalculateHPGainForLevel para cada nível de cada classe.
      *
-     * @param ClassNames Array com nomes das classes (ordem deve corresponder a LevelsInClass)
-     * @param LevelsInClass Array com níveis em cada classe (ordem deve corresponder a ClassNames)
+     * @param ClassIDs Array com IDs das classes (ordem deve corresponder a LevelsInClass)
+     *                 Ex: ["CLASS_Fighter", "CLASS_Wizard"]
+     * @param LevelsInClass Array com níveis em cada classe (ordem deve corresponder a ClassIDs)
      * @param ConstitutionModifier Modificador de Constitution (mesmo para todas as classes)
      * @param ClassDataTable Data Table de classes para buscar HitDie (pode ser nullptr)
      * @return HP máximo total do personagem
      */
-    int32 CalculateMaxHP(const TArray<FName> &ClassNames, const TArray<int32> &LevelsInClass,
-                         int32 ConstitutionModifier, UDataTable *ClassDataTable);
+    int32 CalculateMaxHP(const TArray<FName> &ClassIDs, const TArray<int32> &LevelsInClass, int32 ConstitutionModifier,
+                         UDataTable *ClassDataTable);
 
     // ============================================================================
     // Armor Class (AC) Calculations
