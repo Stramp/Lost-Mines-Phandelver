@@ -264,12 +264,12 @@ namespace DataTableHelpers
     // ============================================================================
 
     /**
-     * Busca row de item no Data Table.
-     * Tenta FindRow direto primeiro, depois busca manual O(n) como fallback.
+     * Busca row de item no Data Table pelo ID.
+     * Busca manual O(n) comparando ID de cada row.
      *
-     * @param ItemName Nome do item para buscar (ex: "Leather Armor", "Chain Mail")
+     * @param ItemID ID do item para buscar (ex: "ITM_ARM_LeatherArmor", "ITM_ARM_ChainMail")
      * @param ItemDataTable Data Table de itens (pode ser nullptr)
      * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
      */
-    FItemDataRow *FindItemRow(FName ItemName, UDataTable *ItemDataTable);
+    FItemDataRow *FindItemRow(FName ItemID, UDataTable *ItemDataTable);
 } // namespace DataTableHelpers

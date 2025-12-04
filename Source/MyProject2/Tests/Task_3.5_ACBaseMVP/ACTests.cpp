@@ -82,8 +82,9 @@ void ACSpec::Define()
             It("deve calcular AC com armadura leve usando dados da Data Table (Leather Armor)",
                [this]()
                {
-                   // Arrange: Busca Leather Armor na Data Table
-                   FItemDataRow *LeatherArmor = DataTableHelpers::FindItemRow(TEXT("Leather Armor"), RealItemDataTable);
+                   // Arrange: Busca Leather Armor na Data Table pelo ID
+                   FItemDataRow *LeatherArmor =
+                       DataTableHelpers::FindItemRow(TEXT("ITM_ARM_LeatherArmor"), RealItemDataTable);
 
                    // Se não encontrar na Data Table, usa valores conhecidos como fallback
                    int32 ArmorACValue = 11; // Valor padrão D&D 5e
@@ -108,8 +109,9 @@ void ACSpec::Define()
             It("deve calcular AC com armadura média limitando DEX modifier usando dados da Data Table (Scale Mail)",
                [this]()
                {
-                   // Arrange: Busca Scale Mail na Data Table
-                   FItemDataRow *ScaleMail = DataTableHelpers::FindItemRow(TEXT("Scale Mail"), RealItemDataTable);
+                   // Arrange: Busca Scale Mail na Data Table pelo ID
+                   FItemDataRow *ScaleMail =
+                       DataTableHelpers::FindItemRow(TEXT("ITM_ARM_ScaleMail"), RealItemDataTable);
 
                    // Se não encontrar na Data Table, usa valores conhecidos como fallback
                    int32 ArmorACValue = 13; // Valor padrão D&D 5e
@@ -149,8 +151,9 @@ void ACSpec::Define()
             It("deve calcular AC com armadura pesada sem DEX modifier usando dados da Data Table (Chain Mail)",
                [this]()
                {
-                   // Arrange: Busca Chain Mail na Data Table
-                   FItemDataRow *ChainMail = DataTableHelpers::FindItemRow(TEXT("Chain Mail"), RealItemDataTable);
+                   // Arrange: Busca Chain Mail na Data Table pelo ID
+                   FItemDataRow *ChainMail =
+                       DataTableHelpers::FindItemRow(TEXT("ITM_ARM_ChainMail"), RealItemDataTable);
 
                    // Se não encontrar na Data Table, usa valores conhecidos como fallback
                    int32 ArmorACValue = 16; // Valor padrão D&D 5e
@@ -189,8 +192,9 @@ void ACSpec::Define()
             It("deve calcular AC com armadura leve e escudo usando dados da Data Table",
                [this]()
                {
-                   // Arrange: Busca Leather Armor na Data Table
-                   FItemDataRow *LeatherArmor = DataTableHelpers::FindItemRow(TEXT("Leather Armor"), RealItemDataTable);
+                   // Arrange: Busca Leather Armor na Data Table pelo ID
+                   FItemDataRow *LeatherArmor =
+                       DataTableHelpers::FindItemRow(TEXT("ITM_ARM_LeatherArmor"), RealItemDataTable);
 
                    // Se não encontrar na Data Table, usa valores conhecidos como fallback
                    int32 ArmorACValue = 11; // Valor padrão D&D 5e
@@ -217,8 +221,9 @@ void ACSpec::Define()
             It("deve calcular AC com armadura média e escudo usando dados da Data Table",
                [this]()
                {
-                   // Arrange: Busca Scale Mail na Data Table
-                   FItemDataRow *ScaleMail = DataTableHelpers::FindItemRow(TEXT("Scale Mail"), RealItemDataTable);
+                   // Arrange: Busca Scale Mail na Data Table pelo ID
+                   FItemDataRow *ScaleMail =
+                       DataTableHelpers::FindItemRow(TEXT("ITM_ARM_ScaleMail"), RealItemDataTable);
 
                    // Se não encontrar na Data Table, usa valores conhecidos como fallback
                    int32 ArmorACValue = 13; // Valor padrão D&D 5e
@@ -245,8 +250,9 @@ void ACSpec::Define()
             It("deve calcular AC com armadura pesada e escudo usando dados da Data Table",
                [this]()
                {
-                   // Arrange: Busca Chain Mail na Data Table
-                   FItemDataRow *ChainMail = DataTableHelpers::FindItemRow(TEXT("Chain Mail"), RealItemDataTable);
+                   // Arrange: Busca Chain Mail na Data Table pelo ID
+                   FItemDataRow *ChainMail =
+                       DataTableHelpers::FindItemRow(TEXT("ITM_ARM_ChainMail"), RealItemDataTable);
 
                    // Se não encontrar na Data Table, usa valores conhecidos como fallback
                    int32 ArmorACValue = 16; // Valor padrão D&D 5e

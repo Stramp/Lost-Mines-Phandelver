@@ -494,35 +494,28 @@ bool DataTableHelpers::IsItemDataTable(UDataTable *DataTable)
 // ============================================================================
 #pragma region Item Data Table Helpers
 
-FItemDataRow *DataTableHelpers::FindItemRow(FName ItemName, UDataTable *ItemDataTable)
+FItemDataRow *DataTableHelpers::FindItemRow(FName ItemID, UDataTable *ItemDataTable)
 {
-    if (!ItemDataTable || ItemName == NAME_None)
+    if (!ItemDataTable || ItemID == NAME_None)
     {
         return nullptr;
     }
 
-    // Tenta FindRow direto primeiro (otimização)
-    FItemDataRow *Row = ItemDataTable->FindRow<FItemDataRow>(ItemName, TEXT("FindItemRow"));
-
-    // Fallback: busca manual O(n) se FindRow não encontrou
-    // (pode acontecer se RowName != ItemName no JSON)
-    if (!Row)
+    // Busca manual O(n) comparando ID de cada row
+    // (RowName pode ser diferente do ID, então sempre busca pelo campo ID)
+    TArray<FName> RowNames = ItemDataTable->GetRowNames();
+    for (const FName &RowName : RowNames)
     {
-        TArray<FName> RowNames = ItemDataTable->GetRowNames();
-        for (const FName &RowName : RowNames)
+        if (FItemDataRow *FoundRow = ItemDataTable->FindRow<FItemDataRow>(RowName, TEXT("FindItemRow")))
         {
-            if (FItemDataRow *FoundRow = ItemDataTable->FindRow<FItemDataRow>(RowName, TEXT("FindItemRow")))
+            if (FoundRow->ID == ItemID)
             {
-                if (FoundRow->Name == ItemName)
-                {
-                    Row = FoundRow;
-                    break;
-                }
+                return FoundRow;
             }
         }
     }
 
-    return Row;
+    return nullptr;
 }
 
 #pragma endregion Item Data Table Helpers
