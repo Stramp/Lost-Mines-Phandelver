@@ -88,13 +88,7 @@ namespace CharacterSheetHelpers
     // Class Data Table Helpers
     // ============================================================================
 
-    /**
-     * Retorna todos os nomes de classes disponíveis no Data Table.
-     *
-     * @param ClassDataTable Data Table de classes (pode ser nullptr)
-     * @return Array com nomes de todas as classes, ou array vazio se Data Table inválido
-     */
-    TArray<FName> GetAllClassNames(UDataTable *ClassDataTable);
+    // Removido: GetAllClassNames - não utilizado (dead code)
 
     /**
      * Verifica se o jogador pode selecionar uma subclasse para a classe especificada no nível dado.

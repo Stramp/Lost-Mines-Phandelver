@@ -61,6 +61,43 @@ struct MYPROJECT2_API FNameWithID
 namespace DataTableHelpers
 {
     // ============================================================================
+    // Internal Template Helper - FindRowByID
+    // ============================================================================
+
+    /**
+     * Função template interna para busca genérica de rows por ID.
+     * Elimina duplicação de código entre todas as funções Find*Row.
+     *
+     * @tparam TDataRow Tipo da row (ex: FRaceDataRow, FClassDataRow)
+     * @param RowID ID da row para buscar
+     * @param DataTable Data Table onde buscar (pode ser nullptr)
+     * @param ContextString String de contexto para logs (ex: "FindRaceRow")
+     * @return Row encontrado, ou nullptr se não encontrado ou Data Table inválido
+     */
+    template <typename TDataRow> TDataRow *FindRowByID(FName RowID, UDataTable *DataTable, const TCHAR *ContextString)
+    {
+        if (!DataTable || RowID == NAME_None)
+        {
+            return nullptr;
+        }
+
+        // Busca manual O(n) comparando ID de cada row
+        // (RowName pode ser diferente do ID, então sempre busca pelo campo ID)
+        TArray<FName> RowNames = DataTable->GetRowNames();
+        for (const FName &RowName : RowNames)
+        {
+            if (TDataRow *FoundRow = DataTable->FindRow<TDataRow>(RowName, ContextString))
+            {
+                if (FoundRow->ID == RowID)
+                {
+                    return FoundRow;
+                }
+            }
+        }
+
+        return nullptr;
+    }
+    // ============================================================================
     // Ability Score Data Table Helpers
     // ============================================================================
 
