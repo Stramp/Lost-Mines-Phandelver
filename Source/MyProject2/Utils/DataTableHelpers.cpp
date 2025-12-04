@@ -286,6 +286,46 @@ FProficiencyDataRow *DataTableHelpers::FindProficiencyRowByID(FName ProficiencyI
 #pragma endregion Proficiency Data Table Helpers
 
 // ============================================================================
+// FNameWithID Helpers
+// ============================================================================
+#pragma region FNameWithID Helpers
+
+TArray<FName> DataTableHelpers::ExtractNames(const TArray<FNameWithID> &NamesWithIDs)
+{
+    TArray<FName> Names;
+    Names.Reserve(NamesWithIDs.Num()); // Otimização: pre-aloca memória
+    for (const FNameWithID &NameWithID : NamesWithIDs)
+    {
+        Names.Add(NameWithID.Name);
+    }
+    return Names;
+}
+
+TArray<FNameWithID> DataTableHelpers::ConvertNamesToFNameWithID(const TArray<FName> &Names,
+                                                                const TArray<FNameWithID> &AllNamesWithIDs)
+{
+    TArray<FNameWithID> NamesWithIDs;
+    NamesWithIDs.Reserve(Names.Num()); // Otimização: pre-aloca memória
+
+    for (const FName &Name : Names)
+    {
+        // Busca ID correspondente em AllNamesWithIDs
+        for (const FNameWithID &NameWithID : AllNamesWithIDs)
+        {
+            if (NameWithID.Name == Name)
+            {
+                NamesWithIDs.Add(NameWithID);
+                break;
+            }
+        }
+    }
+
+    return NamesWithIDs;
+}
+
+#pragma endregion FNameWithID Helpers
+
+// ============================================================================
 // Proficiency Data Table Helpers - GetProficiencyNamesByType (Generic Helper)
 // ============================================================================
 #pragma region Proficiency Data Table Helpers - GetProficiencyNamesByType

@@ -198,12 +198,7 @@ void UCharacterSheetComponent::InitializeFromDataAsset(UCharacterSheetDataAsset 
     // Copia ability scores (valores finais dos campos dedicados)
     // Usa helper GetAbilityScoreNames para eliminar duplicação (DRY)
     CharacterDataComponent->AbilityScores.Empty();
-    TArray<FNameWithID> AbilityNamesWithIDs = CharacterSheetHelpers::GetAbilityScoreNames();
-    TArray<FName> AbilityNames;
-    for (const FNameWithID &AbilityWithID : AbilityNamesWithIDs)
-    {
-        AbilityNames.Add(AbilityWithID.Name);
-    }
+    TArray<FName> AbilityNames = DataTableHelpers::ExtractNames(CharacterSheetHelpers::GetAbilityScoreNames());
     TArray<int32 *> AbilityValues = {&DataAsset->FinalStrength,     &DataAsset->FinalDexterity,
                                      &DataAsset->FinalConstitution, &DataAsset->FinalIntelligence,
                                      &DataAsset->FinalWisdom,       &DataAsset->FinalCharisma};

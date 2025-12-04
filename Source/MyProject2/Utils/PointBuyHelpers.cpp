@@ -111,12 +111,8 @@ FString PointBuyHelpers::AdjustPointBuyAllocation(TMap<FName, int32> &PointBuyMa
     }
 
     // Obtém ordem de ability scores (Data-Driven)
-    TArray<FNameWithID> AbilityNamesWithIDs = CharacterSheetHelpers::GetAbilityScoreNames(AbilityScoreDataTable);
-    TArray<FName> AbilityNames;
-    for (const FNameWithID &AbilityWithID : AbilityNamesWithIDs)
-    {
-        AbilityNames.Add(AbilityWithID.Name);
-    }
+    TArray<FName> AbilityNames =
+        DataTableHelpers::ExtractNames(CharacterSheetHelpers::GetAbilityScoreNames(AbilityScoreDataTable));
 
     // Ordem de redução: do final da fila (último ability score primeiro)
     // Isso mantém atributos mais importantes (Strength, Dexterity) intactos quando possível

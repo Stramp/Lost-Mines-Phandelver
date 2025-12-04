@@ -211,6 +211,33 @@ namespace DataTableHelpers
     TArray<FNameWithID> GetAllLanguageNames(UDataTable *ProficiencyDataTable);
 
     // ============================================================================
+    // FNameWithID Helpers
+    // ============================================================================
+
+    /**
+     * Extrai apenas os Names de um TArray<FNameWithID>.
+     * Helper reutilizável para eliminar duplicação quando apenas Names são necessários.
+     * Função pura, testável e sem side effects.
+     *
+     * @param NamesWithIDs Array de FNameWithID
+     * @return Array contendo apenas os Names
+     */
+    TArray<FName> ExtractNames(const TArray<FNameWithID> &NamesWithIDs);
+
+    /**
+     * Converte TArray<FName> para TArray<FNameWithID> buscando IDs correspondentes.
+     * Helper reutilizável para conversão quando temos apenas Names mas precisamos Name + ID.
+     * Busca o ID de cada Name em AllNamesWithIDs.
+     * Função pura, testável e sem side effects.
+     *
+     * @param Names Array de FName (apenas nomes)
+     * @param AllNamesWithIDs Array completo de FNameWithID para buscar IDs correspondentes
+     * @return Array de FNameWithID com Name + ID correspondente
+     */
+    TArray<FNameWithID> ConvertNamesToFNameWithID(const TArray<FName> &Names,
+                                                  const TArray<FNameWithID> &AllNamesWithIDs);
+
+    // ============================================================================
     // Feature Data Table Helpers
     // ============================================================================
 

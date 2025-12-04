@@ -46,12 +46,7 @@ bool CharacterSheetHelpers::ValidateAbilityScorePrerequisite(const FName &Prereq
     FString PrerequisiteStr = Prerequisite.ToString();
 
     // Usa helper global para obter lista de ability scores válidos
-    TArray<FNameWithID> AbilityNamesWithIDs = CharacterSheetHelpers::GetAbilityScoreNames();
-    TArray<FName> AbilityNames;
-    for (const FNameWithID &AbilityWithID : AbilityNamesWithIDs)
-    {
-        AbilityNames.Add(AbilityWithID.Name);
-    }
+    TArray<FName> AbilityNames = DataTableHelpers::ExtractNames(CharacterSheetHelpers::GetAbilityScoreNames());
 
     // Tenta parsear formato "AbilityName Score"
     for (const FName &AbilityName : AbilityNames)

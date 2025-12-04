@@ -92,32 +92,23 @@ TArray<FNameWithID> FCharacterSheetDataAssetGetOptions::GetAvailableLanguageName
 
     // Converte TArray<FName> para TArray<FNameWithID>
     // Busca o ID correspondente de cada nome na ProficiencyDataTable
-    TArray<FNameWithID> LanguageNamesWithIDs;
     if (ProficiencyDataTable)
     {
         TArray<FNameWithID> AllLanguages =
             CharacterSheetHelpers::GetAvailableLanguageNames(const_cast<UDataTable *>(ProficiencyDataTable));
-        for (const FName &LanguageName : LanguageNames)
-        {
-            for (const FNameWithID &LanguageWithID : AllLanguages)
-            {
-                if (LanguageWithID.Name == LanguageName)
-                {
-                    LanguageNamesWithIDs.Add(LanguageWithID);
-                    break;
-                }
-            }
-        }
+        return DataTableHelpers::ConvertNamesToFNameWithID(LanguageNames, AllLanguages);
     }
     else
     {
         // Fallback: usa Name como ID temporário
+        TArray<FNameWithID> LanguageNamesWithIDs;
+        LanguageNamesWithIDs.Reserve(LanguageNames.Num());
         for (const FName &LanguageName : LanguageNames)
         {
             LanguageNamesWithIDs.Add(FNameWithID(LanguageName, LanguageName));
         }
+        return LanguageNamesWithIDs;
     }
-    return LanguageNamesWithIDs;
 }
 
 #pragma endregion Race and Background Options
@@ -267,14 +258,8 @@ TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableChoiceNamesForFeat
  */
 TArray<FName> FCharacterSheetDataAssetGetOptions::GetAvailableSkills(const UDataTable *ProficiencyDataTable)
 {
-    TArray<FNameWithID> SkillsWithIDs =
-        CharacterSheetHelpers::GetSkillNames(const_cast<UDataTable *>(ProficiencyDataTable));
-    TArray<FName> SkillNames;
-    for (const FNameWithID &SkillWithID : SkillsWithIDs)
-    {
-        SkillNames.Add(SkillWithID.Name);
-    }
-    return SkillNames;
+    return DataTableHelpers::ExtractNames(
+        CharacterSheetHelpers::GetSkillNames(const_cast<UDataTable *>(ProficiencyDataTable)));
 }
 
 #pragma endregion Skills Options

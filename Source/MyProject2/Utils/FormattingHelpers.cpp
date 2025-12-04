@@ -45,12 +45,7 @@ FString FormattingHelpers::FormatProficienciesList(const TArray<FName> &Proficie
 FString FormattingHelpers::FormatAbilityScores(const TMap<FName, int32> &AbilityScores)
 {
     FString FormattedScores;
-    TArray<FNameWithID> AbilityOrderWithIDs = CharacterSheetHelpers::GetAbilityScoreNames();
-    TArray<FName> AbilityOrder;
-    for (const FNameWithID &AbilityWithID : AbilityOrderWithIDs)
-    {
-        AbilityOrder.Add(AbilityWithID.Name);
-    }
+    TArray<FName> AbilityOrder = DataTableHelpers::ExtractNames(CharacterSheetHelpers::GetAbilityScoreNames());
 
     for (const FName &AbilityName : AbilityOrder)
     {

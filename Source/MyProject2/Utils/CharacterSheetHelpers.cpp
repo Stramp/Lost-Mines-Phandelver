@@ -25,12 +25,7 @@ TMap<FName, int32> CharacterSheetHelpers::CreatePointBuyMapFromData(int32 PointB
                                                                     int32 PointBuyCharisma)
 {
     TMap<FName, int32> PointBuyMap;
-    TArray<FNameWithID> AbilityNamesWithIDs = CharacterSheetHelpers::GetAbilityScoreNames();
-    TArray<FName> AbilityNames;
-    for (const FNameWithID &AbilityWithID : AbilityNamesWithIDs)
-    {
-        AbilityNames.Add(AbilityWithID.Name);
-    }
+    TArray<FName> AbilityNames = DataTableHelpers::ExtractNames(CharacterSheetHelpers::GetAbilityScoreNames());
     TArray<int32> Values = {PointBuyStrength,     PointBuyDexterity, PointBuyConstitution,
                             PointBuyIntelligence, PointBuyWisdom,    PointBuyCharisma};
 
