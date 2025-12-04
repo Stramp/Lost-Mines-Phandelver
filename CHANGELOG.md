@@ -117,15 +117,25 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 > >      - Medium Armor: ACValue + min(DEX modifier, +2)
 > >      - Heavy Armor: ACValue (sem DEX modifier)
 > >      - Shield: +2 AC (adiciona ao AC calculado)
-> >    - 8 testes automatizados criados (todos passando - 100%):
+> >    - 13 testes automatizados criados (todos passando - 100%):
 > >      - AC base sem armadura (com DEX positivo, zero e negativo)
-> >      - AC com armadura leve
-> >      - AC com armadura média (limitando DEX modifier)
-> >      - AC com armadura pesada (sem DEX modifier)
-> >      - AC com escudo
-> >      - AC com armadura leve e escudo
-> >    - Teste em `Step5_ChooseEquipmentTests.cpp` atualizado para usar `CalculateAC()`
+> >      - AC com armadura leve (Leather Armor) usando dados da Data Table
+> >      - AC com armadura média (Scale Mail) limitando DEX modifier usando dados da Data Table
+> >      - AC com armadura pesada (Chain Mail) sem DEX modifier usando dados da Data Table
+> >      - AC com escudo (+2)
+> >      - AC com combinações (armadura leve/média/pesada + escudo)
+> >      - Fallbacks (tipo desconhecido, ArmorACValue = 0)
+> >    - Testes usam abordagem data-driven: carregam `ItemDataTable` real e buscam itens pelo ID
 > >    - Testes validados conforme TDD guide (valores hardcoded, sem lógica interna)
+> >    - Compilação validada (0 erros, 0 warnings)
+>
+> > 7. **Refatorações: Eliminação de Duplicação de Código** (2025-01-25)
+> >    - Criada função template `FindRowByID<TDataRow>` para eliminar 12 implementações duplicadas
+> >    - Refatoradas todas as funções `Find*Row` para usar template (FindAbilityScoreRow, FindRaceRow, FindSubraceRow, FindClassRow, FindFeatRow, FindBackgroundRow, FindProficiencyRowByID, FindFeatureRowByID, FindItemRow)
+> >    - Removida função duplicada `FindFeatureRowByID` de `FeatureChoiceHelpers.cpp`
+> >    - Removida função morta `GetAllClassNames` de `CharacterSheetHelpers` (não utilizada)
+> >    - Removidos comentários duplicados em `DataTableHelpers.cpp`
+> >    - Benefícios: ~200 linhas de código duplicado eliminadas, manutenibilidade melhorada
 > >    - Compilação validada (0 erros, 0 warnings)
 >
 > > 2. Commit [`302c25c`] - Adicionar regra de Test-Driven Development (TDD)
